@@ -22,6 +22,11 @@ git submodule update --init --recursive
 go generate ./...      # regenerates third_party/typescript-go/tsccbridge/bridge.go (required before first build and after submodule updates)
 go build ./cmd/tscc    # produces ./tscc in the repo root
 
+# Test
+go test ./...                                        # all tests
+go test ./cmd/tscc/... -run TestScript/stub          # single end-to-end test case by name
+TSCC_UPDATE_TESTDATA=1 go test ./cmd/tscc/...        # regenerate golden sections in .txtar files
+
 # Verify
 go vet ./...
 ./tscc                 # should print "not yet implemented" and exit 1
@@ -48,6 +53,27 @@ When Microsoft ships an official public API, the bridge gets replaced by direct 
 ### Adding Flags
 
 Flags are defined in `cmd/tscc/main.go` using `github.com/spf13/pflag`. The goal is a flag for every TypeScript compiler option a caller must specify explicitly — no defaults inferred from the environment.
+
+### Testing
+
+End-to-end tests live in `cmd/tscc/testdata/` as `.txtar` files (testscript format). Each file is self-contained: input TypeScript files, the `exec tscc` invocation, and assertions on output files or stderr. The harness in `cmd/tscc/main_test.go` runs `tscc` in-process via `testscript.Main` — no separate `go build` step required.
+
+A test case structure:
+```
+# comment describing what is being tested
+exec tscc --target es2022 --module esnext a.ts
+! stderr .
+cmp a.js a.js.golden
+
+-- a.ts --
+export const x: string = "hello";
+-- a.js.golden --
+export const x = "hello";
+```
+
+For error cases: `! exec tscc ...` asserts non-zero exit; `stderr 'pattern'` matches against stderr; `! exists file` asserts no output was written.
+
+When the compiler output changes, run with `TSCC_UPDATE_TESTDATA=1` to rewrite golden sections, then review with `git diff`.
 
 ### License Headers
 
