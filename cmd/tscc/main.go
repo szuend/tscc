@@ -28,8 +28,10 @@ func main() {
 	flags := pflag.NewFlagSet("tscc", pflag.ExitOnError)
 
 	var alwaysStrict bool
+	var target string
 
 	flags.BoolVar(&alwaysStrict, "always-strict", true, "Files are parsed in ECMAScript strict mode, and emit \"use strict\" (--no-always-strict to disable)")
+	flags.StringVar(&target, "target", "esnext", "Set the JavaScript language version for emitted JavaScript. (allowed: es6, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
 
 	args := make([]string, len(os.Args))
 	copy(args, os.Args)
