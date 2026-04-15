@@ -33,6 +33,7 @@ func TestParse(t *testing.T) {
 				AlwaysStrict: true,
 				Target:       "esnext",
 				InputPath:    "input.ts",
+				OutputPath:   "",
 			},
 		},
 		{
@@ -42,6 +43,7 @@ func TestParse(t *testing.T) {
 				AlwaysStrict: false,
 				Target:       "es2015",
 				InputPath:    "foo.ts",
+				OutputPath:   "",
 			},
 		},
 		{
@@ -51,6 +53,27 @@ func TestParse(t *testing.T) {
 				AlwaysStrict: false,
 				Target:       "esnext",
 				InputPath:    "bar.ts",
+				OutputPath:   "",
+			},
+		},
+		{
+			name: "output flag",
+			args: []string{"-o", "out.js", "in.ts"},
+			wantConfig: &Config{
+				AlwaysStrict: true,
+				Target:       "esnext",
+				InputPath:    "in.ts",
+				OutputPath:   "out.js",
+			},
+		},
+		{
+			name: "output flag long",
+			args: []string{"--output", "dist/bundle.js", "src/main.ts"},
+			wantConfig: &Config{
+				AlwaysStrict: true,
+				Target:       "esnext",
+				InputPath:    "src/main.ts",
+				OutputPath:   "dist/bundle.js",
 			},
 		},
 		{
@@ -91,6 +114,9 @@ func TestParse(t *testing.T) {
 			}
 			if got.InputPath != tt.wantConfig.InputPath {
 				t.Errorf("InputPath: got %q, want %q", got.InputPath, tt.wantConfig.InputPath)
+			}
+			if got.OutputPath != tt.wantConfig.OutputPath {
+				t.Errorf("OutputPath: got %q, want %q", got.OutputPath, tt.wantConfig.OutputPath)
 			}
 		})
 	}
