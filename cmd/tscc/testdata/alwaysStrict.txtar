@@ -1,0 +1,14 @@
+# --always-strict causes "use strict" to be emitted in the output.
+exec tscc --target es2015 --always-strict a.ts
+! stderr .
+cmp a.js a.js.golden
+
+-- a.ts --
+function f() {
+    var arguments = [];
+}
+-- a.js.golden --
+"use strict";
+function f() {
+    var arguments = [];
+}

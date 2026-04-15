@@ -1,0 +1,11 @@
+# 'public' is not a valid modifier in an arrow function parameter list.
+# TypeScript reports the error but still emits JS, stripping the modifier.
+! exec tscc --target es2015 a.ts
+stderr 'TS2369'
+cmp a.js a.js.golden
+
+-- a.ts --
+var v = (public x: string) => { };
+-- a.js.golden --
+"use strict";
+var v = (x) => { };

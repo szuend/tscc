@@ -54,6 +54,21 @@ When Microsoft ships an official public API, the bridge gets replaced by direct 
 
 Flags are defined in `cmd/tscc/main.go` using `github.com/spf13/pflag`. The goal is a flag for every TypeScript compiler option a caller must specify explicitly — no defaults inferred from the environment.
 
+### Test corpus
+
+The upstream TypeScript compiler and its Go port are both available as submodules and are the source of truth for expected compiler behavior:
+
+```
+third_party/typescript-go/                          # github.com/microsoft/typescript-go
+    _submodules/TypeScript/                         # github.com/microsoft/TypeScript
+        tests/cases/compiler/                       # ~6400 single-file compiler test inputs
+        tests/baselines/reference/                  # expected outputs: <name>.js, <name>.errors.txt
+    testdata/tests/cases/compiler/                  # subset (~136) that typescript-go has ported
+    testdata/baselines/reference/tsc/               # typescript-go's own expected outputs
+```
+
+When adding a new test case, look up the input in `_submodules/TypeScript/tests/cases/compiler/` and the expected JS output in `_submodules/TypeScript/tests/baselines/reference/<name>.js`. Translate the `// @directive` header comments into explicit CLI flags on the `exec tscc` line.
+
 ### Testing
 
 End-to-end tests live in `cmd/tscc/testdata/` as `.txtar` files (testscript format). Each file is self-contained: input TypeScript files, the `exec tscc` invocation, and assertions on output files or stderr. The harness in `cmd/tscc/main_test.go` runs `tscc` in-process via `testscript.Main` — no separate `go build` step required.
