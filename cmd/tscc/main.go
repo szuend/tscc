@@ -19,37 +19,18 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
 
-	"github.com/spf13/pflag"
+	"github.com/szuend/tscc/internal/config"
 )
 
 func main() {
-	flags := pflag.NewFlagSet("tscc", pflag.ExitOnError)
-
-	var alwaysStrict bool
-	var target string
-
-	flags.BoolVar(&alwaysStrict, "always-strict", true, "Files are parsed in ECMAScript strict mode, and emit \"use strict\" (--no-always-strict to disable)")
-	flags.StringVar(&target, "target", "esnext", "Set the JavaScript language version for emitted JavaScript. (allowed: es6, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
-
-	args := make([]string, len(os.Args))
-	copy(args, os.Args)
-
-	// Rewrite negated boolean flags e.g. --no-always-strict to --always-strict=false
-	for i, arg := range args {
-		if !strings.HasPrefix(arg, "--no-") || strings.Contains(arg, "=") {
-			continue
-		}
-
-		potentialFlagName := strings.TrimPrefix(arg, "--no-")
-		flag := flags.Lookup(potentialFlagName)
-		if flag != nil && flag.Value.Type() == "bool" {
-			args[i] = fmt.Sprintf("--%s=false", potentialFlagName)
-		}
+	cfg, err := config.Parse(os.Args[1:])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
 	}
 
-	_ = flags.Parse(args[1:])
+	_ = cfg
 	fmt.Fprintln(os.Stderr, "tscc: not yet implemented")
 	os.Exit(1)
 }
