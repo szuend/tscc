@@ -152,12 +152,12 @@ func descriptionColumns(out string) []int {
 
 func mustContainAfter(t *testing.T, out, header, needle string) {
 	t.Helper()
-	idx := strings.Index(out, header)
-	if idx == -1 {
+	_, after, ok := strings.Cut(out, header)
+	if !ok {
 		t.Errorf("header %q not in output:\n%s", header, out)
 		return
 	}
-	tail := out[idx+len(header):]
+	tail := after
 	// stop at the next blank line (= next group)
 	if end := strings.Index(tail, "\n\n"); end != -1 {
 		tail = tail[:end]
