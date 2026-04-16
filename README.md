@@ -1,23 +1,54 @@
 # tscc
 
-A unix-style TypeScript compiler. Explicit inputs, explicit outputs, explicit flags — nothing inferred from the environment.
+TypeScript compilation as a build rule, not a project system.
 
 ```
 tscc [FLAGS] FILE [FILE...]
 ```
 
-Built on top of [typescript-go](https://github.com/microsoft/typescript-go), Microsoft's Go port of the TypeScript compiler.
+Built on [typescript-go](https://github.com/microsoft/typescript-go), Microsoft's Go port of the TypeScript compiler.
 
-## Motivation
+## Why tscc
 
-`tsc` is designed around `tsconfig.json`: it discovers configuration by walking up the directory tree, infers output paths from project structure, and consults `package.json` for module resolution. This makes it powerful for interactive development but difficult to integrate into hermetic build systems like Bazel or Make, where inputs and outputs must be fully declared upfront.
+`tsc` is a project system: it discovers `tsconfig.json` by walking up the directory tree, infers output paths from project structure, and implicitly resolves modules through `package.json`. That works great in an editor. It works poorly in a build system.
 
-`tscc` removes that indirection. You tell it what to compile, where to put the output, and what options to use. The build system owns the rest.
+Hermetic build systems (Bazel, Make, Ninja, Buck) need to own the dependency graph. Every input must be declared, every output must be known ahead of time, and the compiler must report which source files it actually read — so the build system knows when to recompile.
 
-## Prerequisites
+`tscc` is designed for exactly this:
 
-- Go 1.26 or later
-- Git (for submodule initialization)
+- **Explicit inputs and outputs.** No tsconfig discovery, no directory walking, no ambient project state. What you pass on the command line is what gets compiled.
+- **One file in, deterministic files out.** Each invocation produces only what you asked for: `.js` (`--output`), `.d.ts` (`--out-dts`), sourcemap (`--out-sourcemap`), depsfile (`--out-depsfile`), or any combination.
+- **Depsfile output.** `--out-depsfile` writes a Makefile-compatible `.d` file listing every TypeScript source the compiler transitively read. Feed it to `make`, `ninja`, or your Bazel action to get correct incremental builds for free.
+
+## Usage
+
+> **Note:** Compilation is not yet implemented. This is a proof of concept.
+
+```bash
+# Compile a single file to JS
+tscc --target es2022 --module esnext --output dist/index.js src/index.ts
+
+# Also emit a declaration file and sourcemap
+tscc --target es2022 --module esnext \
+  --output dist/index.js \
+  --out-dts dist/index.d.ts \
+  --out-sourcemap dist/index.js.map \
+  src/index.ts
+
+# Write a depsfile so your build system tracks transitive imports
+tscc --target es2022 --module esnext \
+  --output dist/index.js \
+  --out-depsfile dist/index.d \
+  src/index.ts
+```
+
+The depsfile format is compatible with GNU Make and Ninja:
+
+```make
+dist/index.js: src/index.ts src/lib.ts node_modules/some-dep/index.d.ts
+```
+
+Flags follow Unix kebab-case conventions (`--out-dts`, `--out-sourcemap`) and also accept camelCase equivalents for compatibility with typescript-go option names.
 
 ## Building from Source
 
@@ -29,14 +60,7 @@ go generate ./...
 go build ./cmd/tscc
 ```
 
-## Usage
-
-> **Note:** Compilation is not yet implemented. This is a proof of concept.
-
-```bash
-# Planned usage (not yet functional):
-tscc --outDir ./dist --target ES2020 --module NodeNext src/index.ts src/lib.ts
-```
+Requires Go 1.26 or later.
 
 ## License
 
