@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/microsoft/typescript-go/tsccbridge"
 	"github.com/spf13/pflag"
 	"github.com/szuend/tscc/internal/config"
 )
@@ -36,6 +37,6 @@ func main() {
 	}
 
 	_ = cfg
-	fmt.Fprintln(os.Stderr, "tscc: not yet implemented")
-	os.Exit(1)
+	result := tsccbridge.CommandLine(&stubSys{}, os.Args[1:], nil)
+	os.Exit(int(result.Status))
 }
