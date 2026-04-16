@@ -22,10 +22,12 @@ import (
 	"github.com/spf13/pflag"
 )
 
-const usageHeader = `Usage: tscc [FLAGS] FILE
+const usageHeader = `tscc — TypeScript compilation as a build rule, not a project system.
+       Explicit I/O and depsfile output, built on typescript-go.
 
-Note: All boolean flags can be negated using the '--no-' prefix.
-`
+Usage: tscc [OPTIONS] FILE`
+
+const usageFooter = `Note: All boolean flags can be negated using the '--no-' prefix.`
 
 const (
 	flagIndent     = "  "
@@ -34,7 +36,8 @@ const (
 )
 
 func printUsage(w io.Writer, groups []flagGroup) {
-	fmt.Fprint(w, usageHeader, "\n")
+	fmt.Fprintln(w, usageHeader)
+	fmt.Fprintln(w)
 
 	width := maxLeftWidth(groups)
 	for _, g := range groups {
@@ -44,6 +47,8 @@ func printUsage(w io.Writer, groups []flagGroup) {
 		})
 		fmt.Fprintln(w)
 	}
+
+	fmt.Fprintln(w, usageFooter)
 }
 
 func maxLeftWidth(groups []flagGroup) int {

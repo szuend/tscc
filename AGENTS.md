@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `tscc` is a unix-style TypeScript compiler. Every invocation follows the form:
 
 ```
-tscc [FLAGS] FILE [FILE...]
+tscc [OPTIONS] FILE
 ```
 
 **All inputs, outputs, and options are explicit on the command line.** There is no tsconfig.json discovery, no package.json lookup, no walking up directory trees, no ambient project state. What you pass in is what gets compiled. What you specify as output is what gets written. The build system (Bazel, Make, whatever) owns the coordination; `tscc` owns only compilation.

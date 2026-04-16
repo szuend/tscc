@@ -3,10 +3,10 @@
 TypeScript compilation as a build rule, not a project system.
 
 ```
-tscc [FLAGS] FILE [FILE...]
+tscc [OPTIONS] FILE
 ```
 
-Built on [typescript-go](https://github.com/microsoft/typescript-go), Microsoft's Go port of the TypeScript compiler.
+Explicit I/O and depsfile output, built on [typescript-go](https://github.com/microsoft/typescript-go), Microsoft's Go port of the TypeScript compiler.
 
 ## Why tscc
 
