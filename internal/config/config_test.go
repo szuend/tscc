@@ -30,50 +30,50 @@ func TestParse(t *testing.T) {
 			name: "defaults and single input",
 			args: []string{"input.ts"},
 			wantConfig: &Config{
-				AlwaysStrict: true,
-				Target:       "esnext",
-				InputPath:    "input.ts",
-				OutputPath:   "",
+				Strict:     true,
+				Target:     "esnext",
+				InputPath:  "input.ts",
+				OutputPath: "",
 			},
 		},
 		{
 			name: "override flags",
-			args: []string{"--target", "es2015", "--always-strict=false", "foo.ts"},
+			args: []string{"--target", "es2015", "--strict=false", "foo.ts"},
 			wantConfig: &Config{
-				AlwaysStrict: false,
-				Target:       "es2015",
-				InputPath:    "foo.ts",
-				OutputPath:   "",
+				Strict:     false,
+				Target:     "es2015",
+				InputPath:  "foo.ts",
+				OutputPath: "",
 			},
 		},
 		{
 			name: "negated boolean flag",
-			args: []string{"--no-always-strict", "bar.ts"},
+			args: []string{"--no-strict", "bar.ts"},
 			wantConfig: &Config{
-				AlwaysStrict: false,
-				Target:       "esnext",
-				InputPath:    "bar.ts",
-				OutputPath:   "",
+				Strict:     false,
+				Target:     "esnext",
+				InputPath:  "bar.ts",
+				OutputPath: "",
 			},
 		},
 		{
 			name: "output flag",
 			args: []string{"-o", "out.js", "in.ts"},
 			wantConfig: &Config{
-				AlwaysStrict: true,
-				Target:       "esnext",
-				InputPath:    "in.ts",
-				OutputPath:   "out.js",
+				Strict:     true,
+				Target:     "esnext",
+				InputPath:  "in.ts",
+				OutputPath: "out.js",
 			},
 		},
 		{
 			name: "output flag long",
 			args: []string{"--output", "dist/bundle.js", "src/main.ts"},
 			wantConfig: &Config{
-				AlwaysStrict: true,
-				Target:       "esnext",
-				InputPath:    "src/main.ts",
-				OutputPath:   "dist/bundle.js",
+				Strict:     true,
+				Target:     "esnext",
+				InputPath:  "src/main.ts",
+				OutputPath: "dist/bundle.js",
 			},
 		},
 		{
@@ -106,8 +106,8 @@ func TestParse(t *testing.T) {
 				t.Fatalf("unexpected error: %v", err)
 			}
 
-			if got.AlwaysStrict != tt.wantConfig.AlwaysStrict {
-				t.Errorf("AlwaysStrict: got %v, want %v", got.AlwaysStrict, tt.wantConfig.AlwaysStrict)
+			if got.Strict != tt.wantConfig.Strict {
+				t.Errorf("Strict: got %v, want %v", got.Strict, tt.wantConfig.Strict)
 			}
 			if got.Target != tt.wantConfig.Target {
 				t.Errorf("Target: got %q, want %q", got.Target, tt.wantConfig.Target)

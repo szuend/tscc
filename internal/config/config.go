@@ -24,10 +24,10 @@ import (
 )
 
 type Config struct {
-	AlwaysStrict bool
-	Target       string
-	InputPath    string
-	OutputPath   string
+	Strict     bool
+	Target     string
+	InputPath  string
+	OutputPath string
 }
 
 func Parse(args []string) (*Config, error) {
@@ -35,7 +35,7 @@ func Parse(args []string) (*Config, error) {
 
 	cfg := &Config{}
 
-	flags.BoolVar(&cfg.AlwaysStrict, "always-strict", true, "Files are parsed in ECMAScript strict mode, and emit \"use strict\" (--no-always-strict to disable)")
+	flags.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
 	flags.StringVar(&cfg.Target, "target", "es2025", "Set the JavaScript language version for emitted JavaScript (allowed: es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
 	flags.StringVarP(&cfg.OutputPath, "output", "o", "", "Write JavaScript output to FILE")
 

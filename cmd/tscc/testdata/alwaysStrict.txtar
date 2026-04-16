@@ -1,5 +1,5 @@
-# --always-strict causes "use strict" to be emitted in the output.
-exec tscc --target es2015 --always-strict a.ts
+# "use strict" is emitted by default.
+exec tscc --target es2015 a.ts
 ! stderr .
 cmp a.js a.js.golden
 
