@@ -35,15 +35,17 @@ package tsccbridge
 import (
 	"github.com/microsoft/typescript-go/internal/execute"
 	"github.com/microsoft/typescript-go/internal/execute/tsc"
+	"github.com/microsoft/typescript-go/internal/vfs"
 )
 
 // Type aliases expose internal types to external modules without requiring
 // direct imports of internal/ packages.
 type System             = tsc.System
-type CommandLineResult  = execute.CommandLineResult
-type ExitStatus         = execute.ExitStatus
+type CommandLineResult  = tsc.CommandLineResult
+type ExitStatus         = tsc.ExitStatus
 type CommandLineTesting = tsc.CommandLineTesting
 type Watcher            = tsc.Watcher
+type FS                 = vfs.FS
 
 // CommandLine is the top-level entry point for TypeScript compilation,
 // mirroring what cmd/tsgo/main.go does. Pass nil for testing in production.
