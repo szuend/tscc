@@ -31,7 +31,7 @@ func TestParse(t *testing.T) {
 			args: []string{"input.ts"},
 			wantConfig: &Config{
 				Strict:     true,
-				Target:     "esnext",
+				Target:     "es2025",
 				InputPath:  "input.ts",
 				OutputPath: "",
 			},
@@ -51,7 +51,7 @@ func TestParse(t *testing.T) {
 			args: []string{"--no-strict", "bar.ts"},
 			wantConfig: &Config{
 				Strict:     false,
-				Target:     "esnext",
+				Target:     "es2025",
 				InputPath:  "bar.ts",
 				OutputPath: "",
 			},
@@ -61,7 +61,7 @@ func TestParse(t *testing.T) {
 			args: []string{"-o", "out.js", "in.ts"},
 			wantConfig: &Config{
 				Strict:     true,
-				Target:     "esnext",
+				Target:     "es2025",
 				InputPath:  "in.ts",
 				OutputPath: "out.js",
 			},
@@ -71,7 +71,7 @@ func TestParse(t *testing.T) {
 			args: []string{"--output", "dist/bundle.js", "src/main.ts"},
 			wantConfig: &Config{
 				Strict:     true,
-				Target:     "esnext",
+				Target:     "es2025",
 				InputPath:  "src/main.ts",
 				OutputPath: "dist/bundle.js",
 			},
