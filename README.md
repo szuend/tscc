@@ -62,6 +62,12 @@ go build ./cmd/tscc
 
 Requires Go 1.26 or later.
 
+## Third-party
+
+**[typescript-go](https://github.com/microsoft/typescript-go)** (Apache 2.0, © Microsoft Corporation) — tscc links against typescript-go as a Go module. Its license is at `third_party/typescript-go/LICENSE`.
+
+**[TypeScript](https://github.com/microsoft/TypeScript)** (Apache 2.0, © Microsoft Corporation) — typescript-go vendors TypeScript as a submodule. Its license is at `third_party/typescript-go/_submodules/TypeScript/LICENSE.txt`. Test inputs and expected outputs in `cmd/tscc/testdata/` are derived from the TypeScript compiler test suite.
+
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE).
