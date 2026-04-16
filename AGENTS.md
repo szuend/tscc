@@ -52,7 +52,7 @@ When Microsoft ships an official public API, the bridge gets replaced by direct 
 
 ### Adding Flags
 
-Flags are defined in `cmd/tscc/main.go` using `github.com/spf13/pflag`. The goal is a flag for every TypeScript compiler option a caller must specify explicitly — no defaults inferred from the environment.
+Flags live in `internal/config/config.go`, defined via `github.com/spf13/pflag` and organized into named groups (`languageGroup`, `typeCheckingGroup`, `outputGroup`, …) that drive the `--help` layout. Add a flag to the matching group function, or create a new group if none fits. The goal is a flag for every TypeScript compiler option a caller must specify explicitly — no defaults inferred from the environment.
 
 ### Test corpus
 
