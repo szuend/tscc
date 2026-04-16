@@ -18,6 +18,7 @@ package config
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/spf13/pflag"
@@ -31,15 +32,18 @@ type Config struct {
 }
 
 func Parse(args []string) (*Config, error) {
-	flags := pflag.NewFlagSet("tscc", pflag.ContinueOnError)
-
 	cfg := &Config{}
+	groups := buildGroups(cfg)
 
-	flags.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
-	flags.StringVar(&cfg.Target, "target", "es2025", "Set the JavaScript language version for emitted JavaScript (allowed: es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
-	flags.StringVarP(&cfg.OutputPath, "output", "o", "", "Write JavaScript output to FILE")
+	flags := pflag.NewFlagSet("tscc", pflag.ContinueOnError)
+	for _, g := range groups {
+		flags.AddFlagSet(g.Set)
+	}
+	flags.Usage = func() {
+		printUsage(os.Stderr, groups)
+	}
 
-	// Rewrite negated boolean flags e.g. --no-always-strict to --always-strict=false
+	// Rewrite negated boolean flags e.g. --no-strict to --strict=false
 	normalizedArgs := make([]string, len(args))
 	copy(normalizedArgs, args)
 
@@ -69,4 +73,35 @@ func Parse(args []string) (*Config, error) {
 
 	cfg.InputPath = remaining[0]
 	return cfg, nil
+}
+
+type flagGroup struct {
+	Name string
+	Set  *pflag.FlagSet
+}
+
+func buildGroups(cfg *Config) []flagGroup {
+	return []flagGroup{
+		languageGroup(cfg),
+		typeCheckingGroup(cfg),
+		outputGroup(cfg),
+	}
+}
+
+func languageGroup(cfg *Config) flagGroup {
+	g := pflag.NewFlagSet("language", pflag.ContinueOnError)
+	g.StringVar(&cfg.Target, "target", "es2025", "Set the JavaScript language `version` for emitted JavaScript (allowed: es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
+	return flagGroup{Name: "Language and Environment", Set: g}
+}
+
+func typeCheckingGroup(cfg *Config) flagGroup {
+	g := pflag.NewFlagSet("type-checking", pflag.ContinueOnError)
+	g.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
+	return flagGroup{Name: "Type Checking", Set: g}
+}
+
+func outputGroup(cfg *Config) flagGroup {
+	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
+	g.StringVarP(&cfg.OutputPath, "output", "o", "", "Write JavaScript output to `FILE`")
+	return flagGroup{Name: "Output", Set: g}
 }
