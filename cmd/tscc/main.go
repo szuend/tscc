@@ -17,15 +17,20 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
+	"github.com/spf13/pflag"
 	"github.com/szuend/tscc/internal/config"
 )
 
 func main() {
 	cfg, err := config.Parse(os.Args[1:])
 	if err != nil {
+		if errors.Is(err, pflag.ErrHelp) {
+			os.Exit(0)
+		}
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
