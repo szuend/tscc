@@ -12,6 +12,8 @@ tscc [OPTIONS] FILE
 
 **All inputs, outputs, and options are explicit on the command line.** There is no tsconfig.json discovery, no package.json lookup, no walking up directory trees, no ambient project state. What you pass in is what gets compiled. What you specify as output is what gets written. The build system (Bazel, Make, whatever) owns the coordination; `tscc` owns only compilation.
 
+The invariant driving every design decision is **Inputs + Flags = Output. Consistently. Deterministically. Always.** For the full vision, principles, and non-goals, see [`docs/vision.md`](docs/vision.md). When a design question can't be answered from this file, the vision doc is authoritative.
+
 ## Commands
 
 ```bash

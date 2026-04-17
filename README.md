@@ -50,6 +50,8 @@ dist/index.js: src/index.ts src/lib.ts node_modules/some-dep/index.d.ts
 
 Flags follow Unix kebab-case conventions (`--out-dts`, `--out-sourcemap`) and also accept camelCase equivalents for compatibility with typescript-go option names.
 
+For the principles behind `tscc`'s design — and why it deliberately doesn't do several things `tsc` does — see [`docs/vision.md`](docs/vision.md).
+
 ## Building from Source
 
 ```bash
