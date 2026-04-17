@@ -1,0 +1,102 @@
+// Copyright 2026 Simon Zünd
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package compileropts
+
+import (
+	"testing"
+
+	"github.com/microsoft/typescript-go/tsccbridge"
+	"github.com/szuend/tscc/internal/config"
+)
+
+func TestFromConfigTarget(t *testing.T) {
+	tests := []struct {
+		in   string
+		want tsccbridge.ScriptTarget
+	}{
+		{"es6", tsccbridge.ScriptTargetES2015},
+		{"es2015", tsccbridge.ScriptTargetES2015},
+		{"es2016", tsccbridge.ScriptTargetES2016},
+		{"es2017", tsccbridge.ScriptTargetES2017},
+		{"es2018", tsccbridge.ScriptTargetES2018},
+		{"es2019", tsccbridge.ScriptTargetES2019},
+		{"es2020", tsccbridge.ScriptTargetES2020},
+		{"es2021", tsccbridge.ScriptTargetES2021},
+		{"es2022", tsccbridge.ScriptTargetES2022},
+		{"es2023", tsccbridge.ScriptTargetES2023},
+		{"es2024", tsccbridge.ScriptTargetES2024},
+		{"es2025", tsccbridge.ScriptTargetES2025},
+		{"esnext", tsccbridge.ScriptTargetESNext},
+		{"ES2022", tsccbridge.ScriptTargetES2022},
+		{"ESNext", tsccbridge.ScriptTargetESNext},
+		{"EsNext", tsccbridge.ScriptTargetESNext},
+	}
+	for _, tc := range tests {
+		t.Run(tc.in, func(t *testing.T) {
+			got, err := FromConfig(&config.Config{Target: tc.in})
+			if err != nil {
+				t.Fatalf("FromConfig returned error: %v", err)
+			}
+			if got.Target != tc.want {
+				t.Errorf("Target = %v, want %v", got.Target, tc.want)
+			}
+		})
+	}
+}
+
+func TestFromConfigUnknownTarget(t *testing.T) {
+	_, err := FromConfig(&config.Config{Target: "es9999"})
+	if err == nil {
+		t.Fatal("expected error for unknown target, got nil")
+	}
+}
+
+func TestFromConfigStrict(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", Strict: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.Strict != tc.want {
+			t.Errorf("Strict(%v) = %v, want %v", tc.in, got.Strict, tc.want)
+		}
+	}
+}
+
+func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
+	got, err := FromConfig(&config.Config{Target: "es2022"})
+	if err != nil {
+		t.Fatalf("FromConfig returned error: %v", err)
+	}
+	if got.Module != 0 {
+		t.Errorf("Module should be zero, got %v", got.Module)
+	}
+	if got.Declaration != tsccbridge.TSUnknown {
+		t.Errorf("Declaration should be TSUnknown, got %v", got.Declaration)
+	}
+	if got.SourceMap != tsccbridge.TSUnknown {
+		t.Errorf("SourceMap should be TSUnknown, got %v", got.SourceMap)
+	}
+	if got.OutFile != "" {
+		t.Errorf("OutFile should be empty, got %q", got.OutFile)
+	}
+}
