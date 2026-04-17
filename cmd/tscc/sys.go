@@ -26,7 +26,17 @@ import (
 // stubSys satisfies tsccbridge.System with every method printing its name
 // and exiting. Running tscc surfaces, one call at a time, the methods the
 // typescript-go compiler actually needs — driving incremental implementation.
-type stubSys struct{}
+type stubSys struct {
+	cwd string
+}
+
+func newStubSys() (*stubSys, error) {
+	cwd, err := os.Getwd()
+	if err != nil {
+		return nil, fmt.Errorf("determine current directory: %w", err)
+	}
+	return &stubSys{cwd: cwd}, nil
+}
 
 func (s *stubSys) unimplemented(method string) {
 	fmt.Fprintf(os.Stderr, "tscc: System.%s not yet implemented\n", method)
@@ -39,18 +49,15 @@ func (s *stubSys) Writer() io.Writer {
 }
 
 func (s *stubSys) FS() tsccbridge.FS {
-	s.unimplemented("FS")
-	return nil
+	return tsccbridge.OSFS()
 }
 
 func (s *stubSys) DefaultLibraryPath() string {
-	s.unimplemented("DefaultLibraryPath")
-	return ""
+	return tsccbridge.DefaultLibPath()
 }
 
 func (s *stubSys) GetCurrentDirectory() string {
-	s.unimplemented("GetCurrentDirectory")
-	return ""
+	return s.cwd
 }
 
 func (s *stubSys) WriteOutputIsTTY() bool {

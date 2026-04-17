@@ -37,6 +37,11 @@ func main() {
 	}
 
 	_ = cfg
-	result := tsccbridge.CommandLine(&stubSys{}, os.Args[1:], nil)
+	sys, err := newStubSys()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+	}
+	result := tsccbridge.CommandLine(sys, os.Args[1:], nil)
 	os.Exit(int(result.Status))
 }

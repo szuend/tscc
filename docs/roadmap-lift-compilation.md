@@ -1,5 +1,7 @@
 # Roadmap: Lift typescript-go compilation into tscc
 
+> The target semantics — FS Jail, Literal Resolver, path prefix map, programmatic option pinning, absolute-paths-only, response files — are specified in [`design/02-deterministic-resolution.md`](design/02-deterministic-resolution.md). This roadmap is the *sequencing* plan; the design doc is the *what*. When they disagree, the design doc wins.
+
 ## Goal
 
 Today `cmd/tscc/main.go` parses flags into a `*config.Config`, discards the result (`_ = cfg`), and forwards raw `os.Args[1:]` to `tsccbridge.CommandLine`. `tscc` is therefore a thin shim around `tsgo`'s CLI — none of tscc's own flag semantics (kebab-case, banned `--outDir`, the headline `--out-depsfile`) can influence compilation because tsgo never sees them.
@@ -79,11 +81,62 @@ func BuildParsedCommandLine(cfg *config.Config) (*tsccbridge.ParsedCommandLine, 
 
 Other `stubSys` methods stay `unimplemented()` until something actually calls them.
 
-**New code:** a small constructor in tscc (likely `internal/compileropts` or a new `internal/compilehost`) that takes a `vfs.FS` + cwd + libpath and returns a `CompilerHost`. This is the seam that makes step 4 testable — tests inject a fake `vfs.FS`, production code uses `osvfs.FS()`.
+`tsccbridge.OSFS` and the raw `osvfs.FS()` wiring in `stubSys` is **provisional**. It only exists so the `tsccbridge.CommandLine` forwarding path keeps surfacing one stub method at a time during steps 3–6. Production reads never go through raw `OSFS` — step 4 wraps it in the FS Jail, and step 5's custom `CompilerHost` (per design §7) holds both a jailed FS and an unjailed FS for `GetSourceFile`.
 
-**Tests:** construct a host over an in-memory `vfs.FS` (a tiny fake in the test file); assert `FS()`, `GetCurrentDirectory()`, `DefaultLibraryPath()` round-trip.
+**No new package this step.** The single-FS wrapper around `tsccbridge.NewCompilerHost` has the wrong shape — the design-compliant host is a custom `compiler.CompilerHost` implementation holding two filesystems, not a thin constructor. That implementation lands in step 5.
 
-## Step 4 — Program creation and emit
+**Tests:** none. Bridge exports are re-exports (no behavior to test); `stubSys` methods are scaffolding exercised indirectly once step 4/5 are in place.
+
+## Step 4 — FS Jail
+
+**Goal:** Wrap `vfs.FS` to enforce the determinism invariants from design §6.
+
+**New package** `internal/hermeticfs`:
+
+```go
+type FS interface {
+    tsccbridge.FS
+    Reads() []string // absolute paths of every successful ReadFile, first-seen order, deduplicated
+}
+
+type Options struct {
+    Inner             tsccbridge.FS // production: osvfs.FS(); tests: an in-memory fake
+    CaseSensitivePaths bool          // pinned; NOT sniffed from Inner
+}
+
+func New(opts Options) FS
+```
+
+Requirements (see design §6 for rationale):
+
+- **Discovery block.** `FileExists`, `DirectoryExists`, `Stat`, `ReadFile`, `GetAccessibleEntries`, and `WalkDir` all return "not found" for: `package.json`, `tsconfig.json`, `jsconfig.json`, and any path under `node_modules`, `bower_components`, `jspm_packages`.
+- **`Realpath` is identity.** No symlink resolution.
+- **`UseCaseSensitiveFileNames()` returns `opts.CaseSensitivePaths`.** Must not delegate to the inner FS — the OS's case-sensitivity sniff is a host-dependence that breaks "Inputs + Flags = Output."
+- **Read tracking.** Only successful `ReadFile` calls that bypass the firewall enter the read set (for the depsfile feature).
+- **Writes** pass through unchecked.
+
+**Production stacking:** `bundled.WrapFS(hermeticfs.New(...))` — bundled wrapper outside so `bundled://libs/...` reads are intercepted before hitting hermetic.
+
+**Bridge delta:** none. `hermeticfs` is tscc-internal.
+
+**Tests:** construct with an in-memory inner FS. Assert: (a) `package.json` reads return not-found (covering all six FS methods), (b) normal reads succeed and appear in `Reads()`, (c) `Realpath` is identity, (d) `UseCaseSensitiveFileNames()` returns the pinned value regardless of what the inner FS reports.
+
+**Dead code so far:** nothing calls `hermeticfs.New` in production. Step 5 is the first caller.
+
+## Step 4b — Literal Module Resolution
+
+**Goal:** Replace typescript-go's resolver with the `LiteralResolver` specified in design §§3–5.
+
+**Bridge delta:**
+- Patch `third_party/typescript-go/internal/compiler/fileloader.go:149` to accept an injected resolver instead of constructing `module.NewResolver` inline. Propose the hook upstream in parallel.
+
+**New package** `internal/resolver`:
+- Literal relative resolution (no upward walking, no `package.json` probes).
+- Bare specifiers resolve *only* via explicit CLI mappings.
+- **Never invokes `Realpath`.** Unit test asserts this against a spy FS.
+- **`GetPackageScopeForPath` returns empty.** Prevents `ImpliedNodeFormat` leakage via `fileloader.loadSourceFileMetaData`.
+
+## Step 5 — Program creation and emit
 
 **Bridge delta:**
 - `var NewProgram = compiler.NewProgram`
@@ -106,9 +159,15 @@ func Compile(ctx context.Context, cfg *config.Config, host tsccbridge.CompilerHo
 ```
 
 - Builds the `ParsedCommandLine` via step 2's helper.
+- Pins compiler options programmatically per design §8 / Impl. Plan step 6: `Types = []string{}`, `TypeRoots = []string{}`, `TypingsLocation = ""`, `ProjectReferences = nil`, `SingleThreaded = true`, `Module = ModuleKindESNext`.
 - Calls `NewProgram({Host: host, Config: parsed})`.
 - Calls `Program.Emit` with a `WriteFile` callback that writes to `cfg.OutputPath` for the `.js` file. Ignores declaration / sourcemap outputs for now — they arrive with `--out-dts` / `--out-sourcemap`.
 - Does **not** collect diagnostics yet; that's step 5.
+
+**New package** `internal/compilehost` (first real caller of the two-FS shape from design §7):
+
+- Custom `compiler.CompilerHost` implementation holding **two** filesystems — a jailed one reported by `FS()`, and a raw one used internally by `GetSourceFile` for reads of already-resolved paths (so explicit JSON imports work without the jail blocking them).
+- Constructor takes both filesystems, cwd, and libpath.
 
 **Tests:** unit test with an in-memory `vfs.FS` containing `a.ts`, construct a host over it, call `Compile`, assert the callback received the expected JS text. No type-error cases yet.
 
@@ -144,9 +203,18 @@ After this commit, `tsccbridge.CommandLine` and `stubSys` can be removed or reta
 - **`--out-sourcemap`** — same shape as `--out-dts`.
 - **`--out-depsfile`** — the headline feature. After emit, walk the `Program`'s resolved source files (lib files + user files + transitive imports), write a Makefile-compatible `.d` file. This is a new module hanging off `internal/compile`; tests drive it over a fake `Program` or capture its output given a known in-memory input tree.
 
-## Open questions / things to re-evaluate as we go
+## Work deferred to later roadmaps
 
-- **Case sensitivity** of file names — currently hard-coded to `true` in the step 2 sketch. Needs to match OS behavior for correctness on case-insensitive filesystems.
+These are specified in `design/02-deterministic-resolution.md` but don't belong in the lift roadmap — they layer on after step 6:
+
+- **Absolute-paths-only enforcement** at argument parsing.
+- **`--path-prefix-map`** and the emit-site audit (design §9).
+- **Response files** (`@file`) per design §10.
+- **`--case-sensitive-paths`** flag wiring (the step 4 `FS` constructor already takes the value; the CLI flag feeding it can come later).
+- **Stable-sort discipline** at every serialized-list emit site (design Impl. Plan step 8).
+
+## Open questions
+
 - **`DefaultLibraryPath`** — `bundled.LibPath()` returns a path inside the tsgo module. Confirm the lib files are actually readable at that path at runtime (they may be embedded and require the `embedded` build tag).
 - **Multi-file inputs** — `tscc` is currently single-input by design (`config.Parse` rejects multiple positional args). Revisit if/when build systems need to pass multiple roots in one invocation.
 - **Incremental / watch mode** — out of scope. `tscc`'s niche is one-shot invocation from a build system; the build system handles incrementality via `--out-depsfile`.
