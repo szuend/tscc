@@ -36,6 +36,8 @@ import (
 	"github.com/microsoft/typescript-go/internal/core"
 	"github.com/microsoft/typescript-go/internal/execute"
 	"github.com/microsoft/typescript-go/internal/execute/tsc"
+	"github.com/microsoft/typescript-go/internal/tsoptions"
+	"github.com/microsoft/typescript-go/internal/tspath"
 	"github.com/microsoft/typescript-go/internal/vfs"
 )
 
@@ -49,9 +51,15 @@ type Watcher            = tsc.Watcher
 type FS                 = vfs.FS
 
 // Programmatic compilation API types.
-type CompilerOptions = core.CompilerOptions
-type ScriptTarget    = core.ScriptTarget
-type Tristate        = core.Tristate
+type CompilerOptions     = core.CompilerOptions
+type ScriptTarget        = core.ScriptTarget
+type Tristate            = core.Tristate
+type ParsedCommandLine   = tsoptions.ParsedCommandLine
+type ComparePathsOptions = tspath.ComparePathsOptions
+
+// NewParsedCommandLine bundles CompilerOptions with the root file list and
+// path-comparison settings, ready to feed into compiler.NewProgram.
+var NewParsedCommandLine = tsoptions.NewParsedCommandLine
 
 // CommandLine is the top-level entry point for TypeScript compilation,
 // mirroring what cmd/tsgo/main.go does. Pass nil for testing in production.
