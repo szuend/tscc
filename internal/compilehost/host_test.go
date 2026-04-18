@@ -26,17 +26,17 @@ import (
 // stubFS is a minimal vfs.FS whose identity we track via name.
 type stubFS struct{ name string }
 
-func (stubFS) UseCaseSensitiveFileNames() bool                          { return true }
-func (stubFS) FileExists(string) bool                                   { return false }
-func (stubFS) ReadFile(string) (string, bool)                           { return "", false }
-func (stubFS) WriteFile(string, string) error                           { return nil }
-func (stubFS) Remove(string) error                                      { return nil }
-func (stubFS) Chtimes(string, time.Time, time.Time) error               { return nil }
-func (stubFS) DirectoryExists(string) bool                              { return false }
-func (stubFS) GetAccessibleEntries(string) tsccbridge.Entries           { return tsccbridge.Entries{} }
-func (stubFS) Stat(string) fs.FileInfo                                  { return nil }
-func (stubFS) WalkDir(string, fs.WalkDirFunc) error                     { return nil }
-func (stubFS) Realpath(p string) string                                 { return p }
+func (stubFS) UseCaseSensitiveFileNames() bool                { return true }
+func (stubFS) FileExists(string) bool                         { return false }
+func (stubFS) ReadFile(string) (string, bool)                 { return "", false }
+func (stubFS) WriteFile(string, string) error                 { return nil }
+func (stubFS) Remove(string) error                            { return nil }
+func (stubFS) Chtimes(string, time.Time, time.Time) error     { return nil }
+func (stubFS) DirectoryExists(string) bool                    { return false }
+func (stubFS) GetAccessibleEntries(string) tsccbridge.Entries { return tsccbridge.Entries{} }
+func (stubFS) Stat(string) fs.FileInfo                        { return nil }
+func (stubFS) WalkDir(string, fs.WalkDirFunc) error           { return nil }
+func (stubFS) Realpath(p string) string                       { return p }
 
 // TestNewWiresJailedFSForDiscovery verifies the dual-FS contract from design §7:
 // the CompilerHost exposes the jailed FS — not the raw FS — to every caller that

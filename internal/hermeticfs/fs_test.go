@@ -29,8 +29,8 @@ import (
 // mockFS is an in-memory vfs.FS used to drive hermeticfs in tests. It preserves
 // directory layout so that WalkDir and GetAccessibleEntries behave realistically.
 type mockFS struct {
-	files         map[string]string       // path -> contents
-	dirs          map[string][]mockEntry  // dir path -> entries
+	files         map[string]string      // path -> contents
+	dirs          map[string][]mockEntry // dir path -> entries
 	caseSensitive bool
 	mtime         time.Time
 }

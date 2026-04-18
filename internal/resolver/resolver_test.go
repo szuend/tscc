@@ -35,16 +35,16 @@ func (s *spyFS) FileExists(p string) bool {
 	s.existsCalls = append(s.existsCalls, p)
 	return s.files[p]
 }
-func (s *spyFS) ReadFile(string) (string, bool)               { return "", false }
-func (s *spyFS) WriteFile(string, string) error               { return nil }
-func (s *spyFS) Remove(string) error                          { return nil }
-func (s *spyFS) Chtimes(string, time.Time, time.Time) error   { return nil }
-func (s *spyFS) DirectoryExists(string) bool                  { return false }
+func (s *spyFS) ReadFile(string) (string, bool)             { return "", false }
+func (s *spyFS) WriteFile(string, string) error             { return nil }
+func (s *spyFS) Remove(string) error                        { return nil }
+func (s *spyFS) Chtimes(string, time.Time, time.Time) error { return nil }
+func (s *spyFS) DirectoryExists(string) bool                { return false }
 func (s *spyFS) GetAccessibleEntries(string) tsccbridge.Entries {
 	return tsccbridge.Entries{}
 }
-func (s *spyFS) Stat(string) fs.FileInfo                     { return nil }
-func (s *spyFS) WalkDir(string, fs.WalkDirFunc) error        { return nil }
+func (s *spyFS) Stat(string) fs.FileInfo              { return nil }
+func (s *spyFS) WalkDir(string, fs.WalkDirFunc) error { return nil }
 func (s *spyFS) Realpath(p string) string {
 	s.realpathCall = true
 	return p
@@ -148,9 +148,9 @@ func TestBareSpecifierResolvesViaPathMap(t *testing.T) {
 func TestNeverCallsRealpath(t *testing.T) {
 	r, spy := newResolver(
 		map[string]bool{
-			"/app/b.ts":                   true,
-			"/vendor/lodash/index.d.ts":   true,
-			"/vendor/types/index.d.ts":    true,
+			"/app/b.ts":                 true,
+			"/vendor/lodash/index.d.ts": true,
+			"/vendor/types/index.d.ts":  true,
 		},
 		map[string]string{
 			"lodash": "/vendor/lodash/index.d.ts",
