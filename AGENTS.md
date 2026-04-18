@@ -48,7 +48,7 @@ tscc/
 
 ### The Bridge
 
-typescript-go keeps all useful code under `internal/`, which Go's module system prevents external modules from importing. `tsccbridge/` lives *inside* the typescript-go module boundary (as an untracked file in the submodule), so it can legally re-export `internal/execute` symbols. The outer `github.com/szuend/tscc` module imports it via a `replace` directive in `go.mod`. The submodule's `.gitmodules` uses `ignore = untracked` so the generated file does not dirty the submodule's git state.
+typescript-go keeps all useful code under `internal/`, which Go's module system prevents external modules from importing. `tsccbridge/` lives *inside* the typescript-go module boundary (as an untracked file in the submodule), so it can legally re-export `internal/execute` symbols. The outer `github.com/szuend/tscc` module imports it via a `replace` directive in `go.mod`. The submodule's `.gitmodules` uses `ignore = dirty` so neither the generated bridge file nor the applied `patches/inject-resolver.patch` dirties the outer repo's submodule status.
 
 When Microsoft ships an official public API, the bridge gets replaced by direct imports. Until then, only extend `tools/genbridge/main.go` when new `internal/` symbols are needed — do not hand-edit `tsccbridge/bridge.go`.
 
