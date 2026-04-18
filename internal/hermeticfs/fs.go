@@ -12,12 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Package hermeticfs wraps a vfs.FS to enforce the determinism invariants
+// from design §6 (see docs/design/02-deterministic-resolution.md):
+//
+//   - configuration files (package.json, tsconfig.json, jsconfig.json) and
+//     package directories (node_modules, bower_components, jspm_packages) are
+//     invisible to every discovery method;
+//   - Realpath is the identity function;
+//   - UseCaseSensitiveFileNames returns a caller-pinned value, never sniffed
+//     from the host;
+//   - Stat returns a FileInfo whose ModTime() is the Unix epoch, so future
+//     upstream reads of mtime cannot leak host timestamps into output;
+//   - successful ReadFile calls are recorded in first-seen order so the
+//     depsfile feature can enumerate inputs.
 package hermeticfs
 
 import (
 	"io/fs"
 	"os"
-	"path/filepath"
+	"path"
 	"strings"
 	"sync"
 	"time"
@@ -25,9 +38,11 @@ import (
 	"github.com/microsoft/typescript-go/tsccbridge"
 )
 
-// FS is a file system that enforces deterministic reads and access controls.
+// FS extends tsccbridge.FS with a Reads accessor used to build a depsfile.
 type FS interface {
 	tsccbridge.FS
+	// Reads returns absolute paths of every successful ReadFile, in
+	// first-seen order, deduplicated.
 	Reads() []string
 }
 
@@ -46,7 +61,7 @@ type hermeticFS struct {
 	seen  map[string]bool
 }
 
-// New creates a new hermetic file system.
+// New wraps inner with the hermetic policy described above.
 func New(opts Options) FS {
 	return &hermeticFS{
 		inner:         opts.Inner,
@@ -55,19 +70,35 @@ func New(opts Options) FS {
 	}
 }
 
-func isBlocked(path string) bool {
-	base := filepath.Base(path)
-	if base == "package.json" || base == "tsconfig.json" || base == "jsconfig.json" {
+// isBlocked reports whether p names a configuration file or lives under a
+// package directory. typescript-go normalizes paths to forward slashes, so a
+// base check plus a prefix/substring pass is correct and allocation-free.
+func isBlocked(p string) bool {
+	switch path.Base(p) {
+	case "package.json", "tsconfig.json", "jsconfig.json":
 		return true
 	}
-
-	segments := strings.Split(filepath.ToSlash(path), "/")
-	for _, s := range segments {
-		if s == "node_modules" || s == "bower_components" || s == "jspm_packages" {
+	for _, dir := range []string{"node_modules", "bower_components", "jspm_packages"} {
+		if containsPathSegment(p, dir) {
 			return true
 		}
 	}
 	return false
+}
+
+// containsPathSegment reports whether seg appears as a whole slash-delimited
+// segment of p (i.e. "/seg/", "seg/" at the start, or "/seg" at the end).
+func containsPathSegment(p, seg string) bool {
+	if p == seg {
+		return true
+	}
+	if strings.HasPrefix(p, seg+"/") {
+		return true
+	}
+	if strings.HasSuffix(p, "/"+seg) {
+		return true
+	}
+	return strings.Contains(p, "/"+seg+"/")
 }
 
 func (f *hermeticFS) Reads() []string {
@@ -82,90 +113,102 @@ func (f *hermeticFS) UseCaseSensitiveFileNames() bool {
 	return f.caseSensitive
 }
 
-func (f *hermeticFS) FileExists(path string) bool {
-	if isBlocked(path) {
+func (f *hermeticFS) FileExists(p string) bool {
+	if isBlocked(p) {
 		return false
 	}
-	return f.inner.FileExists(path)
+	return f.inner.FileExists(p)
 }
 
-func (f *hermeticFS) ReadFile(path string) (string, bool) {
-	if isBlocked(path) {
+func (f *hermeticFS) ReadFile(p string) (string, bool) {
+	if isBlocked(p) {
 		return "", false
 	}
-	content, ok := f.inner.ReadFile(path)
+	content, ok := f.inner.ReadFile(p)
 	if ok {
 		f.mu.Lock()
-		if !f.seen[path] {
-			f.seen[path] = true
-			f.reads = append(f.reads, path)
+		if !f.seen[p] {
+			f.seen[p] = true
+			f.reads = append(f.reads, p)
 		}
 		f.mu.Unlock()
 	}
 	return content, ok
 }
 
-func (f *hermeticFS) WriteFile(path string, data string) error {
-	return f.inner.WriteFile(path, data)
+// WriteFile, Remove, and Chtimes pass through — the jail polices reads, not
+// writes. The build system controls where output lands via CLI flags.
+func (f *hermeticFS) WriteFile(p string, data string) error { return f.inner.WriteFile(p, data) }
+func (f *hermeticFS) Remove(p string) error                 { return f.inner.Remove(p) }
+func (f *hermeticFS) Chtimes(p string, aTime time.Time, mTime time.Time) error {
+	return f.inner.Chtimes(p, aTime, mTime)
 }
 
-func (f *hermeticFS) Remove(path string) error {
-	return f.inner.Remove(path)
-}
-
-func (f *hermeticFS) Chtimes(path string, aTime time.Time, mTime time.Time) error {
-	return f.inner.Chtimes(path, aTime, mTime)
-}
-
-func (f *hermeticFS) DirectoryExists(path string) bool {
-	if isBlocked(path) {
+func (f *hermeticFS) DirectoryExists(p string) bool {
+	if isBlocked(p) {
 		return false
 	}
-	return f.inner.DirectoryExists(path)
+	return f.inner.DirectoryExists(p)
 }
 
-func (f *hermeticFS) GetAccessibleEntries(path string) tsccbridge.Entries {
-	if isBlocked(path) {
+func (f *hermeticFS) GetAccessibleEntries(p string) tsccbridge.Entries {
+	if isBlocked(p) {
 		return tsccbridge.Entries{}
 	}
-	entries := f.inner.GetAccessibleEntries(path)
+	entries := f.inner.GetAccessibleEntries(p)
 
 	var filtered tsccbridge.Entries
 	for _, file := range entries.Files {
-		if !isBlocked(filepath.Join(path, file)) {
+		if !isBlocked(path.Join(p, file)) {
 			filtered.Files = append(filtered.Files, file)
 		}
 	}
 	for _, dir := range entries.Directories {
-		if !isBlocked(filepath.Join(path, dir)) {
+		if !isBlocked(path.Join(p, dir)) {
 			filtered.Directories = append(filtered.Directories, dir)
 		}
 	}
 	return filtered
 }
 
-func (f *hermeticFS) Stat(path string) fs.FileInfo {
-	if isBlocked(path) {
+// Stat returns nil for blocked paths. For allowed paths it wraps the inner
+// FileInfo so ModTime reports the Unix epoch; every other FileInfo field is
+// forwarded. The compiler hot path does not currently read ModTime, but
+// upstream adding such a read (tracing, logging, a future cache) would
+// otherwise silently leak host timestamps into output.
+func (f *hermeticFS) Stat(p string) fs.FileInfo {
+	if isBlocked(p) {
 		return nil
 	}
-	return f.inner.Stat(path)
+	info := f.inner.Stat(p)
+	if info == nil {
+		return nil
+	}
+	return zeroMtimeFileInfo{info}
 }
 
 func (f *hermeticFS) WalkDir(root string, walkFn fs.WalkDirFunc) error {
 	if isBlocked(root) {
 		return os.ErrNotExist
 	}
-	return f.inner.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
-		if isBlocked(path) {
+	return f.inner.WalkDir(root, func(p string, d fs.DirEntry, err error) error {
+		if isBlocked(p) {
 			if d != nil && d.IsDir() {
 				return fs.SkipDir
 			}
 			return nil
 		}
-		return walkFn(path, d, err)
+		return walkFn(p, d, err)
 	})
 }
 
-func (f *hermeticFS) Realpath(path string) string {
-	return path
-}
+// Realpath is the identity function. Symlinks are not followed; see design §6
+// for the rationale (preventing host paths from leaking through canonicalization,
+// and matching clang's -ffile-prefix-map semantics on literal paths).
+func (f *hermeticFS) Realpath(p string) string { return p }
+
+// zeroMtimeFileInfo wraps a FileInfo and reports ModTime as the Unix epoch.
+// Every other field delegates to the wrapped value.
+type zeroMtimeFileInfo struct{ fs.FileInfo }
+
+func (zeroMtimeFileInfo) ModTime() time.Time { return time.Unix(0, 0) }
