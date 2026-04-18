@@ -42,7 +42,12 @@ func TestCompile(t *testing.T) {
 		Strict:    true,
 	}
 
-	host := compilehost.New(tempDir, tsccbridge.OSFS(), tsccbridge.DefaultLibPath())
+	host := compilehost.New(compilehost.Options{
+		CurrentDirectory:   tempDir,
+		JailedFS:           tsccbridge.OSFS(),
+		RawFS:              tsccbridge.OSFS(),
+		DefaultLibraryPath: tsccbridge.DefaultLibPath(),
+	})
 
 	res, err := Compile(context.Background(), cfg, host)
 	if err != nil {

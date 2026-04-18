@@ -12,15 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Package compilehost constructs the dual-FS CompilerHost described in design
+// §7: discovery goes through a jailed FS, but GetSourceFile reads resolved
+// paths through an unjailed FS so explicit imports of configuration-shaped
+// files (e.g. ./package.json with { type: "json" }) still work.
 package compilehost
 
 import (
 	"github.com/microsoft/typescript-go/tsccbridge"
 )
 
-// New creates a minimal CompilerHost for tscc.
-// This is a placeholder that delegates to the stock typescript-go CompilerHost
-// until the dual-FS jail architecture from design §7 is fully implemented.
-func New(cwd string, fs tsccbridge.FS, libPath string) tsccbridge.CompilerHost {
-	return tsccbridge.CreateCompilerHost(cwd, fs, libPath)
+// Options configures a CompilerHost.
+type Options struct {
+	// CurrentDirectory is the cwd reported to typescript-go. Must be absolute.
+	CurrentDirectory string
+	// JailedFS fronts discovery: FileExists, Stat, DirectoryExists, WalkDir,
+	// GetAccessibleEntries, and ReadFile probes from the resolver all flow here.
+	// Production callers wrap an hermeticfs.FS; tests can pass an in-memory FS.
+	JailedFS tsccbridge.FS
+	// RawFS serves GetSourceFile reads of already-resolved paths. It bypasses
+	// the jail so an explicit JSON import works even though the jail blocks
+	// discovery of package.json / tsconfig.json.
+	RawFS tsccbridge.FS
+	// DefaultLibraryPath is the path under which bundled lib.*.d.ts files live.
+	DefaultLibraryPath string
+}
+
+// New constructs a CompilerHost from opts.
+func New(opts Options) tsccbridge.CompilerHost {
+	return tsccbridge.NewDualFSHost(opts.CurrentDirectory, opts.JailedFS, opts.RawFS, opts.DefaultLibraryPath)
 }
