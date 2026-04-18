@@ -17,13 +17,16 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
 
 	"github.com/microsoft/typescript-go/tsccbridge"
 	"github.com/spf13/pflag"
+	"github.com/szuend/tscc/internal/compile"
 	"github.com/szuend/tscc/internal/config"
+	"github.com/szuend/tscc/internal/hermeticfs"
 )
 
 func main() {
@@ -32,16 +35,38 @@ func main() {
 		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		fmt.Fprintf(os.Stderr, "tscc: %v\n", err)
 		os.Exit(1)
 	}
 
-	_ = cfg
-	sys, err := newStubSys()
+	cwd, err := os.Getwd()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		fmt.Fprintf(os.Stderr, "tscc: %v\n", err)
 		os.Exit(1)
 	}
-	result := tsccbridge.CommandLine(sys, os.Args[1:], nil)
-	os.Exit(int(result.Status))
+
+	// Design §6: jailed FS blocks tsconfig/package discovery. Design §7: raw FS
+	// serves already-resolved paths to GetSourceFile. Both are wrapped in
+	// bundled.WrapFS so typescript-go's embedded lib.*.d.ts virtual paths
+	// resolve uniformly.
+	jailedFS := tsccbridge.BundledWrapFS(hermeticfs.New(hermeticfs.Options{
+		Inner:              tsccbridge.OSFS(),
+		CaseSensitivePaths: cfg.CaseSensitivePaths,
+	}))
+	rawFS := tsccbridge.BundledWrapFS(tsccbridge.OSFS())
+
+	_, status, err := compile.Compile(context.Background(), compile.Inputs{
+		Config:             cfg,
+		JailedFS:           jailedFS,
+		RawFS:              rawFS,
+		DefaultLibraryPath: tsccbridge.DefaultLibPath(),
+		CurrentDirectory:   cwd,
+		Stderr:             os.Stderr,
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "tscc: %v\n", err)
+		os.Exit(1)
+	}
+
+	os.Exit(int(status))
 }
