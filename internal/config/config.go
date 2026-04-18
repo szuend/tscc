@@ -19,6 +19,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/spf13/pflag"
@@ -71,7 +72,20 @@ func Parse(args []string) (*Config, error) {
 		return nil, fmt.Errorf("too many input files specified: %v", remaining)
 	}
 
-	cfg.InputPath = remaining[0]
+	absInput, err := filepath.Abs(remaining[0])
+	if err != nil {
+		return nil, fmt.Errorf("resolve input path: %w", err)
+	}
+	cfg.InputPath = absInput
+
+	if cfg.OutputPath != "" {
+		absOutput, err := filepath.Abs(cfg.OutputPath)
+		if err != nil {
+			return nil, fmt.Errorf("resolve output path: %w", err)
+		}
+		cfg.OutputPath = absOutput
+	}
+
 	return cfg, nil
 }
 

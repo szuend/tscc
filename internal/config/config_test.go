@@ -15,6 +15,7 @@
 package config
 
 import (
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -112,11 +113,21 @@ func TestParse(t *testing.T) {
 			if got.Target != tt.wantConfig.Target {
 				t.Errorf("Target: got %q, want %q", got.Target, tt.wantConfig.Target)
 			}
-			if got.InputPath != tt.wantConfig.InputPath {
-				t.Errorf("InputPath: got %q, want %q", got.InputPath, tt.wantConfig.InputPath)
+
+			wantInput := tt.wantConfig.InputPath
+			if wantInput != "" {
+				wantInput, _ = filepath.Abs(wantInput)
 			}
-			if got.OutputPath != tt.wantConfig.OutputPath {
-				t.Errorf("OutputPath: got %q, want %q", got.OutputPath, tt.wantConfig.OutputPath)
+			if got.InputPath != wantInput {
+				t.Errorf("InputPath: got %q, want %q", got.InputPath, wantInput)
+			}
+
+			wantOutput := tt.wantConfig.OutputPath
+			if wantOutput != "" {
+				wantOutput, _ = filepath.Abs(wantOutput)
+			}
+			if got.OutputPath != wantOutput {
+				t.Errorf("OutputPath: got %q, want %q", got.OutputPath, wantOutput)
 			}
 		})
 	}
