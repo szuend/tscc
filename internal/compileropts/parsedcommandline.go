@@ -21,9 +21,9 @@ import (
 
 // BuildParsedCommandLine bundles the CompilerOptions derived from cfg with
 // the root file list and path-comparison settings that the typescript-go
-// compiler needs. Case sensitivity is hard-coded to true and the current
-// directory is left empty; both will be supplied by the CompilerHost in a
-// later step once tscc owns the host construction.
+// compiler needs. Case sensitivity flows from cfg.CaseSensitivePaths — the
+// same pin applied to the jailed FS — so both sides of the compiler see a
+// consistent value (design §6).
 func BuildParsedCommandLine(cfg *config.Config) (*tsccbridge.ParsedCommandLine, error) {
 	opts, err := FromConfig(cfg)
 	if err != nil {
@@ -33,6 +33,6 @@ func BuildParsedCommandLine(cfg *config.Config) (*tsccbridge.ParsedCommandLine, 
 	return tsccbridge.NewParsedCommandLine(
 		opts,
 		[]string{cfg.InputPath},
-		tsccbridge.ComparePathsOptions{UseCaseSensitiveFileNames: true},
+		tsccbridge.ComparePathsOptions{UseCaseSensitiveFileNames: cfg.CaseSensitivePaths},
 	), nil
 }
