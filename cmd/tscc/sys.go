@@ -27,15 +27,10 @@ import (
 // and exiting. Running tscc surfaces, one call at a time, the methods the
 // typescript-go compiler actually needs — driving incremental implementation.
 type stubSys struct {
-	cwd string
 }
 
 func newStubSys() (*stubSys, error) {
-	cwd, err := os.Getwd()
-	if err != nil {
-		return nil, fmt.Errorf("determine current directory: %w", err)
-	}
-	return &stubSys{cwd: cwd}, nil
+	return &stubSys{}, nil
 }
 
 func (s *stubSys) unimplemented(method string) {
@@ -57,7 +52,7 @@ func (s *stubSys) DefaultLibraryPath() string {
 }
 
 func (s *stubSys) GetCurrentDirectory() string {
-	return s.cwd
+	return "/"
 }
 
 func (s *stubSys) WriteOutputIsTTY() bool {
