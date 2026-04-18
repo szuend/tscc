@@ -76,7 +76,7 @@ func BuildParsedCommandLine(cfg *config.Config) (*tsccbridge.ParsedCommandLine, 
 
 **Implementation of `stubSys`** in `cmd/tscc/sys.go` — surface methods one at a time matching the 92287de pattern. Step 3 lands:
 - `FS()` → `tsccbridge.OSFS()`
-- `GetCurrentDirectory()` → `os.Getwd()` (cached at `stubSys` construction)
+- `GetCurrentDirectory()` → `""` or `"/"` (per design §4 and Vision §4, the core only sees absolute paths. Wiring `os.Getwd()` here leaks ambient host state into diagnostics or trace paths if a relative path slips through).
 - `DefaultLibraryPath()` → `tsccbridge.DefaultLibPath()`
 
 Other `stubSys` methods stay `unimplemented()` until something actually calls them.
@@ -218,3 +218,4 @@ These are specified in `design/02-deterministic-resolution.md` but don't belong 
 - **`DefaultLibraryPath`** — `bundled.LibPath()` returns a path inside the tsgo module. Confirm the lib files are actually readable at that path at runtime (they may be embedded and require the `embedded` build tag).
 - **Multi-file inputs** — `tscc` is currently single-input by design (`config.Parse` rejects multiple positional args). Revisit if/when build systems need to pass multiple roots in one invocation.
 - **Incremental / watch mode** — out of scope. `tscc`'s niche is one-shot invocation from a build system; the build system handles incrementality via `--out-depsfile`.
+y via `--out-depsfile`.

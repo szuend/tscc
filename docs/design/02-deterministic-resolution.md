@@ -154,4 +154,6 @@ Because `--path` must be specified for every transitive dependency, real invocat
 6.  **Pin Compiler Options Programmatically**: Set `Types = []string{}`, `TypeRoots = []string{}`, `TypingsLocation = ""`, `ProjectReferences = nil`, `SingleThreaded = true`, and `Module = ModuleKindESNext` (or caller-specified ESM-compatible kind) at the point where `CompilerOptions` is constructed. CLI flags cannot be trusted to produce these values.
 7.  **Implement Path Prefix Map**: A pass (or emitter/tracer hooks) that applies `--path-prefix-map` substitutions to every site enumerated in §9. Longest-match wins, ties broken by flag declaration order.
 8.  **Stable Sort at Every Emit Site**: Any list derived from a Go `map` (e.g., `resolvedModules`) is sorted by path lexicographic order (post-prefix-map) before serialization.
+9.  **Resolve Relative Paths**: Resolve all relative paths against `os.Getwd()` at argument parsing before passing them to the compiler core. Reject relative paths leaking into the compiler core.
+cographic order (post-prefix-map) before serialization.
 9.  **Enforce Absolute Paths**: Reject relative paths at argument parsing for every path-shaped flag.
