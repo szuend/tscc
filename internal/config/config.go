@@ -30,6 +30,12 @@ type Config struct {
 	Target    string
 	InputPath string
 	OutJSPath string
+
+	// CaseSensitivePaths pins the value returned by
+	// UseCaseSensitiveFileNames() on every FS the compiler observes.
+	// Design §6 requires this to be caller-pinned so tspath.Path keys
+	// are identical across hosts (macOS/Windows sniffers disagree).
+	CaseSensitivePaths bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -98,6 +104,7 @@ func buildGroups(cfg *Config) []flagGroup {
 	return []flagGroup{
 		languageGroup(cfg),
 		typeCheckingGroup(cfg),
+		resolutionGroup(cfg),
 		outputGroup(cfg),
 	}
 }
@@ -112,6 +119,12 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("type-checking", pflag.ContinueOnError)
 	g.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
 	return flagGroup{Name: "Type Checking", Set: g}
+}
+
+func resolutionGroup(cfg *Config) flagGroup {
+	g := pflag.NewFlagSet("resolution", pflag.ContinueOnError)
+	g.BoolVar(&cfg.CaseSensitivePaths, "case-sensitive-paths", true, "Treat filesystem paths as case-sensitive when keying the compiler's path cache. Pin this across all hosts to avoid macOS/Windows divergence")
+	return flagGroup{Name: "Module Resolution", Set: g}
 }
 
 func outputGroup(cfg *Config) flagGroup {

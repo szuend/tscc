@@ -31,50 +31,65 @@ func TestParse(t *testing.T) {
 			name: "defaults and single input",
 			args: []string{"input.ts"},
 			wantConfig: &Config{
-				Strict:    true,
-				Target:    "es2025",
-				InputPath: "input.ts",
-				OutJSPath: "",
+				Strict:             true,
+				Target:             "es2025",
+				InputPath:          "input.ts",
+				OutJSPath:          "",
+				CaseSensitivePaths: true,
+			},
+		},
+		{
+			name: "case-sensitive-paths opt-out",
+			args: []string{"--case-sensitive-paths=false", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: false,
 			},
 		},
 		{
 			name: "override flags",
 			args: []string{"--target", "es2015", "--strict=false", "foo.ts"},
 			wantConfig: &Config{
-				Strict:    false,
-				Target:    "es2015",
-				InputPath: "foo.ts",
-				OutJSPath: "",
+				Strict:             false,
+				Target:             "es2015",
+				InputPath:          "foo.ts",
+				OutJSPath:          "",
+				CaseSensitivePaths: true,
 			},
 		},
 		{
 			name: "negated boolean flag",
 			args: []string{"--no-strict", "bar.ts"},
 			wantConfig: &Config{
-				Strict:    false,
-				Target:    "es2025",
-				InputPath: "bar.ts",
-				OutJSPath: "",
+				Strict:             false,
+				Target:             "es2025",
+				InputPath:          "bar.ts",
+				OutJSPath:          "",
+				CaseSensitivePaths: true,
 			},
 		},
 		{
 			name: "output flag",
 			args: []string{"-o", "out.js", "in.ts"},
 			wantConfig: &Config{
-				Strict:    true,
-				Target:    "es2025",
-				InputPath: "in.ts",
-				OutJSPath: "out.js",
+				Strict:             true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				OutJSPath:          "out.js",
+				CaseSensitivePaths: true,
 			},
 		},
 		{
 			name: "output flag long",
 			args: []string{"--out-js", "dist/bundle.js", "src/main.ts"},
 			wantConfig: &Config{
-				Strict:    true,
-				Target:    "es2025",
-				InputPath: "src/main.ts",
-				OutJSPath: "dist/bundle.js",
+				Strict:             true,
+				Target:             "es2025",
+				InputPath:          "src/main.ts",
+				OutJSPath:          "dist/bundle.js",
+				CaseSensitivePaths: true,
 			},
 		},
 		{
@@ -113,6 +128,9 @@ func TestParse(t *testing.T) {
 			if got.Target != tt.wantConfig.Target {
 				t.Errorf("Target: got %q, want %q", got.Target, tt.wantConfig.Target)
 			}
+			if got.CaseSensitivePaths != tt.wantConfig.CaseSensitivePaths {
+				t.Errorf("CaseSensitivePaths: got %v, want %v", got.CaseSensitivePaths, tt.wantConfig.CaseSensitivePaths)
+			}
 
 			wantInput := tt.wantConfig.InputPath
 			if wantInput != "" {
@@ -132,3 +150,4 @@ func TestParse(t *testing.T) {
 		})
 	}
 }
+
