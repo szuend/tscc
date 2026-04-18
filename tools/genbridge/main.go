@@ -61,10 +61,19 @@ type Tristate            = core.Tristate
 type ParsedCommandLine   = tsoptions.ParsedCommandLine
 type ComparePathsOptions = tspath.ComparePathsOptions
 type CompilerHost        = compiler.CompilerHost
+type ProgramOptions      = compiler.ProgramOptions
+type Program             = compiler.Program
+type EmitOptions         = compiler.EmitOptions
+type EmitResult          = compiler.EmitResult
+type WriteFile           = compiler.WriteFile
+type WriteFileData       = compiler.WriteFileData
 
 // NewParsedCommandLine bundles CompilerOptions with the root file list and
 // path-comparison settings, ready to feed into compiler.NewProgram.
 var NewParsedCommandLine = tsoptions.NewParsedCommandLine
+
+// NewProgram creates a new TypeScript compilation program.
+var NewProgram = compiler.NewProgram
 
 // CompilerHost constructors. NewCachedFSCompilerHost wraps its FS in a cache;
 // NewCompilerHost uses the FS as-is.
@@ -72,6 +81,12 @@ var (
 	NewCompilerHost        = compiler.NewCompilerHost
 	NewCachedFSCompilerHost = compiler.NewCachedFSCompilerHost
 )
+
+// CreateCompilerHost is a simplified constructor for tscc that passes nil for
+// the caches and trace functions that tscc doesn't use yet.
+func CreateCompilerHost(cwd string, fs FS, defaultLibPath string) CompilerHost {
+	return compiler.NewCompilerHost(cwd, fs, defaultLibPath, nil, nil)
+}
 
 // OSFS returns the live OS-backed vfs.FS.
 var OSFS = osvfs.FS
@@ -111,6 +126,13 @@ const (
 	ScriptTargetES2024 ScriptTarget = core.ScriptTargetES2024
 	ScriptTargetES2025 ScriptTarget = core.ScriptTargetES2025
 	ScriptTargetESNext ScriptTarget = core.ScriptTargetESNext
+)
+
+// ModuleKind API types.
+type ModuleKind = core.ModuleKind
+
+const (
+	ModuleKindESNext ModuleKind = core.ModuleKindESNext
 )
 
 // Tristate constants.
