@@ -36,6 +36,15 @@ type Config struct {
 	// Design §6 requires this to be caller-pinned so tspath.Path keys
 	// are identical across hosts (macOS/Windows sniffers disagree).
 	CaseSensitivePaths bool
+
+	// Paths maps bare import specifier → absolute file path. Populated by
+	// repeated --path NAME=/abs/path flags. Design §4: bare specifiers are
+	// denied unless explicitly mapped here.
+	Paths map[string]string
+
+	// rawPaths holds the unparsed --path arguments; populated by pflag and
+	// consumed in Parse to build Paths.
+	rawPaths []string
 }
 
 func Parse(args []string) (*Config, error) {
@@ -92,6 +101,32 @@ func Parse(args []string) (*Config, error) {
 		cfg.OutJSPath = absOutput
 	}
 
+	// --path NAME=/abs/path ; absolute targets only, duplicates rejected.
+	// Design §4 requires one-to-one mappings we can audit deterministically;
+	// accepting relative targets or duplicate names reintroduces ambiguity.
+	paths := make(map[string]string, len(cfg.rawPaths))
+	for _, raw := range cfg.rawPaths {
+		eq := strings.IndexByte(raw, '=')
+		if eq <= 0 {
+			return nil, fmt.Errorf("invalid --path %q: expected NAME=/abs/path", raw)
+		}
+		name, target := raw[:eq], raw[eq+1:]
+		if name == "" || target == "" {
+			return nil, fmt.Errorf("invalid --path %q: expected NAME=/abs/path", raw)
+		}
+		if !filepath.IsAbs(target) {
+			return nil, fmt.Errorf("--path %s: target must be absolute, got %q", name, target)
+		}
+		if _, dup := paths[name]; dup {
+			return nil, fmt.Errorf("--path %s specified more than once", name)
+		}
+		paths[name] = filepath.ToSlash(target)
+	}
+	if len(paths) > 0 {
+		cfg.Paths = paths
+	}
+	cfg.rawPaths = nil
+
 	return cfg, nil
 }
 
@@ -123,6 +158,7 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 
 func resolutionGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("resolution", pflag.ContinueOnError)
+	g.StringArrayVar(&cfg.rawPaths, "path", nil, "Map a bare import specifier to an absolute file path: `NAME=/abs/path`. Repeat for each dependency. Bare imports without a mapping are denied.")
 	g.BoolVar(&cfg.CaseSensitivePaths, "case-sensitive-paths", true, "Treat filesystem paths as case-sensitive when keying the compiler's path cache. Pin this across all hosts to avoid macOS/Windows divergence")
 	return flagGroup{Name: "Module Resolution", Set: g}
 }

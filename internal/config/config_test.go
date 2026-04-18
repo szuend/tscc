@@ -102,6 +102,21 @@ func TestParse(t *testing.T) {
 			args:        []string{"a.ts", "b.ts"},
 			wantErrText: "too many input files specified: [a.ts b.ts]",
 		},
+		{
+			name:        "path target must be absolute",
+			args:        []string{"--path", "lib=./vendor/lib.d.ts", "in.ts"},
+			wantErrText: "target must be absolute",
+		},
+		{
+			name:        "path missing equals",
+			args:        []string{"--path", "lib", "in.ts"},
+			wantErrText: "expected NAME=/abs/path",
+		},
+		{
+			name:        "path duplicate name",
+			args:        []string{"--path", "lib=/a", "--path", "lib=/b", "in.ts"},
+			wantErrText: "specified more than once",
+		},
 	}
 
 	for _, tt := range tests {
@@ -151,3 +166,15 @@ func TestParse(t *testing.T) {
 	}
 }
 
+func TestParse_PathMap(t *testing.T) {
+	cfg, err := Parse([]string{"--path", "lib=/vendor/lib.d.ts", "--path", "utils=/vendor/utils/index.d.ts", "in.ts"})
+	if err != nil {
+		t.Fatalf("Parse error: %v", err)
+	}
+	if got, want := cfg.Paths["lib"], "/vendor/lib.d.ts"; got != want {
+		t.Errorf("Paths[lib]: got %q, want %q", got, want)
+	}
+	if got, want := cfg.Paths["utils"], "/vendor/utils/index.d.ts"; got != want {
+		t.Errorf("Paths[utils]: got %q, want %q", got, want)
+	}
+}
