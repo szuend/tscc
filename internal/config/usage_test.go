@@ -60,7 +60,7 @@ func TestPrintUsage(t *testing.T) {
 
 	t.Run("flag appears under its group", func(t *testing.T) {
 		mustContainAfter(t, out, "Type Checking:", "--strict")
-		mustContainAfter(t, out, "Output:", "--output")
+		mustContainAfter(t, out, "Output:", "--out-js")
 		mustContainAfter(t, out, "Language and Environment:", "--target")
 	})
 

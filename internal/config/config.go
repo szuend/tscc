@@ -26,10 +26,10 @@ import (
 )
 
 type Config struct {
-	Strict     bool
-	Target     string
-	InputPath  string
-	OutputPath string
+	Strict    bool
+	Target    string
+	InputPath string
+	OutJSPath string
 }
 
 func Parse(args []string) (*Config, error) {
@@ -78,12 +78,12 @@ func Parse(args []string) (*Config, error) {
 	}
 	cfg.InputPath = absInput
 
-	if cfg.OutputPath != "" {
-		absOutput, err := filepath.Abs(cfg.OutputPath)
+	if cfg.OutJSPath != "" {
+		absOutput, err := filepath.Abs(cfg.OutJSPath)
 		if err != nil {
 			return nil, fmt.Errorf("resolve output path: %w", err)
 		}
-		cfg.OutputPath = absOutput
+		cfg.OutJSPath = absOutput
 	}
 
 	return cfg, nil
@@ -116,6 +116,6 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 
 func outputGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
-	g.StringVarP(&cfg.OutputPath, "output", "o", "", "Write JavaScript output to `FILE`")
+	g.StringVarP(&cfg.OutJSPath, "out-js", "o", "", "Write JavaScript output to `FILE`")
 	return flagGroup{Name: "Output", Set: g}
 }

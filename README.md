@@ -17,8 +17,8 @@ Hermetic build systems (Bazel, Make, Ninja, Buck) need to own the dependency gra
 `tscc` is designed for exactly this:
 
 - **Explicit inputs and outputs.** No tsconfig discovery, no directory walking, no ambient project state. What you pass on the command line is what gets compiled.
-- **One file in, deterministic files out.** Each invocation produces only what you asked for: `.js` (`--output`), `.d.ts` (`--out-dts`), sourcemap (`--out-sourcemap`), depsfile (`--out-depsfile`), or any combination.
-- **Depsfile output.** `--out-depsfile` writes a Makefile-compatible `.d` file listing every TypeScript source the compiler transitively read. Feed it to `make`, `ninja`, or your Bazel action to get correct incremental builds for free.
+- **One file in, deterministic files out.** Each invocation produces only what you asked for: `.js` (`--out-js`), `.d.ts` (`--out-dts`), sourcemap (`--out-map`), depsfile (`--out-deps`), or any combination.
+- **Depsfile output.** `--out-deps` writes a Makefile-compatible `.d` file listing every TypeScript source the compiler transitively read. Feed it to `make`, `ninja`, or your Bazel action to get correct incremental builds for free.
 
 ## Usage
 
@@ -26,19 +26,19 @@ Hermetic build systems (Bazel, Make, Ninja, Buck) need to own the dependency gra
 
 ```bash
 # Compile a single file to JS
-tscc --target es2022 --module esnext --output dist/index.js src/index.ts
+tscc --target es2022 --module esnext --out-js dist/index.js src/index.ts
 
 # Also emit a declaration file and sourcemap
 tscc --target es2022 --module esnext \
-  --output dist/index.js \
+  --out-js dist/index.js \
   --out-dts dist/index.d.ts \
-  --out-sourcemap dist/index.js.map \
+  --out-map dist/index.js.map \
   src/index.ts
 
 # Write a depsfile so your build system tracks transitive imports
 tscc --target es2022 --module esnext \
-  --output dist/index.js \
-  --out-depsfile dist/index.d \
+  --out-js dist/index.js \
+  --out-deps dist/index.d \
   src/index.ts
 ```
 

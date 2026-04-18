@@ -32,7 +32,7 @@ Five principles derive from the invariant. Each answers a "why does tscc behave 
 
 **4. The core only sees absolute paths.** To support build systems like GN and Ninja which execute commands from a fixed build directory and rely heavily on relative paths, `tscc` allows relative paths on the command line. However, the CLI layer immediately resolves these against `os.Getwd()` before passing them to the compiler core. The compiler engine itself never sees a relative path, never consults the working directory, and never performs upward directory walks. Because paths become absolute internally, build systems must still use `--path-prefix-map` to ensure emitted paths (in source maps, `.d.ts` files, etc.) remain machine-independent.
 
-**5. The build system owns incrementality.** `tscc` is single-shot: one invocation, one compilation, no cache state carried across runs. Incremental rebuilds are the build system's job, driven by `--out-depsfile` (a Makefile-compatible list of every source file the compiler transitively read). This is a division of responsibility, not a limitation. Bazel, Ninja, and Make already solve incrementality correctly. Duplicating that inside the compiler would expand the determinism surface without adding capability.
+**5. The build system owns incrementality.** `tscc` is single-shot: one invocation, one compilation, no cache state carried across runs. Incremental rebuilds are the build system's job, driven by `--out-deps` (a Makefile-compatible list of every source file the compiler transitively read). This is a division of responsibility, not a limitation. Bazel, Ninja, and Make already solve incrementality correctly. Duplicating that inside the compiler would expand the determinism surface without adding capability.
 
 ## Explicit non-goals
 
@@ -50,7 +50,7 @@ These are not "future work." They are deliberately out of scope. Features that c
 
 ## Positioning
 
-- **vs `tsc` / `tsgo`**: `tscc` uses `typescript-go` as its compilation core, so type-checking semantics are identical to `tsc`. The difference is what sits around the core: `tscc` strips the project system (tsconfig discovery, file globbing, ambient types) and adds build-system outputs (`--out-depsfile`, explicit I/O flags). Use `tsc` for projects; use `tscc` for build rules.
+- **vs `tsc` / `tsgo`**: `tscc` uses `typescript-go` as its compilation core, so type-checking semantics are identical to `tsc`. The difference is what sits around the core: `tscc` strips the project system (tsconfig discovery, file globbing, ambient types) and adds build-system outputs (`--out-deps`, explicit I/O flags). Use `tsc` for projects; use `tscc` for build rules.
 - **vs `swc` / `esbuild`**: those tools transpile fast by skipping type checking. `tscc` does full type checking — build correctness depends on it. If you want a fast bundler, those are the right tools. If you want a build-system-native type checker, `tscc` is.
 - **vs Bazel's `rules_nodejs` / `aspect_rules_ts`**: those are build rules that wrap an existing compiler. `tscc` is the compiler those rules should wrap. The two projects sit at different layers of the stack.
 

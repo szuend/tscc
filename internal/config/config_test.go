@@ -31,50 +31,50 @@ func TestParse(t *testing.T) {
 			name: "defaults and single input",
 			args: []string{"input.ts"},
 			wantConfig: &Config{
-				Strict:     true,
-				Target:     "es2025",
-				InputPath:  "input.ts",
-				OutputPath: "",
+				Strict:    true,
+				Target:    "es2025",
+				InputPath: "input.ts",
+				OutJSPath: "",
 			},
 		},
 		{
 			name: "override flags",
 			args: []string{"--target", "es2015", "--strict=false", "foo.ts"},
 			wantConfig: &Config{
-				Strict:     false,
-				Target:     "es2015",
-				InputPath:  "foo.ts",
-				OutputPath: "",
+				Strict:    false,
+				Target:    "es2015",
+				InputPath: "foo.ts",
+				OutJSPath: "",
 			},
 		},
 		{
 			name: "negated boolean flag",
 			args: []string{"--no-strict", "bar.ts"},
 			wantConfig: &Config{
-				Strict:     false,
-				Target:     "es2025",
-				InputPath:  "bar.ts",
-				OutputPath: "",
+				Strict:    false,
+				Target:    "es2025",
+				InputPath: "bar.ts",
+				OutJSPath: "",
 			},
 		},
 		{
 			name: "output flag",
 			args: []string{"-o", "out.js", "in.ts"},
 			wantConfig: &Config{
-				Strict:     true,
-				Target:     "es2025",
-				InputPath:  "in.ts",
-				OutputPath: "out.js",
+				Strict:    true,
+				Target:    "es2025",
+				InputPath: "in.ts",
+				OutJSPath: "out.js",
 			},
 		},
 		{
 			name: "output flag long",
-			args: []string{"--output", "dist/bundle.js", "src/main.ts"},
+			args: []string{"--out-js", "dist/bundle.js", "src/main.ts"},
 			wantConfig: &Config{
-				Strict:     true,
-				Target:     "es2025",
-				InputPath:  "src/main.ts",
-				OutputPath: "dist/bundle.js",
+				Strict:    true,
+				Target:    "es2025",
+				InputPath: "src/main.ts",
+				OutJSPath: "dist/bundle.js",
 			},
 		},
 		{
@@ -122,12 +122,12 @@ func TestParse(t *testing.T) {
 				t.Errorf("InputPath: got %q, want %q", got.InputPath, wantInput)
 			}
 
-			wantOutput := tt.wantConfig.OutputPath
+			wantOutput := tt.wantConfig.OutJSPath
 			if wantOutput != "" {
 				wantOutput, _ = filepath.Abs(wantOutput)
 			}
-			if got.OutputPath != wantOutput {
-				t.Errorf("OutputPath: got %q, want %q", got.OutputPath, wantOutput)
+			if got.OutJSPath != wantOutput {
+				t.Errorf("OutJSPath: got %q, want %q", got.OutJSPath, wantOutput)
 			}
 		})
 	}
