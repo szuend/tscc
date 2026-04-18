@@ -28,7 +28,6 @@ func TestMain(m *testing.M) {
 }
 
 func TestScript(t *testing.T) {
-	t.Skip("Skipping E2E tests during implementation phase")
 	testscript.Run(t, testscript.Params{
 		Dir:           "testdata",
 		UpdateScripts: os.Getenv("TSCC_UPDATE_TESTDATA") == "1",

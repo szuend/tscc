@@ -1,6 +1,7 @@
-# "use strict" is emitted by default.
-exec tscc --target es2015 a.ts
-! stderr .
+# Strict mode makes `var arguments = []` a compile error, but tsc still emits
+# the JS (matching upstream baseline alwaysStrict.errors.txt / alwaysStrict.js).
+! exec tscc --target es2015 a.ts
+stderr 'TS1100'
 cmp a.js a.js.golden
 
 -- a.ts --

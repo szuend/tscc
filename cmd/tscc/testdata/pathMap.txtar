@@ -1,0 +1,15 @@
+# --path maps a bare specifier to an absolute file path. The target lives under
+# node_modules, which the jailed FS blocks — exercising the dual-FS split
+# (design §7): discovery is jailed, but GetSourceFile reads via the raw FS.
+exec tscc --target es2022 --path lodash=$WORK/node_modules/lodash/index.d.ts a.ts
+! stderr .
+cmp a.js a.js.golden
+
+-- a.ts --
+import x from "lodash";
+export const y: string = x.foo;
+-- node_modules/lodash/index.d.ts --
+declare const x: { foo: string }; export = x;
+-- a.js.golden --
+import x from "lodash";
+export const y = x.foo;

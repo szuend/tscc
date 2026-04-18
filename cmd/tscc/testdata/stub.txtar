@@ -1,6 +1,0 @@
-# tscc is not yet implemented. Exits non-zero with a message on stderr.
-! exec tscc a.ts
-stderr 'not yet implemented'
-
--- a.ts --
-export const x: number = 1;

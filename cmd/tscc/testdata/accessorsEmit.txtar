@@ -1,5 +1,6 @@
 # Class getter/setter accessors are emitted correctly at es2015 target.
-exec tscc --target es2015 a.ts
+# Upstream directive: // @strict: false — so we pass --no-strict.
+exec tscc --target es2015 --no-strict a.ts
 ! stderr .
 cmp a.js a.js.golden
 
