@@ -38,6 +38,8 @@ import (
 	"github.com/microsoft/typescript-go/internal/core"
 	"github.com/microsoft/typescript-go/internal/execute"
 	"github.com/microsoft/typescript-go/internal/execute/tsc"
+	"github.com/microsoft/typescript-go/internal/module"
+	"github.com/microsoft/typescript-go/internal/packagejson"
 	"github.com/microsoft/typescript-go/internal/tsoptions"
 	"github.com/microsoft/typescript-go/internal/tspath"
 	"github.com/microsoft/typescript-go/internal/vfs"
@@ -67,6 +69,13 @@ type EmitOptions         = compiler.EmitOptions
 type EmitResult          = compiler.EmitResult
 type WriteFile           = compiler.WriteFile
 type WriteFileData       = compiler.WriteFileData
+type ModuleResolver      = module.ModuleResolver
+type ResolutionMode      = core.ResolutionMode
+type ResolvedModule      = module.ResolvedModule
+type ResolvedProjectReference = module.ResolvedProjectReference
+type ResolvedTypeReferenceDirective = module.ResolvedTypeReferenceDirective
+type DiagAndArgs         = module.DiagAndArgs
+type InfoCacheEntry      = packagejson.InfoCacheEntry
 
 // NewParsedCommandLine bundles CompilerOptions with the root file list and
 // path-comparison settings, ready to feed into compiler.NewProgram.
@@ -163,6 +172,33 @@ func main() {
 	}
 
 	fmt.Printf("genbridge: wrote %s\n", outFile)
+
+	patchFile := filepath.Join(moduleRoot, "patches", "inject-resolver.patch")
+	tsgoDir := filepath.Join(moduleRoot, "third_party", "typescript-go")
+	if err := applyPatch(tsgoDir, patchFile); err != nil {
+		fmt.Fprintf(os.Stderr, "genbridge: %v\n", err)
+		os.Exit(1)
+	}
+}
+
+func applyPatch(dir, patchFile string) error {
+	// Check if already applied by trying a reverse patch dry-run
+	cmdCheck := exec.Command("git", "apply", "--reverse", "--check", patchFile)
+	cmdCheck.Dir = dir
+	if err := cmdCheck.Run(); err == nil {
+		// Reverse patch applies cleanly, meaning the patch is already applied
+		return nil
+	}
+
+	// Not applied, let's apply it
+	cmdApply := exec.Command("git", "apply", patchFile)
+	cmdApply.Dir = dir
+	out, err := cmdApply.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("failed to apply patch %s: %v\n%s", patchFile, err, out)
+	}
+	fmt.Printf("genbridge: applied patch %s\n", filepath.Base(patchFile))
+	return nil
 }
 
 // findModuleRoot returns the directory containing the go.mod for

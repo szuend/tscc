@@ -1,0 +1,70 @@
+diff --git a/internal/compiler/fileloader.go b/internal/compiler/fileloader.go
+index 8bda8dfed..0c9175cf4 100644
+--- a/internal/compiler/fileloader.go
++++ b/internal/compiler/fileloader.go
+@@ -36,7 +36,7 @@ type sourceFileFromReferenceDiagnostic struct {
+ 
+ type fileLoader struct {
+ 	opts                                           ProgramOptions
+-	resolver                                       *module.Resolver
++	resolver                                       module.ModuleResolver
+ 	defaultLibraryPath                             string
+ 	comparePathsOptions                            tspath.ComparePathsOptions
+ 	supportedExtensions                            [][]string
+@@ -83,7 +83,7 @@ func (r *redirectsFile) Path() tspath.Path {
+ }
+ 
+ type processedFiles struct {
+-	resolver *module.Resolver
++	resolver module.ModuleResolver
+ 	files    []*ast.SourceFile
+ 	// duplicateSourceFiles tracks parsed files loaded during program construction
+ 	// that were later dropped from the final program, such as losing filename
+@@ -146,7 +146,11 @@ func processAllProgramFiles(
+ 		supportedExtensionsWithJsonIfResolveJsonModule: supportedExtensionsWithJsonIfResolveJsonModule,
+ 	}
+ 	loader.addProjectReferenceTasks(singleThreaded)
+-	loader.resolver = module.NewResolver(loader.projectReferenceFileMapper.host, compilerOptions, opts.TypingsLocation, opts.ProjectName)
++	if opts.Resolver != nil {
++		loader.resolver = opts.Resolver
++	} else {
++		loader.resolver = module.NewResolver(loader.projectReferenceFileMapper.host, compilerOptions, opts.TypingsLocation, opts.ProjectName)
++	}
+ 	for index, rootFile := range rootFiles {
+ 		loader.addRootTask(rootFile, nil, &FileIncludeReason{kind: fileIncludeKindRootFile, data: index})
+ 	}
+diff --git a/internal/compiler/program.go b/internal/compiler/program.go
+index 2f3aa3024..520b2604f 100644
+--- a/internal/compiler/program.go
++++ b/internal/compiler/program.go
+@@ -34,6 +34,7 @@ import (
+ type ProgramOptions struct {
+ 	Host                        CompilerHost
+ 	Config                      *tsoptions.ParsedCommandLine
++	Resolver                    module.ModuleResolver
+ 	UseSourceOfProjectReference bool
+ 	SingleThreaded              core.Tristate
+ 	CreateCheckerPool           func(*Program) CheckerPool
+diff --git a/internal/module/resolver.go b/internal/module/resolver.go
+index 9b167bfe6..493586b9f 100644
+--- a/internal/module/resolver.go
++++ b/internal/module/resolver.go
+@@ -148,6 +148,18 @@ func GetCompilerOptionsWithRedirect(compilerOptions *core.CompilerOptions, redir
+ 	return compilerOptions
+ }
+ 
++type ModuleResolver interface {
++	GetPackageScopeForPath(directory string) *packagejson.InfoCacheEntry
++	ResolvePackageDirectory(moduleName string, containingFile string, resolutionMode core.ResolutionMode, redirectedReference ResolvedProjectReference) *ResolvedModule
++	ResolveModuleName(moduleName string, containingFile string, resolutionMode core.ResolutionMode, redirectedReference ResolvedProjectReference) (*ResolvedModule, []DiagAndArgs)
++	ResolveTypeReferenceDirective(
++		typeReferenceDirectiveName string,
++		containingFile string,
++		resolutionMode core.ResolutionMode,
++		redirectedReference ResolvedProjectReference,
++	) (*ResolvedTypeReferenceDirective, []DiagAndArgs)
++}
++
+ type Resolver struct {
+ 	caches
+ 	host            ResolutionHost
