@@ -8,13 +8,13 @@ The compilation-pipeline lift ([`roadmap-lift-compilation.md`](roadmap-lift-comp
 
 ## What this roadmap covers
 
-Five milestones that make `tscc` usable as a real build-system compiler and testable against the broader TypeScript corpus:
+Five milestones that make `tscc` usable as a real build-system compiler and testable against the broader TypeScript corpus. Each has its own design doc — the sections below are the sequencing plan; binding specs live in the linked docs.
 
-1. `--out-deps` — the headline feature, unscaffolded today.
-2. `--module` — `compile.go:68` silently hardcodes `ModuleKindESNext`; removing that unblocks ~hundreds of upstream tests.
-3. `--out-dts` — declaration emit; ~688 upstream cases gate on it.
-4. A corpus porting tool — 4 hand-written `.txtar` fixtures are not a scalable base.
-5. `--out-map` — last of the standard output flags named in the lift roadmap.
+1. `--out-deps` — the headline feature, unscaffolded today. Spec: [`design/03-out-deps.md`](design/03-out-deps.md).
+2. `--module` — `compile.go:68` silently hardcodes `ModuleKindESNext`; removing that unblocks ~hundreds of upstream tests. Spec: [`design/04-module-flag.md`](design/04-module-flag.md).
+3. `--out-dts` — declaration emit; ~688 upstream cases gate on it. Spec: [`design/05-out-dts.md`](design/05-out-dts.md).
+4. A corpus porting tool — 4 hand-written `.txtar` fixtures are not a scalable base. Spec: [`design/06-portcase.md`](design/06-portcase.md).
+5. `--out-map` — last of the standard output flags named in the lift roadmap. Spec: [`design/07-out-map.md`](design/07-out-map.md).
 
 Each milestone is several tiny commits. No milestone regresses the others; after each, `go test ./...` and `go vet ./...` stay green and `./tscc --help` shows the new flag.
 
