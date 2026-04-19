@@ -93,6 +93,17 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "out-deps flag",
+			args: []string{"--out-deps", "dist/bundle.d", "src/main.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				Target:             "es2025",
+				InputPath:          "src/main.ts",
+				OutDepsPath:        "dist/bundle.d",
+				CaseSensitivePaths: true,
+			},
+		},
+		{
 			name:        "missing input",
 			args:        []string{"--target", "es2022"},
 			wantErrText: "no input file specified",
@@ -161,6 +172,14 @@ func TestParse(t *testing.T) {
 			}
 			if got.OutJSPath != wantOutput {
 				t.Errorf("OutJSPath: got %q, want %q", got.OutJSPath, wantOutput)
+			}
+
+			wantDeps := tt.wantConfig.OutDepsPath
+			if wantDeps != "" {
+				wantDeps, _ = filepath.Abs(wantDeps)
+			}
+			if got.OutDepsPath != wantDeps {
+				t.Errorf("OutDepsPath: got %q, want %q", got.OutDepsPath, wantDeps)
 			}
 		})
 	}

@@ -26,10 +26,11 @@ import (
 )
 
 type Config struct {
-	Strict    bool
-	Target    string
-	InputPath string
-	OutJSPath string
+	Strict      bool
+	Target      string
+	InputPath   string
+	OutJSPath   string
+	OutDepsPath string
 
 	// CaseSensitivePaths pins the value returned by
 	// UseCaseSensitiveFileNames() on every FS the compiler observes.
@@ -101,6 +102,14 @@ func Parse(args []string) (*Config, error) {
 		cfg.OutJSPath = absOutput
 	}
 
+	if cfg.OutDepsPath != "" {
+		absDeps, err := filepath.Abs(cfg.OutDepsPath)
+		if err != nil {
+			return nil, fmt.Errorf("resolve depsfile path: %w", err)
+		}
+		cfg.OutDepsPath = absDeps
+	}
+
 	// --path NAME=/abs/path ; absolute targets only, duplicates rejected.
 	// Design §4 requires one-to-one mappings we can audit deterministically;
 	// accepting relative targets or duplicate names reintroduces ambiguity.
@@ -166,5 +175,6 @@ func resolutionGroup(cfg *Config) flagGroup {
 func outputGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
 	g.StringVarP(&cfg.OutJSPath, "out-js", "o", "", "Write JavaScript output to `FILE`")
+	g.StringVar(&cfg.OutDepsPath, "out-deps", "", "Write a Make-compatible dependency snippet for the transitive input set to `FILE`")
 	return flagGroup{Name: "Output", Set: g}
 }
