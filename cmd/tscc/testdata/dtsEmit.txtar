@@ -1,0 +1,11 @@
+# Test emitting both .js and .d.ts
+exec tscc --out-js a.js --out-dts a.d.ts a.ts
+cmp a.js a.js.golden
+cmp a.d.ts a.d.ts.golden
+
+-- a.ts --
+export const x: string = "hello";
+-- a.js.golden --
+export const x = "hello";
+-- a.d.ts.golden --
+export declare const x: string;

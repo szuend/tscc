@@ -1,0 +1,9 @@
+# Test emitting only .d.ts
+exec tscc --out-dts a.d.ts a.ts
+! exists a.js
+cmp a.d.ts a.d.ts.golden
+
+-- a.ts --
+export const x: string = "hello";
+-- a.d.ts.golden --
+export declare const x: string;

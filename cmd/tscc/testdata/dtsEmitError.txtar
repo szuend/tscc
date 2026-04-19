@@ -1,0 +1,8 @@
+# Test that type errors suppress .d.ts emit
+! exec tscc --out-js a.js --out-dts a.d.ts a.ts
+! exists a.js
+! exists a.d.ts
+stderr 'TS2322'
+
+-- a.ts --
+export const x: number = "hello";

@@ -1,0 +1,8 @@
+# Test that declaration emit errors (TS4XXX) fail the compile.
+! exec tscc --out-js a.js --out-dts a.d.ts --module commonjs a.ts
+! exists a.js
+! exists a.d.ts
+stderr 'TS4094'
+
+-- a.ts --
+export = class { private p = 1; }
