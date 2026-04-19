@@ -8,6 +8,8 @@ tscc [OPTIONS] FILE
 
 Explicit I/O and depsfile output, built on [typescript-go](https://github.com/microsoft/typescript-go), Microsoft's Go port of the TypeScript compiler.
 
+> **A note on how this project is built.** Both the code and the documentation in this repository are produced with heavy use of generative AI. That is not a disclaimer of responsibility — the author reviews every change, and the project aims squarely at real engineering discipline: a written design doc for every non-trivial feature, an architecture that's been deliberately chosen rather than accreted, and solid end-to-end test coverage as the correctness floor. If something here is wrong, the root cause is a decision that needed to be made better, not "the AI wrote it."
+
 ## Why tscc
 
 `tsc` is a project system: it discovers `tsconfig.json` by walking up the directory tree, infers output paths from project structure, and implicitly resolves modules through `package.json`. That works great in an editor. It works poorly in a build system.
@@ -66,7 +68,7 @@ Requires Go 1.26 or later.
 
 ## Third-party
 
-**[typescript-go](https://github.com/microsoft/typescript-go)** (Apache 2.0, © Microsoft Corporation) — tscc links against typescript-go as a Go module. Its license is at `third_party/typescript-go/LICENSE`.
+**[typescript-go](https://github.com/microsoft/typescript-go)** (Apache 2.0, © Microsoft Corporation) — tscc links against typescript-go as a Go module. Its license is at `third_party/typescript-go/LICENSE`. See [`third_party/README.md`](third_party/README.md) for how the bridge works and how to update the pinned commit.
 
 **[TypeScript](https://github.com/microsoft/TypeScript)** (Apache 2.0, © Microsoft Corporation) — typescript-go vendors TypeScript as a submodule. Its license is at `third_party/typescript-go/_submodules/TypeScript/LICENSE.txt`. Test inputs and expected outputs in `cmd/tscc/testdata/` are derived from the TypeScript compiler test suite.
 
