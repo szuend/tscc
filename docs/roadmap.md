@@ -20,9 +20,11 @@ Each milestone is several tiny commits. No milestone regresses the others; after
 
 ## Milestone 1 — `--out-deps`
 
-**Goal.** A single-shot invocation writes a Make-compatible `.d` file listing every source file the compile consumed: lib files, the input TS, and every transitive import. Build systems consume this to rebuild by content, not timestamp. This is the feature `vision.md §5` calls out as tscc's reason to exist separate from `tsc`.
+**Goal.** A single-shot invocation writes a Make-compatible `.d` file listing every on-disk source file the compile consumed: the input TS, every transitively-imported user source, and any `--path`-mapped targets. Build systems consume this to rebuild by content, not timestamp. This is the feature `vision.md §5` calls out as tscc's reason to exist separate from `tsc`.
 
-**Source of truth for deps.** Walk `program.SourceFiles()`, not `hermeticfs.Reads()`. The jailed-FS read set misses `GetSourceFile` reads that go through the raw FS (design §7), including `--path`-mapped targets. `program.SourceFiles()` is the authoritative transitive set.
+**Lib files are excluded.** `lib.*.d.ts` live inside the tscc binary (via typescript-go's `bundled.WrapFS`); they have no on-disk path a build system can stat. The tscc binary itself is the tool dep, tracked by the build system separately — listing bundled libs as prerequisites is redundant at best and unparseable (the `bundled://` scheme contains `:`, which Make reads as a rule separator) at worst.
+
+**Source of truth for deps.** Walk `program.SourceFiles()` and filter out bundled entries. Not `hermeticfs.Reads()`: the jailed-FS read set misses `GetSourceFile` reads that go through the raw FS (design §7), including `--path`-mapped targets. `program.SourceFiles()` minus bundled is the authoritative transitive set.
 
 **Bridge delta.**
 - Confirm `Program.SourceFiles()` (or equivalent accessor) is exported through `tsccbridge`; extend `tools/genbridge/main.go` if not.
@@ -44,7 +46,7 @@ No FS dependency; unit-testable in isolation.
 
 **Tests.**
 - Unit: `depsfile_test.go` — single input, many inputs, filenames containing spaces / `$` / `:` (Make escape corner cases), empty-inputs error.
-- E2E: `cmd/tscc/testdata/depsfile.txtar` — two-file input with a relative import; assert the `.d` lists both plus the expected `lib.*.d.ts` files.
+- E2E: `cmd/tscc/testdata/depsfile.txtar` — two-file input with a relative import; assert the `.d` lists both user sources and no bundled-lib entries.
 - E2E: `depsfile_pathmap.txtar` — exercises a `--path`-mapped import; confirms the mapped target appears in the deps list (the canary that rawFS reads are counted, not only jailed ones).
 
 **Determinism.** The deps list is a serialized list (design §8). Sort by absolute path before writing. Two invocations with identical inputs must produce byte-identical `.d`.
@@ -160,5 +162,5 @@ Per `vision.md` "Explicit non-goals": watch mode, incremental / `tsbuildinfo`, `
 ## Open questions
 
 - **Depsfile target path under `--out-js`.** If the user passes both `--out-js foo.js` and `--out-deps foo.d`, the depsfile's target should be `foo.js`, not the default output path. Double-check this in M1 by running with and without `--out-js` and diffing.
-- **Lib files in `SourceFiles()`.** Do embedded `lib.*.d.ts` paths surface as their `bundled://` virtual paths, as real host paths, or as something else? The answer determines whether the depsfile is portable across hosts (vision §1). If `bundled://` leaks, M1 must canonicalize.
+- **Detecting bundled source files.** `program.SourceFiles()` mixes user sources with typescript-go's bundled `lib.*.d.ts` entries. M1 needs a reliable predicate — `bundled://` filename prefix, a `FileName`-based check, or a bridge helper. First commit of M1 writes a one-shot probe to pick the rule.
 - **M4 flakiness budget.** Some upstream baselines bake in typescript-go-version-specific error messages or ordering that mechanical porting will trip on. How many ported cases can we tolerate flaking on at import time before the tool needs hardening?
