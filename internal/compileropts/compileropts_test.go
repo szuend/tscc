@@ -87,8 +87,8 @@ func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	if err != nil {
 		t.Fatalf("FromConfig returned error: %v", err)
 	}
-	if got.Module != 0 {
-		t.Errorf("Module should be zero, got %v", got.Module)
+	if got.Module != tsccbridge.ModuleKindESNext {
+		t.Errorf("Module should be ESNext (default), got %v", got.Module)
 	}
 	if got.Declaration != tsccbridge.TSUnknown {
 		t.Errorf("Declaration should be TSUnknown, got %v", got.Declaration)
@@ -98,5 +98,50 @@ func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	}
 	if got.OutFile != "" {
 		t.Errorf("OutFile should be empty, got %q", got.OutFile)
+	}
+}
+
+func TestFromConfigModule(t *testing.T) {
+	tests := []struct {
+		in   string
+		want tsccbridge.ModuleKind
+	}{
+		{"", tsccbridge.ModuleKindESNext},
+		{"none", tsccbridge.ModuleKindNone},
+		{"commonjs", tsccbridge.ModuleKindCommonJS},
+		{"cjs", tsccbridge.ModuleKindCommonJS},
+		{"amd", tsccbridge.ModuleKindAMD},
+		{"umd", tsccbridge.ModuleKindUMD},
+		{"system", tsccbridge.ModuleKindSystem},
+		{"es2015", tsccbridge.ModuleKindES2015},
+		{"es6", tsccbridge.ModuleKindES2015},
+		{"es2020", tsccbridge.ModuleKindES2020},
+		{"es2022", tsccbridge.ModuleKindES2022},
+		{"esnext", tsccbridge.ModuleKindESNext},
+		{"node16", tsccbridge.ModuleKindNode16},
+		{"node18", tsccbridge.ModuleKindNode18},
+		{"node20", tsccbridge.ModuleKindNode20},
+		{"nodenext", tsccbridge.ModuleKindNodeNext},
+		{"preserve", tsccbridge.ModuleKindPreserve},
+		{"CommonJS", tsccbridge.ModuleKindCommonJS},
+		{"COMMONJS", tsccbridge.ModuleKindCommonJS},
+	}
+	for _, tc := range tests {
+		t.Run(tc.in, func(t *testing.T) {
+			got, err := FromConfig(&config.Config{Target: "es2022", Module: tc.in})
+			if err != nil {
+				t.Fatalf("FromConfig returned error: %v", err)
+			}
+			if got.Module != tc.want {
+				t.Errorf("Module = %v, want %v", got.Module, tc.want)
+			}
+		})
+	}
+}
+
+func TestFromConfigUnknownModule(t *testing.T) {
+	_, err := FromConfig(&config.Config{Target: "es2022", Module: "bogus"})
+	if err == nil {
+		t.Fatal("expected error for unknown module, got nil")
 	}
 }

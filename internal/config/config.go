@@ -28,6 +28,7 @@ import (
 type Config struct {
 	Strict      bool
 	Target      string
+	Module      string
 	InputPath   string
 	OutJSPath   string
 	OutDepsPath string
@@ -156,6 +157,7 @@ func buildGroups(cfg *Config) []flagGroup {
 func languageGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("language", pflag.ContinueOnError)
 	g.StringVar(&cfg.Target, "target", "es2025", "Set the JavaScript language `version` for emitted JavaScript (allowed: es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
+	g.StringVar(&cfg.Module, "module", "", "Emitted module system `KIND` (allowed: none, commonjs, amd, umd, system, es2015, es2020, es2022, esnext, node16, node18, node20, nodenext, preserve). Default: esnext.")
 	return flagGroup{Name: "Language and Environment", Set: g}
 }
 

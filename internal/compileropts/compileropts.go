@@ -41,18 +41,47 @@ var targetByName = map[string]tsccbridge.ScriptTarget{
 	"esnext": tsccbridge.ScriptTargetESNext,
 }
 
+var moduleByName = map[string]tsccbridge.ModuleKind{
+	"none":     tsccbridge.ModuleKindNone,
+	"commonjs": tsccbridge.ModuleKindCommonJS,
+	"cjs":      tsccbridge.ModuleKindCommonJS,
+	"amd":      tsccbridge.ModuleKindAMD,
+	"umd":      tsccbridge.ModuleKindUMD,
+	"system":   tsccbridge.ModuleKindSystem,
+	"es2015":   tsccbridge.ModuleKindES2015,
+	"es6":      tsccbridge.ModuleKindES2015,
+	"es2020":   tsccbridge.ModuleKindES2020,
+	"es2022":   tsccbridge.ModuleKindES2022,
+	"esnext":   tsccbridge.ModuleKindESNext,
+	"node16":   tsccbridge.ModuleKindNode16,
+	"node18":   tsccbridge.ModuleKindNode18,
+	"node20":   tsccbridge.ModuleKindNode20,
+	"nodenext": tsccbridge.ModuleKindNodeNext,
+	"preserve": tsccbridge.ModuleKindPreserve,
+}
+
 // FromConfig converts cfg into a *tsccbridge.CompilerOptions. The returned
-// options have Target and Strict set from cfg; every other field keeps its
-// zero value. An unknown --target returns an error.
+// options have Target, Strict, and Module set from cfg; every other field keeps its
+// zero value. An unknown --target or --module returns an error.
 func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 	target, ok := targetByName[strings.ToLower(cfg.Target)]
 	if !ok {
 		return nil, fmt.Errorf("unknown target: %q", cfg.Target)
 	}
 
+	mod := tsccbridge.ModuleKindESNext // default preserves current behavior
+	if cfg.Module != "" {
+		m, ok := moduleByName[strings.ToLower(cfg.Module)]
+		if !ok {
+			return nil, fmt.Errorf("unknown module: %q", cfg.Module)
+		}
+		mod = m
+	}
+
 	return &tsccbridge.CompilerOptions{
 		Target: target,
 		Strict: boolToTristate(cfg.Strict),
+		Module: mod,
 	}, nil
 }
 
