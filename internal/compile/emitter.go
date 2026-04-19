@@ -15,11 +15,9 @@
 package compile
 
 import (
-	"path/filepath"
-	"strings"
-
 	"github.com/microsoft/typescript-go/tsccbridge"
 	"github.com/szuend/tscc/internal/config"
+	"github.com/szuend/tscc/internal/paths"
 )
 
 type emitter struct {
@@ -37,7 +35,7 @@ type deferredEmit struct {
 func newEmitter(cfg *config.Config, fs tsccbridge.FS) *emitter {
 	return &emitter{
 		cfg:       cfg,
-		inputStem: stripExt(cfg.InputPath),
+		inputStem: paths.StripExt(cfg.InputPath),
 		fs:        fs,
 	}
 }
@@ -45,14 +43,14 @@ func newEmitter(cfg *config.Config, fs tsccbridge.FS) *emitter {
 // WriteFile is the callback provided to typescript-go's Emit function.
 // It filters the emitted files, keeping only the primary outputs that match the target paths.
 func (e *emitter) WriteFile(fileName string, text string, data *tsccbridge.WriteFileData) error {
-	if stripExt(fileName) != e.inputStem {
+	if paths.StripExt(fileName) != e.inputStem {
 		return nil
 	}
 	target := ""
 	switch {
-	case e.cfg.OutJSPath != "" && isJSOutput(fileName):
+	case e.cfg.OutJSPath != "" && paths.IsJSOutput(fileName):
 		target = e.cfg.OutJSPath
-	case e.cfg.OutDtsPath != "" && isDtsOutput(fileName):
+	case e.cfg.OutDtsPath != "" && paths.IsDtsOutput(fileName):
 		target = e.cfg.OutDtsPath
 	}
 	if target == "" {
@@ -72,44 +70,4 @@ func (e *emitter) Commit() ([]string, error) {
 		emittedFiles = append(emittedFiles, def.target)
 	}
 	return emittedFiles, nil
-}
-
-// isJSOutput matches the JS emit variants eligible for --out-js. .jsx is
-// deliberately excluded — emit produces at most one JS file per compile, and
-// matching .jsx too would clobber output under a future config that emits
-// both. Declaration and source-map outputs are dropped entirely until their
-// flags (--out-dts, --out-map) land.
-func isJSOutput(name string) bool {
-	switch filepath.Ext(name) {
-	case ".js", ".mjs", ".cjs":
-		return true
-	}
-	return false
-}
-
-func isDtsOutput(name string) bool {
-	switch {
-	case strings.HasSuffix(name, ".d.ts"):
-		return true
-	case strings.HasSuffix(name, ".d.mts"):
-		return true
-	case strings.HasSuffix(name, ".d.cts"):
-		return true
-	}
-	return false
-}
-
-// stripExt removes the final extension from p, yielding the "stem" used to
-// match a primary emit against its input file. Comparing stems treats
-// /abs/a.ts and /abs/a.js as the same file.
-func stripExt(p string) string {
-	switch {
-	case strings.HasSuffix(p, ".d.ts"):
-		return strings.TrimSuffix(p, ".d.ts")
-	case strings.HasSuffix(p, ".d.mts"):
-		return strings.TrimSuffix(p, ".d.mts")
-	case strings.HasSuffix(p, ".d.cts"):
-		return strings.TrimSuffix(p, ".d.cts")
-	}
-	return strings.TrimSuffix(p, filepath.Ext(p))
 }
