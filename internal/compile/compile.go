@@ -169,7 +169,7 @@ func printDiagnostics(in Inputs, diags []*tsccbridge.Diagnostic) {
 func generateDepsfile(in Inputs, program *tsccbridge.Program, emitResult *tsccbridge.EmitResult, errorCount int) error {
 	cfg := in.Config
 	emitSkipped := emitResult != nil && emitResult.EmitSkipped
-	
+
 	// Depsfile is authoritative — either trust it or re-run. Writing a partial
 	// list on a failed compile would wedge the build system into skipping
 	// rebuilds (design §"Non-goals"). Only emit when the compile fully
