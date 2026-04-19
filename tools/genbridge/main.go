@@ -46,6 +46,7 @@ import (
 	"github.com/microsoft/typescript-go/internal/module"
 	"github.com/microsoft/typescript-go/internal/packagejson"
 	"github.com/microsoft/typescript-go/internal/parser"
+	"github.com/microsoft/typescript-go/internal/testrunner"
 	"github.com/microsoft/typescript-go/internal/tsoptions"
 	"github.com/microsoft/typescript-go/internal/tspath"
 	"github.com/microsoft/typescript-go/internal/vfs"
@@ -234,6 +235,15 @@ const (
 	TSFalse   Tristate = core.TSFalse
 	TSTrue    Tristate = core.TSTrue
 )
+
+// ParseTestFilesAndSymlinks parses a TypeScript test case file and extracts compiler directives and individual files.
+func ParseTestFilesAndSymlinks[T any](
+	code string,
+	fileName string,
+	parseFile func(filename string, content string, fileOptions map[string]string) (T, error),
+) (units []T, symlinks map[string]string, currentDir string, globalOptions map[string]string, e error) {
+	return testrunner.ParseTestFilesAndSymlinks(code, fileName, parseFile)
+}
 `
 
 func main() {
