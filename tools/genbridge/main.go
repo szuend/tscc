@@ -212,7 +212,20 @@ const (
 type ModuleKind = core.ModuleKind
 
 const (
-	ModuleKindESNext ModuleKind = core.ModuleKindESNext
+	ModuleKindNone     ModuleKind = core.ModuleKindNone
+	ModuleKindCommonJS ModuleKind = core.ModuleKindCommonJS
+	ModuleKindAMD      ModuleKind = core.ModuleKindAMD
+	ModuleKindUMD      ModuleKind = core.ModuleKindUMD
+	ModuleKindSystem   ModuleKind = core.ModuleKindSystem
+	ModuleKindES2015   ModuleKind = core.ModuleKindES2015
+	ModuleKindES2020   ModuleKind = core.ModuleKindES2020
+	ModuleKindES2022   ModuleKind = core.ModuleKindES2022
+	ModuleKindESNext   ModuleKind = core.ModuleKindESNext
+	ModuleKindNode16   ModuleKind = core.ModuleKindNode16
+	ModuleKindNode18   ModuleKind = core.ModuleKindNode18
+	ModuleKindNode20   ModuleKind = core.ModuleKindNode20
+	ModuleKindNodeNext ModuleKind = core.ModuleKindNodeNext
+	ModuleKindPreserve ModuleKind = core.ModuleKindPreserve
 )
 
 // Tristate constants.
