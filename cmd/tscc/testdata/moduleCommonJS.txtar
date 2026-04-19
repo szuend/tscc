@@ -1,0 +1,23 @@
+# Tests that --module commonjs emits require() and module.exports
+exec tscc --module commonjs --target es2015 --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+
+-- a.ts --
+export class C {
+    public p = 0;
+}
+
+export const x = new C();
+
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = exports.C = void 0;
+class C {
+    constructor() {
+        this.p = 0;
+    }
+}
+exports.C = C;
+exports.x = new C();

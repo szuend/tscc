@@ -68,7 +68,6 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 	opts := parsed.CompilerOptions()
 	opts.Types = []string{}
 	opts.TypeRoots = []string{}
-	opts.Module = tsccbridge.ModuleKindESNext
 
 	// ProjectReferences must be nil (design §8). tscc has no flag that populates
 	// them, but if one is added in future the assertion fires rather than
