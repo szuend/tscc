@@ -311,7 +311,6 @@ func TestHermeticFS_ReadsConcurrent(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(100)
 	for i := range 100 {
-		i := i
 		go func() {
 			defer wg.Done()
 			hfs.ReadFile("/app/f" + strconv.Itoa(i) + ".ts")
