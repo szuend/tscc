@@ -18,27 +18,11 @@ Mechanically convert a single upstream TypeScript compiler test case — `_submo
 - **No CI integration.** The tool is for humans porting cases in batches. CI runs only the already-ported fixtures.
 - **No modifications to upstream `_submodules/TypeScript/`.** Tool is read-only against the submodule; all outputs land under `cmd/tscc/testdata/`.
 
-## Directive parsing: re-implement, don't bridge
+## Directive parsing: reuse upstream parser via bridge
 
-The roadmap suggests reusing `third_party/typescript-go/internal/testrunner/test_case_parser.go`. **Reject that plan.** The package is deep in `internal/` (pulls `harnessutil`, `tsoptionstest`, `parser`, `scanner`); wiring it through the bridge widens the compile-time surface for a ~15-line regex that we can own cleanly.
+The roadmap suggests reusing `third_party/typescript-go/internal/testrunner/test_case_parser.go`. **Follow this plan.** While an initial iteration attempted to use a simple regex parser, it quickly became apparent that the upstream parser handles stateful parsing (e.g. file-specific overrides like `@filename: a.ts` followed by `@module:`) and target permutations (e.g. `@target: es5, es2015`) perfectly. Re-implementing this logic is error-prone and limits the cases we can successfully port.
 
-Replacement (in `tools/portcase/directives.go`):
-
-```go
-// directivePattern matches a //@KEY: VALUE or //@KEY:VALUE line, case-insensitive on KEY.
-var directivePattern = regexp.MustCompile(`(?m)^//\s*@(\w+)\s*:\s*(.*?)\s*$`)
-
-type Directive struct {
-    Key, Value string
-    Line       int // 1-based, for error messages
-}
-
-func ParseDirectives(source string) []Directive {
-    …
-}
-```
-
-Bug-for-bug compatibility with upstream's parser is not required — we only need to handle the directives listed in the translation table below.
+By updating `tools/genbridge/main.go` to re-export `testrunner.ParseTestFilesAndSymlinks` inside the generated `tsccbridge/bridge.go` file, we achieve bug-for-bug compatibility with upstream without having to maintain a fragile regex parser.
 
 ## Directive → flag translation
 
