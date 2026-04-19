@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/classHeritageWithTrailingSeparator.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classHeritageWithTrailingSeparator.js classHeritageWithTrailingSeparator.ts
+stderr 'TS2564'
+stderr 'TS1009'
+! exists classHeritageWithTrailingSeparator.js
+
+-- classHeritageWithTrailingSeparator.ts --
+class C { foo: number }
+class D extends C, {
+}

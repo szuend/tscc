@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/classExpressionTest2.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExpressionTest2.js classExpressionTest2.ts
+stderr 'TS2454'
+! exists classExpressionTest2.js
+
+-- classExpressionTest2.ts --
+function M() {
+    var m = class C<X> {
+        f<T>() {
+            var t: T;
+            var x: X;
+            return { t, x };
+        }
+    }
+
+    var v = new m<number>();
+    return v.f<string>();
+}

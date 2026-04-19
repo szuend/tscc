@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/moduleAndInterfaceSharingName4.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js moduleAndInterfaceSharingName4.js moduleAndInterfaceSharingName4.ts
+! stderr .
+cmp moduleAndInterfaceSharingName4.js moduleAndInterfaceSharingName4.js.golden
+
+-- moduleAndInterfaceSharingName4.ts --
+declare namespace D3 {
+    var x: D3.Color.Color;
+
+    namespace Color {
+        export interface Color {
+            darker: Color;
+        }
+    }
+}
+-- moduleAndInterfaceSharingName4.js.golden --
+"use strict";

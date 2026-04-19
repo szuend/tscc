@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/classExtendsInterfaceThatExtendsClassWithPrivates1.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExtendsInterfaceThatExtendsClassWithPrivates1.js classExtendsInterfaceThatExtendsClassWithPrivates1.ts
+stderr 'TS2420'
+! exists classExtendsInterfaceThatExtendsClassWithPrivates1.js
+
+-- classExtendsInterfaceThatExtendsClassWithPrivates1.ts --
+class C {
+    public foo(x: any) { return x; }
+    private x = 1;
+}
+
+interface I extends C {
+    other(x: any): any;
+}
+
+class D2 implements I {
+    public foo(x: any) { return x }
+    private x = 3;
+    other(x: any) { return x }
+}

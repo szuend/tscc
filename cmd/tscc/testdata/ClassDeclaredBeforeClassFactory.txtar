@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/classDeclaredBeforeClassFactory.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js classDeclaredBeforeClassFactory.js classDeclaredBeforeClassFactory.ts
+! stderr .
+cmp classDeclaredBeforeClassFactory.js classDeclaredBeforeClassFactory.js.golden
+
+-- classDeclaredBeforeClassFactory.ts --
+// Should be OK due to hoisting
+class Derived extends makeBaseClass() {}
+
+function makeBaseClass() {
+    return class Base {};
+}
+-- classDeclaredBeforeClassFactory.js.golden --
+"use strict";
+// Should be OK due to hoisting
+class Derived extends makeBaseClass() {
+}
+function makeBaseClass() {
+    return class Base {
+    };
+}

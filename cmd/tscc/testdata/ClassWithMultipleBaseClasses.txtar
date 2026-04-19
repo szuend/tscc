@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/classWithMultipleBaseClasses.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --no-strict --out-js classWithMultipleBaseClasses.js classWithMultipleBaseClasses.ts
+stderr 'TS2420'
+! exists classWithMultipleBaseClasses.js
+
+-- classWithMultipleBaseClasses.ts --
+class A {
+    foo() { }
+}
+
+class B {
+    bar() { }
+}
+
+interface I {
+    baz();
+}
+
+interface J {
+    bat();
+}
+
+
+class D implements I, J {
+    baz() { }
+    bat() { }
+}
+
+interface I extends A, B {
+}

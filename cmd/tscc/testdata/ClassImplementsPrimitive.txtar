@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/classImplementsPrimitive.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classImplementsPrimitive.js classImplementsPrimitive.ts
+stderr 'TS2864'
+! exists classImplementsPrimitive.js
+
+-- classImplementsPrimitive.ts --
+// classes cannot implement primitives
+
+class C implements number { }
+class C2 implements string { }
+class C3 implements boolean { }
+
+const C4 = class implements number {}
+const C5 = class implements string {}
+const C6 = class implements boolean {}
+
+const C7 = class A implements number { }
+const C8 = class B implements string { }
+const C9 = class C implements boolean { }

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/classExpressionInClassStaticDeclarations.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-dts classExpressionInClassStaticDeclarations.d.ts --out-js classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDeclarations.ts
+! stderr .
+cmp classExpressionInClassStaticDeclarations.d.ts classExpressionInClassStaticDeclarations.d.ts.golden
+cmp classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDeclarations.js.golden
+
+-- classExpressionInClassStaticDeclarations.ts --
+class C {
+    static D = class extends C {};
+}
+-- classExpressionInClassStaticDeclarations.d.ts.golden --
+declare class C {
+    static D: {
+        new (): {};
+        D: /*elided*/ any;
+    };
+}
+-- classExpressionInClassStaticDeclarations.js.golden --
+"use strict";
+class C {
+}
+C.D = class extends C {
+};

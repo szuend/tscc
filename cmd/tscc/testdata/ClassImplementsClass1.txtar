@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/classImplementsClass1.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js classImplementsClass1.js classImplementsClass1.ts
+! stderr .
+cmp classImplementsClass1.js classImplementsClass1.js.golden
+
+-- classImplementsClass1.ts --
+class A { }
+class C implements A { }
+-- classImplementsClass1.js.golden --
+"use strict";
+class A {
+}
+class C {
+}

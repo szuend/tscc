@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/classExtendsInterface.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExtendsInterface.js classExtendsInterface.ts
+stderr 'TS2689'
+! exists classExtendsInterface.js
+
+-- classExtendsInterface.ts --
+interface Comparable {}
+class A extends Comparable {}
+class B implements Comparable {}
+
+interface Comparable2<T> {}
+class A2<T> extends Comparable2<T> {}
+class B2<T> implements Comparable2<T> {}

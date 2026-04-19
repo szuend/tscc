@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/classWithOverloadImplementationOfWrongName.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --no-strict --out-js classWithOverloadImplementationOfWrongName.js classWithOverloadImplementationOfWrongName.ts
+stderr 'TS2389'
+! exists classWithOverloadImplementationOfWrongName.js
+
+-- classWithOverloadImplementationOfWrongName.ts --
+class C {
+    foo(): string;
+    foo(x): number;
+    bar(x): any { }
+}

@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/declarationEmitFunctionDuplicateNamespace.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-dts declarationEmitFunctionDuplicateNamespace.d.ts --out-js declarationEmitFunctionDuplicateNamespace.js declarationEmitFunctionDuplicateNamespace.ts
+! stderr .
+cmp declarationEmitFunctionDuplicateNamespace.d.ts declarationEmitFunctionDuplicateNamespace.d.ts.golden
+cmp declarationEmitFunctionDuplicateNamespace.js declarationEmitFunctionDuplicateNamespace.js.golden
+
+-- declarationEmitFunctionDuplicateNamespace.ts --
+function f(a: 0): 0;
+function f(a: 1): 1;
+function f(a: 0 | 1) {
+    return a;
+}
+
+f.x = 2;
+-- declarationEmitFunctionDuplicateNamespace.d.ts.golden --
+declare function f(a: 0): 0;
+declare function f(a: 1): 1;
+declare namespace f {
+    var x: number;
+}
+-- declarationEmitFunctionDuplicateNamespace.js.golden --
+"use strict";
+function f(a) {
+    return a;
+}
+f.x = 2;

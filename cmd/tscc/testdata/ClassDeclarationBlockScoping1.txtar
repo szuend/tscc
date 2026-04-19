@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/classDeclarationBlockScoping1.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js classDeclarationBlockScoping1.js classDeclarationBlockScoping1.ts
+! stderr .
+cmp classDeclarationBlockScoping1.js classDeclarationBlockScoping1.js.golden
+
+-- classDeclarationBlockScoping1.ts --
+class C {
+}
+
+{
+    class C {
+    }
+}
+-- classDeclarationBlockScoping1.js.golden --
+"use strict";
+class C {
+}
+{
+    class C {
+    }
+}

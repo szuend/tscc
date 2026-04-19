@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/classExtendsClauseClassNotReferringConstructor.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExtendsClauseClassNotReferringConstructor.js classExtendsClauseClassNotReferringConstructor.ts
+stderr 'TS2564'
+stderr 'TS2507'
+! exists classExtendsClauseClassNotReferringConstructor.js
+
+-- classExtendsClauseClassNotReferringConstructor.ts --
+class A { a: number; }
+namespace Foo {
+    var A = 1;
+    class B extends A { b: string; }
+}

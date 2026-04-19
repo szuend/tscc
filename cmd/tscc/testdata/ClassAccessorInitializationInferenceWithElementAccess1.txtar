@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/classAccessorInitializationInferenceWithElementAccess1.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --out-dts classAccessorInitializationInferenceWithElementAccess1.d.ts --out-js classAccessorInitializationInferenceWithElementAccess1.js classAccessorInitializationInferenceWithElementAccess1.ts
+! stderr .
+cmp classAccessorInitializationInferenceWithElementAccess1.d.ts classAccessorInitializationInferenceWithElementAccess1.d.ts.golden
+cmp classAccessorInitializationInferenceWithElementAccess1.js classAccessorInitializationInferenceWithElementAccess1.js.golden
+
+-- classAccessorInitializationInferenceWithElementAccess1.ts --
+export class Cls {
+    accessor x;
+    accessor y;
+    accessor z;
+
+    accessor 0;
+
+    constructor(seed: number) {
+        this['x'] = [seed];
+        this['y'] = { seed };
+        this['z'] = `${seed}`;
+
+        this[0] = [seed];
+    }
+}
+-- classAccessorInitializationInferenceWithElementAccess1.d.ts.golden --
+export declare class Cls {
+    accessor x: number[];
+    accessor y: {
+        seed: number;
+    };
+    accessor z: string;
+    accessor 0: number[];
+    constructor(seed: number);
+}
+-- classAccessorInitializationInferenceWithElementAccess1.js.golden --
+export class Cls {
+    accessor x;
+    accessor y;
+    accessor z;
+    accessor 0;
+    constructor(seed) {
+        this['x'] = [seed];
+        this['y'] = { seed };
+        this['z'] = `${seed}`;
+        this[0] = [seed];
+    }
+}

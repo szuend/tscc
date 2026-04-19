@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/classDeclarationBlockScoping2.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js classDeclarationBlockScoping2.js classDeclarationBlockScoping2.ts
+! stderr .
+cmp classDeclarationBlockScoping2.js classDeclarationBlockScoping2.js.golden
+
+-- classDeclarationBlockScoping2.ts --
+function f() {
+    class C {}
+    var c1 = C;
+    {
+        class C {}
+        var c2 = C;
+    }
+    return C === c1;
+}
+-- classDeclarationBlockScoping2.js.golden --
+"use strict";
+function f() {
+    class C {
+    }
+    var c1 = C;
+    {
+        class C {
+        }
+        var c2 = C;
+    }
+    return C === c1;
+}

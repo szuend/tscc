@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/classVarianceResolveCircularity2.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --strict --out-js classVarianceResolveCircularity2.js classVarianceResolveCircularity2.ts
+! stderr .
+cmp classVarianceResolveCircularity2.js classVarianceResolveCircularity2.js.golden
+
+-- classVarianceResolveCircularity2.ts --
+// Issue #52813
+
+export {};
+
+class Bar<T> {
+    num!: number;
+    Value = callme(new Foo(this)).bar.num;
+    Field: number = callme(new Foo(this)).bar.num;
+}
+declare function callme(x: Foo<any>): Foo<any>;
+declare function callme(x: object): string;
+
+class Foo<T> {
+    bar!: Bar<T>;
+    constructor(bar: Bar<T>) {
+        this.bar = bar;
+    }
+}
+-- classVarianceResolveCircularity2.js.golden --
+// Issue #52813
+class Bar {
+    constructor() {
+        this.Value = callme(new Foo(this)).bar.num;
+        this.Field = callme(new Foo(this)).bar.num;
+    }
+}
+class Foo {
+    constructor(bar) {
+        this.bar = bar;
+    }
+}
+export {};

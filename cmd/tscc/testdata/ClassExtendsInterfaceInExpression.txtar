@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/classExtendsInterfaceInExpression.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExtendsInterfaceInExpression.js classExtendsInterfaceInExpression.ts
+stderr 'TS2322'
+stderr 'TS2693'
+! exists classExtendsInterfaceInExpression.js
+
+-- classExtendsInterfaceInExpression.ts --
+interface A {}
+
+function factory(a: any): {new(): Object} {
+  return null;
+}
+
+class C extends factory(A) {}

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/moduleAndInterfaceSharingName2.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js moduleAndInterfaceSharingName2.js moduleAndInterfaceSharingName2.ts
+stderr 'TS2322'
+stderr 'TS2315'
+! exists moduleAndInterfaceSharingName2.js
+
+-- moduleAndInterfaceSharingName2.ts --
+namespace X {
+    export namespace Y {
+        export interface Z { }
+    }
+    export interface Y { }
+}
+var z: X.Y.Z = null;
+var z2: X.Y<string>;

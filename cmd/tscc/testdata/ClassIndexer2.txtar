@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/classIndexer2.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classIndexer2.js classIndexer2.ts
+stderr 'TS2564'
+stderr 'TS2411'
+! exists classIndexer2.js
+
+-- classIndexer2.ts --
+class C123 {
+    [s: string]: number;
+    x: number;
+    y: string;
+    constructor() {
+    }
+}

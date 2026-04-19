@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/classOrder1.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js classOrder1.js classOrder1.ts
+! stderr .
+cmp classOrder1.js classOrder1.js.golden
+
+-- classOrder1.ts --
+class A {
+    public foo() {
+        /*WScript.Echo("Here!");*/
+    }
+}
+
+var a = new A();
+a.foo();
+-- classOrder1.js.golden --
+"use strict";
+class A {
+    foo() {
+        /*WScript.Echo("Here!");*/
+    }
+}
+var a = new A();
+a.foo();

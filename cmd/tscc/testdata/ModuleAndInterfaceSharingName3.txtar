@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/moduleAndInterfaceSharingName3.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js moduleAndInterfaceSharingName3.js moduleAndInterfaceSharingName3.ts
+stderr 'TS2322'
+! exists moduleAndInterfaceSharingName3.js
+
+-- moduleAndInterfaceSharingName3.ts --
+namespace X {
+    export namespace Y {
+        export interface Z { }
+    }
+    export interface Y<T> { }
+}
+var z: X.Y.Z = null;
+var z2: X.Y<string>;

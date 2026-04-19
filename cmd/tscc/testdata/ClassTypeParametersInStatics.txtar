@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/classTypeParametersInStatics.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classTypeParametersInStatics.js classTypeParametersInStatics.ts
+stderr 'TS2564'
+stderr 'TS2302'
+stderr 'TS2345'
+! exists classTypeParametersInStatics.js
+
+-- classTypeParametersInStatics.ts --
+namespace Editor {
+
+
+    export class List<T> {
+        public next: List<T>;
+        public prev: List<T>;
+
+        constructor(public isHead: boolean, public data: T) {
+        
+        }
+
+        public static MakeHead(): List<T> { // should error
+            var entry: List<T> = new List<T>(true, null);
+            entry.prev = entry;
+            entry.next = entry;
+            return entry;
+        }        
+
+        public static MakeHead2<T>(): List<T> { // should not error
+            var entry: List<T> = new List<T>(true, null);
+            entry.prev = entry;
+            entry.next = entry;
+            return entry;
+        }  
+
+        public static MakeHead3<U>(): List<U> { // should not error
+            var entry: List<U> = new List<U>(true, null);
+            entry.prev = entry;
+            entry.next = entry;
+            return entry;
+        }  
+    }
+}

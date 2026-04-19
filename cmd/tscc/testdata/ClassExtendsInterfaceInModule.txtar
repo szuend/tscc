@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/classExtendsInterfaceInModule.ts by tools/portcase on 2026-04-19.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExtendsInterfaceInModule.js classExtendsInterfaceInModule.ts
+stderr 'TS2689'
+! exists classExtendsInterfaceInModule.js
+
+-- classExtendsInterfaceInModule.ts --
+namespace M {
+  export interface I1 {}
+  export interface I2<T> {}
+}
+class C1 extends M.I1 {}
+class C2<T> extends M.I2<T> {}
+
+namespace Mod {
+	export namespace Nested {
+		export interface I {}
+	}
+}
+
+class D extends Mod.Nested.I {}
