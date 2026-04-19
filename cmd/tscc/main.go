@@ -21,6 +21,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/microsoft/typescript-go/tsccbridge"
 	"github.com/spf13/pflag"
@@ -55,7 +57,10 @@ func main() {
 	}))
 	rawFS := tsccbridge.BundledWrapFS(tsccbridge.OSFS())
 
-	_, status, err := compile.Compile(context.Background(), compile.Inputs{
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	_, status, err := compile.Compile(ctx, compile.Inputs{
 		Config:             cfg,
 		JailedFS:           jailedFS,
 		RawFS:              rawFS,
@@ -64,6 +69,9 @@ func main() {
 		Stderr:             os.Stderr,
 	})
 	if err != nil {
+		if errors.Is(err, context.Canceled) {
+			os.Exit(130)
+		}
 		fmt.Fprintf(os.Stderr, "tscc: %v\n", err)
 		os.Exit(1)
 	}
