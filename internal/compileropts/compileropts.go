@@ -78,10 +78,16 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		mod = m
 	}
 
+	decl := tsccbridge.TSUnknown
+	if cfg.OutDtsPath != "" {
+		decl = tsccbridge.TSTrue
+	}
+
 	return &tsccbridge.CompilerOptions{
-		Target: target,
-		Strict: boolToTristate(cfg.Strict),
-		Module: mod,
+		Target:      target,
+		Strict:      boolToTristate(cfg.Strict),
+		Module:      mod,
+		Declaration: decl,
 	}, nil
 }
 

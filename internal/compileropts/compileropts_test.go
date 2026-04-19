@@ -101,6 +101,28 @@ func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	}
 }
 
+func TestFromConfigDeclaration(t *testing.T) {
+	tests := []struct {
+		name string
+		cfg  config.Config
+		want tsccbridge.Tristate
+	}{
+		{"unset", config.Config{Target: "es2022"}, tsccbridge.TSUnknown},
+		{"set", config.Config{Target: "es2022", OutDtsPath: "a.d.ts"}, tsccbridge.TSTrue},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got, err := FromConfig(&tc.cfg)
+			if err != nil {
+				t.Fatalf("FromConfig returned error: %v", err)
+			}
+			if got.Declaration != tc.want {
+				t.Errorf("Declaration = %v, want %v", got.Declaration, tc.want)
+			}
+		})
+	}
+}
+
 func TestFromConfigModule(t *testing.T) {
 	tests := []struct {
 		in   string
