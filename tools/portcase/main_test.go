@@ -15,7 +15,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -35,7 +35,7 @@ func TestPortKnownCase(t *testing.T) {
 		t.Fatalf("portcase failed: %v\n%s", err, out)
 	}
 
-	generatedData, err := ioutil.ReadFile(outPath)
+	generatedData, err := os.ReadFile(outPath)
 	if err != nil {
 		t.Fatalf("failed to read generated file: %v", err)
 	}
@@ -43,7 +43,7 @@ func TestPortKnownCase(t *testing.T) {
 	// We expect it to match the hand-ported fixture cmd/tscc/testdata/ArrowFunctionExpression1.txtar
 	// Modulo header comment and whitespace.
 	existingPath := filepath.Join("../..", "cmd", "tscc", "testdata", "ArrowFunctionExpression1.txtar")
-	existingData, err := ioutil.ReadFile(existingPath)
+	existingData, err := os.ReadFile(existingPath)
 	if err != nil {
 		t.Fatalf("failed to read existing fixture: %v", err)
 	}
@@ -58,7 +58,7 @@ func TestPortKnownCase(t *testing.T) {
 
 func stripNoise(content string) []string {
 	var lines []string
-	for _, line := range strings.Split(content, "\n") {
+	for line := range strings.SplitSeq(content, "\n") {
 		line = strings.TrimSpace(line)
 		if line == "" || strings.HasPrefix(line, "#") {
 			continue
@@ -90,7 +90,7 @@ func TestPortKnownCase_Declaration(t *testing.T) {
 		t.Fatalf("portcase failed: %v\n%s", err, out)
 	}
 
-	generatedData, err := ioutil.ReadFile(outPath)
+	generatedData, err := os.ReadFile(outPath)
 	if err != nil {
 		t.Fatalf("failed to read generated file: %v", err)
 	}

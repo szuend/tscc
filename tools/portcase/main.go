@@ -16,7 +16,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -54,7 +54,7 @@ func main() {
 
 	// 1. Read the upstream .ts file to parse directives
 	tsPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "cases", "compiler", caseName+".ts")
-	tsData, err := ioutil.ReadFile(tsPath)
+	tsData, err := os.ReadFile(tsPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: could not read upstream case: %v\n", err)
 		os.Exit(1)
@@ -85,7 +85,7 @@ func main() {
 
 	// 2. Read the baseline .js to extract files
 	baselinePath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+".js")
-	baselineData, err := ioutil.ReadFile(baselinePath)
+	baselineData, err := os.ReadFile(baselinePath)
 	var files map[string]string
 	if err == nil {
 		files = SplitBaseline(string(baselineData))
@@ -122,7 +122,7 @@ func main() {
 	// 3. Read the baseline .errors.txt if present
 	errorsPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+".errors.txt")
 	var errorCodes []string
-	if errData, err := ioutil.ReadFile(errorsPath); err == nil {
+	if errData, err := os.ReadFile(errorsPath); err == nil {
 		errorCodes = ExtractErrorCodes(string(errData))
 	}
 
@@ -172,7 +172,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := ioutil.WriteFile(outPath, []byte(txtarContent), 0644); err != nil {
+	if err := os.WriteFile(outPath, []byte(txtarContent), 0644); err != nil {
 		fmt.Fprintf(os.Stderr, "error writing output: %v\n", err)
 		os.Exit(1)
 	}

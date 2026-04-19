@@ -42,16 +42,17 @@ func RenderTxtar(args RenderArgs) string {
 	fmt.Fprintf(&buf, "# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.\n")
 
 	// Command line
-	execCmd := "exec tscc"
+	var execCmd strings.Builder
+	execCmd.WriteString("exec tscc")
 	if len(args.Flags) > 0 {
-		execCmd += " " + strings.Join(args.Flags, " ")
+		execCmd.WriteString(" " + strings.Join(args.Flags, " "))
 	}
 	for _, input := range args.Inputs {
-		execCmd += " " + input
+		execCmd.WriteString(" " + input)
 	}
 
 	if len(args.ErrorCodes) > 0 {
-		fmt.Fprintf(&buf, "! %s\n", execCmd)
+		fmt.Fprintf(&buf, "! %s\n", execCmd.String())
 		for _, code := range args.ErrorCodes {
 			fmt.Fprintf(&buf, "stderr '%s'\n", code)
 		}
@@ -66,7 +67,7 @@ func RenderTxtar(args RenderArgs) string {
 			fmt.Fprintf(&buf, "! exists %s\n", out)
 		}
 	} else {
-		fmt.Fprintf(&buf, "%s\n", execCmd)
+		fmt.Fprintf(&buf, "%s\n", execCmd.String())
 		fmt.Fprintf(&buf, "! stderr .\n")
 
 		// Assert output files
