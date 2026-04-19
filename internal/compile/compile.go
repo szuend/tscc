@@ -115,17 +115,23 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 	// those. --out-dts and --out-map will follow the same rule in M3/M5.
 	inputStem := stripExt(cfg.InputPath)
 	var emittedFiles []string
+	var deferredEmits []struct{ target, text string }
+
 	writeFile := func(fileName string, text string, data *tsccbridge.WriteFileData) error {
-		if !isJSOutput(fileName) || cfg.OutJSPath == "" {
-			return nil
-		}
 		if stripExt(fileName) != inputStem {
 			return nil
 		}
-		if err := in.JailedFS.WriteFile(cfg.OutJSPath, text); err != nil {
-			return err
+		target := ""
+		switch {
+		case cfg.OutJSPath != "" && isJSOutput(fileName):
+			target = cfg.OutJSPath
+		case cfg.OutDtsPath != "" && isDtsOutput(fileName):
+			target = cfg.OutDtsPath
 		}
-		emittedFiles = append(emittedFiles, cfg.OutJSPath)
+		if target == "" {
+			return nil
+		}
+		deferredEmits = append(deferredEmits, struct{ target, text string }{target, text})
 		return nil
 	}
 
@@ -136,17 +142,26 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 
 	allDiags = tsccbridge.SortAndDeduplicateDiagnostics(allDiags)
 
-	if in.Stderr != nil {
-		useCase := in.JailedFS.UseCaseSensitiveFileNames()
-		for _, d := range allDiags {
-			tsccbridge.FormatDiagnostic(in.Stderr, d, in.CurrentDirectory, useCase)
-		}
-	}
-
 	errorCount := 0
 	for _, d := range allDiags {
 		if d.Category() == tsccbridge.DiagnosticCategoryError {
 			errorCount++
+		}
+	}
+
+	if errorCount == 0 {
+		for _, e := range deferredEmits {
+			if err := in.JailedFS.WriteFile(e.target, e.text); err != nil {
+				return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, err
+			}
+			emittedFiles = append(emittedFiles, e.target)
+		}
+	}
+
+	if in.Stderr != nil {
+		useCase := in.JailedFS.UseCaseSensitiveFileNames()
+		for _, d := range allDiags {
+			tsccbridge.FormatDiagnostic(in.Stderr, d, in.CurrentDirectory, useCase)
 		}
 	}
 
@@ -161,6 +176,9 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 		// target. See design §"Target name" for the full precedence story as
 		// --out-dts / --out-map land.
 		target := cfg.OutJSPath
+		if target == "" {
+			target = cfg.OutDtsPath
+		}
 		if target == "" {
 			target = cfg.OutDepsPath
 		}
@@ -205,9 +223,29 @@ func isJSOutput(name string) bool {
 	return false
 }
 
+func isDtsOutput(name string) bool {
+	switch {
+	case strings.HasSuffix(name, ".d.ts"):
+		return true
+	case strings.HasSuffix(name, ".d.mts"):
+		return true
+	case strings.HasSuffix(name, ".d.cts"):
+		return true
+	}
+	return false
+}
+
 // stripExt removes the final extension from p, yielding the "stem" used to
 // match a primary emit against its input file. Comparing stems treats
 // /abs/a.ts and /abs/a.js as the same file.
 func stripExt(p string) string {
+	switch {
+	case strings.HasSuffix(p, ".d.ts"):
+		return strings.TrimSuffix(p, ".d.ts")
+	case strings.HasSuffix(p, ".d.mts"):
+		return strings.TrimSuffix(p, ".d.mts")
+	case strings.HasSuffix(p, ".d.cts"):
+		return strings.TrimSuffix(p, ".d.cts")
+	}
 	return strings.TrimSuffix(p, filepath.Ext(p))
 }
