@@ -303,14 +303,14 @@ func TestHermeticFS_Reads(t *testing.T) {
 
 func TestHermeticFS_ReadsConcurrent(t *testing.T) {
 	inner := &mockFS{files: map[string]string{}}
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		inner.files["/app/f"+strconv.Itoa(i)+".ts"] = ""
 	}
 	hfs := hermeticfs.New(hermeticfs.Options{Inner: inner, CaseSensitivePaths: true})
 
 	var wg sync.WaitGroup
 	wg.Add(100)
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		i := i
 		go func() {
 			defer wg.Done()
