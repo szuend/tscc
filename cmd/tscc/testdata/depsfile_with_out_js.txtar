@@ -1,0 +1,22 @@
+# When --out-js and --out-deps are both passed, the depsfile's target is the
+# emitted JS path — that's what the build system registers as the rule's
+# primary output. Imported user sources land in the prereq list but none of
+# them leaks to disk as a sibling .js.
+exec tscc --target es2022 --out-js a.js --out-deps a.d a.ts
+! stderr .
+exists a.js
+exists a.d
+! exists b.js
+cmp a.js a.js.golden
+grep 'a\.js: ' a.d
+grep 'a\.ts' a.d
+grep 'b\.ts' a.d
+
+-- a.ts --
+import { x } from "./b.js";
+export const y: number = x + 1;
+-- b.ts --
+export const x: number = 41;
+-- a.js.golden --
+import { x } from "./b.js";
+export const y = x + 1;

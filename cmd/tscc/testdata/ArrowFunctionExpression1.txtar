@@ -1,6 +1,6 @@
 # 'public' is not a valid modifier in an arrow function parameter list.
 # TypeScript reports the error but still emits JS, stripping the modifier.
-! exec tscc --target es2015 a.ts
+! exec tscc --target es2015 --out-js a.js a.ts
 stderr 'TS2369'
 cmp a.js a.js.golden
 

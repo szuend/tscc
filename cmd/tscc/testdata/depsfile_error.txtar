@@ -4,6 +4,7 @@
 ! exec tscc --target es2022 --out-deps a.d a.ts
 stderr 'TS'
 ! exists a.d
+! exists a.js
 
 -- a.ts --
 import x from "nonexistent";

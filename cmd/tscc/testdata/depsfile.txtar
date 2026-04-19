@@ -1,12 +1,12 @@
-# --out-deps writes a Make-compatible dependency snippet listing every on-disk
-# source file the compile consumed. Bundled lib.*.d.ts entries (served from
-# typescript-go via the "bundled:///" scheme) must not appear — they have no
-# path a build system can stat and their URL contains ':', which Make reads as
-# a rule separator.
+# --out-deps on its own is the "tell me the input set for foo.ts" use case.
+# No --out-js means no JavaScript is written — explicit outputs only. The
+# depsfile is the sole artifact, so it's also the Make target.
 exec tscc --target es2022 --out-deps a.d a.ts
 ! stderr .
 exists a.d
-grep 'a\.js: ' a.d
+! exists a.js
+! exists b.js
+grep 'a\.d: ' a.d
 grep 'a\.ts' a.d
 grep 'b\.ts' a.d
 ! grep 'bundled:///' a.d

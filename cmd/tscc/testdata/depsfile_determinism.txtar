@@ -1,13 +1,17 @@
-# Two invocations with identical absolute inputs must produce byte-identical
-# depsfiles regardless of cwd. Enforces the "Inputs + Flags = Output" invariant
-# from vision.md for --out-deps specifically: sort order and content depend on
-# inputs, not the process state.
-exec tscc --target es2022 --out-deps $WORK/first.d $WORK/a.ts
-exists $WORK/first.d
+# Two invocations with identical absolute inputs and flags must produce
+# byte-identical depsfiles regardless of cwd. Enforces the "Inputs + Flags =
+# Output" invariant from vision.md for --out-deps specifically: sort order and
+# content depend on inputs, not the process state. Use a fixed depspath across
+# runs (and snapshot via cp) so the Make target is also stable between runs.
+exec tscc --target es2022 --out-deps $WORK/a.d $WORK/a.ts
+exists $WORK/a.d
+! exists $WORK/a.js
+cp $WORK/a.d $WORK/first.d
+rm $WORK/a.d
 mkdir $WORK/sub
 cd $WORK/sub
-exec tscc --target es2022 --out-deps $WORK/second.d $WORK/a.ts
-cmp $WORK/first.d $WORK/second.d
+exec tscc --target es2022 --out-deps $WORK/a.d $WORK/a.ts
+cmp $WORK/a.d $WORK/first.d
 
 -- a.ts --
 export const x: number = 42;

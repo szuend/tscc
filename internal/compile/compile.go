@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io"
 	"path/filepath"
+	"strings"
 
 	"github.com/microsoft/typescript-go/tsccbridge"
 	"github.com/szuend/tscc/internal/compilehost"
@@ -107,16 +108,25 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 	// writeFile runs serially because we pin SingleThreaded=TSTrue above;
 	// emittedFiles is therefore safe to append without a mutex. If upstream
 	// ever relaxes the contract, the pin would need to change first.
+	//
+	// Explicit outputs only (vision.md): the emitter walks the whole program
+	// and offers a .js for every non-declaration source file, but we only
+	// persist the emit that corresponds to cfg.InputPath. Secondary emits
+	// (imported .ts files) are dropped — a separate tscc invocation compiles
+	// those. --out-dts and --out-map will follow the same rule in M3/M5.
+	inputStem := stripExt(cfg.InputPath)
 	var emittedFiles []string
 	writeFile := func(fileName string, text string, data *tsccbridge.WriteFileData) error {
-		target := fileName
-		if cfg.OutJSPath != "" && isJSOutput(fileName) {
-			target = cfg.OutJSPath
+		if !isJSOutput(fileName) || cfg.OutJSPath == "" {
+			return nil
 		}
-		if err := in.JailedFS.WriteFile(target, text); err != nil {
+		if stripExt(fileName) != inputStem {
+			return nil
+		}
+		if err := in.JailedFS.WriteFile(cfg.OutJSPath, text); err != nil {
 			return err
 		}
-		emittedFiles = append(emittedFiles, target)
+		emittedFiles = append(emittedFiles, cfg.OutJSPath)
 		return nil
 	}
 
@@ -147,9 +157,13 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 	// succeeded: emit not skipped AND no errors.
 	emitSkipped := emitResult != nil && emitResult.EmitSkipped
 	if cfg.OutDepsPath != "" && errorCount == 0 && !emitSkipped {
+		// Without --out-js we don't emit JS at all, so the depsfile itself is
+		// the only artifact this rule produces — use its path as the Make
+		// target. See design §"Target name" for the full precedence story as
+		// --out-dts / --out-map land.
 		target := cfg.OutJSPath
 		if target == "" {
-			target = primaryJSOutput(emittedFiles)
+			target = cfg.OutDepsPath
 		}
 		inputs := make([]string, 0, len(program.SourceFiles()))
 		for _, sf := range program.SourceFiles() {
@@ -179,28 +193,22 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 	return &Result{EmittedFiles: emittedFiles, Diagnostics: allDiags}, status, nil
 }
 
-// primaryJSOutput returns the first JS-family path written by the emit
-// callback, or "" if none was written. Used as the depsfile target when
-// --out-js was not passed — the caller's build system registers this exact
-// path as the rule's output.
-func primaryJSOutput(paths []string) string {
-	for _, p := range paths {
-		if isJSOutput(p) {
-			return p
-		}
-	}
-	return ""
-}
-
-// isJSOutput matches the JS emit variants whose path is rewritten to
-// cfg.OutJSPath. .jsx is deliberately excluded — emit produces at most one
-// JS file per compile, and matching .jsx too would clobber output under a
-// future config that emits both. Declaration and source-map outputs keep
-// typescript-go's default filename until --out-dts / --out-sourcemap land.
+// isJSOutput matches the JS emit variants eligible for --out-js. .jsx is
+// deliberately excluded — emit produces at most one JS file per compile, and
+// matching .jsx too would clobber output under a future config that emits
+// both. Declaration and source-map outputs are dropped entirely until their
+// flags (--out-dts, --out-map) land.
 func isJSOutput(name string) bool {
 	switch filepath.Ext(name) {
 	case ".js", ".mjs", ".cjs":
 		return true
 	}
 	return false
+}
+
+// stripExt removes the final extension from p, yielding the "stem" used to
+// match a primary emit against its input file. Comparing stems treats
+// /abs/a.ts and /abs/a.js as the same file.
+func stripExt(p string) string {
+	return strings.TrimSuffix(p, filepath.Ext(p))
 }

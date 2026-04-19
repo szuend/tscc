@@ -105,23 +105,38 @@ func TestCompile_SingleFile(t *testing.T) {
 
 func TestCompile_RelativeImportResolvesViaLiteralResolver(t *testing.T) {
 	// .js specifier must substitute to .ts under literal resolution (§3).
-	// OutJSPath is left empty so each file emits alongside its source — the
-	// --out-js remap is single-file only.
+	// Explicit outputs only: --out-js names the primary output; the imported
+	// module is walked but no b.js leaks to disk.
 	dir := t.TempDir()
 	in := writeFile(t, dir, "a.ts", `import { x } from "./b.js";
 export const y: number = x + 1;`)
 	writeFile(t, dir, "b.ts", "export const x: number = 41;")
+	out := filepath.Join(dir, "a.js")
+
+	status, stderr, emitted := runCompile(t, defaultCfg(in, out))
+	if status != tsccbridge.ExitStatusSuccess {
+		t.Fatalf("status: got %d, want success; stderr:\n%s", status, stderr)
+	}
+	if !strings.Contains(emitted, `from "./b.js"`) {
+		t.Errorf(`a.js missing import "./b.js": %q`, emitted)
+	}
+	if _, err := os.Stat(filepath.Join(dir, "b.js")); !os.IsNotExist(err) {
+		t.Errorf("b.js must not exist without --out-js for it; stat err: %v", err)
+	}
+}
+
+func TestCompile_WithoutOutJS_NoJSWritten(t *testing.T) {
+	// Explicit outputs only: a type-check-only invocation (no --out-js) must
+	// not clutter the source tree with default-path .js files.
+	dir := t.TempDir()
+	in := writeFile(t, dir, "a.ts", "export const x: number = 42;")
 
 	status, stderr, _ := runCompile(t, defaultCfg(in, ""))
 	if status != tsccbridge.ExitStatusSuccess {
 		t.Fatalf("status: got %d, want success; stderr:\n%s", status, stderr)
 	}
-	aJS, err := os.ReadFile(filepath.Join(dir, "a.js"))
-	if err != nil {
-		t.Fatalf("read a.js: %v", err)
-	}
-	if !strings.Contains(string(aJS), `from "./b.js"`) {
-		t.Errorf(`a.js missing import "./b.js": %q`, string(aJS))
+	if _, err := os.Stat(filepath.Join(dir, "a.js")); !os.IsNotExist(err) {
+		t.Errorf("a.js must not exist without --out-js; stat err: %v", err)
 	}
 }
 

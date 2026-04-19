@@ -1,6 +1,6 @@
 # Strict mode makes `var arguments = []` a compile error, but tsc still emits
 # the JS (matching upstream baseline alwaysStrict.errors.txt / alwaysStrict.js).
-! exec tscc --target es2015 a.ts
+! exec tscc --target es2015 --out-js a.js a.ts
 stderr 'TS1100'
 cmp a.js a.js.golden
 

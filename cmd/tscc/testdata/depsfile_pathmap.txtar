@@ -8,6 +8,7 @@
 exec tscc --target es2022 --path lodash=$WORK/node_modules/lodash/index.d.ts --out-deps a.d a.ts
 ! stderr .
 exists a.d
+! exists a.js
 grep 'a\.ts' a.d
 grep 'node_modules/lodash/index\.d\.ts' a.d
 
