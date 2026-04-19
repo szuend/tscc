@@ -82,24 +82,31 @@ func Parse(args []string) (*Config, error) {
 		return nil, err
 	}
 
-	remaining := flags.Args()
-	if len(remaining) == 0 {
-		return nil, errors.New("no input file specified")
-	}
-	if len(remaining) > 1 {
-		return nil, fmt.Errorf("too many input files specified: %v", remaining)
+	if err := cfg.Validate(flags.Args()); err != nil {
+		return nil, err
 	}
 
-	absInput, err := filepath.Abs(remaining[0])
+	return cfg, nil
+}
+
+func (cfg *Config) Validate(args []string) error {
+	if len(args) == 0 {
+		return errors.New("no input file specified")
+	}
+	if len(args) > 1 {
+		return fmt.Errorf("too many input files specified: %v", args)
+	}
+
+	absInput, err := filepath.Abs(args[0])
 	if err != nil {
-		return nil, fmt.Errorf("resolve input path: %w", err)
+		return fmt.Errorf("resolve input path: %w", err)
 	}
 	cfg.InputPath = absInput
 
 	if cfg.OutJSPath != "" {
 		absOutput, err := filepath.Abs(cfg.OutJSPath)
 		if err != nil {
-			return nil, fmt.Errorf("resolve output path: %w", err)
+			return fmt.Errorf("resolve output path: %w", err)
 		}
 		cfg.OutJSPath = absOutput
 	}
@@ -107,7 +114,7 @@ func Parse(args []string) (*Config, error) {
 	if cfg.OutDepsPath != "" {
 		absDeps, err := filepath.Abs(cfg.OutDepsPath)
 		if err != nil {
-			return nil, fmt.Errorf("resolve depsfile path: %w", err)
+			return fmt.Errorf("resolve depsfile path: %w", err)
 		}
 		cfg.OutDepsPath = absDeps
 	}
@@ -115,7 +122,7 @@ func Parse(args []string) (*Config, error) {
 	if cfg.OutDtsPath != "" {
 		absDts, err := filepath.Abs(cfg.OutDtsPath)
 		if err != nil {
-			return nil, fmt.Errorf("resolve dts path: %w", err)
+			return fmt.Errorf("resolve dts path: %w", err)
 		}
 		cfg.OutDtsPath = absDts
 	}
@@ -127,17 +134,17 @@ func Parse(args []string) (*Config, error) {
 	for _, raw := range cfg.rawPaths {
 		eq := strings.IndexByte(raw, '=')
 		if eq <= 0 {
-			return nil, fmt.Errorf("invalid --path %q: expected NAME=/abs/path", raw)
+			return fmt.Errorf("invalid --path %q: expected NAME=/abs/path", raw)
 		}
 		name, target := raw[:eq], raw[eq+1:]
 		if name == "" || target == "" {
-			return nil, fmt.Errorf("invalid --path %q: expected NAME=/abs/path", raw)
+			return fmt.Errorf("invalid --path %q: expected NAME=/abs/path", raw)
 		}
 		if !filepath.IsAbs(target) {
-			return nil, fmt.Errorf("--path %s: target must be absolute, got %q", name, target)
+			return fmt.Errorf("--path %s: target must be absolute, got %q", name, target)
 		}
 		if _, dup := paths[name]; dup {
-			return nil, fmt.Errorf("--path %s specified more than once", name)
+			return fmt.Errorf("--path %s specified more than once", name)
 		}
 		paths[name] = filepath.ToSlash(target)
 	}
@@ -146,7 +153,7 @@ func Parse(args []string) (*Config, error) {
 	}
 	cfg.rawPaths = nil
 
-	return cfg, nil
+	return nil
 }
 
 type flagGroup struct {
