@@ -1,0 +1,18 @@
+# Canary: --path-mapped targets MUST appear in the depsfile.
+#
+# The lodash target lives under node_modules/, which the jailed FS blocks from
+# discovery (design §6). Only the raw FS (GetSourceFile) can read it, via the
+# dual-FS split (design §7). If we were to source deps from hermeticfs.Reads()
+# instead of program.SourceFiles(), the mapped target would be missing and
+# build systems would silently skip rebuilds when it changed.
+exec tscc --target es2022 --path lodash=$WORK/node_modules/lodash/index.d.ts --out-deps a.d a.ts
+! stderr .
+exists a.d
+grep 'a\.ts' a.d
+grep 'node_modules/lodash/index\.d\.ts' a.d
+
+-- a.ts --
+import x from "lodash";
+export const y: string = x.foo;
+-- node_modules/lodash/index.d.ts --
+declare const x: { foo: string }; export = x;

@@ -18,6 +18,7 @@
 package compile
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
@@ -27,6 +28,7 @@ import (
 	"github.com/szuend/tscc/internal/compilehost"
 	"github.com/szuend/tscc/internal/compileropts"
 	"github.com/szuend/tscc/internal/config"
+	"github.com/szuend/tscc/internal/depsfile"
 	"github.com/szuend/tscc/internal/resolver"
 )
 
@@ -139,6 +141,33 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 		}
 	}
 
+	// Depsfile is authoritative — either trust it or re-run. Writing a partial
+	// list on a failed compile would wedge the build system into skipping
+	// rebuilds (design §"Non-goals"). Only emit when the compile fully
+	// succeeded: emit not skipped AND no errors.
+	emitSkipped := emitResult != nil && emitResult.EmitSkipped
+	if cfg.OutDepsPath != "" && errorCount == 0 && !emitSkipped {
+		target := cfg.OutJSPath
+		if target == "" {
+			target = primaryJSOutput(emittedFiles)
+		}
+		inputs := make([]string, 0, len(program.SourceFiles()))
+		for _, sf := range program.SourceFiles() {
+			name := sf.FileName()
+			if tsccbridge.IsBundled(name) {
+				continue
+			}
+			inputs = append(inputs, name)
+		}
+		var buf bytes.Buffer
+		if err := depsfile.Write(&buf, target, inputs); err != nil {
+			return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, fmt.Errorf("render depsfile: %w", err)
+		}
+		if err := in.JailedFS.WriteFile(cfg.OutDepsPath, buf.String()); err != nil {
+			return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, fmt.Errorf("write depsfile: %w", err)
+		}
+	}
+
 	status := tsccbridge.ExitStatusSuccess
 	switch {
 	case emitResult != nil && emitResult.EmitSkipped && errorCount > 0:
@@ -148,6 +177,19 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 	}
 
 	return &Result{EmittedFiles: emittedFiles, Diagnostics: allDiags}, status, nil
+}
+
+// primaryJSOutput returns the first JS-family path written by the emit
+// callback, or "" if none was written. Used as the depsfile target when
+// --out-js was not passed — the caller's build system registers this exact
+// path as the rule's output.
+func primaryJSOutput(paths []string) string {
+	for _, p := range paths {
+		if isJSOutput(p) {
+			return p
+		}
+	}
+	return ""
 }
 
 // isJSOutput matches the JS emit variants whose path is rewritten to

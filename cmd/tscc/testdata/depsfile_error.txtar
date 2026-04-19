@@ -1,0 +1,10 @@
+# A partial depsfile is worse than none — build systems either trust the file
+# as authoritative or re-run. If the compile produces any error diagnostic, the
+# depsfile must not be written (design §"Non-goals"). Mirrors gcc -MD.
+! exec tscc --target es2022 --out-deps a.d a.ts
+stderr 'TS'
+! exists a.d
+
+-- a.ts --
+import x from "nonexistent";
+export const y = x;

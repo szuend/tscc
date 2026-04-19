@@ -1,0 +1,13 @@
+# Two invocations with identical absolute inputs must produce byte-identical
+# depsfiles regardless of cwd. Enforces the "Inputs + Flags = Output" invariant
+# from vision.md for --out-deps specifically: sort order and content depend on
+# inputs, not the process state.
+exec tscc --target es2022 --out-deps $WORK/first.d $WORK/a.ts
+exists $WORK/first.d
+mkdir $WORK/sub
+cd $WORK/sub
+exec tscc --target es2022 --out-deps $WORK/second.d $WORK/a.ts
+cmp $WORK/first.d $WORK/second.d
+
+-- a.ts --
+export const x: number = 42;

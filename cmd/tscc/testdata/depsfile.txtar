@@ -1,0 +1,19 @@
+# --out-deps writes a Make-compatible dependency snippet listing every on-disk
+# source file the compile consumed. Bundled lib.*.d.ts entries (served from
+# typescript-go via the "bundled:///" scheme) must not appear — they have no
+# path a build system can stat and their URL contains ':', which Make reads as
+# a rule separator.
+exec tscc --target es2022 --out-deps a.d a.ts
+! stderr .
+exists a.d
+grep 'a\.js: ' a.d
+grep 'a\.ts' a.d
+grep 'b\.ts' a.d
+! grep 'bundled:///' a.d
+! grep 'lib\.[a-z0-9.]+\.d\.ts' a.d
+
+-- a.ts --
+import { x } from "./b.js";
+export const y: number = x + 1;
+-- b.ts --
+export const x: number = 41;
