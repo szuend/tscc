@@ -171,6 +171,12 @@ var BundledWrapFS = bundled.WrapFS
 // bundled.WrapFS.
 var DefaultLibPath = bundled.LibPath
 
+// IsBundled reports whether a path refers to a typescript-go-embedded lib
+// file (served via bundled.WrapFS under the "bundled:///" scheme). Callers
+// that enumerate program.SourceFiles() use it to drop the embedded libs,
+// which have no on-disk location a build system can stat.
+var IsBundled = bundled.IsBundled
+
 // CommandLine is the top-level entry point for TypeScript compilation,
 // mirroring what cmd/tsgo/main.go does. Pass nil for testing in production.
 var CommandLine = execute.CommandLine
