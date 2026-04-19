@@ -42,7 +42,8 @@ No FS dependency; unit-testable in isolation.
 
 **Config / compile plumbing.**
 - `internal/config/config.go` — `OutDepsPath string` in `Config`; `--out-deps FILE` in `outputGroup`; absolute-path resolution mirroring `--out-js`.
-- `internal/compile/compile.go` — after a successful emit (`errorCount == 0`), if `cfg.OutDepsPath != ""`, gather `program.SourceFiles()`, extract their paths, hand to `depsfile.Write`. Target name is the emitted JS path (respecting any `--out-js` remap).
+- `internal/compile/compile.go` — after a successful emit (`errorCount == 0`), if `cfg.OutDepsPath != ""`, gather `program.SourceFiles()`, extract their paths, hand to `depsfile.Write`. Target = `--out-js` if set, else `--out-deps` itself (the depsfile-only "tell me the input set" use case). See design §"Target name".
+- `internal/compile/compile.go` — `writeFile` drops every callback from the emitter unless a corresponding output flag was set. Without `--out-js`, no `.js` is produced. Explicit outputs only.
 
 **Tests.**
 - Unit: `depsfile_test.go` — single input, many inputs, filenames containing spaces / `$` / `:` (Make escape corner cases), empty-inputs error.
@@ -161,6 +162,4 @@ Per `vision.md` "Explicit non-goals": watch mode, incremental / `tsbuildinfo`, `
 
 ## Open questions
 
-- **Depsfile target path under `--out-js`.** If the user passes both `--out-js foo.js` and `--out-deps foo.d`, the depsfile's target should be `foo.js`, not the default output path. Double-check this in M1 by running with and without `--out-js` and diffing.
-- **Detecting bundled source files.** `program.SourceFiles()` mixes user sources with typescript-go's bundled `lib.*.d.ts` entries. M1 needs a reliable predicate — `bundled://` filename prefix, a `FileName`-based check, or a bridge helper. First commit of M1 writes a one-shot probe to pick the rule.
 - **M4 flakiness budget.** Some upstream baselines bake in typescript-go-version-specific error messages or ordering that mechanical porting will trip on. How many ported cases can we tolerate flaking on at import time before the tool needs hardening?

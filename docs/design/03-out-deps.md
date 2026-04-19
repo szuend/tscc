@@ -57,12 +57,14 @@ Exactly one line, one newline terminator. `<target>` is the emitted JS path; `<d
 
 ## Target name
 
-The target must be what the build system expects to re-produce. That is the **emitted JS path after `--out-js` remap**, not the compiler's internal output name. Concretely:
+The target must be what the build system expects to re-produce. Concretely:
 
 - If `--out-js /out/a.js` is passed, target = `/out/a.js`.
-- If `--out-js` is not passed, target = whatever path the `writeFile` callback wrote (which, in the current code, is the compiler's chosen filename, typically `<input-basename>.js` next to the input).
+- If `--out-js` is not passed, no JS is emitted at all (explicit outputs only, per `vision.md`). `--out-deps` is still valid on its own: target = the depsfile path. The rule "these inputs produce this depsfile" is self-consistent, and a build system using the depsfile as a `-include`d fragment can still detect input churn. This is the "tell me the input set for `foo.ts`" use case.
 
-When M3 (`--out-dts`) and M5 (`--out-map`) land, they add their own writes but **do not change the depsfile's target**. One depsfile, one target — the build system registers the `.js` as the primary output and the `.d.ts` / `.js.map` as sibling outputs sharing the same prerequisite set. This mirrors how `gcc -MD` produces one `.d` per translation unit regardless of `-S` / `-c` variants.
+An output flag that never produces a file for the user is a footgun: if `--out-js` is absent, writing `<basename>.js` next to the input clutters source trees and makes the output set ambiguous across `cwd`s. The compile stays pure type-check-plus-deps unless the user explicitly opts into emit.
+
+When M3 (`--out-dts`) and M5 (`--out-map`) land, they add their own writes. Each output flag's absence means "don't write." The depsfile target precedence becomes: `--out-js` → `--out-dts` → `--out-map` → `--out-deps` (the first one set wins). One depsfile, one target — the build system registers the chosen primary as the rule's output and other emitted files as sibling outputs sharing the same prerequisite set. This mirrors how `gcc -MD` produces one `.d` per translation unit regardless of `-S` / `-c` variants.
 
 ## Determinism
 
@@ -97,7 +99,7 @@ In `internal/compile/compile.go`, after emit succeeds and `errorCount == 0`:
 if cfg.OutDepsPath != "" {
     target := cfg.OutJSPath
     if target == "" {
-        target = primaryJSOutputOf(emittedFiles) // the .js we wrote, post-remap
+        target = cfg.OutDepsPath // depsfile-only use case; see "Target name"
     }
     inputs := make([]string, 0, len(program.SourceFiles()))
     for _, sf := range program.SourceFiles() {
@@ -130,7 +132,8 @@ Placement: **after** emit (so we only write on success), **before** the final ex
 - Filename with `:`: error.
 
 **E2E:**
-- `cmd/tscc/testdata/depsfile.txtar`: two-file input with a relative import. Assert `.d` lists both user source files and contains no bundled-lib entries (no `bundled://` substring, no `lib.*.d.ts` path component).
+- `cmd/tscc/testdata/depsfile.txtar`: two-file input with a relative import, no `--out-js`. Assert `.d` lists both user source files, contains no bundled-lib entries (no `bundled://` substring, no `lib.*.d.ts` path component), and `! exists *.js` — nothing is written unless an explicit output flag is passed.
+- `cmd/tscc/testdata/depsfile_with_out_js.txtar`: same two-file input with `--out-js`. Assert the `.js` is written to the requested path and the depsfile target matches that path.
 - `cmd/tscc/testdata/depsfile_pathmap.txtar` **(canary)**: compile uses `--path lodash=$WORK/node_modules/lodash/index.d.ts`. Assert the mapped target appears in the depsfile. This is the regression gate against "we went back to using `hermeticfs.Reads()`".
 - `cmd/tscc/testdata/depsfile_determinism.txtar`: compile twice, once from `/tmp/a` and once from `/tmp/b`, `cmp` the two depsfiles.
 - `cmd/tscc/testdata/depsfile_error.txtar`: intentionally-broken input. Assert `a.d` does not exist after the failed compile.
