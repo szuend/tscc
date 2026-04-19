@@ -22,8 +22,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"path/filepath"
-	"strings"
 
 	"github.com/microsoft/typescript-go/tsccbridge"
 	"github.com/szuend/tscc/internal/compilehost"
@@ -56,11 +54,48 @@ type Result struct {
 // Compile runs a single-file compile, returning an ExitStatus that mirrors
 // tsc's exit codes.
 func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, error) {
-	cfg := in.Config
+	parsed, err := prepareOptions(in.Config)
+	if err != nil {
+		return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, err
+	}
 
+	program := createProgram(in, parsed)
+
+	allDiags := analyzeProgram(ctx, program)
+
+	// Explicit outputs only (vision.md): the emitter walks the whole program
+	// and offers a file for every non-declaration source file, but we only
+	// persist the emit that corresponds to cfg.InputPath.
+	emitter := newEmitter(in.Config, in.JailedFS)
+	emitResult := program.Emit(ctx, tsccbridge.EmitOptions{WriteFile: emitter.WriteFile})
+	if emitResult != nil {
+		allDiags = append(allDiags, emitResult.Diagnostics...)
+	}
+
+	allDiags = tsccbridge.SortAndDeduplicateDiagnostics(allDiags)
+	errorCount := countErrors(allDiags)
+
+	var emittedFiles []string
+	if errorCount == 0 {
+		emittedFiles, err = emitter.Commit()
+		if err != nil {
+			return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, err
+		}
+	}
+
+	printDiagnostics(in, allDiags)
+
+	if err := generateDepsfile(in, program, emitResult, errorCount); err != nil {
+		return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, err
+	}
+
+	return &Result{EmittedFiles: emittedFiles, Diagnostics: allDiags}, computeExitStatus(emitResult, errorCount), nil
+}
+
+func prepareOptions(cfg *config.Config) (*tsccbridge.ParsedCommandLine, error) {
 	parsed, err := compileropts.BuildParsedCommandLine(cfg)
 	if err != nil {
-		return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, fmt.Errorf("build parsed command line: %w", err)
+		return nil, fmt.Errorf("build parsed command line: %w", err)
 	}
 
 	// Design §8: pin compiler options so the caller cannot steer typescript-go
@@ -73,9 +108,13 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 	// them, but if one is added in future the assertion fires rather than
 	// silently handing the resolver a non-empty list it cannot process.
 	if refs := parsed.ProjectReferences(); len(refs) > 0 {
-		return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, fmt.Errorf("project references are not supported (got %d)", len(refs))
+		return nil, fmt.Errorf("project references are not supported (got %d)", len(refs))
 	}
 
+	return parsed, nil
+}
+
+func createProgram(in Inputs, parsed *tsccbridge.ParsedCommandLine) *tsccbridge.Program {
 	host := compilehost.New(compilehost.Options{
 		CurrentDirectory:   in.CurrentDirectory,
 		JailedFS:           in.JailedFS,
@@ -83,9 +122,9 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 		DefaultLibraryPath: in.DefaultLibraryPath,
 	})
 
-	res := resolver.New(resolver.Options{FS: in.JailedFS, Paths: cfg.Paths})
+	res := resolver.New(resolver.Options{FS: in.JailedFS, Paths: in.Config.Paths})
 
-	program := tsccbridge.NewProgram(tsccbridge.ProgramOptions{
+	return tsccbridge.NewProgram(tsccbridge.ProgramOptions{
 		Config:          parsed,
 		Host:            host,
 		Resolver:        res,
@@ -93,9 +132,11 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 		TypingsLocation: "",
 		ProjectName:     "",
 	})
+}
 
+func analyzeProgram(ctx context.Context, program *tsccbridge.Program) []*tsccbridge.Diagnostic {
 	// Collect syntactic + semantic diagnostics in tsc's order.
-	allDiags := tsccbridge.GetDiagnosticsOfAnyProgram(
+	return tsccbridge.GetDiagnosticsOfAnyProgram(
 		ctx,
 		program,
 		nil,
@@ -103,149 +144,78 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 		program.GetBindDiagnostics,
 		program.GetSemanticDiagnostics,
 	)
+}
 
-	// writeFile runs serially because we pin SingleThreaded=TSTrue above;
-	// emittedFiles is therefore safe to append without a mutex. If upstream
-	// ever relaxes the contract, the pin would need to change first.
-	//
-	// Explicit outputs only (vision.md): the emitter walks the whole program
-	// and offers a .js for every non-declaration source file, but we only
-	// persist the emit that corresponds to cfg.InputPath. Secondary emits
-	// (imported .ts files) are dropped — a separate tscc invocation compiles
-	// those. --out-dts and --out-map will follow the same rule in M3/M5.
-	inputStem := stripExt(cfg.InputPath)
-	var emittedFiles []string
-	var deferredEmits []struct{ target, text string }
-
-	writeFile := func(fileName string, text string, data *tsccbridge.WriteFileData) error {
-		if stripExt(fileName) != inputStem {
-			return nil
-		}
-		target := ""
-		switch {
-		case cfg.OutJSPath != "" && isJSOutput(fileName):
-			target = cfg.OutJSPath
-		case cfg.OutDtsPath != "" && isDtsOutput(fileName):
-			target = cfg.OutDtsPath
-		}
-		if target == "" {
-			return nil
-		}
-		deferredEmits = append(deferredEmits, struct{ target, text string }{target, text})
-		return nil
-	}
-
-	emitResult := program.Emit(ctx, tsccbridge.EmitOptions{WriteFile: writeFile})
-	if emitResult != nil {
-		allDiags = append(allDiags, emitResult.Diagnostics...)
-	}
-
-	allDiags = tsccbridge.SortAndDeduplicateDiagnostics(allDiags)
-
-	errorCount := 0
-	for _, d := range allDiags {
+func countErrors(diags []*tsccbridge.Diagnostic) int {
+	count := 0
+	for _, d := range diags {
 		if d.Category() == tsccbridge.DiagnosticCategoryError {
-			errorCount++
+			count++
 		}
 	}
+	return count
+}
 
-	if errorCount == 0 {
-		for _, e := range deferredEmits {
-			if err := in.JailedFS.WriteFile(e.target, e.text); err != nil {
-				return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, err
-			}
-			emittedFiles = append(emittedFiles, e.target)
-		}
+func printDiagnostics(in Inputs, diags []*tsccbridge.Diagnostic) {
+	if in.Stderr == nil {
+		return
 	}
-
-	if in.Stderr != nil {
-		useCase := in.JailedFS.UseCaseSensitiveFileNames()
-		for _, d := range allDiags {
-			tsccbridge.FormatDiagnostic(in.Stderr, d, in.CurrentDirectory, useCase)
-		}
+	useCase := in.JailedFS.UseCaseSensitiveFileNames()
+	for _, d := range diags {
+		tsccbridge.FormatDiagnostic(in.Stderr, d, in.CurrentDirectory, useCase)
 	}
+}
 
+func generateDepsfile(in Inputs, program *tsccbridge.Program, emitResult *tsccbridge.EmitResult, errorCount int) error {
+	cfg := in.Config
+	emitSkipped := emitResult != nil && emitResult.EmitSkipped
+	
 	// Depsfile is authoritative — either trust it or re-run. Writing a partial
 	// list on a failed compile would wedge the build system into skipping
 	// rebuilds (design §"Non-goals"). Only emit when the compile fully
 	// succeeded: emit not skipped AND no errors.
-	emitSkipped := emitResult != nil && emitResult.EmitSkipped
-	if cfg.OutDepsPath != "" && errorCount == 0 && !emitSkipped {
-		// Without --out-js we don't emit JS at all, so the depsfile itself is
-		// the only artifact this rule produces — use its path as the Make
-		// target. See design §"Target name" for the full precedence story as
-		// --out-dts / --out-map land.
-		target := cfg.OutJSPath
-		if target == "" {
-			target = cfg.OutDtsPath
-		}
-		if target == "" {
-			target = cfg.OutDepsPath
-		}
-		inputs := make([]string, 0, len(program.SourceFiles()))
-		for _, sf := range program.SourceFiles() {
-			name := sf.FileName()
-			if tsccbridge.IsBundled(name) {
-				continue
-			}
-			inputs = append(inputs, name)
-		}
-		var buf bytes.Buffer
-		if err := depsfile.Write(&buf, target, inputs); err != nil {
-			return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, fmt.Errorf("render depsfile: %w", err)
-		}
-		if err := in.JailedFS.WriteFile(cfg.OutDepsPath, buf.String()); err != nil {
-			return nil, tsccbridge.ExitStatusInvalidProject_OutputsSkipped, fmt.Errorf("write depsfile: %w", err)
-		}
+	if cfg.OutDepsPath == "" || errorCount > 0 || emitSkipped {
+		return nil
 	}
 
-	status := tsccbridge.ExitStatusSuccess
+	// Without --out-js we don't emit JS at all, so the depsfile itself is
+	// the only artifact this rule produces — use its path as the Make
+	// target. See design §"Target name" for the full precedence story as
+	// --out-dts / --out-map land.
+	target := cfg.OutJSPath
+	if target == "" {
+		target = cfg.OutDtsPath
+	}
+	if target == "" {
+		target = cfg.OutDepsPath
+	}
+
+	inputs := make([]string, 0, len(program.SourceFiles()))
+	for _, sf := range program.SourceFiles() {
+		name := sf.FileName()
+		if tsccbridge.IsBundled(name) {
+			continue
+		}
+		inputs = append(inputs, name)
+	}
+
+	var buf bytes.Buffer
+	if err := depsfile.Write(&buf, target, inputs); err != nil {
+		return fmt.Errorf("render depsfile: %w", err)
+	}
+	if err := in.JailedFS.WriteFile(cfg.OutDepsPath, buf.String()); err != nil {
+		return fmt.Errorf("write depsfile: %w", err)
+	}
+	return nil
+}
+
+func computeExitStatus(emitResult *tsccbridge.EmitResult, errorCount int) tsccbridge.ExitStatus {
 	switch {
 	case emitResult != nil && emitResult.EmitSkipped && errorCount > 0:
-		status = tsccbridge.ExitStatusDiagnosticsPresent_OutputsSkipped
+		return tsccbridge.ExitStatusDiagnosticsPresent_OutputsSkipped
 	case errorCount > 0:
-		status = tsccbridge.ExitStatusDiagnosticsPresent_OutputsGenerated
+		return tsccbridge.ExitStatusDiagnosticsPresent_OutputsGenerated
+	default:
+		return tsccbridge.ExitStatusSuccess
 	}
-
-	return &Result{EmittedFiles: emittedFiles, Diagnostics: allDiags}, status, nil
-}
-
-// isJSOutput matches the JS emit variants eligible for --out-js. .jsx is
-// deliberately excluded — emit produces at most one JS file per compile, and
-// matching .jsx too would clobber output under a future config that emits
-// both. Declaration and source-map outputs are dropped entirely until their
-// flags (--out-dts, --out-map) land.
-func isJSOutput(name string) bool {
-	switch filepath.Ext(name) {
-	case ".js", ".mjs", ".cjs":
-		return true
-	}
-	return false
-}
-
-func isDtsOutput(name string) bool {
-	switch {
-	case strings.HasSuffix(name, ".d.ts"):
-		return true
-	case strings.HasSuffix(name, ".d.mts"):
-		return true
-	case strings.HasSuffix(name, ".d.cts"):
-		return true
-	}
-	return false
-}
-
-// stripExt removes the final extension from p, yielding the "stem" used to
-// match a primary emit against its input file. Comparing stems treats
-// /abs/a.ts and /abs/a.js as the same file.
-func stripExt(p string) string {
-	switch {
-	case strings.HasSuffix(p, ".d.ts"):
-		return strings.TrimSuffix(p, ".d.ts")
-	case strings.HasSuffix(p, ".d.mts"):
-		return strings.TrimSuffix(p, ".d.mts")
-	case strings.HasSuffix(p, ".d.cts"):
-		return strings.TrimSuffix(p, ".d.cts")
-	}
-	return strings.TrimSuffix(p, filepath.Ext(p))
 }
