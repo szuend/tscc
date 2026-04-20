@@ -193,7 +193,7 @@ func resolutionGroup(cfg *Config) flagGroup {
 func outputGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
 	g.StringVarP(&cfg.OutJSPath, "out-js", "o", "", "Write JavaScript output to `FILE`")
-	g.StringVar(&cfg.OutDtsPath, "out-dts", "", "Write TypeScript declaration output to `FILE`. Implies --declaration.")
+	g.StringVar(&cfg.OutDtsPath, "out-dts", "", "Write TypeScript declaration output to `FILE`")
 	g.StringVar(&cfg.OutDepsPath, "out-deps", "", "Write a Make-compatible dependency snippet for the transitive input set to `FILE`")
 	return flagGroup{Name: "Output", Set: g}
 }
