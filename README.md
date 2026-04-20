@@ -50,7 +50,7 @@ The depsfile format is compatible with GNU Make and Ninja:
 dist/index.js: src/index.ts src/lib.ts node_modules/some-dep/index.d.ts
 ```
 
-Flags follow Unix kebab-case conventions (`--out-dts`, `--out-sourcemap`) and also accept camelCase equivalents for compatibility with typescript-go option names.
+Flags follow Unix kebab-case conventions (`--out-dts`, `--out-map`) and also accept camelCase equivalents for compatibility with typescript-go option names where applicable.
 
 For the principles behind `tscc`'s design — and why it deliberately doesn't do several things `tsc` does — see [`docs/vision.md`](docs/vision.md).
 
