@@ -1,0 +1,12 @@
+# Emits a source map and rewrites the URL comment in the .js output.
+
+exec tscc --out-js bundle.js --out-map maps/bundle.js.map a.ts
+grep '//# sourceMappingURL=bundle.js.map' bundle.js
+cmpenv maps/bundle.js.map maps/bundle.js.map.golden
+
+-- a.ts --
+export function add(a: number, b: number): number {
+    return a + b;
+}
+-- maps/bundle.js.map.golden --
+{"version":3,"file":"bundle.js","sources":["$WORK/a.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,GAAG,CAAC,CAAS,EAAE,CAAS;IACpC,OAAO,CAAC,GAAG,CAAC,CAAC;AACjB,CAAC"}

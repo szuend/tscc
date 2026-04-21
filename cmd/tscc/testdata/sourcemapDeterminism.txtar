@@ -1,0 +1,18 @@
+# Source maps are deterministic regardless of cwd.
+
+mkdir dir1
+cd dir1
+exec tscc --out-js bundle.js --out-map bundle.js.map ../a.ts
+cd ..
+
+mkdir dir2
+cd dir2
+exec tscc --out-js bundle.js --out-map bundle.js.map ../a.ts
+cd ..
+
+cmp dir1/bundle.js.map dir2/bundle.js.map
+
+-- a.ts --
+export function add(a: number, b: number): number {
+    return a + b;
+}

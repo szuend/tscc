@@ -1,0 +1,9 @@
+# Type error prevents source map emission
+
+! exec tscc --out-js bundle.js --out-map bundle.js.map a.ts
+! exists bundle.js
+! exists bundle.js.map
+stderr 'TS2322'
+
+-- a.ts --
+export const x: number = "not a number";
