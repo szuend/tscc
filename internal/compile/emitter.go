@@ -15,6 +15,9 @@
 package compile
 
 import (
+	"path/filepath"
+	"strings"
+
 	"github.com/microsoft/typescript-go/tsccbridge"
 	"github.com/szuend/tscc/internal/config"
 	"github.com/szuend/tscc/internal/paths"
@@ -55,6 +58,16 @@ func (e *emitter) WriteFile(fileName string, text string, data *tsccbridge.Write
 		}
 	case e.cfg.OutDtsPath != "" && paths.IsDtsOutput(fileName):
 		target = e.cfg.OutDtsPath
+	case e.cfg.OutMapPath != "" && paths.IsMapOutput(fileName):
+		target = e.cfg.OutMapPath
+		newJSName := ""
+		if e.cfg.OutJSPath != "" {
+			newJSName = filepath.Base(e.cfg.OutJSPath)
+		}
+		text = rewriteMapJSON(text, fileName, newJSName)
+		if !strings.HasSuffix(text, "\n") {
+			text += "\n"
+		}
 	}
 	if target == "" {
 		return nil
