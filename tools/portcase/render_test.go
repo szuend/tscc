@@ -35,7 +35,7 @@ func TestRenderTxtar(t *testing.T) {
 	}
 
 	got := RenderTxtar(args)
-	want := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase on 2026-04-19.
+	want := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --target es2015 --out-js a.js a.ts
 stderr 'TS2369'
@@ -52,7 +52,7 @@ var v = (public x: string) => { };
 	// Test success case
 	args.ErrorCodes = nil
 	gotSuccess := RenderTxtar(args)
-	wantSuccess := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase on 2026-04-19.
+	wantSuccess := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 exec tscc --target es2015 --out-js a.js a.ts
 ! stderr .

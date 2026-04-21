@@ -37,8 +37,7 @@ func RenderTxtar(args RenderArgs) string {
 	var buf bytes.Buffer
 
 	// Header
-	dateStr := args.Date.Format("2006-01-02")
-	fmt.Fprintf(&buf, "# Ported from tests/cases/compiler/%s.ts by tools/portcase on %s.\n", args.CaseName, dateStr)
+	fmt.Fprintf(&buf, "# Ported from tests/cases/compiler/%s.ts by tools/portcase.\n", args.CaseName)
 	fmt.Fprintf(&buf, "# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.\n")
 
 	// Command line

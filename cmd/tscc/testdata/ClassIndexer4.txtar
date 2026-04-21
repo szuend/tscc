@@ -1,4 +1,4 @@
-# Ported from tests/cases/compiler/classIndexer4.ts by tools/portcase on 2026-04-19.
+# Ported from tests/cases/compiler/classIndexer4.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --target es2015 --out-js classIndexer4.js classIndexer4.ts
 stderr 'TS2411'

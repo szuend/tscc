@@ -68,7 +68,7 @@ Upstream baselines include header comments (`//// [tests/cases/compiler/<name>.t
 ## Generated txtar shape
 
 ```
-# Ported from tests/cases/compiler/<name>.ts by tools/portcase on <date>.
+# Ported from tests/cases/compiler/<name>.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 <assertion line 1: exec or ! exec>
 <assertion line 2: stderr match or ! stderr .>

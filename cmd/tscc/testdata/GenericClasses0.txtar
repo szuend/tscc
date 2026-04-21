@@ -1,6 +1,6 @@
-# Ported from tests/cases/compiler/genericClasses0.ts by tools/portcase on 2026-04-19.
+# Ported from tests/cases/compiler/genericClasses0.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-dts genericClasses0.d.ts --out-js genericClasses0.js genericClasses0.ts
+! exec tscc --out-dts genericClasses0.d.ts --target es2015 --out-js genericClasses0.js genericClasses0.ts
 stderr 'TS2564'
 stderr 'TS2454'
 ! exists genericClasses0.d.ts

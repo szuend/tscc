@@ -1,6 +1,6 @@
-# Ported from tests/cases/compiler/classAccessorInitializationInferenceWithElementAccess1.ts by tools/portcase on 2026-04-19.
+# Ported from tests/cases/compiler/classAccessorInitializationInferenceWithElementAccess1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target esnext --out-dts classAccessorInitializationInferenceWithElementAccess1.d.ts --out-js classAccessorInitializationInferenceWithElementAccess1.js classAccessorInitializationInferenceWithElementAccess1.ts
+exec tscc --out-dts classAccessorInitializationInferenceWithElementAccess1.d.ts --strict --target esnext --out-js classAccessorInitializationInferenceWithElementAccess1.js classAccessorInitializationInferenceWithElementAccess1.ts
 ! stderr .
 cmp classAccessorInitializationInferenceWithElementAccess1.d.ts classAccessorInitializationInferenceWithElementAccess1.d.ts.golden
 cmp classAccessorInitializationInferenceWithElementAccess1.js classAccessorInitializationInferenceWithElementAccess1.js.golden

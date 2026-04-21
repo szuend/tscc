@@ -1,6 +1,6 @@
-# Ported from tests/cases/compiler/declarationEmitFunctionDuplicateNamespace.ts by tools/portcase on 2026-04-19.
+# Ported from tests/cases/compiler/declarationEmitFunctionDuplicateNamespace.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-dts declarationEmitFunctionDuplicateNamespace.d.ts --out-js declarationEmitFunctionDuplicateNamespace.js declarationEmitFunctionDuplicateNamespace.ts
+exec tscc --out-dts declarationEmitFunctionDuplicateNamespace.d.ts --target es2015 --out-js declarationEmitFunctionDuplicateNamespace.js declarationEmitFunctionDuplicateNamespace.ts
 ! stderr .
 cmp declarationEmitFunctionDuplicateNamespace.d.ts declarationEmitFunctionDuplicateNamespace.d.ts.golden
 cmp declarationEmitFunctionDuplicateNamespace.js declarationEmitFunctionDuplicateNamespace.js.golden

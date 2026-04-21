@@ -1,4 +1,4 @@
-# Ported from tests/cases/compiler/classPropertyInferenceFromBroaderTypeConst.ts by tools/portcase on 2026-04-19.
+# Ported from tests/cases/compiler/classPropertyInferenceFromBroaderTypeConst.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 exec tscc --strict --out-js classPropertyInferenceFromBroaderTypeConst.js classPropertyInferenceFromBroaderTypeConst.ts
 ! stderr .

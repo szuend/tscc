@@ -1,4 +1,4 @@
-# Ported from tests/cases/compiler/classDeclarationCheckUsedBeforeDefinitionInItself.ts by tools/portcase on 2026-04-19.
+# Ported from tests/cases/compiler/classDeclarationCheckUsedBeforeDefinitionInItself.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 exec tscc --target es6 --out-js classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUsedBeforeDefinitionInItself.ts
 ! stderr .
