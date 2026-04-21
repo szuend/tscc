@@ -24,7 +24,7 @@ Hermetic build systems (Bazel, Make, Ninja, Buck) need to own the dependency gra
 
 ## Usage
 
-> **Note:** Compilation is not yet implemented. This is a proof of concept.
+> **Note:** `tscc` is very much a work-in-progress and a proof-of-concept. The CLI and behavior are subject to change.
 
 ```bash
 # Compile a single file to JS
@@ -42,6 +42,9 @@ tscc --target es2022 --module esnext \
   --out-js dist/index.js \
   --out-deps dist/index.d \
   src/index.ts
+
+# Use a response file for long argument lists (ideal for build systems)
+tscc @args.txt
 ```
 
 The depsfile format is compatible with GNU Make and Ninja:
