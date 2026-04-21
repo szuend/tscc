@@ -187,6 +187,9 @@ func generateDepsfile(in Inputs, program *tsccbridge.Program, emitResult *tsccbr
 		target = cfg.OutDtsPath
 	}
 	if target == "" {
+		target = cfg.OutMapPath
+	}
+	if target == "" {
 		target = cfg.OutDepsPath
 	}
 
