@@ -50,6 +50,9 @@ func (e *emitter) WriteFile(fileName string, text string, data *tsccbridge.Write
 	switch {
 	case e.cfg.OutJSPath != "" && paths.IsJSOutput(fileName):
 		target = e.cfg.OutJSPath
+		if e.cfg.OutMapPath != "" && data != nil && data.SourceMapUrlPos >= 0 {
+			text = rewriteSourceMappingURL(text, data.SourceMapUrlPos, sourceMappingURLFor(e.cfg))
+		}
 	case e.cfg.OutDtsPath != "" && paths.IsDtsOutput(fileName):
 		target = e.cfg.OutDtsPath
 	}
