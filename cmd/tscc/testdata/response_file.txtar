@@ -1,0 +1,57 @@
+# Basic response file expansion
+exec tscc @args.txt a.ts
+! stderr .
+cmp a.js a.js.es2022.golden
+
+# Test with multiple flags in response file
+exec tscc @multi_args.txt a.ts
+! stderr .
+cmp a.js a.js.es2022.golden
+
+# Test with mixing (response file overrides previous flag)
+exec tscc --target es2015 @target_esnext.txt a.ts
+! stderr .
+cmp a.js a.js.esnext.golden
+
+# Test with mixing (CLI flag overrides response file)
+exec tscc @target_esnext.txt --target es2015 a.ts
+! stderr .
+cmp a.js a.js.es2015.golden
+
+# Test missing response file
+! exec tscc @missing.txt a.ts
+stderr 'read response file'
+
+-- a.ts --
+declare const a: any, b: any;
+export const x = a ?? b;
+
+-- a.js.es2022.golden --
+export const x = a ?? b;
+-- a.js.esnext.golden --
+export const x = a ?? b;
+-- a.js.es2015.golden --
+export const x = a !== null && a !== void 0 ? a : b;
+-- args.txt --
+--target
+es2022
+--out-js
+a.js
+
+-- multi_args.txt --
+--target
+es2022
+--out-js
+a.js
+
+-- target_esnext.txt --
+--target
+esnext
+--out-js
+a.js
+
+-- target_es2015.txt --
+--target
+es2015
+--out-js
+a.js

@@ -16,6 +16,8 @@
 package config
 
 import (
+	"bufio"
+	"bytes"
 	"errors"
 	"fmt"
 	"os"
@@ -52,6 +54,12 @@ type Config struct {
 }
 
 func Parse(args []string) (*Config, error) {
+	expanded, err := expandResponseFiles(args)
+	if err != nil {
+		return nil, err
+	}
+	args = expanded
+
 	cfg := &Config{}
 	groups := buildGroups(cfg)
 
@@ -88,6 +96,32 @@ func Parse(args []string) (*Config, error) {
 	}
 
 	return cfg, nil
+}
+
+func expandResponseFiles(args []string) ([]string, error) {
+	var expanded []string
+	for _, arg := range args {
+		if strings.HasPrefix(arg, "@") {
+			content, err := os.ReadFile(arg[1:])
+			if err != nil {
+				return nil, fmt.Errorf("read response file: %w", err)
+			}
+
+			scanner := bufio.NewScanner(bytes.NewReader(content))
+			for scanner.Scan() {
+				line := scanner.Text()
+				if line != "" {
+					expanded = append(expanded, line)
+				}
+			}
+			if err := scanner.Err(); err != nil {
+				return nil, fmt.Errorf("parse response file %s: %w", arg, err)
+			}
+		} else {
+			expanded = append(expanded, arg)
+		}
+	}
+	return expanded, nil
 }
 
 func (cfg *Config) Validate(args []string) error {

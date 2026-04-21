@@ -25,7 +25,7 @@ import (
 const usageHeader = `tscc — TypeScript compilation as a build rule, not a project system.
        Explicit I/O and depsfile output, built on typescript-go.
 
-Usage: tscc [OPTIONS] FILE`
+Usage: tscc [OPTIONS] FILE [@RESPONSE_FILE]`
 
 const usageFooter = `Note: All boolean flags can be negated using the '--no-' prefix.`
 
@@ -40,6 +40,11 @@ func printUsage(w io.Writer, groups []flagGroup) {
 	fmt.Fprintln(w)
 
 	width := maxLeftWidth(groups)
+
+	fmt.Fprintln(w, "General Options:")
+	writeManualFlag(w, "@FILE", "Read newline-delimited arguments from FILE", width)
+	fmt.Fprintln(w)
+
 	for _, g := range groups {
 		fmt.Fprintf(w, "%s:\n", g.Name)
 		g.Set.VisitAll(func(f *pflag.Flag) {
@@ -49,6 +54,19 @@ func printUsage(w io.Writer, groups []flagGroup) {
 	}
 
 	fmt.Fprintln(w, usageFooter)
+}
+
+func writeManualFlag(w io.Writer, name, usage string, width int) {
+	var b strings.Builder
+	b.WriteString(flagIndent)
+	b.WriteString(strings.Repeat(" ", shorthandWidth))
+	b.WriteString(name)
+
+	pad := width - b.Len() + descGap
+	b.WriteString(strings.Repeat(" ", pad))
+	b.WriteString(usage)
+
+	fmt.Fprintln(w, b.String())
 }
 
 func maxLeftWidth(groups []flagGroup) int {
