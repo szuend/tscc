@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/arrayAssignmentTest4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js arrayAssignmentTest4.js arrayAssignmentTest4.ts
+stderr 'TS2322'
+stderr 'TS2740'
+! exists arrayAssignmentTest4.js
+
+-- arrayAssignmentTest4.ts --
+class C3 {
+    CM3M1() { return 3;}
+}
+
+
+/*
+
+This behaves unexpectedly with teh following types:
+
+Type 1 of any[]:
+
+* Type 2 of the following throws an error but shouldn't: () => void[], SomeClass[], and {one: 1}[].
+
+* Type 2 of the following doesn't throw an error but should: {one: 1}, new() => SomeClass, SomeClass.
+
+*/
+var c3 : C3 = new C3();
+var o1 = {one : 1};
+
+var arr_any: any[] = [];
+
+arr_any = function () { return null;} // should be an error - is
+arr_any = c3; // should be an error - is

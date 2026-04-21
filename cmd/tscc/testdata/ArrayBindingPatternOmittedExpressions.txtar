@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/arrayBindingPatternOmittedExpressions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --out-js arrayBindingPatternOmittedExpressions.js arrayBindingPatternOmittedExpressions.ts
+stderr 'TS2454'
+! exists arrayBindingPatternOmittedExpressions.js
+
+-- arrayBindingPatternOmittedExpressions.ts --
+var results: string[];
+
+{
+    let [, b, , a] = results;
+    let x = {
+        a,
+        b
+    }
+}
+
+
+function f([, a, , b, , , , s, , , ] = results) {
+    a = s[1];
+    b = s[2];
+}

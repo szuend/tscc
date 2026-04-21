@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/ambientNameRestrictions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js ambientNameRestrictions.js ambientNameRestrictions.ts
+! stderr .
+cmp ambientNameRestrictions.js ambientNameRestrictions.js.golden
+
+-- ambientNameRestrictions.ts --
+export declare namespace Foo {
+  export var static: any;
+}
+-- ambientNameRestrictions.js.golden --
+export {};

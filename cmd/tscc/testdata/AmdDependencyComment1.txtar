@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/amdDependencyComment1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js amdDependencyComment1.js amdDependencyComment1.ts
+stderr 'TS2307'
+! exists amdDependencyComment1.js
+
+-- amdDependencyComment1.ts --
+///<amd-dependency path='bar'/>
+
+import m1 = require("m2")
+m1.f();

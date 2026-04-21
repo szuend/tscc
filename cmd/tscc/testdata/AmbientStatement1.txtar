@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/ambientStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ambientStatement1.js ambientStatement1.ts
+stderr 'TS1036'
+stderr 'TS1039'
+! exists ambientStatement1.js
+
+-- ambientStatement1.ts --
+    declare namespace M1 {
+    	while(true);
+    
+    	export var v1 = () => false;
+    }

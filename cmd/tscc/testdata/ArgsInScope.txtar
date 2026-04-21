@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/argsInScope.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js argsInScope.js argsInScope.ts
+! stderr .
+cmp argsInScope.js argsInScope.js.golden
+
+-- argsInScope.ts --
+class C {
+    P(ii:number, j:number, k:number) {
+       for (var i = 0; i < arguments.length; i++) {
+           // WScript.Echo("param: " + arguments[i]);
+       }
+    }
+}
+
+var c = new C();
+c.P(1,2,3);
+-- argsInScope.js.golden --
+"use strict";
+class C {
+    P(ii, j, k) {
+        for (var i = 0; i < arguments.length; i++) {
+            // WScript.Echo("param: " + arguments[i]);
+        }
+    }
+}
+var c = new C();
+c.P(1, 2, 3);

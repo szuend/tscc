@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/ambientModuleWithClassDeclarationWithExtends.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js ambientModuleWithClassDeclarationWithExtends.js ambientModuleWithClassDeclarationWithExtends.ts
+! stderr .
+cmp ambientModuleWithClassDeclarationWithExtends.js ambientModuleWithClassDeclarationWithExtends.js.golden
+
+-- ambientModuleWithClassDeclarationWithExtends.ts --
+declare namespace foo {
+    class A { }
+    class B extends A { }
+}
+-- ambientModuleWithClassDeclarationWithExtends.js.golden --
+"use strict";

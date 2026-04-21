@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/argumentsObjectIterator02_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --out-js argumentsObjectIterator02_ES6.js argumentsObjectIterator02_ES6.ts
+! stderr .
+cmp argumentsObjectIterator02_ES6.js argumentsObjectIterator02_ES6.js.golden
+
+-- argumentsObjectIterator02_ES6.ts --
+function doubleAndReturnAsArray(x: number, y: number, z: number): [number, number, number] {
+    let blah = arguments[Symbol.iterator];
+
+    let result = [];
+    for (let arg of blah()) {
+        result.push(arg + arg);
+    }
+    return <[any, any, any]>result;
+}
+-- argumentsObjectIterator02_ES6.js.golden --
+"use strict";
+function doubleAndReturnAsArray(x, y, z) {
+    let blah = arguments[Symbol.iterator];
+    let result = [];
+    for (let arg of blah()) {
+        result.push(arg + arg);
+    }
+    return result;
+}

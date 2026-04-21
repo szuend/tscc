@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/arrayAugment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js arrayAugment.js arrayAugment.ts
+! stderr .
+cmp arrayAugment.js arrayAugment.js.golden
+
+-- arrayAugment.ts --
+interface Array<T> {
+    split: (parts: number) => T[][];
+}
+
+var x = [''];
+var y = x.split(4);
+var y: string[][]; // Expect no error here
+-- arrayAugment.js.golden --
+"use strict";
+var x = [''];
+var y = x.split(4);
+var y; // Expect no error here

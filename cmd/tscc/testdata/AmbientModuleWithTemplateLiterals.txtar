@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/ambientModuleWithTemplateLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js ambientModuleWithTemplateLiterals.js ambientModuleWithTemplateLiterals.ts
+! stderr .
+cmp ambientModuleWithTemplateLiterals.js ambientModuleWithTemplateLiterals.js.golden
+
+-- ambientModuleWithTemplateLiterals.ts --
+declare namespace Foo {
+    enum Bar {
+        a = `1`,
+        b = '2',
+        c = '3'
+    }
+
+    export const a = 'string';
+    export const b = `template`;
+
+    export const c = Bar.a;
+    export const d = Bar['b'];
+    export const e = Bar[`c`];
+}
+
+Foo.a;
+Foo.b;
+Foo.c;
+Foo.d;
+Foo.e;
+-- ambientModuleWithTemplateLiterals.js.golden --
+"use strict";
+Foo.a;
+Foo.b;
+Foo.c;
+Foo.d;
+Foo.e;

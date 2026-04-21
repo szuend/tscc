@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/argumentsUsedInObjectLiteralProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js argumentsUsedInObjectLiteralProperty.js argumentsUsedInObjectLiteralProperty.ts
+! stderr .
+cmp argumentsUsedInObjectLiteralProperty.js argumentsUsedInObjectLiteralProperty.js.golden
+
+-- argumentsUsedInObjectLiteralProperty.ts --
+class A {
+    public static createSelectableViewModel(initialState?: any, selectedValue?: any) {
+        return {
+            selectedValue: arguments.length
+        };
+    }
+}
+-- argumentsUsedInObjectLiteralProperty.js.golden --
+"use strict";
+class A {
+    static createSelectableViewModel(initialState, selectedValue) {
+        return {
+            selectedValue: arguments.length
+        };
+    }
+}

@@ -1,0 +1,8 @@
+# Ported from tests/cases/compiler/anyIndexedAccessArrayNoException.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js anyIndexedAccessArrayNoException.js anyIndexedAccessArrayNoException.ts
+stderr 'TS2538'
+! exists anyIndexedAccessArrayNoException.js
+
+-- anyIndexedAccessArrayNoException.ts --
+var x: any[[]];

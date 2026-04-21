@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/argumentsObjectIterator03_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --out-js argumentsObjectIterator03_ES6.js argumentsObjectIterator03_ES6.ts
+! stderr .
+cmp argumentsObjectIterator03_ES6.js argumentsObjectIterator03_ES6.js.golden
+
+-- argumentsObjectIterator03_ES6.ts --
+function asReversedTuple(a: number, b: string, c: boolean): [boolean, string, number] {
+    let [x, y, z] = arguments;
+    
+    return [z, y, x];
+}
+-- argumentsObjectIterator03_ES6.js.golden --
+"use strict";
+function asReversedTuple(a, b, c) {
+    let [x, y, z] = arguments;
+    return [z, y, x];
+}

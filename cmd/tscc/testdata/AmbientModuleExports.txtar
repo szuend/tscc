@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/ambientModuleExports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js ambientModuleExports.js ambientModuleExports.ts
+! stderr .
+cmp ambientModuleExports.js ambientModuleExports.js.golden
+
+-- ambientModuleExports.ts --
+declare namespace Foo {
+	function a():void;
+	var b:number;
+	class C {}
+}
+
+Foo.a();
+Foo.b;
+var c = new Foo.C();
+
+declare namespace Foo2 {
+    export function a(): void;
+    export var b: number;
+    export class C { }
+}
+
+Foo2.a();
+Foo2.b;
+var c2 = new Foo2.C();
+-- ambientModuleExports.js.golden --
+"use strict";
+Foo.a();
+Foo.b;
+var c = new Foo.C();
+Foo2.a();
+Foo2.b;
+var c2 = new Foo2.C();

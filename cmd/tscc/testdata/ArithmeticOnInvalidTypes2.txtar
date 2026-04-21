@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/arithmeticOnInvalidTypes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arithmeticOnInvalidTypes2.js arithmeticOnInvalidTypes2.ts
+stderr 'TS2365'
+stderr 'TS2362'
+stderr 'TS2363'
+! exists arithmeticOnInvalidTypes2.js
+
+-- arithmeticOnInvalidTypes2.ts --
+var obj = function f<T>(a: T, b: T) {
+    var z1 = a + b;
+    var z2 = a - b;
+    var z3 = a * b;
+    var z4 = a / b;
+    return a;
+};

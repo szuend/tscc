@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/arrayBufferIsViewNarrowsType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrayBufferIsViewNarrowsType.js arrayBufferIsViewNarrowsType.ts
+stderr 'TS2454'
+! exists arrayBufferIsViewNarrowsType.js
+
+-- arrayBufferIsViewNarrowsType.ts --
+var obj: Object;
+if (ArrayBuffer.isView(obj)) {
+    // isView should be a guard that narrows type to ArrayBufferView.
+    var ab: ArrayBufferView = obj;
+}

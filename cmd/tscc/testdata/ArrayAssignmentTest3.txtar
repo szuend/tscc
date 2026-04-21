@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/arrayAssignmentTest3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrayAssignmentTest3.js arrayAssignmentTest3.ts
+stderr 'TS2345'
+! exists arrayAssignmentTest3.js
+
+-- arrayAssignmentTest3.ts --
+// The following gives no error
+// Michal saw no error if he used number instead of B, 
+// but I do...
+class B {}
+
+class a {
+    constructor(public x: string, public y: number, z: B[]) { }
+}
+
+
+
+var xx = new a(null, 7, new B());
