@@ -70,16 +70,20 @@ func ExtractErrorCodes(content string) []string {
 	var codes []string
 	seen := make(map[string]bool)
 
-	re := regexp.MustCompile(`TS\d{4,5}`)
+	// Match lines like:
+	// file.ts(1,1): error TS1234: ...
+	// !!! error TS1234: ...
+	re := regexp.MustCompile(`(?:error|!!! error)\s+(TS\d{4,5})`)
 
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	for scanner.Scan() {
 		line := scanner.Text()
-		matches := re.FindAllString(line, -1)
+		matches := re.FindAllStringSubmatch(line, -1)
 		for _, match := range matches {
-			if !seen[match] {
-				seen[match] = true
-				codes = append(codes, match)
+			code := match[1]
+			if !seen[code] {
+				seen[code] = true
+				codes = append(codes, code)
 			}
 		}
 	}

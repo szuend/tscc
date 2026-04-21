@@ -52,9 +52,15 @@ func TestExtractErrorCodes(t *testing.T) {
 tests/cases/compiler/foo.ts(1,1): error TS1005: ';' expected.
 tests/cases/compiler/foo.ts(2,5): error TS2304: Cannot find name 'x'.
 tests/cases/compiler/foo.ts(3,1): error TS1005: ';' expected.
+
+==== foo.ts (2 errors) ====
+    let x = 1;
+    ~~~
+!!! error TS1234: Some error
+!!! related TS5678 foo.ts:10:1: Related info here
 `
 	got := ExtractErrorCodes(content)
-	want := []string{"TS1005", "TS2304"}
+	want := []string{"TS1005", "TS2304", "TS1234"}
 
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("ExtractErrorCodes() = %v, want %v", got, want)
