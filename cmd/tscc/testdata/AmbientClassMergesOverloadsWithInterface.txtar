@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/ambientClassMergesOverloadsWithInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-js ambientClassMergesOverloadsWithInterface.js ambientClassMergesOverloadsWithInterface.ts
+! stderr .
+cmp ambientClassMergesOverloadsWithInterface.js ambientClassMergesOverloadsWithInterface.js.golden
+
+-- ambientClassMergesOverloadsWithInterface.ts --
+declare class C {
+    baz(): any;
+    foo(n: number): any;
+}
+interface C {
+    foo(n: number): any;
+    bar(): any;
+}
+-- ambientClassMergesOverloadsWithInterface.js.golden --
+"use strict";

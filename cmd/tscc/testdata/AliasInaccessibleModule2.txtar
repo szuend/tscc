@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/aliasInaccessibleModule2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts aliasInaccessibleModule2.d.ts --target es2015 --out-js aliasInaccessibleModule2.js aliasInaccessibleModule2.ts
+! stderr .
+cmp aliasInaccessibleModule2.d.ts aliasInaccessibleModule2.d.ts.golden
+cmp aliasInaccessibleModule2.js aliasInaccessibleModule2.js.golden
+
+-- aliasInaccessibleModule2.ts --
+namespace M {
+    namespace N {
+        class C {
+        }
+        
+    }
+    import R = N;
+    export import X = R;
+}
+-- aliasInaccessibleModule2.d.ts.golden --
+declare namespace M {
+    namespace N {
+    }
+    import R = N;
+    export import X = R;
+    export {};
+}
+-- aliasInaccessibleModule2.js.golden --
+"use strict";
+var M;
+(function (M) {
+    let N;
+    (function (N) {
+        class C {
+        }
+    })(N || (N = {}));
+    var R = N;
+    M.X = R;
+})(M || (M = {}));

@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/aliasInstantiationExpressionGenericIntersectionNoCrash2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --out-js aliasInstantiationExpressionGenericIntersectionNoCrash2.js aliasInstantiationExpressionGenericIntersectionNoCrash2.ts
+stderr 'TS2352'
+! exists aliasInstantiationExpressionGenericIntersectionNoCrash2.js
+
+-- aliasInstantiationExpressionGenericIntersectionNoCrash2.ts --
+declare class Class<T> {
+  x: T;
+}
+
+declare function fn<T>(): T;
+
+
+type ClassAlias<T> = typeof Class<T>;
+type FnAlias<T> = typeof fn<T>;
+
+type Wat<T> = ClassAlias<T> & FnAlias<T>;
+
+
+declare const wat: Wat<number>;
+wat as Wat<string>;

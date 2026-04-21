@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/ambientClassDeclaredBeforeBase.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 ambientClassDeclaredBeforeBase.ts
+! stderr .
+
+-- ambientClassDeclaredBeforeBase.ts --
+// @target: es2015
+// @filename: a.d.ts
+
+declare namespace ns {
+  class SecondNS extends FirstNS { }
+  class FirstNS { }
+}

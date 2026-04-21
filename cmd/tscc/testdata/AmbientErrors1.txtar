@@ -1,0 +1,8 @@
+# Ported from tests/cases/compiler/ambientErrors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ambientErrors1.js ambientErrors1.ts
+stderr 'TS1039'
+! exists ambientErrors1.js
+
+-- ambientErrors1.ts --
+declare var x = 4;
