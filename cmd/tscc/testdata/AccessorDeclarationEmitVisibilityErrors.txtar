@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/AccessorDeclarationEmitVisibilityErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts AccessorDeclarationEmitVisibilityErrors.d.ts --strict --target es6 --out-js accessorDeclarationEmitVisibilityErrors.js accessorDeclarationEmitVisibilityErrors.ts
+stderr 'TS2304'
+! exists accessorDeclarationEmitVisibilityErrors.d.ts
+! exists accessorDeclarationEmitVisibilityErrors.js
+
+-- accessorDeclarationEmitVisibilityErrors.ts --
+export class Q {
+    set bet(arg: DoesNotExist) {}
+}

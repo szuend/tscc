@@ -1,5 +1,5 @@
-# 'public' is not a valid modifier in an arrow function parameter list.
-# TypeScript reports the error. tscc targets build systems, so no JS is emitted on error.
+# Ported from tests/cases/compiler/ArrowFunctionExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --target es2015 --out-js ArrowFunctionExpression1.js ArrowFunctionExpression1.ts
 stderr 'TS2369'
 ! exists ArrowFunctionExpression1.js

@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/AccessorBodyInTypeContext.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js accessorBodyInTypeContext.js accessorBodyInTypeContext.ts
+stderr 'TS1183'
+! exists accessorBodyInTypeContext.js
+
+-- accessorBodyInTypeContext.ts --
+type A = {
+    get foo() { return 0 }
+};
+
+type B = {
+    set foo(v: any) { }
+};
+
+interface X {
+    get foo() { return 0 }
+}
+
+interface Y {
+    set foo(v: any) { }
+}

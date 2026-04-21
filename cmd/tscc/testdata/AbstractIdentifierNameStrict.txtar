@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/AbstractIdentifierNameStrict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js abstractIdentifierNameStrict.js abstractIdentifierNameStrict.ts
+! stderr .
+cmp abstractIdentifierNameStrict.js abstractIdentifierNameStrict.js.golden
+
+-- abstractIdentifierNameStrict.ts --
+var abstract = true;
+
+function foo() {
+    "use strict";
+    var abstract = true;
+}
+-- abstractIdentifierNameStrict.js.golden --
+"use strict";
+var abstract = true;
+function foo() {
+    "use strict";
+    var abstract = true;
+}

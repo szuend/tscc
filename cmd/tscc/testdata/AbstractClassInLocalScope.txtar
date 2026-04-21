@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/AbstractClassInLocalScope.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js abstractClassInLocalScope.js abstractClassInLocalScope.ts
+! stderr .
+cmp abstractClassInLocalScope.js abstractClassInLocalScope.js.golden
+
+-- abstractClassInLocalScope.ts --
+(() => {
+    abstract class A {}
+    class B extends A {}
+    new B();
+    return A;
+})();
+-- abstractClassInLocalScope.js.golden --
+"use strict";
+(() => {
+    class A {
+    }
+    class B extends A {
+    }
+    new B();
+    return A;
+})();

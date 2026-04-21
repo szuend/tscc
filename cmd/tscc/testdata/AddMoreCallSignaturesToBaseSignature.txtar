@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/AddMoreCallSignaturesToBaseSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js addMoreCallSignaturesToBaseSignature.js addMoreCallSignaturesToBaseSignature.ts
+stderr 'TS2454'
+! exists addMoreCallSignaturesToBaseSignature.js
+
+-- addMoreCallSignaturesToBaseSignature.ts --
+interface Foo {
+    (): string;
+}
+
+interface Bar extends Foo {
+    (key: string): string;
+}
+
+var a: Bar;
+var kitty = a();

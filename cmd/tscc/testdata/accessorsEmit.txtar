@@ -1,10 +1,10 @@
-# Class getter/setter accessors are emitted correctly at es2015 target.
-# Upstream directive: // @strict: false — so we pass --no-strict.
-exec tscc --target es2015 --no-strict --out-js a.js a.ts
+# Ported from tests/cases/compiler/accessorsEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --out-js accessorsEmit.js accessorsEmit.ts
 ! stderr .
-cmp a.js a.js.golden
+cmp accessorsEmit.js accessorsEmit.js.golden
 
--- a.ts --
+-- accessorsEmit.ts --
 class Result { }
 
 class Test {
@@ -20,7 +20,7 @@ class Test2 {
         return null;
     }
 }
--- a.js.golden --
+-- accessorsEmit.js.golden --
 "use strict";
 class Result {
 }

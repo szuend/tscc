@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/AccessInstanceMemberFromStaticMethod01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js accessInstanceMemberFromStaticMethod01.js accessInstanceMemberFromStaticMethod01.ts
+stderr 'TS2662'
+! exists accessInstanceMemberFromStaticMethod01.js
+
+-- accessInstanceMemberFromStaticMethod01.ts --
+class C {
+    static foo: string;
+
+    bar() {
+        let k = foo;
+    }
+}

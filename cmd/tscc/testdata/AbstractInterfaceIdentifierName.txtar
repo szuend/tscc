@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/AbstractInterfaceIdentifierName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js abstractInterfaceIdentifierName.js abstractInterfaceIdentifierName.ts
+! stderr .
+cmp abstractInterfaceIdentifierName.js abstractInterfaceIdentifierName.js.golden
+
+-- abstractInterfaceIdentifierName.ts --
+interface abstract {
+    abstract(): void;
+}
+-- abstractInterfaceIdentifierName.js.golden --
+"use strict";
