@@ -47,6 +47,19 @@ func IsDtsOutput(name string) bool {
 	return false
 }
 
+// IsMapOutput matches source map outputs.
+func IsMapOutput(name string) bool {
+	switch {
+	case strings.HasSuffix(name, ".js.map"):
+		return true
+	case strings.HasSuffix(name, ".mjs.map"):
+		return true
+	case strings.HasSuffix(name, ".cjs.map"):
+		return true
+	}
+	return false
+}
+
 // StripExt removes the final extension from p, yielding the "stem" used to
 // match a primary emit against its input file. Comparing stems treats
 // /abs/a.ts and /abs/a.js as the same file.
@@ -58,6 +71,12 @@ func StripExt(p string) string {
 		return strings.TrimSuffix(p, ".d.mts")
 	case strings.HasSuffix(p, ".d.cts"):
 		return strings.TrimSuffix(p, ".d.cts")
+	case strings.HasSuffix(p, ".js.map"):
+		return strings.TrimSuffix(p, ".js.map")
+	case strings.HasSuffix(p, ".mjs.map"):
+		return strings.TrimSuffix(p, ".mjs.map")
+	case strings.HasSuffix(p, ".cjs.map"):
+		return strings.TrimSuffix(p, ".cjs.map")
 	}
 	return strings.TrimSuffix(p, filepath.Ext(p))
 }

@@ -33,6 +33,7 @@ type Config struct {
 	OutJSPath   string
 	OutDepsPath string
 	OutDtsPath  string
+	OutMapPath  string
 
 	// CaseSensitivePaths pins the value returned by
 	// UseCaseSensitiveFileNames() on every FS the compiler observes.
@@ -127,6 +128,14 @@ func (cfg *Config) Validate(args []string) error {
 		cfg.OutDtsPath = absDts
 	}
 
+	if cfg.OutMapPath != "" {
+		absMap, err := filepath.Abs(cfg.OutMapPath)
+		if err != nil {
+			return fmt.Errorf("resolve map path: %w", err)
+		}
+		cfg.OutMapPath = absMap
+	}
+
 	// --path NAME=/abs/path ; absolute targets only, duplicates rejected.
 	// Design §4 requires one-to-one mappings we can audit deterministically;
 	// accepting relative targets or duplicate names reintroduces ambiguity.
@@ -193,7 +202,8 @@ func resolutionGroup(cfg *Config) flagGroup {
 func outputGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
 	g.StringVarP(&cfg.OutJSPath, "out-js", "o", "", "Write JavaScript output to `FILE`")
-	g.StringVar(&cfg.OutDtsPath, "out-dts", "", "Write TypeScript declaration output to `FILE`")
+	g.StringVar(&cfg.OutDtsPath, "out-dts", "", "Write TypeScript declaration output to `FILE`.")
+	g.StringVar(&cfg.OutMapPath, "out-map", "", "Write source map output to `FILE`. URL comment in emitted JS uses basename(FILE); co-locate or rewrite downstream.")
 	g.StringVar(&cfg.OutDepsPath, "out-deps", "", "Write a Make-compatible dependency snippet for the transitive input set to `FILE`")
 	return flagGroup{Name: "Output", Set: g}
 }

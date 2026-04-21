@@ -123,6 +123,28 @@ func TestFromConfigDeclaration(t *testing.T) {
 	}
 }
 
+func TestFromConfigSourceMap(t *testing.T) {
+	tests := []struct {
+		name string
+		cfg  config.Config
+		want tsccbridge.Tristate
+	}{
+		{"unset", config.Config{Target: "es2022"}, tsccbridge.TSUnknown},
+		{"set", config.Config{Target: "es2022", OutMapPath: "a.js.map"}, tsccbridge.TSTrue},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got, err := FromConfig(&tc.cfg)
+			if err != nil {
+				t.Fatalf("FromConfig returned error: %v", err)
+			}
+			if got.SourceMap != tc.want {
+				t.Errorf("SourceMap = %v, want %v", got.SourceMap, tc.want)
+			}
+		})
+	}
+}
+
 func TestFromConfigModule(t *testing.T) {
 	tests := []struct {
 		in   string

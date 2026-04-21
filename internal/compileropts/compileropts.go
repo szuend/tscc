@@ -83,11 +83,17 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		decl = tsccbridge.TSTrue
 	}
 
+	srcMap := tsccbridge.TSUnknown
+	if cfg.OutMapPath != "" {
+		srcMap = tsccbridge.TSTrue
+	}
+
 	return &tsccbridge.CompilerOptions{
 		Target:      target,
 		Strict:      boolToTristate(cfg.Strict),
 		Module:      mod,
 		Declaration: decl,
+		SourceMap:   srcMap,
 	}, nil
 }
 

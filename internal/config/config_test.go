@@ -181,6 +181,14 @@ func TestParse(t *testing.T) {
 			if got.OutDepsPath != wantDeps {
 				t.Errorf("OutDepsPath: got %q, want %q", got.OutDepsPath, wantDeps)
 			}
+
+			wantMap := tt.wantConfig.OutMapPath
+			if wantMap != "" {
+				wantMap, _ = filepath.Abs(wantMap)
+			}
+			if got.OutMapPath != wantMap {
+				t.Errorf("OutMapPath: got %q, want %q", got.OutMapPath, wantMap)
+			}
 		})
 	}
 }
