@@ -16,6 +16,7 @@ package main
 
 import (
 	"fmt"
+	"maps"
 	"path/filepath"
 	"slices"
 	"strings"
@@ -88,98 +89,175 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		errorCodesMap = ExtractErrorCodesPerFile(p.BaselineErrors)
 	}
 
+	variants := ComputeVariants(globalOptions)
+
 	for _, inputFile := range inputList {
 		inputStem := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
 		currentErrorCodes := errorCodesMap[inputFile]
 
-		flags, err := TranslateDirectives(globalOptions, inputStem)
-		if err != nil {
-			return nil, err
-		}
+		for _, variant := range variants {
+			flags, err := TranslateDirectives(variant.Options, inputStem)
+			if err != nil {
+				return nil, err
+			}
 
-		// Determine output file name
-		var currentOutName string
-		if len(inputList) == 1 {
-			currentOutName = strings.ToUpper(p.CaseName[:1]) + p.CaseName[1:] + ".txtar"
-		} else {
+			// Determine output file name
+			var currentOutName string
 			base := strings.ToUpper(p.CaseName[:1]) + p.CaseName[1:]
-			currentOutName = fmt.Sprintf("%s_%s.txtar", base, inputStem)
-		}
 
-		// Filter outputs
-		currentOutputs := make(map[string]string)
-		var currentNotExpectedOutputs []string
-
-		for outName, content := range outputs {
-			outStem := outName
-			if before, ok := strings.CutSuffix(outName, ".d.ts"); ok {
-				outStem = before
-			} else if before, ok := strings.CutSuffix(outName, ".js.map"); ok {
-				outStem = before
+			if len(inputList) == 1 && variant.Name == "" {
+				currentOutName = base + ".txtar"
+			} else if len(inputList) == 1 {
+				currentOutName = fmt.Sprintf("%s_%s.txtar", base, variant.Name)
+			} else if variant.Name == "" {
+				currentOutName = fmt.Sprintf("%s_%s.txtar", base, inputStem)
 			} else {
-				outStem = strings.TrimSuffix(outName, filepath.Ext(outName))
+				currentOutName = fmt.Sprintf("%s_%s_%s.txtar", base, inputStem, variant.Name)
 			}
 
-			if outStem == inputStem {
-				currentOutputs[outName] = content
-			} else {
-				currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
-			}
-		}
+			// Filter outputs
+			currentOutputs := make(map[string]string)
+			var currentNotExpectedOutputs []string
 
-		// Calculate flags for out outputs
-		if len(currentErrorCodes) == 0 && len(currentOutputs) > 0 {
-			for outName := range currentOutputs {
-				if strings.HasSuffix(outName, ".js") {
-					flags = append(flags, "--out-js", outName)
+			for outName, content := range outputs {
+				outStem := outName
+				if before, ok := strings.CutSuffix(outName, ".d.ts"); ok {
+					outStem = before
+				} else if before, ok := strings.CutSuffix(outName, ".js.map"); ok {
+					outStem = before
+				} else {
+					outStem = strings.TrimSuffix(outName, filepath.Ext(outName))
+				}
+
+				if outStem == inputStem {
+					currentOutputs[outName] = content
+				} else {
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
 				}
 			}
-		} else if len(currentErrorCodes) > 0 {
-			if len(currentOutputs) > 0 {
+
+			// Calculate flags for out outputs
+			if len(currentErrorCodes) == 0 && len(currentOutputs) > 0 {
 				for outName := range currentOutputs {
 					if strings.HasSuffix(outName, ".js") {
 						flags = append(flags, "--out-js", outName)
 					}
 				}
-			} else {
-				flags = append(flags, "--out-js", inputStem+".js")
-				currentOutputs[inputStem+".js"] = ""
+			} else if len(currentErrorCodes) > 0 {
+				if len(currentOutputs) > 0 {
+					for outName := range currentOutputs {
+						if strings.HasSuffix(outName, ".js") {
+							flags = append(flags, "--out-js", outName)
+						}
+					}
+				} else {
+					flags = append(flags, "--out-js", inputStem+".js")
+					currentOutputs[inputStem+".js"] = ""
+				}
 			}
-		}
 
-		// Check .d.ts
-		if _, ok := currentOutputs[inputStem+".d.ts"]; !ok {
-			hasDts := slices.Contains(flags, "--out-dts")
-			if !hasDts {
-				currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".d.ts")
+			// Check .d.ts
+			if _, ok := currentOutputs[inputStem+".d.ts"]; !ok {
+				hasDts := slices.Contains(flags, "--out-dts")
+				if !hasDts {
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".d.ts")
+				}
 			}
-		}
 
-		// Check .js.map
-		if _, ok := currentOutputs[inputStem+".js.map"]; !ok {
-			hasMap := slices.Contains(flags, "--out-map")
-			if !hasMap {
-				currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".js.map")
+			// Check .js.map
+			if _, ok := currentOutputs[inputStem+".js.map"]; !ok {
+				hasMap := slices.Contains(flags, "--out-map")
+				if !hasMap {
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".js.map")
+				}
 			}
-		}
 
-		args := RenderArgs{
-			CaseName:           p.CaseName,
-			Date:               time.Now().UTC(),
-			Flags:              flags,
-			Inputs:             []string{inputFile},
-			ErrorCodes:         currentErrorCodes,
-			Files:              inputs,
-			Outputs:            currentOutputs,
-			NotExpectedOutputs: currentNotExpectedOutputs,
-		}
+			args := RenderArgs{
+				CaseName:           p.CaseName,
+				Date:               time.Now().UTC(),
+				Flags:              flags,
+				Inputs:             []string{inputFile},
+				ErrorCodes:         currentErrorCodes,
+				Files:              inputs,
+				Outputs:            currentOutputs,
+				NotExpectedOutputs: currentNotExpectedOutputs,
+			}
 
-		txtarContent := RenderTxtar(args)
-		results = append(results, PortedFile{
-			Name:    currentOutName,
-			Content: txtarContent,
-		})
+			txtarContent := RenderTxtar(args)
+			results = append(results, PortedFile{
+				Name:    currentOutName,
+				Content: txtarContent,
+			})
+		}
 	}
 
 	return results, nil
+}
+
+// Variant represents a specific configuration combination.
+type Variant struct {
+	Name    string
+	Options map[string]string
+}
+
+// ComputeVariants computes the Cartesian product of all multi-value directives.
+// For now it only supports "target" and "module".
+func ComputeVariants(options map[string]string) []Variant {
+	multiValueKeys := []string{"target", "module"}
+	var keysWithMultipleValues []string
+	var valuesLists [][]string
+
+	for _, k := range multiValueKeys {
+		val, ok := options[k]
+		if !ok {
+			continue
+		}
+		if strings.Contains(val, ",") {
+			parts := strings.Split(val, ",")
+			var cleaned []string
+			for _, p := range parts {
+				p = strings.TrimSpace(p)
+				if p != "" {
+					cleaned = append(cleaned, p)
+				}
+			}
+			if len(cleaned) > 1 {
+				keysWithMultipleValues = append(keysWithMultipleValues, k)
+				valuesLists = append(valuesLists, cleaned)
+			}
+		}
+	}
+
+	if len(keysWithMultipleValues) == 0 {
+		return []Variant{{Name: "", Options: options}}
+	}
+
+	var result []Variant
+	var generate func(int, map[string]string, []string)
+	generate = func(idx int, currentOptions map[string]string, currentNames []string) {
+		if idx == len(keysWithMultipleValues) {
+			optCopy := make(map[string]string)
+			maps.Copy(optCopy, options)
+			maps.Copy(optCopy, currentOptions)
+			result = append(result, Variant{
+				Name:    strings.Join(currentNames, "_"),
+				Options: optCopy,
+			})
+			return
+		}
+
+		key := keysWithMultipleValues[idx]
+		vals := valuesLists[idx]
+
+		for _, val := range vals {
+			nextOptions := make(map[string]string)
+			maps.Copy(nextOptions, currentOptions)
+			nextOptions[key] = val
+
+			generate(idx+1, nextOptions, append(currentNames, val))
+		}
+	}
+
+	generate(0, make(map[string]string), nil)
+	return result
 }

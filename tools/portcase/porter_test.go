@@ -144,3 +144,116 @@ func TestPorter_Port_InvalidBaseline(t *testing.T) {
 		t.Errorf("Expected error about baseline split failure, got: %v", err)
 	}
 }
+
+func TestPorter_Port_Variants(t *testing.T) {
+	p := Porter{
+		CaseName:  "variants_case",
+		TsContent: "// @target: esnext, es2015\nexport const x = 1;",
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 2 {
+		t.Fatalf("Expected 2 results, got %d", len(results))
+	}
+
+	// Check names
+	names := map[string]bool{
+		"Variants_case_esnext.txtar": false,
+		"Variants_case_es2015.txtar": false,
+	}
+
+	for _, res := range results {
+		if _, ok := names[res.Name]; ok {
+			names[res.Name] = true
+		} else {
+			t.Errorf("Unexpected result name: %s", res.Name)
+		}
+	}
+
+	for name, found := range names {
+		if !found {
+			t.Errorf("Expected result %s not found", name)
+		}
+	}
+
+	for _, res := range results {
+		if res.Name == "Variants_case_esnext.txtar" {
+			if !strings.Contains(res.Content, "--target esnext") {
+				t.Errorf("Expected esnext content to contain --target esnext, got:\n%s", res.Content)
+			}
+		} else if res.Name == "Variants_case_es2015.txtar" {
+			if !strings.Contains(res.Content, "--target es2015") {
+				t.Errorf("Expected es2015 content to contain --target es2015, got:\n%s", res.Content)
+			}
+		}
+	}
+}
+
+func TestPorter_Port_MultiFile_Variants(t *testing.T) {
+	p := Porter{
+		CaseName:  "multifile_variants",
+		TsContent: "// @target: esnext, es2015",
+		BaselineJs: `//// [a.ts]
+export const a = 1;
+//// [b.ts]
+export const b = 2;
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	// 2 files * 2 variants = 4 results
+	if len(results) != 4 {
+		t.Fatalf("Expected 4 results, got %d", len(results))
+	}
+
+	// Check names
+	names := map[string]bool{
+		"Multifile_variants_a_esnext.txtar": false,
+		"Multifile_variants_a_es2015.txtar": false,
+		"Multifile_variants_b_esnext.txtar": false,
+		"Multifile_variants_b_es2015.txtar": false,
+	}
+
+	for _, res := range results {
+		if _, ok := names[res.Name]; ok {
+			names[res.Name] = true
+		} else {
+			t.Errorf("Unexpected result name: %s", res.Name)
+		}
+	}
+
+	for name, found := range names {
+		if !found {
+			t.Errorf("Expected result %s not found", name)
+		}
+	}
+
+	// Check content for specific files to ensure flags are correct
+	for _, res := range results {
+		switch res.Name {
+		case "Multifile_variants_a_esnext.txtar":
+			if !strings.Contains(res.Content, "--target esnext") {
+				t.Errorf("Expected a_esnext to contain --target esnext")
+			}
+			if !strings.Contains(res.Content, "exec tscc --target esnext a.ts") {
+				t.Errorf("Expected a_esnext to execute a.ts with command 'exec tscc --target esnext a.ts', got:\n%s", res.Content)
+			}
+		case "Multifile_variants_a_es2015.txtar":
+			if !strings.Contains(res.Content, "--target es2015") {
+				t.Errorf("Expected a_es2015 to contain --target es2015")
+			}
+		case "Multifile_variants_b_esnext.txtar":
+			if !strings.Contains(res.Content, "exec tscc --target esnext b.ts") {
+				t.Errorf("Expected b_esnext to execute b.ts with command 'exec tscc --target esnext b.ts', got:\n%s", res.Content)
+			}
+		}
+	}
+}
