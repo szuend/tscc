@@ -32,9 +32,9 @@ func TestParse(t *testing.T) {
 			args: []string{"input.ts"},
 			wantConfig: &Config{
 				Strict:             true,
+				NoImplicitAny:      true,
 				Target:             "es2025",
 				InputPath:          "input.ts",
-				OutJSPath:          "",
 				CaseSensitivePaths: true,
 			},
 		},
@@ -43,6 +43,7 @@ func TestParse(t *testing.T) {
 			args: []string{"--case-sensitive-paths=false", "in.ts"},
 			wantConfig: &Config{
 				Strict:             true,
+				NoImplicitAny:      true,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: false,
@@ -53,9 +54,9 @@ func TestParse(t *testing.T) {
 			args: []string{"--target", "es2015", "--strict=false", "foo.ts"},
 			wantConfig: &Config{
 				Strict:             false,
+				NoImplicitAny:      false,
 				Target:             "es2015",
 				InputPath:          "foo.ts",
-				OutJSPath:          "",
 				CaseSensitivePaths: true,
 			},
 		},
@@ -64,9 +65,9 @@ func TestParse(t *testing.T) {
 			args: []string{"--no-strict", "bar.ts"},
 			wantConfig: &Config{
 				Strict:             false,
+				NoImplicitAny:      false,
 				Target:             "es2025",
 				InputPath:          "bar.ts",
-				OutJSPath:          "",
 				CaseSensitivePaths: true,
 			},
 		},
@@ -75,6 +76,7 @@ func TestParse(t *testing.T) {
 			args: []string{"-o", "out.js", "in.ts"},
 			wantConfig: &Config{
 				Strict:             true,
+				NoImplicitAny:      true,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				OutJSPath:          "out.js",
@@ -86,6 +88,7 @@ func TestParse(t *testing.T) {
 			args: []string{"--out-js", "dist/bundle.js", "src/main.ts"},
 			wantConfig: &Config{
 				Strict:             true,
+				NoImplicitAny:      true,
 				Target:             "es2025",
 				InputPath:          "src/main.ts",
 				OutJSPath:          "dist/bundle.js",
@@ -97,9 +100,54 @@ func TestParse(t *testing.T) {
 			args: []string{"--out-deps", "dist/bundle.d", "src/main.ts"},
 			wantConfig: &Config{
 				Strict:             true,
+				NoImplicitAny:      true,
 				Target:             "es2025",
 				InputPath:          "src/main.ts",
 				OutDepsPath:        "dist/bundle.d",
+				CaseSensitivePaths: true,
+			},
+		},
+		{
+			name: "no-implicit-any follows strict",
+			args: []string{"--no-strict", "in.ts"},
+			wantConfig: &Config{
+				Strict:             false,
+				NoImplicitAny:      false,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+			},
+		},
+		{
+			name: "no-implicit-any override follows strict",
+			args: []string{"--no-strict", "--no-implicit-any=true", "in.ts"},
+			wantConfig: &Config{
+				Strict:             false,
+				NoImplicitAny:      true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+			},
+		},
+		{
+			name: "no-implicit-any override follows strict long",
+			args: []string{"--strict=true", "--no-implicit-any=false", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      false,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+			},
+		},
+		{
+			name: "no-implicit-any negated prefix override",
+			args: []string{"--no-strict", "--no-no-implicit-any", "in.ts"},
+			wantConfig: &Config{
+				Strict:             false,
+				NoImplicitAny:      false,
+				Target:             "es2025",
+				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
 			},
 		},
@@ -150,6 +198,9 @@ func TestParse(t *testing.T) {
 
 			if got.Strict != tt.wantConfig.Strict {
 				t.Errorf("Strict: got %v, want %v", got.Strict, tt.wantConfig.Strict)
+			}
+			if got.NoImplicitAny != tt.wantConfig.NoImplicitAny {
+				t.Errorf("NoImplicitAny: got %v, want %v", got.NoImplicitAny, tt.wantConfig.NoImplicitAny)
 			}
 			if got.Target != tt.wantConfig.Target {
 				t.Errorf("Target: got %q, want %q", got.Target, tt.wantConfig.Target)

@@ -1,0 +1,20 @@
+# Verify --no-implicit-any behavior and its interaction with --strict.
+
+# 1. Default: strict=true implies noImplicitAny=true. Error expected.
+! exec tscc main.ts
+stderr 'Parameter ''x'' implicitly has an ''any'' type.'
+
+# 2. --no-strict implies noImplicitAny=false. Compilation should succeed.
+exec tscc --no-strict main.ts
+! stderr .
+
+# 3. --no-strict with explicit --no-implicit-any enables the check. Error expected.
+! exec tscc --no-strict --no-implicit-any main.ts
+stderr 'Parameter ''x'' implicitly has an ''any'' type.'
+
+# 4. --strict with explicit --no-no-implicit-any (double negation) disables the check.
+exec tscc --strict --no-no-implicit-any main.ts
+! stderr .
+
+-- main.ts --
+function f(x) { return x; }

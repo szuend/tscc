@@ -28,14 +28,15 @@ import (
 )
 
 type Config struct {
-	Strict      bool
-	Target      string
-	Module      string
-	InputPath   string
-	OutJSPath   string
-	OutDepsPath string
-	OutDtsPath  string
-	OutMapPath  string
+	Strict        bool
+	NoImplicitAny bool
+	Target        string
+	Module        string
+	InputPath     string
+	OutJSPath     string
+	OutDepsPath   string
+	OutDtsPath    string
+	OutMapPath    string
 
 	// CaseSensitivePaths pins the value returned by
 	// UseCaseSensitiveFileNames() on every FS the compiler observes.
@@ -89,6 +90,11 @@ func Parse(args []string) (*Config, error) {
 
 	if err := flags.Parse(normalizedArgs); err != nil {
 		return nil, err
+	}
+
+	// Apply dynamic defaults for strict-mode family flags
+	if !flags.Changed("no-implicit-any") {
+		cfg.NoImplicitAny = cfg.Strict
 	}
 
 	if err := cfg.Validate(flags.Args()); err != nil {
@@ -223,6 +229,8 @@ func languageGroup(cfg *Config) flagGroup {
 func typeCheckingGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("type-checking", pflag.ContinueOnError)
 	g.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
+	g.BoolVar(&cfg.NoImplicitAny, "no-implicit-any", true, "Raise error on expressions and declarations with an implied 'any' type")
+	g.Lookup("no-implicit-any").DefValue = "true; false if --no-strict is passed"
 	return flagGroup{Name: "Type Checking", Set: g}
 }
 
