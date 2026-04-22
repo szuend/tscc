@@ -163,12 +163,15 @@ func discoverCandidates(upstreamDir, testdataDir string) ([]string, error) {
 		"allowsyntheticdefaultimportscanpaintcrossmoduledeclaration": true,
 	}
 
+	seenCandidates := make(map[string]bool)
 	for _, c := range allCases {
-		if ignoreList[strings.ToLower(c)] {
+		lower := strings.ToLower(c)
+		if ignoreList[lower] || seenCandidates[lower] {
 			continue
 		}
-		if !existingCases[strings.ToLower(c)] {
+		if !existingCases[lower] {
 			candidates = append(candidates, c)
+			seenCandidates[lower] = true
 		}
 	}
 
@@ -208,7 +211,7 @@ func processCandidate(ctx context.Context, candidate, portcasePath, testdataDir 
 	}
 
 	capitalized := strings.ToUpper(candidate[:1]) + candidate[1:]
-	testCmd := exec.CommandContext(ctx, "go", "test", "./cmd/tscc/...", "-run", "TestScript/"+capitalized)
+	testCmd := exec.CommandContext(ctx, "go", "test", "./cmd/tscc/...", "-run", "^TestScript/"+capitalized+"(_.*)?$")
 
 	out, err = testCmd.CombinedOutput()
 	if err != nil {
