@@ -60,6 +60,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: nil,
 		},
 		{
+			name: "noImplicitAny true",
+			directives: map[string]string{
+				"noImplicitAny": "true",
+			},
+			wantFlags: []string{"--no-implicit-any"},
+		},
+		{
+			name: "noImplicitAny false",
+			directives: map[string]string{
+				"noImplicitAny": "false",
+			},
+			wantFlags: []string{"--no-no-implicit-any"},
+		},
+		{
 			name: "unsupported jsx",
 			directives: map[string]string{
 				"jsx": "react",

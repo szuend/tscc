@@ -97,6 +97,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			if strings.ToLower(value) == "true" {
 				flags = append(flags, "--out-map", outputBaseName+".js.map")
 			}
+		case "noimplicitany":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--no-implicit-any")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-no-implicit-any")
+			}
 		case "filename":
 			// Handled separately during file block parsing.
 			continue
