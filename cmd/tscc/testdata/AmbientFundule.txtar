@@ -3,6 +3,8 @@
 exec tscc --no-strict --target es2015 --out-js ambientFundule.js ambientFundule.ts
 ! stderr .
 cmp ambientFundule.js ambientFundule.js.golden
+! exists ambientFundule.d.ts
+! exists ambientFundule.js.map
 
 -- ambientFundule.ts --
 declare function f();

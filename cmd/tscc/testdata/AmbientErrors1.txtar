@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js ambientErrors1.js ambientErrors1.ts
 stderr 'TS1039'
 ! exists ambientErrors1.js
+! exists ambientErrors1.d.ts
+! exists ambientErrors1.js.map
 
 -- ambientErrors1.ts --
 declare var x = 4;

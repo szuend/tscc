@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js argumentsUsedInObjectLiteralProperty.js argumentsUsedInObjectLiteralProperty.ts
 ! stderr .
 cmp argumentsUsedInObjectLiteralProperty.js argumentsUsedInObjectLiteralProperty.js.golden
+! exists argumentsUsedInObjectLiteralProperty.d.ts
+! exists argumentsUsedInObjectLiteralProperty.js.map
 
 -- argumentsUsedInObjectLiteralProperty.ts --
 class A {

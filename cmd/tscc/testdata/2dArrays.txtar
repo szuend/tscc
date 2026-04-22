@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js 2dArrays.js 2dArrays.ts
 ! stderr .
 cmp 2dArrays.js 2dArrays.js.golden
+! exists 2dArrays.d.ts
+! exists 2dArrays.js.map
 
 -- 2dArrays.ts --
 class Cell {

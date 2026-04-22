@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.ts
 ! stderr .
 cmp classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js.golden
+! exists classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.d.ts
+! exists classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js.map
 
 -- classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.ts --
 function f() {

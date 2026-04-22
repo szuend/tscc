@@ -3,6 +3,8 @@
 exec tscc --no-strict --target es2015 --out-js ambientClassOverloadForFunction.js ambientClassOverloadForFunction.ts
 ! stderr .
 cmp ambientClassOverloadForFunction.js ambientClassOverloadForFunction.js.golden
+! exists ambientClassOverloadForFunction.d.ts
+! exists ambientClassOverloadForFunction.js.map
 
 -- ambientClassOverloadForFunction.ts --
 declare class foo{};

@@ -3,6 +3,8 @@
 ! exec tscc --no-strict --target es2015 --out-js classWithOverloadImplementationOfWrongName.js classWithOverloadImplementationOfWrongName.ts
 stderr 'TS2389'
 ! exists classWithOverloadImplementationOfWrongName.js
+! exists classWithOverloadImplementationOfWrongName.d.ts
+! exists classWithOverloadImplementationOfWrongName.js.map
 
 -- classWithOverloadImplementationOfWrongName.ts --
 class C {

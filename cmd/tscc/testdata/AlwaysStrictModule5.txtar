@@ -3,6 +3,8 @@
 exec tscc --target es6 --out-js alwaysStrictModule5.js alwaysStrictModule5.ts
 ! stderr .
 cmp alwaysStrictModule5.js alwaysStrictModule5.js.golden
+! exists alwaysStrictModule5.d.ts
+! exists alwaysStrictModule5.js.map
 
 -- alwaysStrictModule5.ts --
 // Targeting ES6

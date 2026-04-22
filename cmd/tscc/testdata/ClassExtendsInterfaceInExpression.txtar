@@ -4,6 +4,8 @@
 stderr 'TS2322'
 stderr 'TS2693'
 ! exists classExtendsInterfaceInExpression.js
+! exists classExtendsInterfaceInExpression.d.ts
+! exists classExtendsInterfaceInExpression.js.map
 
 -- classExtendsInterfaceInExpression.ts --
 interface A {}

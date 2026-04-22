@@ -3,6 +3,8 @@
 ! exec tscc --no-strict --target es2015 --out-js arityErrorRelatedSpanBindingPattern.js arityErrorRelatedSpanBindingPattern.ts
 stderr 'TS2554'
 ! exists arityErrorRelatedSpanBindingPattern.js
+! exists arityErrorRelatedSpanBindingPattern.d.ts
+! exists arityErrorRelatedSpanBindingPattern.js.map
 
 -- arityErrorRelatedSpanBindingPattern.ts --
 function foo(a, b, {c}): void {}

@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classExtendsInterface.js classExtendsInterface.ts
 stderr 'TS2689'
 ! exists classExtendsInterface.js
+! exists classExtendsInterface.d.ts
+! exists classExtendsInterface.js.map
 
 -- classExtendsInterface.ts --
 interface Comparable {}

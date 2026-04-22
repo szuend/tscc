@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classImplementsPrimitive.js classImplementsPrimitive.ts
 stderr 'TS2864'
 ! exists classImplementsPrimitive.js
+! exists classImplementsPrimitive.d.ts
+! exists classImplementsPrimitive.js.map
 
 -- classImplementsPrimitive.ts --
 // classes cannot implement primitives

@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js arrayAssignmentTest3.js arrayAssignmentTest3.ts
 stderr 'TS2345'
 ! exists arrayAssignmentTest3.js
+! exists arrayAssignmentTest3.d.ts
+! exists arrayAssignmentTest3.js.map
 
 -- arrayAssignmentTest3.ts --
 // The following gives no error

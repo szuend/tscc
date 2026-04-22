@@ -3,6 +3,8 @@
 exec tscc --strict --target es2015 --out-js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.ts
 ! stderr .
 cmp aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js.golden
+! exists aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.d.ts
+! exists aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js.map
 
 -- aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.ts --
 // the type printback for every `test` below should be "y"

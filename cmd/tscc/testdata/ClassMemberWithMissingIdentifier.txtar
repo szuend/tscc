@@ -5,6 +5,8 @@ stderr 'TS1146'
 stderr 'TS1005'
 stderr 'TS1128'
 ! exists classMemberWithMissingIdentifier.js
+! exists classMemberWithMissingIdentifier.d.ts
+! exists classMemberWithMissingIdentifier.js.map
 
 -- classMemberWithMissingIdentifier.ts --
 class C { 

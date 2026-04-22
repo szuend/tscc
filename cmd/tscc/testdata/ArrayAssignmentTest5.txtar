@@ -4,6 +4,8 @@
 stderr 'TS2366'
 stderr 'TS2322'
 ! exists arrayAssignmentTest5.js
+! exists arrayAssignmentTest5.d.ts
+! exists arrayAssignmentTest5.js.map
 
 -- arrayAssignmentTest5.ts --
 namespace Test {

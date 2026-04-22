@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js anyInferenceAnonymousFunctions.js anyInferenceAnonymousFunctions.ts
 stderr 'TS2454'
 ! exists anyInferenceAnonymousFunctions.js
+! exists anyInferenceAnonymousFunctions.d.ts
+! exists anyInferenceAnonymousFunctions.js.map
 
 -- anyInferenceAnonymousFunctions.ts --
 var paired: any[];

@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classExpressionTest2.js classExpressionTest2.ts
 stderr 'TS2454'
 ! exists classExpressionTest2.js
+! exists classExpressionTest2.d.ts
+! exists classExpressionTest2.js.map
 
 -- classExpressionTest2.ts --
 function M() {

@@ -4,6 +4,7 @@ exec tscc --out-dts aliasInaccessibleModule2.d.ts --target es2015 --out-js alias
 ! stderr .
 cmp aliasInaccessibleModule2.d.ts aliasInaccessibleModule2.d.ts.golden
 cmp aliasInaccessibleModule2.js aliasInaccessibleModule2.js.golden
+! exists aliasInaccessibleModule2.js.map
 
 -- aliasInaccessibleModule2.ts --
 namespace M {

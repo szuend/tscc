@@ -3,6 +3,8 @@
 exec tscc --strict --target esnext --out-js classAttributeInferenceTemplate.js classAttributeInferenceTemplate.ts
 ! stderr .
 cmp classAttributeInferenceTemplate.js classAttributeInferenceTemplate.js.golden
+! exists classAttributeInferenceTemplate.d.ts
+! exists classAttributeInferenceTemplate.js.map
 
 -- classAttributeInferenceTemplate.ts --
 class MyClass {

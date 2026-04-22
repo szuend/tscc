@@ -3,6 +3,8 @@
 ! exec tscc --no-strict --target es2015 --out-js classWithMultipleBaseClasses.js classWithMultipleBaseClasses.ts
 stderr 'TS2420'
 ! exists classWithMultipleBaseClasses.js
+! exists classWithMultipleBaseClasses.d.ts
+! exists classWithMultipleBaseClasses.js.map
 
 -- classWithMultipleBaseClasses.ts --
 class A {

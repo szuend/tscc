@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js arrayAssignmentTest6.js arrayAssignmentTest6.ts
 stderr 'TS2322'
 ! exists arrayAssignmentTest6.js
+! exists arrayAssignmentTest6.d.ts
+! exists arrayAssignmentTest6.js.map
 
 -- arrayAssignmentTest6.ts --
 namespace Test {

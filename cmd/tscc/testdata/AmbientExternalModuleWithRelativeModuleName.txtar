@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js ambientExternalModuleWithRelativeModuleName.js ambientExternalModuleWithRelativeModuleName.ts
 stderr 'TS2436'
 ! exists ambientExternalModuleWithRelativeModuleName.js
+! exists ambientExternalModuleWithRelativeModuleName.d.ts
+! exists ambientExternalModuleWithRelativeModuleName.js.map
 
 -- ambientExternalModuleWithRelativeModuleName.ts --
 declare module "./relativeModule" {

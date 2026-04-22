@@ -68,3 +68,40 @@ var v = (x) => { };
 		t.Errorf("RenderTxtar() mismatch on success case.\nGot:\n%s\nWant:\n%s", gotSuccess, wantSuccess)
 	}
 }
+
+func TestRenderTxtar_NotExpectedOutputs(t *testing.T) {
+	args := RenderArgs{
+		CaseName:   "arrowFunctionExpression1",
+		Date:       time.Date(2026, 4, 19, 0, 0, 0, 0, time.UTC),
+		Flags:      []string{"--target", "es2015", "--out-js", "a.js"},
+		Inputs:     []string{"a.ts"},
+		ErrorCodes: nil,
+		Files: map[string]string{
+			"a.ts": "var v = (public x: string) => { };\n",
+		},
+		Outputs: map[string]string{
+			"a.js": "\"use strict\";\nvar v = (x) => { };\n",
+		},
+		NotExpectedOutputs: []string{"a.d.ts", "a.js.map"},
+	}
+
+	got := RenderTxtar(args)
+	want := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+var v = (public x: string) => { };
+-- a.js.golden --
+"use strict";
+var v = (x) => { };
+`
+
+	if got != want {
+		t.Errorf("TestRenderTxtar_NotExpectedOutputs failed.\nGot:\n%s\nWant:\n%s", got, want)
+	}
+}

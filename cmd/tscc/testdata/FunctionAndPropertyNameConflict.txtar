@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js functionAndPropertyNameConflict.js functionAndPropertyNameConflict.ts
 stderr 'TS2300'
 ! exists functionAndPropertyNameConflict.js
+! exists functionAndPropertyNameConflict.d.ts
+! exists functionAndPropertyNameConflict.js.map
 
 -- functionAndPropertyNameConflict.ts --
 class C65 {

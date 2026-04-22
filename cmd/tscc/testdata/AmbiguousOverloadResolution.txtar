@@ -3,6 +3,8 @@
 exec tscc --no-strict --target es2015 --out-js ambiguousOverloadResolution.js ambiguousOverloadResolution.ts
 ! stderr .
 cmp ambiguousOverloadResolution.js ambiguousOverloadResolution.js.golden
+! exists ambiguousOverloadResolution.d.ts
+! exists ambiguousOverloadResolution.js.map
 
 -- ambiguousOverloadResolution.ts --
 class A { }

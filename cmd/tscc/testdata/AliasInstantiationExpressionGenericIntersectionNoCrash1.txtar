@@ -3,6 +3,8 @@
 ! exec tscc --strict --target es2015 --out-js aliasInstantiationExpressionGenericIntersectionNoCrash1.js aliasInstantiationExpressionGenericIntersectionNoCrash1.ts
 stderr 'TS2352'
 ! exists aliasInstantiationExpressionGenericIntersectionNoCrash1.js
+! exists aliasInstantiationExpressionGenericIntersectionNoCrash1.d.ts
+! exists aliasInstantiationExpressionGenericIntersectionNoCrash1.js.map
 
 -- aliasInstantiationExpressionGenericIntersectionNoCrash1.ts --
 class ErrImpl<E> {

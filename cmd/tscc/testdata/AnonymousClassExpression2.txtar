@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js anonymousClassExpression2.js anonymousClassExpression2.ts
 stderr 'TS2551'
 ! exists anonymousClassExpression2.js
+! exists anonymousClassExpression2.d.ts
+! exists anonymousClassExpression2.js.map
 
 -- anonymousClassExpression2.ts --
 // Fixes #14860

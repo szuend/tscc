@@ -4,6 +4,8 @@
 stderr 'TS2564'
 stderr 'TS2411'
 ! exists classIndexer2.js
+! exists classIndexer2.d.ts
+! exists classIndexer2.js.map
 
 -- classIndexer2.ts --
 class C123 {

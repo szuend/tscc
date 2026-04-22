@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classSideInheritance3.js classSideInheritance3.ts
 stderr 'TS2322'
 ! exists classSideInheritance3.js
+! exists classSideInheritance3.d.ts
+! exists classSideInheritance3.js.map
 
 -- classSideInheritance3.ts --
 class A {

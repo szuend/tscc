@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js moduleAndInterfaceSharingName4.js moduleAndInterfaceSharingName4.ts
 ! stderr .
 cmp moduleAndInterfaceSharingName4.js moduleAndInterfaceSharingName4.js.golden
+! exists moduleAndInterfaceSharingName4.d.ts
+! exists moduleAndInterfaceSharingName4.js.map
 
 -- moduleAndInterfaceSharingName4.ts --
 declare namespace D3 {

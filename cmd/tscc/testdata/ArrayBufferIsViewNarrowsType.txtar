@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js arrayBufferIsViewNarrowsType.js arrayBufferIsViewNarrowsType.ts
 stderr 'TS2454'
 ! exists arrayBufferIsViewNarrowsType.js
+! exists arrayBufferIsViewNarrowsType.d.ts
+! exists arrayBufferIsViewNarrowsType.js.map
 
 -- arrayBufferIsViewNarrowsType.ts --
 var obj: Object;

@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambientModuleWithTemplateLiterals.js ambientModuleWithTemplateLiterals.ts
 ! stderr .
 cmp ambientModuleWithTemplateLiterals.js ambientModuleWithTemplateLiterals.js.golden
+! exists ambientModuleWithTemplateLiterals.d.ts
+! exists ambientModuleWithTemplateLiterals.js.map
 
 -- ambientModuleWithTemplateLiterals.ts --
 declare namespace Foo {

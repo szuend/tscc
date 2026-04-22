@@ -4,6 +4,7 @@ exec tscc --out-dts ambientConstLiterals.d.ts --target es2015 --out-js ambientCo
 ! stderr .
 cmp ambientConstLiterals.d.ts ambientConstLiterals.d.ts.golden
 cmp ambientConstLiterals.js ambientConstLiterals.js.golden
+! exists ambientConstLiterals.js.map
 
 -- ambientConstLiterals.ts --
 function f<T>(x: T): T {

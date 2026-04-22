@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js anonterface.js anonterface.ts
 ! stderr .
 cmp anonterface.js anonterface.js.golden
+! exists anonterface.d.ts
+! exists anonterface.js.map
 
 -- anonterface.ts --
 namespace M {

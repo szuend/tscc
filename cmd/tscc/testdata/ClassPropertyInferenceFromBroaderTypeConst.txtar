@@ -3,6 +3,8 @@
 exec tscc --strict --out-js classPropertyInferenceFromBroaderTypeConst.js classPropertyInferenceFromBroaderTypeConst.ts
 ! stderr .
 cmp classPropertyInferenceFromBroaderTypeConst.js classPropertyInferenceFromBroaderTypeConst.js.golden
+! exists classPropertyInferenceFromBroaderTypeConst.d.ts
+! exists classPropertyInferenceFromBroaderTypeConst.js.map
 
 -- classPropertyInferenceFromBroaderTypeConst.ts --
 // Repro from GH#62264

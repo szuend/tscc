@@ -23,13 +23,14 @@ import (
 )
 
 type RenderArgs struct {
-	CaseName   string
-	Date       time.Time
-	Flags      []string
-	Inputs     []string          // files to pass to tscc on command line
-	ErrorCodes []string          // TSxxxx codes
-	Files      map[string]string // map of filename to content
-	Outputs    map[string]string // map of expected output file to content
+	CaseName           string
+	Date               time.Time
+	Flags              []string
+	Inputs             []string          // files to pass to tscc on command line
+	ErrorCodes         []string          // TSxxxx codes
+	Files              map[string]string // map of filename to content
+	Outputs            map[string]string // map of expected output file to content
+	NotExpectedOutputs []string          // files that should not be written
 }
 
 // RenderTxtar generates the content of a .txtar file.
@@ -65,6 +66,18 @@ func RenderTxtar(args RenderArgs) string {
 		for _, out := range outFiles {
 			fmt.Fprintf(&buf, "! exists %s\n", out)
 		}
+
+		// Assert files that should not be written anyway
+		var notExpected []string
+		for _, out := range args.NotExpectedOutputs {
+			if _, ok := args.Outputs[out]; !ok {
+				notExpected = append(notExpected, out)
+			}
+		}
+		sort.Strings(notExpected)
+		for _, out := range notExpected {
+			fmt.Fprintf(&buf, "! exists %s\n", out)
+		}
 	} else {
 		fmt.Fprintf(&buf, "%s\n", execCmd.String())
 		fmt.Fprintf(&buf, "! stderr .\n")
@@ -77,6 +90,16 @@ func RenderTxtar(args RenderArgs) string {
 		sort.Strings(outFiles)
 		for _, out := range outFiles {
 			fmt.Fprintf(&buf, "cmp %s %s.golden\n", out, out)
+		}
+
+		// Assert files that should not be written
+		var notExpected []string
+		for _, out := range args.NotExpectedOutputs {
+			notExpected = append(notExpected, out)
+		}
+		sort.Strings(notExpected)
+		for _, out := range notExpected {
+			fmt.Fprintf(&buf, "! exists %s\n", out)
 		}
 	}
 

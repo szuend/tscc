@@ -3,6 +3,8 @@
 ! exec tscc --target ES6 --out-js arrayBindingPatternOmittedExpressions.js arrayBindingPatternOmittedExpressions.ts
 stderr 'TS2454'
 ! exists arrayBindingPatternOmittedExpressions.js
+! exists arrayBindingPatternOmittedExpressions.d.ts
+! exists arrayBindingPatternOmittedExpressions.js.map
 
 -- arrayBindingPatternOmittedExpressions.ts --
 var results: string[];

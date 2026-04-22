@@ -4,6 +4,8 @@
 stderr 'TS2564'
 stderr 'TS18048'
 ! exists arrayconcat.js
+! exists arrayconcat.d.ts
+! exists arrayconcat.js.map
 
 -- arrayconcat.ts --
 interface IOptions {

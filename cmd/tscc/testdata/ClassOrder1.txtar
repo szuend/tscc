@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js classOrder1.js classOrder1.ts
 ! stderr .
 cmp classOrder1.js classOrder1.js.golden
+! exists classOrder1.d.ts
+! exists classOrder1.js.map
 
 -- classOrder1.ts --
 class A {

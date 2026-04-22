@@ -3,6 +3,8 @@
 ! exec tscc --no-strict --target es2015 --out-js anyIdenticalToItself.js anyIdenticalToItself.ts
 stderr 'TS2394'
 ! exists anyIdenticalToItself.js
+! exists anyIdenticalToItself.d.ts
+! exists anyIdenticalToItself.js.map
 
 -- anyIdenticalToItself.ts --
 function foo(x: any);

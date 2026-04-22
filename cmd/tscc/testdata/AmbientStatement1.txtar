@@ -4,6 +4,8 @@
 stderr 'TS1036'
 stderr 'TS1039'
 ! exists ambientStatement1.js
+! exists ambientStatement1.d.ts
+! exists ambientStatement1.js.map
 
 -- ambientStatement1.ts --
     declare namespace M1 {

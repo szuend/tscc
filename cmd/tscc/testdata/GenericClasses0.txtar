@@ -5,6 +5,7 @@ stderr 'TS2564'
 stderr 'TS2454'
 ! exists genericClasses0.d.ts
 ! exists genericClasses0.js
+! exists genericClasses0.js.map
 
 -- genericClasses0.ts --
 class C<T> {

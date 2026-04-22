@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js moduleAliasInterface.js moduleAliasInterface.ts
 ! stderr .
 cmp moduleAliasInterface.js moduleAliasInterface.js.golden
+! exists moduleAliasInterface.d.ts
+! exists moduleAliasInterface.js.map
 
 -- moduleAliasInterface.ts --
 namespace _modes {

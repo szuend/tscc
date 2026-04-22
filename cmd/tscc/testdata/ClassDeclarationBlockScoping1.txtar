@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js classDeclarationBlockScoping1.js classDeclarationBlockScoping1.ts
 ! stderr .
 cmp classDeclarationBlockScoping1.js classDeclarationBlockScoping1.js.golden
+! exists classDeclarationBlockScoping1.d.ts
+! exists classDeclarationBlockScoping1.js.map
 
 -- classDeclarationBlockScoping1.ts --
 class C {

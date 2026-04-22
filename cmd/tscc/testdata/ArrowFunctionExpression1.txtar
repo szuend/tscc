@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js ArrowFunctionExpression1.js ArrowFunctionExpression1.ts
 stderr 'TS2369'
 ! exists ArrowFunctionExpression1.js
+! exists ArrowFunctionExpression1.d.ts
+! exists ArrowFunctionExpression1.js.map
 
 -- ArrowFunctionExpression1.ts --
 var v = (public x: string) => { };

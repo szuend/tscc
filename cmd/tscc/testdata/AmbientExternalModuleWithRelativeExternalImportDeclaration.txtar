@@ -4,6 +4,8 @@
 stderr 'TS2439'
 stderr 'TS2307'
 ! exists ambientExternalModuleWithRelativeExternalImportDeclaration.js
+! exists ambientExternalModuleWithRelativeExternalImportDeclaration.d.ts
+! exists ambientExternalModuleWithRelativeExternalImportDeclaration.js.map
 
 -- ambientExternalModuleWithRelativeExternalImportDeclaration.ts --
 declare module "OuterModule" {

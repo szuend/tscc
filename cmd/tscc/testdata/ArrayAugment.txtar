@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js arrayAugment.js arrayAugment.ts
 ! stderr .
 cmp arrayAugment.js arrayAugment.js.golden
+! exists arrayAugment.d.ts
+! exists arrayAugment.js.map
 
 -- arrayAugment.ts --
 interface Array<T> {

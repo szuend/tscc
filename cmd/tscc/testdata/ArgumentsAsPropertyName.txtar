@@ -3,6 +3,8 @@
 exec tscc --no-strict --target es2015 --out-js argumentsAsPropertyName.js argumentsAsPropertyName.ts
 ! stderr .
 cmp argumentsAsPropertyName.js argumentsAsPropertyName.js.golden
+! exists argumentsAsPropertyName.d.ts
+! exists argumentsAsPropertyName.js.map
 
 -- argumentsAsPropertyName.ts --
 // target: es5

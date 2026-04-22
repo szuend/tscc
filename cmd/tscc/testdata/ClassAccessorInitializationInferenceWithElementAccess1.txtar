@@ -4,6 +4,7 @@ exec tscc --out-dts classAccessorInitializationInferenceWithElementAccess1.d.ts 
 ! stderr .
 cmp classAccessorInitializationInferenceWithElementAccess1.d.ts classAccessorInitializationInferenceWithElementAccess1.d.ts.golden
 cmp classAccessorInitializationInferenceWithElementAccess1.js classAccessorInitializationInferenceWithElementAccess1.js.golden
+! exists classAccessorInitializationInferenceWithElementAccess1.js.map
 
 -- classAccessorInitializationInferenceWithElementAccess1.ts --
 export class Cls {

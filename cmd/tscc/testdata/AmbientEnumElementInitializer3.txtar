@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambientEnumElementInitializer3.js ambientEnumElementInitializer3.ts
 ! stderr .
 cmp ambientEnumElementInitializer3.js ambientEnumElementInitializer3.js.golden
+! exists ambientEnumElementInitializer3.d.ts
+! exists ambientEnumElementInitializer3.js.map
 
 -- ambientEnumElementInitializer3.ts --
 declare enum E {

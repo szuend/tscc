@@ -4,6 +4,7 @@ exec tscc --out-dts anonymousClassDeclarationDoesntPrintWithReadonly.d.ts --modu
 ! stderr .
 cmp anonymousClassDeclarationDoesntPrintWithReadonly.d.ts anonymousClassDeclarationDoesntPrintWithReadonly.d.ts.golden
 cmp anonymousClassDeclarationDoesntPrintWithReadonly.js anonymousClassDeclarationDoesntPrintWithReadonly.js.golden
+! exists anonymousClassDeclarationDoesntPrintWithReadonly.js.map
 
 -- anonymousClassDeclarationDoesntPrintWithReadonly.ts --
 export class X {

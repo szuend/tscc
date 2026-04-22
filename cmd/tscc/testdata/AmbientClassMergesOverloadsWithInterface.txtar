@@ -3,6 +3,8 @@
 exec tscc --out-js ambientClassMergesOverloadsWithInterface.js ambientClassMergesOverloadsWithInterface.ts
 ! stderr .
 cmp ambientClassMergesOverloadsWithInterface.js ambientClassMergesOverloadsWithInterface.js.golden
+! exists ambientClassMergesOverloadsWithInterface.d.ts
+! exists ambientClassMergesOverloadsWithInterface.js.map
 
 -- ambientClassMergesOverloadsWithInterface.ts --
 declare class C {

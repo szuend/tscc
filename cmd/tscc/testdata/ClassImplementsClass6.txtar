@@ -4,6 +4,8 @@
 stderr 'TS2339'
 stderr 'TS2576'
 ! exists classImplementsClass6.js
+! exists classImplementsClass6.d.ts
+! exists classImplementsClass6.js.map
 
 -- classImplementsClass6.ts --
 class A {

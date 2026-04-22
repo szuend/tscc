@@ -154,14 +154,49 @@ func main() {
 	// We may have duplicate flags if out-js was added.
 	// The `TranslateDirectives` handles --out-dts and --out-map, so we just add --out-js here.
 
+	var notExpectedOutputs []string
+	if len(inputList) == 1 {
+		inputFile := inputList[0]
+		base := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
+
+		// Check .d.ts
+		if _, ok := outputs[base+".d.ts"]; !ok {
+			hasDts := false
+			for _, f := range flags {
+				if f == "--out-dts" {
+					hasDts = true
+					break
+				}
+			}
+			if !hasDts {
+				notExpectedOutputs = append(notExpectedOutputs, base+".d.ts")
+			}
+		}
+
+		// Check .js.map
+		if _, ok := outputs[base+".js.map"]; !ok {
+			hasMap := false
+			for _, f := range flags {
+				if f == "--out-map" {
+					hasMap = true
+					break
+				}
+			}
+			if !hasMap {
+				notExpectedOutputs = append(notExpectedOutputs, base+".js.map")
+			}
+		}
+	}
+
 	args := RenderArgs{
-		CaseName:   caseName,
-		Date:       time.Now().UTC(),
-		Flags:      flags,
-		Inputs:     inputList,
-		ErrorCodes: errorCodes,
-		Files:      inputs,
-		Outputs:    outputs,
+		CaseName:           caseName,
+		Date:               time.Now().UTC(),
+		Flags:              flags,
+		Inputs:             inputList,
+		ErrorCodes:         errorCodes,
+		Files:              inputs,
+		Outputs:            outputs,
+		NotExpectedOutputs: notExpectedOutputs,
 	}
 
 	txtarContent := RenderTxtar(args)

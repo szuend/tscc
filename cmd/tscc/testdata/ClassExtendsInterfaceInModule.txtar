@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classExtendsInterfaceInModule.js classExtendsInterfaceInModule.ts
 stderr 'TS2689'
 ! exists classExtendsInterfaceInModule.js
+! exists classExtendsInterfaceInModule.d.ts
+! exists classExtendsInterfaceInModule.js.map
 
 -- classExtendsInterfaceInModule.ts --
 namespace M {

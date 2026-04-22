@@ -3,6 +3,8 @@
 exec tscc --no-strict --target es2015 --out-js anyAsReturnTypeForNewOnCall.js anyAsReturnTypeForNewOnCall.ts
 ! stderr .
 cmp anyAsReturnTypeForNewOnCall.js anyAsReturnTypeForNewOnCall.js.golden
+! exists anyAsReturnTypeForNewOnCall.d.ts
+! exists anyAsReturnTypeForNewOnCall.js.map
 
 -- anyAsReturnTypeForNewOnCall.ts --
 function Point(x, y) {

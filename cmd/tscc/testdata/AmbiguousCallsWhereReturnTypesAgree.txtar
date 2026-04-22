@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambiguousCallsWhereReturnTypesAgree.js ambiguousCallsWhereReturnTypesAgree.ts
 ! stderr .
 cmp ambiguousCallsWhereReturnTypesAgree.js ambiguousCallsWhereReturnTypesAgree.js.golden
+! exists ambiguousCallsWhereReturnTypesAgree.d.ts
+! exists ambiguousCallsWhereReturnTypesAgree.js.map
 
 -- ambiguousCallsWhereReturnTypesAgree.ts --
 class TestClass {

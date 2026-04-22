@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambientEnumElementInitializer6.js ambientEnumElementInitializer6.ts
 ! stderr .
 cmp ambientEnumElementInitializer6.js ambientEnumElementInitializer6.js.golden
+! exists ambientEnumElementInitializer6.d.ts
+! exists ambientEnumElementInitializer6.js.map
 
 -- ambientEnumElementInitializer6.ts --
 declare namespace M {

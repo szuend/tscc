@@ -3,6 +3,8 @@
 ! exec tscc --target ES6 --out-js arguments.js arguments.ts
 stderr 'TS2304'
 ! exists arguments.js
+! exists arguments.d.ts
+! exists arguments.js.map
 
 -- arguments.ts --
 function f() {

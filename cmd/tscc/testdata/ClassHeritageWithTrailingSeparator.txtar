@@ -4,6 +4,8 @@
 stderr 'TS2564'
 stderr 'TS1009'
 ! exists classHeritageWithTrailingSeparator.js
+! exists classHeritageWithTrailingSeparator.d.ts
+! exists classHeritageWithTrailingSeparator.js.map
 
 -- classHeritageWithTrailingSeparator.ts --
 class C { foo: number }

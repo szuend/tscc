@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classImplementsClass3.js classImplementsClass3.ts
 stderr 'TS2454'
 ! exists classImplementsClass3.js
+! exists classImplementsClass3.d.ts
+! exists classImplementsClass3.js.map
 
 -- classImplementsClass3.ts --
 class A { foo(): number { return 1; } }

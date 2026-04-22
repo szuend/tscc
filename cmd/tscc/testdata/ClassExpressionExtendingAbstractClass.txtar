@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classExpressionExtendingAbstractClass.js classExpressionExtendingAbstractClass.ts
 stderr 'TS2653'
 ! exists classExpressionExtendingAbstractClass.js
+! exists classExpressionExtendingAbstractClass.d.ts
+! exists classExpressionExtendingAbstractClass.js.map
 
 -- classExpressionExtendingAbstractClass.ts --
 abstract class A {

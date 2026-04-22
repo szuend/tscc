@@ -3,6 +3,8 @@
 ! exec tscc --strict --target es2015 --out-js aliasInstantiationExpressionGenericIntersectionNoCrash2.js aliasInstantiationExpressionGenericIntersectionNoCrash2.ts
 stderr 'TS2352'
 ! exists aliasInstantiationExpressionGenericIntersectionNoCrash2.js
+! exists aliasInstantiationExpressionGenericIntersectionNoCrash2.d.ts
+! exists aliasInstantiationExpressionGenericIntersectionNoCrash2.js.map
 
 -- aliasInstantiationExpressionGenericIntersectionNoCrash2.ts --
 declare class Class<T> {

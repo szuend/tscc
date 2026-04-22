@@ -3,6 +3,8 @@
 exec tscc --target es6 --out-js classExpressionWithStaticPropertiesES61.js classExpressionWithStaticPropertiesES61.ts
 ! stderr .
 cmp classExpressionWithStaticPropertiesES61.js classExpressionWithStaticPropertiesES61.js.golden
+! exists classExpressionWithStaticPropertiesES61.d.ts
+! exists classExpressionWithStaticPropertiesES61.js.map
 
 -- classExpressionWithStaticPropertiesES61.ts --
 var v = class C { 

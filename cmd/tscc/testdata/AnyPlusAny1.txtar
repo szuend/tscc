@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js anyPlusAny1.js anyPlusAny1.ts
 ! stderr .
 cmp anyPlusAny1.js anyPlusAny1.js.golden
+! exists anyPlusAny1.d.ts
+! exists anyPlusAny1.js.map
 
 -- anyPlusAny1.ts --
 var x: any;

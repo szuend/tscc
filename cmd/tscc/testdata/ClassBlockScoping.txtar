@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js classBlockScoping.js classBlockScoping.ts
 ! stderr .
 cmp classBlockScoping.js classBlockScoping.js.golden
+! exists classBlockScoping.d.ts
+! exists classBlockScoping.js.map
 
 -- classBlockScoping.ts --
 function f(b: boolean) {

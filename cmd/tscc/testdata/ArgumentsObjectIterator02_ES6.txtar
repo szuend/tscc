@@ -3,6 +3,8 @@
 exec tscc --target ES6 --out-js argumentsObjectIterator02_ES6.js argumentsObjectIterator02_ES6.ts
 ! stderr .
 cmp argumentsObjectIterator02_ES6.js argumentsObjectIterator02_ES6.js.golden
+! exists argumentsObjectIterator02_ES6.d.ts
+! exists argumentsObjectIterator02_ES6.js.map
 
 -- argumentsObjectIterator02_ES6.ts --
 function doubleAndReturnAsArray(x: number, y: number, z: number): [number, number, number] {

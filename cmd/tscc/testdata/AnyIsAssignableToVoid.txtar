@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js anyIsAssignableToVoid.js anyIsAssignableToVoid.ts
 ! stderr .
 cmp anyIsAssignableToVoid.js anyIsAssignableToVoid.js.golden
+! exists anyIsAssignableToVoid.d.ts
+! exists anyIsAssignableToVoid.js.map
 
 -- anyIsAssignableToVoid.ts --
 interface P {

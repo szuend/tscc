@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambientModuleWithClassDeclarationWithExtends.js ambientModuleWithClassDeclarationWithExtends.ts
 ! stderr .
 cmp ambientModuleWithClassDeclarationWithExtends.js ambientModuleWithClassDeclarationWithExtends.js.golden
+! exists ambientModuleWithClassDeclarationWithExtends.d.ts
+! exists ambientModuleWithClassDeclarationWithExtends.js.map
 
 -- ambientModuleWithClassDeclarationWithExtends.ts --
 declare namespace foo {

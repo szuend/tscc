@@ -3,6 +3,8 @@
 ! exec tscc --no-strict --target es2015 --out-js ambiguousOverload.js ambiguousOverload.ts
 stderr 'TS2322'
 ! exists ambiguousOverload.js
+! exists ambiguousOverload.d.ts
+! exists ambiguousOverload.js.map
 
 -- ambiguousOverload.ts --
 function foof(bar: string, y): number;

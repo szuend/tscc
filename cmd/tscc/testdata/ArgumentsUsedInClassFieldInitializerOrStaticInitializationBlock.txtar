@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js argumentsUsedInClassFieldInitializerOrStaticInitializationBlock.js argumentsUsedInClassFieldInitializerOrStaticInitializationBlock.ts
 stderr 'TS2815'
 ! exists argumentsUsedInClassFieldInitializerOrStaticInitializationBlock.js
+! exists argumentsUsedInClassFieldInitializerOrStaticInitializationBlock.d.ts
+! exists argumentsUsedInClassFieldInitializerOrStaticInitializationBlock.js.map
 
 -- argumentsUsedInClassFieldInitializerOrStaticInitializationBlock.ts --
 function A() {

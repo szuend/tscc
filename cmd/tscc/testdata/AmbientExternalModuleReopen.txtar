@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambientExternalModuleReopen.js ambientExternalModuleReopen.ts
 ! stderr .
 cmp ambientExternalModuleReopen.js ambientExternalModuleReopen.js.golden
+! exists ambientExternalModuleReopen.d.ts
+! exists ambientExternalModuleReopen.js.map
 
 -- ambientExternalModuleReopen.ts --
 declare module "fs" {

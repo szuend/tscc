@@ -4,6 +4,8 @@
 stderr 'TS2322'
 stderr 'TS2740'
 ! exists arrayAssignmentTest4.js
+! exists arrayAssignmentTest4.d.ts
+! exists arrayAssignmentTest4.js.map
 
 -- arrayAssignmentTest4.ts --
 class C3 {

@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambientModuleExports.js ambientModuleExports.ts
 ! stderr .
 cmp ambientModuleExports.js ambientModuleExports.js.golden
+! exists ambientModuleExports.d.ts
+! exists ambientModuleExports.js.map
 
 -- ambientModuleExports.ts --
 declare namespace Foo {

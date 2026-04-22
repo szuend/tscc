@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js ambientNameRestrictions.js ambientNameRestrictions.ts
 ! stderr .
 cmp ambientNameRestrictions.js ambientNameRestrictions.js.golden
+! exists ambientNameRestrictions.d.ts
+! exists ambientNameRestrictions.js.map
 
 -- ambientNameRestrictions.ts --
 export declare namespace Foo {

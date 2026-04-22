@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js argsInScope.js argsInScope.ts
 ! stderr .
 cmp argsInScope.js argsInScope.js.golden
+! exists argsInScope.d.ts
+! exists argsInScope.js.map
 
 -- argsInScope.ts --
 class C {

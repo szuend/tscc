@@ -5,6 +5,8 @@ stderr 'TS2769'
 stderr 'TS2322'
 stderr 'TS2564'
 ! exists arrayBestCommonTypes.js
+! exists arrayBestCommonTypes.d.ts
+! exists arrayBestCommonTypes.js.map
 
 -- arrayBestCommonTypes.ts --
 namespace EmptyTypes {

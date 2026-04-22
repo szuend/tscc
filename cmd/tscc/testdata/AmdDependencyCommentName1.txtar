@@ -3,6 +3,8 @@
 ! exec tscc --module commonjs --target es2015 --out-js amdDependencyCommentName1.js amdDependencyCommentName1.ts
 stderr 'TS2307'
 ! exists amdDependencyCommentName1.js
+! exists amdDependencyCommentName1.d.ts
+! exists amdDependencyCommentName1.js.map
 
 -- amdDependencyCommentName1.ts --
 ///<amd-dependency path='bar' name='b'/>

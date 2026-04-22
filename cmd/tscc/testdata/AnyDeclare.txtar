@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js anyDeclare.js anyDeclare.ts
 stderr 'TS2300'
 ! exists anyDeclare.js
+! exists anyDeclare.d.ts
+! exists anyDeclare.js.map
 
 -- anyDeclare.ts --
 declare var x: any;

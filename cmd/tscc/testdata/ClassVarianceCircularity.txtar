@@ -3,6 +3,8 @@
 exec tscc --strict --target es2015 --out-js classVarianceCircularity.js classVarianceCircularity.ts
 ! stderr .
 cmp classVarianceCircularity.js classVarianceCircularity.js.golden
+! exists classVarianceCircularity.d.ts
+! exists classVarianceCircularity.js.map
 
 -- classVarianceCircularity.ts --
 // Issue #52813

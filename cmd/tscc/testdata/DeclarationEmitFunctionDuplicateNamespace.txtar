@@ -4,6 +4,7 @@ exec tscc --out-dts declarationEmitFunctionDuplicateNamespace.d.ts --target es20
 ! stderr .
 cmp declarationEmitFunctionDuplicateNamespace.d.ts declarationEmitFunctionDuplicateNamespace.d.ts.golden
 cmp declarationEmitFunctionDuplicateNamespace.js declarationEmitFunctionDuplicateNamespace.js.golden
+! exists declarationEmitFunctionDuplicateNamespace.js.map
 
 -- declarationEmitFunctionDuplicateNamespace.ts --
 function f(a: 0): 0;

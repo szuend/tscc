@@ -3,6 +3,8 @@
 ! exec tscc --strict --target es2015 --out-js classPropertyErrorOnNameOnly.js classPropertyErrorOnNameOnly.ts
 stderr 'TS2322'
 ! exists classPropertyErrorOnNameOnly.js
+! exists classPropertyErrorOnNameOnly.d.ts
+! exists classPropertyErrorOnNameOnly.js.map
 
 -- classPropertyErrorOnNameOnly.ts --
 type Values = 1 | 2 | 3 | 4 | 5 | 6

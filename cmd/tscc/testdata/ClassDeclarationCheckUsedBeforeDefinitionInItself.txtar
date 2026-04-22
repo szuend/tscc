@@ -3,6 +3,8 @@
 exec tscc --target es6 --out-js classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUsedBeforeDefinitionInItself.ts
 ! stderr .
 cmp classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUsedBeforeDefinitionInItself.js.golden
+! exists classDeclarationCheckUsedBeforeDefinitionInItself.d.ts
+! exists classDeclarationCheckUsedBeforeDefinitionInItself.js.map
 
 -- classDeclarationCheckUsedBeforeDefinitionInItself.ts --
 class C3 { 

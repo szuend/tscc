@@ -4,6 +4,8 @@
 stderr 'TS2664'
 stderr 'TS2307'
 ! exists ambientExternalModuleInAnotherExternalModule.js
+! exists ambientExternalModuleInAnotherExternalModule.d.ts
+! exists ambientExternalModuleInAnotherExternalModule.js.map
 
 -- ambientExternalModuleInAnotherExternalModule.ts --
 class D { }

@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js anyIndexedAccessArrayNoException.js anyIndexedAccessArrayNoException.ts
 stderr 'TS2538'
 ! exists anyIndexedAccessArrayNoException.js
+! exists anyIndexedAccessArrayNoException.d.ts
+! exists anyIndexedAccessArrayNoException.js.map
 
 -- anyIndexedAccessArrayNoException.ts --
 var x: any[[]];

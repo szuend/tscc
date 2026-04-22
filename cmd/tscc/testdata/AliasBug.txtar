@@ -3,6 +3,8 @@
 ! exec tscc --module commonjs --target es2015 --out-js aliasBug.js aliasBug.ts
 stderr 'TS2694'
 ! exists aliasBug.js
+! exists aliasBug.d.ts
+! exists aliasBug.js.map
 
 -- aliasBug.ts --
 namespace foo {    

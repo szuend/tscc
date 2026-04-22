@@ -4,6 +4,8 @@
 stderr 'TS2322'
 stderr 'TS2315'
 ! exists moduleAndInterfaceSharingName2.js
+! exists moduleAndInterfaceSharingName2.d.ts
+! exists moduleAndInterfaceSharingName2.js.map
 
 -- moduleAndInterfaceSharingName2.ts --
 namespace X {

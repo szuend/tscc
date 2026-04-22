@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js class2.js class2.ts
 stderr 'TS1128'
 ! exists class2.js
+! exists class2.d.ts
+! exists class2.js.map
 
 -- class2.ts --
 class foo { constructor() { static f = 3; } }

@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js classMethodWithKeywordName1.js classMethodWithKeywordName1.ts
 ! stderr .
 cmp classMethodWithKeywordName1.js classMethodWithKeywordName1.js.golden
+! exists classMethodWithKeywordName1.d.ts
+! exists classMethodWithKeywordName1.js.map
 
 -- classMethodWithKeywordName1.ts --
 class C {

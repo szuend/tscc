@@ -4,6 +4,7 @@ exec tscc --out-dts classExpressionInClassStaticDeclarations.d.ts --target es201
 ! stderr .
 cmp classExpressionInClassStaticDeclarations.d.ts classExpressionInClassStaticDeclarations.d.ts.golden
 cmp classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDeclarations.js.golden
+! exists classExpressionInClassStaticDeclarations.js.map
 
 -- classExpressionInClassStaticDeclarations.ts --
 class C {

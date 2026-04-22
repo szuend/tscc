@@ -5,6 +5,8 @@ stderr 'TS2564'
 stderr 'TS2302'
 stderr 'TS2345'
 ! exists classTypeParametersInStatics.js
+! exists classTypeParametersInStatics.d.ts
+! exists classTypeParametersInStatics.js.map
 
 -- classTypeParametersInStatics.ts --
 namespace Editor {

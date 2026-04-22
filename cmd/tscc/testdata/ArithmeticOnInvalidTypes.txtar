@@ -6,6 +6,8 @@ stderr 'TS2365'
 stderr 'TS2362'
 stderr 'TS2363'
 ! exists arithmeticOnInvalidTypes.js
+! exists arithmeticOnInvalidTypes.d.ts
+! exists arithmeticOnInvalidTypes.js.map
 
 -- arithmeticOnInvalidTypes.ts --
 var x: Number;

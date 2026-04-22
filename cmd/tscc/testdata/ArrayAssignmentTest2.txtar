@@ -4,6 +4,8 @@
 stderr 'TS2322'
 stderr 'TS2740'
 ! exists arrayAssignmentTest2.js
+! exists arrayAssignmentTest2.d.ts
+! exists arrayAssignmentTest2.js.map
 
 -- arrayAssignmentTest2.ts --
 interface I1 {

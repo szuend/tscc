@@ -4,6 +4,8 @@
 stderr 'TS2564'
 stderr 'TS2507'
 ! exists classExtendsClauseClassNotReferringConstructor.js
+! exists classExtendsClauseClassNotReferringConstructor.d.ts
+! exists classExtendsClauseClassNotReferringConstructor.js.map
 
 -- classExtendsClauseClassNotReferringConstructor.ts --
 class A { a: number; }

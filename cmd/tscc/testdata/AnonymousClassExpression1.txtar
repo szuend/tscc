@@ -3,6 +3,8 @@
 exec tscc --target es2015 --out-js anonymousClassExpression1.js anonymousClassExpression1.ts
 ! stderr .
 cmp anonymousClassExpression1.js anonymousClassExpression1.js.golden
+! exists anonymousClassExpression1.d.ts
+! exists anonymousClassExpression1.js.map
 
 -- anonymousClassExpression1.ts --
 function f() {

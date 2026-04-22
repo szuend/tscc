@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classIndexer4.js classIndexer4.ts
 stderr 'TS2411'
 ! exists classIndexer4.js
+! exists classIndexer4.d.ts
+! exists classIndexer4.js.map
 
 -- classIndexer4.ts --
 class C123 {

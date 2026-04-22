@@ -2,6 +2,8 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 exec tscc --target es2015 ambientClassDeclaredBeforeBase.ts
 ! stderr .
+! exists ambientClassDeclaredBeforeBase.d.ts
+! exists ambientClassDeclaredBeforeBase.js.map
 
 -- ambientClassDeclaredBeforeBase.ts --
 // @target: es2015

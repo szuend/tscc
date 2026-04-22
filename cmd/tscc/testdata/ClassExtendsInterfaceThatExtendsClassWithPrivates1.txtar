@@ -3,6 +3,8 @@
 ! exec tscc --target es2015 --out-js classExtendsInterfaceThatExtendsClassWithPrivates1.js classExtendsInterfaceThatExtendsClassWithPrivates1.ts
 stderr 'TS2420'
 ! exists classExtendsInterfaceThatExtendsClassWithPrivates1.js
+! exists classExtendsInterfaceThatExtendsClassWithPrivates1.d.ts
+! exists classExtendsInterfaceThatExtendsClassWithPrivates1.js.map
 
 -- classExtendsInterfaceThatExtendsClassWithPrivates1.ts --
 class C {
