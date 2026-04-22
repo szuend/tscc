@@ -1,0 +1,63 @@
+# Ported from tests/cases/compiler/assignmentToExpandingArrayType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --out-js assignmentToExpandingArrayType.js assignmentToExpandingArrayType.ts
+! stderr .
+cmp assignmentToExpandingArrayType.js assignmentToExpandingArrayType.js.golden
+! exists assignmentToExpandingArrayType.d.ts
+! exists assignmentToExpandingArrayType.js.map
+
+-- assignmentToExpandingArrayType.ts --
+// Fixes exponential time/space in #14628
+let x = []
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' } // previously ran out of memory here
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+x[0] = { foo: 'hi' }
+-- assignmentToExpandingArrayType.js.golden --
+"use strict";
+// Fixes exponential time/space in #14628
+let x = [];
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' }; // previously ran out of memory here
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };
+x[0] = { foo: 'hi' };

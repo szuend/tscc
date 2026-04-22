@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/contextualTypingOfArrayLiterals1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js contextualTypingOfArrayLiterals1.js contextualTypingOfArrayLiterals1.ts
+stderr 'TS2322'
+! exists contextualTypingOfArrayLiterals1.js
+! exists contextualTypingOfArrayLiterals1.d.ts
+! exists contextualTypingOfArrayLiterals1.js.map
+
+-- contextualTypingOfArrayLiterals1.ts --
+interface I {
+   [x: number]: Date;
+}
+
+var x3: I = [new Date(), 1]; 
+var r2 = x3[1]; 
+r2.getDate(); 

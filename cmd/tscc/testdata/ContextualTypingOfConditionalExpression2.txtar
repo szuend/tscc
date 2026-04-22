@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/contextualTypingOfConditionalExpression2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js contextualTypingOfConditionalExpression2.js contextualTypingOfConditionalExpression2.ts
+stderr 'TS2322'
+! exists contextualTypingOfConditionalExpression2.js
+! exists contextualTypingOfConditionalExpression2.d.ts
+! exists contextualTypingOfConditionalExpression2.js.map
+
+-- contextualTypingOfConditionalExpression2.ts --
+class A {
+    foo: number;
+}
+class B extends A {
+    bar: number;
+}
+class C extends A {
+    baz: number;
+}
+
+var x2: (a: A) => void = true ? (a: C) => a.foo : (b: number) => { };

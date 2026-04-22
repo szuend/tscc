@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/assignmentNestedInLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --out-js assignmentNestedInLiterals.js assignmentNestedInLiterals.ts
+! stderr .
+cmp assignmentNestedInLiterals.js assignmentNestedInLiterals.js.golden
+! exists assignmentNestedInLiterals.d.ts
+! exists assignmentNestedInLiterals.js.map
+
+-- assignmentNestedInLiterals.ts --
+var target, x, y;
+target = [x = 1, y = x];
+
+var aegis, a, b;
+aegis = { x: a = 1, y: b = a };
+
+var kowloona, c, d;
+for (kowloona of [c = 1, d = c]) {
+}
+-- assignmentNestedInLiterals.js.golden --
+"use strict";
+var target, x, y;
+target = [x = 1, y = x];
+var aegis, a, b;
+aegis = { x: a = 1, y: b = a };
+var kowloona, c, d;
+for (kowloona of [c = 1, d = c]) {
+}
