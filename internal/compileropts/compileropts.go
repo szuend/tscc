@@ -89,12 +89,13 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 	}
 
 	return &tsccbridge.CompilerOptions{
-		Target:        target,
-		Strict:        boolToTristate(cfg.Strict),
-		NoImplicitAny: boolToTristate(cfg.NoImplicitAny),
-		Module:        mod,
-		Declaration:   decl,
-		SourceMap:     srcMap,
+		Target:                     target,
+		Strict:                     boolToTristate(cfg.Strict),
+		NoImplicitAny:              boolToTristate(cfg.NoImplicitAny),
+		ExactOptionalPropertyTypes: boolToTristate(cfg.ExactOptionalPropertyTypes),
+		Module:                     mod,
+		Declaration:                decl,
+		SourceMap:                  srcMap,
 	}, nil
 }
 

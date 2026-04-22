@@ -28,9 +28,10 @@ import (
 )
 
 type Config struct {
-	Strict        bool
-	NoImplicitAny bool
-	Target        string
+	Strict                     bool
+	NoImplicitAny              bool
+	ExactOptionalPropertyTypes bool
+	Target                     string
 	Module        string
 	InputPath     string
 	OutJSPath     string
@@ -231,6 +232,7 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
 	g.BoolVar(&cfg.NoImplicitAny, "no-implicit-any", true, "Raise error on expressions and declarations with an implied 'any' type")
 	g.Lookup("no-implicit-any").DefValue = "true; false if --no-strict is passed"
+	g.BoolVar(&cfg.ExactOptionalPropertyTypes, "exact-optional-property-types", false, "Interpret optional property types as written, rather than adding 'undefined'")
 	return flagGroup{Name: "Type Checking", Set: g}
 }
 
