@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/constEnumBadPropertyNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constEnumBadPropertyNames.js constEnumBadPropertyNames.ts
+stderr 'TS2339'
+! exists constEnumBadPropertyNames.js
+! exists constEnumBadPropertyNames.d.ts
+! exists constEnumBadPropertyNames.js.map
+
+-- constEnumBadPropertyNames.ts --
+const enum E { A }
+var x = E["B"]

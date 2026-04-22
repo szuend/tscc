@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/assignmentCompatability13.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompatability13.js assignmentCompatability13.ts
+stderr 'TS2322'
+! exists assignmentCompatability13.js
+! exists assignmentCompatability13.d.ts
+! exists assignmentCompatability13.js.map
+
+-- assignmentCompatability13.ts --
+namespace __test1__ {
+    export interface interfaceWithPublicAndOptional<T,U> { one: T; two?: U; };  var obj4: interfaceWithPublicAndOptional<number,string> = { one: 1 };;
+    export var __val__obj4 = obj4;
+}
+namespace __test2__ {
+    export var obj = {two: "1"};
+    export var __val__obj = obj;
+}
+__test2__.__val__obj = __test1__.__val__obj4

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/badOverloadError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js badOverloadError.js badOverloadError.ts
+! stderr .
+cmp badOverloadError.js badOverloadError.js.golden
+! exists badOverloadError.d.ts
+! exists badOverloadError.js.map
+
+-- badOverloadError.ts --
+function method() {
+    var dictionary = <{ [index: string]: string; }>{};
+}
+-- badOverloadError.js.golden --
+"use strict";
+function method() {
+    var dictionary = {};
+}

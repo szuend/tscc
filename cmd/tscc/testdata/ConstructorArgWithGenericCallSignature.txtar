@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/constructorArgWithGenericCallSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorArgWithGenericCallSignature.js constructorArgWithGenericCallSignature.ts
+stderr 'TS2454'
+! exists constructorArgWithGenericCallSignature.js
+! exists constructorArgWithGenericCallSignature.d.ts
+! exists constructorArgWithGenericCallSignature.js.map
+
+-- constructorArgWithGenericCallSignature.ts --
+namespace Test {
+    export interface MyFunc {
+        <T>(value1: T): T;
+    }
+    export class MyClass {
+        constructor(func: MyFunc) { }
+    }
+ 
+ export function F(func: MyFunc) { }
+}
+var func: Test.MyFunc;
+Test.F(func); // OK
+var test = new Test.MyClass(func); // Should be OK

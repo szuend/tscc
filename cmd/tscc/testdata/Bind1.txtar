@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/bind1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js bind1.js bind1.ts
+stderr 'TS2304'
+! exists bind1.js
+! exists bind1.d.ts
+! exists bind1.js.map
+
+-- bind1.ts --
+namespace M {
+    export class C implements I {} // this should be an unresolved symbol I error
+}
+

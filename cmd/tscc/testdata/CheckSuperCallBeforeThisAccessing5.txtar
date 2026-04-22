@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/checkSuperCallBeforeThisAccessing5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-js checkSuperCallBeforeThisAccessing5.js checkSuperCallBeforeThisAccessing5.ts
+stderr 'TS7019'
+stderr 'TS17009'
+! exists checkSuperCallBeforeThisAccessing5.js
+! exists checkSuperCallBeforeThisAccessing5.d.ts
+! exists checkSuperCallBeforeThisAccessing5.js.map
+
+-- checkSuperCallBeforeThisAccessing5.ts --
+﻿// @target: es2015
+class Based { constructor(...arg) { } }
+class Derived extends Based {
+    public x!: number;
+    constructor() {
+        super(this.x);
+    }
+}

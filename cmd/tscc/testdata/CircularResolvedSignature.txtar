@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/circularResolvedSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js circularResolvedSignature.js circularResolvedSignature.ts
+stderr 'TS2322'
+! exists circularResolvedSignature.js
+! exists circularResolvedSignature.d.ts
+! exists circularResolvedSignature.js.map
+
+-- circularResolvedSignature.ts --
+declare function useState<S>(initialState: (() => S)): [S, (s: S) => void];
+
+type Data = Readonly<{
+    value: number;
+    foo: (arg: any) => void;
+    bar: (arg: any) => void;
+}>;
+
+export function Component() {
+    const [state, setState] = useState<Data>(() => ({
+        value: "string", // this should be a number
+        foo: (arg) => setState(arg),
+        bar: (arg) => setState(arg),
+    }));
+}

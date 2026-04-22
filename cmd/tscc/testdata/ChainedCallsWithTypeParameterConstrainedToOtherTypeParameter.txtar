@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.ts
+stderr 'TS2741'
+stderr 'TS2739'
+! exists chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.js
+! exists chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.d.ts
+! exists chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.js.map
+
+-- chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.ts --
+class Chain<T extends A> {
+    constructor(public value: T) { }
+    then<S extends T>(cb: (x: T) => S): Chain<S> {
+        return null;
+    }
+}
+
+class A {
+    x;
+}
+class B extends A {
+    y;
+}
+class C extends B {
+    z;
+}
+
+// Ok to go down the chain, but error to try to climb back up
+(new Chain(new A)).then(a => new B).then(b => new C).then(c => new B).then(b => new A);

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/chainedAssignment2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js chainedAssignment2.js chainedAssignment2.ts
+stderr 'TS2322'
+! exists chainedAssignment2.js
+! exists chainedAssignment2.d.ts
+! exists chainedAssignment2.js.map
+
+-- chainedAssignment2.ts --
+var a: string;
+var b: number;
+var c: boolean;
+var d: Date;
+var e: RegExp;
+
+a = b = c = d = e = null;
+

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/assignmentStricterConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentStricterConstraints.js assignmentStricterConstraints.ts
+stderr 'TS2322'
+! exists assignmentStricterConstraints.js
+! exists assignmentStricterConstraints.d.ts
+! exists assignmentStricterConstraints.js.map
+
+-- assignmentStricterConstraints.ts --
+var f = function <T, S extends T>(x: T, y: S): void {
+    x = y
+}
+
+var g = function <T, S>(x: T, y: S): void { }
+
+g = f
+g(1, "")

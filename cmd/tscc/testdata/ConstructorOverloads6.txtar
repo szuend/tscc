@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/constructorOverloads6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorOverloads6.js constructorOverloads6.ts
+stderr 'TS1183'
+! exists constructorOverloads6.js
+! exists constructorOverloads6.d.ts
+! exists constructorOverloads6.js.map
+
+-- constructorOverloads6.ts --
+declare class FooBase {
+    constructor(s: string);
+    constructor(n: number);
+    constructor(x: any) {
+
+    }
+	bar1():void;
+}
+
+ declare class Foo extends FooBase {
+    constructor(s: string);
+    constructor(n: number);
+    constructor(x: any, y?:any);
+
+    bar1():void;
+}
+
+var f1 = new Foo("hey");
+var f2 = new Foo(0);
+var f3 = new Foo(f1);
+var f4 = new Foo([f1,f2,f3]);
+
+f1.bar1();

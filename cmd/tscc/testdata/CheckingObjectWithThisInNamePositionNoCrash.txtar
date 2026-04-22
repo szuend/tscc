@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/checkingObjectWithThisInNamePositionNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts checkingObjectWithThisInNamePositionNoCrash.d.ts --module commonjs --strict --target es2015 --out-js checkingObjectWithThisInNamePositionNoCrash.js checkingObjectWithThisInNamePositionNoCrash.ts
+stderr 'TS7023'
+stderr 'TS2339'
+! exists checkingObjectWithThisInNamePositionNoCrash.d.ts
+! exists checkingObjectWithThisInNamePositionNoCrash.js
+! exists checkingObjectWithThisInNamePositionNoCrash.js.map
+
+-- checkingObjectWithThisInNamePositionNoCrash.ts --
+export const thing = {
+    doit() {
+        return {
+            [this.a]: "", // should refer to the outer object with the doit method, notably not present
+        }
+    }
+}

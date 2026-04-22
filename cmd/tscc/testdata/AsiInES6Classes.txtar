@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/asiInES6Classes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js asiInES6Classes.js asiInES6Classes.ts
+! stderr .
+cmp asiInES6Classes.js asiInES6Classes.js.golden
+! exists asiInES6Classes.d.ts
+! exists asiInES6Classes.js.map
+
+-- asiInES6Classes.ts --
+class Foo {
+
+ 
+
+    defaults = {
+
+        done: false
+
+    }
+
+ 
+
+    bar() {
+
+        return 3;
+
+    }
+
+ 
+
+}
+-- asiInES6Classes.js.golden --
+"use strict";
+class Foo {
+    constructor() {
+        this.defaults = {
+            done: false
+        };
+    }
+    bar() {
+        return 3;
+    }
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/contextualSignature_objectLiteralMethodMayReturnNever.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js contextualSignature_objectLiteralMethodMayReturnNever.js contextualSignature_objectLiteralMethodMayReturnNever.ts
+! stderr .
+cmp contextualSignature_objectLiteralMethodMayReturnNever.js contextualSignature_objectLiteralMethodMayReturnNever.js.golden
+! exists contextualSignature_objectLiteralMethodMayReturnNever.d.ts
+! exists contextualSignature_objectLiteralMethodMayReturnNever.js.map
+
+-- contextualSignature_objectLiteralMethodMayReturnNever.ts --
+interface I { m(): number; }
+const o: I = { m() { throw new Error("not implemented"); } };
+-- contextualSignature_objectLiteralMethodMayReturnNever.js.golden --
+"use strict";
+const o = { m() { throw new Error("not implemented"); } };

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/arrayConcatMap.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrayConcatMap.js arrayConcatMap.ts
+stderr 'TS2769'
+stderr 'TS2339'
+! exists arrayConcatMap.js
+! exists arrayConcatMap.d.ts
+! exists arrayConcatMap.js.map
+
+-- arrayConcatMap.ts --
+var x = [].concat([{ a: 1 }], [{ a: 2 }])
+          .map(b => b.a);

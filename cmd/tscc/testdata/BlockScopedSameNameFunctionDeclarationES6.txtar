@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/blockScopedSameNameFunctionDeclarationES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --out-js blockScopedSameNameFunctionDeclarationES6.js blockScopedSameNameFunctionDeclarationES6.ts
+stderr 'TS2554'
+! exists blockScopedSameNameFunctionDeclarationES6.js
+! exists blockScopedSameNameFunctionDeclarationES6.d.ts
+! exists blockScopedSameNameFunctionDeclarationES6.js.map
+
+-- blockScopedSameNameFunctionDeclarationES6.ts --
+function foo(a: number) {
+    if (a === 10) {
+        function foo() { } // duplicate
+        foo();
+        foo(10); // not ok
+    }
+    else {
+        function foo() { } // duplicate
+        foo();
+        foo(10);// not ok
+    }
+    foo(10); // not ok
+    foo(); 
+}
+foo(10);
+foo(); // not ok - needs number

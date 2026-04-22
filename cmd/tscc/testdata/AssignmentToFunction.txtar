@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/assignmentToFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentToFunction.js assignmentToFunction.ts
+stderr 'TS2630'
+! exists assignmentToFunction.js
+! exists assignmentToFunction.d.ts
+! exists assignmentToFunction.js.map
+
+-- assignmentToFunction.ts --
+function fn() { }
+fn = () => 3;
+
+namespace foo {
+    function xyz() {
+        function bar() {
+        }
+        bar = null;
+    }
+}

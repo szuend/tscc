@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/commentInMethodCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js commentInMethodCall.js commentInMethodCall.ts
+stderr 'TS2454'
+! exists commentInMethodCall.js
+! exists commentInMethodCall.d.ts
+! exists commentInMethodCall.js.map
+
+-- commentInMethodCall.ts --
+//commment here
+var s: string[];
+s.map(// do something
+    function () { });

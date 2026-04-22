@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/autolift4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js autolift4.js autolift4.ts
+stderr 'TS2339'
+! exists autolift4.js
+! exists autolift4.d.ts
+! exists autolift4.js.map
+
+-- autolift4.ts --
+class Point {
+
+    constructor(public x: number, public y: number) {
+
+    }
+    getDist() { 
+        return Math.sqrt(this.x*this.x + this.y*this.y); 
+    }
+    static origin = new Point(0,0);
+}
+
+class Point3D extends Point {
+
+    constructor(x: number, y: number, public z: number, m:number) {
+        super(x, y);
+    }
+    
+    getDist() {
+        return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.m);
+    }        
+}
+

@@ -1,0 +1,51 @@
+# Ported from tests/cases/compiler/constDeclarations-access4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --out-js constDeclarations-access4.js constDeclarations-access4.ts
+stderr 'TS2540'
+! exists constDeclarations-access4.js
+! exists constDeclarations-access4.d.ts
+! exists constDeclarations-access4.js.map
+
+-- constDeclarations-access4.ts --
+declare namespace M {
+    const x: number;
+}
+
+// Errors
+M.x = 1;
+M.x += 2;
+M.x -= 3;
+M.x *= 4;
+M.x /= 5;
+M.x %= 6;
+M.x <<= 7;
+M.x >>= 8;
+M.x >>>= 9;
+M.x &= 10;
+M.x |= 11;
+M.x ^= 12;
+
+M.x++;
+M.x--;
+++M.x;
+--M.x;
+
+++((M.x));
+
+M["x"] = 0;
+
+// OK
+var a = M.x + 1;
+
+function f(v: number) { }
+f(M.x);
+
+if (M.x) { }
+
+M.x;
+(M.x);
+
+-M.x;
++M.x;
+
+M.x.toString();

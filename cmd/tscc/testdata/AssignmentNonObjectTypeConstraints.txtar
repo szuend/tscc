@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/assignmentNonObjectTypeConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --out-js assignmentNonObjectTypeConstraints.js assignmentNonObjectTypeConstraints.ts
+! stderr .
+cmp assignmentNonObjectTypeConstraints.js assignmentNonObjectTypeConstraints.js.golden
+! exists assignmentNonObjectTypeConstraints.d.ts
+! exists assignmentNonObjectTypeConstraints.js.map
+
+-- assignmentNonObjectTypeConstraints.ts --
+const enum E { A, B, C }
+
+function foo<T extends number>(x: T) {
+    var y: number = x;  // Ok
+}
+
+foo(5);
+foo(E.A);
+
+class A { a }
+class B { b }
+
+function bar<T extends A | B>(x: T) {
+    var y: A | B = x;  // Ok
+}
+
+bar(new A);
+bar(new B);
+-- assignmentNonObjectTypeConstraints.js.golden --
+"use strict";
+function foo(x) {
+    var y = x; // Ok
+}
+foo(5);
+foo(0 /* E.A */);
+class A {
+}
+class B {
+}
+function bar(x) {
+    var y = x; // Ok
+}
+bar(new A);
+bar(new B);

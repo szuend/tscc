@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/computedPropertiesInDestructuring2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js computedPropertiesInDestructuring2.js computedPropertiesInDestructuring2.ts
+stderr 'TS2537'
+! exists computedPropertiesInDestructuring2.js
+! exists computedPropertiesInDestructuring2.d.ts
+! exists computedPropertiesInDestructuring2.js.map
+
+-- computedPropertiesInDestructuring2.ts --
+let foo2 = () => "bar";
+let {[foo2()]: bar3} = {};

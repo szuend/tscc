@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/baseTypeOrderChecking.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js baseTypeOrderChecking.js baseTypeOrderChecking.ts
+stderr 'TS2564'
+! exists baseTypeOrderChecking.js
+! exists baseTypeOrderChecking.d.ts
+! exists baseTypeOrderChecking.js.map
+
+-- baseTypeOrderChecking.ts --
+var someVariable: Class4<Class2>;
+
+ 
+
+class Class1
+
+{
+
+}
+
+ 
+
+class Class2 extends Class1
+
+{
+
+}
+
+ 
+
+class Class3<T>
+
+{
+
+               public memberVariable: Class2;
+
+}
+
+ 
+
+class Class4<T> extends Class3<T>
+
+{
+
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/cannotInvokeNewOnIndexExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js cannotInvokeNewOnIndexExpression.js cannotInvokeNewOnIndexExpression.ts
+stderr 'TS2693'
+! exists cannotInvokeNewOnIndexExpression.js
+! exists cannotInvokeNewOnIndexExpression.d.ts
+! exists cannotInvokeNewOnIndexExpression.js.map
+
+-- cannotInvokeNewOnIndexExpression.ts --
+var test: any[] = new any[1];

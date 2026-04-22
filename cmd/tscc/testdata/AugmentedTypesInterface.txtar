@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/augmentedTypesInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js augmentedTypesInterface.js augmentedTypesInterface.ts
+stderr 'TS2567'
+! exists augmentedTypesInterface.js
+! exists augmentedTypesInterface.d.ts
+! exists augmentedTypesInterface.js.map
+
+-- augmentedTypesInterface.ts --
+// interface then interface
+
+interface i {
+    foo(): void;
+}
+
+interface i {
+    bar(): number;
+}
+
+// interface then class
+interface i2 {
+    foo(): void;
+}
+
+class i2 {
+    bar() {
+        return 1;
+    }
+}
+
+// interface then enum
+interface i3 { // error
+    foo(): void;
+}
+enum i3 { One }; // error
+
+// interface then import
+interface i4 {
+    foo(): void;
+}
+
+//import i4 = require('');  // error

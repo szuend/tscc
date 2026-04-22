@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/ParameterList4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ParameterList4.js ParameterList4.ts
+stderr 'TS2369'
+stderr 'TS7006'
+! exists ParameterList4.js
+! exists ParameterList4.d.ts
+! exists ParameterList4.js.map
+
+-- ParameterList4.ts --
+function F(public A) {
+}

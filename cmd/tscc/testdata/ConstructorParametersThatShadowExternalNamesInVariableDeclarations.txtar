@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/constructorParametersThatShadowExternalNamesInVariableDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorParametersThatShadowExternalNamesInVariableDeclarations.js constructorParametersThatShadowExternalNamesInVariableDeclarations.ts
+stderr 'TS2301'
+! exists constructorParametersThatShadowExternalNamesInVariableDeclarations.js
+! exists constructorParametersThatShadowExternalNamesInVariableDeclarations.d.ts
+! exists constructorParametersThatShadowExternalNamesInVariableDeclarations.js.map
+
+-- constructorParametersThatShadowExternalNamesInVariableDeclarations.ts --
+var x = 1;
+class A {
+    private a = x;
+    constructor(x: number) {
+    }
+}
+
+class B {
+    private a = x;
+    constructor() {
+        var x = "";
+    }
+}

@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/classOrderBug.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js classOrderBug.js classOrderBug.ts
+! stderr .
+cmp classOrderBug.js classOrderBug.js.golden
+! exists classOrderBug.d.ts
+! exists classOrderBug.js.map
+
+-- classOrderBug.ts --
+class bar {
+    public baz: foo;
+    constructor() {
+
+        this.baz = new foo();
+
+    }
+
+}
+
+class baz {}
+class foo extends baz {}
+
+
+-- classOrderBug.js.golden --
+"use strict";
+class bar {
+    constructor() {
+        this.baz = new foo();
+    }
+}
+class baz {
+}
+class foo extends baz {
+}

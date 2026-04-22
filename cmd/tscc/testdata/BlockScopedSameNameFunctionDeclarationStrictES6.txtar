@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/blockScopedSameNameFunctionDeclarationStrictES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --out-js blockScopedSameNameFunctionDeclarationStrictES6.js blockScopedSameNameFunctionDeclarationStrictES6.ts
+stderr 'TS2554'
+! exists blockScopedSameNameFunctionDeclarationStrictES6.js
+! exists blockScopedSameNameFunctionDeclarationStrictES6.d.ts
+! exists blockScopedSameNameFunctionDeclarationStrictES6.js.map
+
+-- blockScopedSameNameFunctionDeclarationStrictES6.ts --
+"use strict";
+function foo(a: number) {
+    if (a === 10) {
+        function foo() { }
+        foo();
+        foo(10); // not ok
+    }
+    else {
+        function foo() { } 
+        foo();
+        foo(10); // not ok
+    }
+    foo(10);
+    foo(); // not ok
+}
+foo(10);
+foo(); // not ok - needs number

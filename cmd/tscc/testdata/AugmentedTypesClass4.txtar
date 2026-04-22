@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/augmentedTypesClass4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js augmentedTypesClass4.js augmentedTypesClass4.ts
+stderr 'TS2300'
+! exists augmentedTypesClass4.js
+! exists augmentedTypesClass4.d.ts
+! exists augmentedTypesClass4.js.map
+
+-- augmentedTypesClass4.ts --
+//// class then class
+class c3 { public foo() { } } // error
+class c3 { public bar() { } } // error

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/augmentedTypesClass2a.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js augmentedTypesClass2a.js augmentedTypesClass2a.ts
+stderr 'TS2300'
+stderr 'TS2813'
+stderr 'TS2814'
+! exists augmentedTypesClass2a.js
+! exists augmentedTypesClass2a.d.ts
+! exists augmentedTypesClass2a.js.map
+
+-- augmentedTypesClass2a.ts --
+//// class then function
+class c2 { public foo() { } } // error
+function c2() { } // error
+var c2 = () => { }

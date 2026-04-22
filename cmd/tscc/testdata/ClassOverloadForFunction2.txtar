@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/classOverloadForFunction2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classOverloadForFunction2.js classOverloadForFunction2.ts
+stderr 'TS2391'
+stderr 'TS2814'
+stderr 'TS2813'
+! exists classOverloadForFunction2.js
+! exists classOverloadForFunction2.d.ts
+! exists classOverloadForFunction2.js.map
+
+-- classOverloadForFunction2.ts --
+function bar(): string;
+class bar {}

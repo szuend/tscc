@@ -1,0 +1,59 @@
+# Ported from tests/cases/compiler/classFieldSuperAccessible.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --out-js classFieldSuperAccessible.js classFieldSuperAccessible.ts
+! stderr .
+cmp classFieldSuperAccessible.js classFieldSuperAccessible.js.golden
+! exists classFieldSuperAccessible.d.ts
+! exists classFieldSuperAccessible.js.map
+
+-- classFieldSuperAccessible.ts --
+class A extends class Expr {} {
+    static {
+        console.log(super.name);
+    }
+}
+class B extends Number {
+    static {
+        console.log(super.EPSILON);
+    }
+}
+class C extends Array {
+    foo() {
+        console.log(super.length);
+    }
+}
+
+class D {
+    accessor b = () => {}
+}
+class E extends D {
+    foo() {
+        super.b()
+    }
+}
+-- classFieldSuperAccessible.js.golden --
+"use strict";
+class A extends class Expr {
+} {
+    static {
+        console.log(super.name);
+    }
+}
+class B extends Number {
+    static {
+        console.log(super.EPSILON);
+    }
+}
+class C extends Array {
+    foo() {
+        console.log(super.length);
+    }
+}
+class D {
+    accessor b = () => { };
+}
+class E extends D {
+    foo() {
+        super.b();
+    }
+}

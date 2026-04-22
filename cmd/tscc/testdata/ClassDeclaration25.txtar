@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/ClassDeclaration25.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ClassDeclaration25.js ClassDeclaration25.ts
+stderr 'TS2391'
+! exists ClassDeclaration25.js
+! exists ClassDeclaration25.d.ts
+! exists ClassDeclaration25.js.map
+
+-- ClassDeclaration25.ts --
+interface IList<T> {
+    data(): T;
+    next(): string;
+}
+class List<U> implements IList<U> {
+    data(): U;
+    next(): string;
+}

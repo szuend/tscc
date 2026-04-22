@@ -1,0 +1,100 @@
+# Ported from tests/cases/compiler/collisionExportsRequireAndAmbientModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js collisionExportsRequireAndAmbientModule_externalmodule.js collisionExportsRequireAndAmbientModule_externalmodule.ts
+stderr 'TS2322'
+! exists collisionExportsRequireAndAmbientModule_externalmodule.js
+! exists collisionExportsRequireAndAmbientModule_externalmodule.d.ts
+! exists collisionExportsRequireAndAmbientModule_externalmodule.js.map
+! exists collisionExportsRequireAndAmbientModule_globalFile.js
+
+-- collisionExportsRequireAndAmbientModule_externalmodule.ts --
+export declare namespace require {
+    export interface I {
+    }
+    export class C {
+    }
+}
+export function foo(): require.I {
+    return null;
+}
+export declare namespace exports {
+    export interface I {
+    }
+    export class C {
+    }
+}
+export function foo2(): exports.I {
+    return null;
+}
+declare namespace m1 {
+    namespace require {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+    namespace exports {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+}
+namespace m2 {
+    export declare namespace require {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+    export declare namespace exports {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+    var a = 10;
+}
+-- collisionExportsRequireAndAmbientModule_globalFile.ts --
+declare namespace require {
+    export interface I {
+    }
+    export class C {
+    }
+}
+declare namespace exports {
+    export interface I {
+    }
+    export class C {
+    }
+}
+declare namespace m3 {
+    namespace require {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+    namespace exports {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+}
+namespace m4 {
+    export declare namespace require {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+    export declare namespace exports {
+        export interface I {
+        }
+        export class C {
+        }
+    }
+
+    var a = 10;
+}

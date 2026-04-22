@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/ClassDeclaration13.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js ClassDeclaration13.js ClassDeclaration13.ts
+stderr 'TS2389'
+! exists ClassDeclaration13.js
+! exists ClassDeclaration13.d.ts
+! exists ClassDeclaration13.js.map
+
+-- ClassDeclaration13.ts --
+class C {
+   foo();
+   bar() { }
+}

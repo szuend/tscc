@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/booleanAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js booleanAssignment.js booleanAssignment.ts
+stderr 'TS2322'
+! exists booleanAssignment.js
+! exists booleanAssignment.d.ts
+! exists booleanAssignment.js.map
+
+-- booleanAssignment.ts --
+var b = new Boolean();
+b = 1; // Error
+b = "a"; // Error
+b = {}; // Error
+
+var o = {};
+o = b; // OK
+
+b = true; // OK
+
+declare var b2:boolean;
+b = b2; // OK

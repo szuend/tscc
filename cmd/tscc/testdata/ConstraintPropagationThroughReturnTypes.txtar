@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/constraintPropagationThroughReturnTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js constraintPropagationThroughReturnTypes.js constraintPropagationThroughReturnTypes.ts
+! stderr .
+cmp constraintPropagationThroughReturnTypes.js constraintPropagationThroughReturnTypes.js.golden
+! exists constraintPropagationThroughReturnTypes.d.ts
+! exists constraintPropagationThroughReturnTypes.js.map
+
+-- constraintPropagationThroughReturnTypes.ts --
+function g<T>(x: T): T {
+  return x;
+}
+ 
+function f<S extends { foo: string }>(x: S) {
+  var y = g(x);
+  y;
+}
+-- constraintPropagationThroughReturnTypes.js.golden --
+"use strict";
+function g(x) {
+    return x;
+}
+function f(x) {
+    var y = g(x);
+    y;
+}

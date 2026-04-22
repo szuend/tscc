@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/classMergedWithInterfaceMultipleBasesNoError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classMergedWithInterfaceMultipleBasesNoError.js classMergedWithInterfaceMultipleBasesNoError.ts
+stderr 'TS2729'
+! exists classMergedWithInterfaceMultipleBasesNoError.js
+! exists classMergedWithInterfaceMultipleBasesNoError.d.ts
+! exists classMergedWithInterfaceMultipleBasesNoError.js.map
+
+-- classMergedWithInterfaceMultipleBasesNoError.ts --
+interface Bar { }
+interface Baz { }
+interface Q { }
+interface Foo extends Bar, Baz { }
+class Foo { }
+
+export default class extends Foo {
+    readonly observer = this.handleIntersection;
+    readonly handleIntersection = () => { }
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/commentOnParenthesizedExpressionOpenParen1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js commentOnParenthesizedExpressionOpenParen1.js commentOnParenthesizedExpressionOpenParen1.ts
+stderr 'TS2454'
+! exists commentOnParenthesizedExpressionOpenParen1.js
+! exists commentOnParenthesizedExpressionOpenParen1.d.ts
+! exists commentOnParenthesizedExpressionOpenParen1.js.map
+
+-- commentOnParenthesizedExpressionOpenParen1.ts --
+var j;
+var f: () => any;
+<any>( /* Preserve */ j = f());

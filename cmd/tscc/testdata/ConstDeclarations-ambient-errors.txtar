@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/constDeclarations-ambient-errors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --out-js constDeclarations-ambient-errors.js constDeclarations-ambient-errors.ts
+stderr 'TS1039'
+stderr 'TS1254'
+! exists constDeclarations-ambient-errors.js
+! exists constDeclarations-ambient-errors.d.ts
+! exists constDeclarations-ambient-errors.js.map
+
+-- constDeclarations-ambient-errors.ts --
+// error: no intialization expected in ambient declarations
+declare const c1: boolean = true;
+declare const c2: number = 0;
+declare const c3 = null, c4 :string = "", c5: any = 0;
+
+declare namespace M {
+    const c6 = 0;
+    const c7: number = 7;
+}

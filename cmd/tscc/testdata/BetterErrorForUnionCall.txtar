@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/betterErrorForUnionCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js betterErrorForUnionCall.js betterErrorForUnionCall.ts
+stderr 'TS2349'
+! exists betterErrorForUnionCall.js
+! exists betterErrorForUnionCall.d.ts
+! exists betterErrorForUnionCall.js.map
+
+-- betterErrorForUnionCall.ts --
+declare const union: { a: string } | { b: string }
+union("");
+
+declare const fnUnion: { a: string } | ((a: string) => void)
+fnUnion("");
+
+declare const fnUnion2: (<T extends number>(a: T) => void) | (<T>(a: string) => void)
+fnUnion2("");

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/assignmentToObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentToObject.js assignmentToObject.ts
+stderr 'TS2322'
+! exists assignmentToObject.js
+! exists assignmentToObject.d.ts
+! exists assignmentToObject.js.map
+
+-- assignmentToObject.ts --
+var a = { toString: 5 };
+var b: {} = a;  // ok
+var c: Object = a;  // should be error

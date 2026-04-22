@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/assignmentToInstantiationExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --out-js assignmentToInstantiationExpression.js assignmentToInstantiationExpression.ts
+stderr 'TS2364'
+stderr 'TS2454'
+! exists assignmentToInstantiationExpression.js
+! exists assignmentToInstantiationExpression.d.ts
+! exists assignmentToInstantiationExpression.js.map
+
+-- assignmentToInstantiationExpression.ts --
+let obj: { fn?: <T>() => T } = {};
+obj.fn<number> = () => 1234;
+
+
+let getValue: <T>() => T;
+getValue<number> = () => 1234;
+
+
+let getValue2!: <T>() => T;
+getValue2<number> = () => 1234;

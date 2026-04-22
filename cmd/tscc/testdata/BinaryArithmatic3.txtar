@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/binaryArithmatic3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js binaryArithmatic3.js binaryArithmatic3.ts
+stderr 'TS18050'
+! exists binaryArithmatic3.js
+! exists binaryArithmatic3.d.ts
+! exists binaryArithmatic3.js.map
+
+-- binaryArithmatic3.ts --
+var v = undefined | undefined;

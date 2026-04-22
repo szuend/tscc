@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/circularContextualMappedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --out-js circularContextualMappedType.js circularContextualMappedType.ts
+! stderr .
+cmp circularContextualMappedType.js circularContextualMappedType.js.golden
+! exists circularContextualMappedType.d.ts
+! exists circularContextualMappedType.js.map
+
+-- circularContextualMappedType.ts --
+type Func<T> = () => T;
+
+type Mapped<T> = { [K in keyof T]: Func<T[K]> };
+
+declare function reproduce(options: number): void;
+declare function reproduce<T>(options: Mapped<T>): T
+
+reproduce({
+  name:   () => { return 123 }
+});
+
+reproduce({
+  name() { return 123 }
+});
+
+reproduce({
+  name: function () { return 123 }
+});
+-- circularContextualMappedType.js.golden --
+"use strict";
+reproduce({
+    name: () => { return 123; }
+});
+reproduce({
+    name() { return 123; }
+});
+reproduce({
+    name: function () { return 123; }
+});

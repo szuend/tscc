@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/conditionalAnyCheckTypePicksBothBranches.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js conditionalAnyCheckTypePicksBothBranches.js conditionalAnyCheckTypePicksBothBranches.ts
+stderr 'TS2322'
+! exists conditionalAnyCheckTypePicksBothBranches.js
+! exists conditionalAnyCheckTypePicksBothBranches.d.ts
+! exists conditionalAnyCheckTypePicksBothBranches.js.map
+
+-- conditionalAnyCheckTypePicksBothBranches.ts --
+type T = any extends number ? 1 : 0;
+let x: T;
+x = 1;
+x = 0; // not an error
+
+type U = [any] extends [number] ? 1 : 0;
+let y: U;
+y = 1;
+y = 0; // error

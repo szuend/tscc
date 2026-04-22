@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/assignToInvalidLHS.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignToInvalidLHS.js assignToInvalidLHS.ts
+stderr 'TS2364'
+! exists assignToInvalidLHS.js
+! exists assignToInvalidLHS.d.ts
+! exists assignToInvalidLHS.js.map
+
+-- assignToInvalidLHS.ts --
+declare var y:any;
+
+// Below is actually valid JavaScript (see http://es5.github.com/#x8.7 ), even though will always fail at runtime with 'invalid left-hand side'
+var x = new y = 5;

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/bindingPatternInParameter01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js bindingPatternInParameter01.js bindingPatternInParameter01.ts
+! stderr .
+cmp bindingPatternInParameter01.js bindingPatternInParameter01.js.golden
+! exists bindingPatternInParameter01.d.ts
+! exists bindingPatternInParameter01.js.map
+
+-- bindingPatternInParameter01.ts --
+const nestedArray = [[[1, 2]], [[3, 4]]];
+
+nestedArray.forEach(([[a, b]]) => {
+  console.log(a, b);
+});
+-- bindingPatternInParameter01.js.golden --
+"use strict";
+const nestedArray = [[[1, 2]], [[3, 4]]];
+nestedArray.forEach(([[a, b]]) => {
+    console.log(a, b);
+});

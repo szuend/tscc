@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/assignmentCompatability45.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompatability45.js assignmentCompatability45.ts
+stderr 'TS2322'
+! exists assignmentCompatability45.js
+! exists assignmentCompatability45.d.ts
+! exists assignmentCompatability45.js.map
+
+-- assignmentCompatability45.ts --
+abstract class A {}
+class B extends A {
+    constructor(x: number) {
+        super();
+    }
+}
+const b: typeof A = B;

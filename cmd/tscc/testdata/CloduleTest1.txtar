@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/cloduleTest1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js cloduleTest1.js cloduleTest1.ts
+! stderr .
+cmp cloduleTest1.js cloduleTest1.js.golden
+! exists cloduleTest1.d.ts
+! exists cloduleTest1.js.map
+
+-- cloduleTest1.ts --
+  declare function $(selector: string): $;  
+  interface $ {
+      addClass(className: string): $;
+  }
+  namespace $ {
+    export interface AjaxSettings {
+    }
+    export function ajax(options: AjaxSettings) { }
+  }
+  var it: $ = $('.foo').addClass('bar');
+-- cloduleTest1.js.golden --
+"use strict";
+var $;
+(function ($) {
+    function ajax(options) { }
+    $.ajax = ajax;
+})($ || ($ = {}));
+var it = $('.foo').addClass('bar');

@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/chainedAssignmentChecking.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js chainedAssignmentChecking.js chainedAssignmentChecking.ts
+stderr 'TS2741'
+stderr 'TS2739'
+! exists chainedAssignmentChecking.js
+! exists chainedAssignmentChecking.d.ts
+! exists chainedAssignmentChecking.js.map
+
+-- chainedAssignmentChecking.ts --
+class X {
+  constructor(public z) { }
+  a: number;
+}
+
+class Y {
+  constructor(public z) { }
+  a: number;
+  b: string;
+}
+
+class Z {
+  z: any;
+  c: string;
+}
+
+var c1 = new X(3);
+var c2 = new Y(5);
+var c3 = new Z();
+
+c1 = c2 = c3; // Should be error

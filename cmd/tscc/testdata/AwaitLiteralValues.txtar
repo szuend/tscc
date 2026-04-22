@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/awaitLiteralValues.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js awaitLiteralValues.js awaitLiteralValues.ts
+stderr 'TS1308'
+! exists awaitLiteralValues.js
+! exists awaitLiteralValues.d.ts
+! exists awaitLiteralValues.js.map
+
+-- awaitLiteralValues.ts --
+function awaitString() {
+    await 'literal';
+}
+
+function awaitNumber() {
+    await 1;
+}
+
+function awaitTrue() {
+    await true;
+}
+
+function awaitFalse() {
+    await false;
+}
+
+function awaitNull() {
+    await null;
+}
+
+function awaitUndefined() {
+    await undefined;
+}

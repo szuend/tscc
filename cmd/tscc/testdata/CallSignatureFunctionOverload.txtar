@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/callSignatureFunctionOverload.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js callSignatureFunctionOverload.js callSignatureFunctionOverload.ts
+! stderr .
+cmp callSignatureFunctionOverload.js callSignatureFunctionOverload.js.golden
+! exists callSignatureFunctionOverload.d.ts
+! exists callSignatureFunctionOverload.js.map
+
+-- callSignatureFunctionOverload.ts --
+var foo: {
+    (name: string): string;
+    (name: 'order'): string;
+    (name: 'content'): string;
+    (name: 'done'): string;
+}
+
+var foo2: {
+    (name: string): string;
+    (name: 'order'): string;
+    (name: 'order'): string;
+    (name: 'done'): string;
+}
+-- callSignatureFunctionOverload.js.golden --
+"use strict";
+var foo;
+var foo2;

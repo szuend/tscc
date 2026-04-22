@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/constructorStaticParamNameErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js constructorStaticParamNameErrors.js constructorStaticParamNameErrors.ts
+stderr 'TS1213'
+! exists constructorStaticParamNameErrors.js
+! exists constructorStaticParamNameErrors.d.ts
+! exists constructorStaticParamNameErrors.js.map
+
+-- constructorStaticParamNameErrors.ts --
+'use strict'
+// static as constructor parameter name should give error if 'use strict'
+class test {
+    constructor (static) { }
+}

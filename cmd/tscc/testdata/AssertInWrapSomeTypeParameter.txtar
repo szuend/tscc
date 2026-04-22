@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/assertInWrapSomeTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js assertInWrapSomeTypeParameter.js assertInWrapSomeTypeParameter.ts
+stderr 'TS1005'
+! exists assertInWrapSomeTypeParameter.js
+! exists assertInWrapSomeTypeParameter.d.ts
+! exists assertInWrapSomeTypeParameter.js.map
+
+-- assertInWrapSomeTypeParameter.ts --
+class C<T extends C<T>> {
+    foo<U extends C<C<T>>(x: U) {
+        return null;
+    }
+}

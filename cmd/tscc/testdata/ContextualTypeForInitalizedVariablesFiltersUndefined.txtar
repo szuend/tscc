@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/contextualTypeForInitalizedVariablesFiltersUndefined.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --out-js contextualTypeForInitalizedVariablesFiltersUndefined.js contextualTypeForInitalizedVariablesFiltersUndefined.ts
+stderr 'TS2339'
+! exists contextualTypeForInitalizedVariablesFiltersUndefined.js
+! exists contextualTypeForInitalizedVariablesFiltersUndefined.d.ts
+! exists contextualTypeForInitalizedVariablesFiltersUndefined.js.map
+
+-- contextualTypeForInitalizedVariablesFiltersUndefined.ts --
+const fInferred = ({ a = 0 } = {}) => a;
+// const fInferred: ({ a }?: { a?: number; }) => number
+
+const fAnnotated: typeof fInferred = ({ a = 0 } = {}) => a;
+
+declare var t: { s: string } | undefined;
+const { s } = t;
+function fst({ s } = t) { }

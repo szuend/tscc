@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/classOrder2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classOrder2.js classOrder2.ts
+stderr 'TS2449'
+! exists classOrder2.js
+! exists classOrder2.d.ts
+! exists classOrder2.js.map
+
+-- classOrder2.ts --
+class A extends B {
+
+  foo() { this.bar(); }
+
+}
+
+class B {
+
+  bar() { }
+
+}
+
+
+var a = new A();
+
+a.foo();
+

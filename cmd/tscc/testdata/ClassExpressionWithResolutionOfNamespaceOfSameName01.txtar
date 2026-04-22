@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/classExpressionWithResolutionOfNamespaceOfSameName01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-js classExpressionWithResolutionOfNamespaceOfSameName01.js classExpressionWithResolutionOfNamespaceOfSameName01.ts
+stderr 'TS2564'
+! exists classExpressionWithResolutionOfNamespaceOfSameName01.js
+! exists classExpressionWithResolutionOfNamespaceOfSameName01.d.ts
+! exists classExpressionWithResolutionOfNamespaceOfSameName01.js.map
+
+-- classExpressionWithResolutionOfNamespaceOfSameName01.ts --
+﻿// @target: es2015
+namespace C {
+    export interface type {
+    }
+}
+
+var x = class C {
+    prop: C.type;
+}

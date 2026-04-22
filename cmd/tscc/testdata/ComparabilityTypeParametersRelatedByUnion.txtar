@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/comparabilityTypeParametersRelatedByUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js comparabilityTypeParametersRelatedByUnion.js comparabilityTypeParametersRelatedByUnion.ts
+! stderr .
+cmp comparabilityTypeParametersRelatedByUnion.js comparabilityTypeParametersRelatedByUnion.js.golden
+! exists comparabilityTypeParametersRelatedByUnion.d.ts
+! exists comparabilityTypeParametersRelatedByUnion.js.map
+
+-- comparabilityTypeParametersRelatedByUnion.ts --
+class C<T> {
+  constructor(readonly x: T) {}
+
+  good<U extends T>(y: U) {
+      if (y === this.x) {}
+  }
+
+  bad<U extends T | string>(y: U) {
+      if (y === this.x) {}
+  }
+}
+-- comparabilityTypeParametersRelatedByUnion.js.golden --
+"use strict";
+class C {
+    constructor(x) {
+        this.x = x;
+    }
+    good(y) {
+        if (y === this.x) { }
+    }
+    bad(y) {
+        if (y === this.x) { }
+    }
+}

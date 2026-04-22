@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/contextualSignatureInstantiationWithTypeParameterConstrainedToOuterTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualSignatureInstantiationWithTypeParameterConstrainedToOuterTypeParameter.js contextualSignatureInstantiationWithTypeParameterConstrainedToOuterTypeParameter.ts
+stderr 'TS2322'
+stderr 'TS2454'
+! exists contextualSignatureInstantiationWithTypeParameterConstrainedToOuterTypeParameter.js
+! exists contextualSignatureInstantiationWithTypeParameterConstrainedToOuterTypeParameter.d.ts
+! exists contextualSignatureInstantiationWithTypeParameterConstrainedToOuterTypeParameter.js.map
+
+-- contextualSignatureInstantiationWithTypeParameterConstrainedToOuterTypeParameter.ts --
+function f<T>() {
+    function g<U extends T>(u: U): U { return null }
+    return g;
+}
+var h: <V, W>(v: V, func: (v: V) => W) => W;
+var x = h("", f<string>()); // Call should succeed and x should be string. All type parameters should be instantiated to string

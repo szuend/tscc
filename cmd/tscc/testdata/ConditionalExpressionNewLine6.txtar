@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/conditionalExpressionNewLine6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js conditionalExpressionNewLine6.js conditionalExpressionNewLine6.ts
+stderr 'TS2304'
+! exists conditionalExpressionNewLine6.js
+! exists conditionalExpressionNewLine6.d.ts
+! exists conditionalExpressionNewLine6.js.map
+
+-- conditionalExpressionNewLine6.ts --
+var v = a 
+  ? b
+  : c;

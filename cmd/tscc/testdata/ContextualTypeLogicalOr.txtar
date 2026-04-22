@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/contextualTypeLogicalOr.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js contextualTypeLogicalOr.js contextualTypeLogicalOr.ts
+! stderr .
+cmp contextualTypeLogicalOr.js contextualTypeLogicalOr.js.golden
+! exists contextualTypeLogicalOr.d.ts
+! exists contextualTypeLogicalOr.js.map
+
+-- contextualTypeLogicalOr.ts --
+// Repro from #18005
+
+let x = 123;
+var a =
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4];
+-- contextualTypeLogicalOr.js.golden --
+"use strict";
+// Repro from #18005
+let x = 123;
+var a = x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4] ||
+    x && [1, 2, 3, 4];

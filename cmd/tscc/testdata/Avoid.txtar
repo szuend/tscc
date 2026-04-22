@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/avoid.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --out-js avoid.js avoid.ts
+! stderr .
+cmp avoid.js avoid.js.golden
+! exists avoid.d.ts
+! exists avoid.js.map
+
+-- avoid.ts --
+function f() {
+    var x=1;
+}
+
+var y=f();  // error void fn
+var why:any=f(); // error void fn
+var w:any;
+w=f(); // error void fn
+
+class C {
+    g() {
+        
+    }
+}
+
+var z=new C().g(); // error void fn
+var N=new f();  // ok with void fn
+
+-- avoid.js.golden --
+"use strict";
+function f() {
+    var x = 1;
+}
+var y = f(); // error void fn
+var why = f(); // error void fn
+var w;
+w = f(); // error void fn
+class C {
+    g() {
+    }
+}
+var z = new C().g(); // error void fn
+var N = new f(); // ok with void fn

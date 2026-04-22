@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/cloduleAcrossModuleDefinitions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js cloduleAcrossModuleDefinitions.js cloduleAcrossModuleDefinitions.ts
+! stderr .
+cmp cloduleAcrossModuleDefinitions.js cloduleAcrossModuleDefinitions.js.golden
+! exists cloduleAcrossModuleDefinitions.d.ts
+! exists cloduleAcrossModuleDefinitions.js.map
+
+-- cloduleAcrossModuleDefinitions.ts --
+namespace A {
+    export class B {
+        foo() { }
+        static bar() { }
+    }
+}
+
+namespace A {
+    export namespace B {
+        export var x = 1;
+    }
+}
+
+var b: A.B; // ok
+-- cloduleAcrossModuleDefinitions.js.golden --
+"use strict";
+var A;
+(function (A) {
+    class B {
+        foo() { }
+        static bar() { }
+    }
+    A.B = B;
+})(A || (A = {}));
+(function (A) {
+    let B;
+    (function (B) {
+        B.x = 1;
+    })(B = A.B || (A.B = {}));
+})(A || (A = {}));
+var b; // ok

@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/checkInfiniteExpansionTermination2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --out-js checkInfiniteExpansionTermination2.js checkInfiniteExpansionTermination2.ts
+! stderr .
+cmp checkInfiniteExpansionTermination2.js checkInfiniteExpansionTermination2.js.golden
+! exists checkInfiniteExpansionTermination2.d.ts
+! exists checkInfiniteExpansionTermination2.js.map
+
+-- checkInfiniteExpansionTermination2.ts --
+// Regression test for #1002
+// Before fix this code would cause infinite loop
+
+interface IObservable<T> {
+    n: IObservable<T[]>;
+}
+interface ISubject<T> extends IObservable<T> { }
+
+declare function combineLatest<TOther>(x: IObservable<TOther>[]): void;
+declare function combineLatest(): void;
+
+function fn<T>() {
+    var values: ISubject<any>[] = [];
+    // Hang when using <T>, but not <any>
+    combineLatest<T>(values);
+}
+-- checkInfiniteExpansionTermination2.js.golden --
+"use strict";
+// Regression test for #1002
+// Before fix this code would cause infinite loop
+function fn() {
+    var values = [];
+    // Hang when using <T>, but not <any>
+    combineLatest(values);
+}

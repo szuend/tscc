@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/constantOverloadFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constantOverloadFunction.js constantOverloadFunction.ts
+stderr 'TS2322'
+! exists constantOverloadFunction.js
+! exists constantOverloadFunction.d.ts
+! exists constantOverloadFunction.js.map
+
+-- constantOverloadFunction.ts --
+class Base { foo() { } }
+class Derived1 extends Base { bar() { } }
+class Derived2 extends Base { baz() { } }
+class Derived3 extends Base { biz() { } }
+
+function foo(tagName: 'canvas'): Derived1;
+function foo(tagName:  'div'): Derived2;
+function foo(tagName: 'span'): Derived3;
+function foo(tagName: string): Base;
+function foo(tagName: any): Base {
+    return null;
+}

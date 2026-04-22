@@ -1,0 +1,47 @@
+# Ported from tests/cases/compiler/constDeclarations-access2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --out-js constDeclarations-access2.js constDeclarations-access2.ts
+stderr 'TS2588'
+! exists constDeclarations-access2.js
+! exists constDeclarations-access2.d.ts
+! exists constDeclarations-access2.js.map
+
+-- constDeclarations-access2.ts --
+const x = 0
+
+// Errors
+x = 1;
+x += 2;
+x -= 3;
+x *= 4;
+x /= 5;
+x %= 6;
+x <<= 7;
+x >>= 8;
+x >>>= 9;
+x &= 10;
+x |= 11;
+x ^= 12;
+
+x++;
+x--;
+++x;
+--x;
+
+++((x));
+
+// OK
+var a = x + 1;
+
+function f(v: number) { }
+f(x);
+
+if (x) { }
+
+x;
+(x);
+
+-x;
++x;
+
+x.toString();

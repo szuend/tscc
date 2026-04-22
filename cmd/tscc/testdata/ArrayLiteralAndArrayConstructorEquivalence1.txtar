@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/arrayLiteralAndArrayConstructorEquivalence1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrayLiteralAndArrayConstructorEquivalence1.js arrayLiteralAndArrayConstructorEquivalence1.ts
+stderr 'TS2314'
+! exists arrayLiteralAndArrayConstructorEquivalence1.js
+! exists arrayLiteralAndArrayConstructorEquivalence1.d.ts
+! exists arrayLiteralAndArrayConstructorEquivalence1.js.map
+
+-- arrayLiteralAndArrayConstructorEquivalence1.ts --
+var myCars=new Array(); 
+var myCars3 = new Array({});
+declare var myCars4: Array; // error
+declare var myCars5: Array<any>[];
+ 
+myCars = myCars3;
+myCars = myCars4;
+myCars = myCars5;
+ 
+myCars3 = myCars;
+myCars3 = myCars4;
+myCars3 = myCars5;   

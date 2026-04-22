@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/betterErrorForAccidentalCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js betterErrorForAccidentalCall.js betterErrorForAccidentalCall.ts
+stderr 'TS2349'
+! exists betterErrorForAccidentalCall.js
+! exists betterErrorForAccidentalCall.d.ts
+! exists betterErrorForAccidentalCall.js.map
+
+-- betterErrorForAccidentalCall.ts --
+declare function foo(): string;
+
+foo()(1 as number).toString();
+
+foo()   (1 as number).toString();
+
+foo()
+(1 as number).toString();
+
+foo()
+    (1 + 2).toString();
+
+foo()
+    (<number>1).toString();

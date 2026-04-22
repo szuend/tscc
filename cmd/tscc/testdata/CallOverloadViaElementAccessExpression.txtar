@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/callOverloadViaElementAccessExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js callOverloadViaElementAccessExpression.js callOverloadViaElementAccessExpression.ts
+stderr 'TS2322'
+! exists callOverloadViaElementAccessExpression.js
+! exists callOverloadViaElementAccessExpression.d.ts
+! exists callOverloadViaElementAccessExpression.js.map
+
+-- callOverloadViaElementAccessExpression.ts --
+class C {
+    foo(x: number): number;
+    foo(x: string): string;
+    foo(x: any): any {
+        return null;
+    }
+}
+
+var c = new C();
+var r: string = c['foo'](1);
+var r2: number = c['foo']('');

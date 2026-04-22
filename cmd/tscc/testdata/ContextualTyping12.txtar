@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping12.js contextualTyping12.ts
+stderr 'TS2353'
+! exists contextualTyping12.js
+! exists contextualTyping12.d.ts
+! exists contextualTyping12.js.map
+
+-- contextualTyping12.ts --
+class foo { public bar:{id:number;}[] = [{id:1}, {id:2, name:"foo"}]; }

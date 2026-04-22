@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/circularModuleImports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js circularModuleImports.js circularModuleImports.ts
+stderr 'TS2303'
+! exists circularModuleImports.js
+! exists circularModuleImports.d.ts
+! exists circularModuleImports.js.map
+
+-- circularModuleImports.ts --
+namespace M
+ 
+{
+ 
+    import A = B;
+ 
+    import B = A;
+ 
+}

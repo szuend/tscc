@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/baseTypeAfterDerivedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js baseTypeAfterDerivedType.js baseTypeAfterDerivedType.ts
+! stderr .
+cmp baseTypeAfterDerivedType.js baseTypeAfterDerivedType.js.golden
+! exists baseTypeAfterDerivedType.d.ts
+! exists baseTypeAfterDerivedType.js.map
+
+-- baseTypeAfterDerivedType.ts --
+interface Derived extends Base {
+    method(...args: any[]): void;
+}
+
+interface Base {
+    method(...args: any[]): void;
+}
+
+class Derived2 implements Base2 {
+    method(...args: any[]): void { }
+}
+
+interface Base2 {
+    method(...args: any[]): void;
+}
+-- baseTypeAfterDerivedType.js.golden --
+"use strict";
+class Derived2 {
+    method(...args) { }
+}

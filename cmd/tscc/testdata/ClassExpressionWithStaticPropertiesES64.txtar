@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/classExpressionWithStaticPropertiesES64.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --out-js classExpressionWithStaticPropertiesES64.js classExpressionWithStaticPropertiesES64.ts
+! stderr .
+cmp classExpressionWithStaticPropertiesES64.js classExpressionWithStaticPropertiesES64.js.golden
+! exists classExpressionWithStaticPropertiesES64.d.ts
+! exists classExpressionWithStaticPropertiesES64.js.map
+
+-- classExpressionWithStaticPropertiesES64.ts --
+(class { static x = 0; });
+-- classExpressionWithStaticPropertiesES64.js.golden --
+"use strict";
+var _a;
+(_a = class {
+    },
+    _a.x = 0,
+    _a);

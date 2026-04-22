@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/callOverloads3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js callOverloads3.js callOverloads3.ts
+stderr 'TS2814'
+stderr 'TS2391'
+stderr 'TS2813'
+! exists callOverloads3.js
+! exists callOverloads3.d.ts
+! exists callOverloads3.js.map
+
+-- callOverloads3.ts --
+function Foo():Foo; // error
+function Foo(s:string):Foo; // error
+class Foo { // error
+    bar1() { /*WScript.Echo("bar1");*/ }
+    constructor(x: any) {
+        // WScript.Echo("Constructor function has executed");
+    }
+}
+//class Foo(s: String);
+
+var f1 = new Foo("hey");
+
+
+f1.bar1();
+Foo();
+Foo("s");

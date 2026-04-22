@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/avoidListingPropertiesForTypesWithOnlyCallOrConstructSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js avoidListingPropertiesForTypesWithOnlyCallOrConstructSignatures.js avoidListingPropertiesForTypesWithOnlyCallOrConstructSignatures.ts
+stderr 'TS2322'
+! exists avoidListingPropertiesForTypesWithOnlyCallOrConstructSignatures.js
+! exists avoidListingPropertiesForTypesWithOnlyCallOrConstructSignatures.d.ts
+! exists avoidListingPropertiesForTypesWithOnlyCallOrConstructSignatures.js.map
+
+-- avoidListingPropertiesForTypesWithOnlyCallOrConstructSignatures.ts --
+interface Dog {
+    barkable: true
+}
+
+declare function getRover(): Dog
+    
+export let x:Dog = getRover;
+// export let x: Dog = getRover; 

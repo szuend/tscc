@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/arrowFunctionWithObjectLiteralBody1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrowFunctionWithObjectLiteralBody1.js arrowFunctionWithObjectLiteralBody1.ts
+stderr 'TS7006'
+! exists arrowFunctionWithObjectLiteralBody1.js
+! exists arrowFunctionWithObjectLiteralBody1.d.ts
+! exists arrowFunctionWithObjectLiteralBody1.js.map
+
+-- arrowFunctionWithObjectLiteralBody1.ts --
+var v = a => <any>{}

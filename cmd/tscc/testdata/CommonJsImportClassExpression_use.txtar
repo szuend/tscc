@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/commonJsImportClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --out-js use.js use.ts
+! stderr .
+cmp use.js use.js.golden
+! exists mod1.js
+! exists use.d.ts
+! exists use.js.map
+
+-- mod1.ts --
+export = class {
+    chunk = 1
+}
+-- use.ts --
+import Chunk = require('./mod1')
+declare var c: Chunk;
+c.chunk;
+-- use.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+c.chunk;

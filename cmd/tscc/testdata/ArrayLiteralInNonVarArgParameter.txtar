@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/arrayLiteralInNonVarArgParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js arrayLiteralInNonVarArgParameter.js arrayLiteralInNonVarArgParameter.ts
+! stderr .
+cmp arrayLiteralInNonVarArgParameter.js arrayLiteralInNonVarArgParameter.js.golden
+! exists arrayLiteralInNonVarArgParameter.d.ts
+! exists arrayLiteralInNonVarArgParameter.js.map
+
+-- arrayLiteralInNonVarArgParameter.ts --
+function panic(val: string[], ...opt: string[]) { }
+
+panic([], 'one', 'two');
+-- arrayLiteralInNonVarArgParameter.js.golden --
+"use strict";
+function panic(val, ...opt) { }
+panic([], 'one', 'two');

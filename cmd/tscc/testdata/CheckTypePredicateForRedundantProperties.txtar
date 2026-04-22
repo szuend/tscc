@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/checkTypePredicateForRedundantProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js checkTypePredicateForRedundantProperties.js checkTypePredicateForRedundantProperties.ts
+stderr 'TS2300'
+! exists checkTypePredicateForRedundantProperties.js
+! exists checkTypePredicateForRedundantProperties.d.ts
+! exists checkTypePredicateForRedundantProperties.js.map
+
+-- checkTypePredicateForRedundantProperties.ts --
+function addProp2(x: any): x is { a: string; a: string; } {
+    return true;
+}

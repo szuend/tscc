@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/conditionalExpressionNewLine8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js conditionalExpressionNewLine8.js conditionalExpressionNewLine8.ts
+stderr 'TS2304'
+! exists conditionalExpressionNewLine8.js
+! exists conditionalExpressionNewLine8.d.ts
+! exists conditionalExpressionNewLine8.js.map
+
+-- conditionalExpressionNewLine8.ts --
+var v = a 
+  ? b ? d : e
+  : c ? f : g;

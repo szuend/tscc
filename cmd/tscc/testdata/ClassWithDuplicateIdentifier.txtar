@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/classWithDuplicateIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classWithDuplicateIdentifier.js classWithDuplicateIdentifier.ts
+stderr 'TS2300'
+stderr 'TS2564'
+stderr 'TS2717'
+! exists classWithDuplicateIdentifier.js
+! exists classWithDuplicateIdentifier.d.ts
+! exists classWithDuplicateIdentifier.js.map
+
+-- classWithDuplicateIdentifier.ts --
+class C {
+    a(): number { return 0; } // error: duplicate identifier
+    a: number;
+}
+class K {
+    b: number; // error: duplicate identifier
+    b(): number { return 0; }
+}
+class D {
+    c: number;
+    c: string;
+}

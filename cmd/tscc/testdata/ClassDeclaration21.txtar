@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/ClassDeclaration21.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js ClassDeclaration21.js ClassDeclaration21.ts
+stderr 'TS2389'
+! exists ClassDeclaration21.js
+! exists ClassDeclaration21.d.ts
+! exists ClassDeclaration21.js.map
+
+-- ClassDeclaration21.ts --
+class C {
+    0();
+    1() { }
+}

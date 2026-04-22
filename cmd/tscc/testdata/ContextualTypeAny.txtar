@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/contextualTypeAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTypeAny.js contextualTypeAny.ts
+stderr 'TS2322'
+! exists contextualTypeAny.js
+! exists contextualTypeAny.d.ts
+! exists contextualTypeAny.js.map
+
+-- contextualTypeAny.ts --
+var x: any;
+
+var obj: { [s: string]: number } = { p: "", q: x };
+
+var arr: number[] = ["", x];

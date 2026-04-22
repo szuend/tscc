@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/clinterfaces.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js clinterfaces.js clinterfaces.ts
+stderr 'TS2564'
+! exists clinterfaces.js
+! exists clinterfaces.d.ts
+! exists clinterfaces.js.map
+
+-- clinterfaces.ts --
+namespace M {
+    class C { }
+    interface C { }
+    interface D { }
+    class D { }
+}
+
+interface Foo<T> {
+    a: string;
+}
+
+class Foo<T>{
+    b: number;
+}
+
+class Bar<T>{
+    b: number;
+}
+
+interface Bar<T> {
+    a: string;
+}
+
+export = Foo;

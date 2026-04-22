@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/constDeclarations-scopes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --out-js constDeclarations-scopes2.js constDeclarations-scopes2.ts
+! stderr .
+cmp constDeclarations-scopes2.js constDeclarations-scopes2.js.golden
+! exists constDeclarations-scopes2.d.ts
+! exists constDeclarations-scopes2.js.map
+
+-- constDeclarations-scopes2.ts --
+// global
+const c = "string";
+
+var n: number;
+var b: boolean;
+
+// for scope
+for (const c = 0; c < 10; n = c ) {
+    // for block
+    const c = false;
+    b = c;
+}
+
+-- constDeclarations-scopes2.js.golden --
+"use strict";
+// global
+const c = "string";
+var n;
+var b;
+// for scope
+for (const c = 0; c < 10; n = c) {
+    // for block
+    const c = false;
+    b = c;
+}

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/assignToEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignToEnum.js assignToEnum.ts
+stderr 'TS2628'
+stderr 'TS2540'
+! exists assignToEnum.js
+! exists assignToEnum.d.ts
+! exists assignToEnum.js.map
+
+-- assignToEnum.ts --
+enum A { foo, bar }
+A = undefined;  // invalid LHS
+A = A.bar;      // invalid LHS
+A.foo = 1;      // invalid LHS
+A.foo = A.bar;  // invalid LHS
+

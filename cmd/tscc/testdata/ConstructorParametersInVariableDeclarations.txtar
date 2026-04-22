@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/constructorParametersInVariableDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorParametersInVariableDeclarations.js constructorParametersInVariableDeclarations.ts
+stderr 'TS2301'
+! exists constructorParametersInVariableDeclarations.js
+! exists constructorParametersInVariableDeclarations.d.ts
+! exists constructorParametersInVariableDeclarations.js.map
+
+-- constructorParametersInVariableDeclarations.ts --
+class A {
+    private a = x;
+    private b = { p: x };
+    private c = () => x;
+    constructor(x: number) {
+    }
+}
+
+class B {
+    private a = x;
+    private b = { p: x };
+    private c = () => x;
+    constructor() {
+        var x = 1;
+    }
+}

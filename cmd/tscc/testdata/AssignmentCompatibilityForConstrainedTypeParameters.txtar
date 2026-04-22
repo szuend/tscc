@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/assignmentCompatibilityForConstrainedTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompatibilityForConstrainedTypeParameters.js assignmentCompatibilityForConstrainedTypeParameters.ts
+stderr 'TS2454'
+! exists assignmentCompatibilityForConstrainedTypeParameters.js
+! exists assignmentCompatibilityForConstrainedTypeParameters.d.ts
+! exists assignmentCompatibilityForConstrainedTypeParameters.js.map
+
+-- assignmentCompatibilityForConstrainedTypeParameters.ts --
+function foo<T extends { bar: string }>() {
+  function bar<S extends T>() {
+    var x: S;
+    var y: T;
+       y = x;
+    }
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/constructorArgsErrors2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorArgsErrors2.js constructorArgsErrors2.ts
+stderr 'TS1090'
+! exists constructorArgsErrors2.js
+! exists constructorArgsErrors2.d.ts
+! exists constructorArgsErrors2.js.map
+
+-- constructorArgsErrors2.ts --
+class foo {
+    constructor (public static a: number) {
+    }
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/blockScopedBindingUsedBeforeDef.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js blockScopedBindingUsedBeforeDef.js blockScopedBindingUsedBeforeDef.ts
+stderr 'TS2448'
+stderr 'TS2538'
+! exists blockScopedBindingUsedBeforeDef.js
+! exists blockScopedBindingUsedBeforeDef.d.ts
+! exists blockScopedBindingUsedBeforeDef.js.map
+
+-- blockScopedBindingUsedBeforeDef.ts --
+// 1:
+for (let {[a]: a} of [{ }]) continue;
+
+// 2:
+for (let {[a]: a} = { }; false; ) continue;
+
+// 3:
+let {[b]: b} = { };

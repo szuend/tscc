@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/castOfAwait.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --out-js castOfAwait.js castOfAwait.ts
+stderr 'TS2352'
+! exists castOfAwait.js
+! exists castOfAwait.d.ts
+! exists castOfAwait.js.map
+
+-- castOfAwait.ts --
+async function f() {
+    <number> await 0;
+    typeof await 0;
+    void await 0;
+    await void <string> typeof <number> void await 0;
+    await await 0;
+}

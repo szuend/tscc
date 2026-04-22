@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/assertionFunctionWildcardImport2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --strict --target es2015 --out-js asserts.js asserts.ts
+! stderr .
+cmp asserts.js asserts.js.golden
+! exists asserts.d.ts
+! exists asserts.js.map
+! exists test.js
+
+-- asserts.ts --
+function isNonNullable<T>(obj: T): asserts obj is NonNullable<T> {
+    if (obj === undefined || obj === null) {
+        throw new Error("Must not be a nullable value");
+    }
+}
+
+export {
+    isNonNullable
+};
+-- test.ts --
+import * as asserts from "./asserts";
+
+function test(obj: string | null): void {
+    asserts.isNonNullable(obj);
+    obj.trim();
+}
+-- asserts.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isNonNullable = isNonNullable;
+function isNonNullable(obj) {
+    if (obj === undefined || obj === null) {
+        throw new Error("Must not be a nullable value");
+    }
+}

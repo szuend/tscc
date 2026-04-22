@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/classExtendsInterface_not.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExtendsInterface_not.js classExtendsInterface_not.ts
+stderr 'TS2339'
+! exists classExtendsInterface_not.js
+! exists classExtendsInterface_not.d.ts
+! exists classExtendsInterface_not.js.map
+
+-- classExtendsInterface_not.ts --
+class C extends "".bogus {}

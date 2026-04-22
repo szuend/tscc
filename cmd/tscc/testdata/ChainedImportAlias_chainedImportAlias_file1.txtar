@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/chainedImportAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --out-js chainedImportAlias_file1.js chainedImportAlias_file1.ts
+! stderr .
+cmp chainedImportAlias_file1.js chainedImportAlias_file1.js.golden
+! exists chainedImportAlias_file0.js
+! exists chainedImportAlias_file1.d.ts
+! exists chainedImportAlias_file1.js.map
+
+-- chainedImportAlias_file0.ts --
+export namespace m {
+    export function foo() { }
+}
+-- chainedImportAlias_file1.ts --
+import x = require('./chainedImportAlias_file0');
+import y = x;
+y.m.foo();
+-- chainedImportAlias_file1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const x = require("./chainedImportAlias_file0");
+var y = x;
+y.m.foo();

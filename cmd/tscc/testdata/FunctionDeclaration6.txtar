@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/FunctionDeclaration6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js FunctionDeclaration6.js FunctionDeclaration6.ts
+stderr 'TS7010'
+stderr 'TS2389'
+! exists FunctionDeclaration6.js
+! exists FunctionDeclaration6.d.ts
+! exists FunctionDeclaration6.js.map
+
+-- FunctionDeclaration6.ts --
+{
+    function foo();
+    function bar() { }
+}

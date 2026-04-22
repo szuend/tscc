@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/assignmentToObjectAndFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js assignmentToObjectAndFunction.js assignmentToObjectAndFunction.ts
+stderr 'TS2322'
+stderr 'TS2740'
+! exists assignmentToObjectAndFunction.js
+! exists assignmentToObjectAndFunction.d.ts
+! exists assignmentToObjectAndFunction.js.map
+
+-- assignmentToObjectAndFunction.ts --
+var errObj: Object = { toString: 0 }; // Error, incompatible toString
+var goodObj: Object = {
+    toString(x?) {
+        return "";
+    }
+}; // Ok, because toString is a subtype of Object's toString
+
+var errFun: Function = {}; // Error for no call signature
+
+function foo() { }
+namespace foo {
+    export var boom = 0;
+}
+
+var goodFundule: Function = foo; // ok
+
+function bar() { }
+namespace bar {
+    export function apply(thisArg: string, argArray?: string) { }
+}
+
+var goodFundule2: Function = bar; // ok
+
+function bad() { }
+namespace bad {
+    export var apply = 0;
+}
+
+var badFundule: Function = bad; // error

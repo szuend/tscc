@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/assignmentCompatInterfaceWithStringIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js assignmentCompatInterfaceWithStringIndexSignature.js assignmentCompatInterfaceWithStringIndexSignature.ts
+stderr 'TS2345'
+! exists assignmentCompatInterfaceWithStringIndexSignature.js
+! exists assignmentCompatInterfaceWithStringIndexSignature.d.ts
+! exists assignmentCompatInterfaceWithStringIndexSignature.js.map
+
+-- assignmentCompatInterfaceWithStringIndexSignature.ts --
+interface IHandler {
+    (e): boolean;
+}
+
+interface IHandlerMap {
+    [type: string]: IHandler;
+}
+
+class Foo {
+    public Boz(): void { }
+}
+
+function Biz(map: IHandlerMap) { }
+
+Biz(new Foo());

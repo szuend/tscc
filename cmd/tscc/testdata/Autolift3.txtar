@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/autolift3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js autolift3.js autolift3.ts
+stderr 'TS2339'
+! exists autolift3.js
+! exists autolift3.d.ts
+! exists autolift3.js.map
+
+-- autolift3.ts --
+class B {
+
+    constructor() {
+        function foo() {  }
+
+        foo();
+
+        var a = 0;
+        var inner: any = (function() {
+            var CScriptIO = (function() {
+                var fso = 0
+
+                return {
+                    readFile: function(path: string): string {
+                        return fso.toString();
+                    }
+                }
+            })();
+            return inner;
+        })();
+    }
+}
+
+var b = new B();
+
+b.foo();
+
+
+

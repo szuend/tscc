@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/augmentedClassWithPrototypePropertyOnModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js augmentedClassWithPrototypePropertyOnModule.js augmentedClassWithPrototypePropertyOnModule.ts
+stderr 'TS2300'
+! exists augmentedClassWithPrototypePropertyOnModule.js
+! exists augmentedClassWithPrototypePropertyOnModule.d.ts
+! exists augmentedClassWithPrototypePropertyOnModule.js.map
+
+-- augmentedClassWithPrototypePropertyOnModule.ts --
+declare namespace m {
+    var f;
+    var prototype; // This should be error since prototype would be static property on class m
+}
+declare class m {
+}

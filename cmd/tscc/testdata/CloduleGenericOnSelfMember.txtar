@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/cloduleGenericOnSelfMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js cloduleGenericOnSelfMember.js cloduleGenericOnSelfMember.ts
+stderr 'TS2564'
+! exists cloduleGenericOnSelfMember.js
+! exists cloduleGenericOnSelfMember.d.ts
+! exists cloduleGenericOnSelfMember.js.map
+
+-- cloduleGenericOnSelfMember.ts --
+class ServiceBase<T> {
+    field: T;
+}
+class Service extends ServiceBase<typeof Service.Base> {
+}
+namespace Service {
+    export const Base = {
+        name: "1",
+        value: 5
+    };
+}

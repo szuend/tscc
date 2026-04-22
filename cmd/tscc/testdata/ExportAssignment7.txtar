@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/ExportAssignment7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js ExportAssignment7.js ExportAssignment7.ts
+stderr 'TS2309'
+stderr 'TS2304'
+! exists ExportAssignment7.js
+! exists ExportAssignment7.d.ts
+! exists ExportAssignment7.js.map
+
+-- ExportAssignment7.ts --
+export class C {
+}
+
+export = B;

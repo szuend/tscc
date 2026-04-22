@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/classSideInheritance1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classSideInheritance1.js classSideInheritance1.ts
+stderr 'TS2576'
+! exists classSideInheritance1.js
+! exists classSideInheritance1.d.ts
+! exists classSideInheritance1.js.map
+
+-- classSideInheritance1.ts --
+class A {
+  static bar(): string {
+     return "";
+    }
+    foo(): number { return 1; }
+}
+ 
+class C2 extends A {}
+
+declare var a: A;
+declare var c: C2;
+a.bar(); // static off an instance - should be an error
+c.bar(); // static off an instance - should be an error
+A.bar(); // valid
+C2.bar(); // valid

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/badExternalModuleReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js badExternalModuleReference.js badExternalModuleReference.ts
+stderr 'TS2307'
+! exists badExternalModuleReference.js
+! exists badExternalModuleReference.d.ts
+! exists badExternalModuleReference.js.map
+
+-- badExternalModuleReference.ts --
+import a1 = require("garbage");
+export declare var a: {
+    test1: a1.connectModule;
+    (): a1.connectExport;
+};

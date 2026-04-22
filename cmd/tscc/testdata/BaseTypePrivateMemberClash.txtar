@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/baseTypePrivateMemberClash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js baseTypePrivateMemberClash.js baseTypePrivateMemberClash.ts
+stderr 'TS2564'
+stderr 'TS2320'
+! exists baseTypePrivateMemberClash.js
+! exists baseTypePrivateMemberClash.d.ts
+! exists baseTypePrivateMemberClash.js.map
+
+-- baseTypePrivateMemberClash.ts --
+class X {
+    private m: number;
+}
+class Y {
+    private m: string;
+}
+
+interface Z extends X, Y { }

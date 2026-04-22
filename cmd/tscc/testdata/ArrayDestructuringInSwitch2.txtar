@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/arrayDestructuringInSwitch2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrayDestructuringInSwitch2.js arrayDestructuringInSwitch2.ts
+stderr 'TS2488'
+! exists arrayDestructuringInSwitch2.js
+! exists arrayDestructuringInSwitch2.d.ts
+! exists arrayDestructuringInSwitch2.js.map
+
+-- arrayDestructuringInSwitch2.ts --
+type X = { kind: "a", a: [1] } | { kind: "b", a: [] }
+
+function foo(x: X): 1 {
+  const { kind, a } = x;
+  switch (kind) {
+    case "a":
+      return a[0];
+    case "b":
+      return 1;
+    default:
+      const [n] = a;
+      return a;
+  }
+}

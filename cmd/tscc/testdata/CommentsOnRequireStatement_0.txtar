@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/commentsOnRequireStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs 0.ts
+! stderr .
+! exists 0.d.ts
+! exists 0.js.map
+
+-- 0.ts --
+export var subject = 10;
+-- 1.ts --
+export var subject1 = 10;
+-- 2.ts --
+/* blah0 */
+// blah 
+// blah 
+// blah 
+export {subject} from './0';
+/* blah1 */
+export {subject1} from './1';

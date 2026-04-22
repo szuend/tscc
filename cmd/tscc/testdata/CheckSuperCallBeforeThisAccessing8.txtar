@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/checkSuperCallBeforeThisAccessing8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-js checkSuperCallBeforeThisAccessing8.js checkSuperCallBeforeThisAccessing8.ts
+stderr 'TS7019'
+stderr 'TS17009'
+! exists checkSuperCallBeforeThisAccessing8.js
+! exists checkSuperCallBeforeThisAccessing8.d.ts
+! exists checkSuperCallBeforeThisAccessing8.js.map
+
+-- checkSuperCallBeforeThisAccessing8.ts --
+﻿// @target: es2015
+class Base {
+    constructor(...arg) {
+    }
+}
+class Super extends Base {
+    constructor() {
+        var that = this;
+        super();
+    }
+}

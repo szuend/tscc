@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/callOnInstance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js callOnInstance.js callOnInstance.ts
+stderr 'TS2349'
+! exists callOnInstance.js
+! exists callOnInstance.d.ts
+! exists callOnInstance.js.map
+
+-- callOnInstance.ts --
+declare function D(): string; // error
+
+declare class D { constructor (value: number); } // error
+
+var s1: string = D(); // OK
+
+var s2: string = (new D(1))();
+
+declare class C { constructor(value: number); }
+(new C(1))(); // Error for calling an instance

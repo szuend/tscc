@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/classOverloadForFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classOverloadForFunction.js classOverloadForFunction.ts
+stderr 'TS2813'
+stderr 'TS2814'
+! exists classOverloadForFunction.js
+! exists classOverloadForFunction.d.ts
+! exists classOverloadForFunction.js.map
+
+-- classOverloadForFunction.ts --
+class foo { };
+function foo() {}

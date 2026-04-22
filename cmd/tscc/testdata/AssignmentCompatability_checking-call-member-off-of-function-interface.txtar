@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/assignmentCompatability_checking-call-member-off-of-function-interface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js assignmentCompatability_checking-call-member-off-of-function-interface.js assignmentCompatability_checking-call-member-off-of-function-interface.ts
+stderr 'TS2322'
+stderr 'TS2741'
+stderr 'TS2345'
+! exists assignmentCompatability_checking-call-member-off-of-function-interface.js
+! exists assignmentCompatability_checking-call-member-off-of-function-interface.d.ts
+! exists assignmentCompatability_checking-call-member-off-of-function-interface.js.map
+
+-- assignmentCompatability_checking-call-member-off-of-function-interface.ts --
+// 3.8.4 Assignment Compatibility 
+
+interface Callable {
+    call(blah: any); // also works for 'apply'
+}
+
+var x: Callable;
+
+// Should fail
+x = '';
+x = [''];
+x = 4;
+x = {};
+
+// Should work
+function f() { };
+x = f;
+
+function fn(c: Callable) { }
+
+// Should Fail
+fn('');
+fn(['']);
+fn(4);
+fn({});
+
+
+// Should work
+fn(a => { });

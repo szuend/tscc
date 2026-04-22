@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/arrayReferenceWithoutTypeArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrayReferenceWithoutTypeArgs.js arrayReferenceWithoutTypeArgs.ts
+stderr 'TS2314'
+! exists arrayReferenceWithoutTypeArgs.js
+! exists arrayReferenceWithoutTypeArgs.d.ts
+! exists arrayReferenceWithoutTypeArgs.js.map
+
+-- arrayReferenceWithoutTypeArgs.ts --
+class X {
+    public f(a: Array) { }
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/assignmentToParenthesizedExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentToParenthesizedExpression1.js assignmentToParenthesizedExpression1.ts
+stderr 'TS2364'
+stderr 'TS2695'
+! exists assignmentToParenthesizedExpression1.js
+! exists assignmentToParenthesizedExpression1.d.ts
+! exists assignmentToParenthesizedExpression1.js.map
+
+-- assignmentToParenthesizedExpression1.ts --
+var x;
+(1, x)=0;

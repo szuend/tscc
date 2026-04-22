@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/cloduleStaticMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js cloduleStaticMembers.js cloduleStaticMembers.ts
+stderr 'TS2341'
+stderr 'TS2304'
+! exists cloduleStaticMembers.js
+! exists cloduleStaticMembers.d.ts
+! exists cloduleStaticMembers.js.map
+
+-- cloduleStaticMembers.ts --
+class Clod {
+    private static x = 10;
+    public static y = 10;
+}
+namespace Clod {
+    var p = Clod.x;
+    var q = x;
+
+    var s = Clod.y;
+    var t = y; 
+}

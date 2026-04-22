@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/castOfYield.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js castOfYield.js castOfYield.ts
+stderr 'TS1109'
+! exists castOfYield.js
+! exists castOfYield.d.ts
+! exists castOfYield.js.map
+
+-- castOfYield.ts --
+function* f() {
+    <number> (yield 0);
+    // Unlike await, yield is not allowed to appear in a simple unary expression.
+    <number> yield 0;
+}

@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/conflictingTypeParameterSymbolTransfer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js conflictingTypeParameterSymbolTransfer.js conflictingTypeParameterSymbolTransfer.ts
+stderr 'TS2304'
+stderr 'TS2564'
+! exists conflictingTypeParameterSymbolTransfer.js
+! exists conflictingTypeParameterSymbolTransfer.d.ts
+! exists conflictingTypeParameterSymbolTransfer.js.map
+
+-- conflictingTypeParameterSymbolTransfer.ts --
+// @strict
+
+// Via #56620
+class Base<U> { }
+export class C2<T> extends Base<unknown> {
+    T: number;
+    constructor(T: number) {
+        super();
+        // Should not error
+        this.T = T;
+
+        // Should error
+        let a: U = null;
+    }
+}
+
+// via #56689
+class Leg { }
+class Foo<t> extends Leg {
+    t = {} as t
+
+    // should allow this access since t was declared as a property on Foo
+    foo = this.t
+}
+
+// via #56661
+class BaseClass { }
+class Item<data> extends BaseClass {
+    data: data;
+    getData() {
+        // should OK
+        return this.data;
+    }
+}

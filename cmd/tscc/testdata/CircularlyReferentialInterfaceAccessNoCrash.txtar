@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/circularlyReferentialInterfaceAccessNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js circularlyReferentialInterfaceAccessNoCrash.js circularlyReferentialInterfaceAccessNoCrash.ts
+stderr 'TS4109'
+stderr 'TS4110'
+! exists circularlyReferentialInterfaceAccessNoCrash.js
+! exists circularlyReferentialInterfaceAccessNoCrash.d.ts
+! exists circularlyReferentialInterfaceAccessNoCrash.js.map
+
+-- circularlyReferentialInterfaceAccessNoCrash.ts --
+type Mxs = Mx<'list', Mxs['p1']>;
+
+interface Mx<T, K> {
+  p1: T;
+  p2: K;
+}
+
+type ArrElem = ['list', ArrElem[number][0]][];
+
+type TupleElem = [['list', TupleElem[0][0]]];

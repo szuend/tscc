@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/constInClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constInClassExpression.js constInClassExpression.ts
+stderr 'TS1248'
+! exists constInClassExpression.js
+! exists constInClassExpression.d.ts
+! exists constInClassExpression.js.map
+
+-- constInClassExpression.ts --
+let C = class {
+    const a = 4;
+};

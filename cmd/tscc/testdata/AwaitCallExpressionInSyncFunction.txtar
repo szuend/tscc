@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/awaitCallExpressionInSyncFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --out-js awaitCallExpressionInSyncFunction.js awaitCallExpressionInSyncFunction.ts
+stderr 'TS2311'
+! exists awaitCallExpressionInSyncFunction.js
+! exists awaitCallExpressionInSyncFunction.d.ts
+! exists awaitCallExpressionInSyncFunction.js.map
+
+-- awaitCallExpressionInSyncFunction.ts --
+function foo() {
+   const foo = await(Promise.resolve(1));
+   return foo;
+}

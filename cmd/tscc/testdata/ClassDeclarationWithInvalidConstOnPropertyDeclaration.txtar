@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/ClassDeclarationWithInvalidConstOnPropertyDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ClassDeclarationWithInvalidConstOnPropertyDeclaration.js ClassDeclarationWithInvalidConstOnPropertyDeclaration.ts
+stderr 'TS1248'
+! exists ClassDeclarationWithInvalidConstOnPropertyDeclaration.js
+! exists ClassDeclarationWithInvalidConstOnPropertyDeclaration.d.ts
+! exists ClassDeclarationWithInvalidConstOnPropertyDeclaration.js.map
+
+-- ClassDeclarationWithInvalidConstOnPropertyDeclaration.ts --
+class AtomicNumbers {
+  static const H = 1;
+}

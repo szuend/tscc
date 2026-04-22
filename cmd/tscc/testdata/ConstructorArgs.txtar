@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/constructorArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js constructorArgs.js constructorArgs.ts
+! stderr .
+cmp constructorArgs.js constructorArgs.js.golden
+! exists constructorArgs.d.ts
+! exists constructorArgs.js.map
+
+-- constructorArgs.ts --
+interface Options {
+ value: number;
+}
+
+class Super {
+ constructor(value:number) {
+ }
+}
+
+class Sub extends Super {
+ constructor(public options:Options) {
+  super(options.value);
+ } 
+}
+-- constructorArgs.js.golden --
+"use strict";
+class Super {
+    constructor(value) {
+    }
+}
+class Sub extends Super {
+    constructor(options) {
+        super(options.value);
+        this.options = options;
+    }
+}

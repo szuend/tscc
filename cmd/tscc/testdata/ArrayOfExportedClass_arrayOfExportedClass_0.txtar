@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/arrayOfExportedClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js arrayOfExportedClass_0.js arrayOfExportedClass_0.ts
+stderr 'TS2564'
+! exists arrayOfExportedClass_0.js
+! exists arrayOfExportedClass_0.d.ts
+! exists arrayOfExportedClass_0.js.map
+! exists arrayOfExportedClass_1.js
+
+-- arrayOfExportedClass_0.ts --
+class Car {
+    foo: string;
+}
+
+export = Car;
+-- arrayOfExportedClass_1.ts --
+///<reference path='arrayOfExportedClass_0.ts'/>
+import Car = require('./arrayOfExportedClass_0');
+
+class Road {
+
+    public cars: Car[];
+
+    public AddCars(cars: Car[]) {
+
+        this.cars = cars;
+    }
+}
+
+export = Road;

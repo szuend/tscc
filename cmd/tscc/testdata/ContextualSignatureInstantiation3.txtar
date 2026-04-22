@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/contextualSignatureInstantiation3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js contextualSignatureInstantiation3.js contextualSignatureInstantiation3.ts
+! stderr .
+cmp contextualSignatureInstantiation3.js contextualSignatureInstantiation3.js.golden
+! exists contextualSignatureInstantiation3.d.ts
+! exists contextualSignatureInstantiation3.js.map
+
+-- contextualSignatureInstantiation3.ts --
+function map<T, U>(items: T[], f: (x: T) => U): U[]{
+    return items.map(f);
+}
+
+function identity<T>(x: T) {
+    return x;
+}
+
+function singleton<T>(x: T) {
+    return [x];
+}
+
+var xs = [1, 2, 3];
+
+// Have compiler check that we get the correct types
+var v1: number[];
+var v1 = xs.map(identity);      // Error if not number[]
+var v1 = map(xs, identity);     // Error if not number[]
+
+var v2: number[][];         
+var v2 = xs.map(singleton);     // Error if not number[][]
+var v2 = map(xs, singleton);    // Error if not number[][]
+-- contextualSignatureInstantiation3.js.golden --
+"use strict";
+function map(items, f) {
+    return items.map(f);
+}
+function identity(x) {
+    return x;
+}
+function singleton(x) {
+    return [x];
+}
+var xs = [1, 2, 3];
+// Have compiler check that we get the correct types
+var v1;
+var v1 = xs.map(identity); // Error if not number[]
+var v1 = map(xs, identity); // Error if not number[]
+var v2;
+var v2 = xs.map(singleton); // Error if not number[][]
+var v2 = map(xs, singleton); // Error if not number[][]

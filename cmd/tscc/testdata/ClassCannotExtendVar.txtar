@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/classCannotExtendVar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classCannotExtendVar.js classCannotExtendVar.ts
+stderr 'TS2300'
+! exists classCannotExtendVar.js
+! exists classCannotExtendVar.d.ts
+! exists classCannotExtendVar.js.map
+
+-- classCannotExtendVar.ts --
+var Markup;
+
+class Markup {
+    constructor() {
+    }
+}

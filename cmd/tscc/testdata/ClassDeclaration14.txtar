@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/ClassDeclaration14.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js ClassDeclaration14.js ClassDeclaration14.ts
+stderr 'TS2391'
+stderr 'TS2390'
+! exists ClassDeclaration14.js
+! exists ClassDeclaration14.d.ts
+! exists ClassDeclaration14.js.map
+
+-- ClassDeclaration14.ts --
+class C {
+   foo();
+   constructor();
+}

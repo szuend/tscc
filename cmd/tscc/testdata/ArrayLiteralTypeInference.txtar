@@ -1,0 +1,61 @@
+# Ported from tests/cases/compiler/arrayLiteralTypeInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-js arrayLiteralTypeInference.js arrayLiteralTypeInference.ts
+stderr 'TS2564'
+stderr 'TS2353'
+! exists arrayLiteralTypeInference.js
+! exists arrayLiteralTypeInference.d.ts
+! exists arrayLiteralTypeInference.js.map
+
+-- arrayLiteralTypeInference.ts --
+﻿// @target: es2015
+class Action {
+    id: number;
+}
+
+class ActionA extends Action {
+    value: string;
+}
+
+class ActionB extends Action {
+    trueNess: boolean;
+}
+
+var x1: Action[] = [
+    { id: 2, trueness: false },
+    { id: 3, name: "three" }
+]
+
+var x2: Action[] = [
+    new ActionA(),
+    new ActionB()
+]
+
+var x3: Action[] = [
+    new Action(),
+    new ActionA(),
+    new ActionB()
+]
+
+var z1: { id: number }[] =
+    [
+        { id: 2, trueness: false },
+        { id: 3, name: "three" }
+    ]
+
+var z2: { id: number }[] =
+    [
+        new ActionA(),
+        new ActionB()
+    ]
+
+var z3: { id: number }[] =
+    [
+        new Action(),
+        new ActionA(),
+        new ActionB()
+    ]
+
+
+
+

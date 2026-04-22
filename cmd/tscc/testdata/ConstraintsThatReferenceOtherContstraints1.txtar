@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/constraintsThatReferenceOtherContstraints1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constraintsThatReferenceOtherContstraints1.js constraintsThatReferenceOtherContstraints1.ts
+stderr 'TS2564'
+! exists constraintsThatReferenceOtherContstraints1.js
+! exists constraintsThatReferenceOtherContstraints1.d.ts
+! exists constraintsThatReferenceOtherContstraints1.js.map
+
+-- constraintsThatReferenceOtherContstraints1.ts --
+interface Object { }
+
+class Foo<T, U extends T> { }
+class Bar<T extends Object, U extends T> {
+    data: Foo<Object, Object>; // Error 1 Type 'Object' does not satisfy the constraint 'T' for type parameter 'U extends T'.
+}
+
+var x: Foo< { a: string }, { a: string; b: number }>; // Error 2 Type '{ a: string; b: number; }' does not satisfy the constraint 'T' for type 

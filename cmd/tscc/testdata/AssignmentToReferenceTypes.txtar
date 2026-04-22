@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/assignmentToReferenceTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js assignmentToReferenceTypes.js assignmentToReferenceTypes.ts
+stderr 'TS2708'
+stderr 'TS2629'
+stderr 'TS2628'
+stderr 'TS2630'
+! exists assignmentToReferenceTypes.js
+! exists assignmentToReferenceTypes.d.ts
+! exists assignmentToReferenceTypes.js.map
+
+-- assignmentToReferenceTypes.ts --
+// Should all be allowed
+
+namespace M {
+}
+M = null;
+
+class C {
+}
+C = null;
+
+enum E {
+}
+E = null;
+
+function f() { }
+f = null;
+
+var x = 1;
+x = null;
+
+function g(x) {
+    x = null;
+}

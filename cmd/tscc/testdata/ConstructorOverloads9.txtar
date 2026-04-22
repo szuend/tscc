@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/constructorOverloads9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --out-js constructorOverloads9.js constructorOverloads9.ts
+! stderr .
+cmp constructorOverloads9.js constructorOverloads9.js.golden
+! exists constructorOverloads9.d.ts
+! exists constructorOverloads9.js.map
+
+-- constructorOverloads9.ts --
+export class C {
+    a;
+    constructor();
+    constructor(x = '') {
+        this.a = x;
+    }
+}
+-- constructorOverloads9.js.golden --
+export class C {
+    a;
+    constructor(x = '') {
+        this.a = x;
+    }
+}

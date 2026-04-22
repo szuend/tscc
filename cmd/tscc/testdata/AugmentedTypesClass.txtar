@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/augmentedTypesClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js augmentedTypesClass.js augmentedTypesClass.ts
+stderr 'TS2300'
+stderr 'TS2567'
+! exists augmentedTypesClass.js
+! exists augmentedTypesClass.d.ts
+! exists augmentedTypesClass.js.map
+
+-- augmentedTypesClass.ts --
+//// class then var
+class c1 { public foo() { } }
+var c1 = 1; // error
+
+//// class then enum
+class c4 { public foo() { } }
+enum c4 { One } // error

@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/circularAccessorAnnotations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts circularAccessorAnnotations.d.ts --strict --target es2015 --out-js circularAccessorAnnotations.js circularAccessorAnnotations.ts
+stderr 'TS2502'
+! exists circularAccessorAnnotations.d.ts
+! exists circularAccessorAnnotations.js
+! exists circularAccessorAnnotations.js.map
+
+-- circularAccessorAnnotations.ts --
+declare const c1: {
+    get foo(): typeof c1.foo;
+}
+
+declare const c2: {
+    set foo(value: typeof c2.foo);
+}
+
+declare const c3: {
+    get foo(): string;
+    set foo(value: typeof c3.foo);
+}
+
+type T1 = {
+    get foo(): T1["foo"];
+}
+
+type T2 = {
+    set foo(value: T2["foo"]);
+}
+
+type T3 = {
+    get foo(): string;
+    set foo(value: T3["foo"]);
+}

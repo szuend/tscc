@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/assignmentRestElementWithErrorSourceType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentRestElementWithErrorSourceType.js assignmentRestElementWithErrorSourceType.ts
+stderr 'TS2304'
+stderr 'TS2552'
+! exists assignmentRestElementWithErrorSourceType.js
+! exists assignmentRestElementWithErrorSourceType.d.ts
+! exists assignmentRestElementWithErrorSourceType.js.map
+
+-- assignmentRestElementWithErrorSourceType.ts --
+var tuple: [string, number];
+[...c] = tupel; // intentionally misspelled

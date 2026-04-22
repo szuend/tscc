@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/classMemberInitializerScoping.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js classMemberInitializerScoping.js classMemberInitializerScoping.ts
+stderr 'TS2301'
+stderr 'TS2322'
+! exists classMemberInitializerScoping.js
+! exists classMemberInitializerScoping.d.ts
+! exists classMemberInitializerScoping.js.map
+
+-- classMemberInitializerScoping.ts --
+var aaa = 1;
+class CCC {
+    y: number = aaa;
+    static staticY: number = aaa; // This shouldnt be error
+    constructor(aaa) {
+        this.y = ''; // was: error, cannot assign string to number
+    }
+}
+
+// above is equivalent to this:
+var aaaa = 1;
+class CCCC {
+    y: any;
+    constructor(aaaa) {
+        this.y = aaaa;
+        this.y = '';
+    }
+}
+ 

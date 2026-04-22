@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/constWithNonNull.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constWithNonNull.js constWithNonNull.ts
+stderr 'TS2588'
+! exists constWithNonNull.js
+! exists constWithNonNull.d.ts
+! exists constWithNonNull.js.map
+
+-- constWithNonNull.ts --
+// Fixes #21848
+
+declare const x: number | undefined;
+x!++;

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/callConstructAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js callConstructAssignment.js callConstructAssignment.ts
+stderr 'TS2322'
+! exists callConstructAssignment.js
+! exists callConstructAssignment.d.ts
+! exists callConstructAssignment.js.map
+
+-- callConstructAssignment.ts --
+declare var foo:{ ( ):void; }
+
+declare var bar:{ new ( ):any; }
+
+foo = bar; // error
+bar = foo; // error

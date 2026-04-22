@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/constructorInvocationWithTooFewTypeArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorInvocationWithTooFewTypeArgs.js constructorInvocationWithTooFewTypeArgs.ts
+stderr 'TS2564'
+stderr 'TS2558'
+! exists constructorInvocationWithTooFewTypeArgs.js
+! exists constructorInvocationWithTooFewTypeArgs.d.ts
+! exists constructorInvocationWithTooFewTypeArgs.js.map
+
+-- constructorInvocationWithTooFewTypeArgs.ts --
+class D<T, U> {
+
+   x: T
+
+   y: U
+
+}
+ 
+var d = new D<number>();

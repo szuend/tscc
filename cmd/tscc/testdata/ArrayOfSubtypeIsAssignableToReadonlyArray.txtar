@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/arrayOfSubtypeIsAssignableToReadonlyArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js arrayOfSubtypeIsAssignableToReadonlyArray.js arrayOfSubtypeIsAssignableToReadonlyArray.ts
+stderr 'TS2322'
+! exists arrayOfSubtypeIsAssignableToReadonlyArray.js
+! exists arrayOfSubtypeIsAssignableToReadonlyArray.d.ts
+! exists arrayOfSubtypeIsAssignableToReadonlyArray.js.map
+
+-- arrayOfSubtypeIsAssignableToReadonlyArray.ts --
+class A { a }
+class B extends A { b }
+class C<T> extends Array<T> { c }
+declare var ara: A[];
+declare var arb: B[];
+declare var cra: C<A>;
+declare var crb: C<B>;
+declare var rra: ReadonlyArray<A>;
+declare var rrb: ReadonlyArray<B>;
+rra = ara;
+rrb = arb; // OK, Array<B> is assignable to ReadonlyArray<A>
+rra = arb;
+rrb = ara; // error: 'A' is not assignable to 'B'
+
+rra = cra;
+rra = crb; // OK, C<B> is assignable to ReadonlyArray<A>
+rrb = crb;
+rrb = cra; // error: 'A' is not assignable to 'B'

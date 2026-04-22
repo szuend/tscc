@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/aliasAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js aliasAssignments_moduleA.js aliasAssignments_moduleA.ts
+stderr 'TS2564'
+! exists aliasAssignments_moduleA.js
+! exists aliasAssignments_1.js
+! exists aliasAssignments_moduleA.d.ts
+! exists aliasAssignments_moduleA.js.map
+
+-- aliasAssignments_1.ts --
+import moduleA = require("./aliasAssignments_moduleA");
+var x = moduleA;
+x = 1; // Should be error
+var y = 1;
+y = moduleA; // should be error
+-- aliasAssignments_moduleA.ts --
+export class someClass {
+    public someData: string;
+}

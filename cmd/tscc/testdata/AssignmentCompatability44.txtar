@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/assignmentCompatability44.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompatability44.js assignmentCompatability44.ts
+stderr 'TS2322'
+! exists assignmentCompatability44.js
+! exists assignmentCompatability44.d.ts
+! exists assignmentCompatability44.js.map
+
+-- assignmentCompatability44.ts --
+class Foo {
+    constructor(x: number) {}
+}
+
+const foo: { new(): Foo } = Foo;

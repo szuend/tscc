@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/constructorOverloads5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js constructorOverloads5.js constructorOverloads5.ts
+! stderr .
+cmp constructorOverloads5.js constructorOverloads5.js.golden
+! exists constructorOverloads5.d.ts
+! exists constructorOverloads5.js.map
+
+-- constructorOverloads5.ts --
+ interface IArguments {}
+
+ declare namespace M {
+    export function RegExp(pattern: string): RegExp;
+    export function RegExp(pattern: string, flags: string): RegExp;
+    export class RegExp {
+        constructor(pattern: string);
+        constructor(pattern: string, flags: string);
+        exec(string: string): string[];
+        test(string: string): boolean;
+        source: string;
+        global: boolean;
+        ignoreCase: boolean;
+        multiline: boolean;
+        lastIndex: boolean;
+    }
+}
+-- constructorOverloads5.js.golden --
+"use strict";

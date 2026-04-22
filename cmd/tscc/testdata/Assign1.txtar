@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/assign1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js assign1.js assign1.ts
+! stderr .
+cmp assign1.js assign1.js.golden
+! exists assign1.d.ts
+! exists assign1.js.map
+
+-- assign1.ts --
+namespace M {
+    interface I {
+        salt:number;
+        pepper:number;
+    }
+
+    var x:I={salt:2,pepper:0};
+}
+-- assign1.js.golden --
+"use strict";
+var M;
+(function (M) {
+    var x = { salt: 2, pepper: 0 };
+})(M || (M = {}));

@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/baseExpressionTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js baseExpressionTypeParameters.js baseExpressionTypeParameters.ts
+stderr 'TS2562'
+! exists baseExpressionTypeParameters.js
+! exists baseExpressionTypeParameters.d.ts
+! exists baseExpressionTypeParameters.js.map
+
+-- baseExpressionTypeParameters.ts --
+// Repro from #17829
+
+function base<T>() {
+    class Base {
+        static prop: T;
+    }
+    return Base;
+}
+
+class Gen<T> extends base<T>() {}  // Error, T not in scope
+class Spec extends Gen<string> {}
+
+<string>Spec.prop;

@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/circularConstraintYieldsAppropriateError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js circularConstraintYieldsAppropriateError.js circularConstraintYieldsAppropriateError.ts
+stderr 'TS2564'
+stderr 'TS2310'
+! exists circularConstraintYieldsAppropriateError.js
+! exists circularConstraintYieldsAppropriateError.d.ts
+! exists circularConstraintYieldsAppropriateError.js.map
+
+-- circularConstraintYieldsAppropriateError.ts --
+// https://github.com/Microsoft/TypeScript/issues/16861
+class BaseType<T> {
+    bar: T
+}
+
+class NextType<C extends { someProp: any }, T = C['someProp']> extends BaseType<T> {
+    baz: string;
+}
+
+class Foo extends NextType<Foo> {
+    someProp: {
+        test: true
+    }
+}
+
+const foo = new Foo();
+foo.bar.test

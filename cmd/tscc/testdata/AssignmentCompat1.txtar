@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/assignmentCompat1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompat1.js assignmentCompat1.ts
+stderr 'TS2741'
+stderr 'TS2322'
+! exists assignmentCompat1.js
+! exists assignmentCompat1.d.ts
+! exists assignmentCompat1.js.map
+
+-- assignmentCompat1.ts --
+var x = { one: 1 };
+declare var y: { [index: string]: any };
+declare var z: { [index: number]: any };
+x = y;  // Error
+y = x;  // Ok because index signature type is any
+x = z;  // Error
+z = x;  // Ok because index signature type is any
+y = "foo"; // Error
+z = "foo"; // OK, string has numeric indexer
+z = false; // Error
+

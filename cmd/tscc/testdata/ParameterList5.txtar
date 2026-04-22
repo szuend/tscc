@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/ParameterList5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ParameterList5.js ParameterList5.ts
+stderr 'TS2355'
+stderr 'TS2369'
+stderr 'TS7006'
+stderr 'TS2304'
+! exists ParameterList5.js
+! exists ParameterList5.d.ts
+! exists ParameterList5.js.map
+
+-- ParameterList5.ts --
+function A(): (public B) => C {
+}

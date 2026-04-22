@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/bigint64ArraySubarray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2020 --out-js bigint64ArraySubarray.js bigint64ArraySubarray.ts
+! stderr .
+cmp bigint64ArraySubarray.js bigint64ArraySubarray.js.golden
+! exists bigint64ArraySubarray.d.ts
+! exists bigint64ArraySubarray.js.map
+
+-- bigint64ArraySubarray.ts --
+function bigInt64ArraySubarray() {
+    var arr = new BigInt64Array(10);
+    arr.subarray();
+    arr.subarray(0);
+    arr.subarray(0, 10);
+}
+-- bigint64ArraySubarray.js.golden --
+"use strict";
+function bigInt64ArraySubarray() {
+    var arr = new BigInt64Array(10);
+    arr.subarray();
+    arr.subarray(0);
+    arr.subarray(0, 10);
+}

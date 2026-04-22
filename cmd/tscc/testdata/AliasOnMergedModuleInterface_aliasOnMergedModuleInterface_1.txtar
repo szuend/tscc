@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/aliasOnMergedModuleInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js aliasOnMergedModuleInterface_1.js aliasOnMergedModuleInterface_1.ts
+stderr 'TS2708'
+! exists aliasOnMergedModuleInterface_1.js
+! exists aliasOnMergedModuleInterface_0.js
+! exists aliasOnMergedModuleInterface_1.d.ts
+! exists aliasOnMergedModuleInterface_1.js.map
+
+-- aliasOnMergedModuleInterface_0.ts --
+declare module "foo"
+{
+    namespace B {
+        export interface A {
+        }
+    }
+    interface B {
+        bar(name: string): B.A;
+    }
+    export = B;
+}
+-- aliasOnMergedModuleInterface_1.ts --
+///<reference path='aliasOnMergedModuleInterface_0.ts' />
+import foo = require("foo")
+declare var z: foo;
+z.bar("hello"); // This should be ok
+var x: foo.A = foo.bar("hello"); // foo.A should be ok but foo.bar should be error

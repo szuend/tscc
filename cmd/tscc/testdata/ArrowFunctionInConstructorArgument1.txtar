@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/arrowFunctionInConstructorArgument1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrowFunctionInConstructorArgument1.js arrowFunctionInConstructorArgument1.ts
+stderr 'TS2304'
+! exists arrowFunctionInConstructorArgument1.js
+! exists arrowFunctionInConstructorArgument1.d.ts
+! exists arrowFunctionInConstructorArgument1.js.map
+
+-- arrowFunctionInConstructorArgument1.ts --
+class C {
+    constructor(x: () => void) { }
+}
+var c = new C(() => { return asdf; } ) // should error

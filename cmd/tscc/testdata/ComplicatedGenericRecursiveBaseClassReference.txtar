@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/complicatedGenericRecursiveBaseClassReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js complicatedGenericRecursiveBaseClassReference.js complicatedGenericRecursiveBaseClassReference.ts
+stderr 'TS2506'
+stderr 'TS2554'
+stderr 'TS2339'
+! exists complicatedGenericRecursiveBaseClassReference.js
+! exists complicatedGenericRecursiveBaseClassReference.d.ts
+! exists complicatedGenericRecursiveBaseClassReference.js.map
+
+-- complicatedGenericRecursiveBaseClassReference.ts --
+class S18<B, A, C> extends S18<A[], { S19: A; (): A }[], C[]>
+{
+}
+(new S18(123)).S18 = 0;

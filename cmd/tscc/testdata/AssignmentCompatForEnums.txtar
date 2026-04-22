@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/assignmentCompatForEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --out-js assignmentCompatForEnums.js assignmentCompatForEnums.ts
+! stderr .
+cmp assignmentCompatForEnums.js assignmentCompatForEnums.js.golden
+! exists assignmentCompatForEnums.d.ts
+! exists assignmentCompatForEnums.js.map
+
+-- assignmentCompatForEnums.ts --
+enum TokenType { One, Two };
+
+var list = {};
+
+
+function returnType(): TokenType { return null; }
+
+function foo() {
+    var x = returnType();
+
+    var x: TokenType = list['one'];
+}
+
+-- assignmentCompatForEnums.js.golden --
+"use strict";
+var TokenType;
+(function (TokenType) {
+    TokenType[TokenType["One"] = 0] = "One";
+    TokenType[TokenType["Two"] = 1] = "Two";
+})(TokenType || (TokenType = {}));
+;
+var list = {};
+function returnType() { return null; }
+function foo() {
+    var x = returnType();
+    var x = list['one'];
+}

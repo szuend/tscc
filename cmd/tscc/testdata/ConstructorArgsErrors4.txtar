@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/constructorArgsErrors4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorArgsErrors4.js constructorArgsErrors4.ts
+stderr 'TS1028'
+! exists constructorArgsErrors4.js
+! exists constructorArgsErrors4.d.ts
+! exists constructorArgsErrors4.js.map
+
+-- constructorArgsErrors4.ts --
+class foo {
+    constructor (private public a: number) {
+    }
+}

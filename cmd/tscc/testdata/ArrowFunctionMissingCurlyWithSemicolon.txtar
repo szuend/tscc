@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/arrowFunctionMissingCurlyWithSemicolon.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js arrowFunctionMissingCurlyWithSemicolon.js arrowFunctionMissingCurlyWithSemicolon.ts
+stderr 'TS1109'
+! exists arrowFunctionMissingCurlyWithSemicolon.js
+! exists arrowFunctionMissingCurlyWithSemicolon.d.ts
+! exists arrowFunctionMissingCurlyWithSemicolon.js.map
+
+-- arrowFunctionMissingCurlyWithSemicolon.ts --
+// Should error at semicolon.
+var f = () => ;
+var b = 1 * 2 * 3 * 4;
+var square = (x: number) => x * x;

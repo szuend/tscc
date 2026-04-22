@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/classImplementsClass5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classImplementsClass5.js classImplementsClass5.ts
+stderr 'TS2720'
+stderr 'TS2322'
+! exists classImplementsClass5.js
+! exists classImplementsClass5.d.ts
+! exists classImplementsClass5.js.map
+
+-- classImplementsClass5.ts --
+class A {
+    private x = 1;
+    foo(): number { return 1; }
+}
+class C implements A {
+    private x = 1;
+    foo() {
+        return 1;
+    }
+}
+
+class C2 extends A {}
+
+declare var c: C;
+declare var c2: C2;
+c = c2;
+c2 = c;

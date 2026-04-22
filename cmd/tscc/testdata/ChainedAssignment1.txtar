@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/chainedAssignment1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js chainedAssignment1.js chainedAssignment1.ts
+stderr 'TS2741'
+stderr 'TS2739'
+! exists chainedAssignment1.js
+! exists chainedAssignment1.d.ts
+! exists chainedAssignment1.js.map
+
+-- chainedAssignment1.ts --
+class X {
+    constructor(public z) { }
+    a: number;
+}
+
+class Y {
+    constructor(public z) {
+    }
+    a: number;
+    b: string;
+}
+
+class Z {
+    z: any;
+    c: string;
+}
+
+var c1 = new X(3);
+var c2 = new Y(5);
+var c3 = new Z();
+c1 = c2 = c3; // a bug made this not report the same error as below
+c2 = c3; // Error TS111: Cannot convert Z to Y

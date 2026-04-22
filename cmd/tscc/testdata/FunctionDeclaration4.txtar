@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/FunctionDeclaration4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js FunctionDeclaration4.js FunctionDeclaration4.ts
+stderr 'TS7010'
+stderr 'TS2389'
+! exists FunctionDeclaration4.js
+! exists FunctionDeclaration4.d.ts
+! exists FunctionDeclaration4.js.map
+
+-- FunctionDeclaration4.ts --
+function foo();
+function bar() { }

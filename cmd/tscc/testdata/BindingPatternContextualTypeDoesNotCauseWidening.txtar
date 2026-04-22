@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/bindingPatternContextualTypeDoesNotCauseWidening.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js bindingPatternContextualTypeDoesNotCauseWidening.js bindingPatternContextualTypeDoesNotCauseWidening.ts
+! stderr .
+cmp bindingPatternContextualTypeDoesNotCauseWidening.js bindingPatternContextualTypeDoesNotCauseWidening.js.golden
+! exists bindingPatternContextualTypeDoesNotCauseWidening.d.ts
+! exists bindingPatternContextualTypeDoesNotCauseWidening.js.map
+
+-- bindingPatternContextualTypeDoesNotCauseWidening.ts --
+declare function pick<O, T extends keyof O>(keys: T[], obj?: O): Pick<O, T>;
+const _    = pick(['b'], { a: 'a', b: 'b' }); // T: "b"
+const {  } = pick(['b'], { a: 'a', b: 'b' }); // T: "b" | "a" ??? (before fix)
+-- bindingPatternContextualTypeDoesNotCauseWidening.js.golden --
+"use strict";
+const _ = pick(['b'], { a: 'a', b: 'b' }); // T: "b"
+const {} = pick(['b'], { a: 'a', b: 'b' }); // T: "b" | "a" ??? (before fix)

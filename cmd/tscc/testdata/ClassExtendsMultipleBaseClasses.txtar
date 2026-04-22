@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/classExtendsMultipleBaseClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExtendsMultipleBaseClasses.js classExtendsMultipleBaseClasses.ts
+stderr 'TS1174'
+! exists classExtendsMultipleBaseClasses.js
+! exists classExtendsMultipleBaseClasses.d.ts
+! exists classExtendsMultipleBaseClasses.js.map
+
+-- classExtendsMultipleBaseClasses.ts --
+class A { }
+class B { }
+class C extends A,B { }

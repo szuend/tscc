@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/assignmentCompatOnNew.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js assignmentCompatOnNew.js assignmentCompatOnNew.ts
+! stderr .
+cmp assignmentCompatOnNew.js assignmentCompatOnNew.js.golden
+! exists assignmentCompatOnNew.d.ts
+! exists assignmentCompatOnNew.js.map
+
+-- assignmentCompatOnNew.ts --
+class Foo{};
+
+function bar(x: {new(): Foo;}){}
+
+bar(Foo); // Error, but should be allowed
+-- assignmentCompatOnNew.js.golden --
+"use strict";
+class Foo {
+}
+;
+function bar(x) { }
+bar(Foo); // Error, but should be allowed

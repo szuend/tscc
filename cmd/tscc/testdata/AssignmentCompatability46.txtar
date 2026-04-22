@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/assignmentCompatability46.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompatability46.js assignmentCompatability46.ts
+stderr 'TS2345'
+! exists assignmentCompatability46.js
+! exists assignmentCompatability46.d.ts
+! exists assignmentCompatability46.js.map
+
+-- assignmentCompatability46.ts --
+declare function fn(x: never): void;
+
+fn([1, 2, 3])
+fn({ a: 1, b: 2 })

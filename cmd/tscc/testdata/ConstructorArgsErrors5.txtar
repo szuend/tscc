@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/constructorArgsErrors5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorArgsErrors5.js constructorArgsErrors5.ts
+stderr 'TS1090'
+! exists constructorArgsErrors5.js
+! exists constructorArgsErrors5.d.ts
+! exists constructorArgsErrors5.js.map
+
+-- constructorArgsErrors5.ts --
+class foo {
+    constructor (export a: number) {
+    }
+}

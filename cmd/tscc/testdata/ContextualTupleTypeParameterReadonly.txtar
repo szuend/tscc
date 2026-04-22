@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/contextualTupleTypeParameterReadonly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --out-js contextualTupleTypeParameterReadonly.js contextualTupleTypeParameterReadonly.ts
+stderr 'TS2345'
+! exists contextualTupleTypeParameterReadonly.js
+! exists contextualTupleTypeParameterReadonly.d.ts
+! exists contextualTupleTypeParameterReadonly.js.map
+
+-- contextualTupleTypeParameterReadonly.ts --
+declare function each<T extends ReadonlyArray<any>>(cases: ReadonlyArray<T>): (fn: (...args: T) => any) => void;
+
+const cases = [
+    [1, '1'],
+    [2, '2'],
+] as const;
+
+const eacher = each(cases);
+
+eacher((a, b) => {
+    a;
+    b;
+});
+
+// TODO: https://github.com/microsoft/TypeScript/issues/53255
+eacher((...args) => {
+    const [a, b] = args;
+    a;
+    b;
+});

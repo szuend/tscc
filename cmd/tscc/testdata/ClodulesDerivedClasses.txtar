@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/clodulesDerivedClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js clodulesDerivedClasses.js clodulesDerivedClasses.ts
+stderr 'TS2564'
+stderr 'TS2322'
+stderr 'TS2417'
+! exists clodulesDerivedClasses.js
+! exists clodulesDerivedClasses.d.ts
+! exists clodulesDerivedClasses.js.map
+
+-- clodulesDerivedClasses.ts --
+class Shape {
+    id: number;
+}
+
+namespace Shape.Utils {
+    export function convert(): Shape { return null;}
+}
+
+class Path extends Shape {
+    name: string;
+
+}
+
+namespace Path.Utils {
+    export function convert2(): Path {
+        return null;
+    }
+}
+
+
+

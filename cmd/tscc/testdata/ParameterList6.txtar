@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/ParameterList6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ParameterList6.js ParameterList6.ts
+stderr 'TS2369'
+stderr 'TS7006'
+! exists ParameterList6.js
+! exists ParameterList6.d.ts
+! exists ParameterList6.js.map
+
+-- ParameterList6.ts --
+class C {
+  constructor(C: (public A) => any) {
+  }
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/blockScopedFunctionDeclarationES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --out-js blockScopedFunctionDeclarationES6.js blockScopedFunctionDeclarationES6.ts
+stderr 'TS2304'
+! exists blockScopedFunctionDeclarationES6.js
+! exists blockScopedFunctionDeclarationES6.d.ts
+! exists blockScopedFunctionDeclarationES6.js.map
+
+-- blockScopedFunctionDeclarationES6.ts --
+if (true) {
+    function foo() { }
+    foo();
+}
+foo();

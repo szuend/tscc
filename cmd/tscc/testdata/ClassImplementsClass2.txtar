@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/classImplementsClass2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classImplementsClass2.js classImplementsClass2.ts
+stderr 'TS2720'
+stderr 'TS2741'
+! exists classImplementsClass2.js
+! exists classImplementsClass2.d.ts
+! exists classImplementsClass2.js.map
+
+-- classImplementsClass2.ts --
+class A { foo(): number { return 1; } }
+class C implements A {} // error
+
+class C2 extends A {
+    foo() {
+        return 1;
+    }
+}
+
+declare var c: C;
+declare var c2: C2;
+c = c2;
+c2 = c;

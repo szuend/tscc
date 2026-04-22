@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/constraintErrors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constraintErrors1.js constraintErrors1.ts
+stderr 'TS2304'
+! exists constraintErrors1.js
+! exists constraintErrors1.d.ts
+! exists constraintErrors1.js.map
+
+-- constraintErrors1.ts --
+function foo5<T extends hm>(test: T) { }

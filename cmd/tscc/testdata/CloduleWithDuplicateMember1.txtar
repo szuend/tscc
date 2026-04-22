@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/cloduleWithDuplicateMember1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js cloduleWithDuplicateMember1.js cloduleWithDuplicateMember1.ts
+stderr 'TS2300'
+! exists cloduleWithDuplicateMember1.js
+! exists cloduleWithDuplicateMember1.d.ts
+! exists cloduleWithDuplicateMember1.js.map
+
+-- cloduleWithDuplicateMember1.ts --
+class C {
+    get x() { return 1; }
+    static get x() {
+        return '';
+    }
+    static foo() { }
+}
+
+namespace C {
+    export var x = 1;
+}
+namespace C {
+    export function foo() { }
+    export function x() { }
+}

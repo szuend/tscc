@@ -1,0 +1,54 @@
+# Ported from tests/cases/compiler/asiArith.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js asiArith.js asiArith.ts
+! stderr .
+cmp asiArith.js asiArith.js.golden
+! exists asiArith.d.ts
+! exists asiArith.js.map
+
+-- asiArith.ts --
+var x = 1;
+
+var y = 1;
+
+var z =
+
+x
+
++
+
++
+
++
+
+y
+
+
+var a = 1;
+
+var b = 1;
+
+var c =
+
+x
+
+-
+
+-
+
+-
+
+y
+
+-- asiArith.js.golden --
+"use strict";
+var x = 1;
+var y = 1;
+var z = x
+    +
+        + +y;
+var a = 1;
+var b = 1;
+var c = x
+    -
+        - -y;

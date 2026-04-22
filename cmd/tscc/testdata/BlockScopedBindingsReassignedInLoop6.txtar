@@ -1,0 +1,61 @@
+# Ported from tests/cases/compiler/blockScopedBindingsReassignedInLoop6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js blockScopedBindingsReassignedInLoop6.js blockScopedBindingsReassignedInLoop6.ts
+! stderr .
+cmp blockScopedBindingsReassignedInLoop6.js blockScopedBindingsReassignedInLoop6.js.golden
+! exists blockScopedBindingsReassignedInLoop6.d.ts
+! exists blockScopedBindingsReassignedInLoop6.js.map
+
+-- blockScopedBindingsReassignedInLoop6.ts --
+function f1() {
+    for (let [x, y] = [1, 2]; x < y; ++x, --y) {
+        let a = () => x++ + y++;
+        if (x == 1)
+            break;
+        else if (y == 2)
+            y = 5;
+        else
+            return;
+    }
+}
+
+function f2() {
+    for (let [{a: x, b: {c: y}}] = [{a: 1, b: {c: 2}}]; x < y; ++x, --y) {
+        let a = () => x++ + y++;
+        if (x == 1)
+            break;
+        else if (y == 2)
+            y = 5;
+        else
+            return;
+    }
+}
+
+
+
+
+
+-- blockScopedBindingsReassignedInLoop6.js.golden --
+"use strict";
+function f1() {
+    for (let [x, y] = [1, 2]; x < y; ++x, --y) {
+        let a = () => x++ + y++;
+        if (x == 1)
+            break;
+        else if (y == 2)
+            y = 5;
+        else
+            return;
+    }
+}
+function f2() {
+    for (let [{ a: x, b: { c: y } }] = [{ a: 1, b: { c: 2 } }]; x < y; ++x, --y) {
+        let a = () => x++ + y++;
+        if (x == 1)
+            break;
+        else if (y == 2)
+            y = 5;
+        else
+            return;
+    }
+}

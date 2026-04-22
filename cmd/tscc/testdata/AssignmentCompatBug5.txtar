@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/assignmentCompatBug5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompatBug5.js assignmentCompatBug5.ts
+stderr 'TS2353'
+stderr 'TS2322'
+stderr 'TS2345'
+! exists assignmentCompatBug5.js
+! exists assignmentCompatBug5.d.ts
+! exists assignmentCompatBug5.js.map
+
+-- assignmentCompatBug5.ts --
+function foo1(x: { a: number; }) { }
+foo1({ b: 5 });
+
+function foo2(x: number[]) { }
+foo2(["s", "t"]);
+
+function foo3(x: (n: number) =>number) { };
+foo3((s:string) => { });
+foo3((n) => { return; });
+

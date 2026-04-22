@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/circularTypeofWithFunctionModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js circularTypeofWithFunctionModule.js circularTypeofWithFunctionModule.ts
+! stderr .
+cmp circularTypeofWithFunctionModule.js circularTypeofWithFunctionModule.js.golden
+! exists circularTypeofWithFunctionModule.d.ts
+! exists circularTypeofWithFunctionModule.js.map
+
+-- circularTypeofWithFunctionModule.ts --
+// Repro from #6072
+
+class Foo {}
+
+function maker (value: string): typeof maker.Bar {
+    return maker.Bar;
+}
+
+namespace maker {
+    export class Bar extends Foo {}
+}
+-- circularTypeofWithFunctionModule.js.golden --
+"use strict";
+// Repro from #6072
+class Foo {
+}
+function maker(value) {
+    return maker.Bar;
+}
+(function (maker) {
+    class Bar extends Foo {
+    }
+    maker.Bar = Bar;
+})(maker || (maker = {}));

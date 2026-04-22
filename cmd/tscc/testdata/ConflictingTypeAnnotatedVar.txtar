@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/conflictingTypeAnnotatedVar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js conflictingTypeAnnotatedVar.js conflictingTypeAnnotatedVar.ts
+stderr 'TS2300'
+stderr 'TS2393'
+stderr 'TS2355'
+! exists conflictingTypeAnnotatedVar.js
+! exists conflictingTypeAnnotatedVar.d.ts
+! exists conflictingTypeAnnotatedVar.js.map
+
+-- conflictingTypeAnnotatedVar.ts --
+var foo: string;
+function foo(): number { }
+function foo(): number { }

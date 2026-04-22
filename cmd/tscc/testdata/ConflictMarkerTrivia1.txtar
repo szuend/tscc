@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/conflictMarkerTrivia1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js conflictMarkerTrivia1.js conflictMarkerTrivia1.ts
+stderr 'TS1185'
+! exists conflictMarkerTrivia1.js
+! exists conflictMarkerTrivia1.d.ts
+! exists conflictMarkerTrivia1.js.map
+
+-- conflictMarkerTrivia1.ts --
+class C {
+<<<<<<< HEAD
+    v = 1;
+=======
+    v = 2;
+>>>>>>> Branch-a
+}

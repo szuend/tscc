@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/assignmentCompatBug2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignmentCompatBug2.js assignmentCompatBug2.ts
+stderr 'TS2353'
+stderr 'TS2741'
+! exists assignmentCompatBug2.js
+! exists assignmentCompatBug2.d.ts
+! exists assignmentCompatBug2.js.map
+
+-- assignmentCompatBug2.ts --
+var b2: { b: number;} = { a: 0 }; // error
+
+b2 = { a: 0 }; // error
+
+b2 = {b: 0, a: 0 };
+
+var b3: { f(n: number): number; g(s: string): number; m: number; n?: number; k?(a: any): any; };
+
+b3 = {
+    f: (n) => { return 0; },
+    g: (s) => { return 0; },
+    m: 0,
+}; // ok
+
+b3 = {
+    f: (n) => { return 0; },
+    g: (s) => { return 0; },
+}; // error
+
+b3 = {
+    f: (n) => { return 0; },
+    m: 0,
+}; // error
+
+b3 = {
+    f: (n) => { return 0; },
+    g: (s) => { return 0; },
+    m: 0,
+    n: 0,
+    k: (a) =>{ return null; },
+}; // ok
+
+b3 = {
+    f: (n) => { return 0; },
+    g: (s) => { return 0; },
+    n: 0,
+    k: (a) =>{ return null; },
+}; // error

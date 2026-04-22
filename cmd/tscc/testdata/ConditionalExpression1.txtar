@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/conditionalExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js conditionalExpression1.js conditionalExpression1.ts
+stderr 'TS2322'
+! exists conditionalExpression1.js
+! exists conditionalExpression1.d.ts
+! exists conditionalExpression1.js.map
+
+-- conditionalExpression1.ts --
+var x: boolean = (true ? 1 : ""); // should be an error

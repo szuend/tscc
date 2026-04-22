@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/arrayConcat2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js arrayConcat2.js arrayConcat2.ts
+! stderr .
+cmp arrayConcat2.js arrayConcat2.js.golden
+! exists arrayConcat2.d.ts
+! exists arrayConcat2.js.map
+
+-- arrayConcat2.ts --
+var a: string[] = [];
+a.concat("hello", 'world');
+
+a.concat('Hello');
+
+var b = new Array<string>();
+b.concat('hello');
+-- arrayConcat2.js.golden --
+"use strict";
+var a = [];
+a.concat("hello", 'world');
+a.concat('Hello');
+var b = new Array();
+b.concat('hello');

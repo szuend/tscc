@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/compareTypeParameterConstrainedByLiteralToLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js compareTypeParameterConstrainedByLiteralToLiteral.js compareTypeParameterConstrainedByLiteralToLiteral.ts
+stderr 'TS2367'
+! exists compareTypeParameterConstrainedByLiteralToLiteral.js
+! exists compareTypeParameterConstrainedByLiteralToLiteral.d.ts
+! exists compareTypeParameterConstrainedByLiteralToLiteral.js.map
+
+-- compareTypeParameterConstrainedByLiteralToLiteral.ts --
+// Test for #26758
+
+function foo<T extends "a" | "b">(t: T) {
+    t === "a";  // Should be allowed
+    t === "x";  // Should be error
+}

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/cloduleWithDuplicateMember2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js cloduleWithDuplicateMember2.js cloduleWithDuplicateMember2.ts
+stderr 'TS2300'
+! exists cloduleWithDuplicateMember2.js
+! exists cloduleWithDuplicateMember2.d.ts
+! exists cloduleWithDuplicateMember2.js.map
+
+-- cloduleWithDuplicateMember2.ts --
+class C {
+    set x(y) { }
+    static set y(z) { }
+}
+
+namespace C {
+    export var x = 1;
+}
+namespace C {
+    export function x() { }
+}

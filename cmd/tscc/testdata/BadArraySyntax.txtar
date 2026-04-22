@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/badArraySyntax.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js badArraySyntax.js badArraySyntax.ts
+stderr 'TS1011'
+! exists badArraySyntax.js
+! exists badArraySyntax.d.ts
+! exists badArraySyntax.js.map
+
+-- badArraySyntax.ts --
+class Z {
+ public x = "";
+}
+
+var a1: Z[] = [];
+var a2 = new Z[];
+var a3 = new Z[]();
+var a4: Z[] = new Z[];
+var a5: Z[] = new Z[]();
+var a6: Z[][] = new   Z     [      ]   [  ];

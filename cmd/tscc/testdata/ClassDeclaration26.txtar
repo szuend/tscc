@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/ClassDeclaration26.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js ClassDeclaration26.js ClassDeclaration26.ts
+stderr 'TS1440'
+stderr 'TS1068'
+stderr 'TS1005'
+stderr 'TS1128'
+! exists ClassDeclaration26.js
+! exists ClassDeclaration26.d.ts
+! exists ClassDeclaration26.js.map
+
+-- ClassDeclaration26.ts --
+class C {
+    public const var export foo = 10;
+
+    var constructor() { }
+}

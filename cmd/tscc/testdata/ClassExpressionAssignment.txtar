@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/classExpressionAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classExpressionAssignment.js classExpressionAssignment.ts
+stderr 'TS2322'
+! exists classExpressionAssignment.js
+! exists classExpressionAssignment.d.ts
+! exists classExpressionAssignment.js.map
+
+-- classExpressionAssignment.ts --
+interface A {
+  prop: string;
+}
+
+// This is invalid
+const A: {new(): A} = class {}

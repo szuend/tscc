@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/asiAbstract.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js asiAbstract.js asiAbstract.ts
+stderr 'TS2304'
+stderr 'TS1244'
+! exists asiAbstract.js
+! exists asiAbstract.d.ts
+! exists asiAbstract.js.map
+
+-- asiAbstract.ts --
+abstract
+class NonAbstractClass {
+  abstract s();
+}
+
+class C2 {
+    abstract
+    nonAbstractFunction() {
+    }
+}
+
+class C3 {
+    abstract
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/ClassDeclaration8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ClassDeclaration8.js ClassDeclaration8.ts
+stderr 'TS2390'
+! exists ClassDeclaration8.js
+! exists ClassDeclaration8.d.ts
+! exists ClassDeclaration8.js.map
+
+-- ClassDeclaration8.ts --
+class C {
+  constructor();
+}

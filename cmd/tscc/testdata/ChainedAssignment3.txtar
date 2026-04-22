@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/chainedAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js chainedAssignment3.js chainedAssignment3.ts
+stderr 'TS2564'
+stderr 'TS2322'
+stderr 'TS2741'
+! exists chainedAssignment3.js
+! exists chainedAssignment3.d.ts
+! exists chainedAssignment3.js.map
+
+-- chainedAssignment3.ts --
+class A {
+    id: number;
+}
+
+class B extends A {
+    value: string;
+}
+
+var a: A;
+var b: B;
+a = b = null;
+a = b = new B();
+b = a = new B();
+
+a.id = b.value = null;
+
+// error cases
+b = a = new A();
+a = b = new A();
+
+

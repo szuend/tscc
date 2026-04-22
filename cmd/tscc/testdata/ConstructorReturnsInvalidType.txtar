@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/constructorReturnsInvalidType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js constructorReturnsInvalidType.js constructorReturnsInvalidType.ts
+stderr 'TS2322'
+stderr 'TS2409'
+! exists constructorReturnsInvalidType.js
+! exists constructorReturnsInvalidType.d.ts
+! exists constructorReturnsInvalidType.js.map
+
+-- constructorReturnsInvalidType.ts --
+class X {
+    constructor() {
+        return 1;
+    }
+    foo() { }
+}
+ 
+var x = new X();

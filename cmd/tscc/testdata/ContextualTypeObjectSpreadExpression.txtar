@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/contextualTypeObjectSpreadExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --out-js contextualTypeObjectSpreadExpression.js contextualTypeObjectSpreadExpression.ts
+! stderr .
+cmp contextualTypeObjectSpreadExpression.js contextualTypeObjectSpreadExpression.js.golden
+! exists contextualTypeObjectSpreadExpression.d.ts
+! exists contextualTypeObjectSpreadExpression.js.map
+
+-- contextualTypeObjectSpreadExpression.ts --
+interface I {
+    a: "a";
+}
+let i: I;
+i = { ...{ a: "a" } };
+-- contextualTypeObjectSpreadExpression.js.golden --
+"use strict";
+let i;
+i = Object.assign({ a: "a" });

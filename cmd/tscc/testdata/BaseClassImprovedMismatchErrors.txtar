@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/baseClassImprovedMismatchErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js baseClassImprovedMismatchErrors.js baseClassImprovedMismatchErrors.ts
+stderr 'TS2564'
+stderr 'TS2416'
+! exists baseClassImprovedMismatchErrors.js
+! exists baseClassImprovedMismatchErrors.d.ts
+! exists baseClassImprovedMismatchErrors.js.map
+
+-- baseClassImprovedMismatchErrors.ts --
+class Base {
+    n: Base | string;
+    fn() {
+        return 10;
+    }
+}
+class Derived extends Base {
+    n: Derived | string;
+    fn() {
+        return 10 as number | string;
+    }
+}
+class DerivedInterface implements Base {
+    n: DerivedInterface | string;
+    fn() {
+        return 10 as number | string;
+    }
+}

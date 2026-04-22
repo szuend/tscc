@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/ParameterList13.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ParameterList13.js ParameterList13.ts
+stderr 'TS7013'
+stderr 'TS2369'
+stderr 'TS7006'
+! exists ParameterList13.js
+! exists ParameterList13.d.ts
+! exists ParameterList13.js.map
+
+-- ParameterList13.ts --
+interface I {
+    new (public x);
+}

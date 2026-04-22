@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/assignToExistingClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js assignToExistingClass.js assignToExistingClass.ts
+stderr 'TS2564'
+stderr 'TS2629'
+! exists assignToExistingClass.js
+! exists assignToExistingClass.d.ts
+! exists assignToExistingClass.js.map
+
+-- assignToExistingClass.ts --
+namespace Test {
+    class Mocked {
+        myProp: string;
+    }
+
+    class Tester {
+        willThrowError() {
+            Mocked = Mocked || function () { // => Error: Invalid left-hand side of assignment expression.
+                return { myProp: "test" };
+            };
+        }
+    }
+ 
+}
