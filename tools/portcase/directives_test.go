@@ -74,6 +74,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-no-implicit-any"},
 		},
 		{
+			name: "exactOptionalPropertyTypes true",
+			directives: map[string]string{
+				"exactOptionalPropertyTypes": "true",
+			},
+			wantFlags: []string{"--exact-optional-property-types"},
+		},
+		{
+			name: "exactOptionalPropertyTypes false",
+			directives: map[string]string{
+				"exactOptionalPropertyTypes": "false",
+			},
+			wantFlags: []string{"--no-exact-optional-property-types"},
+		},
+		{
 			name: "unsupported jsx",
 			directives: map[string]string{
 				"jsx": "react",

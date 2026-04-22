@@ -32,12 +32,12 @@ type Config struct {
 	NoImplicitAny              bool
 	ExactOptionalPropertyTypes bool
 	Target                     string
-	Module        string
-	InputPath     string
-	OutJSPath     string
-	OutDepsPath   string
-	OutDtsPath    string
-	OutMapPath    string
+	Module                     string
+	InputPath                  string
+	OutJSPath                  string
+	OutDepsPath                string
+	OutDtsPath                 string
+	OutMapPath                 string
 
 	// CaseSensitivePaths pins the value returned by
 	// UseCaseSensitiveFileNames() on every FS the compiler observes.
