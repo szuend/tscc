@@ -47,9 +47,14 @@ func TestPorter_Port_Simple(t *testing.T) {
 func TestPorter_Port_MultiFile(t *testing.T) {
 	p := Porter{
 		CaseName: "multi",
-		BaselineJs: `//// [a.ts]
+		TsContent: `// @filename: a.ts
 export const a = 1;
-//// [b.ts]
+// @filename: b.ts
+export const b = 2;
+`,
+		BaselineJs: `//// [a.js]
+export const a = 1;
+//// [b.js]
 export const b = 2;
 `,
 	}
@@ -195,11 +200,16 @@ func TestPorter_Port_Variants(t *testing.T) {
 
 func TestPorter_Port_MultiFile_Variants(t *testing.T) {
 	p := Porter{
-		CaseName:  "multifile_variants",
-		TsContent: "// @target: esnext, es2015",
-		BaselineJs: `//// [a.ts]
+		CaseName: "multifile_variants",
+		TsContent: `// @target: esnext, es2015
+// @filename: a.ts
 export const a = 1;
-//// [b.ts]
+// @filename: b.ts
+export const b = 2;
+`,
+		BaselineJs: `//// [a.js]
+export const a = 1;
+//// [b.js]
 export const b = 2;
 `,
 	}
@@ -243,16 +253,16 @@ export const b = 2;
 			if !strings.Contains(res.Content, "--target esnext") {
 				t.Errorf("Expected a_esnext to contain --target esnext")
 			}
-			if !strings.Contains(res.Content, "exec tscc --target esnext a.ts") {
-				t.Errorf("Expected a_esnext to execute a.ts with command 'exec tscc --target esnext a.ts', got:\n%s", res.Content)
+			if !strings.Contains(res.Content, "exec tscc --target esnext --out-js a.js a.ts") {
+				t.Errorf("Expected a_esnext to execute a.ts with command 'exec tscc --target esnext --out-js a.js a.ts', got:\n%s", res.Content)
 			}
 		case "Multifile_variants_a_es2015.txtar":
 			if !strings.Contains(res.Content, "--target es2015") {
 				t.Errorf("Expected a_es2015 to contain --target es2015")
 			}
 		case "Multifile_variants_b_esnext.txtar":
-			if !strings.Contains(res.Content, "exec tscc --target esnext b.ts") {
-				t.Errorf("Expected b_esnext to execute b.ts with command 'exec tscc --target esnext b.ts', got:\n%s", res.Content)
+			if !strings.Contains(res.Content, "exec tscc --target esnext --out-js b.js b.ts") {
+				t.Errorf("Expected b_esnext to execute b.ts with command 'exec tscc --target esnext --out-js b.js b.ts', got:\n%s", res.Content)
 			}
 		}
 	}

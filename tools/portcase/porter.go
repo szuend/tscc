@@ -43,10 +43,15 @@ type PortedFile struct {
 func (p *Porter) Port() ([]PortedFile, error) {
 	var results []PortedFile
 
+	inputs := make(map[string]string)
+	var inputList []string
+
 	_, _, _, globalOptions, parseErr := tsccbridge.ParseTestFilesAndSymlinks(
 		p.TsContent,
 		p.CaseName+".ts",
 		func(filename string, content string, fileOptions map[string]string) (string, error) {
+			inputs[filename] = content
+			inputList = append(inputList, filename)
 			return "", nil
 		},
 	)
@@ -66,15 +71,10 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		}
 	}
 
-	inputs := make(map[string]string)
 	outputs := make(map[string]string)
 
-	var inputList []string
 	for name, content := range files {
-		if (strings.HasSuffix(name, ".ts") && !strings.HasSuffix(name, ".d.ts")) || strings.HasSuffix(name, ".tsx") {
-			inputs[name] = content
-			inputList = append(inputList, name)
-		} else {
+		if !((strings.HasSuffix(name, ".ts") && !strings.HasSuffix(name, ".d.ts")) || strings.HasSuffix(name, ".tsx")) {
 			outputs[name] = content
 		}
 	}
