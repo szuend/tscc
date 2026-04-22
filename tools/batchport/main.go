@@ -144,7 +144,14 @@ func discoverCandidates(upstreamDir, testdataDir string) ([]string, error) {
 	}
 
 	var candidates []string
+	ignoreList := map[string]bool{
+		"allowsyntheticdefaultimportscanpaintcrossmoduledeclaration": true,
+	}
+
 	for _, c := range allCases {
+		if ignoreList[strings.ToLower(c)] {
+			continue
+		}
 		if !existingCases[strings.ToLower(c)] {
 			candidates = append(candidates, c)
 		}
