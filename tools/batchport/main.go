@@ -15,7 +15,7 @@
 package main
 
 import (
-	"bytes"
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
@@ -31,10 +31,12 @@ func main() {
 	var targetCount int
 	var verbose bool
 	var concurrency int
+	var stopOnFailure bool
 
 	pflag.IntVarP(&targetCount, "count", "n", 10, "Target number of successful migrations")
 	pflag.BoolVar(&verbose, "verbose", false, "Output detailed line items")
 	pflag.IntVarP(&concurrency, "concurrency", "j", 4, "Number of concurrent workers")
+	pflag.BoolVarP(&stopOnFailure, "stop-on-failure", "x", false, "Stop on the first failure and print detailed error")
 	pflag.Parse()
 
 	upstreamDir := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "cases", "compiler")
@@ -63,13 +65,16 @@ func main() {
 	tasks := make(chan string)
 	var wg sync.WaitGroup
 
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	// Spawn workers
 	for i := 0; i < concurrency; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
 			for c := range tasks {
-				cat := processCandidate(c, portcasePath, testdataDir)
+				cat, errDetail := processCandidate(ctx, c, portcasePath, testdataDir)
 
 				mu.Lock()
 				results[cat] = append(results[cat], c)
@@ -77,6 +82,11 @@ func main() {
 					successCount++
 				}
 				mu.Unlock()
+
+				if cat != "Success" && stopOnFailure {
+					fmt.Printf("\nFailure on %s:\n%s\n", c, errDetail)
+					cancel()
+				}
 
 				if verbose {
 					fmt.Printf("Case %s: %s\n", c, cat)
@@ -86,6 +96,7 @@ func main() {
 	}
 
 	// Send tasks
+loop:
 	for _, candidate := range candidates {
 		mu.Lock()
 		if successCount >= targetCount {
@@ -94,7 +105,11 @@ func main() {
 		}
 		mu.Unlock()
 
-		tasks <- candidate
+		select {
+		case <-ctx.Done():
+			break loop
+		case tasks <- candidate:
+		}
 	}
 	close(tasks)
 	wg.Wait()
@@ -182,26 +197,29 @@ func buildPortcase() (string, func(), error) {
 }
 
 // processCandidate handles the trial migration and test execution for a single candidate.
-func processCandidate(candidate, portcasePath, testdataDir string) string {
-	cmd := exec.Command(portcasePath, "--case", candidate)
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr
-
-	err := cmd.Run()
+func processCandidate(ctx context.Context, candidate, portcasePath, testdataDir string) (string, string) {
+	cmd := exec.CommandContext(ctx, portcasePath, "--case", candidate)
+	out, err := cmd.CombinedOutput()
 	if err != nil {
-		return parseFailureCategory(stderr.String())
+		if ctx.Err() != nil {
+			return "Cancelled", ""
+		}
+		return parseFailureCategory(string(out)), string(out)
 	}
 
 	capitalized := strings.ToUpper(candidate[:1]) + candidate[1:]
-	testCmd := exec.Command("go", "test", "./cmd/tscc/...", "-run", "TestScript/"+capitalized)
+	testCmd := exec.CommandContext(ctx, "go", "test", "./cmd/tscc/...", "-run", "TestScript/"+capitalized)
 
-	testErr := testCmd.Run()
-	if testErr != nil {
+	out, err = testCmd.CombinedOutput()
+	if err != nil {
+		if ctx.Err() != nil {
+			return "Cancelled", ""
+		}
 		cleanupFailedFiles(candidate, testdataDir)
-		return "Diverged"
+		return "Diverged", string(out)
 	}
 
-	return "Success"
+	return "Success", ""
 }
 
 // parseFailureCategory extracts the failure reason from portcase stderr.
