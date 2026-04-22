@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping41.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping41.js contextualTyping41.ts
+stderr 'TS2352'
+! exists contextualTyping41.js
+! exists contextualTyping41.d.ts
+! exists contextualTyping41.js.map
+
+-- contextualTyping41.ts --
+var foo = <{():number; (i:number):number; }> (function(){return "err";});

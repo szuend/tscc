@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/bom-utf8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-js bom-utf8.js bom-utf8.ts
+! stderr .
+cmp bom-utf8.js bom-utf8.js.golden
+! exists bom-utf8.d.ts
+! exists bom-utf8.js.map
+
+-- bom-utf8.ts --
+﻿var x=10;
+-- bom-utf8.js.golden --
+"use strict";
+var x = 10;

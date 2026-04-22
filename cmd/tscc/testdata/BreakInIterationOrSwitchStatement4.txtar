@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/breakInIterationOrSwitchStatement4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js breakInIterationOrSwitchStatement4.js breakInIterationOrSwitchStatement4.ts
+stderr 'TS2304'
+! exists breakInIterationOrSwitchStatement4.js
+! exists breakInIterationOrSwitchStatement4.d.ts
+! exists breakInIterationOrSwitchStatement4.js.map
+
+-- breakInIterationOrSwitchStatement4.ts --
+for (var i in something) {
+  break;
+}

@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/contextualTypingArrayOfLambdas.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --out-js contextualTypingArrayOfLambdas.js contextualTypingArrayOfLambdas.ts
+! stderr .
+cmp contextualTypingArrayOfLambdas.js contextualTypingArrayOfLambdas.js.golden
+! exists contextualTypingArrayOfLambdas.d.ts
+! exists contextualTypingArrayOfLambdas.js.map
+
+-- contextualTypingArrayOfLambdas.ts --
+class A {
+    foo: string;
+}
+
+class B extends A {
+    bar: string;
+}
+
+class C extends A {
+    baz: string;
+}
+
+var xs = [(x: A) => { }, (x: B) => { }, (x: C) => { }];
+-- contextualTypingArrayOfLambdas.js.golden --
+"use strict";
+class A {
+}
+class B extends A {
+}
+class C extends A {
+}
+var xs = [(x) => { }, (x) => { }, (x) => { }];

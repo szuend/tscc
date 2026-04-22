@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping38.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping38.js contextualTyping38.ts
+stderr 'TS7006'
+! exists contextualTyping38.js
+! exists contextualTyping38.d.ts
+! exists contextualTyping38.js.map
+
+-- contextualTyping38.ts --
+var foo = <{ (): number; }> function(a) { return a };

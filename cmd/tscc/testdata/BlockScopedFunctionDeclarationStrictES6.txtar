@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/blockScopedFunctionDeclarationStrictES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --out-js blockScopedFunctionDeclarationStrictES6.js blockScopedFunctionDeclarationStrictES6.ts
+stderr 'TS2304'
+! exists blockScopedFunctionDeclarationStrictES6.js
+! exists blockScopedFunctionDeclarationStrictES6.d.ts
+! exists blockScopedFunctionDeclarationStrictES6.js.map
+
+-- blockScopedFunctionDeclarationStrictES6.ts --
+"use strict";
+if (true) {
+    function foo() { } // Allowed to declare block scope function
+    foo(); // This call should be ok
+}
+foo(); // Cannot find name since foo is block scoped

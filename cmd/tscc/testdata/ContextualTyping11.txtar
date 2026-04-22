@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping11.js contextualTyping11.ts
+stderr 'TS2741'
+! exists contextualTyping11.js
+! exists contextualTyping11.d.ts
+! exists contextualTyping11.js.map
+
+-- contextualTyping11.ts --
+class foo { public bar:{id:number;}[] = [<foo>({})]; }

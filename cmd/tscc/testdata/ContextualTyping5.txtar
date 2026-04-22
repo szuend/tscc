@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping5.js contextualTyping5.ts
+stderr 'TS2741'
+! exists contextualTyping5.js
+! exists contextualTyping5.d.ts
+! exists contextualTyping5.js.map
+
+-- contextualTyping5.ts --
+class foo { public bar:{id:number;} = { }; }

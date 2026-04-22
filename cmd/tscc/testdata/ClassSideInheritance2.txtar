@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/classSideInheritance2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js classSideInheritance2.js classSideInheritance2.ts
+stderr 'TS2449'
+stderr 'TS2564'
+! exists classSideInheritance2.js
+! exists classSideInheritance2.d.ts
+! exists classSideInheritance2.js.map
+
+-- classSideInheritance2.ts --
+interface IText {
+    foo: number;
+}
+
+interface TextSpan {}
+
+class SubText extends TextBase {
+
+        constructor(text: IText, span: TextSpan) {
+            super();
+        }
+}
+
+class TextBase implements IText {
+        public foo: number;
+        public subText(span: TextSpan): IText {
+
+            return new SubText(this, span);
+        }
+}

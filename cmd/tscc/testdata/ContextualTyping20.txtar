@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping20.js contextualTyping20.ts
+stderr 'TS2353'
+! exists contextualTyping20.js
+! exists contextualTyping20.d.ts
+! exists contextualTyping20.js.map
+
+-- contextualTyping20.ts --
+var foo:{id:number;}[] = [{id:1}]; foo = [{id:1}, {id:2, name:"foo"}];

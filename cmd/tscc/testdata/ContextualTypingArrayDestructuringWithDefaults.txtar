@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/contextualTypingArrayDestructuringWithDefaults.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --out-js contextualTypingArrayDestructuringWithDefaults.js contextualTypingArrayDestructuringWithDefaults.ts
+stderr 'TS2322'
+! exists contextualTypingArrayDestructuringWithDefaults.js
+! exists contextualTypingArrayDestructuringWithDefaults.d.ts
+! exists contextualTypingArrayDestructuringWithDefaults.js.map
+
+-- contextualTypingArrayDestructuringWithDefaults.ts --
+type I = { a: "a" };
+let [ c0 = {a: "a"} ]: [I?] = [];
+let [ x1, c1 = {a: "a"} ]: [number, I?] = [1];
+let [ c_ = {a: "a"} ]: I[] = [];
+
+// not a great example, expect an error
+function foo() {
+    let {length = {a: 1}}: [number] = [1];
+    return length;
+}

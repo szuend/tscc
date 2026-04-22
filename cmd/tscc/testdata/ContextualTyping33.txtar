@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping33.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping33.js contextualTyping33.ts
+stderr 'TS2322'
+! exists contextualTyping33.js
+! exists contextualTyping33.d.ts
+! exists contextualTyping33.js.map
+
+-- contextualTyping33.ts --
+function foo(param: {():number; (i:number):number; }[]) { }; foo([function(){return 1;}, function(){return "foo"}]);

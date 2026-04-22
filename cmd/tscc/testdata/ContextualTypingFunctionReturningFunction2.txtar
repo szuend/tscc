@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/contextualTypingFunctionReturningFunction2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --out-js contextualTypingFunctionReturningFunction2.js contextualTypingFunctionReturningFunction2.ts
+! stderr .
+cmp contextualTypingFunctionReturningFunction2.js contextualTypingFunctionReturningFunction2.js.golden
+! exists contextualTypingFunctionReturningFunction2.d.ts
+! exists contextualTypingFunctionReturningFunction2.js.map
+
+-- contextualTypingFunctionReturningFunction2.ts --
+declare function f(n: number): void;
+declare function f(cb: () => (n: number) => number): void;
+
+f(() => n => n);
+-- contextualTypingFunctionReturningFunction2.js.golden --
+"use strict";
+f(() => n => n);

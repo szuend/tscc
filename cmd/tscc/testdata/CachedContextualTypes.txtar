@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/cachedContextualTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --out-js cachedContextualTypes.js cachedContextualTypes.ts
+! stderr .
+cmp cachedContextualTypes.js cachedContextualTypes.js.golden
+! exists cachedContextualTypes.d.ts
+! exists cachedContextualTypes.js.map
+
+-- cachedContextualTypes.ts --
+// Repro from #52198
+
+declare function createInstance<Ctor extends new (...args: any[]) => any, R extends InstanceType<Ctor>>(ctor: Ctor, ...args: ConstructorParameters<Ctor>): R;
+
+export interface IMenuWorkbenchToolBarOptions {
+    toolbarOptions: {
+        foo(bar: string): string
+    };
+}
+
+class MenuWorkbenchToolBar {
+    constructor(
+        options: IMenuWorkbenchToolBarOptions | undefined,
+    ) { }
+}
+
+createInstance(MenuWorkbenchToolBar, {
+    toolbarOptions: {
+        foo(bar) { return bar; }
+    }
+});
+-- cachedContextualTypes.js.golden --
+// Repro from #52198
+class MenuWorkbenchToolBar {
+    constructor(options) { }
+}
+createInstance(MenuWorkbenchToolBar, {
+    toolbarOptions: {
+        foo(bar) { return bar; }
+    }
+});
+export {};

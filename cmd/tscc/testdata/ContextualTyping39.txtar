@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping39.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js contextualTyping39.js contextualTyping39.ts
+stderr 'TS2352'
+! exists contextualTyping39.js
+! exists contextualTyping39.d.ts
+! exists contextualTyping39.js.map
+
+-- contextualTyping39.ts --
+var foo = <{ (): number; }> function() { return "err"; };
