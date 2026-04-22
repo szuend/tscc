@@ -60,9 +60,32 @@ func main() {
 	results := make(map[string][]string) // category -> cases
 	var mu sync.Mutex
 
-	sem := make(chan struct{}, concurrency)
+	tasks := make(chan string)
 	var wg sync.WaitGroup
 
+	// Spawn workers
+	for i := 0; i < concurrency; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for c := range tasks {
+				cat := processCandidate(c, portcasePath, testdataDir)
+
+				mu.Lock()
+				results[cat] = append(results[cat], c)
+				if cat == "Success" {
+					successCount++
+				}
+				mu.Unlock()
+
+				if verbose {
+					fmt.Printf("Case %s: %s\n", c, cat)
+				}
+			}
+		}()
+	}
+
+	// Send tasks
 	for _, candidate := range candidates {
 		mu.Lock()
 		if successCount >= targetCount {
@@ -71,27 +94,9 @@ func main() {
 		}
 		mu.Unlock()
 
-		wg.Add(1)
-		go func(c string) {
-			defer wg.Done()
-			sem <- struct{}{}
-			defer func() { <-sem }()
-
-			cat := processCandidate(c, portcasePath, testdataDir)
-
-			mu.Lock()
-			results[cat] = append(results[cat], c)
-			if cat == "Success" {
-				successCount++
-			}
-			mu.Unlock()
-
-			if verbose {
-				fmt.Printf("Case %s: %s\n", c, cat)
-			}
-		}(candidate)
+		tasks <- candidate
 	}
-
+	close(tasks)
 	wg.Wait()
 
 	// 4. Reporting
