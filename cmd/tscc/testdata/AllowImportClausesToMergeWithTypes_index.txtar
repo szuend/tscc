@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/allowImportClausesToMergeWithTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --out-js index.js index.ts
+stderr 'TS2749'
+! exists index.js
+! exists a.js
+! exists b.js
+! exists index.d.ts
+! exists index.js.map
+
+-- a.ts --
+export default interface zzz {
+    x: string;
+}
+
+import zzz from "./b";
+
+const x: zzz = { x: "" };
+zzz;
+
+export { zzz as default };
+-- b.ts --
+export const zzz = 123;
+export default zzz;
+-- index.ts --
+import zzz from "./a";
+
+const x: zzz = { x: "" };
+zzz;
+
+import originalZZZ from "./b";
+originalZZZ;
+
+const y: originalZZZ = x;

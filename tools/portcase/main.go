@@ -72,16 +72,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	flags, err := TranslateDirectives(globalOptions, caseName)
-	if err != nil {
-		if skipErr, ok := err.(*SkipError); ok {
-			fmt.Printf("%s: unsupported directive @%s\n", caseName, skipErr.Directive)
-			os.Exit(2)
-		}
-		fmt.Fprintf(os.Stderr, "error translating directives: %v\n", err)
-		os.Exit(1)
-	}
-
 	// 2. Read the baseline .js to extract files
 	baselinePath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+".js")
 	baselineData, err := os.ReadFile(baselinePath)
@@ -113,54 +103,82 @@ func main() {
 		// Fallback if baseline doesn't contain inputs
 		inputs[caseName+".ts"] = tsContent
 		inputList = append(inputList, caseName+".ts")
-	} else if len(inputs) > 1 {
-		fmt.Printf("%s: unsupported multi-file case\n", caseName)
-		os.Exit(2)
 	}
 
 	// 3. Read the baseline .errors.txt if present
 	errorsPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+".errors.txt")
-	var errorCodes []string
+	var errorCodesMap map[string][]string
 	if errData, err := os.ReadFile(errorsPath); err == nil {
-		errorCodes = ExtractErrorCodes(string(errData))
+		errorCodesMap = ExtractErrorCodesPerFile(string(errData))
 	}
 
-	// Calculate flags for out outputs
-	if len(errorCodes) == 0 && len(outputs) > 0 {
-		for outName := range outputs {
-			if strings.HasSuffix(outName, ".js") {
-				// Avoid adding --out-js if it's already there or implied?
-				// tscc requires explicit outputs.
-				flags = append(flags, "--out-js", outName)
+	for _, inputFile := range inputList {
+		inputStem := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
+		currentErrorCodes := errorCodesMap[inputFile]
+
+		flags, err := TranslateDirectives(globalOptions, inputStem)
+		if err != nil {
+			if skipErr, ok := err.(*SkipError); ok {
+				fmt.Printf("%s: unsupported directive @%s\n", caseName, skipErr.Directive)
+				os.Exit(2)
+			}
+			fmt.Fprintf(os.Stderr, "error translating directives: %v\n", err)
+			os.Exit(1)
+		}
+
+		// Determine output file name
+		var currentOutPath string
+		if len(inputList) == 1 {
+			currentOutPath = outPath
+		} else {
+			dir := filepath.Dir(outPath)
+			base := strings.ToUpper(caseName[:1]) + caseName[1:]
+			currentOutPath = filepath.Join(dir, fmt.Sprintf("%s_%s.txtar", base, inputStem))
+		}
+
+		// Filter outputs
+		currentOutputs := make(map[string]string)
+		var currentNotExpectedOutputs []string
+
+		for outName, content := range outputs {
+			outStem := outName
+			if strings.HasSuffix(outName, ".d.ts") {
+				outStem = strings.TrimSuffix(outName, ".d.ts")
+			} else if strings.HasSuffix(outName, ".js.map") {
+				outStem = strings.TrimSuffix(outName, ".js.map")
+			} else {
+				outStem = strings.TrimSuffix(outName, filepath.Ext(outName))
+			}
+
+			if outStem == inputStem {
+				currentOutputs[outName] = content
+			} else {
+				currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
 			}
 		}
-	} else if len(errorCodes) > 0 {
-		// Even for errors, we need to pass out-js to tscc so it knows what it *would* have written
-		// since tscc's invariant is explicit outputs.
-		// Wait, the design doc says: "If it's an error test, tscc doesn't emit any files. Assert they don't exist."
-		// But do we need --out-js? Yes, `tscc --out-js a.js a.ts`.
-		if len(outputs) > 0 {
-			for outName := range outputs {
+
+		// Calculate flags for out outputs
+		if len(currentErrorCodes) == 0 && len(currentOutputs) > 0 {
+			for outName := range currentOutputs {
 				if strings.HasSuffix(outName, ".js") {
 					flags = append(flags, "--out-js", outName)
 				}
 			}
-		} else {
-			flags = append(flags, "--out-js", caseName+".js")
-			outputs[caseName+".js"] = "" // add an expected non-existent file
+		} else if len(currentErrorCodes) > 0 {
+			if len(currentOutputs) > 0 {
+				for outName := range currentOutputs {
+					if strings.HasSuffix(outName, ".js") {
+						flags = append(flags, "--out-js", outName)
+					}
+				}
+			} else {
+				flags = append(flags, "--out-js", inputStem+".js")
+				currentOutputs[inputStem+".js"] = "" // add an expected non-existent file
+			}
 		}
-	}
-
-	// We may have duplicate flags if out-js was added.
-	// The `TranslateDirectives` handles --out-dts and --out-map, so we just add --out-js here.
-
-	var notExpectedOutputs []string
-	if len(inputList) == 1 {
-		inputFile := inputList[0]
-		base := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
 
 		// Check .d.ts
-		if _, ok := outputs[base+".d.ts"]; !ok {
+		if _, ok := currentOutputs[inputStem+".d.ts"]; !ok {
 			hasDts := false
 			for _, f := range flags {
 				if f == "--out-dts" {
@@ -169,12 +187,12 @@ func main() {
 				}
 			}
 			if !hasDts {
-				notExpectedOutputs = append(notExpectedOutputs, base+".d.ts")
+				currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".d.ts")
 			}
 		}
 
 		// Check .js.map
-		if _, ok := outputs[base+".js.map"]; !ok {
+		if _, ok := currentOutputs[inputStem+".js.map"]; !ok {
 			hasMap := false
 			for _, f := range flags {
 				if f == "--out-map" {
@@ -183,31 +201,31 @@ func main() {
 				}
 			}
 			if !hasMap {
-				notExpectedOutputs = append(notExpectedOutputs, base+".js.map")
+				currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".js.map")
 			}
 		}
-	}
 
-	args := RenderArgs{
-		CaseName:           caseName,
-		Date:               time.Now().UTC(),
-		Flags:              flags,
-		Inputs:             inputList,
-		ErrorCodes:         errorCodes,
-		Files:              inputs,
-		Outputs:            outputs,
-		NotExpectedOutputs: notExpectedOutputs,
-	}
+		args := RenderArgs{
+			CaseName:           caseName,
+			Date:               time.Now().UTC(),
+			Flags:              flags,
+			Inputs:             []string{inputFile},
+			ErrorCodes:         currentErrorCodes,
+			Files:              inputs,
+			Outputs:            currentOutputs,
+			NotExpectedOutputs: currentNotExpectedOutputs,
+		}
 
-	txtarContent := RenderTxtar(args)
+		txtarContent := RenderTxtar(args)
 
-	if err := os.MkdirAll(filepath.Dir(outPath), 0755); err != nil {
-		fmt.Fprintf(os.Stderr, "error creating directories: %v\n", err)
-		os.Exit(1)
-	}
+		if err := os.MkdirAll(filepath.Dir(currentOutPath), 0755); err != nil {
+			fmt.Fprintf(os.Stderr, "error creating directories: %v\n", err)
+			os.Exit(1)
+		}
 
-	if err := os.WriteFile(outPath, []byte(txtarContent), 0644); err != nil {
-		fmt.Fprintf(os.Stderr, "error writing output: %v\n", err)
-		os.Exit(1)
+		if err := os.WriteFile(currentOutPath, []byte(txtarContent), 0644); err != nil {
+			fmt.Fprintf(os.Stderr, "error writing output: %v\n", err)
+			os.Exit(1)
+		}
 	}
 }

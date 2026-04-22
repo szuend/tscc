@@ -89,3 +89,50 @@ func ExtractErrorCodes(content string) []string {
 	}
 	return codes
 }
+
+// ExtractErrorCodesPerFile extracts 'TSxxxx' codes from a baseline .errors.txt file,
+// mapping them to the specific file they belong to.
+func ExtractErrorCodesPerFile(content string) map[string][]string {
+	result := make(map[string][]string)
+	seen := make(map[string]map[string]bool)
+
+	sectionRe := regexp.MustCompile(`^==== ([a-zA-Z0-9._-]+) \(\d+ errors\) ====`)
+	errorRe := regexp.MustCompile(`(?:error|!!! error)\s+(TS\d{4,5})`)
+	fileRe := regexp.MustCompile(`^([a-zA-Z0-9._-]+)\(\d+,\d+\):`)
+
+	scanner := bufio.NewScanner(strings.NewReader(content))
+	var currentFile string
+
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		if matches := sectionRe.FindStringSubmatch(line); len(matches) == 2 {
+			currentFile = matches[1]
+			continue
+		}
+
+		if matches := errorRe.FindAllStringSubmatch(line, -1); len(matches) > 0 {
+			for _, match := range matches {
+				code := match[1]
+				fileToAttr := currentFile
+
+				if fileToAttr == "" {
+					if fileMatches := fileRe.FindStringSubmatch(line); len(fileMatches) == 2 {
+						fileToAttr = fileMatches[1]
+					}
+				}
+
+				if fileToAttr != "" {
+					if seen[fileToAttr] == nil {
+						seen[fileToAttr] = make(map[string]bool)
+					}
+					if !seen[fileToAttr][code] {
+						seen[fileToAttr][code] = true
+						result[fileToAttr] = append(result[fileToAttr], code)
+					}
+				}
+			}
+		}
+	}
+	return result
+}
