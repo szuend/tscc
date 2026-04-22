@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/ClassDeclaration11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --out-js ClassDeclaration11.js ClassDeclaration11.ts
+stderr 'TS2390'
+! exists ClassDeclaration11.js
+! exists ClassDeclaration11.d.ts
+! exists ClassDeclaration11.js.map
+
+-- ClassDeclaration11.ts --
+class C {
+   constructor();
+   foo() { }
+}
