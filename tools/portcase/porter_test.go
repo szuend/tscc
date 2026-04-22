@@ -1,0 +1,146 @@
+// Copyright 2026 Simon Zünd
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package main
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestPorter_Port_Simple(t *testing.T) {
+	p := Porter{
+		CaseName:  "simple",
+		TsContent: "export const x = 1;",
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if res.Name != "Simple.txtar" {
+		t.Errorf("Expected name Simple.txtar, got %s", res.Name)
+	}
+
+	if !strings.Contains(res.Content, "exec tscc simple.ts") {
+		t.Errorf("Expected content to contain exec tscc, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_MultiFile(t *testing.T) {
+	p := Porter{
+		CaseName: "multi",
+		BaselineJs: `//// [a.ts]
+export const a = 1;
+//// [b.ts]
+export const b = 2;
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 2 {
+		t.Fatalf("Expected 2 results, got %d", len(results))
+	}
+
+	// Check names
+	names := map[string]bool{
+		"Multi_a.txtar": false,
+		"Multi_b.txtar": false,
+	}
+
+	for _, res := range results {
+		if _, ok := names[res.Name]; ok {
+			names[res.Name] = true
+		} else {
+			t.Errorf("Unexpected result name: %s", res.Name)
+		}
+	}
+
+	for name, found := range names {
+		if !found {
+			t.Errorf("Expected result %s not found", name)
+		}
+	}
+}
+
+func TestPorter_Port_Error(t *testing.T) {
+	p := Porter{
+		CaseName:  "error_case",
+		TsContent: "const x: string = 1;",
+		BaselineErrors: `==== error_case.ts (1 errors) ====
+error_case.ts(1,7): error TS2322: Type 'number' is not assignable to type 'string'.
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "! exec tscc") {
+		t.Errorf("Expected content to contain ! exec tscc, got:\n%s", res.Content)
+	}
+
+	if !strings.Contains(res.Content, "stderr 'TS2322'") {
+		t.Errorf("Expected content to contain stderr 'TS2322', got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_UnsupportedDirective(t *testing.T) {
+	p := Porter{
+		CaseName:  "unsupported",
+		TsContent: "// @jsx: react\nexport const x = 1;",
+	}
+
+	_, err := p.Port()
+	if err == nil {
+		t.Fatal("Expected error, got nil")
+	}
+
+	if _, ok := err.(*SkipError); !ok {
+		t.Errorf("Expected SkipError, got %T: %v", err, err)
+	}
+}
+
+func TestPorter_Port_InvalidBaseline(t *testing.T) {
+	p := Porter{
+		CaseName:   "invalid_baseline",
+		TsContent:  "export const x = 1;",
+		BaselineJs: "invalid baseline content",
+	}
+
+	_, err := p.Port()
+	if err == nil {
+		t.Fatal("Expected error, got nil")
+	}
+
+	if !strings.Contains(err.Error(), "failed to split baseline JS content") {
+		t.Errorf("Expected error about baseline split failure, got: %v", err)
+	}
+}

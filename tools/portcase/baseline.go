@@ -20,6 +20,14 @@ import (
 	"strings"
 )
 
+var (
+	noiseRe   = regexp.MustCompile(`(?m)^////\s*\[tests/cases/.*?\]\s*////.*\n?`)
+	markerRe  = regexp.MustCompile(`(?m)^////\s*\[([^\]]+)\]\s*$`)
+	errorRe   = regexp.MustCompile(`(?:error|!!! error)\s+(TS\d{4,5})`)
+	sectionRe = regexp.MustCompile(`^==== ([a-zA-Z0-9._-]+) \(\d+ errors\) ====`)
+	fileRe    = regexp.MustCompile(`^([a-zA-Z0-9._-]+)\(\d+,\d+\):`)
+)
+
 // SplitBaseline splits a baseline .js file into separate files.
 // It ignores the noise header `//// [tests/cases/.../name.ts] ////`.
 // Returns a map of filename to content.
@@ -27,11 +35,9 @@ func SplitBaseline(content string) map[string]string {
 	result := make(map[string]string)
 
 	// Strip noise headers: //// [tests/cases/...] ////
-	noiseRe := regexp.MustCompile(`(?m)^////\s*\[tests/cases/.*?\]\s*////.*\n?`)
 	content = noiseRe.ReplaceAllString(content, "")
 
 	// Split by file markers: //// [filename.ext]
-	markerRe := regexp.MustCompile(`(?m)^////\s*\[([^\]]+)\]\s*$`)
 
 	matches := markerRe.FindAllStringSubmatchIndex(content, -1)
 	if len(matches) == 0 {
@@ -73,12 +79,11 @@ func ExtractErrorCodes(content string) []string {
 	// Match lines like:
 	// file.ts(1,1): error TS1234: ...
 	// !!! error TS1234: ...
-	re := regexp.MustCompile(`(?:error|!!! error)\s+(TS\d{4,5})`)
 
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	for scanner.Scan() {
 		line := scanner.Text()
-		matches := re.FindAllStringSubmatch(line, -1)
+		matches := errorRe.FindAllStringSubmatch(line, -1)
 		for _, match := range matches {
 			code := match[1]
 			if !seen[code] {
@@ -95,10 +100,6 @@ func ExtractErrorCodes(content string) []string {
 func ExtractErrorCodesPerFile(content string) map[string][]string {
 	result := make(map[string][]string)
 	seen := make(map[string]map[string]bool)
-
-	sectionRe := regexp.MustCompile(`^==== ([a-zA-Z0-9._-]+) \(\d+ errors\) ====`)
-	errorRe := regexp.MustCompile(`(?:error|!!! error)\s+(TS\d{4,5})`)
-	fileRe := regexp.MustCompile(`^([a-zA-Z0-9._-]+)\(\d+,\d+\):`)
 
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	var currentFile string
