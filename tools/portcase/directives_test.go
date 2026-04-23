@@ -103,6 +103,13 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--lib", "esnext,dom"},
 		},
 		{
+			name: "noTypesAndSymbols ignored",
+			directives: map[string]string{
+				"noTypesAndSymbols": "true",
+			},
+			wantFlags: []string{"--lib", "es2025,dom"}, // Injected lib still added
+		},
+		{
 			name: "unsupported jsx",
 			directives: map[string]string{
 				"jsx": "react",

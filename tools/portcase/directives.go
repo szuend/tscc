@@ -116,6 +116,9 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 		case "currentdirectory":
 			// Safely ignore for now
 			continue
+		case "notypesandsymbols":
+			// Safely ignore, as tscc doesn't generate type/symbol baselines
+			continue
 		default:
 			// "any directive not in the translation table or the @filename structural set -> skip"
 			return nil, &SkipError{Directive: key, Reason: "unrecognized"}
