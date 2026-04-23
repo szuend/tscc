@@ -237,14 +237,9 @@ func TestParse(t *testing.T) {
 			wantErrText: "too many input files specified: [a.ts b.ts]",
 		},
 		{
-			name:        "path target must be absolute",
-			args:        []string{"--path", "lib=./vendor/lib.d.ts", "in.ts"},
-			wantErrText: "target must be absolute",
-		},
-		{
 			name:        "path missing equals",
 			args:        []string{"--path", "lib", "in.ts"},
-			wantErrText: "expected NAME=/abs/path",
+			wantErrText: "expected NAME=PATH",
 		},
 		{
 			name:        "path duplicate name",
@@ -335,5 +330,15 @@ func TestParse_PathMap(t *testing.T) {
 	}
 	if got, want := cfg.Paths["utils"], "/vendor/utils/index.d.ts"; got != want {
 		t.Errorf("Paths[utils]: got %q, want %q", got, want)
+	}
+
+	// Test relative path resolution
+	cfgRel, err := Parse([]string{"--path", "rel=./vendor/lib.d.ts", "in.ts"})
+	if err != nil {
+		t.Fatalf("Parse error: %v", err)
+	}
+	wantRel, _ := filepath.Abs("./vendor/lib.d.ts")
+	if got := cfgRel.Paths["rel"]; got != filepath.ToSlash(wantRel) {
+		t.Errorf("Paths[rel]: got %q, want %q", got, filepath.ToSlash(wantRel))
 	}
 }
