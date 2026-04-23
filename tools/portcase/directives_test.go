@@ -110,6 +110,16 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--lib", "es2025,dom"}, // Injected lib still added
 		},
 		{
+			name: "noEmit suppresses declaration and sourcemap",
+			directives: map[string]string{
+				"noEmit":      "true",
+				"declaration": "true",
+				"sourcemap":   "true",
+			},
+			outputBaseName: "foo",
+			wantFlags:      []string{"--lib", "es2025,dom"}, // Injected lib still added, but no out-dts or out-map
+		},
+		{
 			name: "unsupported jsx",
 			directives: map[string]string{
 				"jsx": "react",

@@ -136,23 +136,30 @@ func (p *Porter) Port() ([]PortedFile, error) {
 				}
 			}
 
+			noEmit := false
+			if val, ok := variant.Options["noemit"]; ok && strings.ToLower(val) == "true" {
+				noEmit = true
+			}
+
 			// Calculate flags for out outputs
-			if len(currentErrorCodes) == 0 && len(currentOutputs) > 0 {
-				for outName := range currentOutputs {
-					if strings.HasSuffix(outName, ".js") {
-						flags = append(flags, "--out-js", outName)
-					}
-				}
-			} else if len(currentErrorCodes) > 0 {
-				if len(currentOutputs) > 0 {
+			if !noEmit {
+				if len(currentErrorCodes) == 0 && len(currentOutputs) > 0 {
 					for outName := range currentOutputs {
 						if strings.HasSuffix(outName, ".js") {
 							flags = append(flags, "--out-js", outName)
 						}
 					}
-				} else {
-					flags = append(flags, "--out-js", inputStem+".js")
-					currentOutputs[inputStem+".js"] = ""
+				} else if len(currentErrorCodes) > 0 {
+					if len(currentOutputs) > 0 {
+						for outName := range currentOutputs {
+							if strings.HasSuffix(outName, ".js") {
+								flags = append(flags, "--out-js", outName)
+							}
+						}
+					} else {
+						flags = append(flags, "--out-js", inputStem+".js")
+						currentOutputs[inputStem+".js"] = ""
+					}
 				}
 			}
 

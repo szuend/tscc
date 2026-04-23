@@ -57,6 +57,14 @@ var knownUnsupportedDirectives = map[string]bool{
 func TranslateDirectives(directives map[string]string, outputBaseName string) ([]string, error) {
 	var flags []string
 
+	noEmit := false
+	for k, v := range directives {
+		if strings.ToLower(k) == "noemit" && strings.ToLower(v) == "true" {
+			noEmit = true
+			break
+		}
+	}
+
 	var keys []string
 	for k := range directives {
 		keys = append(keys, k)
@@ -89,11 +97,11 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			}
 			flags = append(flags, "--module", value)
 		case "declaration":
-			if strings.ToLower(value) == "true" {
+			if !noEmit && strings.ToLower(value) == "true" {
 				flags = append(flags, "--out-dts", outputBaseName+".d.ts")
 			}
 		case "sourcemap":
-			if strings.ToLower(value) == "true" {
+			if !noEmit && strings.ToLower(value) == "true" {
 				flags = append(flags, "--out-map", outputBaseName+".js.map")
 			}
 		case "noimplicitany":
@@ -110,6 +118,9 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			}
 		case "lib":
 			flags = append(flags, "--lib", value)
+		case "noemit":
+			// Handled at top and in porter.go
+			continue
 		case "filename":
 			// Handled separately during file block parsing.
 			continue

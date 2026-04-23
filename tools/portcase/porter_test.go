@@ -44,6 +44,33 @@ func TestPorter_Port_Simple(t *testing.T) {
 	}
 }
 
+func TestPorter_Port_NoEmit(t *testing.T) {
+	p := Porter{
+		CaseName:  "noemit_case",
+		TsContent: "// @noEmit: true\nexport const x = 1;",
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if strings.Contains(res.Content, "--out-js") {
+		t.Errorf("Expected content to NOT contain --out-js, got:\n%s", res.Content)
+	}
+	if strings.Contains(res.Content, "--out-dts") {
+		t.Errorf("Expected content to NOT contain --out-dts, got:\n%s", res.Content)
+	}
+	if strings.Contains(res.Content, "--out-map") {
+		t.Errorf("Expected content to NOT contain --out-map, got:\n%s", res.Content)
+	}
+}
+
 func TestPorter_Port_MultiFile(t *testing.T) {
 	p := Porter{
 		CaseName: "multi",
