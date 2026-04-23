@@ -120,6 +120,9 @@ func FormatDiagnostic(out io.Writer, d *ast.Diagnostic, cwd string, useCaseSensi
 // path-comparison settings, ready to feed into compiler.NewProgram.
 var NewParsedCommandLine = tsoptions.NewParsedCommandLine
 
+// GetLibFileName resolves a lib name to its corresponding file name.
+var GetLibFileName = tsoptions.GetLibFileName
+
 // NewProgram creates a new TypeScript compilation program.
 var NewProgram = compiler.NewProgram
 

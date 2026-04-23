@@ -16,6 +16,7 @@ package config
 
 import (
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -36,6 +37,7 @@ func TestParse(t *testing.T) {
 				Target:             "es2025",
 				InputPath:          "input.ts",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -47,6 +49,7 @@ func TestParse(t *testing.T) {
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: false,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -58,6 +61,7 @@ func TestParse(t *testing.T) {
 				Target:             "es2015",
 				InputPath:          "foo.ts",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2015"},
 			},
 		},
 		{
@@ -69,6 +73,7 @@ func TestParse(t *testing.T) {
 				Target:             "es2025",
 				InputPath:          "bar.ts",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -81,6 +86,7 @@ func TestParse(t *testing.T) {
 				InputPath:          "in.ts",
 				OutJSPath:          "out.js",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -93,6 +99,7 @@ func TestParse(t *testing.T) {
 				InputPath:          "src/main.ts",
 				OutJSPath:          "dist/bundle.js",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -105,6 +112,7 @@ func TestParse(t *testing.T) {
 				InputPath:          "src/main.ts",
 				OutDepsPath:        "dist/bundle.d",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -116,6 +124,7 @@ func TestParse(t *testing.T) {
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -127,6 +136,7 @@ func TestParse(t *testing.T) {
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -138,6 +148,7 @@ func TestParse(t *testing.T) {
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -149,6 +160,31 @@ func TestParse(t *testing.T) {
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+			},
+		},
+		{
+			name: "lib flag comma-separated",
+			args: []string{"--lib", "esnext,dom", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"esnext", "dom"},
+			},
+		},
+		{
+			name: "lib flag repeated",
+			args: []string{"--lib", "esnext", "--lib", "dom", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"esnext", "dom"},
 			},
 		},
 		{
@@ -207,6 +243,9 @@ func TestParse(t *testing.T) {
 			}
 			if got.CaseSensitivePaths != tt.wantConfig.CaseSensitivePaths {
 				t.Errorf("CaseSensitivePaths: got %v, want %v", got.CaseSensitivePaths, tt.wantConfig.CaseSensitivePaths)
+			}
+			if !slices.Equal(got.Lib, tt.wantConfig.Lib) {
+				t.Errorf("Lib: got %v, want %v", got.Lib, tt.wantConfig.Lib)
 			}
 
 			wantInput := tt.wantConfig.InputPath

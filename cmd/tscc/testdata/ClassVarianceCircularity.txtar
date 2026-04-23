@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classVarianceCircularity.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js classVarianceCircularity.js classVarianceCircularity.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js classVarianceCircularity.js classVarianceCircularity.ts
 ! stderr .
 cmp classVarianceCircularity.js classVarianceCircularity.js.golden
 ! exists classVarianceCircularity.d.ts

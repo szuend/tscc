@@ -1,0 +1,22 @@
+# Test --lib flag behavior
+
+# By default, DOM is excluded
+! exec tscc --target es2022 a.ts
+stderr 'Cannot find name .document.'
+
+# Explicitly include DOM
+exec tscc --target es2022 --lib es2022,dom b.ts
+! stderr .
+
+# Explicitly include DOM via repeated flags
+exec tscc --target es2022 --lib es2022 --lib dom c.ts
+! stderr .
+
+-- a.ts --
+const x = document.getElementById("foo");
+
+-- b.ts --
+const x = document.getElementById("foo");
+
+-- c.ts --
+const x = document.getElementById("foo");

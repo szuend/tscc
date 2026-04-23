@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classFieldSuperAccessible.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target esnext --out-js classFieldSuperAccessible.js classFieldSuperAccessible.ts
+exec tscc --target esnext --lib esnext,dom --out-js classFieldSuperAccessible.js classFieldSuperAccessible.ts
 ! stderr .
 cmp classFieldSuperAccessible.js classFieldSuperAccessible.js.golden
 ! exists classFieldSuperAccessible.d.ts

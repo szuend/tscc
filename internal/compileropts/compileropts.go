@@ -96,6 +96,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		Module:                     mod,
 		Declaration:                decl,
 		SourceMap:                  srcMap,
+		Lib:                        cfg.Lib,
 	}, nil
 }
 

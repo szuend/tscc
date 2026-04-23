@@ -53,6 +53,10 @@ type Config struct {
 	// rawPaths holds the unparsed --path arguments; populated by pflag and
 	// consumed in Parse to build Paths.
 	rawPaths []string
+
+	// Lib holds the library files to include in the compilation.
+	// Populated by repeated --lib flags or comma-separated values.
+	Lib []string
 }
 
 func Parse(args []string) (*Config, error) {
@@ -96,6 +100,10 @@ func Parse(args []string) (*Config, error) {
 	// Apply dynamic defaults for strict-mode family flags
 	if !flags.Changed("no-implicit-any") {
 		cfg.NoImplicitAny = cfg.Strict
+	}
+
+	if !flags.Changed("lib") {
+		cfg.Lib = []string{cfg.Target}
 	}
 
 	if err := cfg.Validate(flags.Args()); err != nil {
@@ -224,6 +232,8 @@ func languageGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("language", pflag.ContinueOnError)
 	g.StringVar(&cfg.Target, "target", "es2025", "Set the JavaScript language `version` for emitted JavaScript (allowed: es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
 	g.StringVar(&cfg.Module, "module", "", "Emitted module system `KIND` (allowed: none, commonjs, amd, umd, system, es2015, es2020, es2022, esnext, node16, node18, node20, nodenext, preserve). Default: esnext.")
+	g.StringSliceVar(&cfg.Lib, "lib", nil, "Specify a set of bundled library declaration files that describe the target runtime environment (allowed: es5, es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext, dom, dom.iterable, dom.asynciterable, webworker, webworker.importscripts, webworker.iterable, webworker.asynciterable, scripthost, and by-feature options like es2015.core)")
+	g.Lookup("lib").DefValue = "matches --target; excluding DOM"
 	return flagGroup{Name: "Language and Environment", Set: g}
 }
 

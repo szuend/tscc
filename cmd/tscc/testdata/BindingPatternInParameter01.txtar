@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/bindingPatternInParameter01.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js bindingPatternInParameter01.js bindingPatternInParameter01.ts
+exec tscc --target es2015 --lib es2015,dom --out-js bindingPatternInParameter01.js bindingPatternInParameter01.ts
 ! stderr .
 cmp bindingPatternInParameter01.js bindingPatternInParameter01.js.golden
 ! exists bindingPatternInParameter01.d.ts
