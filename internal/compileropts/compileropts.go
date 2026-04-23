@@ -92,6 +92,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		Target:                     target,
 		Strict:                     boolToTristate(cfg.Strict),
 		NoImplicitAny:              boolToTristate(cfg.NoImplicitAny),
+		StrictNullChecks:           boolToTristate(cfg.StrictNullChecks),
 		ExactOptionalPropertyTypes: boolToTristate(cfg.ExactOptionalPropertyTypes),
 		Module:                     mod,
 		Declaration:                decl,

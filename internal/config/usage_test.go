@@ -79,7 +79,7 @@ func TestPrintUsage(t *testing.T) {
 
 	t.Run("bool descriptions omit --no- form", func(t *testing.T) {
 		for line := range strings.SplitSeq(out, "\n") {
-			if strings.HasPrefix(line, "Note:") || strings.Contains(line, "--no-implicit-any") {
+			if strings.HasPrefix(line, "Note:") || strings.Contains(line, "--no-implicit-any") || strings.Contains(line, "--strict-null-checks") {
 				continue
 			}
 			if strings.Contains(line, "--no-") {

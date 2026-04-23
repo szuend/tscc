@@ -57,6 +57,9 @@ type Config struct {
 	// Lib holds the library files to include in the compilation.
 	// Populated by repeated --lib flags or comma-separated values.
 	Lib []string
+
+	// StrictNullChecks enables strict null checks.
+	StrictNullChecks bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -100,6 +103,10 @@ func Parse(args []string) (*Config, error) {
 	// Apply dynamic defaults for strict-mode family flags
 	if !flags.Changed("no-implicit-any") {
 		cfg.NoImplicitAny = cfg.Strict
+	}
+
+	if !flags.Changed("strict-null-checks") {
+		cfg.StrictNullChecks = cfg.Strict
 	}
 
 	if !flags.Changed("lib") {
@@ -242,6 +249,8 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
 	g.BoolVar(&cfg.NoImplicitAny, "no-implicit-any", true, "Raise error on expressions and declarations with an implied 'any' type")
 	g.Lookup("no-implicit-any").DefValue = "true; false if --no-strict is passed"
+	g.BoolVar(&cfg.StrictNullChecks, "strict-null-checks", true, "When type checking, take into account 'null' and 'undefined'")
+	g.Lookup("strict-null-checks").DefValue = "true; false if --no-strict is passed"
 	g.BoolVar(&cfg.ExactOptionalPropertyTypes, "exact-optional-property-types", false, "Interpret optional property types as written, rather than adding 'undefined'")
 	return flagGroup{Name: "Type Checking", Set: g}
 }

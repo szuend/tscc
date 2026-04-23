@@ -34,6 +34,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      true,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "input.ts",
 				CaseSensitivePaths: true,
@@ -46,6 +47,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      true,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: false,
@@ -58,6 +60,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             false,
 				NoImplicitAny:      false,
+				StrictNullChecks:   false,
 				Target:             "es2015",
 				InputPath:          "foo.ts",
 				CaseSensitivePaths: true,
@@ -70,6 +73,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             false,
 				NoImplicitAny:      false,
+				StrictNullChecks:   false,
 				Target:             "es2025",
 				InputPath:          "bar.ts",
 				CaseSensitivePaths: true,
@@ -82,6 +86,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      true,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				OutJSPath:          "out.js",
@@ -95,6 +100,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      true,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "src/main.ts",
 				OutJSPath:          "dist/bundle.js",
@@ -108,6 +114,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      true,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "src/main.ts",
 				OutDepsPath:        "dist/bundle.d",
@@ -121,6 +128,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             false,
 				NoImplicitAny:      false,
+				StrictNullChecks:   false,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
@@ -133,6 +141,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             false,
 				NoImplicitAny:      true,
+				StrictNullChecks:   false,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
@@ -145,6 +154,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      false,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
@@ -157,6 +167,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             false,
 				NoImplicitAny:      false,
+				StrictNullChecks:   false,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
@@ -169,6 +180,7 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      true,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
@@ -181,10 +193,37 @@ func TestParse(t *testing.T) {
 			wantConfig: &Config{
 				Strict:             true,
 				NoImplicitAny:      true,
+				StrictNullChecks:   true,
 				Target:             "es2025",
 				InputPath:          "in.ts",
 				CaseSensitivePaths: true,
 				Lib:                []string{"esnext", "dom"},
+			},
+		},
+		{
+			name: "strict-null-checks follows strict false",
+			args: []string{"--no-strict", "in.ts"},
+			wantConfig: &Config{
+				Strict:             false,
+				NoImplicitAny:      false,
+				StrictNullChecks:   false,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+			},
+		},
+		{
+			name: "strict-null-checks override follows strict",
+			args: []string{"--no-strict", "--strict-null-checks=true", "in.ts"},
+			wantConfig: &Config{
+				Strict:             false,
+				NoImplicitAny:      false,
+				StrictNullChecks:   true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
 			},
 		},
 		{
@@ -237,6 +276,9 @@ func TestParse(t *testing.T) {
 			}
 			if got.NoImplicitAny != tt.wantConfig.NoImplicitAny {
 				t.Errorf("NoImplicitAny: got %v, want %v", got.NoImplicitAny, tt.wantConfig.NoImplicitAny)
+			}
+			if got.StrictNullChecks != tt.wantConfig.StrictNullChecks {
+				t.Errorf("StrictNullChecks: got %v, want %v", got.StrictNullChecks, tt.wantConfig.StrictNullChecks)
 			}
 			if got.Target != tt.wantConfig.Target {
 				t.Errorf("Target: got %q, want %q", got.Target, tt.wantConfig.Target)
