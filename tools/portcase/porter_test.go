@@ -294,3 +294,55 @@ export const b = 2;
 		}
 	}
 }
+
+func TestPorter_Port_PackageJson(t *testing.T) {
+	p := Porter{
+		CaseName: "pkg_case",
+		TsContent: `// @filename: node_modules/typescript/package.json
+{
+    "name": "typescript",
+    "types": "/.ts/typescript.d.ts"
+}
+// @filename: index.ts
+import ts = require("typescript");
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--path typescript=/.ts/typescript.d.ts") {
+		t.Errorf("Expected content to contain --path flag, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_PackageJson_ExtraField(t *testing.T) {
+	p := Porter{
+		CaseName: "pkg_fail",
+		TsContent: `// @filename: node_modules/typescript/package.json
+{
+    "name": "typescript",
+    "types": "/.ts/typescript.d.ts",
+    "version": "1.0.0"
+}
+// @filename: index.ts
+export const x = 1;
+`,
+	}
+
+	_, err := p.Port()
+	if err == nil {
+		t.Fatal("Expected error, got nil")
+	}
+
+	if !strings.Contains(err.Error(), "unrecognized package.json") {
+		t.Errorf("Expected error about unrecognized package.json, got: %v", err)
+	}
+}

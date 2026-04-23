@@ -15,6 +15,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"maps"
 	"path/filepath"
@@ -45,6 +46,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 	inputs := make(map[string]string)
 	var inputList []string
+	var pathArgs []string
 
 	_, _, _, globalOptions, parseErr := tsccbridge.ParseTestFilesAndSymlinks(
 		p.TsContent,
@@ -52,6 +54,23 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		func(filename string, content string, fileOptions map[string]string) (string, error) {
 			inputs[filename] = content
 			inputList = append(inputList, filename)
+
+			if strings.HasSuffix(filename, "package.json") {
+				var pkg map[string]interface{}
+				if err := json.Unmarshal([]byte(content), &pkg); err != nil {
+					return "", fmt.Errorf("unrecognized package.json: %w", err)
+				}
+				if len(pkg) != 2 {
+					return "", fmt.Errorf("unrecognized package.json: expected exactly 2 fields, got %d", len(pkg))
+				}
+				name, ok1 := pkg["name"].(string)
+				types, ok2 := pkg["types"].(string)
+				if !ok1 || !ok2 {
+					return "", fmt.Errorf("unrecognized package.json: missing or invalid 'name' or 'types'")
+				}
+				pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", name, types))
+			}
+
 			return "", nil
 		},
 	)
@@ -92,6 +111,9 @@ func (p *Porter) Port() ([]PortedFile, error) {
 	variants := ComputeVariants(globalOptions)
 
 	for _, inputFile := range inputList {
+		if strings.HasSuffix(inputFile, "package.json") {
+			continue
+		}
 		inputStem := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
 		currentErrorCodes := errorCodesMap[inputFile]
 
@@ -99,6 +121,9 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			flags, err := TranslateDirectives(variant.Options, inputStem)
 			if err != nil {
 				return nil, err
+			}
+			for _, arg := range pathArgs {
+				flags = append(flags, "--path", arg)
 			}
 
 			// Determine output file name
