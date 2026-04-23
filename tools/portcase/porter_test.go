@@ -39,8 +39,8 @@ func TestPorter_Port_Simple(t *testing.T) {
 		t.Errorf("Expected name Simple.txtar, got %s", res.Name)
 	}
 
-	if !strings.Contains(res.Content, "exec tscc simple.ts") {
-		t.Errorf("Expected content to contain exec tscc, got:\n%s", res.Content)
+	if !strings.Contains(res.Content, "exec tscc --lib es2025,dom simple.ts") {
+		t.Errorf("Expected content to contain exec tscc --lib es2025,dom, got:\n%s", res.Content)
 	}
 }
 
@@ -253,16 +253,16 @@ export const b = 2;
 			if !strings.Contains(res.Content, "--target esnext") {
 				t.Errorf("Expected a_esnext to contain --target esnext")
 			}
-			if !strings.Contains(res.Content, "exec tscc --target esnext --out-js a.js a.ts") {
-				t.Errorf("Expected a_esnext to execute a.ts with command 'exec tscc --target esnext --out-js a.js a.ts', got:\n%s", res.Content)
+			if !strings.Contains(res.Content, "exec tscc --target esnext --lib esnext,dom --out-js a.js a.ts") {
+				t.Errorf("Expected a_esnext to execute a.ts with command 'exec tscc --target esnext --lib esnext,dom --out-js a.js a.ts', got:\n%s", res.Content)
 			}
 		case "Multifile_variants_a_es2015.txtar":
 			if !strings.Contains(res.Content, "--target es2015") {
 				t.Errorf("Expected a_es2015 to contain --target es2015")
 			}
 		case "Multifile_variants_b_esnext.txtar":
-			if !strings.Contains(res.Content, "exec tscc --target esnext --out-js b.js b.ts") {
-				t.Errorf("Expected b_esnext to execute b.ts with command 'exec tscc --target esnext --out-js b.js b.ts', got:\n%s", res.Content)
+			if !strings.Contains(res.Content, "exec tscc --target esnext --lib esnext,dom --out-js b.js b.ts") {
+				t.Errorf("Expected b_esnext to execute b.ts with command 'exec tscc --target esnext --lib esnext,dom --out-js b.js b.ts', got:\n%s", res.Content)
 			}
 		}
 	}

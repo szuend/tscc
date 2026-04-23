@@ -28,64 +28,79 @@ func TestTranslateDirectives(t *testing.T) {
 		wantSkip       bool
 	}{
 		{
-			name: "basic flags",
+			name: "basic flags with injected lib",
 			directives: map[string]string{
 				"target": "ES2022",
 				"strict": "true",
 				"module": "commonjs",
 			},
-			wantFlags: []string{"--module", "commonjs", "--strict", "--target", "ES2022"}, // Ordered alphabetically
+			wantFlags: []string{"--module", "commonjs", "--strict", "--target", "ES2022", "--lib", "ES2022,dom"}, // Injected lib goes to end
 		},
 		{
-			name: "no-strict",
+			name: "no-strict with injected lib",
 			directives: map[string]string{
 				"strict": "false",
 			},
-			wantFlags: []string{"--no-strict"},
+			wantFlags: []string{"--no-strict", "--lib", "es2025,dom"},
 		},
 		{
-			name: "declaration and sourcemap",
+			name: "declaration and sourcemap with injected lib",
 			directives: map[string]string{
 				"declaration": "true",
 				"sourcemap":   "true",
 			},
 			outputBaseName: "foo",
-			wantFlags:      []string{"--out-dts", "foo.d.ts", "--out-map", "foo.js.map"},
+			wantFlags:      []string{"--out-dts", "foo.d.ts", "--out-map", "foo.js.map", "--lib", "es2025,dom"},
 		},
 		{
-			name: "filename ignored in flags",
+			name: "filename ignored, injected lib still added",
 			directives: map[string]string{
 				"filename": "foo.ts",
 			},
-			wantFlags: nil,
+			wantFlags: []string{"--lib", "es2025,dom"},
 		},
 		{
-			name: "noImplicitAny true",
+			name: "noImplicitAny true with injected lib",
 			directives: map[string]string{
 				"noImplicitAny": "true",
 			},
-			wantFlags: []string{"--no-implicit-any"},
+			wantFlags: []string{"--no-implicit-any", "--lib", "es2025,dom"},
 		},
 		{
-			name: "noImplicitAny false",
+			name: "noImplicitAny false with injected lib",
 			directives: map[string]string{
 				"noImplicitAny": "false",
 			},
-			wantFlags: []string{"--no-no-implicit-any"},
+			wantFlags: []string{"--no-no-implicit-any", "--lib", "es2025,dom"},
 		},
 		{
-			name: "exactOptionalPropertyTypes true",
+			name: "exactOptionalPropertyTypes true with injected lib",
 			directives: map[string]string{
 				"exactOptionalPropertyTypes": "true",
 			},
-			wantFlags: []string{"--exact-optional-property-types"},
+			wantFlags: []string{"--exact-optional-property-types", "--lib", "es2025,dom"},
 		},
 		{
-			name: "exactOptionalPropertyTypes false",
+			name: "exactOptionalPropertyTypes false with injected lib",
 			directives: map[string]string{
 				"exactOptionalPropertyTypes": "false",
 			},
-			wantFlags: []string{"--no-exact-optional-property-types"},
+			wantFlags: []string{"--no-exact-optional-property-types", "--lib", "es2025,dom"},
+		},
+		{
+			name: "lib directive present",
+			directives: map[string]string{
+				"lib":    "esnext",
+				"target": "es2022",
+			},
+			wantFlags: []string{"--lib", "esnext", "--target", "es2022"}, // Alphabetical order of keys
+		},
+		{
+			name: "lib directive with commas",
+			directives: map[string]string{
+				"lib": "esnext,dom",
+			},
+			wantFlags: []string{"--lib", "esnext,dom"},
 		},
 		{
 			name: "unsupported jsx",

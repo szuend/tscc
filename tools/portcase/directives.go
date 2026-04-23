@@ -41,7 +41,6 @@ var knownUnsupportedDirectives = map[string]bool{
 	"jsximportsource":     true,
 	"allowjs":             true,
 	"checkjs":             true,
-	"lib":                 true,
 	"outdir":              true,
 	"outfile":             true,
 	"rootdir":             true,
@@ -109,6 +108,8 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-exact-optional-property-types")
 			}
+		case "lib":
+			flags = append(flags, "--lib", value)
 		case "filename":
 			// Handled separately during file block parsing.
 			continue
@@ -120,5 +121,14 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			return nil, &SkipError{Directive: key, Reason: "unrecognized"}
 		}
 	}
+
+	if _, ok := directives["lib"]; !ok {
+		target := "es2025"
+		if t, ok := directives["target"]; ok {
+			target = t
+		}
+		flags = append(flags, "--lib", target+",dom")
+	}
+
 	return flags, nil
 }
