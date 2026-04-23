@@ -88,6 +88,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-exact-optional-property-types", "--lib", "es2025,dom"},
 		},
 		{
+			name: "strictNullChecks true with injected lib",
+			directives: map[string]string{
+				"strictNullChecks": "true",
+			},
+			wantFlags: []string{"--strict-null-checks", "--lib", "es2025,dom"},
+		},
+		{
+			name: "strictNullChecks false with injected lib",
+			directives: map[string]string{
+				"strictNullChecks": "false",
+			},
+			wantFlags: []string{"--no-strict-null-checks", "--lib", "es2025,dom"},
+		},
+		{
 			name: "lib directive present",
 			directives: map[string]string{
 				"lib":    "esnext",
