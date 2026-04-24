@@ -49,10 +49,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	// 2. Build portcase once
-	portcasePath, cleanup, err := buildPortcase()
+	// 2. Build tools once
+	portcasePath, testBinPath, cleanup, err := buildTools()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error building portcase: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error building tools: %v\n", err)
 		os.Exit(1)
 	}
 	defer cleanup()
@@ -74,7 +74,7 @@ func main() {
 		go func() {
 			defer wg.Done()
 			for c := range tasks {
-				cat, errDetail := processCandidate(ctx, c, portcasePath, testdataDir)
+				cat, errDetail := processCandidate(ctx, c, portcasePath, testBinPath, testdataDir)
 
 				mu.Lock()
 				results[cat] = append(results[cat], c)
@@ -179,28 +179,34 @@ func discoverCandidates(upstreamDir, testdataDir string) ([]string, error) {
 	return candidates, nil
 }
 
-// buildPortcase builds the portcase tool once into a workspace-local tmp directory.
-func buildPortcase() (string, func(), error) {
+// buildTools builds the portcase tool and the tscc test binary once into a workspace-local tmp directory.
+func buildTools() (string, string, func(), error) {
 	tmpDir := filepath.Join("tools", "batchport", "tmp")
 	if err := os.MkdirAll(tmpDir, 0755); err != nil {
-		return "", nil, fmt.Errorf("creating tmp dir: %w", err)
+		return "", "", nil, fmt.Errorf("creating tmp dir: %w", err)
 	}
 
-	binPath := filepath.Join(tmpDir, "portcase")
-	cmd := exec.Command("go", "build", "-o", binPath, "./tools/portcase")
+	portcasePath := filepath.Join(tmpDir, "portcase")
+	cmd := exec.Command("go", "build", "-o", portcasePath, "./tools/portcase")
 	if err := cmd.Run(); err != nil {
-		return "", nil, fmt.Errorf("building portcase: %w", err)
+		return "", "", nil, fmt.Errorf("building portcase: %w", err)
+	}
+
+	testBinPath := filepath.Join(tmpDir, "tscc.test")
+	cmd = exec.Command("go", "test", "-c", "-o", testBinPath, "./cmd/tscc")
+	if err := cmd.Run(); err != nil {
+		return "", "", nil, fmt.Errorf("building tscc test binary: %w", err)
 	}
 
 	cleanup := func() {
 		os.RemoveAll(tmpDir)
 	}
 
-	return binPath, cleanup, nil
+	return portcasePath, testBinPath, cleanup, nil
 }
 
 // processCandidate handles the trial migration and test execution for a single candidate.
-func processCandidate(ctx context.Context, candidate, portcasePath, testdataDir string) (string, string) {
+func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath, testdataDir string) (string, string) {
 	cmd := exec.CommandContext(ctx, portcasePath, "--case", candidate)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -211,7 +217,8 @@ func processCandidate(ctx context.Context, candidate, portcasePath, testdataDir 
 	}
 
 	capitalized := strings.ToUpper(candidate[:1]) + candidate[1:]
-	testCmd := exec.CommandContext(ctx, "go", "test", "./cmd/tscc/...", "-run", "^TestScript/"+capitalized+"(_.*)?$")
+	// Run the pre-compiled test binary directly.
+	testCmd := exec.CommandContext(ctx, testBinPath, "-test.run", "^TestScript/"+capitalized+"(_.*)?$")
 
 	out, err = testCmd.CombinedOutput()
 	if err != nil {
