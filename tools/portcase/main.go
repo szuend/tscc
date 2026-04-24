@@ -24,12 +24,14 @@ import (
 )
 
 func main() {
+	var suiteName string
 	var caseName string
 	var outPath string
 	var force bool
 
+	pflag.StringVar(&suiteName, "suite", "compiler", "The upstream test suite (e.g. compiler, conformance)")
 	pflag.StringVar(&caseName, "case", "", "The upstream test name (without path or extension)")
-	pflag.StringVar(&outPath, "out", "", "Output path (defaults to cmd/tscc/testdata/compiler/<Name>.txtar)")
+	pflag.StringVar(&outPath, "out", "", "Output path (defaults to cmd/tscc/testdata/<suite>/<Name>.txtar)")
 	pflag.BoolVar(&force, "force", false, "Overwrite an existing fixture")
 	pflag.Parse()
 
@@ -39,7 +41,7 @@ func main() {
 	}
 
 	if outPath == "" {
-		outPath = filepath.Join("cmd", "tscc", "testdata", "compiler", strings.ToUpper(caseName[:1])+caseName[1:]+".txtar")
+		outPath = filepath.Join("cmd", "tscc", "testdata", suiteName, strings.ToUpper(caseName[:1])+caseName[1:]+".txtar")
 	}
 
 	if !force {
@@ -50,7 +52,7 @@ func main() {
 	}
 
 	// 1. Read the upstream .ts file
-	tsPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "cases", "compiler", caseName+".ts")
+	tsPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "cases", suiteName, caseName+".ts")
 	tsData, err := os.ReadFile(tsPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: could not read upstream case: %v\n", err)
@@ -67,6 +69,7 @@ func main() {
 	errorsData, _ := os.ReadFile(errorsPath)
 
 	porter := Porter{
+		SuiteName:      suiteName,
 		CaseName:       caseName,
 		TsContent:      tsContent,
 		BaselineJs:     string(baselineData),

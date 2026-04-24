@@ -28,6 +28,7 @@ import (
 
 // Porter handles the translation of an upstream test case to tscc txtar format.
 type Porter struct {
+	SuiteName      string // Upstream suite, e.g. "compiler" or "conformance"
 	CaseName       string
 	TsContent      string
 	BaselineJs     string // Content of .js baseline file
@@ -213,6 +214,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			}
 
 			args := RenderArgs{
+				SuiteName:          p.SuiteName,
 				CaseName:           p.CaseName,
 				Date:               time.Now().UTC(),
 				Flags:              flags,

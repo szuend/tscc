@@ -42,7 +42,7 @@ func TestPortKnownCase(t *testing.T) {
 
 	// We expect it to match the hand-ported fixture cmd/tscc/testdata/ArrowFunctionExpression1.txtar
 	// Modulo header comment and whitespace.
-	existingPath := filepath.Join("../..", "cmd", "tscc", "testdata", "ArrowFunctionExpression1.txtar")
+	existingPath := filepath.Join("../..", "cmd", "tscc", "testdata", "compiler", "ArrowFunctionExpression1.txtar")
 	existingData, err := os.ReadFile(existingPath)
 	if err != nil {
 		t.Fatalf("failed to read existing fixture: %v", err)

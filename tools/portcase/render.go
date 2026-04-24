@@ -23,6 +23,7 @@ import (
 )
 
 type RenderArgs struct {
+	SuiteName          string
 	CaseName           string
 	Date               time.Time
 	Flags              []string
@@ -37,8 +38,13 @@ type RenderArgs struct {
 func RenderTxtar(args RenderArgs) string {
 	var buf bytes.Buffer
 
+	suite := args.SuiteName
+	if suite == "" {
+		suite = "compiler"
+	}
+
 	// Header
-	fmt.Fprintf(&buf, "# Ported from tests/cases/compiler/%s.ts by tools/portcase.\n", args.CaseName)
+	fmt.Fprintf(&buf, "# Ported from tests/cases/%s/%s.ts by tools/portcase.\n", suite, args.CaseName)
 	fmt.Fprintf(&buf, "# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.\n")
 
 	// Command line
