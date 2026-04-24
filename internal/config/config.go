@@ -69,6 +69,9 @@ type Config struct {
 
 	// CheckJs enables error reporting in type-checked JavaScript files.
 	CheckJs bool
+
+	// IsolatedModules ensures that each file can be safely transpiled without relying on other imports.
+	IsolatedModules bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -247,6 +250,7 @@ func buildGroups(cfg *Config) []flagGroup {
 		typeCheckingGroup(cfg),
 		resolutionGroup(cfg),
 		completenessGroup(cfg),
+		interopConstraintsGroup(cfg),
 		outputGroup(cfg),
 	}
 }
@@ -290,6 +294,12 @@ func resolutionGroup(cfg *Config) flagGroup {
 	g.StringArrayVar(&cfg.rawPaths, "path", nil, "Map a bare import specifier to a file path: `NAME=PATH`. Repeat for each dependency. Targets are resolved to absolute paths. Bare imports without a mapping are denied.")
 	g.BoolVar(&cfg.CaseSensitivePaths, "case-sensitive-paths", true, "Treat filesystem paths as case-sensitive when keying the compiler's path cache. Pin this across all hosts to avoid macOS/Windows divergence")
 	return flagGroup{Name: "Module Resolution", Set: g}
+}
+
+func interopConstraintsGroup(cfg *Config) flagGroup {
+	g := pflag.NewFlagSet("interop-constraints", pflag.ContinueOnError)
+	g.BoolVar(&cfg.IsolatedModules, "isolated-modules", false, "Ensure that each file can be safely transpiled without relying on other imports.")
+	return flagGroup{Name: "Interop Constraints", Set: g}
 }
 
 func outputGroup(cfg *Config) flagGroup {

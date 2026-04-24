@@ -166,6 +166,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-check-js")
 			}
+		case "isolatedmodules":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--isolated-modules")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-isolated-modules")
+			}
 		case "lib":
 			flags = append(flags, "--lib", value)
 		case "noemit":

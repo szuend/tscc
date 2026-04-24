@@ -144,6 +144,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-check-js", "--lib", "es2025,dom"},
 		},
 		{
+			name: "isolatedModules true with injected lib",
+			directives: map[string]string{
+				"isolatedModules": "true",
+			},
+			wantFlags: []string{"--isolated-modules", "--lib", "es2025,dom"},
+		},
+		{
+			name: "isolatedModules false with injected lib",
+			directives: map[string]string{
+				"isolatedModules": "false",
+			},
+			wantFlags: []string{"--no-isolated-modules", "--lib", "es2025,dom"},
+		},
+		{
 			name: "lib directive present",
 			directives: map[string]string{
 				"lib":    "esnext",

@@ -102,6 +102,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		SkipLibCheck:               boolToTristate(cfg.SkipLibCheck),
 		AllowJs:                    boolToTristate(cfg.AllowJs),
 		CheckJs:                    boolToTristate(cfg.CheckJs),
+		IsolatedModules:            boolToTristate(cfg.IsolatedModules),
 		SuppressOutputPathCheck:    tsccbridge.TSTrue,
 		Module:                     mod,
 		Declaration:                decl,

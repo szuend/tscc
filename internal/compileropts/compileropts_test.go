@@ -139,6 +139,25 @@ func TestFromConfigAllowJs(t *testing.T) {
 	}
 }
 
+func TestFromConfigIsolatedModules(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", IsolatedModules: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.IsolatedModules != tc.want {
+			t.Errorf("IsolatedModules(%v) = %v, want %v", tc.in, got.IsolatedModules, tc.want)
+		}
+	}
+}
+
 func TestFromConfigCheckJs(t *testing.T) {
 	tests := []struct {
 		in   bool

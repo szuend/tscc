@@ -270,6 +270,34 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "isolated-modules true",
+			args: []string{"--isolated-modules", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				StrictNullChecks:   true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+				IsolatedModules:    true,
+			},
+		},
+		{
+			name: "isolated-modules negated",
+			args: []string{"--no-isolated-modules", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				StrictNullChecks:   true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+				IsolatedModules:    false,
+			},
+		},
+		{
 			name: "allow-js override check-js default",
 			args: []string{"--check-js", "--allow-js=false", "in.ts"},
 			wantConfig: &Config{
@@ -347,6 +375,9 @@ func TestParse(t *testing.T) {
 			}
 			if got.CheckJs != tt.wantConfig.CheckJs {
 				t.Errorf("CheckJs: got %v, want %v", got.CheckJs, tt.wantConfig.CheckJs)
+			}
+			if got.IsolatedModules != tt.wantConfig.IsolatedModules {
+				t.Errorf("IsolatedModules: got %v, want %v", got.IsolatedModules, tt.wantConfig.IsolatedModules)
 			}
 			if !slices.Equal(got.Lib, tt.wantConfig.Lib) {
 				t.Errorf("Lib: got %v, want %v", got.Lib, tt.wantConfig.Lib)
