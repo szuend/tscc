@@ -202,6 +202,8 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 		// Manually maintained tests.
 		"aliasusageinarray": true,
 		"aliasusageinfunctionexpression": true,
+		"aliasusageingenericfunction": true,
+		"aliasusageinindexerofclass": true,
 	}
 
 	seenCandidates := make(map[string]bool)

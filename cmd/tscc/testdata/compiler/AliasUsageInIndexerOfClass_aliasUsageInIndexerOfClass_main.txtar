@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/aliasUsageInIndexerOfClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasUsageInIndexerOfClass_main.js aliasUsageInIndexerOfClass_main.ts
+stderr 'TS2564'
+! exists aliasUsageInIndexerOfClass_main.js
+! exists aliasUsageInIndexerOfClass_main.d.ts
+! exists aliasUsageInIndexerOfClass_main.js.map
+
+-- aliasUsageInIndexerOfClass_backbone.ts --
+export class Model {
+    public someData: string;
+}
+-- aliasUsageInIndexerOfClass_main.ts --
+import Backbone = require("./aliasUsageInIndexerOfClass_backbone");
+import moduleA = require("./aliasUsageInIndexerOfClass_moduleA");
+interface IHasVisualizationModel {
+    VisualizationModel: typeof Backbone.Model;
+}
+class N {
+    [idx: string]: IHasVisualizationModel
+    x = moduleA;
+}
+class N2 {
+    [idx: string]: typeof moduleA
+    x: IHasVisualizationModel;
+}
+-- aliasUsageInIndexerOfClass_moduleA.ts --
+import Backbone = require("./aliasUsageInIndexerOfClass_backbone");
+export class VisualizationModel extends Backbone.Model {
+    // interesting stuff here
+}
