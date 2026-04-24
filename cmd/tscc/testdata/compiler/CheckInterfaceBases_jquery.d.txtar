@@ -1,8 +1,9 @@
 # Ported from tests/cases/compiler/checkInterfaceBases.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --target es2015 --lib es2015,dom jquery.d.ts
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js jquery.d.js jquery.d.ts
 ! stderr .
 ! exists jquery.d.d.ts
+! exists jquery.d.js
 ! exists jquery.d.js.map
 
 -- app.ts --

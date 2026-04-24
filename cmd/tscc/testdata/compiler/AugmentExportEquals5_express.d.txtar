@@ -1,8 +1,9 @@
 # Ported from tests/cases/compiler/augmentExportEquals5.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --target es2015 --lib es2015,dom express.d.ts
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js express.d.js express.d.ts
 ! stderr .
 ! exists express.d.d.ts
+! exists express.d.js
 ! exists express.d.js.map
 
 -- augmentation.ts --

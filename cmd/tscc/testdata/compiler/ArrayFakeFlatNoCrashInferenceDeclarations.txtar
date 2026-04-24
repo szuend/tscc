@@ -2,6 +2,7 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --out-dts arrayFakeFlatNoCrashInferenceDeclarations.d.ts --lib es2020 --strict --target es2015 --out-js arrayFakeFlatNoCrashInferenceDeclarations.js arrayFakeFlatNoCrashInferenceDeclarations.ts
 stderr 'TS5088'
+! exists arrayFakeFlatNoCrashInferenceDeclarations.d.ts
 ! exists arrayFakeFlatNoCrashInferenceDeclarations.js
 ! exists arrayFakeFlatNoCrashInferenceDeclarations.js.map
 
