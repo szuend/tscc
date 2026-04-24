@@ -487,3 +487,66 @@ export const a = 1;
 		t.Errorf("Expected file block to be '-- a.ts --', got:\n%s", res.Content)
 	}
 }
+
+func TestPorter_Port_OnlyDtsFiles(t *testing.T) {
+	p := Porter{
+		CaseName: "only_dts",
+		TsContent: `// @filename: a.d.ts
+export const x: number;
+// @filename: b.d.ts
+export const y: number;
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 2 {
+		t.Fatalf("Expected 2 results, got %d", len(results))
+	}
+
+	names := map[string]bool{}
+	for _, res := range results {
+		names[res.Name] = true
+	}
+
+	if !names["Only_dts_a.d.txtar"] {
+		t.Errorf("Expected Only_dts_a.d.txtar")
+	}
+	if !names["Only_dts_b.d.txtar"] {
+		t.Errorf("Expected Only_dts_b.d.txtar")
+	}
+}
+
+func TestPorter_Port_AmbientModule(t *testing.T) {
+	p := Porter{
+		CaseName: "ambient",
+		TsContent: `// @filename: a.d.ts
+declare module 'my-module' {
+    export const x: number;
+}
+// @filename: b.ts
+import { x } from 'my-module';
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if res.Name != "Ambient_b.txtar" {
+		t.Errorf("Expected result name to be Ambient_b.txtar, got %s", res.Name)
+	}
+
+	if !strings.Contains(res.Content, "--path my-module=a.d.ts") {
+		t.Errorf("Expected execution to contain --path my-module=a.d.ts, got:\n%s", res.Content)
+	}
+}

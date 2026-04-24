@@ -99,6 +99,17 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 	var outputs []OutputFile
 
+	// Find ambient modules in all inputs deterministically
+	ambientModuleRegex := regexp.MustCompile(`(?m)^\s*declare\s+module\s+['"]([^'"]+)['"]`)
+	for _, filename := range inputList {
+		content := inputs[filename]
+		matches := ambientModuleRegex.FindAllStringSubmatch(content, -1)
+		for _, match := range matches {
+			// match[1] is the module name, filename is the filename
+			pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", match[1], filename))
+		}
+	}
+
 	for _, f := range files {
 		name := f.Name
 		if !((strings.HasSuffix(name, ".ts") && !strings.HasSuffix(name, ".d.ts")) || strings.HasSuffix(name, ".tsx")) {
@@ -162,8 +173,19 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 	variants := ComputeVariants(globalOptions)
 
+	hasNonDts := false
+	for _, f := range inputList {
+		if !strings.HasSuffix(f, ".d.ts") && !strings.HasSuffix(f, "package.json") {
+			hasNonDts = true
+			break
+		}
+	}
+
 	for inputIndex, inputFile := range inputList {
 		if strings.HasSuffix(inputFile, "package.json") {
+			continue
+		}
+		if hasNonDts && strings.HasSuffix(inputFile, ".d.ts") {
 			continue
 		}
 		inputStem := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
