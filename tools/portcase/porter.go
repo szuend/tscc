@@ -284,6 +284,18 @@ func (p *Porter) Port() ([]PortedFile, error) {
 				}
 			}
 
+			outDir := ""
+			if val, ok := variant.Options["outdir"]; ok {
+				outDir = val
+			}
+
+			applyOutDir := func(name string) string {
+				if outDir != "" {
+					return filepath.ToSlash(filepath.Join(outDir, name))
+				}
+				return name
+			}
+
 			renameIfCollision := func(name string) string {
 				if _, isInput := inputs[name]; isInput {
 					dir, file := filepath.Split(name)
@@ -337,12 +349,12 @@ func (p *Porter) Port() ([]PortedFile, error) {
 						delete(currentOutputs, r)
 					}
 					if !hasJs && !emitDeclOnly {
-						outJs := renameIfCollision(inputStem + ".js")
+						outJs := renameIfCollision(applyOutDir(inputStem + ".js"))
 						currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
 					}
 				} else {
 					if !emitDeclOnly {
-						outJs := renameIfCollision(inputStem + ".js")
+						outJs := renameIfCollision(applyOutDir(inputStem + ".js"))
 						flags = append(flags, "--out-js", outJs)
 						if len(currentErrorCodes) > 0 {
 							currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
@@ -354,7 +366,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			}
 
 			// Check .d.ts
-			outDts := renameIfCollision(inputStem + ".d.ts")
+			outDts := renameIfCollision(applyOutDir(inputStem + ".d.ts"))
 			if _, ok := currentOutputs[outDts]; !ok {
 				hasDts := slices.Contains(flags, "--out-dts")
 				if !hasDts {
@@ -363,7 +375,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			}
 
 			// Check .js.map
-			outMap := renameIfCollision(inputStem + ".js.map")
+			outMap := renameIfCollision(applyOutDir(inputStem + ".js.map"))
 			if _, ok := currentOutputs[outMap]; !ok {
 				hasMap := slices.Contains(flags, "--out-map")
 				if !hasMap {

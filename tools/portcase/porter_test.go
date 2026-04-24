@@ -101,6 +101,35 @@ export const b = 2;
 	}
 }
 
+func TestPorter_Port_OutDir(t *testing.T) {
+	p := Porter{
+		CaseName: "outdir_case",
+		TsContent: `// @outDir: dist
+export const x = 1;
+`,
+		BaselineJs: `//// [dist/outdir_case.js]
+export const x = 1;
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--out-js dist/outdir_case.js") {
+		t.Errorf("Expected content to contain --out-js dist/outdir_case.js, got:\n%s", res.Content)
+	}
+	if !strings.Contains(res.Content, "cmp dist/outdir_case.js dist/outdir_case.js.golden") {
+		t.Errorf("Expected content to contain cmp dist/outdir_case.js dist/outdir_case.js.golden, got:\n%s", res.Content)
+	}
+}
+
 func TestPorter_MultiFileOccurrence(t *testing.T) {
 	p := &Porter{
 		CaseName: "multiFileOccurrence",

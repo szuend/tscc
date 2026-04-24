@@ -52,7 +52,6 @@ var knownUnsupportedDirectives = map[string]bool{
 	"jsxfactory":         true,
 	"jsxfragmentfactory": true,
 	"jsximportsource":    true,
-	"outdir":             true,
 	"outfile":            true,
 	"rootdir":            true,
 	"traceresolution":    true,
@@ -189,6 +188,9 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 		case "emitdeclarationonly":
 			// Safely ignore: porter.go explicitly checks this option to suppress the
 			// default --out-js flag, enforcing the declaration-only behavior.
+			continue
+		case "outdir":
+			// Handled separately in porter.go
 			continue
 		default:
 			// "any directive not in the translation table or the @filename structural set -> skip"

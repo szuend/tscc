@@ -245,6 +245,13 @@ func TestTranslateDirectives(t *testing.T) {
 			},
 			wantSkip: true,
 		},
+		{
+			name: "outdir ignored by TranslateDirectives",
+			directives: map[string]string{
+				"outDir": "dist",
+			},
+			wantFlags: []string{"--lib", "es2025,dom"},
+		},
 	}
 
 	for _, tt := range tests {

@@ -208,6 +208,9 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 		"aliasusageinorexpression":                true,
 		"aliasusageintypeargumentofextendsclause": true,
 		"aliasusageinvarassignment":               true,
+
+		// Not supported.
+		"allowjscrossmonorepopackage": true,
 	}
 
 	seenCandidates := make(map[string]bool)
