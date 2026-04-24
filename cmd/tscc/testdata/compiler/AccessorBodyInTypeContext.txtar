@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AccessorBodyInTypeContext.ts by tools/portcase.
+# Ported from tests/cases/compiler/accessorBodyInTypeContext.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js accessorBodyInTypeContext.js accessorBodyInTypeContext.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js accessorBodyInTypeContext.js accessorBodyInTypeContext.ts
 stderr 'TS1183'
 ! exists accessorBodyInTypeContext.js
+! exists accessorBodyInTypeContext.d.ts
+! exists accessorBodyInTypeContext.js.map
 
 -- accessorBodyInTypeContext.ts --
 type A = {
@@ -20,3 +22,4 @@ interface X {
 interface Y {
     set foo(v: any) { }
 }
+

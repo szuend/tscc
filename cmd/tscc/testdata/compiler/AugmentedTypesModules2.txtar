@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/augmentedTypesModules2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js augmentedTypesModules2.js augmentedTypesModules2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js augmentedTypesModules2.js augmentedTypesModules2.ts
 stderr 'TS2434'
 ! exists augmentedTypesModules2.js
 ! exists augmentedTypesModules2.d.ts

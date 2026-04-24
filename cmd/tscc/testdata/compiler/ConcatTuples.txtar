@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/concatTuples.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js concatTuples.js concatTuples.ts
+exec tscc --target es2015 --lib es2015,dom --out-js concatTuples.js concatTuples.ts
 ! stderr .
 cmp concatTuples.js concatTuples.js.golden
 ! exists concatTuples.d.ts

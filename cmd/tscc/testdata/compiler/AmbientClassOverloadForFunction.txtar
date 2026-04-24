@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientClassOverloadForFunction.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js ambientClassOverloadForFunction.js ambientClassOverloadForFunction.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ambientClassOverloadForFunction.js ambientClassOverloadForFunction.ts
 ! stderr .
 cmp ambientClassOverloadForFunction.js ambientClassOverloadForFunction.js.golden
 ! exists ambientClassOverloadForFunction.d.ts

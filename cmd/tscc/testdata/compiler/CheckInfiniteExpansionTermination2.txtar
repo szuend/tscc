@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/checkInfiniteExpansionTermination2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js checkInfiniteExpansionTermination2.js checkInfiniteExpansionTermination2.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js checkInfiniteExpansionTermination2.js checkInfiniteExpansionTermination2.ts
 ! stderr .
 cmp checkInfiniteExpansionTermination2.js checkInfiniteExpansionTermination2.js.golden
 ! exists checkInfiniteExpansionTermination2.d.ts

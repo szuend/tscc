@@ -1,9 +1,11 @@
-# Ported from tests/cases/compiler/AccessStaticMemberFromInstanceMethod01.ts by tools/portcase.
+# Ported from tests/cases/compiler/accessStaticMemberFromInstanceMethod01.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js accessStaticMemberFromInstanceMethod01.js accessStaticMemberFromInstanceMethod01.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js accessStaticMemberFromInstanceMethod01.js accessStaticMemberFromInstanceMethod01.ts
 stderr 'TS2564'
 stderr 'TS2304'
 ! exists accessStaticMemberFromInstanceMethod01.js
+! exists accessStaticMemberFromInstanceMethod01.d.ts
+! exists accessStaticMemberFromInstanceMethod01.js.map
 
 -- accessStaticMemberFromInstanceMethod01.ts --
 class C {

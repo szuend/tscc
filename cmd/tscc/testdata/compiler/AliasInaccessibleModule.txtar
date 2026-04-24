@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/aliasInaccessibleModule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts aliasInaccessibleModule.d.ts --target es2015 --out-js aliasInaccessibleModule.js aliasInaccessibleModule.ts
+exec tscc --out-dts aliasInaccessibleModule.d.ts --target es2015 --lib es2015,dom --out-js aliasInaccessibleModule.js aliasInaccessibleModule.ts
 ! stderr .
 cmp aliasInaccessibleModule.d.ts aliasInaccessibleModule.d.ts.golden
 cmp aliasInaccessibleModule.js aliasInaccessibleModule.js.golden
@@ -11,8 +11,7 @@ namespace M {
     namespace N {
     }
     export import X = N;
-}
--- aliasInaccessibleModule.d.ts.golden --
+}-- aliasInaccessibleModule.d.ts.golden --
 declare namespace M {
     namespace N {
     }

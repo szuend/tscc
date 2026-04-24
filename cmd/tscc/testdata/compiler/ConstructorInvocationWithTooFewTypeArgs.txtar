@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constructorInvocationWithTooFewTypeArgs.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js constructorInvocationWithTooFewTypeArgs.js constructorInvocationWithTooFewTypeArgs.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorInvocationWithTooFewTypeArgs.js constructorInvocationWithTooFewTypeArgs.ts
 stderr 'TS2564'
 stderr 'TS2558'
 ! exists constructorInvocationWithTooFewTypeArgs.js

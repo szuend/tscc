@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constructorOverloads1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js constructorOverloads1.js constructorOverloads1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorOverloads1.js constructorOverloads1.ts
 stderr 'TS2392'
 stderr 'TS2769'
 ! exists constructorOverloads1.js

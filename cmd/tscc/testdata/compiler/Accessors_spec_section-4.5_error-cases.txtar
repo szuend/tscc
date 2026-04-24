@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/Accessors_spec_section-4.5_error-cases.ts by tools/portcase.
+# Ported from tests/cases/compiler/accessors_spec_section-4.5_error-cases.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js accessors_spec_section-4.5_error-cases.js accessors_spec_section-4.5_error-cases.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js accessors_spec_section-4.5_error-cases.js accessors_spec_section-4.5_error-cases.ts
 stderr 'TS2322'
 ! exists accessors_spec_section-4.5_error-cases.js
+! exists accessors_spec_section-4.5_error-cases.d.ts
+! exists accessors_spec_section-4.5_error-cases.js.map
 
 -- accessors_spec_section-4.5_error-cases.ts --
 class LanguageSpec_section_4_5_error_cases {

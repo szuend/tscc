@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constraintsThatReferenceOtherContstraints1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js constraintsThatReferenceOtherContstraints1.js constraintsThatReferenceOtherContstraints1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js constraintsThatReferenceOtherContstraints1.js constraintsThatReferenceOtherContstraints1.ts
 stderr 'TS2564'
 ! exists constraintsThatReferenceOtherContstraints1.js
 ! exists constraintsThatReferenceOtherContstraints1.d.ts

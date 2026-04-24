@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.ts
 ! stderr .
 cmp aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.js.golden
 ! exists aliasOfGenericFunctionWithRestBehavedSameAsUnaliased.d.ts

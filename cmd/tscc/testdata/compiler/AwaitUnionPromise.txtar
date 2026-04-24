@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/awaitUnionPromise.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js awaitUnionPromise.js awaitUnionPromise.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js awaitUnionPromise.js awaitUnionPromise.ts
 stderr 'TS2322'
 ! exists awaitUnionPromise.js
 ! exists awaitUnionPromise.d.ts

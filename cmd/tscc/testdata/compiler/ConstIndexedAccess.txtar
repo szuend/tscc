@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constIndexedAccess.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-js constIndexedAccess.js constIndexedAccess.ts
+! exec tscc --lib es2025,dom --out-js constIndexedAccess.js constIndexedAccess.ts
 stderr 'TS2454'
 ! exists constIndexedAccess.js
 ! exists constIndexedAccess.d.ts

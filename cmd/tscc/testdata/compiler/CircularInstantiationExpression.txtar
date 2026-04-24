@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/circularInstantiationExpression.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts circularInstantiationExpression.d.ts --target es2015 --out-js circularInstantiationExpression.js circularInstantiationExpression.ts
+exec tscc --out-dts circularInstantiationExpression.d.ts --target es2015 --lib es2015,dom --out-js circularInstantiationExpression.js circularInstantiationExpression.ts
 ! stderr .
 cmp circularInstantiationExpression.d.ts circularInstantiationExpression.d.ts.golden
 cmp circularInstantiationExpression.js circularInstantiationExpression.js.golden

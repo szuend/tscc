@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arraySigChecking.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js arraySigChecking.js arraySigChecking.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arraySigChecking.js arraySigChecking.ts
 stderr 'TS1268'
 stderr 'TS2322'
 ! exists arraySigChecking.js

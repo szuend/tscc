@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/circularAccessorAnnotations.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-dts circularAccessorAnnotations.d.ts --strict --target es2015 --out-js circularAccessorAnnotations.js circularAccessorAnnotations.ts
+! exec tscc --out-dts circularAccessorAnnotations.d.ts --strict --target es2015 --lib es2015,dom --out-js circularAccessorAnnotations.js circularAccessorAnnotations.ts
 stderr 'TS2502'
 ! exists circularAccessorAnnotations.d.ts
 ! exists circularAccessorAnnotations.js

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classDeclarationBlockScoping1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js classDeclarationBlockScoping1.js classDeclarationBlockScoping1.ts
+exec tscc --target es2015 --lib es2015,dom --out-js classDeclarationBlockScoping1.js classDeclarationBlockScoping1.ts
 ! stderr .
 cmp classDeclarationBlockScoping1.js classDeclarationBlockScoping1.js.golden
 ! exists classDeclarationBlockScoping1.d.ts
@@ -13,8 +13,7 @@ class C {
 {
     class C {
     }
-}
--- classDeclarationBlockScoping1.js.golden --
+}-- classDeclarationBlockScoping1.js.golden --
 "use strict";
 class C {
 }

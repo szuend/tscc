@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/cloduleWithPriorInstantiatedModule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-js cloduleWithPriorInstantiatedModule.js cloduleWithPriorInstantiatedModule.ts
+! exec tscc --lib es2025,dom --out-js cloduleWithPriorInstantiatedModule.js cloduleWithPriorInstantiatedModule.ts
 stderr 'TS2434'
 ! exists cloduleWithPriorInstantiatedModule.js
 ! exists cloduleWithPriorInstantiatedModule.d.ts

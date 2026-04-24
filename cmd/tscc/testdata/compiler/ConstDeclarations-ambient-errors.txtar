@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constDeclarations-ambient-errors.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target ES6 --out-js constDeclarations-ambient-errors.js constDeclarations-ambient-errors.ts
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations-ambient-errors.js constDeclarations-ambient-errors.ts
 stderr 'TS1039'
 stderr 'TS1254'
 ! exists constDeclarations-ambient-errors.js

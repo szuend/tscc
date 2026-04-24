@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayAssignmentTest6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js arrayAssignmentTest6.js arrayAssignmentTest6.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayAssignmentTest6.js arrayAssignmentTest6.ts
 stderr 'TS2322'
 ! exists arrayAssignmentTest6.js
 ! exists arrayAssignmentTest6.d.ts

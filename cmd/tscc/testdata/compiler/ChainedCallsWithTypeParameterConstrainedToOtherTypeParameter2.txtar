@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/chainedCallsWithTypeParameterConstrainedToOtherTypeParameter2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter2.js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter2.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter2.js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter2.ts
 stderr 'TS2322'
 ! exists chainedCallsWithTypeParameterConstrainedToOtherTypeParameter2.js
 ! exists chainedCallsWithTypeParameterConstrainedToOtherTypeParameter2.d.ts

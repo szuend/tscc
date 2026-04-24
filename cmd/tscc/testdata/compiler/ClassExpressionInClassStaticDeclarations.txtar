@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExpressionInClassStaticDeclarations.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts classExpressionInClassStaticDeclarations.d.ts --target es2015 --out-js classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDeclarations.ts
+exec tscc --out-dts classExpressionInClassStaticDeclarations.d.ts --target es2015 --lib es2015,dom --out-js classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDeclarations.ts
 ! stderr .
 cmp classExpressionInClassStaticDeclarations.d.ts classExpressionInClassStaticDeclarations.d.ts.golden
 cmp classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDeclarations.js.golden
@@ -9,8 +9,7 @@ cmp classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDecl
 -- classExpressionInClassStaticDeclarations.ts --
 class C {
     static D = class extends C {};
-}
--- classExpressionInClassStaticDeclarations.d.ts.golden --
+}-- classExpressionInClassStaticDeclarations.d.ts.golden --
 declare class C {
     static D: {
         new (): {};

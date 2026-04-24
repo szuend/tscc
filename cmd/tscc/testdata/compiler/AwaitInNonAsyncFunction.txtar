@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/awaitInNonAsyncFunction.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target esnext --out-js awaitInNonAsyncFunction.js awaitInNonAsyncFunction.ts
+! exec tscc --no-strict --target esnext --lib esnext,dom --out-js awaitInNonAsyncFunction.js awaitInNonAsyncFunction.ts
 stderr 'TS1103'
 stderr 'TS1308'
 ! exists awaitInNonAsyncFunction.js

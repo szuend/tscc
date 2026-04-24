@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/checkingObjectWithThisInNamePositionNoCrash.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-dts checkingObjectWithThisInNamePositionNoCrash.d.ts --module commonjs --strict --target es2015 --out-js checkingObjectWithThisInNamePositionNoCrash.js checkingObjectWithThisInNamePositionNoCrash.ts
+! exec tscc --out-dts checkingObjectWithThisInNamePositionNoCrash.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js checkingObjectWithThisInNamePositionNoCrash.js checkingObjectWithThisInNamePositionNoCrash.ts
 stderr 'TS7023'
 stderr 'TS2339'
 ! exists checkingObjectWithThisInNamePositionNoCrash.d.ts

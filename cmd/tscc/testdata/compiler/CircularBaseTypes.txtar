@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/circularBaseTypes.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-dts circularBaseTypes.d.ts --strict --target es2015 --out-js circularBaseTypes.js circularBaseTypes.ts
+! exec tscc --out-dts circularBaseTypes.d.ts --strict --target es2015 --lib es2015,dom --out-js circularBaseTypes.js circularBaseTypes.ts
 stderr 'TS2310'
 stderr 'TS2456'
 stderr 'TS2313'

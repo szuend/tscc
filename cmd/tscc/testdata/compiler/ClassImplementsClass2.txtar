@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classImplementsClass2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classImplementsClass2.js classImplementsClass2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classImplementsClass2.js classImplementsClass2.ts
 stderr 'TS2720'
 stderr 'TS2741'
 ! exists classImplementsClass2.js

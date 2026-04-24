@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayDestructuringInSwitch2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js arrayDestructuringInSwitch2.js arrayDestructuringInSwitch2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayDestructuringInSwitch2.js arrayDestructuringInSwitch2.ts
 stderr 'TS2488'
 ! exists arrayDestructuringInSwitch2.js
 ! exists arrayDestructuringInSwitch2.d.ts

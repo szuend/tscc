@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AbstractIdentifierNameStrict.ts by tools/portcase.
+# Ported from tests/cases/compiler/abstractIdentifierNameStrict.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js abstractIdentifierNameStrict.js abstractIdentifierNameStrict.ts
+exec tscc --target es2015 --lib es2015,dom --out-js abstractIdentifierNameStrict.js abstractIdentifierNameStrict.ts
 ! stderr .
 cmp abstractIdentifierNameStrict.js abstractIdentifierNameStrict.js.golden
+! exists abstractIdentifierNameStrict.d.ts
+! exists abstractIdentifierNameStrict.js.map
 
 -- abstractIdentifierNameStrict.ts --
 var abstract = true;
@@ -10,8 +12,7 @@ var abstract = true;
 function foo() {
     "use strict";
     var abstract = true;
-}
--- abstractIdentifierNameStrict.js.golden --
+}-- abstractIdentifierNameStrict.js.golden --
 "use strict";
 var abstract = true;
 function foo() {

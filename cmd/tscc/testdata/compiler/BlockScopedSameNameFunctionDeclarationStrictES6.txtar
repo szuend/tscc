@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/blockScopedSameNameFunctionDeclarationStrictES6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target ES6 --out-js blockScopedSameNameFunctionDeclarationStrictES6.js blockScopedSameNameFunctionDeclarationStrictES6.ts
+! exec tscc --target ES6 --lib ES6,dom --out-js blockScopedSameNameFunctionDeclarationStrictES6.js blockScopedSameNameFunctionDeclarationStrictES6.ts
 stderr 'TS2554'
 ! exists blockScopedSameNameFunctionDeclarationStrictES6.js
 ! exists blockScopedSameNameFunctionDeclarationStrictES6.d.ts

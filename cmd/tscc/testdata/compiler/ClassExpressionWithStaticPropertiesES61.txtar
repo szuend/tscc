@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExpressionWithStaticPropertiesES61.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es6 --out-js classExpressionWithStaticPropertiesES61.js classExpressionWithStaticPropertiesES61.ts
+exec tscc --target es6 --lib es6,dom --out-js classExpressionWithStaticPropertiesES61.js classExpressionWithStaticPropertiesES61.ts
 ! stderr .
 cmp classExpressionWithStaticPropertiesES61.js classExpressionWithStaticPropertiesES61.js.golden
 ! exists classExpressionWithStaticPropertiesES61.d.ts
@@ -11,8 +11,7 @@ var v = class C {
     static a = 1;
     static b = 2;
     static c = C.a + 3;
-};
--- classExpressionWithStaticPropertiesES61.js.golden --
+};-- classExpressionWithStaticPropertiesES61.js.golden --
 "use strict";
 var _a;
 var v = (_a = class C {

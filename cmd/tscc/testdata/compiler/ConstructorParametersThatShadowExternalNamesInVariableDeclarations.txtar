@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constructorParametersThatShadowExternalNamesInVariableDeclarations.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js constructorParametersThatShadowExternalNamesInVariableDeclarations.js constructorParametersThatShadowExternalNamesInVariableDeclarations.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorParametersThatShadowExternalNamesInVariableDeclarations.js constructorParametersThatShadowExternalNamesInVariableDeclarations.ts
 stderr 'TS2301'
 ! exists constructorParametersThatShadowExternalNamesInVariableDeclarations.js
 ! exists constructorParametersThatShadowExternalNamesInVariableDeclarations.d.ts

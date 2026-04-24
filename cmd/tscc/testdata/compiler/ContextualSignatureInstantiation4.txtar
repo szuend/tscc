@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualSignatureInstantiation4.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js contextualSignatureInstantiation4.js contextualSignatureInstantiation4.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js contextualSignatureInstantiation4.js contextualSignatureInstantiation4.ts
 ! stderr .
 cmp contextualSignatureInstantiation4.js contextualSignatureInstantiation4.js.golden
 ! exists contextualSignatureInstantiation4.d.ts

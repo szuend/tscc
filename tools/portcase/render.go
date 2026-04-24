@@ -74,11 +74,15 @@ func RenderTxtar(args RenderArgs) string {
 		}
 
 		// Assert files that should not be written anyway
-		var notExpected []string
+		uniqueNotExpected := make(map[string]bool)
 		for _, out := range args.NotExpectedOutputs {
 			if _, ok := args.Outputs[out]; !ok {
-				notExpected = append(notExpected, out)
+				uniqueNotExpected[out] = true
 			}
+		}
+		var notExpected []string
+		for out := range uniqueNotExpected {
+			notExpected = append(notExpected, out)
 		}
 		sort.Strings(notExpected)
 		for _, out := range notExpected {
@@ -99,8 +103,14 @@ func RenderTxtar(args RenderArgs) string {
 		}
 
 		// Assert files that should not be written
-		var notExpected []string
+		uniqueNotExpected := make(map[string]bool)
 		for _, out := range args.NotExpectedOutputs {
+			if _, ok := args.Outputs[out]; !ok {
+				uniqueNotExpected[out] = true
+			}
+		}
+		var notExpected []string
+		for out := range uniqueNotExpected {
 			notExpected = append(notExpected, out)
 		}
 		sort.Strings(notExpected)

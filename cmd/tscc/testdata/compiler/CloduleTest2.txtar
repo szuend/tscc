@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/cloduleTest2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js cloduleTest2.js cloduleTest2.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js cloduleTest2.js cloduleTest2.ts
 stderr 'TS2554'
 stderr 'TS2576'
 stderr 'TS2339'

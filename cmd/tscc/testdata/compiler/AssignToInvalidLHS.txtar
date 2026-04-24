@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignToInvalidLHS.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js assignToInvalidLHS.js assignToInvalidLHS.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js assignToInvalidLHS.js assignToInvalidLHS.ts
 stderr 'TS2364'
 ! exists assignToInvalidLHS.js
 ! exists assignToInvalidLHS.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExpressionExtendingAbstractClass.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classExpressionExtendingAbstractClass.js classExpressionExtendingAbstractClass.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classExpressionExtendingAbstractClass.js classExpressionExtendingAbstractClass.ts
 stderr 'TS2653'
 ! exists classExpressionExtendingAbstractClass.js
 ! exists classExpressionExtendingAbstractClass.d.ts
@@ -13,3 +13,4 @@ abstract class A {
 
 var C = class extends A {     // no error reported!
 };
+

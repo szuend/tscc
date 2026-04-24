@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/bigintWithLib.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-dts bigintWithLib.d.ts --no-strict --target es2020 --out-js bigintWithLib.js bigintWithLib.ts
+! exec tscc --out-dts bigintWithLib.d.ts --no-strict --target es2020 --lib es2020,dom --out-js bigintWithLib.js bigintWithLib.ts
 stderr 'TS2350'
 stderr 'TS2769'
 stderr 'TS2540'

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/castTest.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js castTest.js castTest.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js castTest.js castTest.ts
 stderr 'TS2352'
 ! exists castTest.js
 ! exists castTest.d.ts

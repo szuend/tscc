@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayAssignmentTest3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js arrayAssignmentTest3.js arrayAssignmentTest3.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayAssignmentTest3.js arrayAssignmentTest3.ts
 stderr 'TS2345'
 ! exists arrayAssignmentTest3.js
 ! exists arrayAssignmentTest3.d.ts
@@ -19,3 +19,4 @@ class a {
 
 
 var xx = new a(null, 7, new B());
+

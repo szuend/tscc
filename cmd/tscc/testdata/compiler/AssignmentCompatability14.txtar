@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignmentCompatability14.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js assignmentCompatability14.js assignmentCompatability14.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatability14.js assignmentCompatability14.ts
 stderr 'TS2322'
 ! exists assignmentCompatability14.js
 ! exists assignmentCompatability14.d.ts

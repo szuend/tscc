@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/chainedAssignment3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js chainedAssignment3.js chainedAssignment3.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js chainedAssignment3.js chainedAssignment3.ts
 stderr 'TS2564'
 stderr 'TS2322'
 stderr 'TS2741'

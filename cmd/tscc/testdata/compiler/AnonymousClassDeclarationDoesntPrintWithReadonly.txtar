@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anonymousClassDeclarationDoesntPrintWithReadonly.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts anonymousClassDeclarationDoesntPrintWithReadonly.d.ts --module commonjs --target es2015 --out-js anonymousClassDeclarationDoesntPrintWithReadonly.js anonymousClassDeclarationDoesntPrintWithReadonly.ts
+exec tscc --out-dts anonymousClassDeclarationDoesntPrintWithReadonly.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js anonymousClassDeclarationDoesntPrintWithReadonly.js anonymousClassDeclarationDoesntPrintWithReadonly.ts
 ! stderr .
 cmp anonymousClassDeclarationDoesntPrintWithReadonly.d.ts anonymousClassDeclarationDoesntPrintWithReadonly.d.ts.golden
 cmp anonymousClassDeclarationDoesntPrintWithReadonly.js anonymousClassDeclarationDoesntPrintWithReadonly.js.golden
@@ -13,8 +13,7 @@ export class X {
 
 export function y() {
     return class extends X { }
-}
--- anonymousClassDeclarationDoesntPrintWithReadonly.d.ts.golden --
+}-- anonymousClassDeclarationDoesntPrintWithReadonly.d.ts.golden --
 export declare class X {
     readonly a: number;
     constructor(a: number);

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/callbacksDontShareTypes.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js callbacksDontShareTypes.js callbacksDontShareTypes.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js callbacksDontShareTypes.js callbacksDontShareTypes.ts
 stderr 'TS2454'
 ! exists callbacksDontShareTypes.js
 ! exists callbacksDontShareTypes.d.ts

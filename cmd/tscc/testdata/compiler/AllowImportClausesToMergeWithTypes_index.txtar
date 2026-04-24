@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/allowImportClausesToMergeWithTypes.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --module commonjs --target es2015 --out-js index.js index.ts
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
 stderr 'TS2749'
 ! exists index.js
 ! exists a.js

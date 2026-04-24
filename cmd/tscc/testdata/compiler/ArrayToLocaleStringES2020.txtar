@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayToLocaleStringES2020.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2020 --out-js arrayToLocaleStringES2020.js arrayToLocaleStringES2020.ts
+exec tscc --target es2020 --lib es2020,dom --out-js arrayToLocaleStringES2020.js arrayToLocaleStringES2020.ts
 ! stderr .
 cmp arrayToLocaleStringES2020.js arrayToLocaleStringES2020.js.golden
 ! exists arrayToLocaleStringES2020.d.ts

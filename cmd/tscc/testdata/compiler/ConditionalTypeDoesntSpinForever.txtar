@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/conditionalTypeDoesntSpinForever.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es6 --out-js conditionalTypeDoesntSpinForever.js conditionalTypeDoesntSpinForever.ts
+! exec tscc --target es6 --lib es6,dom --out-js conditionalTypeDoesntSpinForever.js conditionalTypeDoesntSpinForever.ts
 stderr 'TS2322'
 stderr 'TS2769'
 ! exists conditionalTypeDoesntSpinForever.js

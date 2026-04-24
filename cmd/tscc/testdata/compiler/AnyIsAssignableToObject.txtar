@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anyIsAssignableToObject.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js anyIsAssignableToObject.js anyIsAssignableToObject.ts
+exec tscc --target es2015 --lib es2015,dom --out-js anyIsAssignableToObject.js anyIsAssignableToObject.ts
 ! stderr .
 cmp anyIsAssignableToObject.js anyIsAssignableToObject.js.golden
 ! exists anyIsAssignableToObject.d.ts
@@ -13,6 +13,5 @@ interface P {
 
 interface Q extends P { // Check assignability here. Any is assignable to {}
     p: any;
-}
--- anyIsAssignableToObject.js.golden --
+}-- anyIsAssignableToObject.js.golden --
 "use strict";

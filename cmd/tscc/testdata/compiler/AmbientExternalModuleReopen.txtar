@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientExternalModuleReopen.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js ambientExternalModuleReopen.js ambientExternalModuleReopen.ts
+exec tscc --target es2015 --lib es2015,dom --out-js ambientExternalModuleReopen.js ambientExternalModuleReopen.ts
 ! stderr .
 cmp ambientExternalModuleReopen.js ambientExternalModuleReopen.js.golden
 ! exists ambientExternalModuleReopen.d.ts
@@ -12,6 +12,5 @@ declare module "fs" {
 }
 declare module 'fs' {
     var y: number;
-}
--- ambientExternalModuleReopen.js.golden --
+}-- ambientExternalModuleReopen.js.golden --
 "use strict";

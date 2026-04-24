@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/moduleAliasInterface.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js moduleAliasInterface.js moduleAliasInterface.ts
+exec tscc --target es2015 --lib es2015,dom --out-js moduleAliasInterface.js moduleAliasInterface.ts
 ! stderr .
 cmp moduleAliasInterface.js moduleAliasInterface.js.golden
 ! exists moduleAliasInterface.d.ts

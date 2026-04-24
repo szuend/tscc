@@ -28,11 +28,16 @@ var (
 	fileRe    = regexp.MustCompile(`^([a-zA-Z0-9._-]+)\(\d+,\d+\):`)
 )
 
+type OutputFile struct {
+	Name    string
+	Content string
+}
+
 // SplitBaseline splits a baseline .js file into separate files.
 // It ignores the noise header `//// [tests/cases/.../name.ts] ////`.
-// Returns a map of filename to content.
-func SplitBaseline(content string) map[string]string {
-	result := make(map[string]string)
+// Returns a slice of OutputFile to preserve duplicate filenames and their order.
+func SplitBaseline(content string) []OutputFile {
+	var result []OutputFile
 
 	// Strip noise headers: //// [tests/cases/...] ////
 	content = noiseRe.ReplaceAllString(content, "")
@@ -59,13 +64,13 @@ func SplitBaseline(content string) map[string]string {
 		block = strings.TrimPrefix(block, "\r\n")
 
 		// Remove trailing sourceMappingURL comments
-		// "They include trailing //# sourceMappingURL comments when @sourceMap is set; compare after the trailing newline."
-		// Let's strip it to be safe, or leave it. Actually the instruction says:
-		// "They include trailing //# sourceMappingURL comments when @sourceMap is set; compare after the trailing newline."
 		// Remove \r from the entire block to normalize to Unix line endings
 		block = strings.ReplaceAll(block, "\r\n", "\n")
 
-		result[filename] = strings.TrimRight(block, " \n\t") + "\n"
+		result = append(result, OutputFile{
+			Name:    filename,
+			Content: strings.TrimRight(block, " \n\t") + "\n",
+		})
 	}
 
 	return result

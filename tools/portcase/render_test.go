@@ -105,3 +105,39 @@ var v = (x) => { };
 		t.Errorf("TestRenderTxtar_NotExpectedOutputs failed.\nGot:\n%s\nWant:\n%s", got, want)
 	}
 }
+
+func TestRenderTxtar_NotExpectedDeduplication(t *testing.T) {
+	args := RenderArgs{
+		CaseName:   "dedupTest",
+		Date:       time.Date(2026, 4, 19, 0, 0, 0, 0, time.UTC),
+		Flags:      []string{"--target", "es2015"},
+		Inputs:     []string{"a.ts"},
+		ErrorCodes: nil,
+		Files: map[string]string{
+			"a.ts": "var a = 1;\n",
+		},
+		Outputs: map[string]string{
+			"a.js": "var a = 1;\n",
+		},
+		// a.js is both expected and not expected (simulating a bug in mapping)
+		NotExpectedOutputs: []string{"a.js", "a.d.ts"},
+	}
+
+	got := RenderTxtar(args)
+	want := `# Ported from tests/cases/compiler/dedupTest.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+
+-- a.ts --
+var a = 1;
+-- a.js.golden --
+var a = 1;
+`
+
+	if got != want {
+		t.Errorf("TestRenderTxtar_NotExpectedDeduplication failed.\nGot:\n%s\nWant:\n%s", got, want)
+	}
+}

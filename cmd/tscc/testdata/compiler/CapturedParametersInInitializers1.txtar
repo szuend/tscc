@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/capturedParametersInInitializers1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es6 --out-js capturedParametersInInitializers1.js capturedParametersInInitializers1.ts
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js capturedParametersInInitializers1.js capturedParametersInInitializers1.ts
 stderr 'TS2373'
 ! exists capturedParametersInInitializers1.js
 ! exists capturedParametersInInitializers1.d.ts

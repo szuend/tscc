@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anonterface.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js anonterface.js anonterface.ts
+exec tscc --target es2015 --lib es2015,dom --out-js anonterface.js anonterface.ts
 ! stderr .
 cmp anonterface.js anonterface.js.golden
 ! exists anonterface.d.ts
@@ -17,6 +17,9 @@ namespace M {
 
 var c=new M.C();
 c.m(function(n) { return "hello: "+n; },18);
+
+
+
 -- anonterface.js.golden --
 "use strict";
 var M;

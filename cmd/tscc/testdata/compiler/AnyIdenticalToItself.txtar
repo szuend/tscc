@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anyIdenticalToItself.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js anyIdenticalToItself.js anyIdenticalToItself.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js anyIdenticalToItself.js anyIdenticalToItself.ts
 stderr 'TS2394'
 ! exists anyIdenticalToItself.js
 ! exists anyIdenticalToItself.d.ts

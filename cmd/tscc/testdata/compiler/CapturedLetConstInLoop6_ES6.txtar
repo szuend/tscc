@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/capturedLetConstInLoop6_ES6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target ES6 --out-js capturedLetConstInLoop6_ES6.js capturedLetConstInLoop6_ES6.ts
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js capturedLetConstInLoop6_ES6.js capturedLetConstInLoop6_ES6.ts
 stderr 'TS2367'
 ! exists capturedLetConstInLoop6_ES6.js
 ! exists capturedLetConstInLoop6_ES6.d.ts

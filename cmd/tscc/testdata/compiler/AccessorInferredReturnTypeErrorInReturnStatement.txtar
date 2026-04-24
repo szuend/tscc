@@ -1,10 +1,11 @@
-# Ported from tests/cases/compiler/AccessorInferredReturnTypeErrorInReturnStatement.ts by tools/portcase.
+# Ported from tests/cases/compiler/accessorInferredReturnTypeErrorInReturnStatement.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-dts AccessorInferredReturnTypeErrorInReturnStatement.d.ts --module commonjs --strict --target es2015 --out-js accessorInferredReturnTypeErrorInReturnStatement.js accessorInferredReturnTypeErrorInReturnStatement.ts
+! exec tscc --out-dts accessorInferredReturnTypeErrorInReturnStatement.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js accessorInferredReturnTypeErrorInReturnStatement.js accessorInferredReturnTypeErrorInReturnStatement.ts
 stderr 'TS7023'
 stderr 'TS2339'
 ! exists accessorInferredReturnTypeErrorInReturnStatement.d.ts
 ! exists accessorInferredReturnTypeErrorInReturnStatement.js
+! exists accessorInferredReturnTypeErrorInReturnStatement.js.map
 
 -- accessorInferredReturnTypeErrorInReturnStatement.ts --
 export var basePrototype = {

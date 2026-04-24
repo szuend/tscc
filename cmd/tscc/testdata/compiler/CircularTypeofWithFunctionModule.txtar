@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/circularTypeofWithFunctionModule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js circularTypeofWithFunctionModule.js circularTypeofWithFunctionModule.ts
+exec tscc --target es2015 --lib es2015,dom --out-js circularTypeofWithFunctionModule.js circularTypeofWithFunctionModule.ts
 ! stderr .
 cmp circularTypeofWithFunctionModule.js circularTypeofWithFunctionModule.js.golden
 ! exists circularTypeofWithFunctionModule.d.ts

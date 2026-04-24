@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anyIsAssignableToVoid.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js anyIsAssignableToVoid.js anyIsAssignableToVoid.ts
+exec tscc --target es2015 --lib es2015,dom --out-js anyIsAssignableToVoid.js anyIsAssignableToVoid.ts
 ! stderr .
 cmp anyIsAssignableToVoid.js anyIsAssignableToVoid.js.golden
 ! exists anyIsAssignableToVoid.d.ts
@@ -13,6 +13,5 @@ interface P {
 
 interface Q extends P { // check assignability here. any is assignable to void.
     p: any;
-}
--- anyIsAssignableToVoid.js.golden --
+}-- anyIsAssignableToVoid.js.golden --
 "use strict";

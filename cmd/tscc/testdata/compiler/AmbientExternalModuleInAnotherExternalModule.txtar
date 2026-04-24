@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientExternalModuleInAnotherExternalModule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --module commonjs --target es2015 --out-js ambientExternalModuleInAnotherExternalModule.js ambientExternalModuleInAnotherExternalModule.ts
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js ambientExternalModuleInAnotherExternalModule.js ambientExternalModuleInAnotherExternalModule.ts
 stderr 'TS2664'
 stderr 'TS2307'
 ! exists ambientExternalModuleInAnotherExternalModule.js

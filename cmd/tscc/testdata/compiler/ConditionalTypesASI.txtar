@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/conditionalTypesASI.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts conditionalTypesASI.d.ts --target es2015 --out-js conditionalTypesASI.js conditionalTypesASI.ts
+exec tscc --out-dts conditionalTypesASI.d.ts --target es2015 --lib es2015,dom --out-js conditionalTypesASI.js conditionalTypesASI.ts
 ! stderr .
 cmp conditionalTypesASI.d.ts conditionalTypesASI.d.ts.golden
 cmp conditionalTypesASI.js conditionalTypesASI.js.golden

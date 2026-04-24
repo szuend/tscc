@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constructorOverloads2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js constructorOverloads2.js constructorOverloads2.ts
+exec tscc --target es2015 --lib es2015,dom --out-js constructorOverloads2.js constructorOverloads2.ts
 ! stderr .
 cmp constructorOverloads2.js constructorOverloads2.js.golden
 ! exists constructorOverloads2.d.ts

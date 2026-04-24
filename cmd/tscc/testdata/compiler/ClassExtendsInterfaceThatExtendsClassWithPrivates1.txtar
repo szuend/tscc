@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExtendsInterfaceThatExtendsClassWithPrivates1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classExtendsInterfaceThatExtendsClassWithPrivates1.js classExtendsInterfaceThatExtendsClassWithPrivates1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classExtendsInterfaceThatExtendsClassWithPrivates1.js classExtendsInterfaceThatExtendsClassWithPrivates1.ts
 stderr 'TS2420'
 ! exists classExtendsInterfaceThatExtendsClassWithPrivates1.js
 ! exists classExtendsInterfaceThatExtendsClassWithPrivates1.d.ts
@@ -20,4 +20,4 @@ class D2 implements I {
     public foo(x: any) { return x }
     private x = 3;
     other(x: any) { return x }
-}
+} 

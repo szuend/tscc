@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayBufferIsViewNarrowsType.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js arrayBufferIsViewNarrowsType.js arrayBufferIsViewNarrowsType.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayBufferIsViewNarrowsType.js arrayBufferIsViewNarrowsType.ts
 stderr 'TS2454'
 ! exists arrayBufferIsViewNarrowsType.js
 ! exists arrayBufferIsViewNarrowsType.d.ts

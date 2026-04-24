@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/compositeGenericFunction.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-js compositeGenericFunction.js compositeGenericFunction.ts
+! exec tscc --lib es2025,dom --out-js compositeGenericFunction.js compositeGenericFunction.ts
 stderr 'TS2322'
 ! exists compositeGenericFunction.js
 ! exists compositeGenericFunction.d.ts

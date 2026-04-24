@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classWithOverloadImplementationOfWrongName2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js classWithOverloadImplementationOfWrongName2.js classWithOverloadImplementationOfWrongName2.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classWithOverloadImplementationOfWrongName2.js classWithOverloadImplementationOfWrongName2.ts
 stderr 'TS2389'
 stderr 'TS2391'
 ! exists classWithOverloadImplementationOfWrongName2.js

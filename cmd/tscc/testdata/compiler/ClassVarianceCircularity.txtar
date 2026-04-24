@@ -20,8 +20,7 @@ class Bar<T> {
     // Or swap these two lines
     Field: number = (this as Bar<any>).num;
     Value = (this as Bar<any>).num;
-}
--- classVarianceCircularity.js.golden --
+}-- classVarianceCircularity.js.golden --
 "use strict";
 // Issue #52813
 function f() {

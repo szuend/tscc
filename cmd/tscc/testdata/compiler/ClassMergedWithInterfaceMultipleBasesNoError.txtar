@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classMergedWithInterfaceMultipleBasesNoError.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classMergedWithInterfaceMultipleBasesNoError.js classMergedWithInterfaceMultipleBasesNoError.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classMergedWithInterfaceMultipleBasesNoError.js classMergedWithInterfaceMultipleBasesNoError.ts
 stderr 'TS2729'
 ! exists classMergedWithInterfaceMultipleBasesNoError.js
 ! exists classMergedWithInterfaceMultipleBasesNoError.d.ts

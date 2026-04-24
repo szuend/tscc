@@ -1,14 +1,15 @@
 # Ported from tests/cases/compiler/alwaysStrictModule5.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es6 --out-js alwaysStrictModule5.js alwaysStrictModule5.ts
+exec tscc --target es6 --lib es6,dom --out-js alwaysStrictModule5.js alwaysStrictModule5.ts
 ! stderr .
 cmp alwaysStrictModule5.js alwaysStrictModule5.js.golden
 ! exists alwaysStrictModule5.d.ts
 ! exists alwaysStrictModule5.js.map
 
 -- alwaysStrictModule5.ts --
+﻿// @alwaysStrict: true
+
 // Targeting ES6
-export const a = 1;
--- alwaysStrictModule5.js.golden --
+export const a = 1; -- alwaysStrictModule5.js.golden --
 // Targeting ES6
 export const a = 1;

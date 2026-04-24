@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/bom-utf8.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-js bom-utf8.js bom-utf8.ts
+exec tscc --lib es2025,dom --out-js bom-utf8.js bom-utf8.ts
 ! stderr .
 cmp bom-utf8.js bom-utf8.js.golden
 ! exists bom-utf8.d.ts

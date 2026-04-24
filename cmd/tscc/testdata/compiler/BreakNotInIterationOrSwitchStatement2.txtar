@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/breakNotInIterationOrSwitchStatement2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js breakNotInIterationOrSwitchStatement2.js breakNotInIterationOrSwitchStatement2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js breakNotInIterationOrSwitchStatement2.js breakNotInIterationOrSwitchStatement2.ts
 stderr 'TS1107'
 ! exists breakNotInIterationOrSwitchStatement2.js
 ! exists breakNotInIterationOrSwitchStatement2.d.ts

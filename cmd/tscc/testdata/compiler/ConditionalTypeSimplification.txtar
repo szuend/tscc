@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/conditionalTypeSimplification.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js conditionalTypeSimplification.js conditionalTypeSimplification.ts
+exec tscc --target es2015 --lib es2015,dom --out-js conditionalTypeSimplification.js conditionalTypeSimplification.ts
 ! stderr .
 cmp conditionalTypeSimplification.js conditionalTypeSimplification.js.golden
 ! exists conditionalTypeSimplification.d.ts

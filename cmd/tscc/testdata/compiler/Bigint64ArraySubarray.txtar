@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/bigint64ArraySubarray.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2020 --out-js bigint64ArraySubarray.js bigint64ArraySubarray.ts
+exec tscc --target es2020 --lib es2020,dom --out-js bigint64ArraySubarray.js bigint64ArraySubarray.ts
 ! stderr .
 cmp bigint64ArraySubarray.js bigint64ArraySubarray.js.golden
 ! exists bigint64ArraySubarray.d.ts

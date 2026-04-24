@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constraintWithIndexedAccess.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js constraintWithIndexedAccess.js constraintWithIndexedAccess.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js constraintWithIndexedAccess.js constraintWithIndexedAccess.ts
 stderr 'TS2344'
 stderr 'TS2536'
 ! exists constraintWithIndexedAccess.js

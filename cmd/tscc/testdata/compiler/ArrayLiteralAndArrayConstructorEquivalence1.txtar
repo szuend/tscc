@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayLiteralAndArrayConstructorEquivalence1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js arrayLiteralAndArrayConstructorEquivalence1.js arrayLiteralAndArrayConstructorEquivalence1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayLiteralAndArrayConstructorEquivalence1.js arrayLiteralAndArrayConstructorEquivalence1.ts
 stderr 'TS2314'
 ! exists arrayLiteralAndArrayConstructorEquivalence1.js
 ! exists arrayLiteralAndArrayConstructorEquivalence1.d.ts

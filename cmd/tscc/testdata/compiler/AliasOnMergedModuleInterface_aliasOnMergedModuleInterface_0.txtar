@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/aliasOnMergedModuleInterface.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --target es2015 --out-js aliasOnMergedModuleInterface_0.js aliasOnMergedModuleInterface_0.ts
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasOnMergedModuleInterface_0.js aliasOnMergedModuleInterface_0.ts
 ! stderr .
 cmp aliasOnMergedModuleInterface_0.js aliasOnMergedModuleInterface_0.js.golden
 ! exists aliasOnMergedModuleInterface_0.d.ts

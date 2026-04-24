@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constDeclarations-access5.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --no-strict --target ES6 --out-js constDeclarations_access_1.js constDeclarations_access_1.ts
+exec tscc --module commonjs --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations_access_1.js constDeclarations_access_1.ts
 ! stderr .
 cmp constDeclarations_access_1.js constDeclarations_access_1.js.golden
 ! exists constDeclarations_access_1.d.ts

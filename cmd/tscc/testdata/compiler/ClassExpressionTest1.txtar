@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExpressionTest1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classExpressionTest1.js classExpressionTest1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classExpressionTest1.js classExpressionTest1.ts
 stderr 'TS2454'
 ! exists classExpressionTest1.js
 ! exists classExpressionTest1.d.ts

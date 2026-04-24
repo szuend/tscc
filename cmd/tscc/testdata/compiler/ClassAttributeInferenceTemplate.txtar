@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classAttributeInferenceTemplate.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target esnext --out-js classAttributeInferenceTemplate.js classAttributeInferenceTemplate.ts
+exec tscc --strict --target esnext --lib esnext,dom --out-js classAttributeInferenceTemplate.js classAttributeInferenceTemplate.ts
 ! stderr .
 cmp classAttributeInferenceTemplate.js classAttributeInferenceTemplate.js.golden
 ! exists classAttributeInferenceTemplate.d.ts

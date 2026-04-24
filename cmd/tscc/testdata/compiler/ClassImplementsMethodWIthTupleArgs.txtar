@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classImplementsMethodWIthTupleArgs.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js classImplementsMethodWIthTupleArgs.js classImplementsMethodWIthTupleArgs.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js classImplementsMethodWIthTupleArgs.js classImplementsMethodWIthTupleArgs.ts
 ! stderr .
 cmp classImplementsMethodWIthTupleArgs.js classImplementsMethodWIthTupleArgs.js.golden
 ! exists classImplementsMethodWIthTupleArgs.d.ts

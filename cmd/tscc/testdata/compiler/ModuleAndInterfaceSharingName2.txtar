@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/moduleAndInterfaceSharingName2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js moduleAndInterfaceSharingName2.js moduleAndInterfaceSharingName2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleAndInterfaceSharingName2.js moduleAndInterfaceSharingName2.ts
 stderr 'TS2322'
 stderr 'TS2315'
 ! exists moduleAndInterfaceSharingName2.js

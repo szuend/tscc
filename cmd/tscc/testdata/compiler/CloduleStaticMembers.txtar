@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/cloduleStaticMembers.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js cloduleStaticMembers.js cloduleStaticMembers.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js cloduleStaticMembers.js cloduleStaticMembers.ts
 stderr 'TS2341'
 stderr 'TS2304'
 ! exists cloduleStaticMembers.js

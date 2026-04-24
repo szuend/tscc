@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classMemberInitializerScoping.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js classMemberInitializerScoping.js classMemberInitializerScoping.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classMemberInitializerScoping.js classMemberInitializerScoping.ts
 stderr 'TS2301'
 stderr 'TS2322'
 ! exists classMemberInitializerScoping.js

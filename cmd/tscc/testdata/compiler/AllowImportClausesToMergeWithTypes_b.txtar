@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/allowImportClausesToMergeWithTypes.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --target es2015 --out-js b.js b.ts
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
 ! stderr .
 cmp b.js b.js.golden
 ! exists a.js
@@ -31,8 +31,7 @@ zzz;
 import originalZZZ from "./b";
 originalZZZ;
 
-const y: originalZZZ = x;
--- b.js.golden --
+const y: originalZZZ = x;-- b.js.golden --
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.zzz = void 0;

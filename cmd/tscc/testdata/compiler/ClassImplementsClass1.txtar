@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classImplementsClass1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js classImplementsClass1.js classImplementsClass1.ts
+exec tscc --target es2015 --lib es2015,dom --out-js classImplementsClass1.js classImplementsClass1.ts
 ! stderr .
 cmp classImplementsClass1.js classImplementsClass1.js.golden
 ! exists classImplementsClass1.d.ts
@@ -8,8 +8,7 @@ cmp classImplementsClass1.js classImplementsClass1.js.golden
 
 -- classImplementsClass1.ts --
 class A { }
-class C implements A { }
--- classImplementsClass1.js.golden --
+class C implements A { }-- classImplementsClass1.js.golden --
 "use strict";
 class A {
 }

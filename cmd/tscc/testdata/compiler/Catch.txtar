@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/catch.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js catch.js catch.ts
+exec tscc --target es2015 --lib es2015,dom --out-js catch.js catch.ts
 ! stderr .
 cmp catch.js catch.js.golden
 ! exists catch.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constDeclarations-access4.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target ES6 --out-js constDeclarations-access4.js constDeclarations-access4.ts
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations-access4.js constDeclarations-access4.ts
 stderr 'TS2540'
 ! exists constDeclarations-access4.js
 ! exists constDeclarations-access4.d.ts

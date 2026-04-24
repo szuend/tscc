@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/argumentsUsedInObjectLiteralProperty.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js argumentsUsedInObjectLiteralProperty.js argumentsUsedInObjectLiteralProperty.ts
+exec tscc --target es2015 --lib es2015,dom --out-js argumentsUsedInObjectLiteralProperty.js argumentsUsedInObjectLiteralProperty.ts
 ! stderr .
 cmp argumentsUsedInObjectLiteralProperty.js argumentsUsedInObjectLiteralProperty.js.golden
 ! exists argumentsUsedInObjectLiteralProperty.d.ts
@@ -13,8 +13,7 @@ class A {
             selectedValue: arguments.length
         };
     }
-}
--- argumentsUsedInObjectLiteralProperty.js.golden --
+}-- argumentsUsedInObjectLiteralProperty.js.golden --
 "use strict";
 class A {
     static createSelectableViewModel(initialState, selectedValue) {

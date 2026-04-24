@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/chainedAssignmentChecking.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js chainedAssignmentChecking.js chainedAssignmentChecking.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js chainedAssignmentChecking.js chainedAssignmentChecking.ts
 stderr 'TS2741'
 stderr 'TS2739'
 ! exists chainedAssignmentChecking.js

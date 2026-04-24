@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/consistentAliasVsNonAliasRecordBehavior.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js consistentAliasVsNonAliasRecordBehavior.js consistentAliasVsNonAliasRecordBehavior.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js consistentAliasVsNonAliasRecordBehavior.js consistentAliasVsNonAliasRecordBehavior.ts
 stderr 'TS2741'
 ! exists consistentAliasVsNonAliasRecordBehavior.js
 ! exists consistentAliasVsNonAliasRecordBehavior.d.ts

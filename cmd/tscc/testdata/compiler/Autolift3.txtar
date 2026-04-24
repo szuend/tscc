@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/autolift3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js autolift3.js autolift3.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js autolift3.js autolift3.ts
 stderr 'TS2339'
 ! exists autolift3.js
 ! exists autolift3.d.ts

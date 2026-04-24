@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/blockScopedBindingUsedBeforeDef.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js blockScopedBindingUsedBeforeDef.js blockScopedBindingUsedBeforeDef.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js blockScopedBindingUsedBeforeDef.js blockScopedBindingUsedBeforeDef.ts
 stderr 'TS2448'
 stderr 'TS2538'
 ! exists blockScopedBindingUsedBeforeDef.js

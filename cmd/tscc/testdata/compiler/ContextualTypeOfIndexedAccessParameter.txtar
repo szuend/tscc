@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualTypeOfIndexedAccessParameter.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js contextualTypeOfIndexedAccessParameter.js contextualTypeOfIndexedAccessParameter.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js contextualTypeOfIndexedAccessParameter.js contextualTypeOfIndexedAccessParameter.ts
 ! stderr .
 cmp contextualTypeOfIndexedAccessParameter.js contextualTypeOfIndexedAccessParameter.js.golden
 ! exists contextualTypeOfIndexedAccessParameter.d.ts

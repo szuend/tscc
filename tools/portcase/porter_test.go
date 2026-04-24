@@ -71,6 +71,59 @@ func TestPorter_Port_NoEmit(t *testing.T) {
 	}
 }
 
+func TestPorter_MultiFileOccurrence(t *testing.T) {
+	p := &Porter{
+		CaseName: "multiFileOccurrence",
+		TsContent: `// @filename: dir1/a.ts
+export const a = 1;
+// @filename: dir2/a.ts
+export const a = 2;
+`,
+		BaselineJs: `//// [tests/cases/compiler/multiFileOccurrence.ts] ////
+
+//// [a.js]
+"use strict";
+exports.a = 1;
+
+//// [a.js]
+"use strict";
+exports.a = 2;
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port() failed: %v", err)
+	}
+
+	if len(results) != 2 {
+		t.Fatalf("Expected 2 results, got %d", len(results))
+	}
+
+	// Ensure the first result gets the first a.js output and the second gets the second a.js output
+	res1 := results[0]
+	if !strings.Contains(res1.Name, "dir1_a.txtar") {
+		t.Errorf("Expected first result name to contain dir1_a.txtar, got %s", res1.Name)
+	}
+	if !strings.Contains(res1.Content, "exports.a = 1;") {
+		t.Errorf("Expected first result content to contain exports.a = 1;, got %s", res1.Content)
+	}
+	if strings.Contains(res1.Content, "exports.a = 2;") {
+		t.Errorf("First result content should not contain exports.a = 2;")
+	}
+
+	res2 := results[1]
+	if !strings.Contains(res2.Name, "dir2_a.txtar") {
+		t.Errorf("Expected second result name to contain dir2_a.txtar, got %s", res2.Name)
+	}
+	if !strings.Contains(res2.Content, "exports.a = 2;") {
+		t.Errorf("Expected second result content to contain exports.a = 2;, got %s", res2.Content)
+	}
+	if strings.Contains(res2.Content, "exports.a = 1;") {
+		t.Errorf("Second result content should not contain exports.a = 1;")
+	}
+}
+
 func TestPorter_Port_MultiFile(t *testing.T) {
 	p := Porter{
 		CaseName: "multi",

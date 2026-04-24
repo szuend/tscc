@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classOrderBug.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js classOrderBug.js classOrderBug.ts
+exec tscc --target es2015 --lib es2015,dom --out-js classOrderBug.js classOrderBug.ts
 ! stderr .
 cmp classOrderBug.js classOrderBug.js.golden
 ! exists classOrderBug.d.ts

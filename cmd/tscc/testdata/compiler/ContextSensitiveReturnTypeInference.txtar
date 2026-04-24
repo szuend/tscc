@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextSensitiveReturnTypeInference.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js contextSensitiveReturnTypeInference.js contextSensitiveReturnTypeInference.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js contextSensitiveReturnTypeInference.js contextSensitiveReturnTypeInference.ts
 ! stderr .
 cmp contextSensitiveReturnTypeInference.js contextSensitiveReturnTypeInference.js.golden
 ! exists contextSensitiveReturnTypeInference.d.ts

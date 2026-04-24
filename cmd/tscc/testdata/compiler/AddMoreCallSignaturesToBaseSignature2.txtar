@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AddMoreCallSignaturesToBaseSignature2.ts by tools/portcase.
+# Ported from tests/cases/compiler/addMoreCallSignaturesToBaseSignature2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js addMoreCallSignaturesToBaseSignature2.js addMoreCallSignaturesToBaseSignature2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js addMoreCallSignaturesToBaseSignature2.js addMoreCallSignaturesToBaseSignature2.ts
 stderr 'TS2454'
 ! exists addMoreCallSignaturesToBaseSignature2.js
+! exists addMoreCallSignaturesToBaseSignature2.d.ts
+! exists addMoreCallSignaturesToBaseSignature2.js.map
 
 -- addMoreCallSignaturesToBaseSignature2.ts --
 interface Foo {

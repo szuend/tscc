@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignLambdaToNominalSubtypeOfFunction.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js assignLambdaToNominalSubtypeOfFunction.js assignLambdaToNominalSubtypeOfFunction.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js assignLambdaToNominalSubtypeOfFunction.js assignLambdaToNominalSubtypeOfFunction.ts
 stderr 'TS2345'
 ! exists assignLambdaToNominalSubtypeOfFunction.js
 ! exists assignLambdaToNominalSubtypeOfFunction.d.ts

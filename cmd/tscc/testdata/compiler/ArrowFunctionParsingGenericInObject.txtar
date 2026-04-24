@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrowFunctionParsingGenericInObject.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target esnext --out-js arrowFunctionParsingGenericInObject.js arrowFunctionParsingGenericInObject.ts
+exec tscc --target esnext --lib esnext,dom --out-js arrowFunctionParsingGenericInObject.js arrowFunctionParsingGenericInObject.ts
 ! stderr .
 cmp arrowFunctionParsingGenericInObject.js arrowFunctionParsingGenericInObject.js.golden
 ! exists arrowFunctionParsingGenericInObject.d.ts

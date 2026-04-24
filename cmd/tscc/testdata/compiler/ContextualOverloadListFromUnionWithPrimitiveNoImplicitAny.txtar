@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualOverloadListFromUnionWithPrimitiveNoImplicitAny.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --strict --target esnext --out-js contextualOverloadListFromUnionWithPrimitiveNoImplicitAny.js contextualOverloadListFromUnionWithPrimitiveNoImplicitAny.ts
+! exec tscc --strict --target esnext --lib esnext,dom --out-js contextualOverloadListFromUnionWithPrimitiveNoImplicitAny.js contextualOverloadListFromUnionWithPrimitiveNoImplicitAny.ts
 stderr 'TS7006'
 ! exists contextualOverloadListFromUnionWithPrimitiveNoImplicitAny.js
 ! exists contextualOverloadListFromUnionWithPrimitiveNoImplicitAny.d.ts

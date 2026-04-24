@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AbstractInterfaceIdentifierName.ts by tools/portcase.
+# Ported from tests/cases/compiler/abstractInterfaceIdentifierName.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js abstractInterfaceIdentifierName.js abstractInterfaceIdentifierName.ts
+exec tscc --target es2015 --lib es2015,dom --out-js abstractInterfaceIdentifierName.js abstractInterfaceIdentifierName.ts
 ! stderr .
 cmp abstractInterfaceIdentifierName.js abstractInterfaceIdentifierName.js.golden
+! exists abstractInterfaceIdentifierName.d.ts
+! exists abstractInterfaceIdentifierName.js.map
 
 -- abstractInterfaceIdentifierName.ts --
 interface abstract {

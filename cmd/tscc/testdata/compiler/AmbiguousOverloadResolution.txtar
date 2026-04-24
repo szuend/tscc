@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambiguousOverloadResolution.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js ambiguousOverloadResolution.js ambiguousOverloadResolution.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ambiguousOverloadResolution.js ambiguousOverloadResolution.ts
 ! stderr .
 cmp ambiguousOverloadResolution.js ambiguousOverloadResolution.js.golden
 ! exists ambiguousOverloadResolution.d.ts
@@ -14,8 +14,7 @@ declare function f(p: A, q: B): number;
 declare function f(p: B, q: A): string;
 
 var x: B;
-var t: number = f(x, x); // Not an error
--- ambiguousOverloadResolution.js.golden --
+var t: number = f(x, x); // Not an error-- ambiguousOverloadResolution.js.golden --
 "use strict";
 class A {
 }

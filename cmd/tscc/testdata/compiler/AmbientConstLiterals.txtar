@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientConstLiterals.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts ambientConstLiterals.d.ts --target es2015 --out-js ambientConstLiterals.js ambientConstLiterals.ts
+exec tscc --out-dts ambientConstLiterals.d.ts --target es2015 --lib es2015,dom --out-js ambientConstLiterals.js ambientConstLiterals.ts
 ! stderr .
 cmp ambientConstLiterals.d.ts ambientConstLiterals.d.ts.golden
 cmp ambientConstLiterals.js ambientConstLiterals.js.golden
@@ -27,8 +27,7 @@ const c10 = [123];
 const c11 = "abc" + "def";
 const c12 = 123 + 456;
 const c13 = Math.random() > 0.5 ? "abc" : "def";
-const c14 = Math.random() > 0.5 ? 123 : 456;
--- ambientConstLiterals.d.ts.golden --
+const c14 = Math.random() > 0.5 ? 123 : 456;-- ambientConstLiterals.d.ts.golden --
 declare function f<T>(x: T): T;
 declare enum E {
     A = 0,

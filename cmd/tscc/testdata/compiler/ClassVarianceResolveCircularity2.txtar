@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classVarianceResolveCircularity2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js classVarianceResolveCircularity2.js classVarianceResolveCircularity2.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js classVarianceResolveCircularity2.js classVarianceResolveCircularity2.ts
 ! stderr .
 cmp classVarianceResolveCircularity2.js classVarianceResolveCircularity2.js.golden
 ! exists classVarianceResolveCircularity2.d.ts
@@ -24,8 +24,7 @@ class Foo<T> {
     constructor(bar: Bar<T>) {
         this.bar = bar;
     }
-}
--- classVarianceResolveCircularity2.js.golden --
+}-- classVarianceResolveCircularity2.js.golden --
 // Issue #52813
 class Bar {
     constructor() {

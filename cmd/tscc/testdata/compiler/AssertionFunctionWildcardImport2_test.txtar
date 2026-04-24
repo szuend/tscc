@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assertionFunctionWildcardImport2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --strict --target es2015 --out-js test.js test.ts
+exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js test.js test.ts
 ! stderr .
 cmp test.js test.js.golden
 ! exists asserts.js

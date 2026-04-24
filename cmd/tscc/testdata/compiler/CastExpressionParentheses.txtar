@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/castExpressionParentheses.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js castExpressionParentheses.js castExpressionParentheses.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js castExpressionParentheses.js castExpressionParentheses.ts
 ! stderr .
 cmp castExpressionParentheses.js castExpressionParentheses.js.golden
 ! exists castExpressionParentheses.d.ts

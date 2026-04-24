@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classSideInheritance3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classSideInheritance3.js classSideInheritance3.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classSideInheritance3.js classSideInheritance3.ts
 stderr 'TS2322'
 ! exists classSideInheritance3.js
 ! exists classSideInheritance3.d.ts

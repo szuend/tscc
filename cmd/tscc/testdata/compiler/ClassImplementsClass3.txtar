@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classImplementsClass3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classImplementsClass3.js classImplementsClass3.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classImplementsClass3.js classImplementsClass3.ts
 stderr 'TS2454'
 ! exists classImplementsClass3.js
 ! exists classImplementsClass3.d.ts

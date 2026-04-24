@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/collisionExportsRequireAndAmbientModule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --module commonjs --target es2015 --out-js collisionExportsRequireAndAmbientModule_externalmodule.js collisionExportsRequireAndAmbientModule_externalmodule.ts
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js collisionExportsRequireAndAmbientModule_externalmodule.js collisionExportsRequireAndAmbientModule_externalmodule.ts
 stderr 'TS2322'
 ! exists collisionExportsRequireAndAmbientModule_externalmodule.js
 ! exists collisionExportsRequireAndAmbientModule_externalmodule.d.ts

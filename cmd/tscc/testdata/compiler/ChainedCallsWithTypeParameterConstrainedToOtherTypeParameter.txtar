@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.js chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.ts
 stderr 'TS2741'
 stderr 'TS2739'
 ! exists chainedCallsWithTypeParameterConstrainedToOtherTypeParameter.js

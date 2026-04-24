@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/cloduleWithDuplicateMember1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js cloduleWithDuplicateMember1.js cloduleWithDuplicateMember1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js cloduleWithDuplicateMember1.js cloduleWithDuplicateMember1.ts
 stderr 'TS2300'
 ! exists cloduleWithDuplicateMember1.js
 ! exists cloduleWithDuplicateMember1.d.ts

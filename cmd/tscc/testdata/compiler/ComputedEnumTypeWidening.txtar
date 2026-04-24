@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/computedEnumTypeWidening.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts computedEnumTypeWidening.d.ts --strict --target es2015 --out-js computedEnumTypeWidening.js computedEnumTypeWidening.ts
+exec tscc --out-dts computedEnumTypeWidening.d.ts --strict --target es2015 --lib es2015,dom --out-js computedEnumTypeWidening.js computedEnumTypeWidening.ts
 ! stderr .
 cmp computedEnumTypeWidening.d.ts computedEnumTypeWidening.d.ts.golden
 cmp computedEnumTypeWidening.js computedEnumTypeWidening.js.golden

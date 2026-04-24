@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/capturedLetConstInLoop8.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js capturedLetConstInLoop8.js capturedLetConstInLoop8.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js capturedLetConstInLoop8.js capturedLetConstInLoop8.ts
 stderr 'TS2367'
 ! exists capturedLetConstInLoop8.js
 ! exists capturedLetConstInLoop8.d.ts

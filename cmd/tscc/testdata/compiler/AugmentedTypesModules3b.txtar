@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/augmentedTypesModules3b.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js augmentedTypesModules3b.js augmentedTypesModules3b.ts
+exec tscc --target es2015 --lib es2015,dom --out-js augmentedTypesModules3b.js augmentedTypesModules3b.ts
 ! stderr .
 cmp augmentedTypesModules3b.js augmentedTypesModules3b.js.golden
 ! exists augmentedTypesModules3b.d.ts

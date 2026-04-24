@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AccessorDeclarationOrder.ts by tools/portcase.
+# Ported from tests/cases/compiler/accessorDeclarationOrder.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target esnext --out-js accessorDeclarationOrder.js accessorDeclarationOrder.ts
+! exec tscc --target esnext --lib esnext,dom --out-js accessorDeclarationOrder.js accessorDeclarationOrder.ts
 stderr 'TS2564'
 ! exists accessorDeclarationOrder.js
+! exists accessorDeclarationOrder.d.ts
+! exists accessorDeclarationOrder.js.map
 
 -- accessorDeclarationOrder.ts --
 class C1 {

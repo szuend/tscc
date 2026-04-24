@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assign1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js assign1.js assign1.ts
+exec tscc --target es2015 --lib es2015,dom --out-js assign1.js assign1.ts
 ! stderr .
 cmp assign1.js assign1.js.golden
 ! exists assign1.d.ts

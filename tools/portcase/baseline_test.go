@@ -24,26 +24,52 @@ func TestSplitBaseline(t *testing.T) {
 
 //// [a.ts]
 var a = 1;
+
 //// [a.js]
 var a = 1;
 
 //// [b.ts]
 var b = 2;
+
 //// [b.js]
 var b = 2;
 //# sourceMappingURL=b.js.map
 `
-
 	got := SplitBaseline(content)
-	want := map[string]string{
-		"a.ts": "var a = 1;\n",
-		"a.js": "var a = 1;\n",
-		"b.ts": "var b = 2;\n",
-		"b.js": "var b = 2;\n//# sourceMappingURL=b.js.map\n",
+	want := []OutputFile{
+		{Name: "a.ts", Content: "var a = 1;\n"},
+		{Name: "a.js", Content: "var a = 1;\n"},
+		{Name: "b.ts", Content: "var b = 2;\n"},
+		{Name: "b.js", Content: "var b = 2;\n//# sourceMappingURL=b.js.map\n"},
 	}
 
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("SplitBaseline() = %v, want %v", got, want)
+	}
+}
+
+func TestSplitBaseline_DuplicateNames(t *testing.T) {
+	content := `//// [tests/cases/compiler/multiFile.ts] ////
+
+//// [ts.ts]
+var a = 1;
+//// [ts.js]
+var a = 1;
+//// [ts.ts]
+var b = 2;
+//// [ts.js]
+var b = 2;
+`
+	got := SplitBaseline(content)
+	want := []OutputFile{
+		{Name: "ts.ts", Content: "var a = 1;\n"},
+		{Name: "ts.js", Content: "var a = 1;\n"},
+		{Name: "ts.ts", Content: "var b = 2;\n"},
+		{Name: "ts.js", Content: "var b = 2;\n"},
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("SplitBaseline() with duplicates = %v, want %v", got, want)
 	}
 }
 

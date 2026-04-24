@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classOrder1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js classOrder1.js classOrder1.ts
+exec tscc --target es2015 --lib es2015,dom --out-js classOrder1.js classOrder1.ts
 ! stderr .
 cmp classOrder1.js classOrder1.js.golden
 ! exists classOrder1.d.ts
@@ -15,6 +15,8 @@ class A {
 
 var a = new A();
 a.foo();
+
+
 -- classOrder1.js.golden --
 "use strict";
 class A {

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientModuleExports.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js ambientModuleExports.js ambientModuleExports.ts
+exec tscc --target es2015 --lib es2015,dom --out-js ambientModuleExports.js ambientModuleExports.ts
 ! stderr .
 cmp ambientModuleExports.js ambientModuleExports.js.golden
 ! exists ambientModuleExports.d.ts
@@ -25,8 +25,7 @@ declare namespace Foo2 {
 
 Foo2.a();
 Foo2.b;
-var c2 = new Foo2.C();
--- ambientModuleExports.js.golden --
+var c2 = new Foo2.C();-- ambientModuleExports.js.golden --
 "use strict";
 Foo.a();
 Foo.b;

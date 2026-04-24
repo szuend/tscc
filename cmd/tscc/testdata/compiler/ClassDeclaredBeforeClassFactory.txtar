@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classDeclaredBeforeClassFactory.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js classDeclaredBeforeClassFactory.js classDeclaredBeforeClassFactory.ts
+exec tscc --target es2015 --lib es2015,dom --out-js classDeclaredBeforeClassFactory.js classDeclaredBeforeClassFactory.ts
 ! stderr .
 cmp classDeclaredBeforeClassFactory.js classDeclaredBeforeClassFactory.js.golden
 ! exists classDeclaredBeforeClassFactory.d.ts

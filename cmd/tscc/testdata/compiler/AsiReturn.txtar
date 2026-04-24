@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/asiReturn.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-js asiReturn.js asiReturn.ts
+! exec tscc --lib es2025,dom --out-js asiReturn.js asiReturn.ts
 stderr 'TS1108'
 ! exists asiReturn.js
 ! exists asiReturn.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/bigintIndex.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2020 --out-js a.js a.ts
+! exec tscc --no-strict --target es2020 --lib es2020,dom --out-js a.js a.ts
 stderr 'TS1268'
 stderr 'TS2538'
 stderr 'TS2322'

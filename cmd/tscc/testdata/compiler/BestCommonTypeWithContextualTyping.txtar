@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/bestCommonTypeWithContextualTyping.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js bestCommonTypeWithContextualTyping.js bestCommonTypeWithContextualTyping.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js bestCommonTypeWithContextualTyping.js bestCommonTypeWithContextualTyping.ts
 stderr 'TS2873'
 ! exists bestCommonTypeWithContextualTyping.js
 ! exists bestCommonTypeWithContextualTyping.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/augmentedTypesEnum2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js augmentedTypesEnum2.js augmentedTypesEnum2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js augmentedTypesEnum2.js augmentedTypesEnum2.ts
 stderr 'TS2567'
 ! exists augmentedTypesEnum2.js
 ! exists augmentedTypesEnum2.d.ts

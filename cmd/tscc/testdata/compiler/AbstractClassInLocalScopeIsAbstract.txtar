@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AbstractClassInLocalScopeIsAbstract.ts by tools/portcase.
+# Ported from tests/cases/compiler/abstractClassInLocalScopeIsAbstract.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js abstractClassInLocalScopeIsAbstract.js abstractClassInLocalScopeIsAbstract.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js abstractClassInLocalScopeIsAbstract.js abstractClassInLocalScopeIsAbstract.ts
 stderr 'TS2511'
 ! exists abstractClassInLocalScopeIsAbstract.js
+! exists abstractClassInLocalScopeIsAbstract.d.ts
+! exists abstractClassInLocalScopeIsAbstract.js.map
 
 -- abstractClassInLocalScopeIsAbstract.ts --
 (() => {

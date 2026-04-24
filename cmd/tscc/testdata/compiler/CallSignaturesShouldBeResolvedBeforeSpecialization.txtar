@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/callSignaturesShouldBeResolvedBeforeSpecialization.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js callSignaturesShouldBeResolvedBeforeSpecialization.js callSignaturesShouldBeResolvedBeforeSpecialization.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js callSignaturesShouldBeResolvedBeforeSpecialization.js callSignaturesShouldBeResolvedBeforeSpecialization.ts
 stderr 'TS2345'
 ! exists callSignaturesShouldBeResolvedBeforeSpecialization.js
 ! exists callSignaturesShouldBeResolvedBeforeSpecialization.d.ts

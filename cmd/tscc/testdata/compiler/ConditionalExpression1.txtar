@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/conditionalExpression1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js conditionalExpression1.js conditionalExpression1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js conditionalExpression1.js conditionalExpression1.ts
 stderr 'TS2322'
 ! exists conditionalExpression1.js
 ! exists conditionalExpression1.d.ts

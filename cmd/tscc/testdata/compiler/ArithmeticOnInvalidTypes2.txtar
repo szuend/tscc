@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arithmeticOnInvalidTypes2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js arithmeticOnInvalidTypes2.js arithmeticOnInvalidTypes2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arithmeticOnInvalidTypes2.js arithmeticOnInvalidTypes2.ts
 stderr 'TS2365'
 stderr 'TS2362'
 stderr 'TS2363'

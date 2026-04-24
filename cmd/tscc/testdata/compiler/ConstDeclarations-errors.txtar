@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constDeclarations-errors.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target ES6 --out-js constDeclarations-errors.js constDeclarations-errors.ts
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations-errors.js constDeclarations-errors.ts
 stderr 'TS1155'
 stderr 'TS2588'
 ! exists constDeclarations-errors.js

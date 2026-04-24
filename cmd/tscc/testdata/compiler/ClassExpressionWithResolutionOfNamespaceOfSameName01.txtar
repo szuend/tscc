@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExpressionWithResolutionOfNamespaceOfSameName01.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-js classExpressionWithResolutionOfNamespaceOfSameName01.js classExpressionWithResolutionOfNamespaceOfSameName01.ts
+! exec tscc --lib es2025,dom --out-js classExpressionWithResolutionOfNamespaceOfSameName01.js classExpressionWithResolutionOfNamespaceOfSameName01.ts
 stderr 'TS2564'
 ! exists classExpressionWithResolutionOfNamespaceOfSameName01.js
 ! exists classExpressionWithResolutionOfNamespaceOfSameName01.d.ts

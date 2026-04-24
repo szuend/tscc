@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignmentNonObjectTypeConstraints.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js assignmentNonObjectTypeConstraints.js assignmentNonObjectTypeConstraints.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js assignmentNonObjectTypeConstraints.js assignmentNonObjectTypeConstraints.ts
 ! stderr .
 cmp assignmentNonObjectTypeConstraints.js assignmentNonObjectTypeConstraints.js.golden
 ! exists assignmentNonObjectTypeConstraints.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/asyncFunctionContextuallyTypedReturns.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es6 --out-js asyncFunctionContextuallyTypedReturns.js asyncFunctionContextuallyTypedReturns.ts
+exec tscc --strict --target es6 --lib es6,dom --out-js asyncFunctionContextuallyTypedReturns.js asyncFunctionContextuallyTypedReturns.ts
 ! stderr .
 cmp asyncFunctionContextuallyTypedReturns.js asyncFunctionContextuallyTypedReturns.js.golden
 ! exists asyncFunctionContextuallyTypedReturns.d.ts

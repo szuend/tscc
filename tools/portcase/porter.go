@@ -83,26 +83,60 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		return nil, fmt.Errorf("parsing directives: %w", parseErr)
 	}
 
-	var files map[string]string
+	var files []OutputFile
 	if p.BaselineJs != "" {
 		files = SplitBaseline(p.BaselineJs)
 		if len(files) == 0 {
 			return nil, fmt.Errorf("failed to split baseline JS content")
 		}
 	} else {
-		files = map[string]string{
-			p.CaseName + ".ts": p.TsContent,
+		files = []OutputFile{
+			{Name: p.CaseName + ".ts", Content: p.TsContent},
 		}
 	}
 
-	outputs := make(map[string]string)
+	var outputs []OutputFile
 
-	for name, content := range files {
+	for _, f := range files {
+		name := f.Name
 		if !((strings.HasSuffix(name, ".ts") && !strings.HasSuffix(name, ".d.ts")) || strings.HasSuffix(name, ".tsx")) {
 			if !strings.HasSuffix(name, "package.json") {
-				outputs[name] = content
+				outputs = append(outputs, f)
 			}
 		}
+	}
+
+	// Pre-group outputs by base outStem and occurrence.
+	// An occurrence is bounded by seeing the same outName again.
+	type OutputGroup map[string]string
+	groupedOutputs := make(map[string][]OutputGroup)
+
+	for _, out := range outputs {
+		name := out.Name
+		outStem := name
+		if before, ok := strings.CutSuffix(name, ".d.ts"); ok {
+			outStem = before
+		} else if before, ok := strings.CutSuffix(name, ".js.map"); ok {
+			outStem = before
+		} else {
+			outStem = strings.TrimSuffix(name, filepath.Ext(name))
+		}
+
+		baseOutStem := filepath.Base(outStem)
+
+		groups := groupedOutputs[baseOutStem]
+		if len(groups) == 0 {
+			groups = append(groups, make(OutputGroup))
+		}
+
+		lastGroup := groups[len(groups)-1]
+		if _, exists := lastGroup[name]; exists {
+			lastGroup = make(OutputGroup)
+			groups = append(groups, lastGroup)
+		}
+
+		lastGroup[name] = out.Content
+		groupedOutputs[baseOutStem] = groups
 	}
 
 	if len(inputs) == 0 {
@@ -117,12 +151,20 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 	variants := ComputeVariants(globalOptions)
 
-	for _, inputFile := range inputList {
+	for inputIndex, inputFile := range inputList {
 		if strings.HasSuffix(inputFile, "package.json") {
 			continue
 		}
 		inputStem := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
 		currentErrorCodes := errorCodesMap[inputFile]
+
+		// Figure out which occurrence this input is among inputs with the same basename
+		occurrenceIndex := 0
+		for i := 0; i < inputIndex; i++ {
+			if filepath.Base(strings.TrimSuffix(inputList[i], filepath.Ext(inputList[i]))) == filepath.Base(inputStem) {
+				occurrenceIndex++
+			}
+		}
 
 		for _, variant := range variants {
 			flags, err := TranslateDirectives(variant.Options, inputStem)
@@ -149,24 +191,22 @@ func (p *Porter) Port() ([]PortedFile, error) {
 				currentOutName = fmt.Sprintf("%s_%s_%s.txtar", base, safeInputStem, variant.Name)
 			}
 
-			// Filter outputs
+			// Assign outputs for this specific occurrence
 			currentOutputs := make(map[string]string)
 			var currentNotExpectedOutputs []string
 
-			for outName, content := range outputs {
-				outStem := outName
-				if before, ok := strings.CutSuffix(outName, ".d.ts"); ok {
-					outStem = before
-				} else if before, ok := strings.CutSuffix(outName, ".js.map"); ok {
-					outStem = before
-				} else {
-					outStem = strings.TrimSuffix(outName, filepath.Ext(outName))
-				}
+			groups := groupedOutputs[filepath.Base(inputStem)]
+			if occurrenceIndex < len(groups) {
+				currentOutputs = groups[occurrenceIndex]
+			}
 
-				if outStem == inputStem {
-					currentOutputs[outName] = content
-				} else {
-					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
+			for i, group := range groups {
+				if i != occurrenceIndex {
+					for outName := range group {
+						if _, ok := currentOutputs[outName]; !ok {
+							currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
+						}
+					}
 				}
 			}
 

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constDeclarations-access3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target ES6 --out-js constDeclarations-access3.js constDeclarations-access3.ts
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations-access3.js constDeclarations-access3.ts
 stderr 'TS2540'
 ! exists constDeclarations-access3.js
 ! exists constDeclarations-access3.d.ts

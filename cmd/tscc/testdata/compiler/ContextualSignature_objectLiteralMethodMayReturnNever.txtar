@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualSignature_objectLiteralMethodMayReturnNever.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js contextualSignature_objectLiteralMethodMayReturnNever.js contextualSignature_objectLiteralMethodMayReturnNever.ts
+exec tscc --target es2015 --lib es2015,dom --out-js contextualSignature_objectLiteralMethodMayReturnNever.js contextualSignature_objectLiteralMethodMayReturnNever.ts
 ! stderr .
 cmp contextualSignature_objectLiteralMethodMayReturnNever.js contextualSignature_objectLiteralMethodMayReturnNever.js.golden
 ! exists contextualSignature_objectLiteralMethodMayReturnNever.d.ts

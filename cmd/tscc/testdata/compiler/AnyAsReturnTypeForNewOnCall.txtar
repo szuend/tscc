@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anyAsReturnTypeForNewOnCall.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js anyAsReturnTypeForNewOnCall.js anyAsReturnTypeForNewOnCall.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js anyAsReturnTypeForNewOnCall.js anyAsReturnTypeForNewOnCall.ts
 ! stderr .
 cmp anyAsReturnTypeForNewOnCall.js anyAsReturnTypeForNewOnCall.js.golden
 ! exists anyAsReturnTypeForNewOnCall.d.ts
@@ -18,6 +18,8 @@ function Point(x, y) {
 var o = new Point(3, 4);
 
 var xx = o.x;
+
+ 
 -- anyAsReturnTypeForNewOnCall.js.golden --
 "use strict";
 function Point(x, y) {

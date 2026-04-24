@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualTypeIterableUnions.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target esnext --out-js contextualTypeIterableUnions.js contextualTypeIterableUnions.ts
+exec tscc --strict --target esnext --lib esnext,dom --out-js contextualTypeIterableUnions.js contextualTypeIterableUnions.ts
 ! stderr .
 cmp contextualTypeIterableUnions.js contextualTypeIterableUnions.js.golden
 ! exists contextualTypeIterableUnions.d.ts

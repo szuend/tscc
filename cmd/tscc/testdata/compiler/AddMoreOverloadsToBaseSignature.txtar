@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AddMoreOverloadsToBaseSignature.ts by tools/portcase.
+# Ported from tests/cases/compiler/addMoreOverloadsToBaseSignature.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js addMoreOverloadsToBaseSignature.js addMoreOverloadsToBaseSignature.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js addMoreOverloadsToBaseSignature.js addMoreOverloadsToBaseSignature.ts
 stderr 'TS2430'
 ! exists addMoreOverloadsToBaseSignature.js
+! exists addMoreOverloadsToBaseSignature.d.ts
+! exists addMoreOverloadsToBaseSignature.js.map
 
 -- addMoreOverloadsToBaseSignature.ts --
 interface Foo {

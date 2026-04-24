@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/accessorsEmit.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js accessorsEmit.js accessorsEmit.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js accessorsEmit.js accessorsEmit.ts
 ! stderr .
 cmp accessorsEmit.js accessorsEmit.js.golden
 ! exists accessorsEmit.d.ts
@@ -21,8 +21,7 @@ class Test2 {
         var x = 1;
         return null;
     }
-}
--- accessorsEmit.js.golden --
+}-- accessorsEmit.js.golden --
 "use strict";
 class Result {
 }

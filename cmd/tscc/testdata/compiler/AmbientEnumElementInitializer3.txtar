@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientEnumElementInitializer3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js ambientEnumElementInitializer3.js ambientEnumElementInitializer3.ts
+exec tscc --target es2015 --lib es2015,dom --out-js ambientEnumElementInitializer3.js ambientEnumElementInitializer3.ts
 ! stderr .
 cmp ambientEnumElementInitializer3.js ambientEnumElementInitializer3.js.golden
 ! exists ambientEnumElementInitializer3.d.ts
@@ -9,6 +9,5 @@ cmp ambientEnumElementInitializer3.js ambientEnumElementInitializer3.js.golden
 -- ambientEnumElementInitializer3.ts --
 declare enum E {
  e = 3.3 // Decimal
-}
--- ambientEnumElementInitializer3.js.golden --
+}-- ambientEnumElementInitializer3.js.golden --
 "use strict";

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/bitwiseCompoundAssignmentOperators.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js bitwiseCompoundAssignmentOperators.js bitwiseCompoundAssignmentOperators.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js bitwiseCompoundAssignmentOperators.js bitwiseCompoundAssignmentOperators.ts
 stderr 'TS2447'
 stderr 'TS2362'
 stderr 'TS2363'

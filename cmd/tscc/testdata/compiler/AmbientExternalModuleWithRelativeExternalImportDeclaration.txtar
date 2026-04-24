@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientExternalModuleWithRelativeExternalImportDeclaration.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js ambientExternalModuleWithRelativeExternalImportDeclaration.js ambientExternalModuleWithRelativeExternalImportDeclaration.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js ambientExternalModuleWithRelativeExternalImportDeclaration.js ambientExternalModuleWithRelativeExternalImportDeclaration.ts
 stderr 'TS2439'
 stderr 'TS2307'
 ! exists ambientExternalModuleWithRelativeExternalImportDeclaration.js

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/aliasAssignments.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --module commonjs --target es2015 --out-js aliasAssignments_moduleA.js aliasAssignments_moduleA.ts
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasAssignments_moduleA.js aliasAssignments_moduleA.ts
 stderr 'TS2564'
 ! exists aliasAssignments_moduleA.js
 ! exists aliasAssignments_1.js

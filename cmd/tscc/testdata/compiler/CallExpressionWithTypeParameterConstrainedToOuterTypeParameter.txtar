@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/callExpressionWithTypeParameterConstrainedToOuterTypeParameter.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js callExpressionWithTypeParameterConstrainedToOuterTypeParameter.js callExpressionWithTypeParameterConstrainedToOuterTypeParameter.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js callExpressionWithTypeParameterConstrainedToOuterTypeParameter.js callExpressionWithTypeParameterConstrainedToOuterTypeParameter.ts
 stderr 'TS2454'
 ! exists callExpressionWithTypeParameterConstrainedToOuterTypeParameter.js
 ! exists callExpressionWithTypeParameterConstrainedToOuterTypeParameter.d.ts

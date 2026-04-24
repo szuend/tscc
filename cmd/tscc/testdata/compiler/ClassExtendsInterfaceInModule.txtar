@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExtendsInterfaceInModule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classExtendsInterfaceInModule.js classExtendsInterfaceInModule.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classExtendsInterfaceInModule.js classExtendsInterfaceInModule.ts
 stderr 'TS2689'
 ! exists classExtendsInterfaceInModule.js
 ! exists classExtendsInterfaceInModule.d.ts

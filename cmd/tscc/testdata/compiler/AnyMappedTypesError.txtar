@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anyMappedTypesError.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-implicit-any --target es2015 --out-js anyMappedTypesError.js anyMappedTypesError.ts
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js anyMappedTypesError.js anyMappedTypesError.ts
 stderr 'TS7039'
 ! exists anyMappedTypesError.js
 ! exists anyMappedTypesError.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/comparabilityTypeParametersRelatedByUnion.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js comparabilityTypeParametersRelatedByUnion.js comparabilityTypeParametersRelatedByUnion.ts
+exec tscc --target es2015 --lib es2015,dom --out-js comparabilityTypeParametersRelatedByUnion.js comparabilityTypeParametersRelatedByUnion.ts
 ! stderr .
 cmp comparabilityTypeParametersRelatedByUnion.js comparabilityTypeParametersRelatedByUnion.js.golden
 ! exists comparabilityTypeParametersRelatedByUnion.d.ts

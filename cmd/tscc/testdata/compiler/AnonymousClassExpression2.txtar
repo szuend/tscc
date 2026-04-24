@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anonymousClassExpression2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js anonymousClassExpression2.js anonymousClassExpression2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js anonymousClassExpression2.js anonymousClassExpression2.ts
 stderr 'TS2551'
 ! exists anonymousClassExpression2.js
 ! exists anonymousClassExpression2.d.ts

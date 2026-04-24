@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/argumentsAsPropertyName.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js argumentsAsPropertyName.js argumentsAsPropertyName.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js argumentsAsPropertyName.js argumentsAsPropertyName.ts
 ! stderr .
 cmp argumentsAsPropertyName.js argumentsAsPropertyName.js.golden
 ! exists argumentsAsPropertyName.d.ts
@@ -21,8 +21,7 @@ function myFunction(myType: MyType) {
         const x = 5;
         [1, 2, 3].forEach(function(j) { use(x); })
     }
-}
--- argumentsAsPropertyName.js.golden --
+}-- argumentsAsPropertyName.js.golden --
 "use strict";
 function myFunction(myType) {
     for (let i = 0; i < 10; i++) {

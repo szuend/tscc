@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/asyncFunctionReturnExpressionErrorSpans.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js asyncFunctionReturnExpressionErrorSpans.js asyncFunctionReturnExpressionErrorSpans.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js asyncFunctionReturnExpressionErrorSpans.js asyncFunctionReturnExpressionErrorSpans.ts
 stderr 'TS2322'
 ! exists asyncFunctionReturnExpressionErrorSpans.js
 ! exists asyncFunctionReturnExpressionErrorSpans.d.ts

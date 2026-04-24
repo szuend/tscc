@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignmentCompatability_checking-apply-member-off-of-function-interface.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js assignmentCompatability_checking-apply-member-off-of-function-interface.js assignmentCompatability_checking-apply-member-off-of-function-interface.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js assignmentCompatability_checking-apply-member-off-of-function-interface.js assignmentCompatability_checking-apply-member-off-of-function-interface.ts
 stderr 'TS2322'
 stderr 'TS2741'
 stderr 'TS2345'

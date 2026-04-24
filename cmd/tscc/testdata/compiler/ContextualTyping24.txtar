@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualTyping24.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js contextualTyping24.js contextualTyping24.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping24.js contextualTyping24.ts
 stderr 'TS2322'
 ! exists contextualTyping24.js
 ! exists contextualTyping24.d.ts

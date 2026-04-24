@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arguments.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target ES6 --out-js arguments.js arguments.ts
+! exec tscc --target ES6 --lib ES6,dom --out-js arguments.js arguments.ts
 stderr 'TS2304'
 ! exists arguments.js
 ! exists arguments.d.ts

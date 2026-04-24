@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExtendsNull.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-js classExtendsNull.js classExtendsNull.ts
+! exec tscc --lib es2025,dom --out-js classExtendsNull.js classExtendsNull.ts
 stderr 'TS17005'
 ! exists classExtendsNull.js
 ! exists classExtendsNull.d.ts

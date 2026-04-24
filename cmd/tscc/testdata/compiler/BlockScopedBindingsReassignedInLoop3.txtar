@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/blockScopedBindingsReassignedInLoop3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js blockScopedBindingsReassignedInLoop3.js blockScopedBindingsReassignedInLoop3.ts
+exec tscc --target es2015 --lib es2015,dom --out-js blockScopedBindingsReassignedInLoop3.js blockScopedBindingsReassignedInLoop3.ts
 ! stderr .
 cmp blockScopedBindingsReassignedInLoop3.js blockScopedBindingsReassignedInLoop3.js.golden
 ! exists blockScopedBindingsReassignedInLoop3.d.ts

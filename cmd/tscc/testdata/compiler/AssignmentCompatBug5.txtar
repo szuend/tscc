@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignmentCompatBug5.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js assignmentCompatBug5.js assignmentCompatBug5.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatBug5.js assignmentCompatBug5.ts
 stderr 'TS2353'
 stderr 'TS2322'
 stderr 'TS2345'

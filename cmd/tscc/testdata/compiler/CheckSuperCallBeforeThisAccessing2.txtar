@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/checkSuperCallBeforeThisAccessing2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-js checkSuperCallBeforeThisAccessing2.js checkSuperCallBeforeThisAccessing2.ts
+! exec tscc --lib es2025,dom --out-js checkSuperCallBeforeThisAccessing2.js checkSuperCallBeforeThisAccessing2.ts
 stderr 'TS17009'
 ! exists checkSuperCallBeforeThisAccessing2.js
 ! exists checkSuperCallBeforeThisAccessing2.d.ts

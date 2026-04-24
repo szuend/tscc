@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anyPlusAny1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js anyPlusAny1.js anyPlusAny1.ts
+exec tscc --target es2015 --lib es2015,dom --out-js anyPlusAny1.js anyPlusAny1.ts
 ! stderr .
 cmp anyPlusAny1.js anyPlusAny1.js.golden
 ! exists anyPlusAny1.d.ts
@@ -9,8 +9,7 @@ cmp anyPlusAny1.js anyPlusAny1.js.golden
 -- anyPlusAny1.ts --
 var x: any;
 x.name = "hello";
-var z = x + x;
--- anyPlusAny1.js.golden --
+var z = x + x;-- anyPlusAny1.js.golden --
 "use strict";
 var x;
 x.name = "hello";

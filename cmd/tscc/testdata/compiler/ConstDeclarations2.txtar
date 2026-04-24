@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constDeclarations2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts constDeclarations2.d.ts --no-strict --target ES6 --out-js constDeclarations2.js constDeclarations2.ts
+exec tscc --out-dts constDeclarations2.d.ts --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations2.js constDeclarations2.ts
 ! stderr .
 cmp constDeclarations2.d.ts constDeclarations2.d.ts.golden
 cmp constDeclarations2.js constDeclarations2.js.golden

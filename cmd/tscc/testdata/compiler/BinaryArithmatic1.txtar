@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/binaryArithmatic1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js binaryArithmatic1.js binaryArithmatic1.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js binaryArithmatic1.js binaryArithmatic1.ts
 stderr 'TS18050'
 ! exists binaryArithmatic1.js
 ! exists binaryArithmatic1.d.ts

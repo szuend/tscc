@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientEnumElementInitializer6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js ambientEnumElementInitializer6.js ambientEnumElementInitializer6.ts
+exec tscc --target es2015 --lib es2015,dom --out-js ambientEnumElementInitializer6.js ambientEnumElementInitializer6.ts
 ! stderr .
 cmp ambientEnumElementInitializer6.js ambientEnumElementInitializer6.js.golden
 ! exists ambientEnumElementInitializer6.d.ts
@@ -11,6 +11,5 @@ declare namespace M {
     enum E {
         e = 3
     }
-}
--- ambientEnumElementInitializer6.js.golden --
+}-- ambientEnumElementInitializer6.js.golden --
 "use strict";

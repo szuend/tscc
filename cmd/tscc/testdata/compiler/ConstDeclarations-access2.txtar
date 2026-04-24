@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constDeclarations-access2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target ES6 --out-js constDeclarations-access2.js constDeclarations-access2.ts
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations-access2.js constDeclarations-access2.ts
 stderr 'TS2588'
 ! exists constDeclarations-access2.js
 ! exists constDeclarations-access2.d.ts

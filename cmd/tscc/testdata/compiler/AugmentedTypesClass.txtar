@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/augmentedTypesClass.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js augmentedTypesClass.js augmentedTypesClass.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js augmentedTypesClass.js augmentedTypesClass.ts
 stderr 'TS2300'
 stderr 'TS2567'
 ! exists augmentedTypesClass.js

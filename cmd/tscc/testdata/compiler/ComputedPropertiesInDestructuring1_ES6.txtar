@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/computedPropertiesInDestructuring1_ES6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target ES6 --out-js computedPropertiesInDestructuring1_ES6.js computedPropertiesInDestructuring1_ES6.ts
+! exec tscc --target ES6 --lib ES6,dom --out-js computedPropertiesInDestructuring1_ES6.js computedPropertiesInDestructuring1_ES6.ts
 stderr 'TS2537'
 stderr 'TS2349'
 stderr 'TS2538'

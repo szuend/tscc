@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classFieldSuperNotAccessible.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target esnext --out-js classFieldSuperNotAccessible.js classFieldSuperNotAccessible.ts
+! exec tscc --target esnext --lib esnext,dom --out-js classFieldSuperNotAccessible.js classFieldSuperNotAccessible.ts
 stderr 'TS2855'
 ! exists classFieldSuperNotAccessible.js
 ! exists classFieldSuperNotAccessible.d.ts

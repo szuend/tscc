@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classExpressionWithStaticPropertiesES64.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es6 --out-js classExpressionWithStaticPropertiesES64.js classExpressionWithStaticPropertiesES64.ts
+exec tscc --target es6 --lib es6,dom --out-js classExpressionWithStaticPropertiesES64.js classExpressionWithStaticPropertiesES64.ts
 ! stderr .
 cmp classExpressionWithStaticPropertiesES64.js classExpressionWithStaticPropertiesES64.js.golden
 ! exists classExpressionWithStaticPropertiesES64.d.ts

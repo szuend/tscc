@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AbstractClassInLocalScope.ts by tools/portcase.
+# Ported from tests/cases/compiler/abstractClassInLocalScope.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js abstractClassInLocalScope.js abstractClassInLocalScope.ts
+exec tscc --target es2015 --lib es2015,dom --out-js abstractClassInLocalScope.js abstractClassInLocalScope.ts
 ! stderr .
 cmp abstractClassInLocalScope.js abstractClassInLocalScope.js.golden
+! exists abstractClassInLocalScope.d.ts
+! exists abstractClassInLocalScope.js.map
 
 -- abstractClassInLocalScope.ts --
 (() => {

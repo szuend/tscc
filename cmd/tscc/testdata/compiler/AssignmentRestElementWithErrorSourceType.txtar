@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignmentRestElementWithErrorSourceType.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js assignmentRestElementWithErrorSourceType.js assignmentRestElementWithErrorSourceType.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentRestElementWithErrorSourceType.js assignmentRestElementWithErrorSourceType.ts
 stderr 'TS2304'
 stderr 'TS2552'
 ! exists assignmentRestElementWithErrorSourceType.js

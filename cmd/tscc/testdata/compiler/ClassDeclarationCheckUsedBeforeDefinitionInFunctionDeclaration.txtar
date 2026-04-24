@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.ts
+exec tscc --target es2015 --lib es2015,dom --out-js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.ts
 ! stderr .
 cmp classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js.golden
 ! exists classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.d.ts
@@ -10,8 +10,7 @@ cmp classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js classDecla
 function f() {
     new C2(); // OK
 }    
-class C2 { }
--- classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js.golden --
+class C2 { }-- classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js.golden --
 "use strict";
 function f() {
     new C2(); // OK

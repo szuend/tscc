@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classStaticInitializersUsePropertiesBeforeDeclaration.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classStaticInitializersUsePropertiesBeforeDeclaration.js classStaticInitializersUsePropertiesBeforeDeclaration.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classStaticInitializersUsePropertiesBeforeDeclaration.js classStaticInitializersUsePropertiesBeforeDeclaration.ts
 stderr 'TS2450'
 stderr 'TS2729'
 stderr 'TS2448'

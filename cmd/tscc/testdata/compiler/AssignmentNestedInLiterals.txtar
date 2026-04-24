@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignmentNestedInLiterals.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-implicit-any --target es2015 --out-js assignmentNestedInLiterals.js assignmentNestedInLiterals.ts
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js assignmentNestedInLiterals.js assignmentNestedInLiterals.ts
 ! stderr .
 cmp assignmentNestedInLiterals.js assignmentNestedInLiterals.js.golden
 ! exists assignmentNestedInLiterals.d.ts

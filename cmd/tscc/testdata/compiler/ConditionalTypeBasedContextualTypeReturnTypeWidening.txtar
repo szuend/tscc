@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/conditionalTypeBasedContextualTypeReturnTypeWidening.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js conditionalTypeBasedContextualTypeReturnTypeWidening.js conditionalTypeBasedContextualTypeReturnTypeWidening.ts
+exec tscc --target es2015 --lib es2015,dom --out-js conditionalTypeBasedContextualTypeReturnTypeWidening.js conditionalTypeBasedContextualTypeReturnTypeWidening.ts
 ! stderr .
 cmp conditionalTypeBasedContextualTypeReturnTypeWidening.js conditionalTypeBasedContextualTypeReturnTypeWidening.js.golden
 ! exists conditionalTypeBasedContextualTypeReturnTypeWidening.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classWithEmptyTypeParameter.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classWithEmptyTypeParameter.js classWithEmptyTypeParameter.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classWithEmptyTypeParameter.js classWithEmptyTypeParameter.ts
 stderr 'TS1098'
 ! exists classWithEmptyTypeParameter.js
 ! exists classWithEmptyTypeParameter.d.ts

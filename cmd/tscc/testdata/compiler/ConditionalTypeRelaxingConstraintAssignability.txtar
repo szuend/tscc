@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/conditionalTypeRelaxingConstraintAssignability.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --strict --target es2015 --out-js conditionalTypeRelaxingConstraintAssignability.js conditionalTypeRelaxingConstraintAssignability.ts
+exec tscc --strict --target es2015 --lib es2015,dom --out-js conditionalTypeRelaxingConstraintAssignability.js conditionalTypeRelaxingConstraintAssignability.ts
 ! stderr .
 cmp conditionalTypeRelaxingConstraintAssignability.js conditionalTypeRelaxingConstraintAssignability.js.golden
 ! exists conditionalTypeRelaxingConstraintAssignability.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/assignmentToObjectAndFunction.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js assignmentToObjectAndFunction.js assignmentToObjectAndFunction.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js assignmentToObjectAndFunction.js assignmentToObjectAndFunction.ts
 stderr 'TS2322'
 stderr 'TS2740'
 ! exists assignmentToObjectAndFunction.js

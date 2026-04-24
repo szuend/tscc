@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientModuleWithTemplateLiterals.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js ambientModuleWithTemplateLiterals.js ambientModuleWithTemplateLiterals.ts
+exec tscc --target es2015 --lib es2015,dom --out-js ambientModuleWithTemplateLiterals.js ambientModuleWithTemplateLiterals.ts
 ! stderr .
 cmp ambientModuleWithTemplateLiterals.js ambientModuleWithTemplateLiterals.js.golden
 ! exists ambientModuleWithTemplateLiterals.d.ts
@@ -26,8 +26,7 @@ Foo.a;
 Foo.b;
 Foo.c;
 Foo.d;
-Foo.e;
--- ambientModuleWithTemplateLiterals.js.golden --
+Foo.e;-- ambientModuleWithTemplateLiterals.js.golden --
 "use strict";
 Foo.a;
 Foo.b;

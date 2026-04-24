@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayOfExportedClass.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --module commonjs --target es2015 --out-js arrayOfExportedClass_0.js arrayOfExportedClass_0.ts
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js arrayOfExportedClass_0.js arrayOfExportedClass_0.ts
 stderr 'TS2564'
 ! exists arrayOfExportedClass_0.js
 ! exists arrayOfExportedClass_0.d.ts

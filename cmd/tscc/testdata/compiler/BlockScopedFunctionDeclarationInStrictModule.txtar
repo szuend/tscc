@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/blockScopedFunctionDeclarationInStrictModule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --module commonjs --target esnext --out-js blockScopedFunctionDeclarationInStrictModule.js blockScopedFunctionDeclarationInStrictModule.ts
+! exec tscc --module commonjs --target esnext --lib esnext,dom --out-js blockScopedFunctionDeclarationInStrictModule.js blockScopedFunctionDeclarationInStrictModule.ts
 stderr 'TS2304'
 ! exists blockScopedFunctionDeclarationInStrictModule.js
 ! exists blockScopedFunctionDeclarationInStrictModule.d.ts

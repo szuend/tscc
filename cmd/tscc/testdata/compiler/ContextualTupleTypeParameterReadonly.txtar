@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualTupleTypeParameterReadonly.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --strict --target es2015 --out-js contextualTupleTypeParameterReadonly.js contextualTupleTypeParameterReadonly.ts
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js contextualTupleTypeParameterReadonly.js contextualTupleTypeParameterReadonly.ts
 stderr 'TS2345'
 ! exists contextualTupleTypeParameterReadonly.js
 ! exists contextualTupleTypeParameterReadonly.d.ts

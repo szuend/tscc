@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classIndexer3.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js classIndexer3.js classIndexer3.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classIndexer3.js classIndexer3.ts
 stderr 'TS2564'
 stderr 'TS2411'
 ! exists classIndexer3.js

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/commentsOnRequireStatement.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs 2.ts
+exec tscc --module commonjs --lib es2025,dom 2.ts
 ! stderr .
 ! exists 2.d.ts
 ! exists 2.js.map

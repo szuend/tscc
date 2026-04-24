@@ -1,8 +1,10 @@
-# Ported from tests/cases/compiler/AcceptableAlias1.ts by tools/portcase.
+# Ported from tests/cases/compiler/acceptableAlias1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js acceptableAlias1.js acceptableAlias1.ts
+exec tscc --target es2015 --lib es2015,dom --out-js acceptableAlias1.js acceptableAlias1.ts
 ! stderr .
 cmp acceptableAlias1.js acceptableAlias1.js.golden
+! exists acceptableAlias1.d.ts
+! exists acceptableAlias1.js.map
 
 -- acceptableAlias1.ts --
 namespace M {
@@ -11,8 +13,7 @@ namespace M {
     export import X = N;
 }
 
-import r = M.X;
--- acceptableAlias1.js.golden --
+import r = M.X;-- acceptableAlias1.js.golden --
 "use strict";
 var M;
 (function (M) {

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/conditionalExpressionNewLine9.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js conditionalExpressionNewLine9.js conditionalExpressionNewLine9.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js conditionalExpressionNewLine9.js conditionalExpressionNewLine9.ts
 stderr 'TS2304'
 ! exists conditionalExpressionNewLine9.js
 ! exists conditionalExpressionNewLine9.d.ts

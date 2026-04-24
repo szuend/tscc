@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/constraintPropagationThroughReturnTypes.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js constraintPropagationThroughReturnTypes.js constraintPropagationThroughReturnTypes.ts
+exec tscc --target es2015 --lib es2015,dom --out-js constraintPropagationThroughReturnTypes.js constraintPropagationThroughReturnTypes.ts
 ! stderr .
 cmp constraintPropagationThroughReturnTypes.js constraintPropagationThroughReturnTypes.js.golden
 ! exists constraintPropagationThroughReturnTypes.d.ts

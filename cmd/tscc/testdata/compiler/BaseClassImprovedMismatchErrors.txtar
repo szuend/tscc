@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/baseClassImprovedMismatchErrors.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js baseClassImprovedMismatchErrors.js baseClassImprovedMismatchErrors.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js baseClassImprovedMismatchErrors.js baseClassImprovedMismatchErrors.ts
 stderr 'TS2564'
 stderr 'TS2416'
 ! exists baseClassImprovedMismatchErrors.js

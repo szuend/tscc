@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/breakTarget6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js breakTarget6.js breakTarget6.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js breakTarget6.js breakTarget6.ts
 stderr 'TS1116'
 ! exists breakTarget6.js
 ! exists breakTarget6.d.ts

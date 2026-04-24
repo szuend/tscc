@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/anyDeclare.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js anyDeclare.js anyDeclare.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js anyDeclare.js anyDeclare.ts
 stderr 'TS2300'
 ! exists anyDeclare.js
 ! exists anyDeclare.d.ts

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/augmentedTypesInterface.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js augmentedTypesInterface.js augmentedTypesInterface.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js augmentedTypesInterface.js augmentedTypesInterface.ts
 stderr 'TS2567'
 ! exists augmentedTypesInterface.js
 ! exists augmentedTypesInterface.d.ts

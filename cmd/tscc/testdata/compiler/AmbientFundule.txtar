@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientFundule.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --out-js ambientFundule.js ambientFundule.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ambientFundule.js ambientFundule.ts
 ! stderr .
 cmp ambientFundule.js ambientFundule.js.golden
 ! exists ambientFundule.d.ts
@@ -9,6 +9,5 @@ cmp ambientFundule.js ambientFundule.js.golden
 -- ambientFundule.ts --
 declare function f();
 declare namespace f { var x }
-declare function f(x);
--- ambientFundule.js.golden --
+declare function f(x);-- ambientFundule.js.golden --
 "use strict";

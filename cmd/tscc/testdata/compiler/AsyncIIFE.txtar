@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/asyncIIFE.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target ES6 --out-js asyncIIFE.js asyncIIFE.ts
+exec tscc --target ES6 --lib ES6,dom --out-js asyncIIFE.js asyncIIFE.ts
 ! stderr .
 cmp asyncIIFE.js asyncIIFE.js.golden
 ! exists asyncIIFE.d.ts

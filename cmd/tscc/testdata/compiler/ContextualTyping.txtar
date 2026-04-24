@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/contextualTyping.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-map contextualTyping.js.map --no-strict --target es2015 --out-js contextualTyping.js contextualTyping.ts
+! exec tscc --out-map contextualTyping.js.map --no-strict --target es2015 --lib es2015,dom --out-js contextualTyping.js contextualTyping.ts
 stderr 'TS2384'
 stderr 'TS2741'
 ! exists contextualTyping.js

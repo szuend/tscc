@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/classDeclarationCheckUsedBeforeDefinitionInItself.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es6 --out-js classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUsedBeforeDefinitionInItself.ts
+exec tscc --target es6 --lib es6,dom --out-js classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUsedBeforeDefinitionInItself.ts
 ! stderr .
 cmp classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUsedBeforeDefinitionInItself.js.golden
 ! exists classDeclarationCheckUsedBeforeDefinitionInItself.d.ts
@@ -9,8 +9,7 @@ cmp classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUs
 -- classDeclarationCheckUsedBeforeDefinitionInItself.ts --
 class C3 { 
     static intance = new C3();  // ok
-}
--- classDeclarationCheckUsedBeforeDefinitionInItself.js.golden --
+}-- classDeclarationCheckUsedBeforeDefinitionInItself.js.golden --
 "use strict";
 class C3 {
 }
