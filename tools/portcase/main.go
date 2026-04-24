@@ -24,14 +24,18 @@ import (
 )
 
 func readBaseline(suiteName, caseName, ext string) string {
-	tsGoPath := filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", "submodule", suiteName, caseName+ext)
-	if data, err := os.ReadFile(tsGoPath); err == nil {
-		return string(data)
+	base := filepath.Base(caseName)
+
+	paths := []string{
+		filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", "submodule", suiteName, base+ext),
+		filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", suiteName, base+ext),
+		filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", base+ext),
 	}
 
-	upPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+ext)
-	if data, err := os.ReadFile(upPath); err == nil {
-		return string(data)
+	for _, p := range paths {
+		if data, err := os.ReadFile(p); err == nil {
+			return string(data)
+		}
 	}
 
 	return ""
@@ -55,7 +59,7 @@ func main() {
 	}
 
 	if outPath == "" {
-		outPath = filepath.Join("cmd", "tscc", "testdata", suiteName, strings.ToUpper(caseName[:1])+caseName[1:]+".txtar")
+		outPath = filepath.Join("cmd", "tscc", "testdata", suiteName, FlattenName(caseName)+".txtar")
 	}
 
 	if !force {

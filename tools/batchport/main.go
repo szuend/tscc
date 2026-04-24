@@ -124,16 +124,22 @@ loop:
 func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([]string, error) {
 	suiteName := filepath.Base(upstreamDir) // Infer suite from directory
 
-	files, err := os.ReadDir(upstreamDir)
-	if err != nil {
-		return nil, fmt.Errorf("reading upstream dir: %w", err)
-	}
-
 	var allCases []string
-	for _, f := range files {
-		if !f.IsDir() && strings.HasSuffix(f.Name(), ".ts") {
-			allCases = append(allCases, strings.TrimSuffix(f.Name(), ".ts"))
+	err := filepath.WalkDir(upstreamDir, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
 		}
+		if !d.IsDir() && strings.HasSuffix(d.Name(), ".ts") {
+			rel, err := filepath.Rel(upstreamDir, path)
+			if err != nil {
+				return err
+			}
+			allCases = append(allCases, strings.TrimSuffix(rel, ".ts"))
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("walking upstream dir: %w", err)
 	}
 	sort.Strings(allCases)
 
@@ -255,6 +261,16 @@ func buildTools() (string, string, func(), error) {
 	return portcasePath, testBinPath, cleanup, nil
 }
 
+func flattenName(name string) string {
+	parts := strings.Split(filepath.ToSlash(name), "/")
+	for i, p := range parts {
+		if p != "" {
+			parts[i] = strings.ToUpper(p[:1]) + p[1:]
+		}
+	}
+	return strings.Join(parts, "_")
+}
+
 // processCandidate handles the trial migration and test execution for a single candidate.
 func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath, testdataDir string, force bool, suiteName string) (string, string) {
 	var cmd *exec.Cmd
@@ -274,7 +290,7 @@ func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath,
 		return parseFailureCategory(string(out)), string(out)
 	}
 
-	capitalized := strings.ToUpper(candidate[:1]) + candidate[1:]
+	capitalized := flattenName(candidate)
 	// Run the pre-compiled test binary directly.
 	absTestBinPath, _ := filepath.Abs(testBinPath)
 	testRegex := fmt.Sprintf("^TestScript/%s(_.*)?$", capitalized)
@@ -311,7 +327,7 @@ func parseFailureCategory(stderrStr string) string {
 
 // cleanupFailedFiles removes generated .txtar files when test execution fails.
 func cleanupFailedFiles(candidate, testdataDir string) {
-	base := strings.ToUpper(candidate[:1]) + candidate[1:]
+	base := flattenName(candidate)
 
 	// Exact match
 	os.Remove(filepath.Join(testdataDir, base+".txtar"))

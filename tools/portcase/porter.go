@@ -82,6 +82,16 @@ func applyShortCircuitFilter(errorCodesMap map[string][]string) {
 	}
 }
 
+func FlattenName(name string) string {
+	parts := strings.Split(filepath.ToSlash(name), "/")
+	for i, p := range parts {
+		if p != "" {
+			parts[i] = strings.ToUpper(p[:1]) + p[1:]
+		}
+	}
+	return strings.Join(parts, "_")
+}
+
 // Port processes the case and returns the generated files.
 func (p *Porter) Port() ([]PortedFile, error) {
 	var results []PortedFile
@@ -133,7 +143,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		}
 	} else {
 		files = []OutputFile{
-			{Name: p.CaseName + ".ts", Content: p.TsContent},
+			{Name: filepath.Base(p.CaseName) + ".ts", Content: p.TsContent},
 		}
 	}
 
@@ -202,8 +212,8 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			}
 			stripped = append(stripped, line)
 		}
-		inputs[p.CaseName+".ts"] = strings.Join(stripped, "\n")
-		inputList = append(inputList, p.CaseName+".ts")
+		inputs[filepath.Base(p.CaseName)+".ts"] = strings.Join(stripped, "\n")
+		inputList = append(inputList, filepath.Base(p.CaseName)+".ts")
 	}
 
 	var errorCodesMap map[string][]string
@@ -251,7 +261,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 			// Determine output file name
 			var currentOutName string
-			base := strings.ToUpper(p.CaseName[:1]) + p.CaseName[1:]
+			base := FlattenName(p.CaseName)
 			safeInputStem := strings.ReplaceAll(inputStem, "/", "_")
 			safeInputStem = strings.ReplaceAll(safeInputStem, "\\", "_")
 

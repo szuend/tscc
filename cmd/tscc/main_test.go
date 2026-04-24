@@ -17,6 +17,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"sort"
 	"testing"
 
 	"github.com/rogpeppe/go-internal/testscript"
@@ -36,7 +37,28 @@ func TestScript(t *testing.T) {
 	repoRoot := filepath.Dir(filepath.Dir(wd))
 	tsDir := filepath.Join(repoRoot, "third_party", "generated", "ts")
 
-	dirs := []string{"testdata", filepath.Join("testdata", "compiler")}
+	// Find all directories under testdata that contain .txtar files.
+	testDirs := make(map[string]bool)
+	err = filepath.WalkDir("testdata", func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if !d.IsDir() && filepath.Ext(path) == ".txtar" {
+			testDirs[filepath.Dir(path)] = true
+		}
+		return nil
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Sort directories for deterministic run order.
+	var dirs []string
+	for dir := range testDirs {
+		dirs = append(dirs, dir)
+	}
+	sort.Strings(dirs)
+
 	for _, dir := range dirs {
 		testscript.Run(t, testscript.Params{
 			Dir:           dir,
