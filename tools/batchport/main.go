@@ -74,9 +74,7 @@ func main() {
 
 	// Spawn workers
 	for i := 0; i < concurrency; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+		wg.Go(func() {
 			for c := range tasks {
 				cat, errDetail := processCandidate(ctx, c, portcasePath, testBinPath, testdataDir, updateExisting, suiteName)
 
@@ -96,7 +94,7 @@ func main() {
 					fmt.Printf("Case %s: %s\n", c, cat)
 				}
 			}
-		}()
+		})
 	}
 
 	// Send tasks
@@ -158,11 +156,11 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 			if err != nil {
 				continue
 			}
-			lines := strings.Split(string(data), "\n")
-			for _, line := range lines {
+			lines := strings.SplitSeq(string(data), "\n")
+			for line := range lines {
 				prefix := fmt.Sprintf("# Ported from tests/cases/%s/", suiteName)
-				if strings.HasPrefix(line, prefix) {
-					caseName := strings.TrimPrefix(line, prefix)
+				if after, ok := strings.CutPrefix(line, prefix); ok {
+					caseName := after
 					caseName = strings.TrimSuffix(caseName, ".ts by tools/portcase.")
 
 					// Resolve true upstream casing

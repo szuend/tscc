@@ -57,7 +57,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			inputList = append(inputList, filename)
 
 			if strings.HasSuffix(filename, "package.json") {
-				var pkg map[string]interface{}
+				var pkg map[string]any
 				if err := json.Unmarshal([]byte(content), &pkg); err != nil {
 					return "", fmt.Errorf("unrecognized package.json: %w", err)
 				}
@@ -170,7 +170,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 		// Figure out which occurrence this input is among inputs with the same basename
 		occurrenceIndex := 0
-		for i := 0; i < inputIndex; i++ {
+		for i := range inputIndex {
 			if filepath.Base(strings.TrimSuffix(inputList[i], filepath.Ext(inputList[i]))) == filepath.Base(inputStem) {
 				occurrenceIndex++
 			}
