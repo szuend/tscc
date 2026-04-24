@@ -266,6 +266,13 @@ func TestTranslateDirectives(t *testing.T) {
 			},
 			wantFlags: []string{"--lib", "es2025,dom"},
 		},
+		{
+			name: "outFile ignored",
+			directives: map[string]string{
+				"outFile": "foo.js",
+			},
+			wantSkip: true,
+		},
 	}
 
 	for _, tt := range tests {

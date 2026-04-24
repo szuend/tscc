@@ -52,7 +52,6 @@ var knownUnsupportedDirectives = map[string]bool{
 	"jsxfactory":         true,
 	"jsxfragmentfactory": true,
 	"jsximportsource":    true,
-	"outfile":            true,
 	"rootdir":            true,
 	"traceresolution":    true,
 	"listfiles":          true,
@@ -89,6 +88,8 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 		}
 
 		switch keyLower {
+		case "outfile":
+			return nil, &IgnoreError{Directive: key, Reason: "outFile is permanently unsupported by typescript-go"}
 		case "target":
 			if strings.Contains(value, ",") {
 				return nil, &SkipError{Directive: key, Reason: "multiple values"}
