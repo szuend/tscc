@@ -23,6 +23,20 @@ import (
 	"github.com/spf13/pflag"
 )
 
+func readBaseline(suiteName, caseName, ext string) string {
+	tsGoPath := filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", "submodule", suiteName, caseName+ext)
+	if data, err := os.ReadFile(tsGoPath); err == nil {
+		return string(data)
+	}
+
+	upPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+ext)
+	if data, err := os.ReadFile(upPath); err == nil {
+		return string(data)
+	}
+
+	return ""
+}
+
 func main() {
 	var suiteName string
 	var caseName string
@@ -62,19 +76,17 @@ func main() {
 	tsContent = strings.TrimPrefix(tsContent, "\xef\xbb\xbf")
 
 	// 2. Read the baseline .js if present
-	baselinePath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+".js")
-	baselineData, _ := os.ReadFile(baselinePath)
+	baselineJs := readBaseline(suiteName, caseName, ".js")
 
 	// 3. Read the baseline .errors.txt if present
-	errorsPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+".errors.txt")
-	errorsData, _ := os.ReadFile(errorsPath)
+	baselineErrors := readBaseline(suiteName, caseName, ".errors.txt")
 
 	porter := Porter{
 		SuiteName:      suiteName,
 		CaseName:       caseName,
 		TsContent:      tsContent,
-		BaselineJs:     string(baselineData),
-		BaselineErrors: string(errorsData),
+		BaselineJs:     baselineJs,
+		BaselineErrors: baselineErrors,
 	}
 
 	results, err := porter.Port()
