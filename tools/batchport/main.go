@@ -198,6 +198,7 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 	var candidates []string
 	ignoreList := map[string]bool{
 		"allowsyntheticdefaultimportscanpaintcrossmoduledeclaration": true,
+		"transportstream": true,
 	}
 
 	seenCandidates := make(map[string]bool)
