@@ -122,6 +122,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-strict-null-checks")
 			}
+		case "skiplibcheck":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--skip-lib-check")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-skip-lib-check")
+			}
 		case "lib":
 			flags = append(flags, "--lib", value)
 		case "noemit":
