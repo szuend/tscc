@@ -273,6 +273,13 @@ func TestTranslateDirectives(t *testing.T) {
 			},
 			wantSkip: true,
 		},
+		{
+			name: "noImplicitUseStrict ignored",
+			directives: map[string]string{
+				"noImplicitUseStrict": "true",
+			},
+			wantSkip: true,
+		},
 	}
 
 	for _, tt := range tests {

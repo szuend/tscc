@@ -88,6 +88,8 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 		}
 
 		switch keyLower {
+		case "noimplicitusestrict":
+			return nil, &IgnoreError{Directive: key, Reason: "noImplicitUseStrict is permanently unsupported by typescript-go"}
 		case "outfile":
 			return nil, &IgnoreError{Directive: key, Reason: "outFile is permanently unsupported by typescript-go"}
 		case "target":
