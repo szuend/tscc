@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/salsa/assignmentToVoidZero1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts assignmentToVoidZero1.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js out_assignmentToVoidZero1.js assignmentToVoidZero1.js
+stderr 'TS6425'
+! exists out_assignmentToVoidZero1.js
+! exists assignmentToVoidZero1.d.ts
+! exists auss/assignmentToVoidZero1.js.map
+
+-- assignmentToVoidZero1.js --
+// #38552
+exports.y = exports.x = void 0;
+exports.x = 1;
+exports.y = 2;

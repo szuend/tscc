@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classWithSemicolonClassElement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classWithSemicolonClassElement2.js classWithSemicolonClassElement2.ts
+! stderr .
+cmp classWithSemicolonClassElement2.js classWithSemicolonClassElement2.js.golden
+! exists classWithSemicolonClassElement2.d.ts
+! exists classWithSemicolonClassElement2.js.map
+
+-- classWithSemicolonClassElement2.ts --
+class C {
+    ;
+    ;
+}
+-- classWithSemicolonClassElement2.js.golden --
+"use strict";
+class C {
+    ;
+    ;
+}

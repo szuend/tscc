@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeArgumentLists/wrappedAndRecursiveConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js wrappedAndRecursiveConstraints.js wrappedAndRecursiveConstraints.ts
+! stderr .
+cmp wrappedAndRecursiveConstraints.js wrappedAndRecursiveConstraints.js.golden
+! exists wrappedAndRecursiveConstraints.d.ts
+! exists wrappedAndRecursiveConstraints.js.map
+
+-- wrappedAndRecursiveConstraints.ts --
+// no errors expected
+
+class C<T extends Date> {
+    constructor(public data: T) { }
+    foo<U extends T>(x: U) {
+        return x;
+    }
+}
+
+interface Foo extends Date {
+    foo: string;
+}
+
+var y: Foo = {} as Foo;
+var c = new C(y);
+var r = c.foo(y);
+-- wrappedAndRecursiveConstraints.js.golden --
+"use strict";
+// no errors expected
+class C {
+    constructor(data) {
+        this.data = data;
+    }
+    foo(x) {
+        return x;
+    }
+}
+var y = {};
+var c = new C(y);
+var r = c.foo(y);

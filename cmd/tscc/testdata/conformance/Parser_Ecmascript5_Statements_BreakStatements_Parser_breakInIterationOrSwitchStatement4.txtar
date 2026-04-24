@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/BreakStatements/parser_breakInIterationOrSwitchStatement4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser_breakInIterationOrSwitchStatement4.js parser_breakInIterationOrSwitchStatement4.ts
+stderr 'TS2304'
+! exists parser_breakInIterationOrSwitchStatement4.js
+! exists parser_breakInIterationOrSwitchStatement4.d.ts
+! exists parser_breakInIterationOrSwitchStatement4.js.map
+
+-- parser_breakInIterationOrSwitchStatement4.ts --
+for (var i in something) {
+  break;
+}

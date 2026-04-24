@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of39.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es2015 --target ES6 --out-js for-of39.js for-of39.ts
+stderr 'TS2769'
+! exists for-of39.js
+! exists for-of39.d.ts
+! exists for-of39.js.map
+
+-- for-of39.ts --
+var map = new Map([["", true], ["", 0]]);
+for (var [k, v] of map) {
+    k;
+    v;
+}

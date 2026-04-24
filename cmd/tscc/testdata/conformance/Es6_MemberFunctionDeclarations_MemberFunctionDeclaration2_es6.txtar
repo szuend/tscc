@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/memberFunctionDeclarations/MemberFunctionDeclaration2_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js MemberFunctionDeclaration2_es6.js MemberFunctionDeclaration2_es6.ts
+! stderr .
+cmp MemberFunctionDeclaration2_es6.js MemberFunctionDeclaration2_es6.js.golden
+! exists MemberFunctionDeclaration2_es6.d.ts
+! exists MemberFunctionDeclaration2_es6.js.map
+
+-- MemberFunctionDeclaration2_es6.ts --
+class C {
+   public * foo() { }
+}
+-- MemberFunctionDeclaration2_es6.js.golden --
+"use strict";
+class C {
+    *foo() { }
+}

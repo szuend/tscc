@@ -1,0 +1,48 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck63.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-implicit-any --target es6 --lib es6,dom --out-js generatorTypeCheck63.js generatorTypeCheck63.ts
+stderr 'TS2345'
+! exists generatorTypeCheck63.js
+! exists generatorTypeCheck63.d.ts
+! exists generatorTypeCheck63.js.map
+
+-- generatorTypeCheck63.ts --
+export interface StrategicState {
+    lastStrategyApplied?: string;
+}
+
+export function strategy<T extends StrategicState>(stratName: string, gen: (a: T) => IterableIterator<T | undefined, void>): (a: T) => IterableIterator<T | undefined, void> {
+    return function*(state) {
+        for (const next of gen(state)) {
+            if (next) {
+                next.lastStrategyApplied = stratName;
+            }
+            yield next;
+        }
+    }
+}
+
+export interface Strategy<T> {
+    (a: T): IterableIterator<T | undefined, void>;
+}
+
+export interface State extends StrategicState {
+    foo: number;
+}
+
+export const Nothing: Strategy<State> = strategy("Nothing", function* (state: State) {
+    yield 1; // number isn't a `State`, so this should error.
+    return state; // `return`/`TReturn` isn't supported by `strategy`, so this should error.
+});
+
+export const Nothing1: Strategy<State> = strategy("Nothing", function* (state: State) {
+});
+
+export const Nothing2: Strategy<State> = strategy("Nothing", function* (state: State) {
+    return 1; // `return`/`TReturn` isn't supported by `strategy`, so this should error.
+});
+
+export const Nothing3: Strategy<State> = strategy("Nothing", function* (state: State) {
+    yield state;
+    return 1; // `return`/`TReturn` isn't supported by `strategy`, so this should error.
+});

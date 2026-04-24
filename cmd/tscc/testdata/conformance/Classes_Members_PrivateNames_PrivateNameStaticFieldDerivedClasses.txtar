@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameStaticFieldDerivedClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameStaticFieldDerivedClasses.js privateNameStaticFieldDerivedClasses.ts
+stderr 'TS18013'
+! exists privateNameStaticFieldDerivedClasses.js
+! exists privateNameStaticFieldDerivedClasses.d.ts
+! exists privateNameStaticFieldDerivedClasses.js.map
+
+-- privateNameStaticFieldDerivedClasses.ts --
+class Base {
+    static #prop: number = 123;
+    static method(x: Derived) {
+        Derived.#derivedProp // error
+        Base.#prop  = 10;
+    }
+}
+class Derived extends Base {
+    static #derivedProp: number = 10;
+    static method(x: Derived) {
+        Derived.#derivedProp
+        Base.#prop  = 10; // error
+    }
+}
+

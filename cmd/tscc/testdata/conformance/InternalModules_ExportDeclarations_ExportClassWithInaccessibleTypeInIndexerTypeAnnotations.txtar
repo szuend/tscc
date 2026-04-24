@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ExportClassWithInaccessibleTypeInIndexerTypeAnnotations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ExportClassWithInaccessibleTypeInIndexerTypeAnnotations.js ExportClassWithInaccessibleTypeInIndexerTypeAnnotations.ts
+stderr 'TS2564'
+! exists ExportClassWithInaccessibleTypeInIndexerTypeAnnotations.js
+! exists ExportClassWithInaccessibleTypeInIndexerTypeAnnotations.d.ts
+! exists ExportClassWithInaccessibleTypeInIndexerTypeAnnotations.js.map
+
+-- ExportClassWithInaccessibleTypeInIndexerTypeAnnotations.ts --
+namespace A {
+
+    class Point {
+        x: number;
+        y: number;
+    }
+
+    export class points {
+
+        [idx: number]: Point;
+        [idx: string]: Point;
+    }
+}
+

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Iterators/parserForOfStatement18.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js parserForOfStatement18.js parserForOfStatement18.ts
+! stderr .
+cmp parserForOfStatement18.js parserForOfStatement18.js.golden
+! exists parserForOfStatement18.d.ts
+! exists parserForOfStatement18.js.map
+
+-- parserForOfStatement18.ts --
+for (var of of of) { }
+-- parserForOfStatement18.js.golden --
+"use strict";
+for (var of of of) { }

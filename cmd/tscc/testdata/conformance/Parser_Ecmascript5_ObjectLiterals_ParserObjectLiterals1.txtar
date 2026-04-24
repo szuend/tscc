@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ObjectLiterals/parserObjectLiterals1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserObjectLiterals1.js parserObjectLiterals1.ts
+! stderr .
+cmp parserObjectLiterals1.js parserObjectLiterals1.js.golden
+! exists parserObjectLiterals1.d.ts
+! exists parserObjectLiterals1.js.map
+
+-- parserObjectLiterals1.ts --
+var v = { a: 1, b: 2 };
+-- parserObjectLiterals1.js.golden --
+"use strict";
+var v = { a: 1, b: 2 };

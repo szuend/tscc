@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/statements/for-inStatements/for-inStatementsDestructuring4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js for-inStatementsDestructuring4.js for-inStatementsDestructuring4.ts
+stderr 'TS2491'
+! exists for-inStatementsDestructuring4.js
+! exists for-inStatementsDestructuring4.d.ts
+! exists for-inStatementsDestructuring4.js.map
+
+-- for-inStatementsDestructuring4.ts --
+var a, b;
+for ({a, b} in []) { }

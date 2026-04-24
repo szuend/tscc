@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesUnique-3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNamesUnique-3.js privateNamesUnique-3.ts
+stderr 'TS2804'
+stderr 'TS2339'
+! exists privateNamesUnique-3.js
+! exists privateNamesUnique-3.d.ts
+! exists privateNamesUnique-3.js.map
+
+-- privateNamesUnique-3.ts --
+class A {
+    #foo = 1;
+    static #foo = true; // error (duplicate)
+                        // because static and instance private names
+                        // share the same lexical scope
+                        // https://tc39.es/proposal-class-fields/#prod-ClassBody
+}
+class B {
+    static #foo = true;
+    test(x: B) {
+        x.#foo; // error (#foo is a static property on B, not an instance property)
+    }
+}

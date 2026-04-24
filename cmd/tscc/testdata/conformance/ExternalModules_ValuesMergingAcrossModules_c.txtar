@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/externalModules/valuesMergingAcrossModules.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js c.js c.ts
+stderr 'TS2440'
+stderr 'TS2349'
+! exists c.js
+! exists c.d.ts
+! exists c.js.map
+
+-- a.ts --
+function A() {}
+export { A };
+-- b.ts --
+import { A } from "./a";
+type A = 0;
+export { A };
+-- c.ts --
+import { A } from "./b";
+namespace A {
+  export const displayName = "A";
+}
+
+A();
+A.displayName;

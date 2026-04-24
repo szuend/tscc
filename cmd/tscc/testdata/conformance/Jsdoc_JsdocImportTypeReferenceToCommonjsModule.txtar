@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocImportTypeReferenceToCommonjsModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom test.js
+stderr 'TS1340'
+! exists test.d.ts
+! exists test.js.map
+
+-- ex.d.ts --
+declare var config: {
+    fix: boolean
+}
+export = config;
+-- test.js --
+/** @param {import('./ex')} a */
+function demo(a) {
+    a.fix
+}

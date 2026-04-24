@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnum6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserEnum6.js parserEnum6.ts
+! stderr .
+cmp parserEnum6.js parserEnum6.js.golden
+! exists parserEnum6.d.ts
+! exists parserEnum6.js.map
+
+-- parserEnum6.ts --
+enum E {
+  "A", "B", "C"
+}
+-- parserEnum6.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["A"] = 0] = "A";
+    E[E["B"] = 1] = "B";
+    E[E["C"] = 2] = "C";
+})(E || (E = {}));

@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameStaticAccessorssDerivedClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameStaticAccessorssDerivedClasses.js privateNameStaticAccessorssDerivedClasses.ts
+stderr 'TS2339'
+! exists privateNameStaticAccessorssDerivedClasses.js
+! exists privateNameStaticAccessorssDerivedClasses.d.ts
+! exists privateNameStaticAccessorssDerivedClasses.js.map
+
+-- privateNameStaticAccessorssDerivedClasses.ts --
+class Base {
+    static get #prop(): number { return  123; }
+    static method(x: typeof Derived) {
+        console.log(x.#prop);
+    }
+}
+class Derived extends Base {
+    static method(x: typeof Derived) {
+        console.log(x.#prop);
+    }
+}

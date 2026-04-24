@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/constructorParameterProperties2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorParameterProperties2.js constructorParameterProperties2.ts
+stderr 'TS2564'
+stderr 'TS2300'
+stderr 'TS2687'
+! exists constructorParameterProperties2.js
+! exists constructorParameterProperties2.d.ts
+! exists constructorParameterProperties2.js.map
+
+-- constructorParameterProperties2.ts --
+class C {
+    y: number;
+    constructor(y: number) { } // ok
+}
+
+declare var c: C;
+var r = c.y;
+
+class D {
+    y: number;
+    constructor(public y: number) { } // error
+}
+
+declare var d: D;
+var r2 = d.y;
+
+class E {
+    y: number;
+    constructor(private y: number) { } // error
+}
+
+declare var e: E;
+var r3 = e.y; // error
+
+class F {
+    y: number;
+    constructor(protected y: number) { } // error
+}
+
+declare var f: F;
+var r4 = f.y; // error

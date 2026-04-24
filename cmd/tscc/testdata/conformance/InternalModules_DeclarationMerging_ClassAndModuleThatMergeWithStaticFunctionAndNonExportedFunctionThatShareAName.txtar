@@ -1,0 +1,57 @@
+# Ported from tests/cases/conformance/internalModules/DeclarationMerging/ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.js ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.ts
+! stderr .
+cmp ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.js ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.js.golden
+! exists ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.d.ts
+! exists ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.js.map
+
+-- ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.ts --
+class Point {
+    constructor(public x: number, public y: number) { }
+
+    static Origin(): Point { return { x: 0, y: 0 }; }
+}
+
+namespace Point {
+    function Origin() { return ""; }// not an error, since not exported
+}
+
+
+namespace A {
+    export class Point {
+        constructor(public x: number, public y: number) { }
+
+        static Origin(): Point { return { x: 0, y: 0 }; }
+    }
+
+    export namespace Point {
+        function Origin() { return ""; }// not an error since not exported
+    }
+}
+-- ClassAndModuleThatMergeWithStaticFunctionAndNonExportedFunctionThatShareAName.js.golden --
+"use strict";
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    static Origin() { return { x: 0, y: 0 }; }
+}
+(function (Point) {
+    function Origin() { return ""; } // not an error, since not exported
+})(Point || (Point = {}));
+var A;
+(function (A) {
+    class Point {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        static Origin() { return { x: 0, y: 0 }; }
+    }
+    A.Point = Point;
+    (function (Point) {
+        function Origin() { return ""; } // not an error since not exported
+    })(Point = A.Point || (A.Point = {}));
+})(A || (A = {}));

@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/controlFlow/switchWithConstrainedTypeVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js switchWithConstrainedTypeVariable.js switchWithConstrainedTypeVariable.ts
+! stderr .
+cmp switchWithConstrainedTypeVariable.js switchWithConstrainedTypeVariable.js.golden
+! exists switchWithConstrainedTypeVariable.d.ts
+! exists switchWithConstrainedTypeVariable.js.map
+
+-- switchWithConstrainedTypeVariable.ts --
+// Repro from #20840
+
+function function1<T extends 'a' | 'b'>(key: T) {
+  switch (key) {
+    case 'a':
+      key.toLowerCase();
+      break;
+    default:
+      key.toLowerCase();
+      break;
+  }
+}
+-- switchWithConstrainedTypeVariable.js.golden --
+"use strict";
+// Repro from #20840
+function function1(key) {
+    switch (key) {
+        case 'a':
+            key.toLowerCase();
+            break;
+        default:
+            key.toLowerCase();
+            break;
+    }
+}

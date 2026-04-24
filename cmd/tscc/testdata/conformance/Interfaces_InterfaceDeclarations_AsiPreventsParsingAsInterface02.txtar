@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/asiPreventsParsingAsInterface02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js asiPreventsParsingAsInterface02.js asiPreventsParsingAsInterface02.ts
+stderr 'TS1212'
+! exists asiPreventsParsingAsInterface02.js
+! exists asiPreventsParsingAsInterface02.d.ts
+! exists asiPreventsParsingAsInterface02.js.map
+
+-- asiPreventsParsingAsInterface02.ts --
+function f(interface: number, I: string) {
+    interface   // This should be the identifier 'interface'
+    I           // This should be the identifier 'I'
+    {}          // This should be a block body
+}

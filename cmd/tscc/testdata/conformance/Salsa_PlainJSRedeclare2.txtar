@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/salsa/plainJSRedeclare2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --out-js out_plainJSRedeclare.js plainJSRedeclare.js
+stderr 'TS2451'
+stderr 'TS2365'
+! exists out_plainJSRedeclare.js
+! exists out/plainJSRedeclare.d.ts
+! exists out/plainJSRedeclare.js.map
+
+-- plainJSRedeclare.js --
+const orbitol = 1
+var orbitol = 1 + false
+orbitol.toExponential()

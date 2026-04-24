@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/readonlyInConstructorParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js readonlyInConstructorParameters.js readonlyInConstructorParameters.ts
+stderr 'TS1029'
+! exists readonlyInConstructorParameters.js
+! exists readonlyInConstructorParameters.d.ts
+! exists readonlyInConstructorParameters.js.map
+
+-- readonlyInConstructorParameters.ts --
+class C {
+    constructor(readonly x: number) {}
+}
+new C(1).x = 2;
+
+class E {
+    constructor(readonly public x: number) {}
+}
+
+class F {
+    constructor(private readonly x: number) {}
+}
+new F(1).x;

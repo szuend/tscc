@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserVariableDeclaration8.js parserVariableDeclaration8.ts
+stderr 'TS1123'
+! exists parserVariableDeclaration8.js
+! exists parserVariableDeclaration8.d.ts
+! exists parserVariableDeclaration8.js.map
+
+-- parserVariableDeclaration8.ts --
+var ;

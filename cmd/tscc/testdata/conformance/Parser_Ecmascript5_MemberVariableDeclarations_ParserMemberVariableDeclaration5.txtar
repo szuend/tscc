@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/MemberVariableDeclarations/parserMemberVariableDeclaration5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserMemberVariableDeclaration5.js parserMemberVariableDeclaration5.ts
+! stderr .
+cmp parserMemberVariableDeclaration5.js parserMemberVariableDeclaration5.js.golden
+! exists parserMemberVariableDeclaration5.d.ts
+! exists parserMemberVariableDeclaration5.js.map
+
+-- parserMemberVariableDeclaration5.ts --
+class C {
+  declare Foo;
+}
+-- parserMemberVariableDeclaration5.js.golden --
+"use strict";
+class C {
+}

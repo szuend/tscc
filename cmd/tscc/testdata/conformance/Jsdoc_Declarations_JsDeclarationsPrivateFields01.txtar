@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsPrivateFields01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts file.d.ts --target esnext --lib esnext,dom file.js
+! stderr .
+cmp file.d.ts file.d.ts.golden
+! exists file.js.map
+! exists out_file.js
+
+-- file.js --
+export class C {
+    #hello = "hello";
+    #world = 100;
+
+    #calcHello() {
+        return this.#hello;
+    }
+
+    get #screamingHello() {
+        return this.#hello.toUpperCase();
+    }
+    /** @param value {string} */
+    set #screamingHello(value) {
+        throw "NO";
+    }
+
+    getWorld() {
+        return this.#world;
+    }
+}
+-- file.d.ts.golden --
+export declare class C {
+    #private;
+    getWorld(): number;
+}

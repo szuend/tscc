@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationOverloadInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js emitClassDeclarationOverloadInES6.js emitClassDeclarationOverloadInES6.ts
+! stderr .
+cmp emitClassDeclarationOverloadInES6.js emitClassDeclarationOverloadInES6.js.golden
+! exists emitClassDeclarationOverloadInES6.d.ts
+! exists emitClassDeclarationOverloadInES6.js.map
+
+-- emitClassDeclarationOverloadInES6.ts --
+class C {
+    constructor(y: any)
+    constructor(x: number) {
+    }
+}
+
+class D {
+    constructor(y: any)
+    constructor(x: number, z="hello") {}
+}
+-- emitClassDeclarationOverloadInES6.js.golden --
+"use strict";
+class C {
+    constructor(x) {
+    }
+}
+class D {
+    constructor(x, z = "hello") { }
+}

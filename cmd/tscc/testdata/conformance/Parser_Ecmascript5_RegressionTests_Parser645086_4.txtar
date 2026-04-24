@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser645086_4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parser645086_4.js parser645086_4.ts
+! stderr .
+cmp parser645086_4.js parser645086_4.js.golden
+! exists parser645086_4.d.ts
+! exists parser645086_4.js.map
+
+-- parser645086_4.ts --
+var v = /[^\]/]/
+-- parser645086_4.js.golden --
+"use strict";
+var v = /[^\]/]/;

@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/override/overrideKeywordOrder.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom overrideKeywordOrder.ts
+stderr 'TS1029'
+! exists overrideKeywordOrder.d.ts
+! exists overrideKeywordOrder.js.map
+
+-- overrideKeywordOrder.ts --
+abstract class Base {
+  static s1() {}
+  static s2() {}
+  abstract m1(): void;
+  abstract m2(): void;
+  p1: any;
+  p2: any;
+}
+
+class Test1 extends Base {
+  override async m1() {}
+  async override m2() {} // error
+}
+class Test2 extends Base {
+  override static s1() {} // error
+  static override s2() {}
+  m1() {}
+  m2() {}
+}
+class Test3 extends Base {
+  override public m1() {} // error
+  public override m2() {}
+}
+class Test4 extends Base {
+  override readonly p1: any;
+  readonly override p2: any; // error
+  m1() {}
+  m2() {}
+}
+
+abstract class Test5 extends Base {
+  override abstract m1(): void; // error
+  abstract override m2(): void;
+}

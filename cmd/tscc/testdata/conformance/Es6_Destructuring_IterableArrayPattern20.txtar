@@ -1,0 +1,45 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js iterableArrayPattern20.js iterableArrayPattern20.ts
+! stderr .
+cmp iterableArrayPattern20.js iterableArrayPattern20.js.golden
+! exists iterableArrayPattern20.d.ts
+! exists iterableArrayPattern20.js.map
+
+-- iterableArrayPattern20.ts --
+class Bar { x }
+class Foo extends Bar { y }
+class FooArrayIterator {
+    next() {
+        return {
+            value: [new Foo],
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+function fun(...[[a = new Foo], b = [new Foo]]: Bar[][]) { }
+fun(...new FooArrayIterator);
+-- iterableArrayPattern20.js.golden --
+"use strict";
+class Bar {
+}
+class Foo extends Bar {
+}
+class FooArrayIterator {
+    next() {
+        return {
+            value: [new Foo],
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+function fun(...[[a = new Foo], b = [new Foo]]) { }
+fun(...new FooArrayIterator);

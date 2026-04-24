@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/memberFunctionOverloadMixingStaticAndInstance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js memberFunctionOverloadMixingStaticAndInstance.js memberFunctionOverloadMixingStaticAndInstance.ts
+stderr 'TS2388'
+stderr 'TS2391'
+stderr 'TS2387'
+! exists memberFunctionOverloadMixingStaticAndInstance.js
+! exists memberFunctionOverloadMixingStaticAndInstance.d.ts
+! exists memberFunctionOverloadMixingStaticAndInstance.js.map
+
+-- memberFunctionOverloadMixingStaticAndInstance.ts --
+class C {
+    foo();
+    static foo(); // error
+}
+
+class D {
+    static foo();
+    foo(); // error    
+}
+
+class E<T> {
+    foo(x: T);
+    static foo(x: number); // error
+}
+
+class F<T> {
+    static foo(x: number);
+    foo(x: T); // error    
+}

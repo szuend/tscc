@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserForInStatement4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserForInStatement4.js parserForInStatement4.ts
+stderr 'TS1189'
+! exists parserForInStatement4.js
+! exists parserForInStatement4.d.ts
+! exists parserForInStatement4.js.map
+
+-- parserForInStatement4.ts --
+for (var a = 1 in X) {
+}

@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/mergedInterfacesWithIndexers2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedInterfacesWithIndexers2.js mergedInterfacesWithIndexers2.ts
+stderr 'TS2413'
+stderr 'TS2411'
+! exists mergedInterfacesWithIndexers2.js
+! exists mergedInterfacesWithIndexers2.d.ts
+! exists mergedInterfacesWithIndexers2.js.map
+
+-- mergedInterfacesWithIndexers2.ts --
+// indexers should behave like other members when merging interface declarations
+
+interface A {
+    [x: number]: string; // error
+}
+
+
+interface A {
+    [x: string]: { length: string }; // error
+}
+
+interface A2 {
+    [x: number]: string;
+    'a': number; //error
+}
+
+
+interface A2 {
+    [x: string]: { length: number };
+    1: { length: number }; // error
+}

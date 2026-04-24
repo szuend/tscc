@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionGrammarError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-no-implicit-any --target es6 --lib es6,dom --out-js importCallExpressionGrammarError.js importCallExpressionGrammarError.ts
+stderr 'TS1325'
+stderr 'TS1324'
+! exists importCallExpressionGrammarError.js
+! exists importCallExpressionGrammarError.d.ts
+! exists importCallExpressionGrammarError.js.map
+
+-- importCallExpressionGrammarError.ts --
+declare function getSpecifier(): string;
+declare var whatToLoad: boolean;
+
+var a = ["./0"];
+import(...["PathModule"]);
+
+var p1 = import(...a);
+const p2 = import();
+const p4 = import("pathToModule", "secondModule");

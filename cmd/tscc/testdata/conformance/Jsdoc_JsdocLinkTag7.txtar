@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocLinkTag7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target esnext --lib esnext,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+class Foo {
+    /**
+     * {@linkcode this.a}
+     * {@linkcode this.#c}
+     *
+     * {@link this.a}
+     * {@link this.#c}
+     *
+     * {@linkplain this.a}
+     * {@linkplain this.#c}
+     */
+    a() { }
+    b() { }
+    #c() { }
+}

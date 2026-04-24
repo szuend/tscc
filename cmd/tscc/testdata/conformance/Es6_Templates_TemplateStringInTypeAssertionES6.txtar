@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInTypeAssertionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringInTypeAssertionES6.js templateStringInTypeAssertionES6.ts
+! stderr .
+cmp templateStringInTypeAssertionES6.js templateStringInTypeAssertionES6.js.golden
+! exists templateStringInTypeAssertionES6.d.ts
+! exists templateStringInTypeAssertionES6.js.map
+
+-- templateStringInTypeAssertionES6.ts --
+var x = <any>`abc${ 123 }def`;
+-- templateStringInTypeAssertionES6.js.golden --
+"use strict";
+var x = `abc${123}def`;

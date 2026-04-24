@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName31.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserComputedPropertyName31.js parserComputedPropertyName31.ts
+stderr 'TS2564'
+stderr 'TS2304'
+! exists parserComputedPropertyName31.js
+! exists parserComputedPropertyName31.d.ts
+! exists parserComputedPropertyName31.js.map
+
+-- parserComputedPropertyName31.ts --
+class C {
+    // yes ASI
+    [e]: number
+    [e2]: number
+}

@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js iterableArrayPattern9.js iterableArrayPattern9.ts
+! stderr .
+cmp iterableArrayPattern9.js iterableArrayPattern9.js.golden
+! exists iterableArrayPattern9.d.ts
+! exists iterableArrayPattern9.js.map
+
+-- iterableArrayPattern9.ts --
+function fun([a, b] = new FooIterator) { }
+class Bar { x }
+class Foo extends Bar { y }
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+-- iterableArrayPattern9.js.golden --
+"use strict";
+function fun([a, b] = new FooIterator) { }
+class Bar {
+}
+class Foo extends Bar {
+}
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}

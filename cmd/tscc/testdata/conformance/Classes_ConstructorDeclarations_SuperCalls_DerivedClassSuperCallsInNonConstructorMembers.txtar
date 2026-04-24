@@ -1,0 +1,41 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/superCalls/derivedClassSuperCallsInNonConstructorMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js derivedClassSuperCallsInNonConstructorMembers.js derivedClassSuperCallsInNonConstructorMembers.ts
+stderr 'TS1441'
+stderr 'TS1068'
+! exists derivedClassSuperCallsInNonConstructorMembers.js
+! exists derivedClassSuperCallsInNonConstructorMembers.d.ts
+! exists derivedClassSuperCallsInNonConstructorMembers.js.map
+
+-- derivedClassSuperCallsInNonConstructorMembers.ts --
+// error to use super calls outside a constructor
+
+class Base {
+    x: string;
+}
+
+class Derived extends Base {
+    a: super();
+    b() {
+        super();
+    }
+    get C() {
+        super();
+        return 1;
+    }
+    set C(v) {
+        super();
+    }
+
+    static a: super();
+    static b() {
+        super();
+    }
+    static get C() {
+        super();
+        return 1;
+    }
+    static set C(v) {
+        super();
+    }
+}

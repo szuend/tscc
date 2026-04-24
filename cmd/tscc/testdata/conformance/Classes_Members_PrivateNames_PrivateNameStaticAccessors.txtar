@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameStaticAccessors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameStaticAccessors.js privateNameStaticAccessors.ts
+stderr 'TS2540'
+! exists privateNameStaticAccessors.js
+! exists privateNameStaticAccessors.d.ts
+! exists privateNameStaticAccessors.js.map
+
+-- privateNameStaticAccessors.ts --
+class A1 {
+    static get #prop() { return ""; }
+    static set #prop(param: string) { }
+
+    static get #roProp() { return ""; }
+
+    constructor(name: string) {
+        A1.#prop = "";
+        A1.#roProp = ""; // Error
+        console.log(A1.#prop);
+        console.log(A1.#roProp);
+    }
+}

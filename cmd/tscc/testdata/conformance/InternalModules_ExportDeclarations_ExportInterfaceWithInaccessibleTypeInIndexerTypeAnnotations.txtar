@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.js ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.ts
+! stderr .
+cmp ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.js ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.js.golden
+! exists ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.d.ts
+! exists ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.js.map
+
+-- ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.ts --
+namespace A {
+
+    interface Point {
+        x: number;
+        y: number;
+    }
+
+    export interface points {
+
+        [idx: number]: Point;
+        [idx: string]: Point;
+    }
+}
+
+-- ExportInterfaceWithInaccessibleTypeInIndexerTypeAnnotations.js.golden --
+"use strict";

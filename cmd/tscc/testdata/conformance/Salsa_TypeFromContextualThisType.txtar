@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/salsa/typeFromContextualThisType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom bug25926.js
+stderr 'TS7006'
+! exists bug25926.d.ts
+! exists bug25926.js.map
+
+-- bug25926.js --
+/** @type {{ a(): void; b?(n: number): number; }} */
+const o1 = {
+    a() {
+        this.b = n => n;
+    }
+};
+
+/** @type {{ d(): void; e?(n: number): number; f?(n: number): number; g?: number }} */
+const o2 = {
+    d() {
+        this.e = this.f = m => this.g || m;
+    }
+};
+

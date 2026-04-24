@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration24.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserClassDeclaration24.js parserClassDeclaration24.ts
+stderr 'TS2414'
+! exists parserClassDeclaration24.js
+! exists parserClassDeclaration24.d.ts
+! exists parserClassDeclaration24.js.map
+
+-- parserClassDeclaration24.ts --
+class any {
+}

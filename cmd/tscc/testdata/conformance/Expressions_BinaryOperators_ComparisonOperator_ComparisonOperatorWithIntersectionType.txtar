@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIntersectionType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js comparisonOperatorWithIntersectionType.js comparisonOperatorWithIntersectionType.ts
+stderr 'TS2365'
+! exists comparisonOperatorWithIntersectionType.js
+! exists comparisonOperatorWithIntersectionType.d.ts
+! exists comparisonOperatorWithIntersectionType.js.map
+
+-- comparisonOperatorWithIntersectionType.ts --
+declare let a: { a: 1 }
+a > 1;
+
+declare let b: { a: 1 } & { b: number }
+b > 1;

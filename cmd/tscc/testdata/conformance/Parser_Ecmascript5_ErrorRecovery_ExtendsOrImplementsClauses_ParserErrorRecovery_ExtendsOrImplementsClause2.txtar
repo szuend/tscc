@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ExtendsOrImplementsClauses/parserErrorRecovery_ExtendsOrImplementsClause2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_ExtendsOrImplementsClause2.js parserErrorRecovery_ExtendsOrImplementsClause2.ts
+stderr 'TS1009'
+! exists parserErrorRecovery_ExtendsOrImplementsClause2.js
+! exists parserErrorRecovery_ExtendsOrImplementsClause2.d.ts
+! exists parserErrorRecovery_ExtendsOrImplementsClause2.js.map
+
+-- parserErrorRecovery_ExtendsOrImplementsClause2.ts --
+class C extends A, {
+}

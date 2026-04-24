@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Protected/Protected5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js Protected5.js Protected5.ts
+! stderr .
+cmp Protected5.js Protected5.js.golden
+! exists Protected5.d.ts
+! exists Protected5.js.map
+
+-- Protected5.ts --
+class C {
+  protected static m() { }
+}
+-- Protected5.js.golden --
+"use strict";
+class C {
+    static m() { }
+}

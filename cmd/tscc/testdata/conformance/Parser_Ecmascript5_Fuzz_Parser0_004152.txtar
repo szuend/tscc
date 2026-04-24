@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Fuzz/parser0_004152.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parser0_004152.js parser0_004152.ts
+stderr 'TS1137'
+stderr 'TS1005'
+stderr 'TS1068'
+stderr 'TS1434'
+! exists parser0_004152.js
+! exists parser0_004152.d.ts
+! exists parser0_004152.js.map
+
+-- parser0_004152.ts --
+export class Game {
+    private position = new DisplayPosition([), 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0], NoMove, 0);
+    private prevConfig: SeedCoords[][];
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/asyncGenerators/asyncGeneratorGenericNonWrappedReturn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom asyncGeneratorGenericNonWrappedReturn.ts
+! stderr .
+! exists asyncGeneratorGenericNonWrappedReturn.d.ts
+! exists asyncGeneratorGenericNonWrappedReturn.js.map
+
+-- asyncGeneratorGenericNonWrappedReturn.ts --
+// #48966
+
+export async function* test<T>(a: T): AsyncGenerator<T, T, T> {
+  return a // `T` should be allowed here even though the generator's `returnType` is `Awaited<T>`
+}

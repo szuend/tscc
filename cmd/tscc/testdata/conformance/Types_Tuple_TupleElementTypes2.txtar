@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/tuple/tupleElementTypes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js tupleElementTypes2.js tupleElementTypes2.ts
+! stderr .
+cmp tupleElementTypes2.js tupleElementTypes2.js.golden
+! exists tupleElementTypes2.d.ts
+! exists tupleElementTypes2.js.map
+
+-- tupleElementTypes2.ts --
+function f([a, b]: [number, any]) { }
+-- tupleElementTypes2.js.golden --
+"use strict";
+function f([a, b]) { }

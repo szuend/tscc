@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/expressions/optionalChaining/taggedTemplateChain/taggedTemplateChain.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js taggedTemplateChain.js taggedTemplateChain.ts
+stderr 'TS1358'
+! exists taggedTemplateChain.js
+! exists taggedTemplateChain.d.ts
+! exists taggedTemplateChain.js.map
+
+-- taggedTemplateChain.ts --
+declare let a: any;
+a?.`b`;
+
+a?.`b${1}c`;

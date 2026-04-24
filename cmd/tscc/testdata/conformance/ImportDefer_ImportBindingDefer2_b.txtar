@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/importDefer/importBindingDefer2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module esnext --target es2020 --lib es2020,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export default 2;
+-- b.ts --
+import defer, {} from "./a.js";
+-- b.js.golden --
+export {};

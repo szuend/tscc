@@ -1,0 +1,55 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesTypePredicates01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesTypePredicates01.d.ts --no-strict --target es2015 --lib es2015,dom --out-js stringLiteralTypesTypePredicates01.js stringLiteralTypesTypePredicates01.ts
+! stderr .
+cmp stringLiteralTypesTypePredicates01.d.ts stringLiteralTypesTypePredicates01.d.ts.golden
+cmp stringLiteralTypesTypePredicates01.js stringLiteralTypesTypePredicates01.js.golden
+! exists stringLiteralTypesTypePredicates01.js.map
+
+-- stringLiteralTypesTypePredicates01.ts --
+type Kind = "A" | "B"
+
+function kindIs(kind: Kind, is: "A"): kind is "A";
+function kindIs(kind: Kind, is: "B"): kind is "B";
+function kindIs(kind: Kind, is: Kind): boolean {
+    return kind === is;
+}
+
+var x: Kind = undefined;
+
+if (kindIs(x, "A")) {
+    let a = x;
+}
+else {
+    let b = x;
+}
+
+if (!kindIs(x, "B")) {
+    let c = x;
+}
+else {
+    let d = x;
+}
+-- stringLiteralTypesTypePredicates01.d.ts.golden --
+type Kind = "A" | "B";
+declare function kindIs(kind: Kind, is: "A"): kind is "A";
+declare function kindIs(kind: Kind, is: "B"): kind is "B";
+declare var x: Kind;
+-- stringLiteralTypesTypePredicates01.js.golden --
+"use strict";
+function kindIs(kind, is) {
+    return kind === is;
+}
+var x = undefined;
+if (kindIs(x, "A")) {
+    let a = x;
+}
+else {
+    let b = x;
+}
+if (!kindIs(x, "B")) {
+    let c = x;
+}
+else {
+    let d = x;
+}

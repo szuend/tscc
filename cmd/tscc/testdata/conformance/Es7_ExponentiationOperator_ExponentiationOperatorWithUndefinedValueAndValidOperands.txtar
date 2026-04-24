@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithUndefinedValueAndValidOperands.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js exponentiationOperatorWithUndefinedValueAndValidOperands.js exponentiationOperatorWithUndefinedValueAndValidOperands.ts
+stderr 'TS18050'
+! exists exponentiationOperatorWithUndefinedValueAndValidOperands.js
+! exists exponentiationOperatorWithUndefinedValueAndValidOperands.d.ts
+! exists exponentiationOperatorWithUndefinedValueAndValidOperands.js.map
+
+-- exponentiationOperatorWithUndefinedValueAndValidOperands.ts --
+// If one operand is the undefined or undefined value, it is treated as having the type of the
+// other operand.
+
+enum E {
+    a,
+    b
+}
+
+declare var a: any;
+declare var b: number;
+
+// operator *
+var rk1 = undefined ** a;
+var rk2 = undefined ** b;
+var rk3 = undefined ** 1;
+var rk4 = undefined ** E.a;
+var rk5 = a ** undefined;
+var rk6 = b ** undefined;
+var rk7 = 0 ** undefined;
+var rk8 = E.b ** undefined;

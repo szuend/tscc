@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringTermination1_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringTermination1_ES6.js templateStringTermination1_ES6.ts
+! stderr .
+cmp templateStringTermination1_ES6.js templateStringTermination1_ES6.js.golden
+! exists templateStringTermination1_ES6.d.ts
+! exists templateStringTermination1_ES6.js.map
+
+-- templateStringTermination1_ES6.ts --
+``
+-- templateStringTermination1_ES6.js.golden --
+"use strict";
+``;

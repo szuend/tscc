@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/types/import/importTypeNonString.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts importTypeNonString.d.ts --target es6 --lib es6,dom --out-js importTypeNonString.js importTypeNonString.ts
+stderr 'TS1141'
+! exists importTypeNonString.d.ts
+! exists importTypeNonString.js
+! exists importTypeNonString.js.map
+
+-- importTypeNonString.ts --
+export const x: import({x: 12}) = undefined as any;

@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/es6/newTarget/newTargetNarrowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es6 --lib es6,dom --out-js newTargetNarrowing.js newTargetNarrowing.ts
+! stderr .
+cmp newTargetNarrowing.js newTargetNarrowing.js.golden
+! exists newTargetNarrowing.d.ts
+! exists newTargetNarrowing.js.map
+
+-- newTargetNarrowing.ts --
+function foo(x: true) { }
+
+function f() {
+  if (new.target.marked === true) {
+    foo(new.target.marked);
+  }
+}
+
+f.marked = true;
+-- newTargetNarrowing.js.golden --
+"use strict";
+function foo(x) { }
+function f() {
+    if (new.target.marked === true) {
+        foo(new.target.marked);
+    }
+}
+f.marked = true;

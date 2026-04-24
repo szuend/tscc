@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/types/thisType/thisTypeInFunctions3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisTypeInFunctions3.js thisTypeInFunctions3.ts
+! stderr .
+cmp thisTypeInFunctions3.js thisTypeInFunctions3.js.golden
+! exists thisTypeInFunctions3.d.ts
+! exists thisTypeInFunctions3.js.map
+
+-- thisTypeInFunctions3.ts --
+declare class Base {
+    check<TProp extends this>(prop: TProp): boolean;
+}
+
+class Test extends Base {
+    m() {
+        this.check(this);
+    }
+}
+-- thisTypeInFunctions3.js.golden --
+"use strict";
+class Test extends Base {
+    m() {
+        this.check(this);
+    }
+}

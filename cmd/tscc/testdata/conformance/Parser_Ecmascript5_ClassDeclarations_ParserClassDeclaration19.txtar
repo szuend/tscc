@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration19.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserClassDeclaration19.js parserClassDeclaration19.ts
+! stderr .
+cmp parserClassDeclaration19.js parserClassDeclaration19.js.golden
+! exists parserClassDeclaration19.d.ts
+! exists parserClassDeclaration19.js.map
+
+-- parserClassDeclaration19.ts --
+class C {
+    foo();
+    "foo"() { }
+}
+-- parserClassDeclaration19.js.golden --
+"use strict";
+class C {
+    "foo"() { }
+}

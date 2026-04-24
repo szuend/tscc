@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameNotAllowedOutsideClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameNotAllowedOutsideClass.js privateNameNotAllowedOutsideClass.ts
+stderr 'TS18029'
+! exists privateNameNotAllowedOutsideClass.js
+! exists privateNameNotAllowedOutsideClass.d.ts
+! exists privateNameNotAllowedOutsideClass.js.map
+
+-- privateNameNotAllowedOutsideClass.ts --
+const #foo = 3;

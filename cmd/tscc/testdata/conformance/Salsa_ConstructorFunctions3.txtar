@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/salsa/constructorFunctions3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom a.js
+stderr 'TS2683'
+stderr 'TS7009'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+function Instance() {
+    this.i = 'simple'
+}
+var i = new Instance();
+Instance;
+i;
+
+function StaticToo() {
+    this.i = 'more complex'
+}
+StaticToo.property = 'yep'
+var s = new StaticToo();
+s;
+StaticToo;
+
+// Both!
+function A () {
+    this.x = 1
+    /** @type {1} */
+    this.second = 1
+}
+/** @param {number} n */
+A.prototype.z = function f(n) {
+    return n + this.x
+}
+/** @param {number} m */
+A.t = function g(m) {
+    return m + 1
+}
+var a = new A()
+a.z(3)
+A.t(2)
+a.second = 1

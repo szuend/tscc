@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/classConstructorAccessibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts classConstructorAccessibility.d.ts --target es2015 --lib es2015,dom --out-js classConstructorAccessibility.js classConstructorAccessibility.ts
+stderr 'TS2673'
+stderr 'TS2674'
+! exists classConstructorAccessibility.d.ts
+! exists classConstructorAccessibility.js
+! exists classConstructorAccessibility.js.map
+
+-- classConstructorAccessibility.ts --
+class C {
+    public constructor(public x: number) { }
+}
+
+class D {
+    private constructor(public x: number) { }
+}
+
+class E {
+    protected constructor(public x: number) { }
+}
+
+var c = new C(1);
+var d = new D(1); // error
+var e = new E(1); // error
+
+namespace Generic {
+    class C<T> {
+        public constructor(public x: T) { }
+    }
+
+    class D<T> {
+        private constructor(public x: T) { }
+    }
+
+    class E<T> {
+        protected constructor(public x: T) { }
+    }
+
+    var c = new C(1);
+    var d = new D(1); // error
+    var e = new E(1); // error
+}

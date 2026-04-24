@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionInExportEqualsCJS.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target esnext --lib esnext,dom --out-js something.js something.ts
+! stderr .
+cmp something.js something.js.golden
+! exists something.d.ts
+! exists something.js.map
+
+-- index.ts --
+export = async function() {
+    const something = await import("./something");
+};
+-- something.ts --
+export = 42;
+-- something.js.golden --
+"use strict";
+module.exports = 42;

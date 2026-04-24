@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/declarationEmit/classDoesNotDependOnPrivateMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts classDoesNotDependOnPrivateMember.d.ts --target es2015 --lib es2015,dom --out-js classDoesNotDependOnPrivateMember.js classDoesNotDependOnPrivateMember.ts
+stderr 'TS2564'
+! exists classDoesNotDependOnPrivateMember.d.ts
+! exists classDoesNotDependOnPrivateMember.js
+! exists classDoesNotDependOnPrivateMember.js.map
+
+-- classDoesNotDependOnPrivateMember.ts --
+namespace M {
+    interface I { }
+    export class C {
+        private x: I;
+    }
+}

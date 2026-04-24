@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/externalModules/duplicateExportAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo4.js foo4.ts
+stderr 'TS2300'
+! exists foo4.js
+! exists foo4.d.ts
+! exists foo4.js.map
+
+-- foo1.ts --
+var x = 10;
+var y = 20;
+export = x;
+export = y;
+-- foo2.ts --
+var x = 10;
+class y {};
+export = x;
+export = y;
+-- foo3.ts --
+namespace x {
+	export var x = 10;
+}
+class y {
+	y: number;
+}
+export = x;
+export = y;
+-- foo4.ts --
+export = x;
+function x(){
+	return 42;
+}
+function y(){
+	return 42;
+}
+export = y;
+-- foo5.ts --
+var x = 5;
+var y = "test";
+var z = {};
+export = x;
+export = y;
+export = z;

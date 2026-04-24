@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/classExpressions/classExpressionES62.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js classExpressionES62.js classExpressionES62.ts
+! stderr .
+cmp classExpressionES62.js classExpressionES62.js.golden
+! exists classExpressionES62.d.ts
+! exists classExpressionES62.js.map
+
+-- classExpressionES62.ts --
+class D { }
+var v = class C extends D {};
+-- classExpressionES62.js.golden --
+"use strict";
+class D {
+}
+var v = class C extends D {
+};

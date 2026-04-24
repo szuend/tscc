@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesOnOverloads_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js computedPropertyNamesOnOverloads_ES6.js computedPropertyNamesOnOverloads_ES6.ts
+! stderr .
+cmp computedPropertyNamesOnOverloads_ES6.js computedPropertyNamesOnOverloads_ES6.js.golden
+! exists computedPropertyNamesOnOverloads_ES6.d.ts
+! exists computedPropertyNamesOnOverloads_ES6.js.map
+
+-- computedPropertyNamesOnOverloads_ES6.ts --
+var methodName = "method";
+var accessorName = "accessor";
+class C {
+    [methodName](v: string);
+    [methodName]();
+    [methodName](v?: string) { }
+}
+-- computedPropertyNamesOnOverloads_ES6.js.golden --
+"use strict";
+var methodName = "method";
+var accessorName = "accessor";
+class C {
+    [methodName](v) { }
+}

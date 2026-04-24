@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarations.11.js awaitUsingDeclarations.11.ts
+stderr 'TS1495'
+! exists awaitUsingDeclarations.11.js
+! exists awaitUsingDeclarations.11.d.ts
+! exists awaitUsingDeclarations.11.js.map
+
+-- awaitUsingDeclarations.11.ts --
+export await using x = null;
+declare await using y: null;

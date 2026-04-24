@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/negateOperator/negateOperatorWithEnumType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js negateOperatorWithEnumType.js negateOperatorWithEnumType.ts
+stderr 'TS2695'
+! exists negateOperatorWithEnumType.js
+! exists negateOperatorWithEnumType.d.ts
+! exists negateOperatorWithEnumType.js.map
+
+-- negateOperatorWithEnumType.ts --
+// - operator on enum type
+
+enum ENUM { };
+enum ENUM1 { A, B, "" };
+
+// enum type var
+var ResultIsNumber1 = -ENUM;
+
+// expressions
+var ResultIsNumber2 = -ENUM1["B"];
+var ResultIsNumber3 = -(ENUM1.B + ENUM1[""]);
+
+// miss assignment operators
+-ENUM;
+-ENUM1;
+-ENUM1["B"];
+-ENUM, ENUM1;

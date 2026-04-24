@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithPropertyAccessInHeritageClause1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js emitClassDeclarationWithPropertyAccessInHeritageClause1.js emitClassDeclarationWithPropertyAccessInHeritageClause1.ts
+! stderr .
+cmp emitClassDeclarationWithPropertyAccessInHeritageClause1.js emitClassDeclarationWithPropertyAccessInHeritageClause1.js.golden
+! exists emitClassDeclarationWithPropertyAccessInHeritageClause1.d.ts
+! exists emitClassDeclarationWithPropertyAccessInHeritageClause1.js.map
+
+-- emitClassDeclarationWithPropertyAccessInHeritageClause1.ts --
+class B {}
+function foo() {
+    return {B: B};
+}
+class C extends (foo()).B {}
+-- emitClassDeclarationWithPropertyAccessInHeritageClause1.js.golden --
+"use strict";
+class B {
+}
+function foo() {
+    return { B: B };
+}
+class C extends (foo()).B {
+}

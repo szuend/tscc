@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInFunctionExpressionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringInFunctionExpressionES6.js templateStringInFunctionExpressionES6.ts
+! stderr .
+cmp templateStringInFunctionExpressionES6.js templateStringInFunctionExpressionES6.js.golden
+! exists templateStringInFunctionExpressionES6.d.ts
+! exists templateStringInFunctionExpressionES6.js.map
+
+-- templateStringInFunctionExpressionES6.ts --
+var x = function y() {
+    `abc${ 0 }def`
+    return `abc${ 0 }def`;
+};
+-- templateStringInFunctionExpressionES6.js.golden --
+"use strict";
+var x = function y() {
+    `abc${0}def`;
+    return `abc${0}def`;
+};

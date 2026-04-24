@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnImportEquals2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js decoratorOnImportEquals2_1.js decoratorOnImportEquals2_1.ts
+stderr 'TS1206'
+! exists decoratorOnImportEquals2_1.js
+! exists decoratorOnImportEquals2_1.d.ts
+! exists decoratorOnImportEquals2_1.js.map
+
+-- decoratorOnImportEquals2_0.ts --
+export var X;
+-- decoratorOnImportEquals2_1.ts --
+@dec
+import lib = require('./decoratorOnImportEquals2_0');
+
+declare function dec<T>(target: T): T;

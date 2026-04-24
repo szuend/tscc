@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ModuleWithExportedAndNonExportedEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ModuleWithExportedAndNonExportedEnums.js ModuleWithExportedAndNonExportedEnums.ts
+stderr 'TS2339'
+! exists ModuleWithExportedAndNonExportedEnums.js
+! exists ModuleWithExportedAndNonExportedEnums.d.ts
+! exists ModuleWithExportedAndNonExportedEnums.js.map
+
+-- ModuleWithExportedAndNonExportedEnums.ts --
+namespace A {
+    export enum Color { Red, Blue }
+    enum Day { Monday, Tuesday }
+}
+
+// not an error since exported
+var a: A.Color = A.Color.Red;
+
+// error not exported
+var b = A.Day.Monday;

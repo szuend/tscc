@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/types/nonPrimitive/nonPrimitiveAccessProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nonPrimitiveAccessProperty.js nonPrimitiveAccessProperty.ts
+stderr 'TS2339'
+! exists nonPrimitiveAccessProperty.js
+! exists nonPrimitiveAccessProperty.d.ts
+! exists nonPrimitiveAccessProperty.js.map
+
+-- nonPrimitiveAccessProperty.ts --
+var a: object = {};
+a.toString();
+a.nonExist(); // error
+
+var { destructuring } = a; // error
+var { ...rest } = a; // ok

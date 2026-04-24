@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/internalModules/DeclarationMerging/ClassAndModuleThatMergeWithModulesExportedStaticFunctionUsingClassPrivateStatics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ClassAndModuleThatMergeWithModulesExportedStaticFunctionUsingClassPrivateStatics.js ClassAndModuleThatMergeWithModulesExportedStaticFunctionUsingClassPrivateStatics.ts
+stderr 'TS2564'
+stderr 'TS2341'
+! exists ClassAndModuleThatMergeWithModulesExportedStaticFunctionUsingClassPrivateStatics.js
+! exists ClassAndModuleThatMergeWithModulesExportedStaticFunctionUsingClassPrivateStatics.d.ts
+! exists ClassAndModuleThatMergeWithModulesExportedStaticFunctionUsingClassPrivateStatics.js.map
+
+-- ClassAndModuleThatMergeWithModulesExportedStaticFunctionUsingClassPrivateStatics.ts --
+class clodule<T> {
+    id: string;
+    value: T;
+
+    private static sfn(id: string) { return 42; }
+}
+
+namespace clodule {
+    // error: duplicate identifier expected
+    export function fn<T>(x: T, y: T): number {
+        return clodule.sfn('a');
+    }
+}
+

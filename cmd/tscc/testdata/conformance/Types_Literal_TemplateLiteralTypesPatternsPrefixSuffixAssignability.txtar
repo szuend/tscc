@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/literal/templateLiteralTypesPatternsPrefixSuffixAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateLiteralTypesPatternsPrefixSuffixAssignability.js templateLiteralTypesPatternsPrefixSuffixAssignability.ts
+stderr 'TS2322'
+! exists templateLiteralTypesPatternsPrefixSuffixAssignability.js
+! exists templateLiteralTypesPatternsPrefixSuffixAssignability.d.ts
+! exists templateLiteralTypesPatternsPrefixSuffixAssignability.js.map
+
+-- templateLiteralTypesPatternsPrefixSuffixAssignability.ts --
+const s1: `:${string}:` = ":"; // should error
+const s2: `:${string}:` = "::"; // ok
+const s3: `:${string}:${string}:` = "::"; // should error
+const s4: `:${string}:${string}:` = ":::"; // ok

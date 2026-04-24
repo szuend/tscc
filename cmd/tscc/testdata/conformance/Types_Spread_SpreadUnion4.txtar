@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/types/spread/spreadUnion4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js spreadUnion4.js spreadUnion4.ts
+! stderr .
+cmp spreadUnion4.js spreadUnion4.js.golden
+! exists spreadUnion4.d.ts
+! exists spreadUnion4.js.map
+
+-- spreadUnion4.ts --
+declare const a: { x: () => void }
+declare const b: { x?: () => void }
+
+const c = { ...a, ...b };
+-- spreadUnion4.js.golden --
+"use strict";
+const c = Object.assign(Object.assign({}, a), b);

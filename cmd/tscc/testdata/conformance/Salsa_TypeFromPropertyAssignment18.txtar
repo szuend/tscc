@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment18.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+var GLOBSTAR = m.GLOBSTAR = {}
+function m() {
+}
+GLOBSTAR.p = 1
+m.GLOBSTAR.q = 2
+
+GLOBSTAR.p
+GLOBSTAR.q
+m.GLOBSTAR.p
+m.GLOBSTAR.q

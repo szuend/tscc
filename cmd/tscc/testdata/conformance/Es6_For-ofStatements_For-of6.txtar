@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of6.js for-of6.ts
+stderr 'TS2304'
+! exists for-of6.js
+! exists for-of6.d.ts
+! exists for-of6.js.map
+
+-- for-of6.ts --
+for (v of [0]) {
+    let v;
+}

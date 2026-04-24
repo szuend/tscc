@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty20.js symbolProperty20.ts
+! stderr .
+cmp symbolProperty20.js symbolProperty20.js.golden
+! exists symbolProperty20.d.ts
+! exists symbolProperty20.js.map
+
+-- symbolProperty20.ts --
+interface I {
+    [Symbol.iterator]: (s: string) => string;
+    [Symbol.toStringTag](s: number): number;
+}
+
+var i: I = {
+    [Symbol.iterator]: s => s,
+    [Symbol.toStringTag](n) { return n; }
+}
+-- symbolProperty20.js.golden --
+"use strict";
+var i = {
+    [Symbol.iterator]: s => s,
+    [Symbol.toStringTag](n) { return n; }
+};

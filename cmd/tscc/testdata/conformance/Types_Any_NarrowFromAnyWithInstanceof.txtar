@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/any/narrowFromAnyWithInstanceof.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js narrowFromAnyWithInstanceof.js narrowFromAnyWithInstanceof.ts
+stderr 'TS2551'
+! exists narrowFromAnyWithInstanceof.js
+! exists narrowFromAnyWithInstanceof.d.ts
+! exists narrowFromAnyWithInstanceof.js.map
+
+-- narrowFromAnyWithInstanceof.ts --
+declare var x: any;
+
+if (x instanceof Function) { // 'any' is not narrowed when target type is 'Function'
+    x();
+    x(1, 2, 3);
+    x("hello!");
+    x.prop;
+}
+
+if (x instanceof Object) { // 'any' is not narrowed when target type is 'Object'
+    x.method();
+    x();
+}
+
+if (x instanceof Error) { // 'any' is narrowed to types other than 'Function'/'Object'
+    x.message;
+    x.mesage;
+}
+
+if (x instanceof Date) {
+    x.getDate();
+    x.getHuors();
+}

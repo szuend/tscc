@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --target esnext --out-js awaitUsingDeclarations.4.js awaitUsingDeclarations.4.ts
+stderr 'TS1005'
+! exists awaitUsingDeclarations.4.js
+! exists awaitUsingDeclarations.4.d.ts
+! exists awaitUsingDeclarations.4.js.map
+
+-- awaitUsingDeclarations.4.ts --
+{
+    await using [a] = null;
+}
+
+export {};

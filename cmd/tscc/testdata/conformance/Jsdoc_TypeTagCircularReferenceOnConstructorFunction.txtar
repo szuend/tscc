@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/jsdoc/typeTagCircularReferenceOnConstructorFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug27346.js
+stderr 'TS2749'
+stderr 'TS8030'
+! exists bug27346.d.ts
+! exists bug27346.js.map
+
+-- bug27346.js --
+/**
+ * @type {MyClass}
+ */
+function MyClass() { }
+MyClass.prototype = {};

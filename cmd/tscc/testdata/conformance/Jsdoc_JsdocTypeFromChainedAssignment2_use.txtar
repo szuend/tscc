@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTypeFromChainedAssignment2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom use.js
+stderr 'TS2345'
+! exists use.d.ts
+! exists use.js.map
+
+-- mod.js --
+/** @param {number} n */
+exports.f = exports.g = function fg(n) {
+    return n + 1
+}
+/** @param {string} mom */
+module.exports.h = module.exports.i = function hi(mom) {
+    return `hi, ${mom}!`;
+}
+-- use.js --
+var mod = require('./mod');
+mod.f('no')
+mod.g('also no')
+mod.h(0)
+mod.i(1)

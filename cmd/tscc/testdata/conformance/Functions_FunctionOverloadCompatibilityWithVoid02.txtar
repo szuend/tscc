@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/functions/functionOverloadCompatibilityWithVoid02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionOverloadCompatibilityWithVoid02.js functionOverloadCompatibilityWithVoid02.ts
+! stderr .
+cmp functionOverloadCompatibilityWithVoid02.js functionOverloadCompatibilityWithVoid02.js.golden
+! exists functionOverloadCompatibilityWithVoid02.d.ts
+! exists functionOverloadCompatibilityWithVoid02.js.map
+
+-- functionOverloadCompatibilityWithVoid02.ts --
+function f(x: string): void;
+function f(x: string): number {
+    return 0;
+} 
+-- functionOverloadCompatibilityWithVoid02.js.golden --
+"use strict";
+function f(x) {
+    return 0;
+}

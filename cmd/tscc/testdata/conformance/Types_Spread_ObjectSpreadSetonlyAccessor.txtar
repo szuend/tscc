@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/spread/objectSpreadSetonlyAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target esnext --lib esnext,dom --out-js objectSpreadSetonlyAccessor.js objectSpreadSetonlyAccessor.ts
+stderr 'TS2783'
+! exists objectSpreadSetonlyAccessor.js
+! exists objectSpreadSetonlyAccessor.d.ts
+! exists objectSpreadSetonlyAccessor.js.map
+
+-- objectSpreadSetonlyAccessor.ts --
+const o1: { foo: number, bar: undefined } = { foo: 1, ... { set bar(_v: number) { } } }
+const o2: { foo: undefined } = { foo: 1, ... { set foo(_v: number) { } } }

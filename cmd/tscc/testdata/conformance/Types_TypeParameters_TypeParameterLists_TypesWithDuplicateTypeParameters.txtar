@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterLists/typesWithDuplicateTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typesWithDuplicateTypeParameters.js typesWithDuplicateTypeParameters.ts
+stderr 'TS2300'
+! exists typesWithDuplicateTypeParameters.js
+! exists typesWithDuplicateTypeParameters.d.ts
+! exists typesWithDuplicateTypeParameters.js.map
+
+-- typesWithDuplicateTypeParameters.ts --
+class C<T, T> { }
+class C2<T, U, T> { }
+
+interface I<T, T> { }
+interface I2<T, U, T> { }
+
+function f<T, T>() { }
+function f2<T, U, T>() { }

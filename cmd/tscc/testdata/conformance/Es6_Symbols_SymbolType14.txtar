@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType14.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolType14.js symbolType14.ts
+stderr 'TS2350'
+! exists symbolType14.js
+! exists symbolType14.d.ts
+! exists symbolType14.js.map
+
+-- symbolType14.ts --
+new Symbol();

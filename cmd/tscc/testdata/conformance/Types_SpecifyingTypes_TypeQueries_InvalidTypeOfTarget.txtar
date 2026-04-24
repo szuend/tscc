@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeQueries/invalidTypeOfTarget.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidTypeOfTarget.js invalidTypeOfTarget.ts
+stderr 'TS1003'
+stderr 'TS1005'
+! exists invalidTypeOfTarget.js
+! exists invalidTypeOfTarget.d.ts
+! exists invalidTypeOfTarget.js.map
+
+-- invalidTypeOfTarget.ts --
+var x1: typeof {};
+var x2: typeof (): void;
+var x3: typeof 1;
+var x4: typeof '';
+var x5: typeof [];
+var x6: typeof null;
+var x7: typeof function f() { };
+var x8: typeof /123/;

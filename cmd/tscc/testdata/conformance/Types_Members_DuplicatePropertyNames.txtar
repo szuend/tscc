@@ -1,0 +1,56 @@
+# Ported from tests/cases/conformance/types/members/duplicatePropertyNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js duplicatePropertyNames.js duplicatePropertyNames.ts
+stderr 'TS1117'
+! exists duplicatePropertyNames.js
+! exists duplicatePropertyNames.d.ts
+! exists duplicatePropertyNames.js.map
+
+-- duplicatePropertyNames.ts --
+// duplicate property names are an error in all types
+
+interface Number {
+    foo: string;
+    foo: string;
+}
+
+interface String {
+    foo(): string;
+    foo(): string;
+}
+
+interface Array<T> {
+    foo: T;
+    foo: T;
+}
+
+class C {
+    foo: string;
+    foo: string;
+
+    bar(x) { }
+    bar(x) { }
+
+    baz = () => { }
+    baz = () => { }
+}
+
+interface I {
+    foo: string;
+    foo: string;
+}
+
+var a: {
+    foo: string;
+    foo: string;
+
+    bar: () => {};
+    bar: () => {};
+}
+
+var b = {
+    foo: '',
+    foo: '',
+    bar: () => { },
+    bar: () => { }
+}

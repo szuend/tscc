@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGenericsInVariableDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserGenericsInVariableDeclaration1.js parserGenericsInVariableDeclaration1.ts
+stderr 'TS2304'
+! exists parserGenericsInVariableDeclaration1.js
+! exists parserGenericsInVariableDeclaration1.d.ts
+! exists parserGenericsInVariableDeclaration1.js.map
+
+-- parserGenericsInVariableDeclaration1.ts --
+var v : Foo<T> = 1;
+var v : Foo<T>= 1;
+
+var v : Foo<Bar<T>> = 1;
+var v : Foo<Bar<T>>= 1;
+
+var v : Foo<Bar<Quux<T>>> = 1;
+var v : Foo<Bar<Quux<T>>>= 1;

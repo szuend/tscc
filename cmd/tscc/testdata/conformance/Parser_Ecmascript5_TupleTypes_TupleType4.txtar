@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/TupleTypes/TupleType4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js TupleType4.js TupleType4.ts
+stderr 'TS1005'
+! exists TupleType4.js
+! exists TupleType4.d.ts
+! exists TupleType4.js.map
+
+-- TupleType4.ts --
+var v: [

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Iterators/parserForOfStatement24.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js parserForOfStatement24.js parserForOfStatement24.ts
+! stderr .
+cmp parserForOfStatement24.js parserForOfStatement24.js.golden
+! exists parserForOfStatement24.d.ts
+! exists parserForOfStatement24.js.map
+
+-- parserForOfStatement24.ts --
+var async;
+for ((async) of [1, 2]);
+-- parserForOfStatement24.js.golden --
+"use strict";
+var async;
+for ((async) of [1, 2])
+    ;

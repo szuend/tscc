@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/jsdoc/typedefTagTypeResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom github20832.js
+stderr 'TS2304'
+! exists github20832.d.ts
+! exists github20832.js.map
+
+-- github20832.js --
+// #20832
+/** @typedef {U} T - should be "error, can't find type named 'U' */
+/**
+ * @template U
+ * @param {U} x
+ * @return {T}
+ */
+function f(x) {
+    return x;
+}
+
+/** @type T - should be fine, since T will be any */
+const x = 3;
+
+/**
+ * @callback Cb
+ * @param {V} firstParam
+ */
+/**
+ * @template V
+ * @param {V} vvvvv
+ */
+function g(vvvvv) {
+}
+
+/** @type {Cb} */
+const cb = x => {}

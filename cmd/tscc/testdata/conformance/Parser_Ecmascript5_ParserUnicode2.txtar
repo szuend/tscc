@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserUnicode2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserUnicode2.js parserUnicode2.ts
+! stderr .
+cmp parserUnicode2.js parserUnicode2.js.golden
+! exists parserUnicode2.d.ts
+! exists parserUnicode2.js.map
+
+-- parserUnicode2.ts --
+var 才能ソЫⅨ蒤郳र्क्ड्राüışğİliيونيكودöÄüß才能ソЫⅨ蒤郳र्क्ड्राüışğİliيونيكودöÄüßAbcd123 = 1;
+-- parserUnicode2.js.golden --
+"use strict";
+var 才能ソЫⅨ蒤郳र्क्ड्राüışğİliيونيكودöÄüß才能ソЫⅨ蒤郳र्क्ड्राüışğİliيونيكودöÄüßAbcd123 = 1;

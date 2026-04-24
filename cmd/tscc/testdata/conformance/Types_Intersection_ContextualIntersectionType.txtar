@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/intersection/contextualIntersectionType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualIntersectionType.js contextualIntersectionType.ts
+! stderr .
+cmp contextualIntersectionType.js contextualIntersectionType.js.golden
+! exists contextualIntersectionType.d.ts
+! exists contextualIntersectionType.js.map
+
+-- contextualIntersectionType.ts --
+var x: { a: (s: string) => string } & { b: (n: number) => number };
+x = {
+    a: s => s,
+    b: n => n
+};
+-- contextualIntersectionType.js.golden --
+"use strict";
+var x;
+x = {
+    a: s => s,
+    b: n => n
+};

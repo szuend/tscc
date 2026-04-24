@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/salsa/prototypePropertyAssignmentMergedTypeReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom prototypePropertyAssignmentMergedTypeReference.js
+stderr 'TS2749'
+stderr 'TS2322'
+! exists prototypePropertyAssignmentMergedTypeReference.d.ts
+! exists prototypePropertyAssignmentMergedTypeReference.js.map
+
+-- prototypePropertyAssignmentMergedTypeReference.js --
+var f = function() {
+    return 12;
+};
+
+f.prototype.a = "a";
+
+/** @type {new () => f} */
+var x = f;
+

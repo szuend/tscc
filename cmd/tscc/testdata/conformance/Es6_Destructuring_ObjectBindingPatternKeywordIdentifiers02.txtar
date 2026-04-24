@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/destructuring/objectBindingPatternKeywordIdentifiers02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectBindingPatternKeywordIdentifiers02.js objectBindingPatternKeywordIdentifiers02.ts
+stderr 'TS1359'
+stderr 'TS1005'
+! exists objectBindingPatternKeywordIdentifiers02.js
+! exists objectBindingPatternKeywordIdentifiers02.d.ts
+! exists objectBindingPatternKeywordIdentifiers02.js.map
+
+-- objectBindingPatternKeywordIdentifiers02.ts --
+var { while: while } = { while: 1 }

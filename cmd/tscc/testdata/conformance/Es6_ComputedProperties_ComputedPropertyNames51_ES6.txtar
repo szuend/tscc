@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames51_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames51_ES6.js computedPropertyNames51_ES6.ts
+stderr 'TS2464'
+! exists computedPropertyNames51_ES6.js
+! exists computedPropertyNames51_ES6.d.ts
+! exists computedPropertyNames51_ES6.js.map
+
+-- computedPropertyNames51_ES6.ts --
+function f<T, K extends keyof T>() {
+    var t!: T;
+    var k!: K;
+    var v = {
+        [t]: 0,
+        [k]: 1
+    };
+}

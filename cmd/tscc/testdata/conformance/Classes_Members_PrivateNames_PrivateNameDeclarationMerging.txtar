@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameDeclarationMerging.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js privateNameDeclarationMerging.js privateNameDeclarationMerging.ts
+stderr 'TS2339'
+! exists privateNameDeclarationMerging.js
+! exists privateNameDeclarationMerging.d.ts
+! exists privateNameDeclarationMerging.js.map
+
+-- privateNameDeclarationMerging.ts --
+class D {};
+
+class C {
+    #x;
+    foo () {
+        const c = new C();
+        c.#x;     // OK
+        const d: D = new C();
+        d.#x;    // Error
+    }
+}
+interface C {
+    new (): D;
+}

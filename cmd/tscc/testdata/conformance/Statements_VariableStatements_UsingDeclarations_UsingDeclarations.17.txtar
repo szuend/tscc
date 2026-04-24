@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/usingDeclarations.17.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js usingDeclarations.17.js usingDeclarations.17.ts
+stderr 'TS1547'
+! exists usingDeclarations.17.js
+! exists usingDeclarations.17.d.ts
+! exists usingDeclarations.17.js.map
+
+-- usingDeclarations.17.ts --
+switch (Math.random()) {
+    case 0:
+        using d20 = { [Symbol.dispose]() {} };
+        break;
+
+    case 1:
+        using d21 = { [Symbol.dispose]() {} };
+        break;
+
+    default:
+        using d22 = { [Symbol.dispose]() {} };
+}
+
+if (true)
+    switch (0) {
+        case 0:
+            using d23 = { [Symbol.dispose]() {} };
+            break;
+
+        default:
+            using d24 = { [Symbol.dispose]() {} };
+    }
+
+export {};

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration4.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserModuleDeclaration4.d.js parserModuleDeclaration4.d.ts
+stderr 'TS1046'
+stderr 'TS1038'
+! exists parserModuleDeclaration4.d.js
+! exists parserModuleDeclaration4.d.d.ts
+! exists parserModuleDeclaration4.d.js.map
+
+-- parserModuleDeclaration4.d.ts --
+namespace M {
+  declare namespace M1 {
+  }
+}

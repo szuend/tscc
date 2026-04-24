@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/directives/ts-expect-error-js.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+stderr 'TS2578'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+// there should be a "Unused @ts-expect-error" error since js files are being checked
+
+// @ts-expect-error
+const a = 1;

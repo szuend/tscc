@@ -1,0 +1,62 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionAsyncES2020.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es2020 --target es2020 --lib es2020,dom --out-js test.js test.ts
+! stderr .
+cmp test.js test.js.golden
+! exists test.d.ts
+! exists test.js.map
+
+-- test.ts --
+export async function fn() {
+    const req = await import('./test') // ONE
+}
+
+export class cl1 {
+    public async m() {
+        const req = await import('./test') // TWO
+    }
+}
+
+export const obj = {
+    m: async () => {
+        const req = await import('./test') // THREE
+    }
+}
+
+export class cl2 {
+    public p = {
+        m: async () => {
+            const req = await import('./test') // FOUR
+        }
+    }
+}
+
+export const l = async () => {
+    const req = await import('./test') // FIVE
+}
+-- test.js.golden --
+export async function fn() {
+    const req = await import('./test'); // ONE
+}
+export class cl1 {
+    async m() {
+        const req = await import('./test'); // TWO
+    }
+}
+export const obj = {
+    m: async () => {
+        const req = await import('./test'); // THREE
+    }
+};
+export class cl2 {
+    constructor() {
+        this.p = {
+            m: async () => {
+                const req = await import('./test'); // FOUR
+            }
+        };
+    }
+}
+export const l = async () => {
+    const req = await import('./test'); // FIVE
+};

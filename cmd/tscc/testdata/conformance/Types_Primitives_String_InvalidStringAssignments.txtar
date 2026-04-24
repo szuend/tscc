@@ -1,0 +1,38 @@
+# Ported from tests/cases/conformance/types/primitives/string/invalidStringAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidStringAssignments.js invalidStringAssignments.ts
+stderr 'TS2322'
+stderr 'TS2564'
+stderr 'TS2631'
+stderr 'TS2630'
+! exists invalidStringAssignments.js
+! exists invalidStringAssignments.d.ts
+! exists invalidStringAssignments.js.map
+
+-- invalidStringAssignments.ts --
+var x = '';
+
+var a: boolean = x;
+var b: number = x;
+var c: void = x;
+var d: typeof undefined = x;
+
+class C { foo: string; }
+var e: C = x;
+
+interface I { bar: string; }
+var f: I = x;
+
+var g: { baz: string } = 1;
+var g2: { 0: number } = 1;
+
+namespace M { export var x = 1; }
+M = x;
+
+function i<T>(a: T) {
+    a = x;
+}
+i = x;
+
+enum E { A }
+var j: E = x;

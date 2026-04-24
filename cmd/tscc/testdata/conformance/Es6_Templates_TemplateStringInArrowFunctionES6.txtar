@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInArrowFunctionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js templateStringInArrowFunctionES6.js templateStringInArrowFunctionES6.ts
+! stderr .
+cmp templateStringInArrowFunctionES6.js templateStringInArrowFunctionES6.js.golden
+! exists templateStringInArrowFunctionES6.d.ts
+! exists templateStringInArrowFunctionES6.js.map
+
+-- templateStringInArrowFunctionES6.ts --
+var x = x => `abc${ x }def`;
+-- templateStringInArrowFunctionES6.js.golden --
+"use strict";
+var x = x => `abc${x}def`;

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty33.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty33.js symbolProperty33.ts
+stderr 'TS2449'
+! exists symbolProperty33.js
+! exists symbolProperty33.d.ts
+! exists symbolProperty33.js.map
+
+-- symbolProperty33.ts --
+class C1 extends C2 {
+    [Symbol.toStringTag]() {
+        return { x: "" };
+    }
+}
+class C2 {
+    [s: symbol]: () => { x: string };
+}

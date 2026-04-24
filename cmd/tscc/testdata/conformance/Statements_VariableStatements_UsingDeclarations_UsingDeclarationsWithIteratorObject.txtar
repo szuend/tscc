@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/usingDeclarationsWithIteratorObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext usingDeclarationsWithIteratorObject.ts
+stderr 'TS2741'
+! exists usingDeclarationsWithIteratorObject.d.ts
+! exists usingDeclarationsWithIteratorObject.js.map
+
+-- usingDeclarationsWithIteratorObject.ts --
+declare const i: Iterator<string, undefined>;
+declare const io: IteratorObject<string, undefined, unknown>;
+declare const g: Generator<string, void>;
+
+class MyIterator extends Iterator<string> {
+    next() { return { done: true, value: undefined }; }
+}
+
+function f() {
+    // should pass
+    using it0 = io;
+    using it1 = g;
+    using it2 = Iterator.from(i)
+    using it3 = new MyIterator();
+    using it4 = [].values();
+    using it5 = new Map<string, string>().entries();
+    using it6 = new Set<string>().keys();
+
+    // should fail
+    using it7 = i;
+}

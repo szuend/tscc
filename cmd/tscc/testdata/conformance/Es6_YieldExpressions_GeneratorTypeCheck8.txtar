@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js generatorTypeCheck8.js generatorTypeCheck8.ts
+stderr 'TS2322'
+! exists generatorTypeCheck8.js
+! exists generatorTypeCheck8.d.ts
+! exists generatorTypeCheck8.js.map
+
+-- generatorTypeCheck8.ts --
+interface BadGenerator extends Iterator<number>, Iterable<string> { }
+function* g3(): BadGenerator { }

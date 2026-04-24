@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js iterableArrayPattern16.js iterableArrayPattern16.ts
+stderr 'TS2345'
+stderr 'TS2449'
+! exists iterableArrayPattern16.js
+! exists iterableArrayPattern16.d.ts
+! exists iterableArrayPattern16.js.map
+
+-- iterableArrayPattern16.ts --
+function fun(...[a, b]: [Bar, Bar][]) { }
+fun(...new FooIteratorIterator);
+class Bar { x }
+class Foo extends Bar { y }
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+class FooIteratorIterator {
+    next() {
+        return {
+            value: new FooIterator,
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}

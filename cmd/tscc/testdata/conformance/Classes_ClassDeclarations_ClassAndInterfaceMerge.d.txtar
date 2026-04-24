@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAndInterfaceMerge.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classAndInterfaceMerge.d.js classAndInterfaceMerge.d.ts
+! stderr .
+! exists classAndInterfaceMerge.d.d.ts
+! exists classAndInterfaceMerge.d.js
+! exists classAndInterfaceMerge.d.js.map
+
+-- classAndInterfaceMerge.d.ts --
+interface C { }
+
+declare class C { }
+
+interface C { }
+
+interface C { }
+
+declare namespace M {
+
+    interface C1 { }
+
+    class C1 { }
+
+    interface C1 { }
+
+    interface C1 { }
+
+    export class C2 { }
+}
+
+declare namespace M {
+    export interface C2 { }
+}

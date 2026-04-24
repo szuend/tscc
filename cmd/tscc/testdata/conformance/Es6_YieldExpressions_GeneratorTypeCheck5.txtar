@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js generatorTypeCheck5.js generatorTypeCheck5.ts
+! stderr .
+cmp generatorTypeCheck5.js generatorTypeCheck5.js.golden
+! exists generatorTypeCheck5.d.ts
+! exists generatorTypeCheck5.js.map
+
+-- generatorTypeCheck5.ts --
+function* g1(): any { }
+-- generatorTypeCheck5.js.golden --
+"use strict";
+function* g1() { }

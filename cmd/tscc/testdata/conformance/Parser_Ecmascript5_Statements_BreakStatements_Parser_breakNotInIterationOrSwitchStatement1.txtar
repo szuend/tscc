@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/BreakStatements/parser_breakNotInIterationOrSwitchStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser_breakNotInIterationOrSwitchStatement1.js parser_breakNotInIterationOrSwitchStatement1.ts
+stderr 'TS1105'
+! exists parser_breakNotInIterationOrSwitchStatement1.js
+! exists parser_breakNotInIterationOrSwitchStatement1.d.ts
+! exists parser_breakNotInIterationOrSwitchStatement1.js.map
+
+-- parser_breakNotInIterationOrSwitchStatement1.ts --
+break;

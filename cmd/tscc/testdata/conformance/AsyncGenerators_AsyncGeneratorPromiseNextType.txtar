@@ -1,0 +1,46 @@
+# Ported from tests/cases/conformance/asyncGenerators/asyncGeneratorPromiseNextType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom asyncGeneratorPromiseNextType.ts
+! stderr .
+! exists asyncGeneratorPromiseNextType.d.ts
+! exists asyncGeneratorPromiseNextType.js.map
+
+-- asyncGeneratorPromiseNextType.ts --
+// https://github.com/microsoft/TypeScript/issues/44808
+
+type Result = {message: string}
+
+async function *saverGen(): AsyncGenerator<void, void, Promise<Result> | undefined> {
+    let pending: Promise<Result>[] = [];
+    while (true) {
+        const p: Promise<Result> | undefined = yield;
+        if (p != null)
+            pending.push(p);
+        else {
+            const results = await Promise.all(pending);
+            pending = [];
+            console.log('Storing...');
+            await storeResults(results);
+        }
+    }
+}
+
+function storeResults(results: Result[]) {
+    console.log(results);
+    return Promise.resolve();
+}
+
+async function *saverGen2() {
+    let pending: Promise<Result>[] = [];
+    while (true) {
+        const p: Promise<Result> | undefined = yield;
+        if (p != null)
+            pending.push(p);
+        else {
+            const results = await Promise.all(pending);
+            pending = [];
+            console.log('Storing...');
+            await storeResults(results);
+        }
+    }
+}

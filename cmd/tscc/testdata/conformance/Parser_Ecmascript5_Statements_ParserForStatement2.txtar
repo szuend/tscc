@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserForStatement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserForStatement2.js parserForStatement2.ts
+stderr 'TS2304'
+! exists parserForStatement2.js
+! exists parserForStatement2.d.ts
+! exists parserForStatement2.js.map
+
+-- parserForStatement2.ts --
+var a;
+var b = [];
+var c;
+for (a in b[c] = b[c] || [], d) {
+
+}

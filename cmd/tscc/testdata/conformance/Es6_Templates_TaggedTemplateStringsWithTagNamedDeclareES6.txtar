@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/templates/taggedTemplateStringsWithTagNamedDeclareES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js taggedTemplateStringsWithTagNamedDeclareES6.js taggedTemplateStringsWithTagNamedDeclareES6.ts
+! stderr .
+cmp taggedTemplateStringsWithTagNamedDeclareES6.js taggedTemplateStringsWithTagNamedDeclareES6.js.golden
+! exists taggedTemplateStringsWithTagNamedDeclareES6.d.ts
+! exists taggedTemplateStringsWithTagNamedDeclareES6.js.map
+
+-- taggedTemplateStringsWithTagNamedDeclareES6.ts --
+function declare(x: any, ...ys: any[]) {
+}
+
+declare `Hello ${0} world!`;
+-- taggedTemplateStringsWithTagNamedDeclareES6.js.golden --
+"use strict";
+function declare(x, ...ys) {
+}
+declare `Hello ${0} world!`;

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserParenthesizedVariableAndParenthesizedFunctionInTernary.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserParenthesizedVariableAndParenthesizedFunctionInTernary.js parserParenthesizedVariableAndParenthesizedFunctionInTernary.ts
+! stderr .
+cmp parserParenthesizedVariableAndParenthesizedFunctionInTernary.js parserParenthesizedVariableAndParenthesizedFunctionInTernary.js.golden
+! exists parserParenthesizedVariableAndParenthesizedFunctionInTernary.d.ts
+! exists parserParenthesizedVariableAndParenthesizedFunctionInTernary.js.map
+
+-- parserParenthesizedVariableAndParenthesizedFunctionInTernary.ts --
+let a: any;
+const c = true ? (a) : (function() {});
+const d = true ? (a) : ((function() {}));
+-- parserParenthesizedVariableAndParenthesizedFunctionInTernary.js.golden --
+"use strict";
+let a;
+const c = true ? (a) : (function () { });
+const d = true ? (a) : ((function () { }));

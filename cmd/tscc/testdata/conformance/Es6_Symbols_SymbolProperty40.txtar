@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty40.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty40.js symbolProperty40.ts
+! stderr .
+cmp symbolProperty40.js symbolProperty40.js.golden
+! exists symbolProperty40.d.ts
+! exists symbolProperty40.js.map
+
+-- symbolProperty40.ts --
+class C {
+    [Symbol.iterator](x: string): string;
+    [Symbol.iterator](x: number): number;
+    [Symbol.iterator](x: any) {
+        return undefined;
+    }
+}
+
+var c = new C;
+c[Symbol.iterator]("");
+c[Symbol.iterator](0);
+-- symbolProperty40.js.golden --
+"use strict";
+class C {
+    [Symbol.iterator](x) {
+        return undefined;
+    }
+}
+var c = new C;
+c[Symbol.iterator]("");
+c[Symbol.iterator](0);

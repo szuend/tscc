@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.js objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.ts
+stderr 'TS2353'
+stderr 'TS2322'
+stderr 'TS7008'
+! exists objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.js
+! exists objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.d.ts
+! exists objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.js.map
+
+-- objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.ts --
+var id: number = 10000;
+var name: string = "my name";
+
+var person: { b: string; id: number } = { name, id };  // error
+function bar(name: string, id: number): { name: number, id: string } { return { name, id }; }  // error
+function foo(name: string, id: number): { name: string, id: number } { return { name, id }; }  // error
+var person1: { name, id }; // ok
+var person2: { name: string, id: number } = bar("hello", 5);

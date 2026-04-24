@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/VariableLists/parserInvalidIdentifiersInVariableStatements1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserInvalidIdentifiersInVariableStatements1.js parserInvalidIdentifiersInVariableStatements1.ts
+stderr 'TS1389'
+stderr 'TS1005'
+! exists parserInvalidIdentifiersInVariableStatements1.js
+! exists parserInvalidIdentifiersInVariableStatements1.d.ts
+! exists parserInvalidIdentifiersInVariableStatements1.js.map
+
+-- parserInvalidIdentifiersInVariableStatements1.ts --
+var export;
+var foo;
+var class;
+var bar;

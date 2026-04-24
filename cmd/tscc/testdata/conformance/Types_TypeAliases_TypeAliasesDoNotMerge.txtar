@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/typeAliases/typeAliasesDoNotMerge.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js typeAliasesDoNotMerge.js typeAliasesDoNotMerge.ts
+stderr 'TS2395'
+! exists typeAliasesDoNotMerge.js
+! exists typeAliasesDoNotMerge.d.ts
+! exists typeAliasesDoNotMerge.js.map
+
+-- typeAliasesDoNotMerge.ts --
+export type A = {}
+type A = {}

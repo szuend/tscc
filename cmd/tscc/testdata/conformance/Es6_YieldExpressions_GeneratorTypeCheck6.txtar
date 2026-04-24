@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js generatorTypeCheck6.js generatorTypeCheck6.ts
+stderr 'TS2322'
+! exists generatorTypeCheck6.js
+! exists generatorTypeCheck6.d.ts
+! exists generatorTypeCheck6.js.map
+
+-- generatorTypeCheck6.ts --
+function* g1(): number { }

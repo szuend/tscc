@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/TupleTypes/TupleType6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js TupleType6.js TupleType6.ts
+stderr 'TS1110'
+! exists TupleType6.js
+! exists TupleType6.d.ts
+! exists TupleType6.js.map
+
+-- TupleType6.ts --
+var v: [number,,]

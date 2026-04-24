@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/predefinedTypes/objectTypesWithPredefinedTypesAsName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectTypesWithPredefinedTypesAsName.js objectTypesWithPredefinedTypesAsName.ts
+stderr 'TS2414'
+! exists objectTypesWithPredefinedTypesAsName.js
+! exists objectTypesWithPredefinedTypesAsName.d.ts
+! exists objectTypesWithPredefinedTypesAsName.js.map
+
+-- objectTypesWithPredefinedTypesAsName.ts --
+// it is an error to use a predefined type as a type name
+
+class any { }
+
+class number { }
+
+class boolean { }
+class bool { } // not a predefined type anymore
+
+class string { }
+
+

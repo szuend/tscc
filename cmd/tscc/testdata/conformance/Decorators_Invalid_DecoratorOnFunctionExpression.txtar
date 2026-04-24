@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnFunctionExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js decoratorOnFunctionExpression.js decoratorOnFunctionExpression.ts
+stderr 'TS1109'
+stderr 'TS1005'
+stderr 'TS1003'
+! exists decoratorOnFunctionExpression.js
+! exists decoratorOnFunctionExpression.d.ts
+! exists decoratorOnFunctionExpression.js.map
+
+-- decoratorOnFunctionExpression.ts --
+declare function dec<T>(target: T): T;
+
+var F = @dec function () {
+}

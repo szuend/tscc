@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/noInferRedeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts b.d.ts --strict --target esnext --lib esnext,dom --out-js b.js b.ts
+! stderr .
+cmp b.d.ts b.d.ts.golden
+cmp b.js b.js.golden
+! exists b.js.map
+
+-- a.ts --
+export const f = <T>(x: T, y: NoInfer<T>) => x;
+-- b.ts --
+import { f } from "./a";
+
+type NoInfer<T> = T & number;
+
+export const g = f;
+-- b.d.ts.golden --
+export declare const g: <T>(x: T, y: globalThis.NoInfer<T>) => T;
+-- b.js.golden --
+import { f } from "./a";
+export const g = f;

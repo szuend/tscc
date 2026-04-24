@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameStaticAccessorsAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameStaticAccessorsAccess.js privateNameStaticAccessorsAccess.ts
+stderr 'TS18013'
+! exists privateNameStaticAccessorsAccess.js
+! exists privateNameStaticAccessorsAccess.d.ts
+! exists privateNameStaticAccessorsAccess.js.map
+
+-- privateNameStaticAccessorsAccess.ts --
+export {}
+class A2 {
+    static get #prop() { return ""; }
+    static set #prop(param: string) { }
+
+    constructor() {
+        console.log(A2.#prop);
+        let a: typeof A2 = A2;
+        a.#prop;
+        function  foo (){
+            a.#prop;
+        }
+    }
+}
+
+A2.#prop; // Error
+
+function  foo (){
+    A2.#prop; // Error
+}
+
+class B2 {
+    m() {
+        A2.#prop;
+    }
+}

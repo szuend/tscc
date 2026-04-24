@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName19.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js parserComputedPropertyName19.js parserComputedPropertyName19.ts
+stderr 'TS2304'
+! exists parserComputedPropertyName19.js
+! exists parserComputedPropertyName19.d.ts
+! exists parserComputedPropertyName19.js.map
+
+-- parserComputedPropertyName19.ts --
+var v: { [e]? };

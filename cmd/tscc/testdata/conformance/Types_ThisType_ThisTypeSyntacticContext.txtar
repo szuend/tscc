@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/types/thisType/thisTypeSyntacticContext.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisTypeSyntacticContext.js thisTypeSyntacticContext.ts
+! stderr .
+cmp thisTypeSyntacticContext.js thisTypeSyntacticContext.js.golden
+! exists thisTypeSyntacticContext.d.ts
+! exists thisTypeSyntacticContext.js.map
+
+-- thisTypeSyntacticContext.ts --
+function f(this: { n: number }) {
+}
+
+const o: { n: number, test?: (this: { n: number }) => void } = { n: 1 }
+o.test = f
+
+o.test();
+o!.test();
+o.test!();
+o.test!!!();
+(o.test!)();
+(o.test)();
+
+-- thisTypeSyntacticContext.js.golden --
+"use strict";
+function f() {
+}
+const o = { n: 1 };
+o.test = f;
+o.test();
+o.test();
+o.test();
+o.test();
+(o.test)();
+(o.test)();

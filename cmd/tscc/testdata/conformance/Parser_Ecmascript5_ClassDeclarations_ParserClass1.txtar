@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClass1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserClass1.js parserClass1.ts
+stderr 'TS2304'
+! exists parserClass1.js
+! exists parserClass1.d.ts
+! exists parserClass1.js.map
+
+-- parserClass1.ts --
+    export class NullLogger implements ILogger {
+        public information(): boolean { return false; }
+        public debug(): boolean { return false; }
+        public warning(): boolean { return false; }
+        public error(): boolean { return false; }
+        public fatal(): boolean { return false; }
+        public log(s: string): void {
+        }
+    }

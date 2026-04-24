@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom a.js
+stderr 'TS2503'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+var Outer = {};
+
+Outer.Inner = function () {}
+Outer.Inner.prototype = {
+    x: 1,
+    m() { }
+}
+
+/** @type {Outer.Inner} */
+var inner
+inner.x
+inner.m()
+var inno = new Outer.Inner()
+inno.x
+inno.m()

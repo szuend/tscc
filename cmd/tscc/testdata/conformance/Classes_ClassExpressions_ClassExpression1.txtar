@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/classes/classExpressions/classExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExpression1.js classExpression1.ts
+! stderr .
+cmp classExpression1.js classExpression1.js.golden
+! exists classExpression1.d.ts
+! exists classExpression1.js.map
+
+-- classExpression1.ts --
+var v = class C {};
+-- classExpression1.js.golden --
+"use strict";
+var v = class C {
+};

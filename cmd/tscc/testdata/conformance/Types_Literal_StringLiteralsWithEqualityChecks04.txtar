@@ -1,0 +1,38 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsWithEqualityChecks04.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsWithEqualityChecks04.js stringLiteralsWithEqualityChecks04.ts
+stderr 'TS2367'
+! exists stringLiteralsWithEqualityChecks04.js
+! exists stringLiteralsWithEqualityChecks04.d.ts
+! exists stringLiteralsWithEqualityChecks04.js.map
+
+-- stringLiteralsWithEqualityChecks04.ts --
+interface Runnable {
+    isRunning: boolean;
+}
+
+interface Refrigerator extends Runnable {
+    makesFoodGoBrrr: boolean;
+}
+
+declare let x: string;
+declare let y: "foo" | Refrigerator;
+
+let b: boolean;
+b = x == y;
+b = "foo" == y
+b = y == "foo";
+b = "foo" == "bar";
+b = "bar" == x;
+b = x == "bar";
+b = y == "bar";
+b = "bar" == y;
+
+b = x != y;
+b = "foo" != y
+b = y != "foo";
+b = "foo" != "bar";
+b = "bar" != x;
+b = x != "bar";
+b = y != "bar";
+b = "bar" != y;

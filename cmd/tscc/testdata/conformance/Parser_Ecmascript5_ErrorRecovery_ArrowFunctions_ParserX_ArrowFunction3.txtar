@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArrowFunctions/parserX_ArrowFunction3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserX_ArrowFunction3.js parserX_ArrowFunction3.ts
+stderr 'TS1005'
+! exists parserX_ArrowFunction3.js
+! exists parserX_ArrowFunction3.d.ts
+! exists parserX_ArrowFunction3.js.map
+
+-- parserX_ArrowFunction3.ts --
+var v = (a): => {
+   
+};

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/expressions/asOperator/asOperatorAmbiguity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js asOperatorAmbiguity.js asOperatorAmbiguity.ts
+stderr 'TS2339'
+! exists asOperatorAmbiguity.js
+! exists asOperatorAmbiguity.d.ts
+! exists asOperatorAmbiguity.js.map
+
+-- asOperatorAmbiguity.ts --
+interface A<T> { x: T; }
+interface B { m: string; }
+
+// Make sure this is a type assertion to an array type, and not nested comparison operators.
+var x: any;
+var y = x as A<B>[];
+var z = y[0].m; // z should be string
+

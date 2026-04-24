@@ -1,0 +1,47 @@
+# Ported from tests/cases/conformance/classes/members/classTypes/instancePropertyInClassType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instancePropertyInClassType.js instancePropertyInClassType.ts
+stderr 'TS6234'
+! exists instancePropertyInClassType.js
+! exists instancePropertyInClassType.d.ts
+! exists instancePropertyInClassType.js.map
+
+-- instancePropertyInClassType.ts --
+namespace NonGeneric {
+    class C {
+        x: string;
+        get y() {
+            return 1;
+        }
+        set y(v) { }
+        fn() { return this; }
+        constructor(public a: number, private b: number) { }
+    }
+
+    var c = new C(1, 2);
+    var r = c.fn();
+    var r2 = r.x;
+    var r3 = r.y;
+    r.y = 4;
+    var r6 = c.y(); // error
+
+}
+
+namespace Generic {
+    class C<T,U> {
+        x: T;
+        get y() {
+            return null;
+        }
+        set y(v: U) { }
+        fn() { return this; }
+        constructor(public a: T, private b: U) { }
+    }
+
+    var c = new C(1, '');
+    var r = c.fn();
+    var r2 = r.x;
+    var r3 = r.y;
+    r.y = '';
+    var r6 = c.y(); // error
+}

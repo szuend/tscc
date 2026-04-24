@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/constEnums/constEnum4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js constEnum4.js constEnum4.ts
+stderr 'TS2872'
+! exists constEnum4.js
+! exists constEnum4.d.ts
+! exists constEnum4.js.map
+
+-- constEnum4.ts --
+if (1)
+    const enum A { }
+else if (2)
+    const enum B { }
+else
+    const enum C { }

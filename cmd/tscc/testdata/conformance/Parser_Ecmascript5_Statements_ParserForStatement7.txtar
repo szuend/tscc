@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserForStatement7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserForStatement7.js parserForStatement7.ts
+stderr 'TS2406'
+stderr 'TS2304'
+! exists parserForStatement7.js
+! exists parserForStatement7.d.ts
+! exists parserForStatement7.js.map
+
+-- parserForStatement7.ts --
+for (new foo() in b) {
+}

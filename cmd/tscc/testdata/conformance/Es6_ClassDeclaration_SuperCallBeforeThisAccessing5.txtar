@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/superCallBeforeThisAccessing5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js superCallBeforeThisAccessing5.js superCallBeforeThisAccessing5.ts
+! stderr .
+cmp superCallBeforeThisAccessing5.js superCallBeforeThisAccessing5.js.golden
+! exists superCallBeforeThisAccessing5.d.ts
+! exists superCallBeforeThisAccessing5.js.map
+
+-- superCallBeforeThisAccessing5.ts --
+class D extends null {
+    private _t;
+    constructor() {
+        this._t;  // No error
+    }
+}
+-- superCallBeforeThisAccessing5.js.golden --
+"use strict";
+class D extends null {
+    constructor() {
+        this._t; // No error
+    }
+}

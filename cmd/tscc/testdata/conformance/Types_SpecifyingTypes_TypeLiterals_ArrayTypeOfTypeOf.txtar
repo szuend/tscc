@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeLiterals/arrayTypeOfTypeOf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js arrayTypeOfTypeOf.js arrayTypeOfTypeOf.ts
+! stderr .
+cmp arrayTypeOfTypeOf.js arrayTypeOfTypeOf.js.golden
+! exists arrayTypeOfTypeOf.d.ts
+! exists arrayTypeOfTypeOf.js.map
+
+-- arrayTypeOfTypeOf.ts --
+// array type cannot use typeof.
+
+var x = 1;
+var xs: typeof x[];  // Not an error.  This is equivalent to Array<typeof x>
+var xs2: typeof Array;
+var xs3: typeof Array<number>;
+var xs4: typeof Array<typeof x>;
+-- arrayTypeOfTypeOf.js.golden --
+"use strict";
+// array type cannot use typeof.
+var x = 1;
+var xs; // Not an error.  This is equivalent to Array<typeof x>
+var xs2;
+var xs3;
+var xs4;

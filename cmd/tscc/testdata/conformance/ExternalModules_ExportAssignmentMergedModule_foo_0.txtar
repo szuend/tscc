@@ -1,0 +1,51 @@
+# Ported from tests/cases/conformance/externalModules/exportAssignmentMergedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo_0.js foo_0.ts
+! stderr .
+cmp foo_0.js foo_0.js.golden
+! exists foo_0.d.ts
+! exists foo_0.js.map
+
+-- foo_0.ts --
+namespace Foo {
+	export function a(){
+		return 5;
+	}
+	export var b = true;
+}
+namespace Foo {
+	export function c(a: number){
+		return a;
+	}
+	export namespace Test {
+		export var answer = 42;
+	}
+}
+export = Foo;
+-- foo_1.ts --
+import foo = require("./foo_0");
+var a: number = foo.a();
+if(!!foo.b){
+	foo.Test.answer = foo.c(42);
+}
+-- foo_0.js.golden --
+"use strict";
+var Foo;
+(function (Foo) {
+    function a() {
+        return 5;
+    }
+    Foo.a = a;
+    Foo.b = true;
+})(Foo || (Foo = {}));
+(function (Foo) {
+    function c(a) {
+        return a;
+    }
+    Foo.c = c;
+    let Test;
+    (function (Test) {
+        Test.answer = 42;
+    })(Test = Foo.Test || (Foo.Test = {}));
+})(Foo || (Foo = {}));
+module.exports = Foo;

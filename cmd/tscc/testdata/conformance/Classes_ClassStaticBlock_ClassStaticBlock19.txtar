@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/classes/classStaticBlock/classStaticBlock19.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classStaticBlock19.js classStaticBlock19.ts
+stderr 'TS1206'
+! exists classStaticBlock19.js
+! exists classStaticBlock19.d.ts
+! exists classStaticBlock19.js.map
+
+-- classStaticBlock19.ts --
+class C {
+    @decorator
+    static {
+        // something
+    }
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript3/Accessors/parserES3Accessors2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserES3Accessors2.js parserES3Accessors2.ts
+! stderr .
+cmp parserES3Accessors2.js parserES3Accessors2.js.golden
+! exists parserES3Accessors2.d.ts
+! exists parserES3Accessors2.js.map
+
+-- parserES3Accessors2.ts --
+class C {
+    set Foo(a) { }
+}
+-- parserES3Accessors2.js.golden --
+"use strict";
+class C {
+    set Foo(a) { }
+}

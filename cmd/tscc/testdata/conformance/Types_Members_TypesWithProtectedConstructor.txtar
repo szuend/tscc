@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/types/members/typesWithProtectedConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts typesWithProtectedConstructor.d.ts --target es2015 --lib es2015,dom --out-js typesWithProtectedConstructor.js typesWithProtectedConstructor.ts
+stderr 'TS2674'
+stderr 'TS2322'
+! exists typesWithProtectedConstructor.d.ts
+! exists typesWithProtectedConstructor.js
+! exists typesWithProtectedConstructor.js.map
+
+-- typesWithProtectedConstructor.ts --
+class C {
+    protected constructor() { }
+}
+
+var c = new C(); // error C is protected
+var r: () => void = c.constructor;
+
+class C2 {
+    protected constructor(x: number);
+    protected constructor(x: any) { }
+}
+
+var c2 = new C2(); // error C2 is protected
+var r2: (x: number) => void = c2.constructor;

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of32.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target ES6 --lib ES6,dom --out-js for-of32.js for-of32.ts
+stderr 'TS7022'
+! exists for-of32.js
+! exists for-of32.d.ts
+! exists for-of32.js.map
+
+-- for-of32.ts --
+for (var v of v) { }

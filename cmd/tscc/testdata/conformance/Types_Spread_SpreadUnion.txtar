@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/types/spread/spreadUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js spreadUnion.js spreadUnion.ts
+stderr 'TS2454'
+! exists spreadUnion.js
+! exists spreadUnion.d.ts
+! exists spreadUnion.js.map
+
+-- spreadUnion.ts --
+var union: { a: number } | { b: string };
+
+var o3: { a: number } | { b: string };
+var o3 =  { ...union };
+
+var o4: { a: boolean } | { b: string , a: boolean};
+var o4 =  { ...union, a: false };
+
+var o5: { a: number } | { b: string } | { a: number, b: string };
+var o5 =  { ...union, ...union };

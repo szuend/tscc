@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/tuple/tupleElementTypes3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js tupleElementTypes3.js tupleElementTypes3.ts
+! stderr .
+cmp tupleElementTypes3.js tupleElementTypes3.js.golden
+! exists tupleElementTypes3.d.ts
+! exists tupleElementTypes3.js.map
+
+-- tupleElementTypes3.ts --
+var [a, b] = [0, undefined];
+-- tupleElementTypes3.js.golden --
+"use strict";
+var [a, b] = [0, undefined];

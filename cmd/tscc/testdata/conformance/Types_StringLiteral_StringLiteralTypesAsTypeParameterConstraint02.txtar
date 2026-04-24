@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesAsTypeParameterConstraint02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesAsTypeParameterConstraint02.d.ts --target es2015 --lib es2015,dom --out-js stringLiteralTypesAsTypeParameterConstraint02.js stringLiteralTypesAsTypeParameterConstraint02.ts
+! stderr .
+cmp stringLiteralTypesAsTypeParameterConstraint02.d.ts stringLiteralTypesAsTypeParameterConstraint02.d.ts.golden
+cmp stringLiteralTypesAsTypeParameterConstraint02.js stringLiteralTypesAsTypeParameterConstraint02.js.golden
+! exists stringLiteralTypesAsTypeParameterConstraint02.js.map
+
+-- stringLiteralTypesAsTypeParameterConstraint02.ts --
+function foo<T extends "foo">(f: (x: T) => T) {
+    return f;
+}
+
+let f = foo((y: "foo" | "bar") => y === "foo" ? y : "foo");
+let fResult = f("foo");
+-- stringLiteralTypesAsTypeParameterConstraint02.d.ts.golden --
+declare function foo<T extends "foo">(f: (x: T) => T): (x: T) => T;
+declare let f: (x: "foo") => "foo";
+declare let fResult: "foo";
+-- stringLiteralTypesAsTypeParameterConstraint02.js.golden --
+"use strict";
+function foo(f) {
+    return f;
+}
+let f = foo((y) => y === "foo" ? y : "foo");
+let fResult = f("foo");

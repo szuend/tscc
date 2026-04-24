@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of31.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of31.js for-of31.ts
+! stderr .
+cmp for-of31.js for-of31.js.golden
+! exists for-of31.d.ts
+! exists for-of31.js.map
+
+-- for-of31.ts --
+class MyStringIterator {
+    next() {
+        return {
+            // no done property
+            value: ""
+        }
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+for (var v of new MyStringIterator) { }
+-- for-of31.js.golden --
+"use strict";
+class MyStringIterator {
+    next() {
+        return {
+            // no done property
+            value: ""
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+for (var v of new MyStringIterator) { }

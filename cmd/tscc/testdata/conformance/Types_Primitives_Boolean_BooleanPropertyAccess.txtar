@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/types/primitives/boolean/booleanPropertyAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js booleanPropertyAccess.js booleanPropertyAccess.ts
+! stderr .
+cmp booleanPropertyAccess.js booleanPropertyAccess.js.golden
+! exists booleanPropertyAccess.d.ts
+! exists booleanPropertyAccess.js.map
+
+-- booleanPropertyAccess.ts --
+var x = true;
+
+var a = x.toString();
+var b = x['toString']();
+-- booleanPropertyAccess.js.golden --
+"use strict";
+var x = true;
+var a = x.toString();
+var b = x['toString']();

@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classDeclarationLoop.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classDeclarationLoop.js classDeclarationLoop.ts
+! stderr .
+cmp classDeclarationLoop.js classDeclarationLoop.js.golden
+! exists classDeclarationLoop.d.ts
+! exists classDeclarationLoop.js.map
+
+-- classDeclarationLoop.ts --
+const arr = [];
+for (let i = 0; i < 10; ++i) {
+    class C {
+        prop = i;
+    }
+    arr.push(C);
+}
+-- classDeclarationLoop.js.golden --
+"use strict";
+const arr = [];
+for (let i = 0; i < 10; ++i) {
+    class C {
+        constructor() {
+            this.prop = i;
+        }
+    }
+    arr.push(C);
+}

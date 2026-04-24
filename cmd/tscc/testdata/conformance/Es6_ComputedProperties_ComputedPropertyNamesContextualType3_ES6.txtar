@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesContextualType3_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js computedPropertyNamesContextualType3_ES6.js computedPropertyNamesContextualType3_ES6.ts
+! stderr .
+cmp computedPropertyNamesContextualType3_ES6.js computedPropertyNamesContextualType3_ES6.js.golden
+! exists computedPropertyNamesContextualType3_ES6.d.ts
+! exists computedPropertyNamesContextualType3_ES6.js.map
+
+-- computedPropertyNamesContextualType3_ES6.ts --
+interface I {
+    [s: string]: (x: string) => number;
+}
+
+var o: I = {
+    [+"foo"](y) { return y.length; },
+    [+"bar"]: y => y.length
+}
+-- computedPropertyNamesContextualType3_ES6.js.golden --
+"use strict";
+var o = {
+    [+"foo"](y) { return y.length; },
+    [+"bar"]: y => y.length
+};

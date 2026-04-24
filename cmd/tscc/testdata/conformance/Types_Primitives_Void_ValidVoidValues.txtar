@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/types/primitives/void/validVoidValues.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js validVoidValues.js validVoidValues.ts
+stderr 'TS2322'
+! exists validVoidValues.js
+! exists validVoidValues.d.ts
+! exists validVoidValues.js.map
+
+-- validVoidValues.ts --
+var x: void;
+x = undefined;
+x = null;

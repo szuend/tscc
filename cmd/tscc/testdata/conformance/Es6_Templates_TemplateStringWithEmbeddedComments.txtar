@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithEmbeddedComments.js templateStringWithEmbeddedComments.ts
+! stderr .
+cmp templateStringWithEmbeddedComments.js templateStringWithEmbeddedComments.js.golden
+! exists templateStringWithEmbeddedComments.d.ts
+! exists templateStringWithEmbeddedComments.js.map
+
+-- templateStringWithEmbeddedComments.ts --
+`head${ // single line comment
+10
+}
+middle${
+/* Multi-
+ * line
+ * comment
+ */
+ 20
+ // closing comment
+}
+tail`;
+-- templateStringWithEmbeddedComments.js.golden --
+"use strict";
+`head${ // single line comment
+10}
+middle${
+/* Multi-
+ * line
+ * comment
+ */
+20
+// closing comment
+}
+tail`;

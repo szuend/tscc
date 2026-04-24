@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsImportNamespacedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --out-dts mod1.d.ts --target es2015 --lib es2015,dom mod1.js
+! stderr .
+cmp mod1.d.ts mod1.d.ts.golden
+! exists mod1.js.map
+! exists out_mod1.js
+
+-- file.js --
+import { dummy } from './mod1'
+/** @type {import('./mod1').Dotted.Name} - should work */
+var dot2
+-- mod1.js --
+/** @typedef {number} Dotted.Name */
+export var dummy = 1
+-- mod1.d.ts.golden --
+export type Dotted = number;
+/** @typedef {number} Dotted.Name */
+export declare var dummy: number;

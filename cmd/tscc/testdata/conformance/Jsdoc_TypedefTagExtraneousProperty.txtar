@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/jsdoc/typedefTagExtraneousProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --lib es5 --target es2015 typedefTagExtraneousProperty.js
+! stderr .
+! exists typedefTagExtraneousProperty.d.ts
+! exists typedefTagExtraneousProperty.js.map
+
+-- typedefTagExtraneousProperty.js --
+/** @typedef {Object.<string,string>} Mmap
+ * @property {string} ignoreMe - should be ignored
+ */
+
+/** @type {Mmap} */
+var y = { bye: "no" };
+y
+y.ignoreMe = "ok but just because of the index signature"
+y['hi'] = "yes"

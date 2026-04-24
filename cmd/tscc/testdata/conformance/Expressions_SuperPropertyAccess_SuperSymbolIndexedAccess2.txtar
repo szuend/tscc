@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/expressions/superPropertyAccess/superSymbolIndexedAccess2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js superSymbolIndexedAccess2.js superSymbolIndexedAccess2.ts
+! stderr .
+cmp superSymbolIndexedAccess2.js superSymbolIndexedAccess2.js.golden
+! exists superSymbolIndexedAccess2.d.ts
+! exists superSymbolIndexedAccess2.js.map
+
+-- superSymbolIndexedAccess2.ts --
+class Foo {
+    [Symbol.isConcatSpreadable]() {
+        return 0;
+    }
+}
+
+class Bar extends Foo {
+    [Symbol.isConcatSpreadable]() {
+        return super[Symbol.isConcatSpreadable]();
+    }
+}
+-- superSymbolIndexedAccess2.js.golden --
+"use strict";
+class Foo {
+    [Symbol.isConcatSpreadable]() {
+        return 0;
+    }
+}
+class Bar extends Foo {
+    [Symbol.isConcatSpreadable]() {
+        return super[Symbol.isConcatSpreadable]();
+    }
+}

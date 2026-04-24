@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/IncompleteMemberVariables/parserErrorRecovery_IncompleteMemberVariable2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserErrorRecovery_IncompleteMemberVariable2.js parserErrorRecovery_IncompleteMemberVariable2.ts
+stderr 'TS1442'
+! exists parserErrorRecovery_IncompleteMemberVariable2.js
+! exists parserErrorRecovery_IncompleteMemberVariable2.d.ts
+! exists parserErrorRecovery_IncompleteMemberVariable2.js.map
+
+-- parserErrorRecovery_IncompleteMemberVariable2.ts --
+// Interface
+interface IPoint {
+    getDist(): number;
+}
+
+// Module
+namespace Shapes {
+
+    // Class
+    export class Point implements IPoint {
+
+        public con:C "hello";
+        // Constructor
+        constructor (public x: number, public y: number) { }
+
+        // Instance member
+        getDist() { return Math.sqrt(this.x * this.x + this.y * this.y); }
+
+        // Static member
+        static origin = new Point(0, 0);
+    }
+
+}
+
+// Local variables
+var p: IPoint = new Shapes.Point(3, 4);
+var dist = p.getDist();

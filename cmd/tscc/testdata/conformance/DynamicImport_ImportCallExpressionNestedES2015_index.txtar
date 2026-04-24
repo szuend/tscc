@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionNestedES2015.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --module es2015 --skip-lib-check --target es6 --out-js index.js index.ts
+stderr 'TS1323'
+! exists index.js
+! exists index.d.ts
+! exists index.js.map
+
+-- foo.ts --
+export default "./foo";
+-- index.ts --
+async function foo() {
+    return await import((await import("./foo")).default);
+}

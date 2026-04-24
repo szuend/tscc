@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/internalModules/moduleDeclarations/asiPreventsParsingAsNamespace01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js asiPreventsParsingAsNamespace01.js asiPreventsParsingAsNamespace01.ts
+stderr 'TS2454'
+! exists asiPreventsParsingAsNamespace01.js
+! exists asiPreventsParsingAsNamespace01.d.ts
+! exists asiPreventsParsingAsNamespace01.js.map
+
+-- asiPreventsParsingAsNamespace01.ts --
+var namespace: number;
+var n: string;
+
+namespace    // this is the identifier 'namespace'
+n            // this is the identifier 'n'
+{ }          // this is a block body

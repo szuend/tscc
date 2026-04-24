@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/enums/enumShadowedInfinityNaN.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumShadowedInfinityNaN.js enumShadowedInfinityNaN.ts
+stderr 'TS18033'
+! exists enumShadowedInfinityNaN.js
+! exists enumShadowedInfinityNaN.d.ts
+! exists enumShadowedInfinityNaN.js.map
+
+-- enumShadowedInfinityNaN.ts --
+// https://github.com/microsoft/TypeScript/issues/54981
+
+{
+  let Infinity = {};
+  enum En {
+    X = Infinity
+  }
+}
+
+{
+  let NaN = {};
+  enum En {
+    X = NaN
+  }
+}

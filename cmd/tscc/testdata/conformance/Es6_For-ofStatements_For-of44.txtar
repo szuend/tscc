@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of44.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of44.js for-of44.ts
+! stderr .
+cmp for-of44.js for-of44.js.golden
+! exists for-of44.d.ts
+! exists for-of44.js.map
+
+-- for-of44.ts --
+var array: [number, string | boolean | symbol][] = [[0, ""], [0, true], [1, Symbol()]]
+for (var [num, strBoolSym] of array) {
+    num;
+    strBoolSym;
+}
+-- for-of44.js.golden --
+"use strict";
+var array = [[0, ""], [0, true], [1, Symbol()]];
+for (var [num, strBoolSym] of array) {
+    num;
+    strBoolSym;
+}

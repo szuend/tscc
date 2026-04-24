@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/spread/iteratorSpreadInArray5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iteratorSpreadInArray5.js iteratorSpreadInArray5.ts
+stderr 'TS2322'
+! exists iteratorSpreadInArray5.js
+! exists iteratorSpreadInArray5.d.ts
+! exists iteratorSpreadInArray5.js.map
+
+-- iteratorSpreadInArray5.ts --
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var array: number[] = [0, 1, ...new SymbolIterator];

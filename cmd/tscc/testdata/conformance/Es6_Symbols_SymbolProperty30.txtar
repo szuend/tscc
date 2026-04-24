@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty30.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty30.js symbolProperty30.ts
+stderr 'TS2411'
+! exists symbolProperty30.js
+! exists symbolProperty30.d.ts
+! exists symbolProperty30.js.map
+
+-- symbolProperty30.ts --
+class C1 {
+    [Symbol.toStringTag]() {
+        return { x: "" };
+    }
+    [s: symbol]: () => { x: number };
+}

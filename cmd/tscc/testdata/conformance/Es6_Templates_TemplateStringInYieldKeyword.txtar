@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInYieldKeyword.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js templateStringInYieldKeyword.js templateStringInYieldKeyword.ts
+! stderr .
+cmp templateStringInYieldKeyword.js templateStringInYieldKeyword.js.golden
+! exists templateStringInYieldKeyword.d.ts
+! exists templateStringInYieldKeyword.js.map
+
+-- templateStringInYieldKeyword.ts --
+function* gen() {
+    // Once this is supported, the inner expression does not need to be parenthesized.
+    var x = yield `abc${ x }def`;
+}
+-- templateStringInYieldKeyword.js.golden --
+"use strict";
+function* gen() {
+    // Once this is supported, the inner expression does not need to be parenthesized.
+    var x = yield `abc${x}def`;
+}

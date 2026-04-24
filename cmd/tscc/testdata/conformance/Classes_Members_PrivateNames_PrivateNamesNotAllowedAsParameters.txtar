@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesNotAllowedAsParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js privateNamesNotAllowedAsParameters.js privateNamesNotAllowedAsParameters.ts
+stderr 'TS18009'
+! exists privateNamesNotAllowedAsParameters.js
+! exists privateNamesNotAllowedAsParameters.d.ts
+! exists privateNamesNotAllowedAsParameters.js.map
+
+-- privateNamesNotAllowedAsParameters.ts --
+class A {
+    setFoo(#foo: string) {}
+}

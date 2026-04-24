@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js parserInterfaceDeclaration6.js parserInterfaceDeclaration6.ts
+stderr 'TS1030'
+! exists parserInterfaceDeclaration6.js
+! exists parserInterfaceDeclaration6.d.ts
+! exists parserInterfaceDeclaration6.js.map
+
+-- parserInterfaceDeclaration6.ts --
+export export interface I {
+}

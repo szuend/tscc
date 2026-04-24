@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty52.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty52.js symbolProperty52.ts
+stderr 'TS2339'
+! exists symbolProperty52.js
+! exists symbolProperty52.d.ts
+! exists symbolProperty52.js.map
+
+-- symbolProperty52.ts --
+var obj = {
+    [Symbol.nonsense]: 0
+};
+
+obj = {};
+
+obj[Symbol.nonsense];

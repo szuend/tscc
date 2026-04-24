@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/destructuring/arrayAssignmentPatternWithAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js arrayAssignmentPatternWithAny.js arrayAssignmentPatternWithAny.ts
+! stderr .
+cmp arrayAssignmentPatternWithAny.js arrayAssignmentPatternWithAny.js.golden
+! exists arrayAssignmentPatternWithAny.d.ts
+! exists arrayAssignmentPatternWithAny.js.map
+
+-- arrayAssignmentPatternWithAny.ts --
+var a: any;
+var x: string;
+[x] = a;
+-- arrayAssignmentPatternWithAny.js.golden --
+"use strict";
+var a;
+var x;
+[x] = a;

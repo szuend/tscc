@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/expressions/thisKeyword/typeOfThisInConstructorParamList.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeOfThisInConstructorParamList.js typeOfThisInConstructorParamList.ts
+! stderr .
+cmp typeOfThisInConstructorParamList.js typeOfThisInConstructorParamList.js.golden
+! exists typeOfThisInConstructorParamList.d.ts
+! exists typeOfThisInConstructorParamList.js.map
+
+-- typeOfThisInConstructorParamList.ts --
+//type of 'this' in constructor param list is the class instance type (error)
+class ErrClass {
+    // Should be an error
+    constructor(f = this) { }
+}
+-- typeOfThisInConstructorParamList.js.golden --
+"use strict";
+//type of 'this' in constructor param list is the class instance type (error)
+class ErrClass {
+    // Should be an error
+    constructor(f = this) { }
+}

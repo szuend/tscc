@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames8_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames8_ES6.js computedPropertyNames8_ES6.ts
+stderr 'TS2464'
+! exists computedPropertyNames8_ES6.js
+! exists computedPropertyNames8_ES6.d.ts
+! exists computedPropertyNames8_ES6.js.map
+
+-- computedPropertyNames8_ES6.ts --
+function f<T, U extends string>() {
+    var t!: T;
+    var u!: U;
+    var v = {
+        [t]: 0,
+        [u]: 1
+    };
+}

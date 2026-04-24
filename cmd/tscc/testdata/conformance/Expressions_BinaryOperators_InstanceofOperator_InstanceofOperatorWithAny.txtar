@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/expressions/binaryOperators/instanceofOperator/instanceofOperatorWithAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js instanceofOperatorWithAny.js instanceofOperatorWithAny.ts
+! stderr .
+cmp instanceofOperatorWithAny.js instanceofOperatorWithAny.js.golden
+! exists instanceofOperatorWithAny.d.ts
+! exists instanceofOperatorWithAny.js.map
+
+-- instanceofOperatorWithAny.ts --
+var a: any;
+
+var r: boolean = a instanceof a;
+-- instanceofOperatorWithAny.js.golden --
+"use strict";
+var a;
+var r = a instanceof a;

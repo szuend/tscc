@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType13.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType13.js symbolType13.ts
+stderr 'TS2405'
+stderr 'TS2407'
+! exists symbolType13.js
+! exists symbolType13.d.ts
+! exists symbolType13.js.map
+
+-- symbolType13.ts --
+var s = Symbol();
+var x: any;
+
+for (s in {}) { }
+for (x in s) { }
+for (var y in s) { }

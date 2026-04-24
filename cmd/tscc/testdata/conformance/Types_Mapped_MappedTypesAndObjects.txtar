@@ -1,0 +1,51 @@
+# Ported from tests/cases/conformance/types/mapped/mappedTypesAndObjects.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts mappedTypesAndObjects.d.ts --strict-null-checks --target es2015 --lib es2015,dom --out-js mappedTypesAndObjects.js mappedTypesAndObjects.ts
+stderr 'TS2430'
+! exists mappedTypesAndObjects.d.ts
+! exists mappedTypesAndObjects.js
+! exists mappedTypesAndObjects.js.map
+
+-- mappedTypesAndObjects.ts --
+function f1<T>(x: Partial<T>, y: Readonly<T>) {
+    let obj: {};
+    obj = x;
+    obj = y;
+}
+
+function f2<T>(x: Partial<T>, y: Readonly<T>) {
+    let obj: { [x: string]: any };
+    obj = x;
+    obj = y;
+}
+
+function f3<T>(x: Partial<T>) {
+    x = {};
+}
+
+// Repro from #12900
+
+interface Base {
+    foo: { [key: string]: any };
+    bar: any;
+    baz: any;
+}
+
+interface E1<T> extends Base {
+    foo: T;
+}
+
+interface Something { name: string, value: string };
+interface E2 extends Base {
+    foo: Partial<Something>;  // or other mapped type
+}
+
+interface E3<T> extends Base {
+    foo: Partial<T>; // or other mapped type
+}
+
+// Repro from #13747
+
+class Form<T> {
+    private values: {[P in keyof T]?: T[P]} = {}
+}

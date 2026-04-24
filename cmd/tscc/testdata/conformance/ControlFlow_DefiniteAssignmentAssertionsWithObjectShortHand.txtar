@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/controlFlow/definiteAssignmentAssertionsWithObjectShortHand.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts definiteAssignmentAssertionsWithObjectShortHand.d.ts --strict --target es2015 --lib es2015,dom --out-js definiteAssignmentAssertionsWithObjectShortHand.js definiteAssignmentAssertionsWithObjectShortHand.ts
+stderr 'TS1255'
+stderr 'TS1162'
+! exists definiteAssignmentAssertionsWithObjectShortHand.d.ts
+! exists definiteAssignmentAssertionsWithObjectShortHand.js
+! exists definiteAssignmentAssertionsWithObjectShortHand.js.map
+
+-- definiteAssignmentAssertionsWithObjectShortHand.ts --
+const a: string | undefined = 'ff';
+const foo = { a! }
+
+const bar = {
+    a ? () { }
+}

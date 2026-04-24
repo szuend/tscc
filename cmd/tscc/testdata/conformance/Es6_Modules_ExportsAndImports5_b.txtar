@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/modules/exportsAndImports5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export interface A { }
+-- b.ts --
+import { A } from "./a"
+export function f(): A {
+    return {};
+}
+export { f as fV2 };
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.f = f;
+exports.fV2 = f;
+function f() {
+    return {};
+}

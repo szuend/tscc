@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es2019/globalThisReadonlyProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js globalThisReadonlyProperties.js globalThisReadonlyProperties.ts
+stderr 'TS2540'
+stderr 'TS2339'
+! exists globalThisReadonlyProperties.js
+! exists globalThisReadonlyProperties.d.ts
+! exists globalThisReadonlyProperties.js.map
+
+-- globalThisReadonlyProperties.ts --
+globalThis.globalThis = 1 as any // should error
+var x = 1
+const y = 2
+globalThis.x = 3
+globalThis.y = 4 // should error

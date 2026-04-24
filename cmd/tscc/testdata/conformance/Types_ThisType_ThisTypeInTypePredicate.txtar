@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/thisType/thisTypeInTypePredicate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisTypeInTypePredicate.js thisTypeInTypePredicate.ts
+! stderr .
+cmp thisTypeInTypePredicate.js thisTypeInTypePredicate.js.golden
+! exists thisTypeInTypePredicate.d.ts
+! exists thisTypeInTypePredicate.js.map
+
+-- thisTypeInTypePredicate.ts --
+declare function filter<S>(f: (this: void, x: any) => x is S): S[];
+const numbers = filter<number>((x): x is number => 'number' == typeof x)
+-- thisTypeInTypePredicate.js.golden --
+"use strict";
+const numbers = filter((x) => 'number' == typeof x);

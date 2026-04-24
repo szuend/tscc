@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/destructuring/restElementWithAssignmentPattern1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js restElementWithAssignmentPattern1.js restElementWithAssignmentPattern1.ts
+! stderr .
+cmp restElementWithAssignmentPattern1.js restElementWithAssignmentPattern1.js.golden
+! exists restElementWithAssignmentPattern1.d.ts
+! exists restElementWithAssignmentPattern1.js.map
+
+-- restElementWithAssignmentPattern1.ts --
+var a: string, b: number;
+[...[a, b = 0]] = ["", 1];
+-- restElementWithAssignmentPattern1.js.golden --
+"use strict";
+var a, b;
+[...[a, b = 0]] = ["", 1];

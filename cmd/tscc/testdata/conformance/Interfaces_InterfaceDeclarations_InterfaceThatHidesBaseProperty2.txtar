@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceThatHidesBaseProperty2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceThatHidesBaseProperty2.js interfaceThatHidesBaseProperty2.ts
+stderr 'TS2430'
+! exists interfaceThatHidesBaseProperty2.js
+! exists interfaceThatHidesBaseProperty2.d.ts
+! exists interfaceThatHidesBaseProperty2.js.map
+
+-- interfaceThatHidesBaseProperty2.ts --
+interface Base {
+    x: { a: number };
+}
+
+interface Derived extends Base { // error
+    x: {
+        a: string;
+    };
+}

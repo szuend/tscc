@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringParameterDeclaration8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js destructuringParameterDeclaration8.js destructuringParameterDeclaration8.ts
+stderr 'TS2322'
+stderr 'TS2339'
+! exists destructuringParameterDeclaration8.js
+! exists destructuringParameterDeclaration8.d.ts
+! exists destructuringParameterDeclaration8.js.map
+
+-- destructuringParameterDeclaration8.ts --
+// explicit type annotation should cause `method` to have type 'x' | 'y'
+// both inside and outside `test`.
+function test({
+    method = 'z',
+    nested: { p = 'c' }
+}: {
+    method?: 'x' | 'y',
+    nested?: { p: 'a' | 'b' }
+})
+{
+    method
+    p
+}
+
+test({});
+test({ method: 'x', nested: { p: 'a' } })
+test({ method: 'z', nested: { p: 'b' } })
+test({ method: 'one', nested: { p: 'a' } })

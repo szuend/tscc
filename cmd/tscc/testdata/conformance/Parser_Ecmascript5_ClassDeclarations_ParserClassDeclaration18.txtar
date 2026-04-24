@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration18.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserClassDeclaration18.js parserClassDeclaration18.ts
+stderr 'TS1183'
+! exists parserClassDeclaration18.js
+! exists parserClassDeclaration18.d.ts
+! exists parserClassDeclaration18.js.map
+
+-- parserClassDeclaration18.ts --
+declare class FooBase {
+    constructor(s: string);
+    constructor(n: number);
+    constructor(x: any) {
+    }
+    bar1():void;
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/contextualTypes/logicalAnd/contextuallyTypeLogicalAnd03.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js contextuallyTypeLogicalAnd03.js contextuallyTypeLogicalAnd03.ts
+stderr 'TS2872'
+stderr 'TS7006'
+! exists contextuallyTypeLogicalAnd03.js
+! exists contextuallyTypeLogicalAnd03.d.ts
+! exists contextuallyTypeLogicalAnd03.js.map
+
+-- contextuallyTypeLogicalAnd03.ts --
+let x: (a: string) => string;
+let y = true;
+
+x = (a => a) && (b => b);

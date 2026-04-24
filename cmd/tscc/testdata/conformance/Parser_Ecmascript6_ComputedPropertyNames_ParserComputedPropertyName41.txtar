@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName41.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserComputedPropertyName41.js parserComputedPropertyName41.ts
+stderr 'TS2464'
+! exists parserComputedPropertyName41.js
+! exists parserComputedPropertyName41.d.ts
+! exists parserComputedPropertyName41.js.map
+
+-- parserComputedPropertyName41.ts --
+var v = {
+    [0 in []]: true
+}

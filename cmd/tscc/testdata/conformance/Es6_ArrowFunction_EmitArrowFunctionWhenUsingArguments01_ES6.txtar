@@ -1,0 +1,40 @@
+# Ported from tests/cases/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments01_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js emitArrowFunctionWhenUsingArguments01_ES6.js emitArrowFunctionWhenUsingArguments01_ES6.ts
+stderr 'TS2304'
+! exists emitArrowFunctionWhenUsingArguments01_ES6.js
+! exists emitArrowFunctionWhenUsingArguments01_ES6.d.ts
+! exists emitArrowFunctionWhenUsingArguments01_ES6.js.map
+
+-- emitArrowFunctionWhenUsingArguments01_ES6.ts --
+var a = () => {
+    var arg = arguments[0];  // error
+}
+
+var b = function () {
+    var a = () => {
+        var arg = arguments[0];  // error
+    }
+}
+
+function baz() {
+	() => {
+		var arg = arguments[0];
+	}
+}
+
+function foo(inputFunc: () => void) { }
+foo(() => {
+    var arg = arguments[0];  // error
+});
+
+function bar() {
+    var arg = arguments[0];  // no error
+}
+
+
+() => {
+	function foo() {
+		var arg = arguments[0];  // no error
+	}
+}

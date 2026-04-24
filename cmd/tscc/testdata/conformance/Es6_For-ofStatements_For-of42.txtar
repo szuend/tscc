@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of42.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of42.js for-of42.ts
+! stderr .
+cmp for-of42.js for-of42.js.golden
+! exists for-of42.d.ts
+! exists for-of42.js.map
+
+-- for-of42.ts --
+var array = [{ x: "", y: 0 }]
+for (var {x: a, y: b} of array) {
+    a;
+    b;
+}
+-- for-of42.js.golden --
+"use strict";
+var array = [{ x: "", y: 0 }];
+for (var { x: a, y: b } of array) {
+    a;
+    b;
+}

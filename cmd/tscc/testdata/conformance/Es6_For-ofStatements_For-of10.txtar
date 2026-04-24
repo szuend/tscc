@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of10.js for-of10.ts
+stderr 'TS2322'
+! exists for-of10.js
+! exists for-of10.d.ts
+! exists for-of10.js.map
+
+-- for-of10.ts --
+var v: string;
+for (v of [0]) { }

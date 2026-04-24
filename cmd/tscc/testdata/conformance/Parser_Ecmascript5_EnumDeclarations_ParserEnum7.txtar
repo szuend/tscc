@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnum7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserEnum7.js parserEnum7.ts
+stderr 'TS2452'
+! exists parserEnum7.js
+! exists parserEnum7.d.ts
+! exists parserEnum7.js.map
+
+-- parserEnum7.ts --
+enum E {
+  1, 2, 3
+}

@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/typeFromPrivatePropertyAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js typeFromPrivatePropertyAssignment.js typeFromPrivatePropertyAssignment.ts
+! stderr .
+cmp typeFromPrivatePropertyAssignment.js typeFromPrivatePropertyAssignment.js.golden
+! exists typeFromPrivatePropertyAssignment.d.ts
+! exists typeFromPrivatePropertyAssignment.js.map
+
+-- typeFromPrivatePropertyAssignment.ts --
+type Foo = { foo?: string };
+
+class C {
+    #a?: Foo;
+    #b?: Foo;
+
+    m() {
+        const a = this.#a || {};
+        this.#b = this.#b || {};
+    }
+}
+-- typeFromPrivatePropertyAssignment.js.golden --
+"use strict";
+class C {
+    #a;
+    #b;
+    m() {
+        const a = this.#a || {};
+        this.#b = this.#b || {};
+    }
+}

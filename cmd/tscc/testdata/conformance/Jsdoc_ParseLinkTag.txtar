@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/jsdoc/parseLinkTag.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parseLinkTag.js parseLinkTag.ts
+! stderr .
+cmp parseLinkTag.js parseLinkTag.js.golden
+! exists parseLinkTag.d.ts
+! exists parseLinkTag.js.map
+
+-- parseLinkTag.ts --
+/** trailing @link tag {@link */
+var x;
+/** @returns trailing @link tag {@link */
+function f() {
+    return x
+}
+-- parseLinkTag.js.golden --
+"use strict";
+/** trailing @link tag {@link */
+var x;
+/** @returns trailing @link tag {@link */
+function f() {
+    return x;
+}

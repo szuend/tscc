@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/types/import/importTypeGeneric.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts usage.d.ts --target es6 --lib es6,dom --out-js usage.js usage.ts
+stderr 'TS1141'
+! exists usage.d.ts
+! exists usage.js
+! exists usage.js.map
+
+-- a.d.ts --
+export interface Foo {
+    a: string;
+}
+-- b.d.ts --
+export interface Foo {
+    a: number;
+}
+-- usage.ts --
+export function getFooFrom<T extends "./a" | "./b">(v: T): import(T).Foo {
+    return undefined as any;
+}
+
+export function getFooValueFrom<T extends "./a" | "./b">(v: T): import(T).Foo["a"] {
+    return undefined as any;
+}

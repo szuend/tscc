@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowForOfStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js controlFlowForOfStatement.js controlFlowForOfStatement.ts
+! stderr .
+cmp controlFlowForOfStatement.js controlFlowForOfStatement.js.golden
+! exists controlFlowForOfStatement.d.ts
+! exists controlFlowForOfStatement.js.map
+
+-- controlFlowForOfStatement.ts --
+let obj: number[];
+let x: string | number | boolean | RegExp;
+
+function a() {
+    x = true;
+    for (x of obj) {
+        x = x.toExponential();
+    }
+    x; // string | boolean
+}
+-- controlFlowForOfStatement.js.golden --
+"use strict";
+let obj;
+let x;
+function a() {
+    x = true;
+    for (x of obj) {
+        x = x.toExponential();
+    }
+    x; // string | boolean
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/salsa/privateIdentifierExpando.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts privateIdentifierExpando.d.ts --no-strict --target es2015 --lib es2015,dom privateIdentifierExpando.js
+! stderr .
+cmp privateIdentifierExpando.d.ts privateIdentifierExpando.d.ts.golden
+! exists out_privateIdentifierExpando.js
+! exists privateIdentifierExpando.js.map
+
+-- privateIdentifierExpando.js --
+const x = {};
+x.#bar.baz = 20;
+-- privateIdentifierExpando.d.ts.golden --
+declare const x: {};

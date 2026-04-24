@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/union/unionTypeCallSignatures7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom unionTypeCallSignatures7.ts
+! stderr .
+! exists unionTypeCallSignatures7.d.ts
+! exists unionTypeCallSignatures7.js.map
+
+-- unionTypeCallSignatures7.ts --
+// https://github.com/microsoft/TypeScript/issues/55203
+
+interface Callable<Name extends string> {
+  (): `${Name} without id`;
+  (id: number): `${Name} with id`;
+}
+
+declare const f: Callable<"A"> | Callable<"B">;
+const result = f(123);

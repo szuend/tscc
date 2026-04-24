@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTemplateTag2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --lib dom,esnext --no-strict --target es2015 github17339.js
+! stderr .
+! exists github17339.d.ts
+! exists github17339.js.map
+
+-- github17339.js --
+var obj = {
+	/**
+	 * @template T
+	 * @param {T} a
+	 * @returns {T}
+	 */
+	x: function (a) {
+		return a;
+	},
+};

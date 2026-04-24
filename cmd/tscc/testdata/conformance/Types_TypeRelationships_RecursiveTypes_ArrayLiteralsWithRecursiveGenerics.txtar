@@ -1,0 +1,50 @@
+# Ported from tests/cases/conformance/types/typeRelationships/recursiveTypes/arrayLiteralsWithRecursiveGenerics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js arrayLiteralsWithRecursiveGenerics.js arrayLiteralsWithRecursiveGenerics.ts
+! stderr .
+cmp arrayLiteralsWithRecursiveGenerics.js arrayLiteralsWithRecursiveGenerics.js.golden
+! exists arrayLiteralsWithRecursiveGenerics.d.ts
+! exists arrayLiteralsWithRecursiveGenerics.js.map
+
+-- arrayLiteralsWithRecursiveGenerics.ts --
+class List<T> {
+    data: T;
+    next: List<List<T>>;
+}
+
+class DerivedList<U> extends List<U> {
+    foo: U;
+    // next: List<List<U>>
+}
+
+class MyList<T> {
+    data: T;
+    next: MyList<MyList<T>>;
+}
+
+var list: List<number>;
+var list2: List<string>;
+var myList: MyList<number>;
+
+var xs = [list, myList]; // {}[]
+var ys = [list, list2]; // {}[]
+var zs = [list, null]; // List<number>[]
+
+var myDerivedList: DerivedList<number>;
+var as = [list, myDerivedList]; // List<number>[]
+-- arrayLiteralsWithRecursiveGenerics.js.golden --
+"use strict";
+class List {
+}
+class DerivedList extends List {
+}
+class MyList {
+}
+var list;
+var list2;
+var myList;
+var xs = [list, myList]; // {}[]
+var ys = [list, list2]; // {}[]
+var zs = [list, null]; // List<number>[]
+var myDerivedList;
+var as = [list, myDerivedList]; // List<number>[]

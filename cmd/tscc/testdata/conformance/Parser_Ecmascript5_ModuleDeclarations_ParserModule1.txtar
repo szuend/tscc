@@ -1,0 +1,40 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ModuleDeclarations/parserModule1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserModule1.js parserModule1.ts
+stderr 'TS2322'
+! exists parserModule1.js
+! exists parserModule1.d.ts
+! exists parserModule1.js.map
+
+-- parserModule1.ts --
+    export namespace CompilerDiagnostics {
+        export var debug = false;
+        export interface IDiagnosticWriter {
+            Alert(output: string): void;
+        }
+
+        export var diagnosticWriter: IDiagnosticWriter = null;
+
+        export var analysisPass: number = 0;
+
+        export function Alert(output: string) {
+            if (diagnosticWriter) {
+                diagnosticWriter.Alert(output);
+            }
+        }
+
+        export function debugPrint(s: string) {
+            if (debug) {
+                Alert(s);
+            }
+        }
+
+        export function assert(condition: boolean, s: string) {
+            if (debug) {
+                if (!condition) {
+                    Alert(s);
+                }
+            }
+        }
+
+    }

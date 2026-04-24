@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/types/tuple/named/partiallyNamedTuples3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --strict --target es2015 --out-js partiallyNamedTuples3.js partiallyNamedTuples3.ts
+! stderr .
+cmp partiallyNamedTuples3.js partiallyNamedTuples3.js.golden
+! exists partiallyNamedTuples3.d.ts
+! exists partiallyNamedTuples3.js.map
+
+-- partiallyNamedTuples3.ts --
+declare const tuple: [number, name: string, boolean, value: number, string];
+
+const output = ((...args) => args)(...tuple);
+-- partiallyNamedTuples3.js.golden --
+"use strict";
+const output = ((...args) => args)(...tuple);

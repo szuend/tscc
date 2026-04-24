@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/typeParameterAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterAssignability.js typeParameterAssignability.ts
+stderr 'TS2322'
+! exists typeParameterAssignability.js
+! exists typeParameterAssignability.d.ts
+! exists typeParameterAssignability.js.map
+
+-- typeParameterAssignability.ts --
+// type parameters are not assignable to one another unless directly or indirectly constrained to one another
+
+function foo<T, U>(t: T, u: U) {
+    t = u; // error
+    u = t; // error
+}

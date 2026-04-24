@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/declarationEmit/typePredicates/declarationEmitIdentifierPredicatesWithPrivateName01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitIdentifierPredicatesWithPrivateName01.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitIdentifierPredicatesWithPrivateName01.js declarationEmitIdentifierPredicatesWithPrivateName01.ts
+! stderr .
+cmp declarationEmitIdentifierPredicatesWithPrivateName01.d.ts declarationEmitIdentifierPredicatesWithPrivateName01.d.ts.golden
+cmp declarationEmitIdentifierPredicatesWithPrivateName01.js declarationEmitIdentifierPredicatesWithPrivateName01.js.golden
+! exists declarationEmitIdentifierPredicatesWithPrivateName01.js.map
+
+-- declarationEmitIdentifierPredicatesWithPrivateName01.ts --
+interface I {
+    a: number;
+}
+
+export function f(x: any): x is I {
+    return typeof x.a === "number";
+}
+-- declarationEmitIdentifierPredicatesWithPrivateName01.d.ts.golden --
+interface I {
+    a: number;
+}
+export declare function f(x: any): x is I;
+export {};
+-- declarationEmitIdentifierPredicatesWithPrivateName01.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.f = f;
+function f(x) {
+    return typeof x.a === "number";
+}

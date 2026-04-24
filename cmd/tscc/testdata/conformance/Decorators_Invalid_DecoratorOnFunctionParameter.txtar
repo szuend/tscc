@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnFunctionParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js decoratorOnFunctionParameter.js decoratorOnFunctionParameter.ts
+stderr 'TS1433'
+! exists decoratorOnFunctionParameter.js
+! exists decoratorOnFunctionParameter.d.ts
+! exists decoratorOnFunctionParameter.js.map
+
+-- decoratorOnFunctionParameter.ts --
+declare const dec: any;
+
+class C { n = true; }
+
+function direct(@dec this: C) { return this.n; }
+function called(@dec() this: C) { return this.n; }

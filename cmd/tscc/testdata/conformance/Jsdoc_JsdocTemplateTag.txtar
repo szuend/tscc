@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTemplateTag.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --lib dom,esnext --no-strict --target es2015 forgot.js
+stderr 'TS1005'
+! exists forgot.d.ts
+! exists forgot.js.map
+
+-- forgot.js --
+/**
+ * @param {T} a
+ * @template T
+ */
+function f(a) {
+    return () => a
+}
+let n = f(1)()
+
+/**
+ * @param {T} a
+ * @template T
+ * @returns {function(): T}
+ */
+function g(a) {
+    return () => a
+}
+let s = g('hi')()
+
+/**
+ * @param {Array.<Object>} keyframes - Can't look up types on Element since it's a global in another file. (But it shouldn't crash).
+ */
+Element.prototype.animate = function(keyframes) {};

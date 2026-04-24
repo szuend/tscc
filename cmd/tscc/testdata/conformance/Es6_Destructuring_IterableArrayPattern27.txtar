@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern27.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js iterableArrayPattern27.js iterableArrayPattern27.ts
+! stderr .
+cmp iterableArrayPattern27.js iterableArrayPattern27.js.golden
+! exists iterableArrayPattern27.d.ts
+! exists iterableArrayPattern27.js.map
+
+-- iterableArrayPattern27.ts --
+function takeFirstTwoEntries(...[[k1, v1], [k2, v2]]: [string, number][]) { }
+takeFirstTwoEntries(...new Map([["", 0], ["hello", 1]]));
+-- iterableArrayPattern27.js.golden --
+"use strict";
+function takeFirstTwoEntries(...[[k1, v1], [k2, v2]]) { }
+takeFirstTwoEntries(...new Map([["", 0], ["hello", 1]]));

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Iterators/parserForOfStatement21.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserForOfStatement21.js parserForOfStatement21.ts
+stderr 'TS1123'
+! exists parserForOfStatement21.js
+! exists parserForOfStatement21.d.ts
+! exists parserForOfStatement21.js.map
+
+-- parserForOfStatement21.ts --
+for (var of of) { }

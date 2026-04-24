@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/typeRelationships/apparentType/apparentTypeSupertype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js apparentTypeSupertype.js apparentTypeSupertype.ts
+stderr 'TS2564'
+stderr 'TS2416'
+! exists apparentTypeSupertype.js
+! exists apparentTypeSupertype.d.ts
+! exists apparentTypeSupertype.js.map
+
+-- apparentTypeSupertype.ts --
+// subtype checks use the apparent type of the target type
+// S is a subtype of a type T, and T is a supertype of S, if one of the following is true, where S' denotes the apparent type (section 3.8.1) of S:
+
+class Base {
+    x: string;
+}
+
+// is String (S) a subtype of U extends String (T)? Would only be true if we used the apparent type of U (T)
+class Derived<U extends String> extends Base { // error
+    x: U;
+}

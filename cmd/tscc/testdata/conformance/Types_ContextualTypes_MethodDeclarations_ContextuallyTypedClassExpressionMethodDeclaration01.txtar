@@ -1,0 +1,54 @@
+# Ported from tests/cases/conformance/types/contextualTypes/methodDeclarations/contextuallyTypedClassExpressionMethodDeclaration01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js contextuallyTypedClassExpressionMethodDeclaration01.js contextuallyTypedClassExpressionMethodDeclaration01.ts
+stderr 'TS7006'
+! exists contextuallyTypedClassExpressionMethodDeclaration01.js
+! exists contextuallyTypedClassExpressionMethodDeclaration01.d.ts
+! exists contextuallyTypedClassExpressionMethodDeclaration01.js.map
+
+-- contextuallyTypedClassExpressionMethodDeclaration01.ts --
+interface A {
+    numProp: number;
+}
+
+interface B  {
+    strProp: string;
+}
+
+interface Foo {
+    method1(arg: A): void;
+    method2(arg: B): void;
+}
+
+function getFoo1(): Foo {
+    return class {
+        static method1(arg) {
+            arg.numProp = 10;
+        }
+        static method2(arg) {
+            arg.strProp = "hello";
+        }
+    }
+}
+
+function getFoo2(): Foo {
+    return class {
+        static method1 = (arg) => {
+            arg.numProp = 10;
+        }
+        static method2 = (arg) => {
+            arg.strProp = "hello";
+        }
+    }
+}
+
+function getFoo3(): Foo {
+    return class {
+        static method1 = function (arg) {
+            arg.numProp = 10;
+        }
+        static method2 = function (arg) {
+            arg.strProp = "hello";
+        }
+    }
+}

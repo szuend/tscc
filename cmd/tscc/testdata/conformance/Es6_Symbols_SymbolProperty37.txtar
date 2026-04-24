@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty37.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty37.js symbolProperty37.ts
+stderr 'TS2300'
+! exists symbolProperty37.js
+! exists symbolProperty37.d.ts
+! exists symbolProperty37.js.map
+
+-- symbolProperty37.ts --
+interface I {
+    [Symbol.isConcatSpreadable]: string;
+    [Symbol.isConcatSpreadable]: string;
+}

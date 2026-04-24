@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserArgumentList1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserArgumentList1.js parserArgumentList1.ts
+stderr 'TS2304'
+! exists parserArgumentList1.js
+! exists parserArgumentList1.d.ts
+! exists parserArgumentList1.js.map
+
+-- parserArgumentList1.ts --
+export function removeClass (node:HTMLElement, className:string) {
+	node.className = node.className.replace(_classNameRegexp(className), function (everything, leftDelimiter, name, rightDelimiter) {
+		return leftDelimiter.length + rightDelimiter.length === 2 ? ' ' : '';
+	});
+}

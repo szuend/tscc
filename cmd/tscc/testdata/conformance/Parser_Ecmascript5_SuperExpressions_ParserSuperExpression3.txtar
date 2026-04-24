@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/SuperExpressions/parserSuperExpression3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserSuperExpression3.js parserSuperExpression3.ts
+stderr 'TS2339'
+stderr 'TS2304'
+! exists parserSuperExpression3.js
+! exists parserSuperExpression3.d.ts
+! exists parserSuperExpression3.js.map
+
+-- parserSuperExpression3.ts --
+class C {
+  M() {
+    this.super<T>(0);
+  }
+}

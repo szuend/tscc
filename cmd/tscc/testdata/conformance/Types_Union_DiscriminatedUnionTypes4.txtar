@@ -1,0 +1,64 @@
+# Ported from tests/cases/conformance/types/union/discriminatedUnionTypes4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom discriminatedUnionTypes4.ts
+! stderr .
+! exists discriminatedUnionTypes4.d.ts
+! exists discriminatedUnionTypes4.js.map
+
+-- discriminatedUnionTypes4.ts --
+// https://github.com/microsoft/TypeScript/issues/61207
+
+enum AnimalType {
+  cat = "cat",
+  dog = "dog",
+}
+
+type Animal =
+  | {
+      type: `${AnimalType.cat}`;
+      meow: string;
+    }
+  | {
+      type: `${AnimalType.dog}`;
+      bark: string;
+    };
+
+function check(p: never) {
+  throw new Error("Error!");
+}
+
+function action1(animal: Animal) {
+  if (animal.type === AnimalType.cat) {
+    console.log(animal.meow);
+  } else if (animal.type === AnimalType.dog) {
+    console.log(animal.bark);
+  } else {
+    check(animal);
+  }
+}
+
+function action2(animal: Animal) {
+  switch (animal.type) {
+    case `${AnimalType.cat}`:
+      console.log(animal.meow);
+      break;
+    case `${AnimalType.dog}`:
+      console.log(animal.bark);
+      break;
+    default:
+      check(animal);
+  }
+}
+
+function action3(animal: Animal) {
+  switch (animal.type) {
+    case AnimalType.cat:
+      console.log(animal.meow);
+      break;
+    case AnimalType.dog:
+      console.log(animal.bark);
+      break;
+    default:
+      check(animal);
+  }
+}

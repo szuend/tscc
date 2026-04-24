@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserConditionalExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserConditionalExpression1.js parserConditionalExpression1.ts
+stderr 'TS2304'
+stderr 'TS7017'
+! exists parserConditionalExpression1.js
+! exists parserConditionalExpression1.d.ts
+! exists parserConditionalExpression1.js.map
+
+-- parserConditionalExpression1.ts --
+(a=this.R[c])?a.JW||(a.e5(this,c),a.JW=_.l):this.A

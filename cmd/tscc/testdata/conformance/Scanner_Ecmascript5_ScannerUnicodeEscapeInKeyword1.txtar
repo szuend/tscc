@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/scanner/ecmascript5/scannerUnicodeEscapeInKeyword1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js scannerUnicodeEscapeInKeyword1.js scannerUnicodeEscapeInKeyword1.ts
+stderr 'TS1260'
+! exists scannerUnicodeEscapeInKeyword1.js
+! exists scannerUnicodeEscapeInKeyword1.d.ts
+! exists scannerUnicodeEscapeInKeyword1.js.map
+
+-- scannerUnicodeEscapeInKeyword1.ts --
+\u0076ar x = "hello";

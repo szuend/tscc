@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsReusesExistingNodesMappingJSDocTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts index.d.ts --lib es6 --module commonjs --target es2015 --out-js out_index.js index.js
+stderr 'TS1110'
+stderr 'TS1005'
+! exists out_index.js
+! exists /out/index.js.map
+! exists index.d.ts
+
+-- index.js --
+/** @type {?} */
+export const a = null;
+
+/** @type {*} */
+export const b = null;
+
+/** @type {string?} */
+export const c = null;
+
+/** @type {string=} */
+export const d = null;
+
+/** @type {string!} */
+export const e = null;
+
+/** @type {function(string, number): object} */
+export const f = null;
+
+/** @type {function(new: object, string, number)} */
+export const g = null;
+
+/** @type {Object.<string, number>} */
+export const h = null;

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty44.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty44.js symbolProperty44.ts
+stderr 'TS2300'
+! exists symbolProperty44.js
+! exists symbolProperty44.d.ts
+! exists symbolProperty44.js.map
+
+-- symbolProperty44.ts --
+class C {
+    get [Symbol.hasInstance]() {
+        return "";
+    }
+    get [Symbol.hasInstance]() {
+        return "";
+    }
+}

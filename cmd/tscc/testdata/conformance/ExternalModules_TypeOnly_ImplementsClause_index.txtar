@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/implementsClause.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.js index.js.golden
+! exists index.d.ts
+! exists index.js.map
+
+-- index.ts --
+import type * as types from './types';
+import * as nestedNamespace from './ns';
+
+class C implements types.Component {}
+class D implements nestedNamespace.types.Component {}
+-- ns.ts --
+import type * as types from './types';
+export { types };
+-- types.ts --
+export interface Component {}
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class C {
+}
+class D {
+}

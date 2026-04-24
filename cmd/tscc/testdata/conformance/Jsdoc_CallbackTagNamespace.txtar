@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/jsdoc/callbackTagNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom namespaced.js
+stderr 'TS2702'
+stderr 'TS8030'
+stderr 'TS7006'
+! exists namespaced.d.ts
+! exists namespaced.js.map
+
+-- namespaced.js --
+/**
+ * @callback NS.Nested.Inner
+ * @param {Object} space - spaaaaaaaaace
+ * @param {Object} peace - peaaaaaaaaace
+ * @return {string | number}
+ */
+var x = 1;
+/** @type {NS.Nested.Inner} */
+function f(space, peace) {
+    return '1'
+}

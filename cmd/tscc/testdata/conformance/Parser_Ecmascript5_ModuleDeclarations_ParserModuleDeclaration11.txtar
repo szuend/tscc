@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserModuleDeclaration11.js parserModuleDeclaration11.ts
+! stderr .
+cmp parserModuleDeclaration11.js parserModuleDeclaration11.js.golden
+! exists parserModuleDeclaration11.d.ts
+! exists parserModuleDeclaration11.js.map
+
+-- parserModuleDeclaration11.ts --
+declare namespace string {
+    interface X { }
+    export function foo(s: string);
+}
+string.foo("abc");
+var x: string.X;
+-- parserModuleDeclaration11.js.golden --
+"use strict";
+string.foo("abc");
+var x;

@@ -1,0 +1,55 @@
+# Ported from tests/cases/conformance/statements/tryStatements/tryStatements.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js tryStatements.js tryStatements.ts
+! stderr .
+cmp tryStatements.js tryStatements.js.golden
+! exists tryStatements.d.ts
+! exists tryStatements.js.map
+
+-- tryStatements.ts --
+function fn() {
+    try { } catch { }
+
+    try { } catch { 
+        try { } catch { 
+            try { } catch { }
+        }
+        try { } catch { }
+    }
+
+    try { } catch (x) { var x: any; }
+
+    try { } finally { }
+
+    try { } catch { } finally { }
+
+    try { } catch (z) { } finally { }
+}
+-- tryStatements.js.golden --
+"use strict";
+function fn() {
+    try { }
+    catch (_a) { }
+    try { }
+    catch (_b) {
+        try { }
+        catch (_c) {
+            try { }
+            catch (_d) { }
+        }
+        try { }
+        catch (_e) { }
+    }
+    try { }
+    catch (x) {
+        var x;
+    }
+    try { }
+    finally { }
+    try { }
+    catch (_f) { }
+    finally { }
+    try { }
+    catch (z) { }
+    finally { }
+}

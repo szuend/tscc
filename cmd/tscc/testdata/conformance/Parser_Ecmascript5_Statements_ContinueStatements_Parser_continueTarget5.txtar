@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueTarget5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser_continueTarget5.js parser_continueTarget5.ts
+stderr 'TS1107'
+! exists parser_continueTarget5.js
+! exists parser_continueTarget5.d.ts
+! exists parser_continueTarget5.js.map
+
+-- parser_continueTarget5.ts --
+target:
+while (true) {
+  function f() {
+    while (true) {
+      continue target;
+    }
+  }
+}

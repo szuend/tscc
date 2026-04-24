@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/expressions/propertyAccess/propertyAccessNumericLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccessNumericLiterals.js propertyAccessNumericLiterals.ts
+stderr 'TS1121'
+stderr 'TS1489'
+stderr 'TS6188'
+! exists propertyAccessNumericLiterals.js
+! exists propertyAccessNumericLiterals.d.ts
+! exists propertyAccessNumericLiterals.js.map
+
+-- propertyAccessNumericLiterals.ts --
+0xffffffff.toString();
+0o01234.toString();
+0b01101101.toString();
+1234..toString();
+1e0.toString();
+000.toString();
+08.8e5.toString();
+0_8.8e5.toString();
+8.8e5.toString();
+088e4.toString();
+88_e4.toString();
+88e4.toString();
+8_8e4.toString();

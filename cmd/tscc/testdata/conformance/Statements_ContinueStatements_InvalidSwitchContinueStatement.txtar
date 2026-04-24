@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/statements/continueStatements/invalidSwitchContinueStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidSwitchContinueStatement.js invalidSwitchContinueStatement.ts
+stderr 'TS1104'
+! exists invalidSwitchContinueStatement.js
+! exists invalidSwitchContinueStatement.d.ts
+! exists invalidSwitchContinueStatement.js.map
+
+-- invalidSwitchContinueStatement.ts --
+// continue is not allowed in a switch statement
+
+switch (12) {
+    case 5:
+        continue;
+}

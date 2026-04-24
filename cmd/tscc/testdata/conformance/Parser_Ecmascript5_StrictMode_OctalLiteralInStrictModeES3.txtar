@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/StrictMode/octalLiteralInStrictModeES3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js octalLiteralInStrictModeES3.js octalLiteralInStrictModeES3.ts
+stderr 'TS1121'
+! exists octalLiteralInStrictModeES3.js
+! exists octalLiteralInStrictModeES3.d.ts
+! exists octalLiteralInStrictModeES3.js.map
+
+-- octalLiteralInStrictModeES3.ts --
+"use strict";
+03;

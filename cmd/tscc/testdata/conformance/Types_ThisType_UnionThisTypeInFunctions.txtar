@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/types/thisType/unionThisTypeInFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unionThisTypeInFunctions.js unionThisTypeInFunctions.ts
+stderr 'TS2684'
+! exists unionThisTypeInFunctions.js
+! exists unionThisTypeInFunctions.d.ts
+! exists unionThisTypeInFunctions.js.map
+
+-- unionThisTypeInFunctions.ts --
+interface Real {
+    method(this: this, n: number): void;
+    data: string;
+}
+interface Fake {
+    method(this: this, n: number): void;
+    data: number;
+}
+function test(r: Real | Fake) {
+    r.method(12); // error
+}

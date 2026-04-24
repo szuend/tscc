@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/classes/members/accessibility/classPropertyAsProtected.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classPropertyAsProtected.js classPropertyAsProtected.ts
+stderr 'TS2445'
+! exists classPropertyAsProtected.js
+! exists classPropertyAsProtected.d.ts
+! exists classPropertyAsProtected.js.map
+
+-- classPropertyAsProtected.ts --
+class C {
+    protected x: string;
+    protected get y() { return null; }
+    protected set y(x) { }
+    protected foo() { }
+
+    protected static a: string;
+    protected static get b() { return null; }
+    protected static set b(x) { }
+    protected static foo() { }
+}
+
+declare var c: C;
+// all errors
+c.x;
+c.y;
+c.y = 1;
+c.foo();
+
+C.a;
+C.b();
+C.b = 1;
+C.foo();

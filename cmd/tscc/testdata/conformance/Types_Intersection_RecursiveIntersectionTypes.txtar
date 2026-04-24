@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/types/intersection/recursiveIntersectionTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveIntersectionTypes.js recursiveIntersectionTypes.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists recursiveIntersectionTypes.js
+! exists recursiveIntersectionTypes.d.ts
+! exists recursiveIntersectionTypes.js.map
+
+-- recursiveIntersectionTypes.ts --
+type LinkedList<T> = T & { next: LinkedList<T> };
+
+interface Entity {
+    name: string;
+}
+
+interface Product extends Entity {
+    price: number;
+}
+
+var entityList: LinkedList<Entity>;
+var s = entityList.name;
+var s = entityList.next.name;
+var s = entityList.next.next.name;
+var s = entityList.next.next.next.name;
+
+var productList: LinkedList<Product>;
+entityList = productList;
+productList = entityList;  // Error

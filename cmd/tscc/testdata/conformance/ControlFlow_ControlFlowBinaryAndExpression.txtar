@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowBinaryAndExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js controlFlowBinaryAndExpression.js controlFlowBinaryAndExpression.ts
+stderr 'TS2454'
+! exists controlFlowBinaryAndExpression.js
+! exists controlFlowBinaryAndExpression.d.ts
+! exists controlFlowBinaryAndExpression.js.map
+
+-- controlFlowBinaryAndExpression.ts --
+let x: string | number | boolean;
+let cond: boolean;
+
+(x = "") && (x = 0);
+x; // string | number
+
+x = "";
+cond && (x = 0);
+x; // string | number

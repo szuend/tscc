@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/tuple/wideningTuples2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --no-strict --target es2015 --lib es2015,dom --out-js wideningTuples2.js wideningTuples2.ts
+! stderr .
+cmp wideningTuples2.js wideningTuples2.js.golden
+! exists wideningTuples2.d.ts
+! exists wideningTuples2.js.map
+
+-- wideningTuples2.ts --
+var foo: () => [any] = function bar() {
+    let intermediate = bar();
+    intermediate = [""];
+    return [undefined];
+};
+-- wideningTuples2.js.golden --
+"use strict";
+var foo = function bar() {
+    let intermediate = bar();
+    intermediate = [""];
+    return [undefined];
+};

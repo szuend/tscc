@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.17.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarations.17.js awaitUsingDeclarations.17.ts
+stderr 'TS1548'
+! exists awaitUsingDeclarations.17.js
+! exists awaitUsingDeclarations.17.d.ts
+! exists awaitUsingDeclarations.17.js.map
+
+-- awaitUsingDeclarations.17.ts --
+switch (Math.random()) {
+    case 0:
+        await using d20 = { async [Symbol.asyncDispose]() {} };
+        break;
+
+    case 1:
+        await using d21 = { async [Symbol.asyncDispose]() {} };
+        break;
+
+    default:
+        await using d22 = { async [Symbol.asyncDispose]() {} };
+}
+
+if (true)
+    switch (0) {
+        case 0:
+            await using d23 = { async [Symbol.asyncDispose]() {} };
+            break;
+
+        default:
+            await using d24 = { async [Symbol.asyncDispose]() {} };
+    }
+
+export {};

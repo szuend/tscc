@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameAndPropertySignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameAndPropertySignature.js privateNameAndPropertySignature.ts
+stderr 'TS18016'
+! exists privateNameAndPropertySignature.js
+! exists privateNameAndPropertySignature.d.ts
+! exists privateNameAndPropertySignature.js.map
+
+-- privateNameAndPropertySignature.ts --
+type A = {
+    #foo: string;
+    #bar(): string;
+}
+
+interface B {
+    #foo: string;
+    #bar(): string;
+}
+
+declare const x: {
+    #foo: number;
+    bar: {
+        #baz: string;
+        #taz(): string;
+    }
+    #baz(): string;
+};
+
+declare const y: [{ qux: { #quux: 3 } }];

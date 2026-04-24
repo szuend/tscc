@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesDeclarationEmit5_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts computedPropertyNamesDeclarationEmit5_ES6.d.ts --no-strict --target es6 --lib es6,dom --out-js computedPropertyNamesDeclarationEmit5_ES6.js computedPropertyNamesDeclarationEmit5_ES6.ts
+! stderr .
+cmp computedPropertyNamesDeclarationEmit5_ES6.d.ts computedPropertyNamesDeclarationEmit5_ES6.d.ts.golden
+cmp computedPropertyNamesDeclarationEmit5_ES6.js computedPropertyNamesDeclarationEmit5_ES6.js.golden
+! exists computedPropertyNamesDeclarationEmit5_ES6.js.map
+
+-- computedPropertyNamesDeclarationEmit5_ES6.ts --
+var v = {
+    ["" + ""]: 0,
+    ["" + ""]() { },
+    get ["" + ""]() { return 0; },
+    set ["" + ""](x) { }
+}
+-- computedPropertyNamesDeclarationEmit5_ES6.d.ts.golden --
+declare var v: {
+    [x: string]: any;
+};
+-- computedPropertyNamesDeclarationEmit5_ES6.js.golden --
+"use strict";
+var v = {
+    ["" + ""]: 0,
+    ["" + ""]() { },
+    get ["" + ""]() { return 0; },
+    set ["" + ""](x) { }
+};

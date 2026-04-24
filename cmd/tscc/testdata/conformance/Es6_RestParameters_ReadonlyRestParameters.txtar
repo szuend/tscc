@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/es6/restParameters/readonlyRestParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts readonlyRestParameters.d.ts --strict --target es2015 --lib es2015,dom --out-js readonlyRestParameters.js readonlyRestParameters.ts
+stderr 'TS2556'
+stderr 'TS2554'
+stderr 'TS2542'
+! exists readonlyRestParameters.d.ts
+! exists readonlyRestParameters.js
+! exists readonlyRestParameters.js.map
+
+-- readonlyRestParameters.ts --
+function f0(a: string, b: string) {
+    f0(a, b);
+    f1(a, b);
+    f2(a, b);
+}
+
+function f1(...args: readonly string[]) {
+    f0(...args);  // Error
+    f1('abc', 'def');
+    f1('abc', ...args);
+    f1(...args);
+}
+
+function f2(...args: readonly [string, string]) {
+    f0(...args);
+    f1('abc', 'def');
+    f1('abc', ...args);
+    f1(...args);
+    f2('abc', 'def');
+    f2('abc', ...args);  // Error
+    f2(...args);
+}
+
+function f4(...args: readonly string[]) {
+    args[0] = 'abc';  // Error
+}

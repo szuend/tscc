@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserEmptyParenthesizedExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserEmptyParenthesizedExpression1.js parserEmptyParenthesizedExpression1.ts
+stderr 'TS1109'
+! exists parserEmptyParenthesizedExpression1.js
+! exists parserEmptyParenthesizedExpression1.d.ts
+! exists parserEmptyParenthesizedExpression1.js.map
+
+-- parserEmptyParenthesizedExpression1.ts --
+function getObj() {
+   ().toString();
+}

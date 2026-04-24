@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/salsa/inferringClassMembersFromAssignments2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --target es2015 --lib es2015,dom a.js
+stderr 'TS2683'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+OOOrder.prototype.m = function () {
+    this.p = 1
+}
+function OOOrder() {
+    this.x = 1
+}

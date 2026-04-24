@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames40_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js computedPropertyNames40_ES6.js computedPropertyNames40_ES6.ts
+stderr 'TS2393'
+stderr 'TS2411'
+! exists computedPropertyNames40_ES6.js
+! exists computedPropertyNames40_ES6.d.ts
+! exists computedPropertyNames40_ES6.js.map
+
+-- computedPropertyNames40_ES6.ts --
+class Foo { x }
+class Foo2 { x; y }
+
+class C {
+    [s: string]: () => Foo2;
+
+    // Computed properties
+    [""]() { return new Foo }
+    [""]() { return new Foo2 }
+}

@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/importEquals3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+stderr 'TS1380'
+! exists b.js
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export class A {}
+-- b.ts --
+import type * as a from './a';
+import A = a.A; // Error
+import aa = a;  // Error
+
+const x = 0;
+export { a, A, x };
+-- c.ts --
+import * as b from './b';
+import A = b.a.A; // Error
+import AA = b.A; // Error
+
+import x = b.x;
+console.log(x);

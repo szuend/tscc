@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classHeritageSpecification/classExtendsEveryObjectType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classExtendsEveryObjectType.js classExtendsEveryObjectType.ts
+stderr 'TS1005'
+! exists classExtendsEveryObjectType.js
+! exists classExtendsEveryObjectType.d.ts
+! exists classExtendsEveryObjectType.js.map
+
+-- classExtendsEveryObjectType.ts --
+interface I {
+    foo: string;
+}
+class C extends I { } // error
+
+class C2 extends { foo: string; } { } // error
+declare var x: { foo: string; }
+class C3 extends x { } // error
+
+namespace M { export var x = 1; }
+class C4 extends M { } // error
+
+function foo() { }
+class C5 extends foo { } // error
+
+class C6 extends []{ } // error

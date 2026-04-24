@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/expressions/binaryOperators/instanceofOperator/instanceofOperatorWithRHSIsSubtypeOfFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instanceofOperatorWithRHSIsSubtypeOfFunction.js instanceofOperatorWithRHSIsSubtypeOfFunction.ts
+stderr 'TS2454'
+stderr 'TS2359'
+! exists instanceofOperatorWithRHSIsSubtypeOfFunction.js
+! exists instanceofOperatorWithRHSIsSubtypeOfFunction.d.ts
+! exists instanceofOperatorWithRHSIsSubtypeOfFunction.js.map
+
+-- instanceofOperatorWithRHSIsSubtypeOfFunction.ts --
+interface I extends Function { }
+
+var x: any;
+var f1: Function;
+var f2: I;
+var f3: { (): void };
+var f4: { new (): number };
+
+var r1 = x instanceof f1;
+var r2 = x instanceof f2;
+var r3 = x instanceof f3;
+var r4 = x instanceof f4;
+var r5 = x instanceof null;
+var r6 = x instanceof undefined;

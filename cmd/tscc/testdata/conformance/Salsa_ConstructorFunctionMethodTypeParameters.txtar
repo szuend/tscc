@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/salsa/constructorFunctionMethodTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom constructorFunctionMethodTypeParameters.js
+stderr 'TS2683'
+stderr 'TS2304'
+stderr 'TS7009'
+! exists constructorFunctionMethodTypeParameters.d.ts
+! exists constructorFunctionMethodTypeParameters.js.map
+
+-- constructorFunctionMethodTypeParameters.js --
+/**
+ * @template {string} T
+ * @param {T} t
+ */
+function Cls(t) {
+    this.t = t;
+}
+
+/**
+ * @template {string} V
+ * @param {T} t
+ * @param {V} v
+ * @return {V}
+ */
+Cls.prototype.topLevelComment = function (t, v) {
+    return v
+};
+
+Cls.prototype.nestedComment =
+    /**
+     * @template {string} U
+     * @param {T} t
+     * @param {U} u
+     * @return {T}
+     */
+    function (t, u) {
+        return t
+    };
+
+var c = new Cls('a');
+const s = c.topLevelComment('a', 'b');
+const t = c.nestedComment('a', 'b');
+

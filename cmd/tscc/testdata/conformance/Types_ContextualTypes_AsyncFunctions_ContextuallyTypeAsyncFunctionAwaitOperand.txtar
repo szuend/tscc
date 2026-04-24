@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/types/contextualTypes/asyncFunctions/contextuallyTypeAsyncFunctionAwaitOperand.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target esnext --lib esnext,dom contextuallyTypeAsyncFunctionAwaitOperand.ts
+! stderr .
+! exists contextuallyTypeAsyncFunctionAwaitOperand.d.ts
+! exists contextuallyTypeAsyncFunctionAwaitOperand.js.map
+
+-- contextuallyTypeAsyncFunctionAwaitOperand.ts --
+interface Obj { key: "value"; }
+
+async function fn1(): Promise<Obj> {
+    const obj1: Obj = await { key: "value" };
+    const obj2: Obj = await new Promise(resolve => resolve({ key: "value" }));
+    return await { key: "value" };
+}

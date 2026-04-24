@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es6 --lib es6,dom --out-js out_fileJs.js fileJs.js
+stderr 'TS8010'
+! exists out_fileJs.js
+! exists out/fileJs.d.ts
+! exists out/fileJs.js.map
+
+-- fileJs.js --
+true ? false ? (param): string => param : null : null // Not legal JS; "Unexpected token ':'" at last colon
+-- fileTs.ts --
+true ? false ? (param): string => param : null : null

@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardNarrowsToLiteralType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardNarrowsToLiteralType.js typeGuardNarrowsToLiteralType.ts
+stderr 'TS2454'
+! exists typeGuardNarrowsToLiteralType.js
+! exists typeGuardNarrowsToLiteralType.d.ts
+! exists typeGuardNarrowsToLiteralType.js.map
+
+-- typeGuardNarrowsToLiteralType.ts --
+declare function isFoo(value: string) : value is "foo";
+declare function doThis(value: "foo"): void;
+declare function doThat(value: string) : void;
+let value: string;
+if (isFoo(value)) {
+    doThis(value);
+} else {
+    doThat(value);
+}
+

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserModuleDeclaration9.js parserModuleDeclaration9.ts
+! stderr .
+cmp parserModuleDeclaration9.js parserModuleDeclaration9.js.golden
+! exists parserModuleDeclaration9.d.ts
+! exists parserModuleDeclaration9.js.map
+
+-- parserModuleDeclaration9.ts --
+namespace a.number.b {
+}
+-- parserModuleDeclaration9.js.golden --
+"use strict";

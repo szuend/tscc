@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/import/importTypeNested.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts chainer.d.ts --target es6 --lib es6,dom --out-js chainer.js chainer.ts
+stderr 'TS1141'
+! exists chainer.d.ts
+! exists chainer.js
+! exists chainer.js.map
+
+-- a.d.ts --
+export type LookAt = "./b";
+-- b.d.ts --
+export type Value = "yes";
+-- chainer.ts --
+export const x: import(import("./a").LookAt).Value = "yes";

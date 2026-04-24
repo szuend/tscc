@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/literal/literalTypesWidenInParameterPosition.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js literalTypesWidenInParameterPosition.js literalTypesWidenInParameterPosition.ts
+stderr 'TS2322'
+! exists literalTypesWidenInParameterPosition.js
+! exists literalTypesWidenInParameterPosition.d.ts
+! exists literalTypesWidenInParameterPosition.js.map
+
+-- literalTypesWidenInParameterPosition.ts --
+class D {
+    readonly noWiden = 1
+    constructor(readonly widen = 2) {
+        this.noWiden = 5; // error
+        this.widen = 6; // ok
+    }
+}
+new D(7); // ok

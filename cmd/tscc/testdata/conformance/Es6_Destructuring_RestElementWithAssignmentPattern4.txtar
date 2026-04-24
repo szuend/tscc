@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/destructuring/restElementWithAssignmentPattern4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restElementWithAssignmentPattern4.js restElementWithAssignmentPattern4.ts
+stderr 'TS2339'
+! exists restElementWithAssignmentPattern4.js
+! exists restElementWithAssignmentPattern4.d.ts
+! exists restElementWithAssignmentPattern4.js.map
+
+-- restElementWithAssignmentPattern4.ts --
+var a: string, b: number;
+var tuple: [string, number] = ["", 1];
+[...{ 0: a = "", b }] = tuple;

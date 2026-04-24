@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/assignmentCompatBetweenTupleAndArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatBetweenTupleAndArray.js assignmentCompatBetweenTupleAndArray.ts
+stderr 'TS2322'
+! exists assignmentCompatBetweenTupleAndArray.js
+! exists assignmentCompatBetweenTupleAndArray.d.ts
+! exists assignmentCompatBetweenTupleAndArray.js.map
+
+-- assignmentCompatBetweenTupleAndArray.ts --
+declare var numStrTuple: [number, string];
+declare var numNumTuple: [number, number];
+declare var numEmptyObjTuple: [number, {}];
+declare var emptyObjTuple: [{}];
+
+declare var numArray: number[];
+declare var emptyObjArray: {}[];
+
+// no error
+numArray = numNumTuple;
+emptyObjArray = emptyObjTuple;
+emptyObjArray = numStrTuple;
+emptyObjArray = numNumTuple;
+emptyObjArray = numEmptyObjTuple;
+
+// error
+numArray = numStrTuple;
+emptyObjTuple = emptyObjArray;

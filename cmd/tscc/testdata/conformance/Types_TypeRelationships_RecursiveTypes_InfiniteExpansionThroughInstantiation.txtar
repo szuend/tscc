@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/typeRelationships/recursiveTypes/infiniteExpansionThroughInstantiation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js infiniteExpansionThroughInstantiation.js infiniteExpansionThroughInstantiation.ts
+stderr 'TS2322'
+! exists infiniteExpansionThroughInstantiation.js
+! exists infiniteExpansionThroughInstantiation.d.ts
+! exists infiniteExpansionThroughInstantiation.js.map
+
+-- infiniteExpansionThroughInstantiation.ts --
+// instantiating a derived type can cause an infinitely expanding type reference to be generated
+
+interface List<T> {
+    data: T;
+    next: List<T>;
+    owner: OwnerList<T>;
+}
+
+// will have an owner property that is an infinitely expanding type reference
+interface OwnerList<U> extends List<List<U>> {
+    name: string;
+}
+
+declare var list: List<string>;
+declare var ownerList: OwnerList<string>;
+list = ownerList; 
+
+function other<T>(x: T) {
+    var list: List<T>;
+    var ownerList!: OwnerList<T>;
+    list = ownerList; 
+
+}

@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/salsa/varRequireFromTypescript.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom use.js
+! stderr .
+! exists use.d.ts
+! exists use.js.map
+
+-- ex.d.ts --
+export type Greatest = { day: 1 }
+export class Crunch {
+    n: number
+    m(): number
+    constructor(n: number)
+}
+-- use.js --
+var ex = require('./ex')
+
+// values work
+var crunch = new ex.Crunch(1);
+crunch.n
+
+
+// types work
+/**
+ * @param {ex.Greatest} greatest
+ * @param {ex.Crunch} wrap
+ */
+function f(greatest, wrap) {
+    greatest.day
+    wrap.n
+}

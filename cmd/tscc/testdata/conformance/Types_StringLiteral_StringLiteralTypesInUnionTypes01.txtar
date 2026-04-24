@@ -1,0 +1,49 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesInUnionTypes01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesInUnionTypes01.d.ts --no-strict --target es2015 --lib es2015,dom --out-js stringLiteralTypesInUnionTypes01.js stringLiteralTypesInUnionTypes01.ts
+! stderr .
+cmp stringLiteralTypesInUnionTypes01.d.ts stringLiteralTypesInUnionTypes01.d.ts.golden
+cmp stringLiteralTypesInUnionTypes01.js stringLiteralTypesInUnionTypes01.js.golden
+! exists stringLiteralTypesInUnionTypes01.js.map
+
+-- stringLiteralTypesInUnionTypes01.ts --
+type T = "foo" | "bar" | "baz";
+
+var x: "foo" | "bar" | "baz" = undefined;
+var y: T = undefined;
+
+if (x === "foo") {
+    let a = x;
+}
+else if (x !== "bar") {
+    let b = x || y;
+}
+else {
+    let c = x;
+    let d = y;
+    let e: (typeof x) | (typeof y) = c || d;
+}
+
+x = y;
+y = x;
+-- stringLiteralTypesInUnionTypes01.d.ts.golden --
+type T = "foo" | "bar" | "baz";
+declare var x: "foo" | "bar" | "baz";
+declare var y: T;
+-- stringLiteralTypesInUnionTypes01.js.golden --
+"use strict";
+var x = undefined;
+var y = undefined;
+if (x === "foo") {
+    let a = x;
+}
+else if (x !== "bar") {
+    let b = x || y;
+}
+else {
+    let c = x;
+    let d = y;
+    let e = c || d;
+}
+x = y;
+y = x;

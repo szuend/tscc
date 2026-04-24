@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameMethodsDerivedClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameMethodsDerivedClasses.js privateNameMethodsDerivedClasses.ts
+stderr 'TS18013'
+! exists privateNameMethodsDerivedClasses.js
+! exists privateNameMethodsDerivedClasses.d.ts
+! exists privateNameMethodsDerivedClasses.js.map
+
+-- privateNameMethodsDerivedClasses.ts --
+class Base {
+    #prop(): number{ return  123; }
+    static method(x: Derived) {
+        console.log(x.#prop());
+    }
+}
+class Derived extends Base {
+    static method(x: Derived) {
+        console.log(x.#prop());
+    }
+}

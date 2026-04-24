@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty16.js symbolProperty16.ts
+! stderr .
+cmp symbolProperty16.js symbolProperty16.js.golden
+! exists symbolProperty16.d.ts
+! exists symbolProperty16.js.map
+
+-- symbolProperty16.ts --
+class C {
+    private [Symbol.iterator]: { x };
+}
+interface I {
+    [Symbol.iterator]: { x };
+}
+
+declare function foo(i: I): I;
+declare function foo(a: any): any;
+
+declare function bar(i: C): C;
+declare function bar(a: any): any;
+
+foo(new C);
+var i: I;
+bar(i);
+-- symbolProperty16.js.golden --
+"use strict";
+class C {
+}
+Symbol.iterator;
+foo(new C);
+var i;
+bar(i);

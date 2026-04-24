@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/jsdoc/constructorTagOnNestedBinaryExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom constructorTagOnNestedBinaryExpression.js
+! stderr .
+! exists constructorTagOnNestedBinaryExpression.d.ts
+! exists constructorTagOnNestedBinaryExpression.js.map
+
+-- constructorTagOnNestedBinaryExpression.js --
+// Fixes #35021
+/** @constructor */
+a = b = function c () {
+    console.log(this)
+};

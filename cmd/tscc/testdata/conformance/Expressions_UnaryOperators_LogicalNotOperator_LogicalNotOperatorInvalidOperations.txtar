@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorInvalidOperations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js logicalNotOperatorInvalidOperations.js logicalNotOperatorInvalidOperations.ts
+stderr 'TS1109'
+! exists logicalNotOperatorInvalidOperations.js
+! exists logicalNotOperatorInvalidOperations.d.ts
+! exists logicalNotOperatorInvalidOperations.js.map
+
+-- logicalNotOperatorInvalidOperations.ts --
+// Unary operator !
+declare var b: number;
+
+// operand before !
+var BOOLEAN1 = b!;  //expect error
+
+// miss parentheses
+var BOOLEAN2 = !b + b;
+
+// miss an operand
+var BOOLEAN3 =!;

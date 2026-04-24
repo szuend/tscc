@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/expressions/contextualTyping/superCallParameterContextualTyping2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallParameterContextualTyping2.js superCallParameterContextualTyping2.ts
+stderr 'TS2349'
+! exists superCallParameterContextualTyping2.js
+! exists superCallParameterContextualTyping2.d.ts
+! exists superCallParameterContextualTyping2.js.map
+
+-- superCallParameterContextualTyping2.ts --
+class A<T1, T2> {
+    constructor(private map: (value: T1) => T2) {
+
+    }
+}
+
+class C extends A<number, string> {
+    // Ensure 'value' is not of type 'any' by invoking it with type arguments.
+    constructor() { super(value => String(value<string>())); }
+}

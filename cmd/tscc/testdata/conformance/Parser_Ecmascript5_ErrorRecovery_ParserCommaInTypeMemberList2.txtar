@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserCommaInTypeMemberList2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserCommaInTypeMemberList2.js parserCommaInTypeMemberList2.ts
+stderr 'TS2592'
+! exists parserCommaInTypeMemberList2.js
+! exists parserCommaInTypeMemberList2.d.ts
+! exists parserCommaInTypeMemberList2.js.map
+
+-- parserCommaInTypeMemberList2.ts --
+var s = $.extend< { workItem: any }, { workItem: any, width: string }>({ workItem: this._workItem }, {});

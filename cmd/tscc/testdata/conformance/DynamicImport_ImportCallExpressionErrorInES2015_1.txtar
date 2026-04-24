@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionErrorInES2015.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module es2015 --target esnext --lib esnext,dom --out-js 1.js 1.ts
+stderr 'TS1323'
+! exists 1.js
+! exists 1.d.ts
+! exists 1.js.map
+
+-- 0.ts --
+export function foo() { return "foo"; }
+-- 1.ts --
+import("./0");
+var p1 = import("./0");
+p1.then(zero => {
+    return zero.foo();
+})
+
+function foo() {
+    const p2 = import("./0");
+}

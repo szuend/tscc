@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserForStatement3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserForStatement3.js parserForStatement3.ts
+stderr 'TS2304'
+! exists parserForStatement3.js
+! exists parserForStatement3.d.ts
+! exists parserForStatement3.js.map
+
+-- parserForStatement3.ts --
+for(d in _.jh[a]=_.jh[a]||[],b);

@@ -1,0 +1,44 @@
+# Ported from tests/cases/conformance/jsdoc/overloadTag2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts overloadTag2.d.ts --strict --target esnext --lib esnext,dom --out-js out_overloadTag2.js overloadTag2.js
+stderr 'TS2394'
+stderr 'TS7006'
+stderr 'TS2554'
+! exists out_overloadTag2.js
+! exists foo/overloadTag2.js.map
+! exists overloadTag2.d.ts
+
+-- overloadTag2.js --
+export class Foo {
+    #a = true ? 1 : "1"
+    #b
+
+    /**
+     * Should not have an implicit any error, because constructor's return type is always implicit
+     * @constructor
+     * @overload
+     * @param {string} a
+     * @param {number} b
+     */
+    /**
+     * @constructor
+     * @overload
+     * @param {number} a
+     */
+    /**
+     * @constructor
+     * @overload
+     * @param {string} a
+     *//**
+     * @constructor
+     * @param {number | string} a
+     */
+    constructor(a, b) {
+        this.#a = a
+        this.#b = b
+    }
+}
+var a = new Foo()
+var b = new Foo('str')
+var c = new Foo(2)
+var d = new Foo('str', 2)

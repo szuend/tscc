@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticMembersUsingClassTypeParameter.js staticMembersUsingClassTypeParameter.ts
+stderr 'TS2302'
+! exists staticMembersUsingClassTypeParameter.js
+! exists staticMembersUsingClassTypeParameter.d.ts
+! exists staticMembersUsingClassTypeParameter.js.map
+
+-- staticMembersUsingClassTypeParameter.ts --
+// BUG 745747
+class C<T> {
+    static x: T;
+    static f(x: T) {}
+}
+
+class C2<T, U> {
+    static x: U;
+    static f(x: U) { }
+}
+
+class C3<T extends Date> {
+    static x: T;
+    static f(x: T) { }
+}

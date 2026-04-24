@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesNotAllowedInVariableDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNamesNotAllowedInVariableDeclarations.js privateNamesNotAllowedInVariableDeclarations.ts
+stderr 'TS18029'
+! exists privateNamesNotAllowedInVariableDeclarations.js
+! exists privateNamesNotAllowedInVariableDeclarations.d.ts
+! exists privateNamesNotAllowedInVariableDeclarations.js.map
+
+-- privateNamesNotAllowedInVariableDeclarations.ts --
+const #foo = 3;

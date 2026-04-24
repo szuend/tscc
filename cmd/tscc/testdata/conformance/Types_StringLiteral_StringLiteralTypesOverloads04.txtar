@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesOverloads04.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesOverloads04.d.ts --no-strict --target es2015 --lib es2015,dom --out-js stringLiteralTypesOverloads04.js stringLiteralTypesOverloads04.ts
+! stderr .
+cmp stringLiteralTypesOverloads04.d.ts stringLiteralTypesOverloads04.d.ts.golden
+cmp stringLiteralTypesOverloads04.js stringLiteralTypesOverloads04.js.golden
+! exists stringLiteralTypesOverloads04.js.map
+
+-- stringLiteralTypesOverloads04.ts --
+declare function f(x: (p: "foo" | "bar") => "foo");
+
+f(y => {
+    const z = y = "foo";
+    return z;
+})
+-- stringLiteralTypesOverloads04.d.ts.golden --
+declare function f(x: (p: "foo" | "bar") => "foo"): any;
+-- stringLiteralTypesOverloads04.js.golden --
+"use strict";
+f(y => {
+    const z = y = "foo";
+    return z;
+});

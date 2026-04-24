@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/classes/classExpressions/classExpression3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExpression3.js classExpression3.ts
+! stderr .
+cmp classExpression3.js classExpression3.js.golden
+! exists classExpression3.d.ts
+! exists classExpression3.js.map
+
+-- classExpression3.ts --
+let C = class extends class extends class { a = 1 } { b = 2 } { c = 3 };
+let c = new C();
+c.a;
+c.b;
+c.c;
+-- classExpression3.js.golden --
+"use strict";
+let C = class extends class extends class {
+    constructor() {
+        this.a = 1;
+    }
+} {
+    constructor() {
+        super(...arguments);
+        this.b = 2;
+    }
+} {
+    constructor() {
+        super(...arguments);
+        this.c = 3;
+    }
+};
+let c = new C();
+c.a;
+c.b;
+c.c;

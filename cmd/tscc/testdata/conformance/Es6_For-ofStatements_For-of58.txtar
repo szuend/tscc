@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of58.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js for-of58.js for-of58.ts
+! stderr .
+cmp for-of58.js for-of58.js.golden
+! exists for-of58.d.ts
+! exists for-of58.js.map
+
+-- for-of58.ts --
+type X = { x: 'x' };
+type Y = { y: 'y' };
+
+declare const arr: X[] & Y[];
+
+for (const item of arr) {
+    item.x;
+    item.y;
+}
+-- for-of58.js.golden --
+"use strict";
+for (const item of arr) {
+    item.x;
+    item.y;
+}

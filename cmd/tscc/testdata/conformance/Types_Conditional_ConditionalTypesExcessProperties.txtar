@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/types/conditional/conditionalTypesExcessProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js conditionalTypesExcessProperties.js conditionalTypesExcessProperties.ts
+stderr 'TS2322'
+! exists conditionalTypesExcessProperties.js
+! exists conditionalTypesExcessProperties.d.ts
+! exists conditionalTypesExcessProperties.js.map
+
+-- conditionalTypesExcessProperties.ts --
+type Something<T> = { test: string } &  (T extends object ? {
+    arg: T
+} : {
+    arg?: undefined
+    });
+
+function testFunc2<A extends object>(a: A, sa: Something<A>) {
+    sa = { test: 'hi', arg: a }; // not excess (but currently still not assignable)
+    sa = { test: 'bye', arg: a, arr: a } // excess
+}

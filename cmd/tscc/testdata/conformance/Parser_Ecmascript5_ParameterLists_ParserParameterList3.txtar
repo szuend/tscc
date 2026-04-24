@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserParameterList3.js parserParameterList3.ts
+stderr 'TS1016'
+! exists parserParameterList3.js
+! exists parserParameterList3.d.ts
+! exists parserParameterList3.js.map
+
+-- parserParameterList3.ts --
+class C {
+  F(A?, B) { }
+}

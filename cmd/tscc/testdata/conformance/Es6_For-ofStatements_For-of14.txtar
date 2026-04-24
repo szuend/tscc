@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of14.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of14.js for-of14.ts
+stderr 'TS2488'
+! exists for-of14.js
+! exists for-of14.d.ts
+! exists for-of14.js.map
+
+-- for-of14.ts --
+class MyStringIterator {
+    next() {
+        return "";
+    }
+}
+
+var v: string;
+for (v of new MyStringIterator) { } // Should fail because the iterator is not iterable

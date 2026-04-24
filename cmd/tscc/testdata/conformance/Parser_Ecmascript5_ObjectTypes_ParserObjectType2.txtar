@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ObjectTypes/parserObjectType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserObjectType2.js parserObjectType2.ts
+! stderr .
+cmp parserObjectType2.js parserObjectType2.js.golden
+! exists parserObjectType2.d.ts
+! exists parserObjectType2.js.map
+
+-- parserObjectType2.ts --
+var v: { x: number };
+-- parserObjectType2.js.golden --
+"use strict";
+var v;

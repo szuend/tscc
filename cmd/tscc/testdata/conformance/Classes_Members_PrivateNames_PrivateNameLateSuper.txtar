@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameLateSuper.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js privateNameLateSuper.js privateNameLateSuper.ts
+! stderr .
+cmp privateNameLateSuper.js privateNameLateSuper.js.golden
+! exists privateNameLateSuper.d.ts
+! exists privateNameLateSuper.js.map
+
+-- privateNameLateSuper.ts --
+class B {}
+class A extends B {
+    #x;
+    constructor() {
+        void 0;
+        super();
+    }
+}
+-- privateNameLateSuper.js.golden --
+"use strict";
+var _A_x;
+class B {
+}
+class A extends B {
+    constructor() {
+        void 0;
+        super();
+        _A_x.set(this, void 0);
+    }
+}
+_A_x = new WeakMap();

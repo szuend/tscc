@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserParameterList1.js parserParameterList1.ts
+stderr 'TS1014'
+! exists parserParameterList1.js
+! exists parserParameterList1.d.ts
+! exists parserParameterList1.js.map
+
+-- parserParameterList1.ts --
+class C {
+   F(...A, B) { }
+}

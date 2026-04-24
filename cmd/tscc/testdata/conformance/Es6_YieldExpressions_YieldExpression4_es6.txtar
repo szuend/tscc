@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/YieldExpression4_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js YieldExpression4_es6.js YieldExpression4_es6.ts
+! stderr .
+cmp YieldExpression4_es6.js YieldExpression4_es6.js.golden
+! exists YieldExpression4_es6.d.ts
+! exists YieldExpression4_es6.js.map
+
+-- YieldExpression4_es6.ts --
+function* foo() {
+  yield;
+  yield;
+}
+-- YieldExpression4_es6.js.golden --
+"use strict";
+function* foo() {
+    yield;
+    yield;
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInModuleName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInModuleName.js templateStringInModuleName.ts
+stderr 'TS1443'
+! exists templateStringInModuleName.js
+! exists templateStringInModuleName.d.ts
+! exists templateStringInModuleName.js.map
+
+-- templateStringInModuleName.ts --
+declare module `M1` {
+}
+
+declare module `M${2}` {
+}

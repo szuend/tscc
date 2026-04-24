@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithStringIndexerHidingBaseTypeIndexer3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceWithStringIndexerHidingBaseTypeIndexer3.js interfaceWithStringIndexerHidingBaseTypeIndexer3.ts
+stderr 'TS2411'
+! exists interfaceWithStringIndexerHidingBaseTypeIndexer3.js
+! exists interfaceWithStringIndexerHidingBaseTypeIndexer3.d.ts
+! exists interfaceWithStringIndexerHidingBaseTypeIndexer3.js.map
+
+-- interfaceWithStringIndexerHidingBaseTypeIndexer3.ts --
+interface Base {
+    [x: number]: { a: number }
+    1: {
+        a: number; b: number;
+    }
+}
+
+interface Derived extends Base {
+    [x: number]: {
+        a: number; b: number
+    };
+    // error
+    2: {
+        a: number;
+    }
+}

@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/primitives/number/numberPropertyAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js numberPropertyAccess.js numberPropertyAccess.ts
+! stderr .
+cmp numberPropertyAccess.js numberPropertyAccess.js.golden
+! exists numberPropertyAccess.d.ts
+! exists numberPropertyAccess.js.map
+
+-- numberPropertyAccess.ts --
+var x = 1;
+var a = x.toExponential();
+var b = x.hasOwnProperty('toFixed');
+
+var c = x['toExponential']();
+var d = x['hasOwnProperty']('toFixed');
+-- numberPropertyAccess.js.golden --
+"use strict";
+var x = 1;
+var a = x.toExponential();
+var b = x.hasOwnProperty('toFixed');
+var c = x['toExponential']();
+var d = x['hasOwnProperty']('toFixed');

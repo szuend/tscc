@@ -1,0 +1,49 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeLiterals/functionLiteralForOverloads2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionLiteralForOverloads2.js functionLiteralForOverloads2.ts
+! stderr .
+cmp functionLiteralForOverloads2.js functionLiteralForOverloads2.js.golden
+! exists functionLiteralForOverloads2.d.ts
+! exists functionLiteralForOverloads2.js.map
+
+-- functionLiteralForOverloads2.ts --
+// basic uses of function literals with constructor overloads
+
+class C {
+    constructor(x: string);
+    constructor(x: number);
+    constructor(x) { }
+}
+
+class D<T> {
+    constructor(x: string);
+    constructor(x: number);
+    constructor(x) { }
+}
+
+var f: {
+    new(x: string): C;
+    new(x: number): C;
+} = C;
+
+var f2: {
+    new<T>(x: string): C;
+    new<T>(x: number): C;
+} = C;
+
+var f3: {
+    new<T>(x: string): D<T>;
+    new<T>(x: number): D<T>;
+} = D;
+-- functionLiteralForOverloads2.js.golden --
+"use strict";
+// basic uses of function literals with constructor overloads
+class C {
+    constructor(x) { }
+}
+class D {
+    constructor(x) { }
+}
+var f = C;
+var f2 = C;
+var f3 = D;

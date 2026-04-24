@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Iterators/parserForOfStatement25.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js parserForOfStatement25.js parserForOfStatement25.ts
+! stderr .
+cmp parserForOfStatement25.js parserForOfStatement25.js.golden
+! exists parserForOfStatement25.d.ts
+! exists parserForOfStatement25.js.map
+
+-- parserForOfStatement25.ts --
+// repro from https://github.com/microsoft/TypeScript/issues/54769
+
+for (let [x = 'a' in {}] of [[]]) console.log(x)
+for (let {x = 'a' in {}} of [{}]) console.log(x)
+-- parserForOfStatement25.js.golden --
+"use strict";
+// repro from https://github.com/microsoft/TypeScript/issues/54769
+for (let [x = 'a' in {}] of [[]])
+    console.log(x);
+for (let { x = 'a' in {} } of [{}])
+    console.log(x);

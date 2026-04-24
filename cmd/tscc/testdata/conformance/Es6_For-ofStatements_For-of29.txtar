@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of29.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of29.js for-of29.ts
+stderr 'TS2488'
+! exists for-of29.js
+! exists for-of29.d.ts
+! exists for-of29.js.map
+
+-- for-of29.ts --
+declare var iterableWithOptionalIterator: {
+    [Symbol.iterator]?(): Iterator<string>
+};
+
+for (var v of iterableWithOptionalIterator) { }

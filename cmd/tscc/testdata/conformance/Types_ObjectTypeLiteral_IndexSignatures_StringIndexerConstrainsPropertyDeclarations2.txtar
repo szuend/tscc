@@ -1,0 +1,49 @@
+# Ported from tests/cases/conformance/types/objectTypeLiteral/indexSignatures/stringIndexerConstrainsPropertyDeclarations2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js stringIndexerConstrainsPropertyDeclarations2.js stringIndexerConstrainsPropertyDeclarations2.ts
+stderr 'TS2411'
+stderr 'TS2741'
+! exists stringIndexerConstrainsPropertyDeclarations2.js
+! exists stringIndexerConstrainsPropertyDeclarations2.d.ts
+! exists stringIndexerConstrainsPropertyDeclarations2.js.map
+
+-- stringIndexerConstrainsPropertyDeclarations2.ts --
+// String indexer providing a constraint of a user defined type
+
+class A {
+    foo(): string { return ''; }
+}
+
+class B extends A {
+    bar(): string { return ''; }
+}
+
+class Foo {
+    [x: string]: A;
+    a: A; // ok
+    b: B; // ok
+    c: number; // error
+    d: string; // error
+}
+
+interface Foo2 {
+    [x: string]: A;
+    a: A; // ok
+    b: B; // ok
+    c: number; // error
+    d: string; // error
+}
+
+var a: {
+    [x: string]: A;
+    a: A; // ok
+    b: B; // ok
+    c: number; // error
+    d: string; // error
+};
+
+// error
+var b: { [x: string]: A } = {
+    a: A,
+    b: B
+}

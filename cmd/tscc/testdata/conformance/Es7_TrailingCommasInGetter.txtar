@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es7/trailingCommasInGetter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js trailingCommasInGetter.js trailingCommasInGetter.ts
+stderr 'TS1138'
+! exists trailingCommasInGetter.js
+! exists trailingCommasInGetter.d.ts
+! exists trailingCommasInGetter.js.map
+
+-- trailingCommasInGetter.ts --
+class X {
+    get x(,) { return 0; }
+}

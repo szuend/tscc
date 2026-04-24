@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserFunctionDeclaration7.js parserFunctionDeclaration7.ts
+stderr 'TS2391'
+! exists parserFunctionDeclaration7.js
+! exists parserFunctionDeclaration7.d.ts
+! exists parserFunctionDeclaration7.js.map
+
+-- parserFunctionDeclaration7.ts --
+namespace M {
+   function foo();
+}

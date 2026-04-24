@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/parser/ecmascript2021/numericSeparators/parser.numericSeparators.binary.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parser.numericSeparators.binary.js parser.numericSeparators.binary.ts
+! stderr .
+cmp parser.numericSeparators.binary.js parser.numericSeparators.binary.js.golden
+! exists parser.numericSeparators.binary.d.ts
+! exists parser.numericSeparators.binary.js.map
+
+-- parser.numericSeparators.binary.ts --
+0b00_11;
+0B0_1;
+0b1100_0011;
+0B0_11_0101;
+-- parser.numericSeparators.binary.js.golden --
+"use strict";
+3;
+1;
+195;
+53;

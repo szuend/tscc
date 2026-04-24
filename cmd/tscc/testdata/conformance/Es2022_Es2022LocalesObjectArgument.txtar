@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/es2022/es2022LocalesObjectArgument.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2022 --lib es2022,dom --out-js es2022LocalesObjectArgument.js es2022LocalesObjectArgument.ts
+! stderr .
+cmp es2022LocalesObjectArgument.js es2022LocalesObjectArgument.js.golden
+! exists es2022LocalesObjectArgument.d.ts
+! exists es2022LocalesObjectArgument.js.map
+
+-- es2022LocalesObjectArgument.ts --
+const enUS = new Intl.Locale("en-US");
+const deDE = new Intl.Locale("de-DE");
+const jaJP = new Intl.Locale("ja-JP");
+
+new Intl.Segmenter(enUS);
+new Intl.Segmenter([deDE, jaJP]);
+Intl.Segmenter.supportedLocalesOf(enUS);
+Intl.Segmenter.supportedLocalesOf([deDE, jaJP]);
+-- es2022LocalesObjectArgument.js.golden --
+"use strict";
+const enUS = new Intl.Locale("en-US");
+const deDE = new Intl.Locale("de-DE");
+const jaJP = new Intl.Locale("ja-JP");
+new Intl.Segmenter(enUS);
+new Intl.Segmenter([deDE, jaJP]);
+Intl.Segmenter.supportedLocalesOf(enUS);
+Intl.Segmenter.supportedLocalesOf([deDE, jaJP]);

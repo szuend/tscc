@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardNarrowsToLiteralTypeUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardNarrowsToLiteralTypeUnion.js typeGuardNarrowsToLiteralTypeUnion.ts
+stderr 'TS2454'
+! exists typeGuardNarrowsToLiteralTypeUnion.js
+! exists typeGuardNarrowsToLiteralTypeUnion.d.ts
+! exists typeGuardNarrowsToLiteralTypeUnion.js.map
+
+-- typeGuardNarrowsToLiteralTypeUnion.ts --
+declare function isFoo(value: string) : value is ("foo" | "bar");
+declare function doThis(value: "foo" | "bar"): void;
+declare function doThat(value: string) : void;
+let value: string;
+if (isFoo(value)) {
+    doThis(value);
+} else {
+    doThat(value);
+}
+

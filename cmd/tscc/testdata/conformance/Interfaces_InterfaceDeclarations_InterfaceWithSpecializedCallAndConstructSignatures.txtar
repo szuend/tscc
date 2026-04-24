@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithSpecializedCallAndConstructSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceWithSpecializedCallAndConstructSignatures.js interfaceWithSpecializedCallAndConstructSignatures.ts
+stderr 'TS2454'
+! exists interfaceWithSpecializedCallAndConstructSignatures.js
+! exists interfaceWithSpecializedCallAndConstructSignatures.d.ts
+! exists interfaceWithSpecializedCallAndConstructSignatures.js.map
+
+-- interfaceWithSpecializedCallAndConstructSignatures.ts --
+interface Foo {
+    (x: 'a'): number;
+    (x: string): any;
+
+    new (x: 'a'): any;
+    new (x: string): Object;
+}
+
+var f: Foo;
+var r = f('a');
+var r2 = f('A');
+var r3 = new f('a');
+var r4 = new f('A');

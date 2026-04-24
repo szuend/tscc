@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/propertyAccess/propertyAccessNumericLiterals.es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js propertyAccessNumericLiterals.es6.js propertyAccessNumericLiterals.es6.ts
+! stderr .
+cmp propertyAccessNumericLiterals.es6.js propertyAccessNumericLiterals.es6.js.golden
+! exists propertyAccessNumericLiterals.es6.d.ts
+! exists propertyAccessNumericLiterals.es6.js.map
+
+-- propertyAccessNumericLiterals.es6.ts --
+0xffffffff.toString();
+0o01234.toString();
+0b01101101.toString();
+1234..toString();
+1e0.toString();
+-- propertyAccessNumericLiterals.es6.js.golden --
+"use strict";
+0xffffffff.toString();
+0o01234.toString();
+0b01101101.toString();
+1234..toString();
+1e0.toString();

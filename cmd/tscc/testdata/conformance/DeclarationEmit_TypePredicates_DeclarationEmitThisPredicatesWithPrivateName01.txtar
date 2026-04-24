@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/declarationEmit/typePredicates/declarationEmitThisPredicatesWithPrivateName01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitThisPredicatesWithPrivateName01.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitThisPredicatesWithPrivateName01.js declarationEmitThisPredicatesWithPrivateName01.ts
+! stderr .
+cmp declarationEmitThisPredicatesWithPrivateName01.d.ts declarationEmitThisPredicatesWithPrivateName01.d.ts.golden
+cmp declarationEmitThisPredicatesWithPrivateName01.js declarationEmitThisPredicatesWithPrivateName01.js.golden
+! exists declarationEmitThisPredicatesWithPrivateName01.js.map
+
+-- declarationEmitThisPredicatesWithPrivateName01.ts --
+export class C {
+    m(): this is D {
+        return this instanceof D;
+    }
+}
+
+class D extends C {
+}
+-- declarationEmitThisPredicatesWithPrivateName01.d.ts.golden --
+export declare class C {
+    m(): this is D;
+}
+declare class D extends C {
+}
+export {};
+-- declarationEmitThisPredicatesWithPrivateName01.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.C = void 0;
+class C {
+    m() {
+        return this instanceof D;
+    }
+}
+exports.C = C;
+class D extends C {
+}

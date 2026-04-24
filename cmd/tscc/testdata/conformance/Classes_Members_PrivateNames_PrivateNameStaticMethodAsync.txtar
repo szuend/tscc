@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameStaticMethodAsync.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2019 --lib es2019,dom --out-js privateNameStaticMethodAsync.js privateNameStaticMethodAsync.ts
+stderr 'TS1029'
+! exists privateNameStaticMethodAsync.js
+! exists privateNameStaticMethodAsync.d.ts
+! exists privateNameStaticMethodAsync.js.map
+
+-- privateNameStaticMethodAsync.ts --
+const C = class {
+    static async #bar() { return await Promise.resolve(42); }
+    static async foo() {
+        const b = await this.#bar();
+        return b + (this.#baz().next().value || 0) + ((await this.#qux().next()).value || 0);
+    }
+    static *#baz() { yield 42; }
+    static async *#qux() {
+        yield (await Promise.resolve(42));
+    }
+    async static *#bazBad() { yield 42; }
+}
+
+

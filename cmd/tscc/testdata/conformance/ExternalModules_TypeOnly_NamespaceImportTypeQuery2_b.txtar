@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/namespaceImportTypeQuery2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+import { A } from './z';
+const A = 0;
+export { A };
+export class B {};
+-- b.ts --
+import * as types from './a';
+let t: typeof types = {
+  A: undefined as any, // ok
+  B: undefined as any,
+}
+-- z.ts --
+interface A {}
+export type { A };
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+let t = {
+    A: undefined, // ok
+    B: undefined,
+};

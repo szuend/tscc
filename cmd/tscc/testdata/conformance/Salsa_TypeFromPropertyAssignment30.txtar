@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment30.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeFromPropertyAssignment30.js typeFromPropertyAssignment30.ts
+! stderr .
+cmp typeFromPropertyAssignment30.js typeFromPropertyAssignment30.js.golden
+! exists typeFromPropertyAssignment30.d.ts
+! exists typeFromPropertyAssignment30.js.map
+
+-- typeFromPropertyAssignment30.ts --
+interface Combo {
+    (): number;
+    p?: { [s: string]: number };
+}
+const c: Combo = () => 1
+// should not be an expando object, but contextually typed by Combo.p
+c.p = {}
+
+-- typeFromPropertyAssignment30.js.golden --
+"use strict";
+const c = () => 1;
+// should not be an expando object, but contextually typed by Combo.p
+c.p = {};

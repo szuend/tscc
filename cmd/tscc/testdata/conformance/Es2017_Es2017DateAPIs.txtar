@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es2017/es2017DateAPIs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2017 --target es2015 --out-js es2017DateAPIs.js es2017DateAPIs.ts
+! stderr .
+cmp es2017DateAPIs.js es2017DateAPIs.js.golden
+! exists es2017DateAPIs.d.ts
+! exists es2017DateAPIs.js.map
+
+-- es2017DateAPIs.ts --
+Date.UTC(2017);
+-- es2017DateAPIs.js.golden --
+"use strict";
+Date.UTC(2017);

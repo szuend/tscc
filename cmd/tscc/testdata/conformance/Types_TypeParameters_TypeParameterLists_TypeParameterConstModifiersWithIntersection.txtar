@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterLists/typeParameterConstModifiersWithIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom typeParameterConstModifiersWithIntersection.ts
+! stderr .
+! exists typeParameterConstModifiersWithIntersection.d.ts
+! exists typeParameterConstModifiersWithIntersection.js.map
+
+-- typeParameterConstModifiersWithIntersection.ts --
+// https://github.com/microsoft/TypeScript/issues/55778
+
+interface Config<T1 extends { type: string }> {
+  useIt: T1;
+}
+
+declare function test<
+  T1 extends { type: string },
+  const TConfig extends Config<T1>,
+>(config: { produceThing: T1 } & TConfig): TConfig;
+
+const result = test({
+  produceThing: {} as {
+    type: "foo";
+  },
+  useIt: {
+    type: "foo",
+  },
+  extra: 10,
+});

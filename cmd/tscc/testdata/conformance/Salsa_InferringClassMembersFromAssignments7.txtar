@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/salsa/inferringClassMembersFromAssignments7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --strict-null-checks --target es2015 --lib es2015,dom inferringClassMembersFromAssignments7.js
+stderr 'TS2339'
+! exists inferringClassMembersFromAssignments7.d.ts
+! exists inferringClassMembersFromAssignments7.js.map
+
+-- inferringClassMembersFromAssignments7.js --
+class C {
+    constructor() {
+        var self = this
+        self.x = 1
+        self.m = function() {
+            console.log(self.x)
+        }
+    }
+    mreal() {
+        var self = this
+        self.y = 2
+    }
+}
+const c = new C()
+c.x
+c.y
+c.m()

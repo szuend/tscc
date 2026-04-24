@@ -1,0 +1,45 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js iterableArrayPattern3.js iterableArrayPattern3.ts
+! stderr .
+cmp iterableArrayPattern3.js iterableArrayPattern3.js.golden
+! exists iterableArrayPattern3.d.ts
+! exists iterableArrayPattern3.js.map
+
+-- iterableArrayPattern3.ts --
+class Bar { x }
+class Foo extends Bar { y }
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var a: Bar, b: Bar;
+[a, b] = new FooIterator;
+-- iterableArrayPattern3.js.golden --
+"use strict";
+class Bar {
+}
+class Foo extends Bar {
+}
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+var a, b;
+[a, b] = new FooIterator;

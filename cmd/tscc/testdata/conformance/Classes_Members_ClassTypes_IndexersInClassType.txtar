@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/classes/members/classTypes/indexersInClassType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js indexersInClassType.js indexersInClassType.ts
+! stderr .
+cmp indexersInClassType.js indexersInClassType.js.golden
+! exists indexersInClassType.d.ts
+! exists indexersInClassType.js.map
+
+-- indexersInClassType.ts --
+class C {
+    [x: number]: Date;
+    [x: string]: Object;
+    1: Date;
+    'a': {}
+
+    fn() {
+        return this;
+    }
+}
+
+var c = new C();
+var r = c.fn();
+var r2 = r[1];
+var r3 = r.a
+
+-- indexersInClassType.js.golden --
+"use strict";
+class C {
+    fn() {
+        return this;
+    }
+}
+var c = new C();
+var r = c.fn();
+var r2 = r[1];
+var r3 = r.a;

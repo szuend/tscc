@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/yieldExpressionInControlFlow.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --lib esnext --no-implicit-any --target es2015 alsoFails.ts
+stderr 'TS7034'
+stderr 'TS2322'
+stderr 'TS7005'
+! exists alsoFails.d.ts
+! exists alsoFails.js.map
+
+-- alsoFails.ts --
+// fails in Typescript too
+function* g() {
+    var o = []
+    while (true) {
+        o = yield* o
+    }
+}
+-- bug25149.js --
+function* f() {
+    var o
+    while (true) {
+        o = yield o
+    }
+}

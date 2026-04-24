@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType2.js symbolType2.ts
+stderr 'TS2322'
+! exists symbolType2.js
+! exists symbolType2.d.ts
+! exists symbolType2.js.map
+
+-- symbolType2.ts --
+Symbol.isConcatSpreadable in {};
+"" in Symbol.toPrimitive;

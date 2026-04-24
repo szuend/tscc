@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty10.js symbolProperty10.ts
+stderr 'TS2322'
+! exists symbolProperty10.js
+! exists symbolProperty10.d.ts
+! exists symbolProperty10.js.map
+
+-- symbolProperty10.ts --
+class C {
+    [Symbol.iterator]: { x; y };
+}
+interface I {
+    [Symbol.iterator]?: { x };
+}
+
+var i: I;
+i = new C;
+var c: C = i;

@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithOverloadedCallAndConstructSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceWithOverloadedCallAndConstructSignatures.js interfaceWithOverloadedCallAndConstructSignatures.ts
+stderr 'TS2454'
+! exists interfaceWithOverloadedCallAndConstructSignatures.js
+! exists interfaceWithOverloadedCallAndConstructSignatures.d.ts
+! exists interfaceWithOverloadedCallAndConstructSignatures.js.map
+
+-- interfaceWithOverloadedCallAndConstructSignatures.ts --
+interface Foo {
+    (): number;
+    (x: string): number;
+
+    new (): any;
+    new (x: string): Object;
+}
+
+var f: Foo;
+var r1 = f();
+var r2 = f('');
+var r3 = new f();
+var r4 = new f('');

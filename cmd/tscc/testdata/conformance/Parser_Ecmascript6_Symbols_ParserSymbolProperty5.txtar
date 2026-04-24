@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Symbols/parserSymbolProperty5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserSymbolProperty5.js parserSymbolProperty5.ts
+stderr 'TS2564'
+! exists parserSymbolProperty5.js
+! exists parserSymbolProperty5.d.ts
+! exists parserSymbolProperty5.js.map
+
+-- parserSymbolProperty5.ts --
+class C {
+    [Symbol.toPrimitive]: string;
+}

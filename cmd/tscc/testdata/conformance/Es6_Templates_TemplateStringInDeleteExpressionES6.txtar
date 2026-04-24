@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInDeleteExpressionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js templateStringInDeleteExpressionES6.js templateStringInDeleteExpressionES6.ts
+stderr 'TS2703'
+! exists templateStringInDeleteExpressionES6.js
+! exists templateStringInDeleteExpressionES6.d.ts
+! exists templateStringInDeleteExpressionES6.js.map
+
+-- templateStringInDeleteExpressionES6.ts --
+delete `abc${0}abc`;

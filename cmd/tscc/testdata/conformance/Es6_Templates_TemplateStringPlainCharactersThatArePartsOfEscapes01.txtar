@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringPlainCharactersThatArePartsOfEscapes01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringPlainCharactersThatArePartsOfEscapes01.js templateStringPlainCharactersThatArePartsOfEscapes01.ts
+! stderr .
+cmp templateStringPlainCharactersThatArePartsOfEscapes01.js templateStringPlainCharactersThatArePartsOfEscapes01.js.golden
+! exists templateStringPlainCharactersThatArePartsOfEscapes01.d.ts
+! exists templateStringPlainCharactersThatArePartsOfEscapes01.js.map
+
+-- templateStringPlainCharactersThatArePartsOfEscapes01.ts --
+`0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n`
+-- templateStringPlainCharactersThatArePartsOfEscapes01.js.golden --
+"use strict";
+`0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n`;

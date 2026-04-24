@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/superCallBeforeThisAccessing7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallBeforeThisAccessing7.js superCallBeforeThisAccessing7.ts
+stderr 'TS7006'
+stderr 'TS7008'
+stderr 'TS17009'
+! exists superCallBeforeThisAccessing7.js
+! exists superCallBeforeThisAccessing7.d.ts
+! exists superCallBeforeThisAccessing7.js.map
+
+-- superCallBeforeThisAccessing7.ts --
+class Base {
+    constructor(c) { }
+}
+class D extends Base {
+    private _t;
+    constructor() {
+        let x = {
+            j: this._t,
+        }
+        super(undefined);
+    }
+}

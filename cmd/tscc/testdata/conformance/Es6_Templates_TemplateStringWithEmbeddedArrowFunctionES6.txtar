@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedArrowFunctionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedArrowFunctionES6.js templateStringWithEmbeddedArrowFunctionES6.ts
+! stderr .
+cmp templateStringWithEmbeddedArrowFunctionES6.js templateStringWithEmbeddedArrowFunctionES6.js.golden
+! exists templateStringWithEmbeddedArrowFunctionES6.d.ts
+! exists templateStringWithEmbeddedArrowFunctionES6.js.map
+
+-- templateStringWithEmbeddedArrowFunctionES6.ts --
+var x = `abc${ x => x }def`;
+-- templateStringWithEmbeddedArrowFunctionES6.js.golden --
+"use strict";
+var x = `abc${x => x}def`;

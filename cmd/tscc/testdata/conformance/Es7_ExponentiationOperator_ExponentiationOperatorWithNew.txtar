@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithNew.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js exponentiationOperatorWithNew.js exponentiationOperatorWithNew.ts
+stderr 'TS2351'
+! exists exponentiationOperatorWithNew.js
+! exists exponentiationOperatorWithNew.d.ts
+! exists exponentiationOperatorWithNew.js.map
+
+-- exponentiationOperatorWithNew.ts --
+var a: any;
+var b: any;
+var c: any;
+new a ** b ** c;
+new a ** new b ** c;
+new (a ** b ** c);

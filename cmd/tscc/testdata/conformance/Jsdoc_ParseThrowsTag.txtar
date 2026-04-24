@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/jsdoc/parseThrowsTag.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parseThrowsTag.js parseThrowsTag.ts
+! stderr .
+cmp parseThrowsTag.js parseThrowsTag.js.golden
+! exists parseThrowsTag.d.ts
+! exists parseThrowsTag.js.map
+
+-- parseThrowsTag.ts --
+/** @throws {Error} comment */
+function f() {}
+-- parseThrowsTag.js.golden --
+"use strict";
+/** @throws {Error} comment */
+function f() { }

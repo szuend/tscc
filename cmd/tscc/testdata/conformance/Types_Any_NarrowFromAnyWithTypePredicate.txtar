@@ -1,0 +1,45 @@
+# Ported from tests/cases/conformance/types/any/narrowFromAnyWithTypePredicate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js narrowFromAnyWithTypePredicate.js narrowFromAnyWithTypePredicate.ts
+stderr 'TS2339'
+stderr 'TS2349'
+stderr 'TS2551'
+! exists narrowFromAnyWithTypePredicate.js
+! exists narrowFromAnyWithTypePredicate.d.ts
+! exists narrowFromAnyWithTypePredicate.js.map
+
+-- narrowFromAnyWithTypePredicate.ts --
+declare var x: any;
+declare function isFunction(x): x is Function;
+declare function isObject(x): x is Object;
+declare function isAnything(x): x is {};
+declare function isError(x): x is Error;
+declare function isDate(x): x is Date;
+
+
+if (isFunction(x)) { // 'any' is not narrowed when target type is 'Function'
+    x();
+    x(1, 2, 3);
+    x("hello!");
+    x.prop;
+}
+
+if (isObject(x)) { // 'any' is not narrowed when target type is 'Object'
+    x.method();
+    x();
+}
+
+if (isAnything(x)) { // 'any' is narrowed to types other than 'Function'/'Object' (including {})
+    x.method();
+    x();
+}
+
+if (isError(x)) { 
+    x.message;
+    x.mesage;
+}
+
+if (isDate(x)) {
+    x.getDate();
+    x.getHuors();
+}

@@ -1,0 +1,45 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithTypeArgumentAndOverloadInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js emitClassDeclarationWithTypeArgumentAndOverloadInES6.js emitClassDeclarationWithTypeArgumentAndOverloadInES6.ts
+! stderr .
+cmp emitClassDeclarationWithTypeArgumentAndOverloadInES6.js emitClassDeclarationWithTypeArgumentAndOverloadInES6.js.golden
+! exists emitClassDeclarationWithTypeArgumentAndOverloadInES6.d.ts
+! exists emitClassDeclarationWithTypeArgumentAndOverloadInES6.js.map
+
+-- emitClassDeclarationWithTypeArgumentAndOverloadInES6.ts --
+class B<T> {
+    x: T;
+    B: T;
+
+    constructor(a: any)
+    constructor(a: any,b: T)
+    constructor(a: T) { this.B = a;}
+
+    foo(a: T)
+    foo(a: any)
+    foo(b: string)
+    foo(): T {
+        return this.x;
+    }
+
+    get BB(): T {
+        return this.B;
+    }
+    set BBWith(c: T) {
+        this.B = c;
+    }
+}
+-- emitClassDeclarationWithTypeArgumentAndOverloadInES6.js.golden --
+"use strict";
+class B {
+    constructor(a) { this.B = a; }
+    foo() {
+        return this.x;
+    }
+    get BB() {
+        return this.B;
+    }
+    set BBWith(c) {
+        this.B = c;
+    }
+}

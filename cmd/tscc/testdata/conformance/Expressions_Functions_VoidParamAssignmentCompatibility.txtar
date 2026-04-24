@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/expressions/functions/voidParamAssignmentCompatibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js voidParamAssignmentCompatibility.js voidParamAssignmentCompatibility.ts
+! stderr .
+cmp voidParamAssignmentCompatibility.js voidParamAssignmentCompatibility.js.golden
+! exists voidParamAssignmentCompatibility.d.ts
+! exists voidParamAssignmentCompatibility.js.map
+
+-- voidParamAssignmentCompatibility.ts --
+declare function g(a: void): void;
+let gg: () => void = g;
+
+interface Obj<T> {
+    method(value: T): void;
+}
+
+declare const o: Obj<void>;
+gg = o.method;
+-- voidParamAssignmentCompatibility.js.golden --
+"use strict";
+let gg = g;
+gg = o.method;

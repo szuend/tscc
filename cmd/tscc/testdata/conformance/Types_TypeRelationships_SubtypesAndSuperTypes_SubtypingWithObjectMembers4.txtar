@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/types/typeRelationships/subtypesAndSuperTypes/subtypingWithObjectMembers4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js subtypingWithObjectMembers4.js subtypingWithObjectMembers4.ts
+stderr 'TS2564'
+! exists subtypingWithObjectMembers4.js
+! exists subtypingWithObjectMembers4.d.ts
+! exists subtypingWithObjectMembers4.js.map
+
+-- subtypingWithObjectMembers4.ts --
+// subtyping when property names do not match
+
+class Base {
+    foo: string;
+}
+
+class Derived extends Base {
+    bar: string;
+}
+
+class A {
+    foo: Base;
+}
+
+class B extends A {
+    fooo: Derived; // ok, inherits foo
+}
+
+class A2 {
+    1: Base; 
+}
+
+class B2 extends A2 {
+    1.1: Derived; // ok, inherits 1
+}
+
+class A3 {
+    '1': Base;
+}
+
+class B3 extends A3 {
+    '1.1': Derived; // ok, inherits '1'
+}

@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGenericConstraint7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserGenericConstraint7.js parserGenericConstraint7.ts
+stderr 'TS2304'
+! exists parserGenericConstraint7.js
+! exists parserGenericConstraint7.d.ts
+! exists parserGenericConstraint7.js.map
+
+-- parserGenericConstraint7.ts --
+class C<T extends List<List<T>>> {
+}

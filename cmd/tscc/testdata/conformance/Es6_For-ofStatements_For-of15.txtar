@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of15.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of15.js for-of15.ts
+stderr 'TS2490'
+! exists for-of15.js
+! exists for-of15.d.ts
+! exists for-of15.js.map
+
+-- for-of15.ts --
+class MyStringIterator {
+    next() {
+        return "";
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var v: string;
+for (v of new MyStringIterator) { } // Should fail

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/memberFunctionDeclarations/MemberFunctionDeclaration8_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js MemberFunctionDeclaration8_es6.js MemberFunctionDeclaration8_es6.ts
+stderr 'TS1127'
+stderr 'TS1109'
+! exists MemberFunctionDeclaration8_es6.js
+! exists MemberFunctionDeclaration8_es6.d.ts
+! exists MemberFunctionDeclaration8_es6.js.map
+
+-- MemberFunctionDeclaration8_es6.ts --
+class C {
+  foo() {
+    // Make sure we don't think of *bar as the start of a generator method.
+    if (a) ¬ * bar;
+    return bar;
+  }
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck50.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target ES6 --lib ES6,dom --out-js generatorTypeCheck50.js generatorTypeCheck50.ts
+stderr 'TS7057'
+! exists generatorTypeCheck50.js
+! exists generatorTypeCheck50.d.ts
+! exists generatorTypeCheck50.js.map
+
+-- generatorTypeCheck50.ts --
+function* g() {
+    yield yield;
+}

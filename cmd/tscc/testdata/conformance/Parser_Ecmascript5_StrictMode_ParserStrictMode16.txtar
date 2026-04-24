@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/StrictMode/parserStrictMode16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserStrictMode16.js parserStrictMode16.ts
+stderr 'TS2703'
+! exists parserStrictMode16.js
+! exists parserStrictMode16.d.ts
+! exists parserStrictMode16.js.map
+
+-- parserStrictMode16.ts --
+"use strict";
+delete this;
+delete 1;
+delete null;
+delete "a";

@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/externalModules/typeOnlyMerge1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+interface A {}
+export type { A };
+-- b.ts --
+import { A } from "./a";
+const A = 0;
+export { A };
+-- c.ts --
+import { A } from "./b";
+A;
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.A = void 0;
+const A = 0;
+exports.A = A;

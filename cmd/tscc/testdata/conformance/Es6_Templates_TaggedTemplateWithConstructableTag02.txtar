@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/templates/taggedTemplateWithConstructableTag02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js taggedTemplateWithConstructableTag02.js taggedTemplateWithConstructableTag02.ts
+stderr 'TS2349'
+! exists taggedTemplateWithConstructableTag02.js
+! exists taggedTemplateWithConstructableTag02.d.ts
+! exists taggedTemplateWithConstructableTag02.js.map
+
+-- taggedTemplateWithConstructableTag02.ts --
+interface I {
+    new (...args: any[]): string;
+    new (): number;
+}
+declare var tag: I;
+tag `Hello world!`;

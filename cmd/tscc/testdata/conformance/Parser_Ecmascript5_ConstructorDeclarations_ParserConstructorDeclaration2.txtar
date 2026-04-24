@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserConstructorDeclaration2.js parserConstructorDeclaration2.ts
+stderr 'TS1089'
+! exists parserConstructorDeclaration2.js
+! exists parserConstructorDeclaration2.d.ts
+! exists parserConstructorDeclaration2.js.map
+
+-- parserConstructorDeclaration2.ts --
+class C {
+  static constructor() { }
+}

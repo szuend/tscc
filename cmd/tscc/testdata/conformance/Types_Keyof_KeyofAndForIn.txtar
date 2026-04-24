@@ -1,0 +1,86 @@
+# Ported from tests/cases/conformance/types/keyof/keyofAndForIn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts keyofAndForIn.d.ts --target es2015 --lib es2015,dom --out-js keyofAndForIn.js keyofAndForIn.ts
+! stderr .
+cmp keyofAndForIn.d.ts keyofAndForIn.d.ts.golden
+cmp keyofAndForIn.js keyofAndForIn.js.golden
+! exists keyofAndForIn.js.map
+
+-- keyofAndForIn.ts --
+// Repro from #12513
+
+function f1<K extends string, T>(obj: { [P in K]: T }, k: K) {
+    const b = k in obj;
+    let k1: K;
+    for (k1 in obj) {
+        let x1 = obj[k1];
+    }
+    for (let k2 in obj) {
+        let x2 = obj[k2];
+    }
+}
+
+function f2<T>(obj: { [P in keyof T]: T[P] }, k: keyof T) {
+    const b = k in obj;
+    let k1: keyof T;
+    for (k1 in obj) {
+        let x1 = obj[k1];
+    }
+    for (let k2 in obj) {
+        let x2 = obj[k2];
+    }
+}
+
+function f3<T, K extends keyof T>(obj: { [P in K]: T[P] }, k: K) {
+    const b = k in obj;
+    let k1: K;
+    for (k1 in obj) {
+        let x1 = obj[k1];
+    }
+    for (let k2 in obj) {
+        let x2 = obj[k2];
+    }
+}
+-- keyofAndForIn.d.ts.golden --
+declare function f1<K extends string, T>(obj: {
+    [P in K]: T;
+}, k: K): void;
+declare function f2<T>(obj: {
+    [P in keyof T]: T[P];
+}, k: keyof T): void;
+declare function f3<T, K extends keyof T>(obj: {
+    [P in K]: T[P];
+}, k: K): void;
+-- keyofAndForIn.js.golden --
+"use strict";
+// Repro from #12513
+function f1(obj, k) {
+    const b = k in obj;
+    let k1;
+    for (k1 in obj) {
+        let x1 = obj[k1];
+    }
+    for (let k2 in obj) {
+        let x2 = obj[k2];
+    }
+}
+function f2(obj, k) {
+    const b = k in obj;
+    let k1;
+    for (k1 in obj) {
+        let x1 = obj[k1];
+    }
+    for (let k2 in obj) {
+        let x2 = obj[k2];
+    }
+}
+function f3(obj, k) {
+    const b = k in obj;
+    let k1;
+    for (k1 in obj) {
+        let x1 = obj[k1];
+    }
+    for (let k2 in obj) {
+        let x2 = obj[k2];
+    }
+}

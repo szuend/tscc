@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js iterableArrayPattern5.js iterableArrayPattern5.ts
+stderr 'TS2322'
+! exists iterableArrayPattern5.js
+! exists iterableArrayPattern5.d.ts
+! exists iterableArrayPattern5.js.map
+
+-- iterableArrayPattern5.ts --
+class Bar { x }
+class Foo extends Bar { y }
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var a: Bar, b: string;
+[a, b] = new FooIterator;

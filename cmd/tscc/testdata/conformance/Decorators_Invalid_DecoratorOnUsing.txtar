@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnUsing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target esnext --lib esnext,dom --out-js decoratorOnUsing.js decoratorOnUsing.ts
+stderr 'TS1134'
+! exists decoratorOnUsing.js
+! exists decoratorOnUsing.d.ts
+! exists decoratorOnUsing.js.map
+
+-- decoratorOnUsing.ts --
+declare function dec<T>(target: T): T;
+
+@dec
+using 1
+
+@dec
+using x

@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/salsa/typeFromJSInitializer3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-implicit-any --no-strict-null-checks --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** @type {() => undefined} */
+function f1() {
+    return undefined;
+}
+const a = f1()
+
+/** @type {() => null} */
+function f2() {
+    return null;
+}
+const b = f2()

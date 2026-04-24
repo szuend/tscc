@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/jsdoc/tsNoCheckForTypescriptComments1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts file.d.ts --target es2015 --lib es2015,dom --out-js file.js file.ts
+! stderr .
+cmp file.d.ts file.d.ts.golden
+cmp file.js file.js.golden
+! exists file.js.map
+
+-- file.ts --
+// @ts-nocheck additional comments
+
+export const a = 1 + {}; // This is an error, ofc, `Operator '+' cannot be applied to types '1' and '{}'`, which will be suppressed by the `nocheck` comment
+
+export interface Aleph {
+  q: number;
+}
+
+export class Bet implements Aleph {
+  q: string = 'lol'; // And so will this implements error
+}
+-- file.d.ts.golden --
+export declare const a: any;
+export interface Aleph {
+    q: number;
+}
+export declare class Bet implements Aleph {
+    q: string;
+}
+-- file.js.golden --
+// @ts-nocheck additional comments
+export const a = 1 + {}; // This is an error, ofc, `Operator '+' cannot be applied to types '1' and '{}'`, which will be suppressed by the `nocheck` comment
+export class Bet {
+    constructor() {
+        this.q = 'lol'; // And so will this implements error
+    }
+}

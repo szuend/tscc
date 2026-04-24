@@ -1,0 +1,51 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowForInStatement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js controlFlowForInStatement2.js controlFlowForInStatement2.ts
+! stderr .
+cmp controlFlowForInStatement2.js controlFlowForInStatement2.js.golden
+! exists controlFlowForInStatement2.d.ts
+! exists controlFlowForInStatement2.js.map
+
+-- controlFlowForInStatement2.ts --
+const keywordA = 'a';
+const keywordB = 'b';
+
+type A = { [keywordA]: number };
+type B = { [keywordB]: string };
+
+declare const c: A | B;
+
+if ('a' in c) {
+    c; // narrowed to `A`
+}
+
+if (keywordA in c) {
+    c; // also narrowed to `A`
+}
+
+let stringB: string = 'b';
+
+if ((stringB as 'b') in c) {
+    c; // narrowed to `B`
+}
+
+if ((stringB as ('a' | 'b')) in c) {
+    c; // not narrowed
+}
+-- controlFlowForInStatement2.js.golden --
+"use strict";
+const keywordA = 'a';
+const keywordB = 'b';
+if ('a' in c) {
+    c; // narrowed to `A`
+}
+if (keywordA in c) {
+    c; // also narrowed to `A`
+}
+let stringB = 'b';
+if (stringB in c) {
+    c; // narrowed to `B`
+}
+if (stringB in c) {
+    c; // not narrowed
+}

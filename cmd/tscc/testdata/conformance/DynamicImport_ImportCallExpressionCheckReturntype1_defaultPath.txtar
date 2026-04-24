@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionCheckReturntype1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-implicit-any --target es6 --lib es6,dom --out-js defaultPath.js defaultPath.ts
+! stderr .
+cmp defaultPath.js defaultPath.js.golden
+! exists defaultPath.d.ts
+! exists defaultPath.js.map
+
+-- 1.ts --
+import * as defaultModule from "./defaultPath";
+import * as anotherModule from "./anotherModule";
+
+let p1: Promise<typeof anotherModule> = import("./defaultPath");
+let p2 = import("./defaultPath") as Promise<typeof anotherModule>;
+let p3: Promise<any> = import("./defaultPath");
+-- anotherModule.ts --
+export class D{}
+-- defaultPath.ts --
+export class C {}
+-- defaultPath.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.C = void 0;
+class C {
+}
+exports.C = C;

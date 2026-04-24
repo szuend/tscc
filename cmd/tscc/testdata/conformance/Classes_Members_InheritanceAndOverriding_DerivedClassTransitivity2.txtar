@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/classes/members/inheritanceAndOverriding/derivedClassTransitivity2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js derivedClassTransitivity2.js derivedClassTransitivity2.ts
+stderr 'TS2322'
+! exists derivedClassTransitivity2.js
+! exists derivedClassTransitivity2.d.ts
+! exists derivedClassTransitivity2.js.map
+
+-- derivedClassTransitivity2.ts --
+// subclassing is not transitive when you can remove required parameters and add optional parameters
+
+class C {
+    foo(x: number, y: number) { }
+}
+
+class D extends C {
+    foo(x: number) { } // ok to drop parameters
+}
+
+class E extends D {
+    foo(x: number, y?: string) { } // ok to add optional parameters
+}
+
+declare var c: C;
+declare var d: D;
+declare var e: E;
+c = e;
+var r = c.foo(1, 1);
+var r2 = e.foo(1, '');

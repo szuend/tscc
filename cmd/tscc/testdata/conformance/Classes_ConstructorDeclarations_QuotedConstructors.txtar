@@ -1,0 +1,68 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/quotedConstructors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js quotedConstructors.js quotedConstructors.ts
+! stderr .
+cmp quotedConstructors.js quotedConstructors.js.golden
+! exists quotedConstructors.d.ts
+! exists quotedConstructors.js.map
+
+-- quotedConstructors.ts --
+class C {
+    "constructor"() {
+        console.log(this);
+    }
+}
+
+class D {
+    'constructor'() {
+        console.log(this);
+    }
+}
+
+class E {
+    ['constructor']() {
+        console.log(this);
+    }
+}
+
+new class {
+    "constructor"() {
+        console.log(this);
+    }
+};
+
+var o = { "constructor"() {} };
+
+class F {
+    "\x63onstructor"() {
+        console.log(this);
+    }
+}
+-- quotedConstructors.js.golden --
+"use strict";
+class C {
+    constructor() {
+        console.log(this);
+    }
+}
+class D {
+    constructor() {
+        console.log(this);
+    }
+}
+class E {
+    ['constructor']() {
+        console.log(this);
+    }
+}
+new class {
+    constructor() {
+        console.log(this);
+    }
+};
+var o = { "constructor"() { } };
+class F {
+    constructor() {
+        console.log(this);
+    }
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserParameterList6.js parserParameterList6.ts
+stderr 'TS2369'
+! exists parserParameterList6.js
+! exists parserParameterList6.d.ts
+! exists parserParameterList6.js.map
+
+-- parserParameterList6.ts --
+class C {
+  constructor(C: (public A) => any) {
+  }
+}

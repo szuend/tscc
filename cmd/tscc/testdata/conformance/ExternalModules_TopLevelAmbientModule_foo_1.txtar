@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/externalModules/topLevelAmbientModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --path foo=foo_0.ts --out-js foo_1.js foo_1.ts
+! stderr .
+cmp foo_1.js foo_1.js.golden
+! exists foo_1.d.ts
+! exists foo_1.js.map
+
+-- foo_0.ts --
+declare module "foo" {
+	export var x: number;
+}
+-- foo_1.ts --
+/// <reference path="foo_0.ts"/>
+import foo = require("foo");
+var z = foo.x + 10;
+-- foo_1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/// <reference path="foo_0.ts"/>
+const foo = require("foo");
+var z = foo.x + 10;

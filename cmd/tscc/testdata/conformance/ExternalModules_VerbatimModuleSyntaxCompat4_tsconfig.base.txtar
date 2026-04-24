@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/externalModules/verbatimModuleSyntaxCompat4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom tsconfig.base.json
+! stderr .
+! exists tsconfig.base.d.ts
+! exists tsconfig.base.js.map
+
+-- index.ts --
+
+-- tsconfig.base.json --
+{
+    "compilerOptions": {
+        "verbatimModuleSyntax": true
+    }
+}
+-- tsconfig.json --
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "isolatedModules": true,
+        "preserveValueImports": true,
+        "importsNotUsedAsValues": "error",
+    }
+}

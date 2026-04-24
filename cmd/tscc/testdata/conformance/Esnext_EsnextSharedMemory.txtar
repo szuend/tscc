@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/esnext/esnextSharedMemory.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --target es2015 --out-js esnextSharedMemory.js esnextSharedMemory.ts
+! stderr .
+cmp esnextSharedMemory.js esnextSharedMemory.js.golden
+! exists esnextSharedMemory.d.ts
+! exists esnextSharedMemory.js.map
+
+-- esnextSharedMemory.ts --
+Atomics.pause();
+Atomics.pause(1);
+-- esnextSharedMemory.js.golden --
+"use strict";
+Atomics.pause();
+Atomics.pause(1);

@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameAndIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameAndIndexSignature.js privateNameAndIndexSignature.ts
+stderr 'TS7022'
+stderr 'TS2339'
+! exists privateNameAndIndexSignature.js
+! exists privateNameAndIndexSignature.d.ts
+! exists privateNameAndIndexSignature.js.map
+
+-- privateNameAndIndexSignature.ts --
+class A {
+    [k: string]: any;
+    #foo = 3;
+    ["#bar"] = this["#bar"]   // Error (private identifiers should not prevent circularity checking for computeds)
+    constructor(message: string) {
+        this.#f = 3           // Error (index signatures do not implicitly declare private names)
+        this["#foo"] = 3;     // Okay (type has index signature and "#foo" does not collide with private identifier #foo)
+
+    }
+}

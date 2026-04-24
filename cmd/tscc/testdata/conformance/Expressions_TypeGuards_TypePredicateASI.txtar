@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typePredicateASI.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typePredicateASI.js typePredicateASI.ts
+! stderr .
+cmp typePredicateASI.js typePredicateASI.js.golden
+! exists typePredicateASI.d.ts
+! exists typePredicateASI.js.map
+
+-- typePredicateASI.ts --
+interface I {
+    foo(callback: (a: any, b: any) => void): I
+    is(): boolean;
+}
+-- typePredicateASI.js.golden --
+"use strict";

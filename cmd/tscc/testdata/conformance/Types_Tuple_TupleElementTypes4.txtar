@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/tuple/tupleElementTypes4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js tupleElementTypes4.js tupleElementTypes4.ts
+! stderr .
+cmp tupleElementTypes4.js tupleElementTypes4.js.golden
+! exists tupleElementTypes4.d.ts
+! exists tupleElementTypes4.js.map
+
+-- tupleElementTypes4.ts --
+function f([a, b] = [0, undefined]) { }
+-- tupleElementTypes4.js.golden --
+"use strict";
+function f([a, b] = [0, undefined]) { }

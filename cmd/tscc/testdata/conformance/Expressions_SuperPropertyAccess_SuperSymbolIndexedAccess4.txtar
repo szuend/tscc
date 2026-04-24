@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/expressions/superPropertyAccess/superSymbolIndexedAccess4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js superSymbolIndexedAccess4.js superSymbolIndexedAccess4.ts
+stderr 'TS2335'
+! exists superSymbolIndexedAccess4.js
+! exists superSymbolIndexedAccess4.d.ts
+! exists superSymbolIndexedAccess4.js.map
+
+-- superSymbolIndexedAccess4.ts --
+var symbol = Symbol.for('myThing');
+
+class Bar {
+    [symbol]() {
+        return super[symbol]();
+    }
+}

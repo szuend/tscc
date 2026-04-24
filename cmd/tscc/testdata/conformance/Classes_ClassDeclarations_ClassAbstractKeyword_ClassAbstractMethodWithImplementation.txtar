@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractMethodWithImplementation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractMethodWithImplementation.js classAbstractMethodWithImplementation.ts
+stderr 'TS1245'
+! exists classAbstractMethodWithImplementation.js
+! exists classAbstractMethodWithImplementation.d.ts
+! exists classAbstractMethodWithImplementation.js.map
+
+-- classAbstractMethodWithImplementation.ts --
+abstract class A {
+    abstract foo() {}
+}

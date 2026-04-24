@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/types/conditional/inferTypesWithExtends2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js inferTypesWithExtends2.js inferTypesWithExtends2.ts
+stderr 'TS2838'
+stderr 'TS2304'
+! exists inferTypesWithExtends2.js
+! exists inferTypesWithExtends2.d.ts
+! exists inferTypesWithExtends2.js.map
+
+-- inferTypesWithExtends2.ts --
+// infer twice with different constraints (same behavior as class/interface)
+type X1<T> =
+    T extends { a: infer U extends string, b: infer U extends number } ? U :
+    never;
+
+// infer cannot reference type params in same 'extends' clause
+type X2<T> =
+    T extends { a: infer U, b: infer V extends U } ? [U, V] :
+    never;

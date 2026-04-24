@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarationsInForIn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarationsInForIn.js awaitUsingDeclarationsInForIn.ts
+stderr 'TS1494'
+! exists awaitUsingDeclarationsInForIn.js
+! exists awaitUsingDeclarationsInForIn.d.ts
+! exists awaitUsingDeclarationsInForIn.js.map
+
+-- awaitUsingDeclarationsInForIn.ts --
+async function main() {
+    for (await using x in {}) {
+    }
+}

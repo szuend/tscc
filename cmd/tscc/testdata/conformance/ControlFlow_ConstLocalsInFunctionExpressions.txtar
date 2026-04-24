@@ -1,0 +1,81 @@
+# Ported from tests/cases/conformance/controlFlow/constLocalsInFunctionExpressions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js constLocalsInFunctionExpressions.js constLocalsInFunctionExpressions.ts
+! stderr .
+cmp constLocalsInFunctionExpressions.js constLocalsInFunctionExpressions.js.golden
+! exists constLocalsInFunctionExpressions.d.ts
+! exists constLocalsInFunctionExpressions.js.map
+
+-- constLocalsInFunctionExpressions.ts --
+declare function getStringOrNumber(): string | number;
+
+function f1() {
+    const x = getStringOrNumber();
+    if (typeof x === "string") {
+        const f = () => x.length;
+    }
+}
+
+function f2() {
+    const x = getStringOrNumber();
+    if (typeof x !== "string") {
+        return;
+    }
+    const f = () => x.length;
+}
+
+function f3() {
+    const x = getStringOrNumber();
+    if (typeof x === "string") {
+        const f = function() { return x.length; };
+    }
+}
+
+function f4() {
+    const x = getStringOrNumber();
+    if (typeof x !== "string") {
+        return;
+    }
+    const f = function() { return x.length; };
+}
+
+function f5() {
+    const x = getStringOrNumber();
+    if (typeof x === "string") {
+        const f = () => () => x.length;
+    }
+}
+-- constLocalsInFunctionExpressions.js.golden --
+"use strict";
+function f1() {
+    const x = getStringOrNumber();
+    if (typeof x === "string") {
+        const f = () => x.length;
+    }
+}
+function f2() {
+    const x = getStringOrNumber();
+    if (typeof x !== "string") {
+        return;
+    }
+    const f = () => x.length;
+}
+function f3() {
+    const x = getStringOrNumber();
+    if (typeof x === "string") {
+        const f = function () { return x.length; };
+    }
+}
+function f4() {
+    const x = getStringOrNumber();
+    if (typeof x !== "string") {
+        return;
+    }
+    const f = function () { return x.length; };
+}
+function f5() {
+    const x = getStringOrNumber();
+    if (typeof x === "string") {
+        const f = () => () => x.length;
+    }
+}

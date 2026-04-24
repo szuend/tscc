@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom use.js
+stderr 'TS2339'
+! exists use.d.ts
+! exists use.js.map
+
+-- npmlog.js --
+class EE {
+    /** @param {string} s */
+    on(s) { }
+}
+var npmlog = module.exports = new EE()
+
+npmlog.on('hi') // both references should see EE.on
+module.exports.on('hi') // here too
+
+npmlog.x = 1
+module.exports.y = 2
+npmlog.y
+module.exports.x
+-- use.js --
+var npmlog = require('./npmlog')
+npmlog.x
+npmlog.on

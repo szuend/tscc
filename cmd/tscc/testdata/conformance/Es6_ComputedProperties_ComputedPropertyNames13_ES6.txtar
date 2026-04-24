@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames13_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames13_ES6.js computedPropertyNames13_ES6.ts
+! stderr .
+cmp computedPropertyNames13_ES6.js computedPropertyNames13_ES6.js.golden
+! exists computedPropertyNames13_ES6.d.ts
+! exists computedPropertyNames13_ES6.js.map
+
+-- computedPropertyNames13_ES6.ts --
+var s: string;
+var n: number;
+var a: any;
+class C {
+    [s]() {}
+    [n]() { }
+    static [s + s]() { }
+    [s + n]() { }
+    [+s]() { }
+    static [""]() { }
+    [0]() { }
+    [a]() { }
+    static [<any>true]() { }
+    [`hello bye`]() { }
+    static [`hello ${a} bye`]() { }
+}
+-- computedPropertyNames13_ES6.js.golden --
+"use strict";
+var s;
+var n;
+var a;
+class C {
+    [s]() { }
+    [n]() { }
+    static [s + s]() { }
+    [s + n]() { }
+    [+s]() { }
+    static [""]() { }
+    [0]() { }
+    [a]() { }
+    static [true]() { }
+    [`hello bye`]() { }
+    static [`hello ${a} bye`]() { }
+}

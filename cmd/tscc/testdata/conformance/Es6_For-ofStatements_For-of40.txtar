@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of40.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of40.js for-of40.ts
+! stderr .
+cmp for-of40.js for-of40.js.golden
+! exists for-of40.d.ts
+! exists for-of40.js.map
+
+-- for-of40.ts --
+var map = new Map([["", true]]);
+for (var [k = "", v = false] of map) {
+    k;
+    v;
+}
+-- for-of40.js.golden --
+"use strict";
+var map = new Map([["", true]]);
+for (var [k = "", v = false] of map) {
+    k;
+    v;
+}

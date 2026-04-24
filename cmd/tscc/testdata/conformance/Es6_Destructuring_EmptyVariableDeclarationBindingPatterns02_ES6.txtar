@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/destructuring/emptyVariableDeclarationBindingPatterns02_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts emptyVariableDeclarationBindingPatterns02_ES6.d.ts --target es6 --lib es6,dom --out-js emptyVariableDeclarationBindingPatterns02_ES6.js emptyVariableDeclarationBindingPatterns02_ES6.ts
+stderr 'TS1182'
+! exists emptyVariableDeclarationBindingPatterns02_ES6.d.ts
+! exists emptyVariableDeclarationBindingPatterns02_ES6.js
+! exists emptyVariableDeclarationBindingPatterns02_ES6.js.map
+
+-- emptyVariableDeclarationBindingPatterns02_ES6.ts --
+(function () {
+    var {};
+    let {};
+    const {};
+
+    var [];
+    let [];
+    const [];
+})();

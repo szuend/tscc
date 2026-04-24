@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/defaultParameters/emitDefaultParametersFunctionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js emitDefaultParametersFunctionES6.js emitDefaultParametersFunctionES6.ts
+! stderr .
+cmp emitDefaultParametersFunctionES6.js emitDefaultParametersFunctionES6.js.golden
+! exists emitDefaultParametersFunctionES6.d.ts
+! exists emitDefaultParametersFunctionES6.js.map
+
+-- emitDefaultParametersFunctionES6.ts --
+function foo(x: string, y = 10) { }
+function baz(x: string, y = 5, ...rest) { }
+function bar(y = 10) { }
+function bar1(y = 10, ...rest) { }
+-- emitDefaultParametersFunctionES6.js.golden --
+"use strict";
+function foo(x, y = 10) { }
+function baz(x, y = 5, ...rest) { }
+function bar(y = 10) { }
+function bar1(y = 10, ...rest) { }

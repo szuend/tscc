@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/propertyNamedPrototype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js propertyNamedPrototype.js propertyNamedPrototype.ts
+stderr 'TS2564'
+stderr 'TS2699'
+! exists propertyNamedPrototype.js
+! exists propertyNamedPrototype.d.ts
+! exists propertyNamedPrototype.js.map
+
+-- propertyNamedPrototype.ts --
+class C {
+    prototype: number; // ok
+    static prototype: C; // error
+}

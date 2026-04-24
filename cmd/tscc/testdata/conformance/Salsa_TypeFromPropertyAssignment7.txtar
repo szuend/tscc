@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es6 --lib es6,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+var obj = {};
+obj.method = function (hunch) {
+    return true;
+}
+var b = obj.method();

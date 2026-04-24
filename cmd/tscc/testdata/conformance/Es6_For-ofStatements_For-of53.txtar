@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of53.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of53.js for-of53.ts
+stderr 'TS2481'
+! exists for-of53.js
+! exists for-of53.d.ts
+! exists for-of53.js.map
+
+-- for-of53.ts --
+for (let v of []) {
+    var v;
+}

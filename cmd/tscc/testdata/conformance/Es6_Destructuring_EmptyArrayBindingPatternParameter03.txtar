@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/destructuring/emptyArrayBindingPatternParameter03.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts emptyArrayBindingPatternParameter03.d.ts --no-strict --target es2015 --lib es2015,dom --out-js emptyArrayBindingPatternParameter03.js emptyArrayBindingPatternParameter03.ts
+! stderr .
+cmp emptyArrayBindingPatternParameter03.d.ts emptyArrayBindingPatternParameter03.d.ts.golden
+cmp emptyArrayBindingPatternParameter03.js emptyArrayBindingPatternParameter03.js.golden
+! exists emptyArrayBindingPatternParameter03.js.map
+
+-- emptyArrayBindingPatternParameter03.ts --
+function f(a, []) {
+    var x, y, z;
+}
+-- emptyArrayBindingPatternParameter03.d.ts.golden --
+declare function f(a: any, []: Iterable<any, void, undefined>): void;
+-- emptyArrayBindingPatternParameter03.js.golden --
+"use strict";
+function f(a, []) {
+    var x, y, z;
+}

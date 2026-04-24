@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocLinkTag8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target esnext --lib esnext,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** {@link Map.delete} */
+const remove = (map, key) => {}

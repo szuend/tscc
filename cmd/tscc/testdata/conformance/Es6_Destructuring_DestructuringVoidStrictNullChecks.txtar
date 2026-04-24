@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringVoidStrictNullChecks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js destructuringVoidStrictNullChecks.js destructuringVoidStrictNullChecks.ts
+stderr 'TS2532'
+! exists destructuringVoidStrictNullChecks.js
+! exists destructuringVoidStrictNullChecks.d.ts
+! exists destructuringVoidStrictNullChecks.js.map
+
+-- destructuringVoidStrictNullChecks.ts --
+declare const v: void;
+const {} = v;

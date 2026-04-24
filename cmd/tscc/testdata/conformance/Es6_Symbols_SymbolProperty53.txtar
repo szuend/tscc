@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty53.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty53.js symbolProperty53.ts
+stderr 'TS2464'
+stderr 'TS2538'
+! exists symbolProperty53.js
+! exists symbolProperty53.d.ts
+! exists symbolProperty53.js.map
+
+-- symbolProperty53.ts --
+var obj = {
+    [Symbol.for]: 0
+};
+
+obj[Symbol.for];

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserCommaInTypeMemberList1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserCommaInTypeMemberList1.js parserCommaInTypeMemberList1.ts
+! stderr .
+cmp parserCommaInTypeMemberList1.js parserCommaInTypeMemberList1.js.golden
+! exists parserCommaInTypeMemberList1.d.ts
+! exists parserCommaInTypeMemberList1.js.map
+
+-- parserCommaInTypeMemberList1.ts --
+var v: { workItem: any, width: string };
+-- parserCommaInTypeMemberList1.js.golden --
+"use strict";
+var v;

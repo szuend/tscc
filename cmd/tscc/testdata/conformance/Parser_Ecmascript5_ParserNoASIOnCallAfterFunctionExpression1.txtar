@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserNoASIOnCallAfterFunctionExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserNoASIOnCallAfterFunctionExpression1.js parserNoASIOnCallAfterFunctionExpression1.ts
+stderr 'TS2554'
+stderr 'TS2339'
+! exists parserNoASIOnCallAfterFunctionExpression1.js
+! exists parserNoASIOnCallAfterFunctionExpression1.d.ts
+! exists parserNoASIOnCallAfterFunctionExpression1.js.map
+
+-- parserNoASIOnCallAfterFunctionExpression1.ts --
+var x = function () { }
+(<any>window).foo;

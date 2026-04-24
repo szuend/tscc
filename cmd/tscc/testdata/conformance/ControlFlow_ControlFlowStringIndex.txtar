@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowStringIndex.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js controlFlowStringIndex.js controlFlowStringIndex.ts
+! stderr .
+cmp controlFlowStringIndex.js controlFlowStringIndex.js.golden
+! exists controlFlowStringIndex.d.ts
+! exists controlFlowStringIndex.js.map
+
+-- controlFlowStringIndex.ts --
+type A = {
+    other: number | null;
+    [index: string]: number | null
+};
+declare const value: A;
+if (value.foo !== null) {
+    value.foo.toExponential()
+    value.other // should still be number | null
+    value.bar // should still be number | null
+}
+-- controlFlowStringIndex.js.golden --
+"use strict";
+if (value.foo !== null) {
+    value.foo.toExponential();
+    value.other; // should still be number | null
+    value.bar; // should still be number | null
+}

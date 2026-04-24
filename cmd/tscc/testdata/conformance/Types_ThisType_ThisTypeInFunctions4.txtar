@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/types/thisType/thisTypeInFunctions4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisTypeInFunctions4.js thisTypeInFunctions4.ts
+! stderr .
+cmp thisTypeInFunctions4.js thisTypeInFunctions4.js.golden
+! exists thisTypeInFunctions4.d.ts
+! exists thisTypeInFunctions4.js.map
+
+-- thisTypeInFunctions4.ts --
+type WrongObject = {value: number};
+type CorrectObject = {name: string};
+
+declare function isCorrect(obj: any): obj is CorrectObject
+
+declare function callsCallback(cb: (name: string)=>void)
+
+function problemFunction(this: CorrectObject | WrongObject): void {
+    //check type
+    if (!isCorrect(this)) return;
+
+    callsCallback((name)=>{
+        this.name = name; //should not error
+        type T = typeof this;
+    });
+}
+-- thisTypeInFunctions4.js.golden --
+"use strict";
+function problemFunction() {
+    //check type
+    if (!isCorrect(this))
+        return;
+    callsCallback((name) => {
+        this.name = name; //should not error
+    });
+}

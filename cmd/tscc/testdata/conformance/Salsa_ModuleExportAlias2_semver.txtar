@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAlias2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom semver.js
+stderr 'TS2309'
+stderr 'TS2339'
+! exists semver.d.ts
+! exists semver.js.map
+
+-- index.js --
+/// <reference path='node.d.ts' />
+const C = require("./semver")
+var two = C.f(1)
+var c = new C
+-- node.d.ts --
+declare function require(name: string): any;
+declare var exports: any;
+declare var module: { exports: any };
+-- semver.js --
+/// <reference path='node.d.ts' />
+exports = module.exports = C
+exports.f = n => n + 1
+function C() {
+    this.p = 1
+}

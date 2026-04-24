@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserUnaryExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserUnaryExpression1.js parserUnaryExpression1.ts
+stderr 'TS2356'
+! exists parserUnaryExpression1.js
+! exists parserUnaryExpression1.d.ts
+! exists parserUnaryExpression1.js.map
+
+-- parserUnaryExpression1.ts --
+++this;

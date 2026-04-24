@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/PropertySignatures/parserPropertySignature12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserPropertySignature12.js parserPropertySignature12.ts
+! stderr .
+cmp parserPropertySignature12.js parserPropertySignature12.js.golden
+! exists parserPropertySignature12.d.ts
+! exists parserPropertySignature12.js.map
+
+-- parserPropertySignature12.ts --
+interface I {
+  3?:any;
+}
+-- parserPropertySignature12.js.golden --
+"use strict";

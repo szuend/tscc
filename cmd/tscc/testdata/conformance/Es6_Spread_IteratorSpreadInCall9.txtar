@@ -1,0 +1,40 @@
+# Ported from tests/cases/conformance/es6/spread/iteratorSpreadInCall9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iteratorSpreadInCall9.js iteratorSpreadInCall9.ts
+stderr 'TS2345'
+! exists iteratorSpreadInCall9.js
+! exists iteratorSpreadInCall9.d.ts
+! exists iteratorSpreadInCall9.js.map
+
+-- iteratorSpreadInCall9.ts --
+class Foo<T> {
+    constructor(...s: T[]) { }
+}
+
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+class _StringIterator {
+    next() {
+        return {
+            value: "",
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+new Foo(...new SymbolIterator, ...[...new _StringIterator]);

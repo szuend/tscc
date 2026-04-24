@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/classes/classExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExpression.js classExpression.ts
+! stderr .
+cmp classExpression.js classExpression.js.golden
+! exists classExpression.d.ts
+! exists classExpression.js.map
+
+-- classExpression.ts --
+var x = class C {
+}
+
+var y = {
+    foo: class C2 {
+    }
+}
+
+namespace M {
+    var z = class C4 {
+    }
+}
+-- classExpression.js.golden --
+"use strict";
+var x = class C {
+};
+var y = {
+    foo: class C2 {
+    }
+};
+var M;
+(function (M) {
+    var z = class C4 {
+    };
+})(M || (M = {}));

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment38.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom typeFromPropertyAssignment38.ts
+! stderr .
+! exists typeFromPropertyAssignment38.d.ts
+! exists typeFromPropertyAssignment38.js.map
+
+-- typeFromPropertyAssignment38.ts --
+function F() {}
+F["prop"] = 3;
+
+const f = function () {};
+f["prop"] = 3;

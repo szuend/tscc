@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardNesting.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardNesting.js typeGuardNesting.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists typeGuardNesting.js
+! exists typeGuardNesting.d.ts
+! exists typeGuardNesting.js.map
+
+-- typeGuardNesting.ts --
+let strOrBool: string|boolean;
+if ((typeof strOrBool === 'boolean' && !strOrBool) || typeof strOrBool === 'string') {
+	let label: string = (typeof strOrBool === 'string') ? strOrBool : "string";
+	let bool: boolean = (typeof strOrBool === 'boolean') ? strOrBool : false;
+	let label2: string = (typeof strOrBool !== 'boolean') ? strOrBool : "string";
+	let bool2: boolean = (typeof strOrBool !== 'string') ? strOrBool : false;
+}
+
+if ((typeof strOrBool !== 'string' && !strOrBool) || typeof strOrBool !== 'boolean') {
+	let label: string = (typeof strOrBool === 'string') ? strOrBool : "string";
+	let bool: boolean = (typeof strOrBool === 'boolean') ? strOrBool : false;
+	let label2: string = (typeof strOrBool !== 'boolean') ? strOrBool : "string";
+	let bool2: boolean = (typeof strOrBool !== 'string') ? strOrBool : false;
+}

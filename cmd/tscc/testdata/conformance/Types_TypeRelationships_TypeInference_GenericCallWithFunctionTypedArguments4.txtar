@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithFunctionTypedArguments4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCallWithFunctionTypedArguments4.js genericCallWithFunctionTypedArguments4.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists genericCallWithFunctionTypedArguments4.js
+! exists genericCallWithFunctionTypedArguments4.d.ts
+! exists genericCallWithFunctionTypedArguments4.js.map
+
+-- genericCallWithFunctionTypedArguments4.ts --
+// No inference is made from function typed arguments which have multiple call signatures
+
+class C { foo: string }
+class D { bar: string }
+var a: {
+    new(x: boolean): C;
+    new(x: string): D;
+}
+
+function foo4<T, U>(cb: new(x: T) => U) {
+    var u: U;
+    return u;
+}
+
+var r = foo4(a); // T is {} (candidates boolean and string), U is {} (candidates C and D)
+
+var b: {
+    new<T>(x: boolean): T;
+    new<T>(x: T): any;
+}
+
+var r2 = foo4(b); // T is {} (candidates boolean and {}), U is any (candidates any and {})

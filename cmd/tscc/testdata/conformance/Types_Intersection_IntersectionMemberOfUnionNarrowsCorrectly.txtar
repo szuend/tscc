@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/types/intersection/intersectionMemberOfUnionNarrowsCorrectly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js intersectionMemberOfUnionNarrowsCorrectly.js intersectionMemberOfUnionNarrowsCorrectly.ts
+! stderr .
+cmp intersectionMemberOfUnionNarrowsCorrectly.js intersectionMemberOfUnionNarrowsCorrectly.js.golden
+! exists intersectionMemberOfUnionNarrowsCorrectly.d.ts
+! exists intersectionMemberOfUnionNarrowsCorrectly.js.map
+
+-- intersectionMemberOfUnionNarrowsCorrectly.ts --
+export type U = { kind?: 'A', a: string } | { kind?: 'B' } & { b: string };
+type Ex<T, U> = T extends U ? T : never;
+declare let x: Ex<U, { kind?: 'A' }>
+x.a
+-- intersectionMemberOfUnionNarrowsCorrectly.js.golden --
+x.a;
+export {};

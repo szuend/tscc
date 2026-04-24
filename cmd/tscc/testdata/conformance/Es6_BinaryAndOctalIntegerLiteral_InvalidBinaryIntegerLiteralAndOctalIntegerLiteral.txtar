@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidBinaryIntegerLiteralAndOctalIntegerLiteral.js invalidBinaryIntegerLiteralAndOctalIntegerLiteral.ts
+stderr 'TS1177'
+stderr 'TS1178'
+! exists invalidBinaryIntegerLiteralAndOctalIntegerLiteral.js
+! exists invalidBinaryIntegerLiteralAndOctalIntegerLiteral.d.ts
+! exists invalidBinaryIntegerLiteralAndOctalIntegerLiteral.js.map
+
+-- invalidBinaryIntegerLiteralAndOctalIntegerLiteral.ts --
+// Error
+var binary = 0b21010;
+var binary1 = 0B21010;
+var octal = 0o81010;
+var octal = 0O91010;

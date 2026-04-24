@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/rest/restElementMustBeLast.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restElementMustBeLast.js restElementMustBeLast.ts
+stderr 'TS2462'
+! exists restElementMustBeLast.js
+! exists restElementMustBeLast.d.ts
+! exists restElementMustBeLast.js.map
+
+-- restElementMustBeLast.ts --
+var [...a, x] = [1, 2, 3];  // Error, rest must be last element
+[...a, x] = [1, 2, 3];      // Error, rest must be last element

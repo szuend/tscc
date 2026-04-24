@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeQueries/typeofTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeofTypeParameter.js typeofTypeParameter.ts
+stderr 'TS2693'
+! exists typeofTypeParameter.js
+! exists typeofTypeParameter.d.ts
+! exists typeofTypeParameter.js.map
+
+-- typeofTypeParameter.ts --
+function f<T>(x: T): T {
+    var a!: typeof x;
+    var y!: typeof T;
+    return a;
+}

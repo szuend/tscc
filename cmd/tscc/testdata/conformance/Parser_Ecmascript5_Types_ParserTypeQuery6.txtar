@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Types/parserTypeQuery6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserTypeQuery6.js parserTypeQuery6.ts
+stderr 'TS2304'
+! exists parserTypeQuery6.js
+! exists parserTypeQuery6.d.ts
+! exists parserTypeQuery6.js.map
+
+-- parserTypeQuery6.ts --
+var v: typeof A.B;

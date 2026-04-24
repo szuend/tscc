@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/es2021/es2021LocalesObjectArgument.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2021 --lib es2021,dom --out-js es2021LocalesObjectArgument.js es2021LocalesObjectArgument.ts
+! stderr .
+cmp es2021LocalesObjectArgument.js es2021LocalesObjectArgument.js.golden
+! exists es2021LocalesObjectArgument.d.ts
+! exists es2021LocalesObjectArgument.js.map
+
+-- es2021LocalesObjectArgument.ts --
+const enUS = new Intl.Locale("en-US");
+const deDE = new Intl.Locale("de-DE");
+const jaJP = new Intl.Locale("ja-JP");
+
+new Intl.ListFormat(enUS);
+new Intl.ListFormat([deDE, jaJP]);
+Intl.ListFormat.supportedLocalesOf(enUS);
+Intl.ListFormat.supportedLocalesOf([deDE, jaJP]);
+-- es2021LocalesObjectArgument.js.golden --
+"use strict";
+const enUS = new Intl.Locale("en-US");
+const deDE = new Intl.Locale("de-DE");
+const jaJP = new Intl.Locale("ja-JP");
+new Intl.ListFormat(enUS);
+new Intl.ListFormat([deDE, jaJP]);
+Intl.ListFormat.supportedLocalesOf(enUS);
+Intl.ListFormat.supportedLocalesOf([deDE, jaJP]);

@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classExtendingNonConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classExtendingNonConstructor.js classExtendingNonConstructor.ts
+stderr 'TS2683'
+stderr 'TS2507'
+stderr 'TS2454'
+! exists classExtendingNonConstructor.js
+! exists classExtendingNonConstructor.d.ts
+! exists classExtendingNonConstructor.js.map
+
+-- classExtendingNonConstructor.ts --
+var x: {};
+
+function foo() {
+    this.x = 1;
+}
+
+class C1 extends undefined { }
+class C2 extends true { }
+class C3 extends false { }
+class C4 extends 42 { }
+class C5 extends "hello" { }
+class C6 extends x { }
+class C7 extends foo { }

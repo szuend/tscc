@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/expressions/typeSatisfaction/typeSatisfaction_contextualTyping2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js typeSatisfaction_contextualTyping2.js typeSatisfaction_contextualTyping2.ts
+stderr 'TS7006'
+! exists typeSatisfaction_contextualTyping2.js
+! exists typeSatisfaction_contextualTyping2.d.ts
+! exists typeSatisfaction_contextualTyping2.js.map
+
+-- typeSatisfaction_contextualTyping2.ts --
+let obj: { f(s: string): void } & Record<string, unknown> = {
+    f(s) { }, // "incorrect" implicit any on 's'
+    g(s) { }
+} satisfies { g(s: string): void } & Record<string, unknown>;
+
+// This needs to not crash (outer node is not expression)
+({ f(x) { } }) satisfies { f(s: string): void };

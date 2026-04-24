@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/decrementOperator/decrementOperatorWithEnumTypeInvalidOperations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js decrementOperatorWithEnumTypeInvalidOperations.js decrementOperatorWithEnumTypeInvalidOperations.ts
+stderr 'TS2628'
+stderr 'TS2357'
+stderr 'TS2339'
+! exists decrementOperatorWithEnumTypeInvalidOperations.js
+! exists decrementOperatorWithEnumTypeInvalidOperations.d.ts
+! exists decrementOperatorWithEnumTypeInvalidOperations.js.map
+
+-- decrementOperatorWithEnumTypeInvalidOperations.ts --
+// -- operator on enum type
+
+enum ENUM { };
+enum ENUM1 { A, B, "" };
+
+// enum type var
+var ResultIsNumber1 = --ENUM;
+var ResultIsNumber2 = --ENUM1;
+
+var ResultIsNumber3 = ENUM--;
+var ResultIsNumber4 = ENUM1--;
+
+// enum type expressions
+var ResultIsNumber5 = --(ENUM["A"] + ENUM.B);
+var ResultIsNumber6 = (ENUM.A + ENUM["B"])--;
+
+// miss assignment operator
+--ENUM;
+--ENUM1;
+
+ENUM--;
+ENUM1--;

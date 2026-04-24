@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es2021/logicalAssignment/logicalAssignment9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js logicalAssignment9.js logicalAssignment9.ts
+! stderr .
+cmp logicalAssignment9.js logicalAssignment9.js.golden
+! exists logicalAssignment9.d.ts
+! exists logicalAssignment9.js.map
+
+-- logicalAssignment9.ts --
+declare let x: { a?: boolean };
+
+x.a ??= true;
+x.a &&= false;
+-- logicalAssignment9.js.golden --
+"use strict";
+var _a;
+(_a = x.a) !== null && _a !== void 0 ? _a : (x.a = true);
+x.a && (x.a = false);

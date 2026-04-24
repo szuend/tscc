@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/jsdoc/importTag2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom types.ts
+! stderr .
+! exists types.d.ts
+! exists types.js.map
+
+-- foo.js --
+/**
+ * @import * as types from "./types"
+ */
+
+/**
+ * @param { types.Foo } foo
+ */
+export function f(foo) {}
+-- types.ts --
+export interface Foo {
+    a: number;
+}

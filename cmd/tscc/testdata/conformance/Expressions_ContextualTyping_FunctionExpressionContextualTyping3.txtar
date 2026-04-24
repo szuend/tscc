@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/expressions/contextualTyping/functionExpressionContextualTyping3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js functionExpressionContextualTyping3.js functionExpressionContextualTyping3.ts
+! stderr .
+cmp functionExpressionContextualTyping3.js functionExpressionContextualTyping3.js.golden
+! exists functionExpressionContextualTyping3.d.ts
+! exists functionExpressionContextualTyping3.js.map
+
+-- functionExpressionContextualTyping3.ts --
+// #31114
+declare function f<T>(value: T | number): void;
+f((a: any) => "")
+-- functionExpressionContextualTyping3.js.golden --
+"use strict";
+f((a) => "");

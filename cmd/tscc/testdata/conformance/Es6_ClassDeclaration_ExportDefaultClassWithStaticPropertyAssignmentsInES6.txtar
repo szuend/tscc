@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/exportDefaultClassWithStaticPropertyAssignmentsInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js exportDefaultClassWithStaticPropertyAssignmentsInES6.js exportDefaultClassWithStaticPropertyAssignmentsInES6.ts
+! stderr .
+cmp exportDefaultClassWithStaticPropertyAssignmentsInES6.js exportDefaultClassWithStaticPropertyAssignmentsInES6.js.golden
+! exists exportDefaultClassWithStaticPropertyAssignmentsInES6.d.ts
+! exists exportDefaultClassWithStaticPropertyAssignmentsInES6.js.map
+
+-- exportDefaultClassWithStaticPropertyAssignmentsInES6.ts --
+export default class {
+    static z: string = "Foo";
+}
+-- exportDefaultClassWithStaticPropertyAssignmentsInES6.js.golden --
+class default_1 {
+}
+default_1.z = "Foo";
+export default default_1;

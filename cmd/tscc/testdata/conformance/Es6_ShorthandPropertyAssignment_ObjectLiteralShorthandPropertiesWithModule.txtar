@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesWithModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js objectLiteralShorthandPropertiesWithModule.js objectLiteralShorthandPropertiesWithModule.ts
+! stderr .
+cmp objectLiteralShorthandPropertiesWithModule.js objectLiteralShorthandPropertiesWithModule.js.golden
+! exists objectLiteralShorthandPropertiesWithModule.d.ts
+! exists objectLiteralShorthandPropertiesWithModule.js.map
+
+-- objectLiteralShorthandPropertiesWithModule.ts --
+// module export
+
+namespace m {
+    export var x;
+}
+
+namespace m {
+    var z = x;
+    var y = {
+        a: x,
+        x
+    };
+}
+-- objectLiteralShorthandPropertiesWithModule.js.golden --
+"use strict";
+// module export
+var m;
+(function (m) {
+})(m || (m = {}));
+(function (m) {
+    var z = m.x;
+    var y = {
+        a: m.x,
+        x: m.x
+    };
+})(m || (m = {}));

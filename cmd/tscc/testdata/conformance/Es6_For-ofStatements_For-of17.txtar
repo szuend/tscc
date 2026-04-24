@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of17.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of17.js for-of17.ts
+stderr 'TS2322'
+! exists for-of17.js
+! exists for-of17.d.ts
+! exists for-of17.js.map
+
+-- for-of17.ts --
+class NumberIterator {
+    next() {
+        return {
+            value: 0,
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var v: string;
+for (v of new NumberIterator) { } // Should succeed

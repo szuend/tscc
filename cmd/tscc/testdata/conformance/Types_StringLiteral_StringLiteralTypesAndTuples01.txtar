@@ -1,0 +1,47 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesAndTuples01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesAndTuples01.d.ts --no-strict --target es2015 --lib es2015,dom --out-js stringLiteralTypesAndTuples01.js stringLiteralTypesAndTuples01.ts
+! stderr .
+cmp stringLiteralTypesAndTuples01.d.ts stringLiteralTypesAndTuples01.d.ts.golden
+cmp stringLiteralTypesAndTuples01.js stringLiteralTypesAndTuples01.js.golden
+! exists stringLiteralTypesAndTuples01.js.map
+
+-- stringLiteralTypesAndTuples01.ts --
+// Should all be strings.
+let [hello, brave, newish, world] = ["Hello", "Brave", "New", "World"];
+
+type RexOrRaptor = "t-rex" | "raptor"
+let [im, a, dinosaur]: ["I'm", "a", RexOrRaptor] = ['I\'m', 'a', 't-rex'];
+
+rawr(dinosaur);
+
+function rawr(dino: RexOrRaptor) {
+    if (dino === "t-rex") {
+        return "ROAAAAR!";
+    }
+    if (dino === "raptor") {
+        return "yip yip!";
+    }
+
+    throw "Unexpected " + dino;
+}
+-- stringLiteralTypesAndTuples01.d.ts.golden --
+declare let hello: string, brave: string, newish: string, world: string;
+type RexOrRaptor = "t-rex" | "raptor";
+declare let im: "I'm", a: "a", dinosaur: RexOrRaptor;
+declare function rawr(dino: RexOrRaptor): "ROAAAAR!" | "yip yip!";
+-- stringLiteralTypesAndTuples01.js.golden --
+"use strict";
+// Should all be strings.
+let [hello, brave, newish, world] = ["Hello", "Brave", "New", "World"];
+let [im, a, dinosaur] = ['I\'m', 'a', 't-rex'];
+rawr(dinosaur);
+function rawr(dino) {
+    if (dino === "t-rex") {
+        return "ROAAAAR!";
+    }
+    if (dino === "raptor") {
+        return "yip yip!";
+    }
+    throw "Unexpected " + dino;
+}

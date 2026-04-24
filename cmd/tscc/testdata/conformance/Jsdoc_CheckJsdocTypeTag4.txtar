@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/jsdoc/checkJsdocTypeTag4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom test.js
+stderr 'TS2344'
+! exists test.d.ts
+! exists test.js.map
+
+-- t.d.ts --
+type A<T extends string> = { a: T }
+-- test.js --
+/** Also should error for jsdoc typedefs
+ * @template {string} U
+ * @typedef {{ b: U }} B
+ */
+/** @type {A<number>} */
+var a;
+/** @type {B<number>} */
+var b;

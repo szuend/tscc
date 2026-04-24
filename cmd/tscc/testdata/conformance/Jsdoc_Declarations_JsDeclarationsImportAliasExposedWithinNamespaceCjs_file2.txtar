@@ -1,0 +1,58 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsImportAliasExposedWithinNamespaceCjs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts file2.d.ts --module commonjs --target es6 --lib es6,dom file2.js
+stderr 'TS2702'
+! exists file2.d.ts
+! exists file2.js.map
+! exists out_file2.js
+
+-- file.js --
+/**
+ * @namespace myTypes
+ * @global
+ * @type {Object<string,*>}
+ */
+const myTypes = {
+    // SOME PROPS HERE
+};
+
+/** @typedef {string|RegExp|Array<string|RegExp>} myTypes.typeA */
+
+/**
+ * @typedef myTypes.typeB
+ * @property {myTypes.typeA}    prop1 - Prop 1.
+ * @property {string}           prop2 - Prop 2.
+ */
+
+/** @typedef {myTypes.typeB|Function} myTypes.typeC */
+
+exports.myTypes = myTypes;
+-- file2.js --
+const {myTypes} = require('./file.js');
+
+/**
+ * @namespace testFnTypes
+ * @global
+ * @type {Object<string,*>}
+ */
+const testFnTypes = {
+    // SOME PROPS HERE
+};
+
+/** @typedef {boolean|myTypes.typeC} testFnTypes.input */
+
+/**
+ * @function testFn
+ * @description A test function.
+ * @param {testFnTypes.input} input - Input.
+ * @returns {number|null} Result.
+ */
+function testFn(input) {
+    if (typeof input === 'number') {
+        return 2 * input;
+    } else {
+        return null;
+    }
+}
+
+module.exports = {testFn, testFnTypes};

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithObjectLiteralArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCallWithObjectLiteralArgs.js genericCallWithObjectLiteralArgs.ts
+stderr 'TS2322'
+! exists genericCallWithObjectLiteralArgs.js
+! exists genericCallWithObjectLiteralArgs.d.ts
+! exists genericCallWithObjectLiteralArgs.js.map
+
+-- genericCallWithObjectLiteralArgs.ts --
+function foo<T>(x: { bar: T; baz: T }) {
+    return x;
+}
+
+var r = foo({ bar: 1, baz: '' }); // error
+var r2 = foo({ bar: 1, baz: 1 }); // T = number
+var r3 = foo({ bar: foo, baz: foo }); // T = typeof foo
+var r4 = foo<Object>({ bar: 1, baz: '' }); // T = Object

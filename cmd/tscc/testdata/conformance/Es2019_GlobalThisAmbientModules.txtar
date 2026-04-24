@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es2019/globalThisAmbientModules.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path ambientModule=globalThisAmbientModules.ts --out-js globalThisAmbientModules.js globalThisAmbientModules.ts
+stderr 'TS2339'
+! exists globalThisAmbientModules.js
+! exists globalThisAmbientModules.d.ts
+! exists globalThisAmbientModules.js.map
+
+-- globalThisAmbientModules.ts --
+declare module "ambientModule" {
+    export type typ = 1
+    export var val: typ
+}
+namespace valueModule { export var val = 1 }
+namespace namespaceModule { export type typ = 1 }
+// should error
+type GlobalBad1 = (typeof globalThis)["\"ambientModule\""]
+type GlobalOk1 = (typeof globalThis)["valueModule"]
+type GlobalOk2 = globalThis.namespaceModule.typ
+const bad1: (typeof globalThis)["\"ambientModule\""] = 'ambientModule'

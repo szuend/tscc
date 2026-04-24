@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnAwait.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js decoratorOnAwait.js decoratorOnAwait.ts
+stderr 'TS1146'
+! exists decoratorOnAwait.js
+! exists decoratorOnAwait.d.ts
+! exists decoratorOnAwait.js.map
+
+-- decoratorOnAwait.ts --
+declare function dec<T>(target: T): T;
+
+@dec
+await 1

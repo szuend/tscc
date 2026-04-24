@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpression5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserRegularExpression5.js parserRegularExpression5.ts
+stderr 'TS2304'
+! exists parserRegularExpression5.js
+! exists parserRegularExpression5.d.ts
+! exists parserRegularExpression5.js.map
+
+-- parserRegularExpression5.ts --
+if (a) / (\\ ? | & ) rct = j / .test(c.href);

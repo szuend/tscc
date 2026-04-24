@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/salsa/globalMergeWithCommonJSAssignmentDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug27099.js
+stderr 'TS2322'
+! exists bug27099.d.ts
+! exists bug27099.js.map
+
+-- bug27099.js --
+window.name = 1;
+window.console; // should not have error: Property 'console' does not exist on type 'typeof window'.
+module.exports = 'anything';
+

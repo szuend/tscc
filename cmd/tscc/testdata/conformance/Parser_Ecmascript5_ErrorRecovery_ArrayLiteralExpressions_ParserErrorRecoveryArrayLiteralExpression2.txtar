@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArrayLiteralExpressions/parserErrorRecoveryArrayLiteralExpression2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecoveryArrayLiteralExpression2.js parserErrorRecoveryArrayLiteralExpression2.ts
+stderr 'TS1005'
+! exists parserErrorRecoveryArrayLiteralExpression2.js
+! exists parserErrorRecoveryArrayLiteralExpression2.d.ts
+! exists parserErrorRecoveryArrayLiteralExpression2.js.map
+
+-- parserErrorRecoveryArrayLiteralExpression2.ts --
+var points = [-0.6961439251899719, 1.207661509513855, 0.19374050199985504, -0
+ 
+ .7042760848999023, 1.1955541372299194, 0.19600726664066315, -0.7120069861412048];

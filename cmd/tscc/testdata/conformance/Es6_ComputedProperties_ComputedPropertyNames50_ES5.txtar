@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames50_ES5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js computedPropertyNames50_ES5.js computedPropertyNames50_ES5.ts
+stderr 'TS1049'
+stderr 'TS1118'
+! exists computedPropertyNames50_ES5.js
+! exists computedPropertyNames50_ES5.d.ts
+! exists computedPropertyNames50_ES5.js.map
+
+-- computedPropertyNames50_ES5.ts --
+var x = {
+    p1: 10,
+    get foo() {
+        if (1 == 1) {
+            return 10;
+        }
+    },
+    get [1 + 1]() {
+        throw 10;
+    },
+    set [1 + 1]() {
+        // just throw
+        throw 10;
+    },
+    get [1 + 1]() {
+        return 10;
+    },
+    get foo() {
+        if (2 == 2) {
+            return 20;
+        }
+    },
+    p2: 20
+}

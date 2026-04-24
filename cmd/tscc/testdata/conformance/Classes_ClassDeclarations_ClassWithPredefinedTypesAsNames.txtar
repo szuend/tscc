@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classWithPredefinedTypesAsNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classWithPredefinedTypesAsNames.js classWithPredefinedTypesAsNames.ts
+stderr 'TS2414'
+! exists classWithPredefinedTypesAsNames.js
+! exists classWithPredefinedTypesAsNames.d.ts
+! exists classWithPredefinedTypesAsNames.js.map
+
+-- classWithPredefinedTypesAsNames.ts --
+// classes cannot use predefined types as names
+
+class any { }
+class number { }
+class boolean { }
+class string { }

@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolDeclarationEmit9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts symbolDeclarationEmit9.d.ts --target ES6 --lib ES6,dom --out-js symbolDeclarationEmit9.js symbolDeclarationEmit9.ts
+! stderr .
+cmp symbolDeclarationEmit9.d.ts symbolDeclarationEmit9.d.ts.golden
+cmp symbolDeclarationEmit9.js symbolDeclarationEmit9.js.golden
+! exists symbolDeclarationEmit9.js.map
+
+-- symbolDeclarationEmit9.ts --
+var obj = {
+    [Symbol.isConcatSpreadable]() { }
+}
+-- symbolDeclarationEmit9.d.ts.golden --
+declare var obj: {
+    [Symbol.isConcatSpreadable](): void;
+};
+-- symbolDeclarationEmit9.js.golden --
+"use strict";
+var obj = {
+    [Symbol.isConcatSpreadable]() { }
+};

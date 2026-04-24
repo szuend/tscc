@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/scanner/ecmascript5/scannerEnum1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js scannerEnum1.js scannerEnum1.ts
+! stderr .
+cmp scannerEnum1.js scannerEnum1.js.golden
+! exists scannerEnum1.d.ts
+! exists scannerEnum1.js.map
+
+-- scannerEnum1.ts --
+    export enum CodeGenTarget {
+        ES3 = 0,
+        ES5 = 1,
+    }
+-- scannerEnum1.js.golden --
+export var CodeGenTarget;
+(function (CodeGenTarget) {
+    CodeGenTarget[CodeGenTarget["ES3"] = 0] = "ES3";
+    CodeGenTarget[CodeGenTarget["ES5"] = 1] = "ES5";
+})(CodeGenTarget || (CodeGenTarget = {}));

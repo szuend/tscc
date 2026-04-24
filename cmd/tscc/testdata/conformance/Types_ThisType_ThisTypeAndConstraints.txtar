@@ -1,0 +1,51 @@
+# Ported from tests/cases/conformance/types/thisType/thisTypeAndConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisTypeAndConstraints.js thisTypeAndConstraints.ts
+! stderr .
+cmp thisTypeAndConstraints.js thisTypeAndConstraints.js.golden
+! exists thisTypeAndConstraints.d.ts
+! exists thisTypeAndConstraints.js.map
+
+-- thisTypeAndConstraints.ts --
+class A {
+    self() {
+        return this;
+    }
+}
+
+function f<T extends A>(x: T) {
+    function g<U extends T>(x: U) {
+        x = x.self();
+    }
+    x = x.self();
+}
+
+class B<T extends A> {
+    foo(x: T) {
+        x = x.self();
+    }
+    bar<U extends T>(x: U) {
+        x = x.self();
+    }
+}
+-- thisTypeAndConstraints.js.golden --
+"use strict";
+class A {
+    self() {
+        return this;
+    }
+}
+function f(x) {
+    function g(x) {
+        x = x.self();
+    }
+    x = x.self();
+}
+class B {
+    foo(x) {
+        x = x.self();
+    }
+    bar(x) {
+        x = x.self();
+    }
+}

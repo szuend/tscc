@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorOverloads3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js generatorOverloads3.js generatorOverloads3.ts
+stderr 'TS1222'
+! exists generatorOverloads3.js
+! exists generatorOverloads3.d.ts
+! exists generatorOverloads3.js.map
+
+-- generatorOverloads3.ts --
+class C {
+    *f(s: string): Iterable<any>;
+    *f(s: number): Iterable<any>;
+    *f(s: any): Iterable<any> { }
+}

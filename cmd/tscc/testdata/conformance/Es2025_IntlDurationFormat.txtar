@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es2025/intlDurationFormat.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2024,es2025.intl --strict --target esnext intlDurationFormat.ts
+! stderr .
+! exists intlDurationFormat.d.ts
+! exists intlDurationFormat.js.map
+
+-- intlDurationFormat.ts --
+new Intl.DurationFormat('en').format({
+  years: 1,
+  hours: 20,
+  minutes: 15,
+  seconds: 35
+});

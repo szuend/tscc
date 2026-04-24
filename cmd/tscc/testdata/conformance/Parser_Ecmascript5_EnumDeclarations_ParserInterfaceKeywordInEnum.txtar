@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserInterfaceKeywordInEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserInterfaceKeywordInEnum.js parserInterfaceKeywordInEnum.ts
+! stderr .
+cmp parserInterfaceKeywordInEnum.js parserInterfaceKeywordInEnum.js.golden
+! exists parserInterfaceKeywordInEnum.d.ts
+! exists parserInterfaceKeywordInEnum.js.map
+
+-- parserInterfaceKeywordInEnum.ts --
+enum Bar {
+    interface,
+}
+-- parserInterfaceKeywordInEnum.js.golden --
+"use strict";
+var Bar;
+(function (Bar) {
+    Bar[Bar["interface"] = 0] = "interface";
+})(Bar || (Bar = {}));

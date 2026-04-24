@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithExtensionAndTypeArgumentInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js emitClassDeclarationWithExtensionAndTypeArgumentInES6.js emitClassDeclarationWithExtensionAndTypeArgumentInES6.ts
+! stderr .
+cmp emitClassDeclarationWithExtensionAndTypeArgumentInES6.js emitClassDeclarationWithExtensionAndTypeArgumentInES6.js.golden
+! exists emitClassDeclarationWithExtensionAndTypeArgumentInES6.d.ts
+! exists emitClassDeclarationWithExtensionAndTypeArgumentInES6.js.map
+
+-- emitClassDeclarationWithExtensionAndTypeArgumentInES6.ts --
+class B<T> {
+    constructor(a: T) { }
+}
+class C extends B<string> { }
+class D extends B<number> {
+    constructor(a: any)
+    constructor(b: number) {
+        super(b);
+    }
+}
+-- emitClassDeclarationWithExtensionAndTypeArgumentInES6.js.golden --
+"use strict";
+class B {
+    constructor(a) { }
+}
+class C extends B {
+}
+class D extends B {
+    constructor(b) {
+        super(b);
+    }
+}

@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/propertyAndFunctionWithSameName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAndFunctionWithSameName.js propertyAndFunctionWithSameName.ts
+stderr 'TS2300'
+! exists propertyAndFunctionWithSameName.js
+! exists propertyAndFunctionWithSameName.d.ts
+! exists propertyAndFunctionWithSameName.js.map
+
+-- propertyAndFunctionWithSameName.ts --
+class C {
+    x: number;
+    x() { // error
+        return 1;
+    }
+}
+
+class D {
+    x: number;
+    x(v) { } // error
+}

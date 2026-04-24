@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolDeclarationEmit11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts symbolDeclarationEmit11.d.ts --target ES6 --lib ES6,dom --out-js symbolDeclarationEmit11.js symbolDeclarationEmit11.ts
+! stderr .
+cmp symbolDeclarationEmit11.d.ts symbolDeclarationEmit11.d.ts.golden
+cmp symbolDeclarationEmit11.js symbolDeclarationEmit11.js.golden
+! exists symbolDeclarationEmit11.js.map
+
+-- symbolDeclarationEmit11.ts --
+class C {
+    static [Symbol.iterator] = 0;
+    static [Symbol.isConcatSpreadable]() { }
+    static get [Symbol.toPrimitive]() { return ""; }
+    static set [Symbol.toPrimitive](x) { }
+}
+-- symbolDeclarationEmit11.d.ts.golden --
+declare class C {
+    static [Symbol.iterator]: number;
+    static [Symbol.isConcatSpreadable](): void;
+    static get [Symbol.toPrimitive](): string;
+    static set [Symbol.toPrimitive](x: string);
+}
+-- symbolDeclarationEmit11.js.golden --
+"use strict";
+var _a;
+class C {
+    static [(_a = Symbol.iterator, Symbol.isConcatSpreadable)]() { }
+    static get [Symbol.toPrimitive]() { return ""; }
+    static set [Symbol.toPrimitive](x) { }
+}
+C[_a] = 0;

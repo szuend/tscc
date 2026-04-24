@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserS7.3_A1.1_T2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserS7.3_A1.1_T2.js parserS7.3_A1.1_T2.ts
+stderr 'TS2552'
+! exists parserS7.3_A1.1_T2.js
+! exists parserS7.3_A1.1_T2.d.ts
+! exists parserS7.3_A1.1_T2.js.map
+
+-- parserS7.3_A1.1_T2.ts --
+// Copyright 2009 the Sputnik authors.  All rights reserved.
+// This code is governed by the BSD license found in the LICENSE file.
+
+/**
+ * LINE FEED (U+000A) may occur between any two tokens
+ *
+ * @path ch07/7.3/S7.3_A1.1_T2.js
+ * @description Insert real LINE FEED between tokens of var x=1
+ */
+
+//CHECK#1
+var
+x
+=
+1;
+if (x !== 1) {
+  $ERROR('#1: var\\nx\\n=\\n1\\n; x === 1. Actual: ' + (x));
+}
+

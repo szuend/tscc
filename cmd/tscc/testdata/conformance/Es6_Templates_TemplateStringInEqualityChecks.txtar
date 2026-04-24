@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInEqualityChecks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInEqualityChecks.js templateStringInEqualityChecks.ts
+stderr 'TS2367'
+! exists templateStringInEqualityChecks.js
+! exists templateStringInEqualityChecks.d.ts
+! exists templateStringInEqualityChecks.js.map
+
+-- templateStringInEqualityChecks.ts --
+var x = `abc${0}abc` === `abc` ||
+        `abc` !== `abc${0}abc` &&
+        `abc${0}abc` == "abc0abc" &&
+        "abc0abc" !== `abc${0}abc`;

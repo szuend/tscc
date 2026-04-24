@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTypeTagOnParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --lib esnext --strict --target es2015 index.js
+! stderr .
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+function repeat(
+	/** @type {string} */ message,
+	/** @type {number} */ times,
+) {
+	return Array(times).fill(message).join(` `);
+}
+
+/** @type {Parameters<typeof repeat>[0]} */
+const message = `hello`;
+
+/** @type {Parameters<typeof repeat>[1]} */
+const times = 3;

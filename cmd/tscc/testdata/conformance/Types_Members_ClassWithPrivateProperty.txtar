@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/types/members/classWithPrivateProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classWithPrivateProperty.js classWithPrivateProperty.ts
+stderr 'TS2341'
+! exists classWithPrivateProperty.js
+! exists classWithPrivateProperty.d.ts
+! exists classWithPrivateProperty.js.map
+
+-- classWithPrivateProperty.ts --
+// accessing any private outside the class is an error
+
+class C {
+    private x;
+    private a = '';
+    private b: string = '';
+    private c() { return '' }
+    private d = () => '';
+    private static e;
+    private static f() { return '' }
+    private static g = () => '';
+}
+
+var c = new C();
+var r1: string = c.x;
+var r2: string = c.a;
+var r3: string = c.b;
+var r4: string = c.c();
+var r5: string = c.d();
+var r6: string = C.e;
+var r7: string = C.f();
+var r8: string = C.g();

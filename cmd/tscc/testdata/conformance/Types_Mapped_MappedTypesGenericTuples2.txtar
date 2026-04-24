@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/mapped/mappedTypesGenericTuples2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --strict --target es2015 mappedTypesGenericTuples2.ts
+! stderr .
+! exists mappedTypesGenericTuples2.d.ts
+! exists mappedTypesGenericTuples2.js.map
+
+-- mappedTypesGenericTuples2.ts --
+// https://github.com/microsoft/TypeScript/issues/57389
+
+declare function getT<T>(): T;
+
+Promise.all([getT<string>(), ...getT<any>()]).then((result) => {
+  const head = result[0]; // string
+  const tail = result.slice(1); // any[]
+  tail satisfies string[]; // ok
+});

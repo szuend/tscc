@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameConstructorReserved.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js privateNameConstructorReserved.js privateNameConstructorReserved.ts
+stderr 'TS18012'
+! exists privateNameConstructorReserved.js
+! exists privateNameConstructorReserved.d.ts
+! exists privateNameConstructorReserved.js.map
+
+-- privateNameConstructorReserved.ts --
+class A {
+    #constructor() {}      // Error: `#constructor` is a reserved word.
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInUnaryPlus.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringInUnaryPlus.js templateStringInUnaryPlus.ts
+! stderr .
+cmp templateStringInUnaryPlus.js templateStringInUnaryPlus.js.golden
+! exists templateStringInUnaryPlus.d.ts
+! exists templateStringInUnaryPlus.js.map
+
+-- templateStringInUnaryPlus.ts --
+var x = +`abc${ 123 }def`;
+-- templateStringInUnaryPlus.js.golden --
+"use strict";
+var x = +`abc${123}def`;

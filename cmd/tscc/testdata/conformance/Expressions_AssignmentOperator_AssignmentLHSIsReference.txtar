@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/expressions/assignmentOperator/assignmentLHSIsReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentLHSIsReference.js assignmentLHSIsReference.ts
+stderr 'TS2454'
+! exists assignmentLHSIsReference.js
+! exists assignmentLHSIsReference.d.ts
+! exists assignmentLHSIsReference.js.map
+
+-- assignmentLHSIsReference.ts --
+var value: any;
+
+// identifiers: variable and parameter
+var x1: number;
+x1 = value;
+
+function fn1(x2: number) {
+    x2 = value;
+}
+
+// property accesses
+var x3: { a: string  };
+x3.a = value;
+x3['a'] = value;
+
+// parentheses, the contained expression is reference
+(x1) = value;
+
+function fn2(x4: number) {
+    (x4) = value;
+}
+
+(x3.a) = value;
+(x3['a']) = value;

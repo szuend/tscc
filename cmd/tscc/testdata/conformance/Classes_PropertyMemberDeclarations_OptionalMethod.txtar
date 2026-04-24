@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/optionalMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js optionalMethod.js optionalMethod.ts
+! stderr .
+cmp optionalMethod.js optionalMethod.js.golden
+! exists optionalMethod.d.ts
+! exists optionalMethod.js.map
+
+-- optionalMethod.ts --
+class Base {
+    method?() { }
+}
+-- optionalMethod.js.golden --
+"use strict";
+class Base {
+    method() { }
+}

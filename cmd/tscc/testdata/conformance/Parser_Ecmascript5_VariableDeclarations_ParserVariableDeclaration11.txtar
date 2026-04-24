@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserVariableDeclaration11.js parserVariableDeclaration11.ts
+! stderr .
+cmp parserVariableDeclaration11.js parserVariableDeclaration11.js.golden
+! exists parserVariableDeclaration11.d.ts
+! exists parserVariableDeclaration11.js.map
+
+-- parserVariableDeclaration11.ts --
+var a,b;
+-- parserVariableDeclaration11.js.golden --
+"use strict";
+var a, b;

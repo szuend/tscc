@@ -1,0 +1,76 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/mergeThreeInterfaces2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergeThreeInterfaces2.js mergeThreeInterfaces2.ts
+stderr 'TS2454'
+! exists mergeThreeInterfaces2.js
+! exists mergeThreeInterfaces2.d.ts
+! exists mergeThreeInterfaces2.js.map
+
+-- mergeThreeInterfaces2.ts --
+// two interfaces with the same root module should merge
+
+// root module now multiple module declarations
+namespace M2 {
+    export interface A {
+        foo: string;
+    }
+
+    var a: A;
+    var r1 = a.foo;
+    var r2 = a.bar;
+}
+
+namespace M2 {
+    export interface A {
+        bar: number;
+    }
+
+    export interface A {
+        baz: boolean;
+    }
+
+    var a: A;
+    var r1 = a.foo;
+    var r2 = a.bar;
+    var r3 = a.baz; 
+}
+
+// same as above but with an additional level of nesting and third module declaration
+namespace M2 {
+    export namespace M3 {
+        export interface A {
+            foo: string;
+        }
+
+        var a: A;
+        var r1 = a.foo;
+        var r2 = a.bar;
+    }
+}
+
+namespace M2 {
+    export namespace M3 {
+        export interface A {
+            bar: number;
+        }
+
+        var a: A;
+
+        var r1 = a.foo
+        var r2 = a.bar;
+        var r3 = a.baz;
+    }
+}
+
+namespace M2 {
+    export namespace M3 {
+        export interface A {
+            baz: boolean;
+        }
+
+        var a: A;
+        var r1 = a.foo
+        var r2 = a.bar;
+        var r3 = a.baz;
+    }
+}

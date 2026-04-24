@@ -1,0 +1,49 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmptyLiteralPortionsES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmptyLiteralPortionsES6.js templateStringWithEmptyLiteralPortionsES6.ts
+! stderr .
+cmp templateStringWithEmptyLiteralPortionsES6.js templateStringWithEmptyLiteralPortionsES6.js.golden
+! exists templateStringWithEmptyLiteralPortionsES6.d.ts
+! exists templateStringWithEmptyLiteralPortionsES6.js.map
+
+-- templateStringWithEmptyLiteralPortionsES6.ts --
+var a = ``;
+
+var b = `${ 0 }`;
+
+var c = `1${ 0 }`;
+
+var d = `${ 0 }2`;
+
+var e = `1${ 0 }2`;
+
+var f = `${ 0 }${ 0 }`;
+
+var g = `1${ 0 }${ 0 }`;
+
+var h = `${ 0 }2${ 0 }`;
+
+var i = `1${ 0 }2${ 0 }`;
+
+var j = `${ 0 }${ 0 }3`;
+
+var k = `1${ 0 }${ 0 }3`;
+
+var l = `${ 0 }2${ 0 }3`;
+
+var m = `1${ 0 }2${ 0 }3`;
+-- templateStringWithEmptyLiteralPortionsES6.js.golden --
+"use strict";
+var a = ``;
+var b = `${0}`;
+var c = `1${0}`;
+var d = `${0}2`;
+var e = `1${0}2`;
+var f = `${0}${0}`;
+var g = `1${0}${0}`;
+var h = `${0}2${0}`;
+var i = `1${0}2${0}`;
+var j = `${0}${0}3`;
+var k = `1${0}${0}3`;
+var l = `${0}2${0}3`;
+var m = `1${0}2${0}3`;

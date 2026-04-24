@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty19.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty19.js symbolProperty19.ts
+! stderr .
+cmp symbolProperty19.js symbolProperty19.js.golden
+! exists symbolProperty19.d.ts
+! exists symbolProperty19.js.map
+
+-- symbolProperty19.ts --
+var i = {
+    [Symbol.iterator]: { p: null },
+    [Symbol.toStringTag]() { return { p: undefined }; }
+}
+
+var it = i[Symbol.iterator];
+var str = i[Symbol.toStringTag]();
+-- symbolProperty19.js.golden --
+"use strict";
+var i = {
+    [Symbol.iterator]: { p: null },
+    [Symbol.toStringTag]() { return { p: undefined }; }
+};
+var it = i[Symbol.iterator];
+var str = i[Symbol.toStringTag]();

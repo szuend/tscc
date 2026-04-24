@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/jsdoc/thisTag2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts a.d.ts --target esnext --lib esnext,dom a.js
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+! exists out_a.js
+
+-- a.js --
+/** @this {string} */
+export function f1() {}
+
+/** @this */
+export function f2() {}
+-- a.d.ts.golden --
+/** @this {string} */
+export declare function f1(this: string): void;
+/** @this */
+export declare function f2(this: ): void;

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGenericsInInterfaceDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserGenericsInInterfaceDeclaration1.js parserGenericsInInterfaceDeclaration1.ts
+stderr 'TS2304'
+! exists parserGenericsInInterfaceDeclaration1.js
+! exists parserGenericsInInterfaceDeclaration1.d.ts
+! exists parserGenericsInInterfaceDeclaration1.js.map
+
+-- parserGenericsInInterfaceDeclaration1.ts --
+interface I<T> {
+   v: A<T>;
+   f1<T>(): T;
+   f2?<T>(): T;
+   <T>(): void;
+   new <T>(): void;
+}

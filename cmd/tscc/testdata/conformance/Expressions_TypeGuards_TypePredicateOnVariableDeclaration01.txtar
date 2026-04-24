@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typePredicateOnVariableDeclaration01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts typePredicateOnVariableDeclaration01.d.ts --target es2015 --lib es2015,dom --out-js typePredicateOnVariableDeclaration01.js typePredicateOnVariableDeclaration01.ts
+stderr 'TS1228'
+! exists typePredicateOnVariableDeclaration01.d.ts
+! exists typePredicateOnVariableDeclaration01.js
+! exists typePredicateOnVariableDeclaration01.js.map
+
+-- typePredicateOnVariableDeclaration01.ts --
+var x: this is string;

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/YieldStarExpression4_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js YieldStarExpression4_es6.js YieldStarExpression4_es6.ts
+! stderr .
+cmp YieldStarExpression4_es6.js YieldStarExpression4_es6.js.golden
+! exists YieldStarExpression4_es6.d.ts
+! exists YieldStarExpression4_es6.js.map
+
+-- YieldStarExpression4_es6.ts --
+function *g() {
+    yield * [];
+}
+-- YieldStarExpression4_es6.js.golden --
+"use strict";
+function* g() {
+    yield* [];
+}

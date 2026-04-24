@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of26.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of26.js for-of26.ts
+! stderr .
+cmp for-of26.js for-of26.js.golden
+! exists for-of26.d.ts
+! exists for-of26.js.map
+
+-- for-of26.ts --
+class MyStringIterator {
+    next() {
+        return x;
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var x: any;
+for (var v of new MyStringIterator) { }
+-- for-of26.js.golden --
+"use strict";
+class MyStringIterator {
+    next() {
+        return x;
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+var x;
+for (var v of new MyStringIterator) { }

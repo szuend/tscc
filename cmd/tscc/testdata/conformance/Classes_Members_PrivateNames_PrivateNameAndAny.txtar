@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameAndAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameAndAny.js privateNameAndAny.ts
+stderr 'TS18046'
+! exists privateNameAndAny.js
+! exists privateNameAndAny.d.ts
+! exists privateNameAndAny.js.map
+
+-- privateNameAndAny.ts --
+class A {
+    #foo = true;
+    static #baz = 10;
+    static #m() {}
+    method(thing: any) {
+        thing.#foo; // OK
+        thing.#m();
+        thing.#baz;
+        thing.#bar; // Error
+        thing.#foo();
+    }
+    methodU(thing: unknown) {
+        thing.#foo;
+        thing.#m();
+        thing.#baz;
+        thing.#bar;
+        thing.#foo();
+    }
+    methodN(thing: never) {
+        thing.#foo;
+        thing.#m();
+        thing.#baz;
+        thing.#bar;
+        thing.#foo();
+    }
+};

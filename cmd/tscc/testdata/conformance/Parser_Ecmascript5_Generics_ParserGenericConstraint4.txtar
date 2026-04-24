@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGenericConstraint4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserGenericConstraint4.js parserGenericConstraint4.ts
+stderr 'TS2304'
+! exists parserGenericConstraint4.js
+! exists parserGenericConstraint4.d.ts
+! exists parserGenericConstraint4.js.map
+
+-- parserGenericConstraint4.ts --
+class C<T extends List<List<T> > > {
+}

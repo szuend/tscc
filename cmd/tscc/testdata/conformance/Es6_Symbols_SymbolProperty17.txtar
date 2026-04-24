@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty17.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty17.js symbolProperty17.ts
+stderr 'TS2411'
+! exists symbolProperty17.js
+! exists symbolProperty17.d.ts
+! exists symbolProperty17.js.map
+
+-- symbolProperty17.ts --
+interface I {
+    [Symbol.iterator]: number;
+    [s: symbol]: string;
+    "__@iterator": string;
+}
+
+declare var i: I;
+var it = i[Symbol.iterator];

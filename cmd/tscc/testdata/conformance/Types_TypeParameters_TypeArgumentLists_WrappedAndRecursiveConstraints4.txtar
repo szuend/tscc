@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeArgumentLists/wrappedAndRecursiveConstraints4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js wrappedAndRecursiveConstraints4.js wrappedAndRecursiveConstraints4.ts
+stderr 'TS2345'
+! exists wrappedAndRecursiveConstraints4.js
+! exists wrappedAndRecursiveConstraints4.d.ts
+! exists wrappedAndRecursiveConstraints4.js.map
+
+-- wrappedAndRecursiveConstraints4.ts --
+class C<T extends { length: number }> {
+    constructor(x: T) { }
+    foo<U extends T>(x: U) {
+        function bar<V extends U>(x: V) {
+            return x;
+        }
+        return bar;
+    }
+}
+
+var c = new C({ length: 2 });
+var r = c.foo('');
+var r2 = r({ length: 3, charAt: (x: number) => { '' } }); // error

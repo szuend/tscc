@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesOverloadAssignability05.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts stringLiteralTypesOverloadAssignability05.d.ts --target es2015 --lib es2015,dom --out-js stringLiteralTypesOverloadAssignability05.js stringLiteralTypesOverloadAssignability05.ts
+stderr 'TS2322'
+! exists stringLiteralTypesOverloadAssignability05.d.ts
+! exists stringLiteralTypesOverloadAssignability05.js
+! exists stringLiteralTypesOverloadAssignability05.js.map
+
+-- stringLiteralTypesOverloadAssignability05.ts --
+function f(x: "foo"): number;
+function f(x: string): number;
+function f(x: string): number {
+    return 0;
+}
+
+function g(x: "foo"): number;
+function g(x: string): number {
+    return 0;
+}
+
+let a = f;
+let b = g;
+
+a = b;
+b = a;

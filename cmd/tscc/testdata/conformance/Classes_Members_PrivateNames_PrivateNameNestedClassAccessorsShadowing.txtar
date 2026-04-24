@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameNestedClassAccessorsShadowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameNestedClassAccessorsShadowing.js privateNameNestedClassAccessorsShadowing.ts
+stderr 'TS18014'
+! exists privateNameNestedClassAccessorsShadowing.js
+! exists privateNameNestedClassAccessorsShadowing.d.ts
+! exists privateNameNestedClassAccessorsShadowing.js.map
+
+-- privateNameNestedClassAccessorsShadowing.ts --
+class Base {
+    get #x() { return 1; };
+    constructor() {
+        class Derived {
+            get #x() { return 1; };
+            testBase(x: Base) {
+                console.log(x.#x);
+            }
+            testDerived(x: Derived) {
+                console.log(x.#x);
+            }
+        }
+    }
+}

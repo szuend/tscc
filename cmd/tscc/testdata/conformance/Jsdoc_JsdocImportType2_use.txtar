@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocImportType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom use.js
+stderr 'TS2454'
+! exists use.d.ts
+! exists use.js.map
+
+-- mod1.js --
+/// <reference path='./types.d.ts'/>
+module.exports = class Chunk {
+    constructor() {
+        this.chunk = 1;
+    }
+}
+-- types.d.ts --
+declare function require(name: string): any;
+declare var exports: any;
+declare var module: { exports: any };
+-- use.js --
+/// <reference path='./types.d.ts'/>
+/** @typedef {import("./mod1")} C
+ * @type {C} */
+var c;
+c.chunk;
+
+const D = require("./mod1");
+/** @type {D} */
+var d;
+d.chunk;

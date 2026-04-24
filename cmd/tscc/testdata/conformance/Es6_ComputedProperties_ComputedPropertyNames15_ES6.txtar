@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames15_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames15_ES6.js computedPropertyNames15_ES6.ts
+stderr 'TS2464'
+! exists computedPropertyNames15_ES6.js
+! exists computedPropertyNames15_ES6.d.ts
+! exists computedPropertyNames15_ES6.js.map
+
+-- computedPropertyNames15_ES6.ts --
+var p1: number | string;
+var p2: number | number[];
+var p3: string | boolean;
+class C {
+    [p1]() { }
+    [p2]() { }
+    [p3]() { }
+}

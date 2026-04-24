@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/es6/spread/iteratorSpreadInArray4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js iteratorSpreadInArray4.js iteratorSpreadInArray4.ts
+! stderr .
+cmp iteratorSpreadInArray4.js iteratorSpreadInArray4.js.golden
+! exists iteratorSpreadInArray4.d.ts
+! exists iteratorSpreadInArray4.js.map
+
+-- iteratorSpreadInArray4.ts --
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var array = [0, 1, ...new SymbolIterator];
+-- iteratorSpreadInArray4.js.golden --
+"use strict";
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+var array = [0, 1, ...new SymbolIterator];

@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/expressions/asOperator/asOperatorContextualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js asOperatorContextualType.js asOperatorContextualType.ts
+stderr 'TS2352'
+! exists asOperatorContextualType.js
+! exists asOperatorContextualType.d.ts
+! exists asOperatorContextualType.js.map
+
+-- asOperatorContextualType.ts --
+// should error
+var x = (v => v) as (x: number) => string;

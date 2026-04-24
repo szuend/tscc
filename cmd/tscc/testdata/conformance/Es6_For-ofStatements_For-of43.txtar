@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of43.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of43.js for-of43.ts
+! stderr .
+cmp for-of43.js for-of43.js.golden
+! exists for-of43.d.ts
+! exists for-of43.js.map
+
+-- for-of43.ts --
+var array = [{ x: "", y: 0 }]
+for (var {x: a = "", y: b = true} of array) {
+    a;
+    b;
+}
+-- for-of43.js.golden --
+"use strict";
+var array = [{ x: "", y: 0 }];
+for (var { x: a = "", y: b = true } of array) {
+    a;
+    b;
+}

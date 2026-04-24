@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/salsa/commonJSReexport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --target es2015 --lib es2015,dom first.js
+! stderr .
+! exists first.d.ts
+! exists first.js.map
+
+-- first.js --
+const hardline = { type: "hard" }
+module.exports = {
+  hardline
+}
+
+-- main.js --
+const { hardline } = require('./second').nested;
+hardline
+-- second.js --
+module.exports = {
+  nested: require('./first')
+};

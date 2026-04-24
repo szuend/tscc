@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/expressions/nullishCoalescingOperator/nullishCoalescingOperator4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js nullishCoalescingOperator4.js nullishCoalescingOperator4.ts
+stderr 'TS18049'
+! exists nullishCoalescingOperator4.js
+! exists nullishCoalescingOperator4.d.ts
+! exists nullishCoalescingOperator4.js.map
+
+-- nullishCoalescingOperator4.ts --
+declare const a1: 'literal' | undefined | null
+const aa1 = a1 ?? a1.toLowerCase()
+const aa2 = a1 || a1.toLocaleUpperCase()

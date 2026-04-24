@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/spread/iteratorSpreadInArray7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iteratorSpreadInArray7.js iteratorSpreadInArray7.ts
+stderr 'TS2454'
+! exists iteratorSpreadInArray7.js
+! exists iteratorSpreadInArray7.d.ts
+! exists iteratorSpreadInArray7.js.map
+
+-- iteratorSpreadInArray7.ts --
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var array: symbol[];
+array.concat([...new SymbolIterator]);

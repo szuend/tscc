@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAssignment4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom async.js
+stderr 'TS2309'
+! exists async.d.ts
+! exists async.js.map
+
+-- async.js --
+exports.default = { m: 1, a: 1 }
+module.exports = exports['default'];

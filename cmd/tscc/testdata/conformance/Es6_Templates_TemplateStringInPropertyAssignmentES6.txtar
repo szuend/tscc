@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInPropertyAssignmentES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringInPropertyAssignmentES6.js templateStringInPropertyAssignmentES6.ts
+! stderr .
+cmp templateStringInPropertyAssignmentES6.js templateStringInPropertyAssignmentES6.js.golden
+! exists templateStringInPropertyAssignmentES6.d.ts
+! exists templateStringInPropertyAssignmentES6.js.map
+
+-- templateStringInPropertyAssignmentES6.ts --
+var x = {
+    a: `abc${ 123 }def${ 456 }ghi`
+}
+-- templateStringInPropertyAssignmentES6.js.golden --
+"use strict";
+var x = {
+    a: `abc${123}def${456}ghi`
+};

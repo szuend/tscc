@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/AutomaticSemicolonInsertion/parserAutomaticSemicolonInsertion1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserAutomaticSemicolonInsertion1.js parserAutomaticSemicolonInsertion1.ts
+stderr 'TS2322'
+! exists parserAutomaticSemicolonInsertion1.js
+! exists parserAutomaticSemicolonInsertion1.d.ts
+! exists parserAutomaticSemicolonInsertion1.js.map
+
+-- parserAutomaticSemicolonInsertion1.ts --
+interface I {
+    (): void;
+}
+ 
+declare var i: I;
+var o: Object;
+o = i;
+i = o;
+ 
+declare var a: {
+    (): void
+}
+o = a;
+a = o;

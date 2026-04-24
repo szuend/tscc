@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/salsa/constructorFunctions2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --module commonjs --no-strict --target es2015 --lib es2015,dom index.js
+! stderr .
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+const A = require("./other");
+const a = new A().id;
+
+const B = function() { this.id = 1; }
+B.prototype.m = function() { this.x = 2; }
+const b = new B();
+b.id;
+b.x;
+-- node.d.ts --
+declare function require(id: string): any;
+declare var module: any, exports: any;
+-- other.js --
+function A() { this.id = 1; }
+module.exports = A;

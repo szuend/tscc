@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/internalModules/moduleDeclarations/asiPreventsParsingAsNamespace03.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js asiPreventsParsingAsNamespace03.js asiPreventsParsingAsNamespace03.ts
+! stderr .
+cmp asiPreventsParsingAsNamespace03.js asiPreventsParsingAsNamespace03.js.golden
+! exists asiPreventsParsingAsNamespace03.d.ts
+! exists asiPreventsParsingAsNamespace03.js.map
+
+-- asiPreventsParsingAsNamespace03.ts --
+var namespace: number;
+var n: string;
+
+namespace container {
+    namespace    // this is the identifier 'namespace'
+    n            // this is the identifier 'n'
+    { }          // this is a block body
+}
+-- asiPreventsParsingAsNamespace03.js.golden --
+"use strict";
+var namespace;
+var n;
+var container;
+(function (container) {
+    namespace; // this is the identifier 'namespace'
+    n; // this is the identifier 'n'
+    { } // this is a block body
+})(container || (container = {}));

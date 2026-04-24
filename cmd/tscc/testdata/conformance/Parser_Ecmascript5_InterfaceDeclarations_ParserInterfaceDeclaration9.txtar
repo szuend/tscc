@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserInterfaceDeclaration9.js parserInterfaceDeclaration9.ts
+! stderr .
+cmp parserInterfaceDeclaration9.js parserInterfaceDeclaration9.js.golden
+! exists parserInterfaceDeclaration9.d.ts
+! exists parserInterfaceDeclaration9.js.map
+
+-- parserInterfaceDeclaration9.ts --
+interface I1 {
+    get foo(): number,
+    set foo(value: number),
+}
+
+interface I2 {
+    get foo(): number;
+    set foo(value: number);
+}
+
+interface I3 {
+    get foo(): number
+    set foo(value: number)
+}
+-- parserInterfaceDeclaration9.js.golden --
+"use strict";

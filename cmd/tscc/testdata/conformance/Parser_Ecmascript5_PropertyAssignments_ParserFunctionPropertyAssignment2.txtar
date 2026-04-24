@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/PropertyAssignments/parserFunctionPropertyAssignment2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserFunctionPropertyAssignment2.js parserFunctionPropertyAssignment2.ts
+! stderr .
+cmp parserFunctionPropertyAssignment2.js parserFunctionPropertyAssignment2.js.golden
+! exists parserFunctionPropertyAssignment2.d.ts
+! exists parserFunctionPropertyAssignment2.js.map
+
+-- parserFunctionPropertyAssignment2.ts --
+var v = { 0() { } };
+-- parserFunctionPropertyAssignment2.js.golden --
+"use strict";
+var v = { 0() { } };

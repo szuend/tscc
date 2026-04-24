@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/salsa/annotatedThisPropertyInitializerDoesntNarrow.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom Compilation.js
+! stderr .
+! exists Compilation.d.ts
+! exists Compilation.js.map
+
+-- Compilation.js --
+// from webpack/lib/Compilation.js and filed at #26427
+/** @param {{ [s: string]: number }} map */
+function mappy(map) {}
+
+export class C {
+    constructor() {
+        /** @type {{ [assetName: string]: number}} */
+        this.assets = {};
+    }
+    m() {
+        mappy(this.assets)
+    }
+}

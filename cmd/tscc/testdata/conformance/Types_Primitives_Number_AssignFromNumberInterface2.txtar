@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/types/primitives/number/assignFromNumberInterface2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignFromNumberInterface2.js assignFromNumberInterface2.ts
+stderr 'TS2322'
+! exists assignFromNumberInterface2.js
+! exists assignFromNumberInterface2.d.ts
+! exists assignFromNumberInterface2.js.map
+
+-- assignFromNumberInterface2.ts --
+interface Number {
+    doStuff(): string;
+}
+
+interface NotNumber {
+    toString(radix?: number): string;
+    toFixed(fractionDigits?: number): string;
+    toExponential(fractionDigits?: number): string;
+    toPrecision(precision?: number): string;
+    valueOf(): number;
+    doStuff(): string;
+}
+
+var x = 1;
+declare var a: Number;
+declare var b: NotNumber;
+
+a = x; 
+a = b; 
+
+b = a; 
+b = x; 
+
+x = a; // expected error
+x = b; // expected error
+

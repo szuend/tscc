@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringObjectBindingPatternAndAssignment4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js destructuringObjectBindingPatternAndAssignment4.js destructuringObjectBindingPatternAndAssignment4.ts
+stderr 'TS2448'
+! exists destructuringObjectBindingPatternAndAssignment4.js
+! exists destructuringObjectBindingPatternAndAssignment4.d.ts
+! exists destructuringObjectBindingPatternAndAssignment4.js.map
+
+-- destructuringObjectBindingPatternAndAssignment4.ts --
+const {
+    a = 1,
+    b = 2,
+    c = b, // ok
+    d = a, // ok
+    e = f, // error
+    f = f  // error
+} = { } as any;

@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/internalModules/importDeclarations/circularImportAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js circularImportAlias.js circularImportAlias.ts
+stderr 'TS2449'
+stderr 'TS2564'
+! exists circularImportAlias.js
+! exists circularImportAlias.d.ts
+! exists circularImportAlias.js.map
+
+-- circularImportAlias.ts --
+// expected no error
+
+namespace B {
+    export import a = A;
+    export class D extends a.C {
+        id: number;
+    }
+}
+
+namespace A {
+    export class C { name: string }
+    export import b = B;
+}
+
+var c: { name: string };
+var c = new B.a.C();
+
+

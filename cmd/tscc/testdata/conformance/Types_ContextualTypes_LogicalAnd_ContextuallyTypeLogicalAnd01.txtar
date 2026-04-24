@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/types/contextualTypes/logicalAnd/contextuallyTypeLogicalAnd01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js contextuallyTypeLogicalAnd01.js contextuallyTypeLogicalAnd01.ts
+! stderr .
+cmp contextuallyTypeLogicalAnd01.js contextuallyTypeLogicalAnd01.js.golden
+! exists contextuallyTypeLogicalAnd01.d.ts
+! exists contextuallyTypeLogicalAnd01.js.map
+
+-- contextuallyTypeLogicalAnd01.ts --
+let x: (a: string) => string;
+let y = true;
+
+x = y && (a => a);
+-- contextuallyTypeLogicalAnd01.js.golden --
+"use strict";
+let x;
+let y = true;
+x = y && (a => a);

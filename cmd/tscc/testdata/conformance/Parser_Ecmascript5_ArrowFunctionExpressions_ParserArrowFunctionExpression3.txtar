@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserArrowFunctionExpression3.js parserArrowFunctionExpression3.ts
+stderr 'TS1005'
+! exists parserArrowFunctionExpression3.js
+! exists parserArrowFunctionExpression3.d.ts
+! exists parserArrowFunctionExpression3.js.map
+
+-- parserArrowFunctionExpression3.ts --
+a = (() => { } || a)

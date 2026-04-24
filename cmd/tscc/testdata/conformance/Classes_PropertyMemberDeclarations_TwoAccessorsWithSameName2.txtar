@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/twoAccessorsWithSameName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js twoAccessorsWithSameName2.js twoAccessorsWithSameName2.ts
+stderr 'TS2300'
+! exists twoAccessorsWithSameName2.js
+! exists twoAccessorsWithSameName2.d.ts
+! exists twoAccessorsWithSameName2.js.map
+
+-- twoAccessorsWithSameName2.ts --
+class C {
+    static get x() { return 1; }
+    static get x() { return 1; } // error
+}
+
+class D {
+    static set x(v) {  }
+    static set x(v) {  } // error
+}
+
+class E {
+    static get x() {
+        return 1;
+    }
+    static set x(v) { }
+}

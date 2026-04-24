@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty22.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty22.js symbolProperty22.ts
+! stderr .
+cmp symbolProperty22.js symbolProperty22.js.golden
+! exists symbolProperty22.d.ts
+! exists symbolProperty22.js.map
+
+-- symbolProperty22.ts --
+interface I<T, U> {
+    [Symbol.unscopables](x: T): U;
+}
+
+declare function foo<T, U>(p1: T, p2: I<T, U>): U;
+
+foo("", { [Symbol.unscopables]: s => s.length });
+-- symbolProperty22.js.golden --
+"use strict";
+foo("", { [Symbol.unscopables]: s => s.length });

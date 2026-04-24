@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/externalModules/esnext/esnextmodulekind.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module esnext --target ES6 --lib ES6,dom --out-js esnextmodulekind.js esnextmodulekind.ts
+! stderr .
+cmp esnextmodulekind.js esnextmodulekind.js.golden
+! exists esnextmodulekind.d.ts
+! exists esnextmodulekind.js.map
+
+-- esnextmodulekind.ts --
+export default class A
+{
+    constructor ()
+    {
+
+    }
+
+    public B()
+    {
+        return 42;
+    }
+}
+-- esnextmodulekind.js.golden --
+export default class A {
+    constructor() {
+    }
+    B() {
+        return 42;
+    }
+}

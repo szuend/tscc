@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.js templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.ts
+stderr 'TS2322'
+! exists templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.js
+! exists templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.d.ts
+! exists templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.js.map
+
+-- templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.ts --
+`${function (x: number) { x = "bad"; } }`;

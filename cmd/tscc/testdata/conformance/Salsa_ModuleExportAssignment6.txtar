@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAssignment6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom webpackLibNormalModule.js
+! stderr .
+! exists webpackLibNormalModule.d.ts
+! exists webpackLibNormalModule.js.map
+
+-- webpackLibNormalModule.js --
+class C {
+    /** @param {number} x */
+    constructor(x) {
+        this.x = x
+        this.exports = [x]
+    }
+    /** @param {number} y */
+    m(y) {
+        return this.x + y
+    }
+}
+function exec() {
+    const module = new C(12);
+    return module.exports; // should be fine because `module` is defined locally
+}
+
+function tricky() {
+    // (a trickier variant of what webpack does)
+    const module = new C(12);
+    return () => {
+        return module.exports;
+    }
+}

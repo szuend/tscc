@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/typeAliases/classDoesNotDependOnBaseTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classDoesNotDependOnBaseTypes.js classDoesNotDependOnBaseTypes.ts
+stderr 'TS2454'
+stderr 'TS2542'
+! exists classDoesNotDependOnBaseTypes.js
+! exists classDoesNotDependOnBaseTypes.d.ts
+! exists classDoesNotDependOnBaseTypes.js.map
+
+-- classDoesNotDependOnBaseTypes.ts --
+type StringTree = string | StringTreeCollection;
+class StringTreeCollectionBase {
+    [n: number]: StringTree;
+}
+
+class StringTreeCollection extends StringTreeCollectionBase { }
+
+var x: StringTree;
+if (typeof x !== "string") {
+    x[0] = "";
+    x[0] = new StringTreeCollection;
+}

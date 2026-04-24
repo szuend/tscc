@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es7/trailingCommasInBindingPatterns.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js trailingCommasInBindingPatterns.js trailingCommasInBindingPatterns.ts
+stderr 'TS1013'
+! exists trailingCommasInBindingPatterns.js
+! exists trailingCommasInBindingPatterns.d.ts
+! exists trailingCommasInBindingPatterns.js.map
+
+-- trailingCommasInBindingPatterns.ts --
+const [...a,] = [];
+const {...b,} = {};
+let c, d;
+([...c,] = []);
+({...d,} = {});
+
+// Allowed for non-rest elements
+const [e,] = <any>[];
+const {f,} = <any>{};
+let g, h;
+([g,] = <any>[]);
+({h,} = <any>{});

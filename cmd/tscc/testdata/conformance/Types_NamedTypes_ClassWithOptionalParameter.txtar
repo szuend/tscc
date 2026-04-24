@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/types/namedTypes/classWithOptionalParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classWithOptionalParameter.js classWithOptionalParameter.ts
+! stderr .
+cmp classWithOptionalParameter.js classWithOptionalParameter.js.golden
+! exists classWithOptionalParameter.d.ts
+! exists classWithOptionalParameter.js.map
+
+-- classWithOptionalParameter.ts --
+// classes do not permit optional parameters, these are errors
+
+class C {
+    x?: string;
+    f?() {}
+}
+
+class C2<T> {
+    x?: T;
+    f?(x: T) {}
+}
+-- classWithOptionalParameter.js.golden --
+"use strict";
+// classes do not permit optional parameters, these are errors
+class C {
+    f() { }
+}
+class C2 {
+    f(x) { }
+}

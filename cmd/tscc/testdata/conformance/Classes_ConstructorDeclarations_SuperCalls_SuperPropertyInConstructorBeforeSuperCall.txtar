@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/superCalls/superPropertyInConstructorBeforeSuperCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superPropertyInConstructorBeforeSuperCall.js superPropertyInConstructorBeforeSuperCall.ts
+stderr 'TS17011'
+! exists superPropertyInConstructorBeforeSuperCall.js
+! exists superPropertyInConstructorBeforeSuperCall.d.ts
+! exists superPropertyInConstructorBeforeSuperCall.js.map
+
+-- superPropertyInConstructorBeforeSuperCall.ts --
+class B {
+    constructor(x?: string) {}
+    x(): string { return ""; }
+}
+class C1 extends B {
+    constructor() {
+        super.x();
+        super();
+    }
+}
+class C2 extends B {
+    constructor() {
+        super(super.x());
+    }
+}

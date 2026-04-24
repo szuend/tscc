@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserIndexSignature11.js parserIndexSignature11.ts
+stderr 'TS1021'
+stderr 'TS1096'
+! exists parserIndexSignature11.js
+! exists parserIndexSignature11.d.ts
+! exists parserIndexSignature11.js.map
+
+-- parserIndexSignature11.ts --
+interface I {
+        [p]; // Used to be indexer, now it is a computed property
+        [p1: string];
+        [p2: string, p3: number];
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArrayLiteralExpressions/parserErrorRecoveryArrayLiteralExpression3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecoveryArrayLiteralExpression3.js parserErrorRecoveryArrayLiteralExpression3.ts
+stderr 'TS1005'
+! exists parserErrorRecoveryArrayLiteralExpression3.js
+! exists parserErrorRecoveryArrayLiteralExpression3.d.ts
+! exists parserErrorRecoveryArrayLiteralExpression3.js.map
+
+-- parserErrorRecoveryArrayLiteralExpression3.ts --
+var texCoords = [2, 2, 0.5000001192092895, 0.8749999 ; 403953552, 0.5000001192092895, 0.8749999403953552];

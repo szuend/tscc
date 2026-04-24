@@ -1,0 +1,116 @@
+# Ported from tests/cases/conformance/esDecorators/esDecorators-contextualTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js esDecorators-contextualTypes.js esDecorators-contextualTypes.ts
+! stderr .
+cmp esDecorators-contextualTypes.js esDecorators-contextualTypes.js.golden
+! exists esDecorators-contextualTypes.d.ts
+! exists esDecorators-contextualTypes.js.map
+
+-- esDecorators-contextualTypes.ts --
+@((t, c) => { })
+class C {
+    @((t, c) => { })
+    static f() {}
+
+    @((t, c) => { })
+    static #f() {}
+
+    @((t, c) => { })
+    static get x() { return 1; }
+
+    @((t, c) => { })
+    static set x(value) { }
+
+    @((t, c) => { })
+    static get #x() { return 1; }
+
+    @((t, c) => { })
+    static set #x(value) { }
+
+    @((t, c) => { })
+    static accessor y = 1;
+
+    @((t, c) => { })
+    static accessor #y = 1;
+
+    @((t, c) => { })
+    static z = 1;
+
+    @((t, c) => { })
+    static #z = 1;
+
+    @((t, c) => { })
+    g() {}
+
+    @((t, c) => { })
+    #g() {}
+
+    @((t, c) => { })
+    get a() { return 1; }
+
+    @((t, c) => { })
+    set a(value) { }
+
+    @((t, c) => { })
+    get #a() { return 1; }
+
+    @((t, c) => { })
+    set #a(value) { }
+
+    @((t, c) => { })
+    accessor b = 1;
+
+    @((t, c) => { })
+    accessor #b = 1;
+
+    @((t, c) => { })
+    c = 1;
+
+    @((t, c) => { })
+    #c = 1;
+}
+-- esDecorators-contextualTypes.js.golden --
+"use strict";
+@((t, c) => { })
+class C {
+    @((t, c) => { })
+    static f() { }
+    @((t, c) => { })
+    static #f() { }
+    @((t, c) => { })
+    static get x() { return 1; }
+    @((t, c) => { })
+    static set x(value) { }
+    @((t, c) => { })
+    static get #x() { return 1; }
+    @((t, c) => { })
+    static set #x(value) { }
+    @((t, c) => { })
+    static accessor y = 1;
+    @((t, c) => { })
+    static accessor #y = 1;
+    @((t, c) => { })
+    static z = 1;
+    @((t, c) => { })
+    static #z = 1;
+    @((t, c) => { })
+    g() { }
+    @((t, c) => { })
+    #g() { }
+    @((t, c) => { })
+    get a() { return 1; }
+    @((t, c) => { })
+    set a(value) { }
+    @((t, c) => { })
+    get #a() { return 1; }
+    @((t, c) => { })
+    set #a(value) { }
+    @((t, c) => { })
+    accessor b = 1;
+    @((t, c) => { })
+    accessor #b = 1;
+    @((t, c) => { })
+    c = 1;
+    @((t, c) => { })
+    #c = 1;
+}

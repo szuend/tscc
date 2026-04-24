@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeArgumentLists/instantiateNonGenericTypeWithTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js instantiateNonGenericTypeWithTypeArguments.js instantiateNonGenericTypeWithTypeArguments.ts
+stderr 'TS2558'
+stderr 'TS2347'
+! exists instantiateNonGenericTypeWithTypeArguments.js
+! exists instantiateNonGenericTypeWithTypeArguments.d.ts
+! exists instantiateNonGenericTypeWithTypeArguments.js.map
+
+-- instantiateNonGenericTypeWithTypeArguments.ts --
+// it is an error to provide type arguments to a non-generic call
+// all of these are errors
+
+class C {
+    x!: string;
+}
+
+var c = new C<number>();
+
+function Foo(): void { }
+var r = new Foo<number>();
+
+declare var f: { (): void };
+var r2 = new f<number>();
+
+var a: any;
+// BUG 790977
+var r2 = new a<number>();

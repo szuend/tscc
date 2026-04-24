@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName37.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserComputedPropertyName37.js parserComputedPropertyName37.ts
+stderr 'TS1212'
+! exists parserComputedPropertyName37.js
+! exists parserComputedPropertyName37.d.ts
+! exists parserComputedPropertyName37.js.map
+
+-- parserComputedPropertyName37.ts --
+var v = {
+    [public]: 0
+};

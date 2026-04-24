@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/typeAliases/asiPreventsParsingAsTypeAlias01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js asiPreventsParsingAsTypeAlias01.js asiPreventsParsingAsTypeAlias01.ts
+! stderr .
+cmp asiPreventsParsingAsTypeAlias01.js asiPreventsParsingAsTypeAlias01.js.golden
+! exists asiPreventsParsingAsTypeAlias01.d.ts
+! exists asiPreventsParsingAsTypeAlias01.js.map
+
+-- asiPreventsParsingAsTypeAlias01.ts --
+var type;
+var string;
+var Foo;
+
+type
+Foo = string;
+-- asiPreventsParsingAsTypeAlias01.js.golden --
+"use strict";
+var type;
+var string;
+var Foo;
+type;
+Foo = string;

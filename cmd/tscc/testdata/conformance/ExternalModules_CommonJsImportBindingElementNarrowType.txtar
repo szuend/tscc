@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/externalModules/commonJsImportBindingElementNarrowType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict-null-checks --target es2015 --lib es2015,dom bar.js
+! stderr .
+! exists bar.d.ts
+! exists bar.js.map
+
+-- bar.js --
+const { a } = require("./foo");
+if (a) {
+  var x = a + 1;
+}
+-- foo.d.ts --
+export const a: number | null;

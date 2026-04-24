@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/types/primitives/boolean/boolInsteadOfBoolean.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js boolInsteadOfBoolean.js boolInsteadOfBoolean.ts
+stderr 'TS2304'
+! exists boolInsteadOfBoolean.js
+! exists boolInsteadOfBoolean.d.ts
+! exists boolInsteadOfBoolean.js.map
+
+-- boolInsteadOfBoolean.ts --
+var x: bool;
+var a: boolean = x;
+x = a;

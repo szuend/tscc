@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsWithSwitchStatements03.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsWithSwitchStatements03.js stringLiteralsWithSwitchStatements03.ts
+stderr 'TS2678'
+stderr 'TS2872'
+stderr 'TS2695'
+! exists stringLiteralsWithSwitchStatements03.js
+! exists stringLiteralsWithSwitchStatements03.d.ts
+! exists stringLiteralsWithSwitchStatements03.js.map
+
+-- stringLiteralsWithSwitchStatements03.ts --
+declare let x: "foo";
+declare let y: "foo" | "bar";
+declare let z: "bar";
+
+declare function randBool(): boolean;
+
+switch (x) {
+    case randBool() ? "foo" : "baz":
+        break;
+    case (randBool() ? ("bar") : "baz" ? "bar" : "baz"):
+        break;
+    case (("bar")):
+        break;
+    case (x, y, ("baz")):
+        x;
+        y;
+        break;
+    case (("foo" || ("bar"))):
+        break;
+    case (("bar" || ("baz"))):
+        break;
+    case z || "baz":
+    case "baz" || z:
+        z;
+        break;
+}

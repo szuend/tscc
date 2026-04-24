@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/generators/generatorReturnTypeFallback.4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5,es2015.iterable --no-strict --target esnext generatorReturnTypeFallback.4.ts
+! stderr .
+! exists generatorReturnTypeFallback.4.d.ts
+! exists generatorReturnTypeFallback.4.js.map
+
+-- generatorReturnTypeFallback.4.ts --
+// Allow generators to fallback to IterableIterator if they are not in strictNullChecks mode
+// NOTE: In non-strictNullChecks mode, `undefined` (the default sent value) is assignable to everything.
+function* f() {
+    const x: string = yield 1;
+}

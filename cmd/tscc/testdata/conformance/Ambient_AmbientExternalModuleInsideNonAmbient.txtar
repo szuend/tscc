@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/ambient/ambientExternalModuleInsideNonAmbient.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ambientExternalModuleInsideNonAmbient.js ambientExternalModuleInsideNonAmbient.ts
+stderr 'TS2668'
+stderr 'TS2435'
+! exists ambientExternalModuleInsideNonAmbient.js
+! exists ambientExternalModuleInsideNonAmbient.d.ts
+! exists ambientExternalModuleInsideNonAmbient.js.map
+
+-- ambientExternalModuleInsideNonAmbient.ts --
+namespace M {
+    export declare module "M" { }
+}

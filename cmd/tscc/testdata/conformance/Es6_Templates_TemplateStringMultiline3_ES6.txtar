@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringMultiline3_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js templateStringMultiline3_ES6.js templateStringMultiline3_ES6.ts
+! stderr .
+cmp templateStringMultiline3_ES6.js templateStringMultiline3_ES6.js.golden
+! exists templateStringMultiline3_ES6.d.ts
+! exists templateStringMultiline3_ES6.js.map
+
+-- templateStringMultiline3_ES6.ts --
+
+-- templateStringMultiline3_ES6.js.golden --
+"use strict";

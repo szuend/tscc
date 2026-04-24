@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty21.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty21.js symbolProperty21.ts
+stderr 'TS2353'
+! exists symbolProperty21.js
+! exists symbolProperty21.d.ts
+! exists symbolProperty21.js.map
+
+-- symbolProperty21.ts --
+interface I<T, U> {
+    [Symbol.unscopables]: T;
+    [Symbol.isConcatSpreadable]: U;
+}
+
+declare function foo<T, U>(p: I<T, U>): { t: T; u: U };
+
+foo({
+    [Symbol.isConcatSpreadable]: "",
+    [Symbol.toPrimitive]: 0,
+    [Symbol.unscopables]: true
+});

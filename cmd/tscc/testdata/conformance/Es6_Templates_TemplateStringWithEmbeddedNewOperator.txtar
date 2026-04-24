@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedNewOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithEmbeddedNewOperator.js templateStringWithEmbeddedNewOperator.ts
+! stderr .
+cmp templateStringWithEmbeddedNewOperator.js templateStringWithEmbeddedNewOperator.js.golden
+! exists templateStringWithEmbeddedNewOperator.d.ts
+! exists templateStringWithEmbeddedNewOperator.js.map
+
+-- templateStringWithEmbeddedNewOperator.ts --
+var x = `abc${ new String("Hi") }def`;
+-- templateStringWithEmbeddedNewOperator.js.golden --
+"use strict";
+var x = `abc${new String("Hi")}def`;

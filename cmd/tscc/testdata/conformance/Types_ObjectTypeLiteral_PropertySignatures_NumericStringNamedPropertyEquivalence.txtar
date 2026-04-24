@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/objectTypeLiteral/propertySignatures/numericStringNamedPropertyEquivalence.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numericStringNamedPropertyEquivalence.js numericStringNamedPropertyEquivalence.ts
+stderr 'TS1117'
+! exists numericStringNamedPropertyEquivalence.js
+! exists numericStringNamedPropertyEquivalence.d.ts
+! exists numericStringNamedPropertyEquivalence.js.map
+
+-- numericStringNamedPropertyEquivalence.ts --
+// Each of these types has an error in it. 
+// String named and numeric named properties conflict if they would be equivalent after ToNumber on the property name.
+class C {
+    "1": number;
+    "1.0": number; // not a duplicate
+    1.0: number;
+}
+
+interface I {
+    "1": number;
+    "1.": number; // not a duplicate
+    1: number;
+}
+
+var a: {
+    "1": number;
+    1.0: string;
+}
+
+var b = {
+    "0": '',
+    0: ''
+}

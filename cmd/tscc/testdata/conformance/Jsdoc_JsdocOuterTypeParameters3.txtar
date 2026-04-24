@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocOuterTypeParameters3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --target es2015 --lib es2015,dom --out-js out_jsdocOuterTypeParameters3.js jsdocOuterTypeParameters3.js
+stderr 'TS1069'
+! exists out_jsdocOuterTypeParameters3.js
+! exists jsdocOuterTypeParameters3.d.ts
+! exists jsdocOuterTypeParameters3.js.map
+
+-- jsdocOuterTypeParameters3.js --
+/** @template {T} */
+class Baz {
+    m() {
+        class Bar {
+            static bar() { this.prototype.foo(); }
+        }
+    }
+}

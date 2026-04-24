@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorInvalidOperations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js bitwiseNotOperatorInvalidOperations.js bitwiseNotOperatorInvalidOperations.ts
+stderr 'TS1005'
+stderr 'TS1109'
+stderr 'TS1134'
+! exists bitwiseNotOperatorInvalidOperations.js
+! exists bitwiseNotOperatorInvalidOperations.d.ts
+! exists bitwiseNotOperatorInvalidOperations.js.map
+
+-- bitwiseNotOperatorInvalidOperations.ts --
+// Unary operator ~
+var q;
+
+// operand before ~
+var a = q~;  //expect error
+
+// multiple operands after ~
+var mul = ~[1, 2, "abc"], "";  //expect error
+
+// miss an operand
+var b =~;

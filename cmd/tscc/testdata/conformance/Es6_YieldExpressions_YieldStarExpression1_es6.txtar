@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/YieldStarExpression1_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js YieldStarExpression1_es6.js YieldStarExpression1_es6.ts
+stderr 'TS1212'
+! exists YieldStarExpression1_es6.js
+! exists YieldStarExpression1_es6.d.ts
+! exists YieldStarExpression1_es6.js.map
+
+-- YieldStarExpression1_es6.ts --
+yield * [];

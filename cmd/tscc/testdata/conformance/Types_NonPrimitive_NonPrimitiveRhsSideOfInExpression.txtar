@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/types/nonPrimitive/nonPrimitiveRhsSideOfInExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nonPrimitiveRhsSideOfInExpression.js nonPrimitiveRhsSideOfInExpression.ts
+! stderr .
+cmp nonPrimitiveRhsSideOfInExpression.js nonPrimitiveRhsSideOfInExpression.js.golden
+! exists nonPrimitiveRhsSideOfInExpression.d.ts
+! exists nonPrimitiveRhsSideOfInExpression.js.map
+
+-- nonPrimitiveRhsSideOfInExpression.ts --
+let o: object = {};
+
+function f(): object {
+	return {};
+}
+
+const b1 = "foo" in o;
+const b2 = "bar" in f();
+-- nonPrimitiveRhsSideOfInExpression.js.golden --
+"use strict";
+let o = {};
+function f() {
+    return {};
+}
+const b1 = "foo" in o;
+const b2 = "bar" in f();

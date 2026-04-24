@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/StrictMode/parserStrictMode15-negative.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserStrictMode15-negative.js parserStrictMode15-negative.ts
+stderr 'TS2304'
+! exists parserStrictMode15-negative.js
+! exists parserStrictMode15-negative.d.ts
+! exists parserStrictMode15-negative.js.map
+
+-- parserStrictMode15-negative.ts --
+"use strict";
+delete a[b];

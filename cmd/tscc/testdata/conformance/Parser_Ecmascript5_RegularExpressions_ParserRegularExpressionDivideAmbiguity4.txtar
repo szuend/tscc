@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpressionDivideAmbiguity4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserRegularExpressionDivideAmbiguity4.js parserRegularExpressionDivideAmbiguity4.ts
+stderr 'TS1161'
+! exists parserRegularExpressionDivideAmbiguity4.js
+! exists parserRegularExpressionDivideAmbiguity4.d.ts
+! exists parserRegularExpressionDivideAmbiguity4.js.map
+
+-- parserRegularExpressionDivideAmbiguity4.ts --
+foo(/notregexp);

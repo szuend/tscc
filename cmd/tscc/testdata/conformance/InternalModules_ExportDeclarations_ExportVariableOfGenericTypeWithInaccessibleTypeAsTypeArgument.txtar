@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.js ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.ts
+stderr 'TS2564'
+! exists ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.js
+! exists ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.d.ts
+! exists ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.js.map
+
+-- ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.ts --
+namespace A {
+    class B {
+        id: number;
+    }
+
+    export var beez: Array<B>;
+    export var beez2 = new Array<B>();
+}

@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserForInStatement7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserForInStatement7.js parserForInStatement7.ts
+stderr 'TS1091'
+! exists parserForInStatement7.js
+! exists parserForInStatement7.d.ts
+! exists parserForInStatement7.js.map
+
+-- parserForInStatement7.ts --
+for (var a: number = 1, b: string = "" in X) {
+}

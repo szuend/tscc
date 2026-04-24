@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es2024/resizableArrayBuffer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2023,es2024.arraybuffer --strict --target esnext resizableArrayBuffer.ts
+! stderr .
+! exists resizableArrayBuffer.d.ts
+! exists resizableArrayBuffer.js.map
+
+-- resizableArrayBuffer.ts --
+const buffer = new ArrayBuffer(8, { maxByteLength: 16 });
+buffer.resizable;

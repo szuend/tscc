@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/mergedWithLocalValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export type A = "a";
+-- b.ts --
+import type { A } from "./a";
+const A: A = "a";
+A.toUpperCase();
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

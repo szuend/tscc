@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardInClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardInClass.js typeGuardInClass.ts
+stderr 'TS2322'
+! exists typeGuardInClass.js
+! exists typeGuardInClass.d.ts
+! exists typeGuardInClass.js.map
+
+-- typeGuardInClass.ts --
+declare var x: string | number;
+
+if (typeof x === "string") {
+    let n = class {
+        constructor() {
+            let y: string = x;
+        }
+    }
+}
+else {
+    let m = class {
+        constructor() {
+            let y: number = x;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/types/conditional/inferTypesWithExtendsDependingOnTypeVariables.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom inferTypesWithExtendsDependingOnTypeVariables.ts
+! stderr .
+! exists inferTypesWithExtendsDependingOnTypeVariables.d.ts
+! exists inferTypesWithExtendsDependingOnTypeVariables.js.map
+
+-- inferTypesWithExtendsDependingOnTypeVariables.ts --
+// repro from https://github.com/microsoft/TypeScript/issues/54197
+
+type Bar<K, T extends readonly unknown[]> = T extends readonly [any, ...infer X extends readonly K[]] ? X : never;
+type Res1 = Bar<"a" | "b", ["a", "b", "b"]>

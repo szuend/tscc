@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInAModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractInAModule.js classAbstractInAModule.ts
+stderr 'TS2511'
+! exists classAbstractInAModule.js
+! exists classAbstractInAModule.d.ts
+! exists classAbstractInAModule.js.map
+
+-- classAbstractInAModule.ts --
+namespace M {
+    export abstract class A {}
+    export class B extends A {}
+}
+
+new M.A;
+new M.B;

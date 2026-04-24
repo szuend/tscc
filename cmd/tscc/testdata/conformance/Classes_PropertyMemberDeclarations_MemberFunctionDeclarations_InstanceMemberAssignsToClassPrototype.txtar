@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/instanceMemberAssignsToClassPrototype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instanceMemberAssignsToClassPrototype.js instanceMemberAssignsToClassPrototype.ts
+stderr 'TS2322'
+! exists instanceMemberAssignsToClassPrototype.js
+! exists instanceMemberAssignsToClassPrototype.d.ts
+! exists instanceMemberAssignsToClassPrototype.js.map
+
+-- instanceMemberAssignsToClassPrototype.ts --
+class C {
+    foo() {
+        C.prototype.foo = () => { }
+    }
+
+    bar(x: number): number {
+        C.prototype.bar = () => { } // error
+        C.prototype.bar = (x) => x; // ok
+        C.prototype.bar = (x: number) => 1; // ok
+        return 1;
+    }
+}

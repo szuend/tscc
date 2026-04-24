@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/importAssertion/importAssertion4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importAssertion4.js importAssertion4.ts
+stderr 'TS1005'
+! exists importAssertion4.js
+! exists importAssertion4.d.ts
+! exists importAssertion4.js.map
+
+-- importAssertion4.ts --
+import * as f from "./first" with

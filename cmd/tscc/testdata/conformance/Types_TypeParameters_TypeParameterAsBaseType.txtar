@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterAsBaseType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterAsBaseType.js typeParameterAsBaseType.ts
+stderr 'TS2304'
+stderr 'TS2312'
+! exists typeParameterAsBaseType.js
+! exists typeParameterAsBaseType.d.ts
+! exists typeParameterAsBaseType.js.map
+
+-- typeParameterAsBaseType.ts --
+// type parameters cannot be used as base types
+// these are all errors
+
+class C<T> extends T { }
+class C2<T, U> extends U { }
+
+interface I<T> extends T { }
+interface I2<T, U> extends U { }
+

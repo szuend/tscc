@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/modifierOnClassDeclarationMemberInFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts modifierOnClassDeclarationMemberInFunction.d.ts --target es2015 --lib es2015,dom --out-js modifierOnClassDeclarationMemberInFunction.js modifierOnClassDeclarationMemberInFunction.ts
+! stderr .
+cmp modifierOnClassDeclarationMemberInFunction.d.ts modifierOnClassDeclarationMemberInFunction.d.ts.golden
+cmp modifierOnClassDeclarationMemberInFunction.js modifierOnClassDeclarationMemberInFunction.js.golden
+! exists modifierOnClassDeclarationMemberInFunction.js.map
+
+-- modifierOnClassDeclarationMemberInFunction.ts --
+function f() {
+    class C {
+        public baz = 1;
+        static foo() { }
+        public bar() { }
+    }
+}
+-- modifierOnClassDeclarationMemberInFunction.d.ts.golden --
+declare function f(): void;
+-- modifierOnClassDeclarationMemberInFunction.js.golden --
+"use strict";
+function f() {
+    class C {
+        constructor() {
+            this.baz = 1;
+        }
+        static foo() { }
+        bar() { }
+    }
+}

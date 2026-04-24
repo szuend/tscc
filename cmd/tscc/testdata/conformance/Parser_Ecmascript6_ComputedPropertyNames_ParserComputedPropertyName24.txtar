@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName24.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js parserComputedPropertyName24.js parserComputedPropertyName24.ts
+stderr 'TS2304'
+! exists parserComputedPropertyName24.js
+! exists parserComputedPropertyName24.d.ts
+! exists parserComputedPropertyName24.js.map
+
+-- parserComputedPropertyName24.ts --
+class C {
+    set [e](v) { }
+}

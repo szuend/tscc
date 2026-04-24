@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractAssignabilityConstructorFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractAssignabilityConstructorFunction.js classAbstractAssignabilityConstructorFunction.ts
+stderr 'TS2322'
+! exists classAbstractAssignabilityConstructorFunction.js
+! exists classAbstractAssignabilityConstructorFunction.d.ts
+! exists classAbstractAssignabilityConstructorFunction.js.map
+
+-- classAbstractAssignabilityConstructorFunction.ts --
+abstract class A { }
+
+// var AA: typeof A;
+var AAA: new() => A;
+
+// AA = A; // okay
+AAA = A; // error. 
+AAA = "asdf";

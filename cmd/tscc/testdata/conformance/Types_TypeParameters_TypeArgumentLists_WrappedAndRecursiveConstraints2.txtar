@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeArgumentLists/wrappedAndRecursiveConstraints2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js wrappedAndRecursiveConstraints2.js wrappedAndRecursiveConstraints2.ts
+! stderr .
+cmp wrappedAndRecursiveConstraints2.js wrappedAndRecursiveConstraints2.js.golden
+! exists wrappedAndRecursiveConstraints2.d.ts
+! exists wrappedAndRecursiveConstraints2.js.map
+
+-- wrappedAndRecursiveConstraints2.ts --
+class C<T extends C<T>> { // error
+    constructor(x: T) { }
+}
+
+var c = new C(1);
+var c = new C(new C('')); // error
+-- wrappedAndRecursiveConstraints2.js.golden --
+"use strict";
+class C {
+    constructor(x) { }
+}
+var c = new C(1);
+var c = new C(new C('')); // error

@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractExtends.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classAbstractExtends.js classAbstractExtends.ts
+stderr 'TS2515'
+! exists classAbstractExtends.js
+! exists classAbstractExtends.d.ts
+! exists classAbstractExtends.js.map
+
+-- classAbstractExtends.ts --
+class A {
+    foo() {}
+}
+
+abstract class B extends A {
+    abstract bar();
+}
+
+class C extends B { }
+
+abstract class D extends B {}
+
+class E extends B {
+    bar() {}
+}

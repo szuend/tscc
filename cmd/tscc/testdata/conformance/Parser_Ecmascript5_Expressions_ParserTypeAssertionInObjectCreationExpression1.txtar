@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserTypeAssertionInObjectCreationExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserTypeAssertionInObjectCreationExpression1.js parserTypeAssertionInObjectCreationExpression1.ts
+stderr 'TS1109'
+! exists parserTypeAssertionInObjectCreationExpression1.js
+! exists parserTypeAssertionInObjectCreationExpression1.d.ts
+! exists parserTypeAssertionInObjectCreationExpression1.js.map
+
+-- parserTypeAssertionInObjectCreationExpression1.ts --
+new <T>Foo()

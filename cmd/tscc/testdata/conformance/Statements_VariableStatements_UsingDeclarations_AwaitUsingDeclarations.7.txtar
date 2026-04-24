@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarations.7.js awaitUsingDeclarations.7.ts
+stderr 'TS1492'
+! exists awaitUsingDeclarations.7.js
+! exists awaitUsingDeclarations.7.d.ts
+! exists awaitUsingDeclarations.7.js.map
+
+-- awaitUsingDeclarations.7.ts --
+{
+    await using a = null,
+                {b} = null,
+                c = null;
+}

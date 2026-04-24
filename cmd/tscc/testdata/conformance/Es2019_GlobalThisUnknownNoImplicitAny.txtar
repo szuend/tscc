@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/es2019/globalThisUnknownNoImplicitAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js globalThisUnknownNoImplicitAny.js globalThisUnknownNoImplicitAny.ts
+stderr 'TS2339'
+stderr 'TS7017'
+stderr 'TS7015'
+stderr 'TS7053'
+! exists globalThisUnknownNoImplicitAny.js
+! exists globalThisUnknownNoImplicitAny.d.ts
+! exists globalThisUnknownNoImplicitAny.js.map
+
+-- globalThisUnknownNoImplicitAny.ts --
+declare let win: Window & typeof globalThis;
+
+// all accesses should be errors
+win.hi
+this.hi
+globalThis.hi
+
+win['hi']
+this['hi']
+globalThis['hi']

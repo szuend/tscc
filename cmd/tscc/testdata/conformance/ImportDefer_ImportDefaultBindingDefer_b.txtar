@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/importDefer/importDefaultBindingDefer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module esnext --target es2015 --lib es2015,dom --out-js b.js b.ts
+stderr 'TS2307'
+! exists b.js
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export default function defer() {
+    console.log("defer from a");
+}
+-- b.ts --
+import defer from "a";
+
+defer();

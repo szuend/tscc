@@ -1,0 +1,9 @@
+# Ported from tests/cases/conformance/salsa/thisPropertyAssignmentComputed.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom thisPropertyAssignmentComputed.js
+stderr 'TS7053'
+! exists thisPropertyAssignmentComputed.d.ts
+! exists thisPropertyAssignmentComputed.js.map
+
+-- thisPropertyAssignmentComputed.js --
+this["a" + "b"] = 0

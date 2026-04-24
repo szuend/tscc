@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/never/neverIntersectionNotCallable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js neverIntersectionNotCallable.js neverIntersectionNotCallable.ts
+stderr 'TS2349'
+! exists neverIntersectionNotCallable.js
+! exists neverIntersectionNotCallable.d.ts
+! exists neverIntersectionNotCallable.js.map
+
+-- neverIntersectionNotCallable.ts --
+declare const f: { (x: string): number, a: "" } & { a: number }
+f()

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarations.5.js awaitUsingDeclarations.5.ts
+stderr 'TS1492'
+! exists awaitUsingDeclarations.5.js
+! exists awaitUsingDeclarations.5.d.ts
+! exists awaitUsingDeclarations.5.js.map
+
+-- awaitUsingDeclarations.5.ts --
+{
+    await using a = null,
+                [b] = null,
+                c = null;
+}
+
+export {};

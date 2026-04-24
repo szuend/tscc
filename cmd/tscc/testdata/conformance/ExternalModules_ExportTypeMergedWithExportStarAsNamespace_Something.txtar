@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/externalModules/exportTypeMergedWithExportStarAsNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js Something.js Something.ts
+! stderr .
+cmp Something.js Something.js.golden
+! exists Something.d.ts
+! exists Something.js.map
+
+-- Something.ts --
+export type Something<A> = { value: A }
+export type SubType<A> = { value: A }
+export declare function of<A>(value: A): Something<A>
+-- prelude.ts --
+import * as S from "./Something"
+export * as Something from "./Something"
+export type Something<A> = S.Something<A>
+-- usage.ts --
+import { Something } from "./prelude"
+export const myValue: Something<string> = Something.of("abc")
+export type MyType = Something.SubType<string>
+-- Something.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

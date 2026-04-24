@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesDeclarationEmit3_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts computedPropertyNamesDeclarationEmit3_ES6.d.ts --target es6 --lib es6,dom --out-js computedPropertyNamesDeclarationEmit3_ES6.js computedPropertyNamesDeclarationEmit3_ES6.ts
+stderr 'TS1169'
+! exists computedPropertyNamesDeclarationEmit3_ES6.d.ts
+! exists computedPropertyNamesDeclarationEmit3_ES6.js
+! exists computedPropertyNamesDeclarationEmit3_ES6.js.map
+
+-- computedPropertyNamesDeclarationEmit3_ES6.ts --
+interface I {
+    ["" + ""](): void;
+}

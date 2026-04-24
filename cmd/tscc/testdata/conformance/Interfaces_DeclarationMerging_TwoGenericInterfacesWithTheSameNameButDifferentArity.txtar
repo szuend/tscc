@@ -1,0 +1,50 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/twoGenericInterfacesWithTheSameNameButDifferentArity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js twoGenericInterfacesWithTheSameNameButDifferentArity.js twoGenericInterfacesWithTheSameNameButDifferentArity.ts
+stderr 'TS2428'
+! exists twoGenericInterfacesWithTheSameNameButDifferentArity.js
+! exists twoGenericInterfacesWithTheSameNameButDifferentArity.d.ts
+! exists twoGenericInterfacesWithTheSameNameButDifferentArity.js.map
+
+-- twoGenericInterfacesWithTheSameNameButDifferentArity.ts --
+interface A<T> {
+    x: T;
+}
+
+interface A<T, U> { // error
+    y: T;
+}
+
+namespace M {
+    interface A<T> {
+        x: T;
+    }
+
+    interface A<T, U> { // error
+        y: T;
+    }
+}
+
+namespace M2 {
+    interface A<T> {
+        x: T;
+    }
+}
+
+namespace M2 {
+    interface A<T, U> { // ok, different declaration space than other M2
+        y: T;
+    }
+}
+
+namespace M3 {
+    export interface A<T> {
+        x: T;
+    }
+}
+
+namespace M3 {
+    export interface A<T, U> { // error
+        y: T;
+    }
+}

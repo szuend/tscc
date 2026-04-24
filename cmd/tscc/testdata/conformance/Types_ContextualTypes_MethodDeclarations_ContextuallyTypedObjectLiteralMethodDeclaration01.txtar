@@ -1,0 +1,86 @@
+# Ported from tests/cases/conformance/types/contextualTypes/methodDeclarations/contextuallyTypedObjectLiteralMethodDeclaration01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js contextuallyTypedObjectLiteralMethodDeclaration01.js contextuallyTypedObjectLiteralMethodDeclaration01.ts
+! stderr .
+cmp contextuallyTypedObjectLiteralMethodDeclaration01.js contextuallyTypedObjectLiteralMethodDeclaration01.js.golden
+! exists contextuallyTypedObjectLiteralMethodDeclaration01.d.ts
+! exists contextuallyTypedObjectLiteralMethodDeclaration01.js.map
+
+-- contextuallyTypedObjectLiteralMethodDeclaration01.ts --
+interface A {
+    numProp: number;
+}
+
+interface B  {
+    strProp: string;
+}
+
+interface Foo {
+    method1(arg: A): void;
+    method2(arg: B): void;
+}
+
+function getFoo1(): Foo {
+    return {
+        method1(arg) {
+            arg.numProp = 10;
+        },
+        method2(arg) {
+            arg.strProp = "hello";
+        }
+    }
+}
+
+function getFoo2(): Foo {
+    return {
+        method1: (arg) => {
+            arg.numProp = 10;
+        },
+        method2: (arg) => {
+            arg.strProp = "hello";
+        }
+    }
+}
+
+function getFoo3(): Foo {
+    return {
+        method1: function (arg) {
+            arg.numProp = 10;
+        },
+        method2: function (arg) {
+            arg.strProp = "hello";
+        }
+    }
+}
+-- contextuallyTypedObjectLiteralMethodDeclaration01.js.golden --
+"use strict";
+function getFoo1() {
+    return {
+        method1(arg) {
+            arg.numProp = 10;
+        },
+        method2(arg) {
+            arg.strProp = "hello";
+        }
+    };
+}
+function getFoo2() {
+    return {
+        method1: (arg) => {
+            arg.numProp = 10;
+        },
+        method2: (arg) => {
+            arg.strProp = "hello";
+        }
+    };
+}
+function getFoo3() {
+    return {
+        method1: function (arg) {
+            arg.numProp = 10;
+        },
+        method2: function (arg) {
+            arg.strProp = "hello";
+        }
+    };
+}

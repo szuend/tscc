@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/statements/breakStatements/invalidSwitchBreakStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidSwitchBreakStatement.js invalidSwitchBreakStatement.ts
+stderr 'TS2678'
+! exists invalidSwitchBreakStatement.js
+! exists invalidSwitchBreakStatement.d.ts
+! exists invalidSwitchBreakStatement.js.map
+
+-- invalidSwitchBreakStatement.ts --
+// break is not allowed in a switch statement
+
+switch (12) {
+    case 5:
+        break;
+}

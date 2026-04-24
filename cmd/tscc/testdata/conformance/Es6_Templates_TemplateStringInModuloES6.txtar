@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInModuloES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js templateStringInModuloES6.js templateStringInModuloES6.ts
+stderr 'TS2363'
+! exists templateStringInModuloES6.js
+! exists templateStringInModuloES6.d.ts
+! exists templateStringInModuloES6.js.map
+
+-- templateStringInModuloES6.ts --
+var x = 1 % `abc${ 1 }def`;

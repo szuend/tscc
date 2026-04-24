@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionDeclarationEmit2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts 1.d.ts --module es2020 --target es2020 --lib es2020,dom --out-js 1.js 1.ts
+! stderr .
+cmp 1.d.ts 1.d.ts.golden
+cmp 1.js 1.js.golden
+! exists 1.js.map
+
+-- 0.ts --
+export function foo() { return "foo"; }
+-- 1.ts --
+var p1 = import("./0");
+-- 1.d.ts.golden --
+declare var p1: Promise<typeof import("./0")>;
+-- 1.js.golden --
+"use strict";
+var p1 = import("./0");

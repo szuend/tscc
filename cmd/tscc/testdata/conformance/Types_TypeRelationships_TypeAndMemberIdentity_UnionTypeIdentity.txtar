@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeAndMemberIdentity/unionTypeIdentity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unionTypeIdentity.js unionTypeIdentity.ts
+stderr 'TS2403'
+! exists unionTypeIdentity.js
+! exists unionTypeIdentity.d.ts
+! exists unionTypeIdentity.js.map
+
+-- unionTypeIdentity.ts --
+// Two types are considered identical when
+// they are union types with identical sets of constituent types, or
+var strOrNum: string | boolean;
+var strOrNum: boolean | string;
+var strOrNum: boolean | string | boolean;
+var strOrNum: string; // error
+var strOrNum: boolean; // error
+var strOrNum: number; // error

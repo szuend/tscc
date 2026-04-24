@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/tuple/emptyTuples/emptyTuplesTypeAssertion01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts emptyTuplesTypeAssertion01.d.ts --target es2015 --lib es2015,dom --out-js emptyTuplesTypeAssertion01.js emptyTuplesTypeAssertion01.ts
+stderr 'TS2493'
+! exists emptyTuplesTypeAssertion01.d.ts
+! exists emptyTuplesTypeAssertion01.js
+! exists emptyTuplesTypeAssertion01.js.map
+
+-- emptyTuplesTypeAssertion01.ts --
+let x = <[]>[];
+let y = x[0];

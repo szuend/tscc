@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsAssignedToStringMappings.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsAssignedToStringMappings.js stringLiteralsAssignedToStringMappings.ts
+stderr 'TS2322'
+! exists stringLiteralsAssignedToStringMappings.js
+! exists stringLiteralsAssignedToStringMappings.d.ts
+! exists stringLiteralsAssignedToStringMappings.js.map
+
+-- stringLiteralsAssignedToStringMappings.ts --
+declare var x: Uppercase<Lowercase<string>>;
+
+// good
+x = "A";
+
+// bad
+x = "a";
+
+declare var y: Uppercase<Lowercase<`${number}`>>;
+
+// good
+y = "1";
+
+// bad
+y = "a";
+y = "A";

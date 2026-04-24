@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/extendsClause.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js types.js types.ts
+! stderr .
+cmp types.js types.js.golden
+! exists types.d.ts
+! exists types.js.map
+
+-- index.ts --
+import { types } from './ns';
+import type { C, I } from './types';
+
+interface Q extends C {}
+interface R extends I {}
+interface S extends types.C {}
+interface T extends types.I {}
+
+class U extends C {} // Error
+class V extends types.C {} // Error
+-- ns.ts --
+import type * as types from './types';
+export { types };
+-- types.ts --
+export interface I {}
+export class C {}
+-- types.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.C = void 0;
+class C {
+}
+exports.C = C;

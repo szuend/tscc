@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser536727.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser536727.js parser536727.ts
+stderr 'TS2345'
+! exists parser536727.js
+! exists parser536727.d.ts
+! exists parser536727.js.map
+
+-- parser536727.ts --
+function foo(f: (x: string) => string) {
+    return f("");
+}
+var g = (x: string) => x + "blah";
+var x = () => g;
+foo(g);
+foo(() => g);
+foo(x);

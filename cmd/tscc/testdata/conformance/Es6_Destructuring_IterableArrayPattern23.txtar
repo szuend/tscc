@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern23.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iterableArrayPattern23.js iterableArrayPattern23.ts
+stderr 'TS2488'
+! exists iterableArrayPattern23.js
+! exists iterableArrayPattern23.d.ts
+! exists iterableArrayPattern23.js.map
+
+-- iterableArrayPattern23.ts --
+var a: string, b: boolean;
+[a, b] = { 0: "", 1: true };

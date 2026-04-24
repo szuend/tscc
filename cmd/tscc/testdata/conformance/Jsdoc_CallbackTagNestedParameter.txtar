@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/jsdoc/callbackTagNestedParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts cb_nested.d.ts --target es2015 --lib es2015,dom cb_nested.js
+! stderr .
+cmp cb_nested.d.ts cb_nested.d.ts.golden
+! exists cb_nested.js.map
+! exists out_cb_nested.js
+
+-- cb_nested.js --
+/**
+ * @callback WorksWithPeopleCallback
+ * @param {Object} person
+ * @param {string} person.name
+ * @param {number} [person.age]
+ * @returns {void}
+ */
+
+/**
+ * For each person, calls your callback.
+ * @param {WorksWithPeopleCallback} callback
+ * @returns {void}
+ */
+function eachPerson(callback) {
+    callback({ name: "Empty" });
+}
+-- cb_nested.d.ts.golden --
+/**
+ * @callback WorksWithPeopleCallback
+ * @param {Object} person
+ * @param {string} person.name
+ * @param {number} [person.age]
+ * @returns {void}
+ */
+type WorksWithPeopleCallback = (person: {
+    name: string;
+    age?: number;
+}) => void;
+/**
+ * For each person, calls your callback.
+ * @param {WorksWithPeopleCallback} callback
+ * @returns {void}
+ */
+declare function eachPerson(callback: WorksWithPeopleCallback): void;

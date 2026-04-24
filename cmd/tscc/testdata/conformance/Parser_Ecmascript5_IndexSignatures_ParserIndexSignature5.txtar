@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserIndexSignature5.js parserIndexSignature5.ts
+stderr 'TS2304'
+! exists parserIndexSignature5.js
+! exists parserIndexSignature5.d.ts
+! exists parserIndexSignature5.js.map
+
+-- parserIndexSignature5.ts --
+interface I {
+  [a] // Used to be indexer, now it is a computed property
+}

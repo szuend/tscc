@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/types/members/objectTypeHidingMembersOfObjectAssignmentCompat2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectTypeHidingMembersOfObjectAssignmentCompat2.js objectTypeHidingMembersOfObjectAssignmentCompat2.ts
+stderr 'TS2322'
+! exists objectTypeHidingMembersOfObjectAssignmentCompat2.js
+! exists objectTypeHidingMembersOfObjectAssignmentCompat2.d.ts
+! exists objectTypeHidingMembersOfObjectAssignmentCompat2.js.map
+
+-- objectTypeHidingMembersOfObjectAssignmentCompat2.ts --
+interface I {
+    toString(): number;
+}
+
+declare var i: I;
+declare var o: Object;
+o = i; // error
+i = o; // error
+
+class C {
+    toString(): number { return 1; }
+}
+declare var c: C;
+o = c; // error
+c = o; // error
+
+var a = {
+    toString: () => { }
+}
+o = a; // error
+a = o; // ok

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/intersection/commonTypeIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js commonTypeIntersection.js commonTypeIntersection.ts
+stderr 'TS2322'
+! exists commonTypeIntersection.js
+! exists commonTypeIntersection.d.ts
+! exists commonTypeIntersection.js.map
+
+-- commonTypeIntersection.ts --
+declare let x1: { __typename?: 'TypeTwo' } & { a: boolean };
+let y1: { __typename?: 'TypeOne' } & { a: boolean} = x1;  // should error here
+declare let x2: { __typename?: 'TypeTwo' } & string;
+let y2: { __typename?: 'TypeOne' } & string = x2;  // should error here

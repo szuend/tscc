@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/types/members/objectTypeHidingMembersOfObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectTypeHidingMembersOfObject.js objectTypeHidingMembersOfObject.ts
+stderr 'TS2454'
+! exists objectTypeHidingMembersOfObject.js
+! exists objectTypeHidingMembersOfObject.d.ts
+! exists objectTypeHidingMembersOfObject.js.map
+
+-- objectTypeHidingMembersOfObject.ts --
+// all of these valueOf calls should return the type shown in the overriding signatures here
+
+class C {
+    valueOf() { }
+}
+
+var c: C;
+var r1: void = c.valueOf();
+
+interface I {
+    valueOf(): void;
+}
+
+var i: I;
+var r2: void = i.valueOf();
+
+var a = {
+    valueOf: () => { }
+}
+
+var r3: void = a.valueOf();
+
+var b: {
+    valueOf(): void;
+}
+
+var r4: void = b.valueOf();

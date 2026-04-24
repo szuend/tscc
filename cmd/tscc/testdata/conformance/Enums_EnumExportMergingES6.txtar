@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/enums/enumExportMergingES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js enumExportMergingES6.js enumExportMergingES6.ts
+! stderr .
+cmp enumExportMergingES6.js enumExportMergingES6.js.golden
+! exists enumExportMergingES6.d.ts
+! exists enumExportMergingES6.js.map
+
+-- enumExportMergingES6.ts --
+export enum Animals {
+	Cat = 1
+}
+export enum Animals {
+	Dog = 2
+}
+export enum Animals {
+	CatDog = Cat | Dog
+}
+-- enumExportMergingES6.js.golden --
+export var Animals;
+(function (Animals) {
+    Animals[Animals["Cat"] = 1] = "Cat";
+})(Animals || (Animals = {}));
+(function (Animals) {
+    Animals[Animals["Dog"] = 2] = "Dog";
+})(Animals || (Animals = {}));
+(function (Animals) {
+    Animals[Animals["CatDog"] = 3] = "CatDog";
+})(Animals || (Animals = {}));

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedArrayES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedArrayES6.js templateStringWithEmbeddedArrayES6.ts
+! stderr .
+cmp templateStringWithEmbeddedArrayES6.js templateStringWithEmbeddedArrayES6.js.golden
+! exists templateStringWithEmbeddedArrayES6.d.ts
+! exists templateStringWithEmbeddedArrayES6.js.map
+
+-- templateStringWithEmbeddedArrayES6.ts --
+var x = `abc${ [1,2,3] }def`;
+-- templateStringWithEmbeddedArrayES6.js.golden --
+"use strict";
+var x = `abc${[1, 2, 3]}def`;

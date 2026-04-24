@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/expressions/typeAssertions/duplicatePropertiesInTypeAssertions01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts duplicatePropertiesInTypeAssertions01.d.ts --target es2015 --lib es2015,dom --out-js duplicatePropertiesInTypeAssertions01.js duplicatePropertiesInTypeAssertions01.ts
+stderr 'TS2300'
+! exists duplicatePropertiesInTypeAssertions01.d.ts
+! exists duplicatePropertiesInTypeAssertions01.js
+! exists duplicatePropertiesInTypeAssertions01.js.map
+
+-- duplicatePropertiesInTypeAssertions01.ts --
+let x = <{a: number; a: number}>{};

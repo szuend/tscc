@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/thisInInstanceMemberInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisInInstanceMemberInitializer.js thisInInstanceMemberInitializer.ts
+stderr 'TS2564'
+! exists thisInInstanceMemberInitializer.js
+! exists thisInInstanceMemberInitializer.d.ts
+! exists thisInInstanceMemberInitializer.js.map
+
+-- thisInInstanceMemberInitializer.ts --
+class C {
+    x = this;
+}
+
+class D<T> {
+    x = this;
+    y: T;
+}

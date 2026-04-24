@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es2022/arbitraryModuleNamespaceIdentifiers/arbitraryModuleNamespaceIdentifiers_importEmpty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts arbitraryModuleNamespaceIdentifiers_importEmpty.d.ts --module ES2022 --target ES2022 --lib ES2022,dom --out-js arbitraryModuleNamespaceIdentifiers_importEmpty.js arbitraryModuleNamespaceIdentifiers_importEmpty.ts
+stderr 'TS2305'
+! exists arbitraryModuleNamespaceIdentifiers_importEmpty.d.ts
+! exists arbitraryModuleNamespaceIdentifiers_importEmpty.js
+! exists arbitraryModuleNamespaceIdentifiers_importEmpty.js.map
+
+-- arbitraryModuleNamespaceIdentifiers_importEmpty.ts --
+// These should all be errors. In particular, the empty string is a now a valid
+// module export name, and should be treated as such here.
+import {
+  "missing" as x,
+  "(missing)" as y,
+  "" as z,
+} from "./arbitraryModuleNamespaceIdentifiers_importEmpty";
+const xyz = [x, y, z];

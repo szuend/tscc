@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceThatInheritsFromItself.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceThatInheritsFromItself.js interfaceThatInheritsFromItself.ts
+stderr 'TS1176'
+! exists interfaceThatInheritsFromItself.js
+! exists interfaceThatInheritsFromItself.d.ts
+! exists interfaceThatInheritsFromItself.js.map
+
+-- interfaceThatInheritsFromItself.ts --
+interface Foo extends Foo { // error
+}
+
+interface Foo2<T> extends Foo2<T> { // error
+}
+
+interface Foo3<T> extends Foo3<string> { // error
+}
+
+interface Bar implements Bar { // error
+}
+

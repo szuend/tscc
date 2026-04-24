@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/types/spread/spreadUnion2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js spreadUnion2.js spreadUnion2.ts
+stderr 'TS2403'
+! exists spreadUnion2.js
+! exists spreadUnion2.d.ts
+! exists spreadUnion2.js.map
+
+-- spreadUnion2.ts --
+declare const undefinedUnion: { a: number } | undefined;
+declare const nullUnion: { b: number } | null;
+
+var o1: {} | { a: number };
+var o1 = { ...undefinedUnion };
+
+var o2: {} | { b: number };
+var o2 = { ...nullUnion };
+
+var o3: {} | { a: number } | { b: number } | { a: number, b: number };
+var o3 = { ...undefinedUnion, ...nullUnion };
+var o3 = { ...nullUnion, ...undefinedUnion };
+
+var o4: {} | { a: number };
+var o4 = { ...undefinedUnion, ...undefinedUnion };
+
+var o5: {} | { b: number };
+var o5 = { ...nullUnion, ...nullUnion };
+

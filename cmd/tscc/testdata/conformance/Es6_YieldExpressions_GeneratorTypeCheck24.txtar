@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck24.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js generatorTypeCheck24.js generatorTypeCheck24.ts
+stderr 'TS2564'
+! exists generatorTypeCheck24.js
+! exists generatorTypeCheck24.d.ts
+! exists generatorTypeCheck24.js.map
+
+-- generatorTypeCheck24.ts --
+class Foo { x: number }
+class Bar extends Foo { y: string }
+class Baz { z: number }
+function* g3() {
+    yield;
+    yield * [new Foo];
+    yield new Bar;
+    yield new Baz;
+    yield *[new Bar];
+    yield *[new Baz];
+}

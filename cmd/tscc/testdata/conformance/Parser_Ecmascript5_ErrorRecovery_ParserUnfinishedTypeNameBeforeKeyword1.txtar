@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserUnfinishedTypeNameBeforeKeyword1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserUnfinishedTypeNameBeforeKeyword1.js parserUnfinishedTypeNameBeforeKeyword1.ts
+stderr 'TS1003'
+! exists parserUnfinishedTypeNameBeforeKeyword1.js
+! exists parserUnfinishedTypeNameBeforeKeyword1.d.ts
+! exists parserUnfinishedTypeNameBeforeKeyword1.js.map
+
+-- parserUnfinishedTypeNameBeforeKeyword1.ts --
+var x: TypeModule1.
+namespace TypeModule2 {
+}

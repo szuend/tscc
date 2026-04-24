@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/assignmentCompatWithGenericCallSignatures2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatWithGenericCallSignatures2.js assignmentCompatWithGenericCallSignatures2.ts
+stderr 'TS2322'
+! exists assignmentCompatWithGenericCallSignatures2.js
+! exists assignmentCompatWithGenericCallSignatures2.d.ts
+! exists assignmentCompatWithGenericCallSignatures2.js.map
+
+-- assignmentCompatWithGenericCallSignatures2.ts --
+// some complex cases of assignment compat of generic signatures. No contextual signature instantiation
+
+interface A {
+    <T>(x: T, ...y: T[][]): void
+}
+
+interface B {
+    <S>(x: S, ...y: S[]): void
+}
+
+declare var a: A;
+declare var b: B;
+
+// Both errors
+a = b;
+b = a;

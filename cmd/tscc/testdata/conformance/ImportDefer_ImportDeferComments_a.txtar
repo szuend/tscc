@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/importDefer/importDeferComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module esnext --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export {};
+-- b.ts --
+/*1*/ import /*2*/ defer /*3*/ * /*4*/ as /*5*/ aNs /*6*/ from /*7*/ "a" /*8*/;
+-- a.js.golden --
+export {};

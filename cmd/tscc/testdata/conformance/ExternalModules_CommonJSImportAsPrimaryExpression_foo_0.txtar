@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/externalModules/commonJSImportAsPrimaryExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo_0.js foo_0.ts
+! stderr .
+cmp foo_0.js foo_0.js.golden
+! exists foo_0.d.ts
+! exists foo_0.js.map
+
+-- foo_0.ts --
+export class C1 {
+	m1 = 42;
+	static s1 = true;
+}
+-- foo_1.ts --
+import foo = require("./foo_0");
+if(foo.C1.s1){
+	// Should cause runtime import
+}
+-- foo_0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.C1 = void 0;
+class C1 {
+    constructor() {
+        this.m1 = 42;
+    }
+}
+exports.C1 = C1;
+C1.s1 = true;

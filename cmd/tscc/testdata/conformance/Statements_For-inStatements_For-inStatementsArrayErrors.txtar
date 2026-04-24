@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/statements/for-inStatements/for-inStatementsArrayErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js for-inStatementsArrayErrors.js for-inStatementsArrayErrors.ts
+stderr 'TS7015'
+stderr 'TS2362'
+stderr 'TS2367'
+stderr 'TS2339'
+stderr 'TS2403'
+! exists for-inStatementsArrayErrors.js
+! exists for-inStatementsArrayErrors.d.ts
+! exists for-inStatementsArrayErrors.js.map
+
+-- for-inStatementsArrayErrors.ts --
+declare let a: Date[];
+
+for (let x in a) {
+    let a1 = a[x + 1];
+    let a2 = a[x - 1];
+    if (x === 1) {
+    }
+    let a3 = x.unknownProperty;
+}
+
+var i: number;
+for (var i in a ) {
+}
+
+var j: any;
+for (var j in a ) {
+}

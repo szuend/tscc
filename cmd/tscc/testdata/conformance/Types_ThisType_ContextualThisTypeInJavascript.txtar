@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/thisType/contextualThisTypeInJavascript.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom context.js
+! stderr .
+! exists context.d.ts
+! exists context.js.map
+
+-- context.js --
+const obj = {
+    prop: 2,
+    method() {
+        this;
+        this.prop;
+        this.method;
+        this.unknown; // ok, obj has a string indexer
+    }
+}

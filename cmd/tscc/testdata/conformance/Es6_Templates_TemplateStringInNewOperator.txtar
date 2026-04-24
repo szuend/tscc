@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInNewOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInNewOperator.js templateStringInNewOperator.ts
+stderr 'TS2351'
+! exists templateStringInNewOperator.js
+! exists templateStringInNewOperator.d.ts
+! exists templateStringInNewOperator.js.map
+
+-- templateStringInNewOperator.ts --
+var x = new `abc${ 1 }def`;

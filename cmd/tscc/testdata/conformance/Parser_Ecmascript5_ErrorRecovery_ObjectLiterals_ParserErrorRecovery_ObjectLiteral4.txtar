@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ObjectLiterals/parserErrorRecovery_ObjectLiteral4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_ObjectLiteral4.js parserErrorRecovery_ObjectLiteral4.ts
+stderr 'TS1005'
+! exists parserErrorRecovery_ObjectLiteral4.js
+! exists parserErrorRecovery_ObjectLiteral4.d.ts
+! exists parserErrorRecovery_ObjectLiteral4.js.map
+
+-- parserErrorRecovery_ObjectLiteral4.ts --
+var v = { a: 1
+return;

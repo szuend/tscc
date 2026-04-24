@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/MemberFunctionDeclarations/parserMemberFunctionDeclaration3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserMemberFunctionDeclaration3.js parserMemberFunctionDeclaration3.ts
+stderr 'TS1029'
+! exists parserMemberFunctionDeclaration3.js
+! exists parserMemberFunctionDeclaration3.d.ts
+! exists parserMemberFunctionDeclaration3.js.map
+
+-- parserMemberFunctionDeclaration3.ts --
+class C {
+    static public Foo() { }
+}

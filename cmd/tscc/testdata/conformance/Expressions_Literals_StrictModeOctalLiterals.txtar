@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/expressions/literals/strictModeOctalLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2018 --lib es2018,dom --out-js strictModeOctalLiterals.js strictModeOctalLiterals.ts
+stderr 'TS1121'
+! exists strictModeOctalLiterals.js
+! exists strictModeOctalLiterals.d.ts
+! exists strictModeOctalLiterals.js.map
+
+-- strictModeOctalLiterals.ts --
+export enum E {
+    A = 12 + 01
+}
+const orbitol: 01 = 01

@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringParameterProperties5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js destructuringParameterProperties5.js destructuringParameterProperties5.ts
+stderr 'TS1187'
+! exists destructuringParameterProperties5.js
+! exists destructuringParameterProperties5.d.ts
+! exists destructuringParameterProperties5.js.map
+
+-- destructuringParameterProperties5.ts --
+type ObjType1 = { x: number; y: string; z: boolean }
+type TupleType1 = [ObjType1, number, string]
+
+class C1 {
+    constructor(public [{ x1, x2, x3 }, y, z]: TupleType1) {
+        var foo: any = x1 || x2 || x3 || y || z;
+        var bar: any = this.x1 || this.x2 || this.x3 || this.y || this.z;
+    }
+}
+
+var a = new C1([{ x1: 10, x2: "", x3: true }, "", false]);
+var [a_x1, a_x2, a_x3, a_y, a_z] = [a.x1, a.x2, a.x3, a.y, a.z];

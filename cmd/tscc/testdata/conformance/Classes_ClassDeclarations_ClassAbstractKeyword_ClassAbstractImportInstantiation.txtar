@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractImportInstantiation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractImportInstantiation.js classAbstractImportInstantiation.ts
+stderr 'TS2511'
+! exists classAbstractImportInstantiation.js
+! exists classAbstractImportInstantiation.d.ts
+! exists classAbstractImportInstantiation.js.map
+
+-- classAbstractImportInstantiation.ts --
+namespace M {
+    export abstract class A {}
+    
+    new A;
+}
+
+import myA = M.A;
+
+new myA;

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedModuloES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedModuloES6.js templateStringWithEmbeddedModuloES6.ts
+! stderr .
+cmp templateStringWithEmbeddedModuloES6.js templateStringWithEmbeddedModuloES6.js.golden
+! exists templateStringWithEmbeddedModuloES6.d.ts
+! exists templateStringWithEmbeddedModuloES6.js.map
+
+-- templateStringWithEmbeddedModuloES6.ts --
+var x = `abc${ 1 % 1 }def`;
+-- templateStringWithEmbeddedModuloES6.js.golden --
+"use strict";
+var x = `abc${1 % 1}def`;

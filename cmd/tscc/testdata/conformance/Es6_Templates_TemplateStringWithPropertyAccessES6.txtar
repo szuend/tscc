@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithPropertyAccessES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithPropertyAccessES6.js templateStringWithPropertyAccessES6.ts
+! stderr .
+cmp templateStringWithPropertyAccessES6.js templateStringWithPropertyAccessES6.js.golden
+! exists templateStringWithPropertyAccessES6.d.ts
+! exists templateStringWithPropertyAccessES6.js.map
+
+-- templateStringWithPropertyAccessES6.ts --
+`abc${0}abc`.indexOf(`abc`);
+-- templateStringWithPropertyAccessES6.js.golden --
+"use strict";
+`abc${0}abc`.indexOf(`abc`);

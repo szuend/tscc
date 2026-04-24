@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/es2018/es2018IntlAPIs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2018 --lib es2018,dom --out-js es2018IntlAPIs.js es2018IntlAPIs.ts
+! stderr .
+cmp es2018IntlAPIs.js es2018IntlAPIs.js.golden
+! exists es2018IntlAPIs.d.ts
+! exists es2018IntlAPIs.js.map
+
+-- es2018IntlAPIs.ts --
+// Sample from
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules/supportedLocalesOf
+const locales = ['ban', 'id-u-co-pinyin', 'de-ID'];
+const options = { localeMatcher: 'lookup' } as const;
+console.log(Intl.PluralRules.supportedLocalesOf(locales, options).join(', '));
+
+const [ part ] = new Intl.NumberFormat().formatToParts();
+console.log(part.type, part.value);
+-- es2018IntlAPIs.js.golden --
+"use strict";
+// Sample from
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules/supportedLocalesOf
+const locales = ['ban', 'id-u-co-pinyin', 'de-ID'];
+const options = { localeMatcher: 'lookup' };
+console.log(Intl.PluralRules.supportedLocalesOf(locales, options).join(', '));
+const [part] = new Intl.NumberFormat().formatToParts();
+console.log(part.type, part.value);

@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/externalModules/nameDelimitedBySlashes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo_1.js foo_1.ts
+! stderr .
+cmp foo_1.js foo_1.js.golden
+! exists foo_1.d.ts
+! exists foo_1.js.map
+
+-- foo_1.ts --
+import foo = require('./test/foo_0');
+var x = foo.foo + 42;
+-- test/foo_0.ts --
+export var foo = 42;
+-- foo_1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const foo = require("./test/foo_0");
+var x = foo.foo + 42;

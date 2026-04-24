@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserCastVersusArrowFunction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserCastVersusArrowFunction1.js parserCastVersusArrowFunction1.ts
+stderr 'TS2304'
+stderr 'TS2403'
+stderr 'TS2695'
+! exists parserCastVersusArrowFunction1.js
+! exists parserCastVersusArrowFunction1.d.ts
+! exists parserCastVersusArrowFunction1.js.map
+
+-- parserCastVersusArrowFunction1.ts --
+var v = <T>() => 1;
+var v = <T>a;
+
+var v = <T>(a) => 1;
+var v = <T>(a, b) => 1;
+var v = <T>(a = 1, b = 2) => 1;
+
+var v = <T>(a);
+var v = <T>(a, b);
+var v = <T>(a = 1, b = 2);

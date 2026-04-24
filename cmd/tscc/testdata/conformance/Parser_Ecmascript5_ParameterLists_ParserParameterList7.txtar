@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserParameterList7.js parserParameterList7.ts
+stderr 'TS2369'
+! exists parserParameterList7.js
+! exists parserParameterList7.d.ts
+! exists parserParameterList7.js.map
+
+-- parserParameterList7.ts --
+class C1 {
+ constructor(public p1:string); // ERROR
+ constructor(private p2:number); // ERROR
+ constructor(public p3:any) {} // OK
+}

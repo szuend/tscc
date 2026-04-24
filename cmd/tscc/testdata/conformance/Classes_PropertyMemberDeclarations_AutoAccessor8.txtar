@@ -1,0 +1,56 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/autoAccessor8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts autoAccessor8.d.ts --target esnext --lib esnext,dom --out-js autoAccessor8.js autoAccessor8.ts
+! stderr .
+cmp autoAccessor8.d.ts autoAccessor8.d.ts.golden
+cmp autoAccessor8.js autoAccessor8.js.golden
+! exists autoAccessor8.js.map
+
+-- autoAccessor8.ts --
+class C1 {
+    accessor a: any;
+    static accessor b: any;
+}
+
+declare class C2 {
+    accessor a: any;
+    static accessor b: any;
+}
+
+function f() {
+    class C3 {
+        accessor a: any;
+        static accessor b: any;
+    }
+    return C3;
+}
+-- autoAccessor8.d.ts.golden --
+declare class C1 {
+    accessor a: any;
+    static accessor b: any;
+}
+declare class C2 {
+    accessor a: any;
+    static accessor b: any;
+}
+declare function f(): {
+    new (): {
+        get a(): any;
+        set a(arg: any);
+    };
+    get b(): any;
+    set b(arg: any);
+};
+-- autoAccessor8.js.golden --
+"use strict";
+class C1 {
+    accessor a;
+    static accessor b;
+}
+function f() {
+    class C3 {
+        accessor a;
+        static accessor b;
+    }
+    return C3;
+}

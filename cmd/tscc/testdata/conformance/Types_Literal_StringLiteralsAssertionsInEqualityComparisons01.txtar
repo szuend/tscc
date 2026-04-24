@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsAssertionsInEqualityComparisons01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsAssertionsInEqualityComparisons01.js stringLiteralsAssertionsInEqualityComparisons01.ts
+! stderr .
+cmp stringLiteralsAssertionsInEqualityComparisons01.js stringLiteralsAssertionsInEqualityComparisons01.js.golden
+! exists stringLiteralsAssertionsInEqualityComparisons01.d.ts
+! exists stringLiteralsAssertionsInEqualityComparisons01.js.map
+
+-- stringLiteralsAssertionsInEqualityComparisons01.ts --
+var a = "foo" === "bar" as string;
+var b = "foo" !== ("bar" as string);
+var c = "foo" == (<any>"bar");
+-- stringLiteralsAssertionsInEqualityComparisons01.js.golden --
+"use strict";
+var a = "foo" === "bar";
+var b = "foo" !== "bar";
+var c = "foo" == "bar";

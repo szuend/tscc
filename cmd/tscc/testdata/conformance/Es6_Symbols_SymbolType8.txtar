@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType8.js symbolType8.ts
+stderr 'TS2469'
+! exists symbolType8.js
+! exists symbolType8.d.ts
+! exists symbolType8.js.map
+
+-- symbolType8.ts --
+var s = Symbol.for("compare");
+s < s;
+s < 0;
+s > s;
+s > 0;
+s <= s;
+s <= 0;
+s >= s;
+s >= 0;
+
+0 >= (s || 0);
+(s || 0) >= s;

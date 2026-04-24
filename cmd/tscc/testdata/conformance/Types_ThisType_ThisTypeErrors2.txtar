@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/thisType/thisTypeErrors2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisTypeErrors2.js thisTypeErrors2.ts
+stderr 'TS2526'
+! exists thisTypeErrors2.js
+! exists thisTypeErrors2.d.ts
+! exists thisTypeErrors2.js.map
+
+-- thisTypeErrors2.ts --
+class Base {
+    constructor(a: this) {
+    }
+}
+class Generic<T> {
+}
+class Derived {
+    n: number;
+    constructor(public host: Generic<this>) {
+        let self: this = this;
+        this.n = 12;
+    }
+}

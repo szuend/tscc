@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserAmbiguity2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserAmbiguity2.js parserAmbiguity2.ts
+stderr 'TS2304'
+! exists parserAmbiguity2.js
+! exists parserAmbiguity2.d.ts
+! exists parserAmbiguity2.js.map
+
+-- parserAmbiguity2.ts --
+f(g<A, B>7);

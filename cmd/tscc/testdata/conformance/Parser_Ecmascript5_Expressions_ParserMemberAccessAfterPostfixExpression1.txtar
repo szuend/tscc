@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserMemberAccessAfterPostfixExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js parserMemberAccessAfterPostfixExpression1.js parserMemberAccessAfterPostfixExpression1.ts
+stderr 'TS1005'
+! exists parserMemberAccessAfterPostfixExpression1.js
+! exists parserMemberAccessAfterPostfixExpression1.d.ts
+! exists parserMemberAccessAfterPostfixExpression1.js.map
+
+-- parserMemberAccessAfterPostfixExpression1.ts --
+a--.toString()

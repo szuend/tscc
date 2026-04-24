@@ -1,0 +1,41 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionNoModuleKindSpecified.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --module commonjs --target es2015 --out-js 0.js 0.ts
+! stderr .
+cmp 0.js 0.js.golden
+! exists 0.d.ts
+! exists 0.js.map
+
+-- 0.ts --
+export class B {
+    print() { return "I am B"}
+}
+
+export function foo() { return "foo" }
+-- 1.ts --
+export function backup() { return "backup"; }
+-- 2.ts --
+declare var console: any;
+class C {
+    private myModule = import("./0");
+    method() {
+        const loadAsync = import("./0");
+        this.myModule.then(Zero => {
+            console.log(Zero.foo());
+        }, async err => {
+            console.log(err);
+            let one = await import("./1");
+            console.log(one.backup());
+        });
+    }
+}
+-- 0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.B = void 0;
+exports.foo = foo;
+class B {
+    print() { return "I am B"; }
+}
+exports.B = B;
+function foo() { return "foo"; }

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/destructuring/restElementWithAssignmentPattern3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js restElementWithAssignmentPattern3.js restElementWithAssignmentPattern3.ts
+! stderr .
+cmp restElementWithAssignmentPattern3.js restElementWithAssignmentPattern3.js.golden
+! exists restElementWithAssignmentPattern3.d.ts
+! exists restElementWithAssignmentPattern3.js.map
+
+-- restElementWithAssignmentPattern3.ts --
+var a: string, b: number;
+var tuple: [string, number] = ["", 1];
+[...[a, b = 0]] = tuple;
+-- restElementWithAssignmentPattern3.js.golden --
+"use strict";
+var a, b;
+var tuple = ["", 1];
+[...[a, b = 0]] = tuple;

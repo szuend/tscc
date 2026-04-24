@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/destructuring/emptyAssignmentPatterns02_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts emptyAssignmentPatterns02_ES6.d.ts --target es6 --lib es6,dom --out-js emptyAssignmentPatterns02_ES6.js emptyAssignmentPatterns02_ES6.ts
+! stderr .
+cmp emptyAssignmentPatterns02_ES6.d.ts emptyAssignmentPatterns02_ES6.d.ts.golden
+cmp emptyAssignmentPatterns02_ES6.js emptyAssignmentPatterns02_ES6.js.golden
+! exists emptyAssignmentPatterns02_ES6.js.map
+
+-- emptyAssignmentPatterns02_ES6.ts --
+var a: any;
+let x, y, z, a1, a2, a3;
+
+({} = { x, y, z } = a);
+([] = [ a1, a2, a3] = a);
+-- emptyAssignmentPatterns02_ES6.d.ts.golden --
+declare var a: any;
+declare let x: any, y: any, z: any, a1: any, a2: any, a3: any;
+-- emptyAssignmentPatterns02_ES6.js.golden --
+"use strict";
+var a;
+let x, y, z, a1, a2, a3;
+({} = { x, y, z } = a);
+([] = [a1, a2, a3] = a);

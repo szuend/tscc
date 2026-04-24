@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser643728.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parser643728.js parser643728.ts
+! stderr .
+cmp parser643728.js parser643728.js.golden
+! exists parser643728.d.ts
+! exists parser643728.js.map
+
+-- parser643728.ts --
+interface C {
+    foo;
+    new;
+}
+-- parser643728.js.golden --
+"use strict";

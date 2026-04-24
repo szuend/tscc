@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/modules/exportBinding.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js exportConsts.js exportConsts.ts
+stderr 'TS2448'
+stderr 'TS2454'
+! exists exportConsts.js
+! exists exportConsts.d.ts
+! exists exportConsts.js.map
+
+-- exportConsts.ts --
+export { x }
+export { x as xx }
+export default x;
+
+const x = 'x'
+
+export { Y as Z }
+class Y {}
+-- exportVars.ts --
+export { y }
+export { y as yy }
+export default y;
+var y = 'y'

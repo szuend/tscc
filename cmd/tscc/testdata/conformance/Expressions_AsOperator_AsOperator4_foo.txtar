@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/expressions/asOperator/asOperator4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo.js foo.ts
+! stderr .
+cmp foo.js foo.js.golden
+! exists foo.d.ts
+! exists foo.js.map
+
+-- bar.ts --
+import { foo } from './foo';
+
+// These should emit identically
+<any>foo;
+(foo as any);
+-- foo.ts --
+export function foo() { }
+-- foo.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.foo = foo;
+function foo() { }

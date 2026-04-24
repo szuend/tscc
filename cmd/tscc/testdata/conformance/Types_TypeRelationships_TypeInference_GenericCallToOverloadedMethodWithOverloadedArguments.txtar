@@ -1,0 +1,95 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/genericCallToOverloadedMethodWithOverloadedArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCallToOverloadedMethodWithOverloadedArguments.js genericCallToOverloadedMethodWithOverloadedArguments.ts
+stderr 'TS2345'
+stderr 'TS2769'
+! exists genericCallToOverloadedMethodWithOverloadedArguments.js
+! exists genericCallToOverloadedMethodWithOverloadedArguments.d.ts
+! exists genericCallToOverloadedMethodWithOverloadedArguments.js.map
+
+-- genericCallToOverloadedMethodWithOverloadedArguments.ts --
+namespace m1 {
+    interface Promise<T> {
+        then<U>(cb: (x: T) => Promise<U>): Promise<U>;
+    }
+
+    declare function testFunction(n: number): Promise<number>;
+
+    declare var numPromise: Promise<number>;
+    var newPromise = numPromise.then(testFunction);
+}
+
+//////////////////////////////////////
+
+namespace m2 {
+    interface Promise<T> {
+        then<U>(cb: (x: T) => Promise<U>): Promise<U>;
+    }
+
+    declare function testFunction(n: number): Promise<number>;
+    declare function testFunction(s: string): Promise<string>;
+
+    declare var numPromise: Promise<number>;
+    var newPromise = numPromise.then(testFunction);
+}
+
+//////////////////////////////////////
+
+namespace m3 {
+    interface Promise<T> {
+        then<U>(cb: (x: T) => Promise<U>): Promise<U>;
+        then<U>(cb: (x: T) => Promise<U>, error?: (error: any) => Promise<U>): Promise<U>;
+    }
+
+    declare function testFunction(n: number): Promise<number>;
+
+    declare var numPromise: Promise<number>;
+    var newPromise = numPromise.then(testFunction);
+}
+
+//////////////////////////////////////
+
+namespace m4 {
+    interface Promise<T> {
+        then<U>(cb: (x: T) => Promise<U>): Promise<U>;
+        then<U>(cb: (x: T) => Promise<U>, error?: (error: any) => Promise<U>): Promise<U>;
+    }
+
+    declare function testFunction(n: number): Promise<number>;
+    declare function testFunction(s: string): Promise<string>;
+
+    declare var numPromise: Promise<number>;
+    var newPromise = numPromise.then(testFunction);
+}
+
+//////////////////////////////////////
+
+namespace m5 {
+    interface Promise<T> {
+        then<U>(cb: (x: T) => Promise<U>): Promise<U>;
+        then<U>(cb: (x: T) => Promise<U>, error?: (error: any) => Promise<U>): Promise<U>;
+        then<U>(cb: (x: T) => Promise<U>, error?: (error: any) => U, progress?: (preservation: any) => void): Promise<U>;
+    }
+
+    declare function testFunction(n: number): Promise<number>;
+    declare function testFunction(s: string): Promise<string>;
+
+    declare var numPromise: Promise<number>;
+    var newPromise = numPromise.then(testFunction);
+}
+
+//////////////////////////////////////
+
+namespace m6 {
+    interface Promise<T> {
+        then<U>(cb: (x: T) => Promise<U>): Promise<U>;
+        then<U>(cb: (x: T) => Promise<U>, error?: (error: any) => Promise<U>): Promise<U>;
+    }
+
+    declare function testFunction(n: number): Promise<number>;
+    declare function testFunction(s: string): Promise<string>;
+    declare function testFunction(b: boolean): Promise<boolean>;
+
+    declare var numPromise: Promise<number>;
+    var newPromise = numPromise.then(testFunction);
+}

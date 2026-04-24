@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration26.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserClassDeclaration26.js parserClassDeclaration26.ts
+! stderr .
+cmp parserClassDeclaration26.js parserClassDeclaration26.js.golden
+! exists parserClassDeclaration26.d.ts
+! exists parserClassDeclaration26.js.map
+
+-- parserClassDeclaration26.ts --
+class C {
+   var
+   public
+}
+-- parserClassDeclaration26.js.golden --
+"use strict";
+class C {
+}

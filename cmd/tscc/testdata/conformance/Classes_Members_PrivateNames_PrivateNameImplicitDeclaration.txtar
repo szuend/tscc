@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameImplicitDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom privateNameImplicitDeclaration.js
+stderr 'TS2339'
+! exists privateNameImplicitDeclaration.d.ts
+! exists privateNameImplicitDeclaration.js.map
+
+-- privateNameImplicitDeclaration.js --
+class C {
+    constructor() {
+        /** @type {string} */
+        this.#x;
+    }
+}
+

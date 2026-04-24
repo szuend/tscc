@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ExportVariableWithAccessibleTypeInTypeAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js ExportVariableWithAccessibleTypeInTypeAnnotation.js ExportVariableWithAccessibleTypeInTypeAnnotation.ts
+! stderr .
+cmp ExportVariableWithAccessibleTypeInTypeAnnotation.js ExportVariableWithAccessibleTypeInTypeAnnotation.js.golden
+! exists ExportVariableWithAccessibleTypeInTypeAnnotation.d.ts
+! exists ExportVariableWithAccessibleTypeInTypeAnnotation.js.map
+
+-- ExportVariableWithAccessibleTypeInTypeAnnotation.ts --
+namespace A {
+
+    export interface Point {
+        x: number;
+        y: number;
+    }
+
+    // valid since Point is exported
+    export var Origin: Point = { x: 0, y: 0 };
+}
+-- ExportVariableWithAccessibleTypeInTypeAnnotation.js.golden --
+"use strict";
+var A;
+(function (A) {
+    // valid since Point is exported
+    A.Origin = { x: 0, y: 0 };
+})(A || (A = {}));

@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration23.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserClassDeclaration23.js parserClassDeclaration23.ts
+! stderr .
+cmp parserClassDeclaration23.js parserClassDeclaration23.js.golden
+! exists parserClassDeclaration23.d.ts
+! exists parserClassDeclaration23.js.map
+
+-- parserClassDeclaration23.ts --
+class C\u0032 {
+}
+-- parserClassDeclaration23.js.golden --
+"use strict";
+class C\u0032 {
+}

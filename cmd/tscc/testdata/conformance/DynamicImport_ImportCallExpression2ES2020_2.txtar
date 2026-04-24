@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpression2ES2020.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es2020 --target es2020 --lib es2020,dom --out-js 2.js 2.ts
+! stderr .
+cmp 2.js 2.js.golden
+! exists 2.d.ts
+! exists 2.js.map
+
+-- 0.ts --
+export class B {
+    print() { return "I am B"}
+}
+-- 2.ts --
+function foo(x: Promise<any>) {
+    x.then(value => {
+        let b = new value.B();
+        b.print();
+    })
+}
+
+foo(import("./0"));
+-- 2.js.golden --
+"use strict";
+function foo(x) {
+    x.then(value => {
+        let b = new value.B();
+        b.print();
+    });
+}
+foo(import("./0"));

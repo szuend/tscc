@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserS12.11_A3_T4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserS12.11_A3_T4.js parserS12.11_A3_T4.ts
+stderr 'TS1109'
+! exists parserS12.11_A3_T4.js
+! exists parserS12.11_A3_T4.d.ts
+! exists parserS12.11_A3_T4.js.map
+
+-- parserS12.11_A3_T4.ts --
+// Copyright 2009 the Sputnik authors.  All rights reserved.
+// This code is governed by the BSD license found in the LICENSE file.
+
+/**
+ * Syntax constructions of switch statement
+ *
+ * @path ch12/12.11/S12.11_A3_T4.js
+ * @description Using "case" that has no Expresson after it. "CaseClause: case Expression : [StatementList]"
+ * @negative
+ */
+
+function SwitchTest(value){
+  var result = 0;
+  
+  switch(value) {
+    case:
+      result += 2;
+    default:
+      result += 32;
+      break;
+  }
+  
+  return result;
+}
+
+var x = SwitchTest(0);
+

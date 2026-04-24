@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameStaticMethodAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameStaticMethodAssignment.js privateNameStaticMethodAssignment.ts
+stderr 'TS2803'
+! exists privateNameStaticMethodAssignment.js
+! exists privateNameStaticMethodAssignment.d.ts
+! exists privateNameStaticMethodAssignment.js.map
+
+-- privateNameStaticMethodAssignment.ts --
+class A3 {
+    static #method() { };
+    constructor(a: typeof A3, b: any) {
+        A3.#method = () => {} // Error, not writable 
+        a.#method = () => { }; // Error, not writable 
+        b.#method =  () => { } //Error, not writable 
+        ({ x: A3.#method } = { x: () => {}}); //Error, not writable 
+        let x = A3.#method;
+        b.#method++ //Error, not writable 
+    }
+}

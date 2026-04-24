@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterLists/typeParameterDirectlyConstrainedToItself.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterDirectlyConstrainedToItself.js typeParameterDirectlyConstrainedToItself.ts
+stderr 'TS2313'
+! exists typeParameterDirectlyConstrainedToItself.js
+! exists typeParameterDirectlyConstrainedToItself.d.ts
+! exists typeParameterDirectlyConstrainedToItself.js.map
+
+-- typeParameterDirectlyConstrainedToItself.ts --
+// all of the below should be errors
+
+class C<T extends T> { } 
+class C2<T, U extends U> { } 
+
+interface I<T extends T> { }
+interface I2<T, U extends U> { }
+
+function f<T extends T>() { }
+function f2<T, U extends U>() { }
+
+var a: {
+    <T extends T>(): void;
+    <T, U extends U>(): void;
+}
+
+var b = <T extends T>() => { }
+var b2 = <T, U extends U>() => { }

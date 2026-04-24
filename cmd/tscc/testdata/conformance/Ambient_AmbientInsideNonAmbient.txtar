@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/ambient/ambientInsideNonAmbient.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ambientInsideNonAmbient.js ambientInsideNonAmbient.ts
+! stderr .
+cmp ambientInsideNonAmbient.js ambientInsideNonAmbient.js.golden
+! exists ambientInsideNonAmbient.d.ts
+! exists ambientInsideNonAmbient.js.map
+
+-- ambientInsideNonAmbient.ts --
+namespace M {
+    export declare var x;
+    export declare function f();
+    export declare class C { }
+    export declare enum E { }
+    export declare namespace M { }
+}
+
+namespace M2 {
+    declare var x;
+    declare function f();
+    declare class C { }
+    declare enum E { }
+    declare namespace M { }
+}
+-- ambientInsideNonAmbient.js.golden --
+"use strict";
+var M;
+(function (M) {
+})(M || (M = {}));
+var M2;
+(function (M2) {
+})(M2 || (M2 = {}));

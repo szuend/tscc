@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/mergedInterfacesWithInheritedPrivates2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedInterfacesWithInheritedPrivates2.js mergedInterfacesWithInheritedPrivates2.ts
+stderr 'TS2420'
+stderr 'TS2415'
+stderr 'TS2341'
+! exists mergedInterfacesWithInheritedPrivates2.js
+! exists mergedInterfacesWithInheritedPrivates2.d.ts
+! exists mergedInterfacesWithInheritedPrivates2.js.map
+
+-- mergedInterfacesWithInheritedPrivates2.ts --
+class C {
+    private x!: number;
+}
+
+class C2 {
+    private w!: number;
+}
+
+interface A extends C {
+    y: string;
+}
+
+interface A extends C2 {
+    z: string;
+}
+
+class D extends C implements A { // error
+    private w!: number;
+    y!: string;
+    z!: string;
+}
+
+class E extends C2 implements A { // error
+    w!: number;
+    y!: string;
+    z!: string;
+}
+
+declare var a: A;
+var r = a.x; // error
+var r2 = a.w; // error

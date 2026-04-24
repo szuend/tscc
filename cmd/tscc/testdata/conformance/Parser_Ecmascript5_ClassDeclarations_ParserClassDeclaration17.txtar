@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration17.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --no-strict --target es2015 --out-js parserClassDeclaration17.js parserClassDeclaration17.ts
+! stderr .
+cmp parserClassDeclaration17.js parserClassDeclaration17.js.golden
+! exists parserClassDeclaration17.d.ts
+! exists parserClassDeclaration17.js.map
+
+-- parserClassDeclaration17.ts --
+declare class Enumerator {
+    public atEnd(): boolean;
+    public moveNext();
+    public item(): any;
+    constructor (o: any);
+}
+-- parserClassDeclaration17.js.golden --
+"use strict";

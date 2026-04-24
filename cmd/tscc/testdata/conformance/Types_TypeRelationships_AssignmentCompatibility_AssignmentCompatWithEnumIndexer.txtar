@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/assignmentCompatWithEnumIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatWithEnumIndexer.js assignmentCompatWithEnumIndexer.ts
+stderr 'TS2741'
+! exists assignmentCompatWithEnumIndexer.js
+! exists assignmentCompatWithEnumIndexer.d.ts
+! exists assignmentCompatWithEnumIndexer.js.map
+
+-- assignmentCompatWithEnumIndexer.ts --
+enum E {
+    A
+}
+
+let foo: Record<E, any> = {}

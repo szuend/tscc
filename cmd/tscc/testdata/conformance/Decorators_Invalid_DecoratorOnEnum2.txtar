@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnEnum2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js decoratorOnEnum2.js decoratorOnEnum2.ts
+stderr 'TS1132'
+stderr 'TS1146'
+stderr 'TS1128'
+! exists decoratorOnEnum2.js
+! exists decoratorOnEnum2.d.ts
+! exists decoratorOnEnum2.js.map
+
+-- decoratorOnEnum2.ts --
+declare function dec<T>(target: T): T;
+
+enum E {
+    @dec A
+}

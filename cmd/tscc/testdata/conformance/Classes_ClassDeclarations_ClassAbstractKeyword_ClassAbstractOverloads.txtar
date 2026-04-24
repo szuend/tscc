@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classAbstractOverloads.js classAbstractOverloads.ts
+stderr 'TS2512'
+stderr 'TS2391'
+stderr 'TS2516'
+! exists classAbstractOverloads.js
+! exists classAbstractOverloads.d.ts
+! exists classAbstractOverloads.js.map
+
+-- classAbstractOverloads.ts --
+abstract class A {
+    abstract foo();
+    abstract foo() : number;
+    abstract foo();
+    
+    abstract bar();
+    bar();
+    abstract bar();
+    
+    abstract baz();
+    baz();
+    abstract baz();
+    baz() {}
+    
+    qux();
+}
+
+abstract class B {
+    abstract foo() : number;
+    abstract foo();
+    x : number;
+    abstract foo();
+    abstract foo();
+}

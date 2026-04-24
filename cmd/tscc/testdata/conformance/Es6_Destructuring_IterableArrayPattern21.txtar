@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern21.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iterableArrayPattern21.js iterableArrayPattern21.ts
+stderr 'TS2488'
+! exists iterableArrayPattern21.js
+! exists iterableArrayPattern21.d.ts
+! exists iterableArrayPattern21.js.map
+
+-- iterableArrayPattern21.ts --
+var [a, b] = { 0: "", 1: true };

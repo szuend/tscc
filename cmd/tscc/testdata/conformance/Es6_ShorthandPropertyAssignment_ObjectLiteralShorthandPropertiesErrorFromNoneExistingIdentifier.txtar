@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.js objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.ts
+stderr 'TS18004'
+! exists objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.js
+! exists objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.d.ts
+! exists objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.js.map
+
+-- objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.ts --
+var x = {
+    x, // OK
+    undefinedVariable // Error
+}

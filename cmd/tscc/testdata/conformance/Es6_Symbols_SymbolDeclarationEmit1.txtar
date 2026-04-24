@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolDeclarationEmit1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts symbolDeclarationEmit1.d.ts --target ES6 --lib ES6,dom --out-js symbolDeclarationEmit1.js symbolDeclarationEmit1.ts
+stderr 'TS2564'
+! exists symbolDeclarationEmit1.d.ts
+! exists symbolDeclarationEmit1.js
+! exists symbolDeclarationEmit1.js.map
+
+-- symbolDeclarationEmit1.ts --
+class C {
+    [Symbol.toPrimitive]: number;
+}

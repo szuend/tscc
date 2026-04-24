@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithTwoOperandsAreAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js comparisonOperatorWithTwoOperandsAreAny.js comparisonOperatorWithTwoOperandsAreAny.ts
+! stderr .
+cmp comparisonOperatorWithTwoOperandsAreAny.js comparisonOperatorWithTwoOperandsAreAny.js.golden
+! exists comparisonOperatorWithTwoOperandsAreAny.d.ts
+! exists comparisonOperatorWithTwoOperandsAreAny.js.map
+
+-- comparisonOperatorWithTwoOperandsAreAny.ts --
+var a: any;
+
+var r1 = a < a;
+var r2 = a > a;
+var r3 = a <= a;
+var r4 = a >= a;
+var r5 = a == a;
+var r6 = a != a;
+var r7 = a === a;
+var r8 = a !== a;
+-- comparisonOperatorWithTwoOperandsAreAny.js.golden --
+"use strict";
+var a;
+var r1 = a < a;
+var r2 = a > a;
+var r3 = a <= a;
+var r4 = a >= a;
+var r5 = a == a;
+var r6 = a != a;
+var r7 = a === a;
+var r8 = a !== a;

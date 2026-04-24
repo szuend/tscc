@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames4_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames4_ES6.js computedPropertyNames4_ES6.ts
+stderr 'TS2454'
+! exists computedPropertyNames4_ES6.js
+! exists computedPropertyNames4_ES6.d.ts
+! exists computedPropertyNames4_ES6.js.map
+
+-- computedPropertyNames4_ES6.ts --
+var s: string;
+var n: number;
+var a: any;
+var v = {
+    [s]: 0,
+    [n]: n,
+    [s + s]: 1,
+    [s + n]: 2,
+    [+s]: s,
+    [""]: 0,
+    [0]: 0,
+    [a]: 1,
+    [<any>true]: 0,
+    [`hello bye`]: 0,
+    [`hello ${a} bye`]: 0
+}

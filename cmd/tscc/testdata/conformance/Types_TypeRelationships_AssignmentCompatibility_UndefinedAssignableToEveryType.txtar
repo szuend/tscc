@@ -1,0 +1,52 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/undefinedAssignableToEveryType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedAssignableToEveryType.js undefinedAssignableToEveryType.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists undefinedAssignableToEveryType.js
+! exists undefinedAssignableToEveryType.d.ts
+! exists undefinedAssignableToEveryType.js.map
+
+-- undefinedAssignableToEveryType.ts --
+class C {
+    foo: string;
+}
+var ac: C;
+interface I {
+    foo: string;
+}
+var ai: I;
+
+enum E { A }
+var ae: E;
+
+var b: number = undefined;
+var c: string = undefined;
+var d: boolean = undefined;
+var e: Date = undefined;
+var f: any = undefined;
+var g: void = undefined;
+var h: Object = undefined;
+var i: {} = undefined;
+var j: () => {} = undefined;
+var k: Function = undefined;
+var l: (x: number) => string = undefined;
+ac = undefined;
+ai = undefined;
+ae = undefined;
+var m: number[] = undefined;
+var n: { foo: string } = undefined;
+var o: <T>(x: T) => T = undefined;
+var p: Number = undefined;
+var q: String = undefined;
+
+function foo<T, U, V extends Date>(x: T, y: U, z: V) {
+    x = undefined;
+    y = undefined;
+    z = undefined;
+}
+//function foo<T, U extends T, V extends Date>(x: T, y: U, z: V) {
+//    x = undefined;
+//    y = undefined;
+//    z = undefined;
+//}

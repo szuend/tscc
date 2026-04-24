@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserMemberAccessOffOfGenericType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserMemberAccessOffOfGenericType1.js parserMemberAccessOffOfGenericType1.ts
+stderr 'TS1477'
+! exists parserMemberAccessOffOfGenericType1.js
+! exists parserMemberAccessOffOfGenericType1.d.ts
+! exists parserMemberAccessOffOfGenericType1.js.map
+
+-- parserMemberAccessOffOfGenericType1.ts --
+var v = List<number>.makeChild();

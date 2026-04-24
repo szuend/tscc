@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/classExpressions/classExpression4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExpression4.js classExpression4.ts
+! stderr .
+cmp classExpression4.js classExpression4.js.golden
+! exists classExpression4.d.ts
+! exists classExpression4.js.map
+
+-- classExpression4.ts --
+let C = class {
+    foo() {
+        return new C();
+    }
+};
+let x = (new C).foo();
+-- classExpression4.js.golden --
+"use strict";
+let C = class {
+    foo() {
+        return new C();
+    }
+};
+let x = (new C).foo();

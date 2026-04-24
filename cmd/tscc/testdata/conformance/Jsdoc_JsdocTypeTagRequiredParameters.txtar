@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTypeTagRequiredParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --strict --target es2015 --lib es2015,dom a.js
+stderr 'TS1005'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** @type {function(string): void} */
+const f = (value) => {
+};
+/** @type {(s: string) => void} */
+function g(s) {
+}
+/** @type {{(s: string): void}} */
+function h(s) {
+}
+
+f() // should error
+g() // should error
+h()

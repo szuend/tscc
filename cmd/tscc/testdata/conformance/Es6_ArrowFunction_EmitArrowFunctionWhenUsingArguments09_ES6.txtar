@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments09_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js emitArrowFunctionWhenUsingArguments09_ES6.js emitArrowFunctionWhenUsingArguments09_ES6.ts
+! stderr .
+cmp emitArrowFunctionWhenUsingArguments09_ES6.js emitArrowFunctionWhenUsingArguments09_ES6.js.golden
+! exists emitArrowFunctionWhenUsingArguments09_ES6.d.ts
+! exists emitArrowFunctionWhenUsingArguments09_ES6.js.map
+
+-- emitArrowFunctionWhenUsingArguments09_ES6.ts --
+function f(_arguments) {
+    var a = () => () => arguments;
+}
+-- emitArrowFunctionWhenUsingArguments09_ES6.js.golden --
+"use strict";
+function f(_arguments) {
+    var a = () => () => arguments;
+}

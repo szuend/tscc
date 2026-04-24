@@ -1,0 +1,64 @@
+# Ported from tests/cases/conformance/types/intersection/intersectionThisTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js intersectionThisTypes.js intersectionThisTypes.ts
+! stderr .
+cmp intersectionThisTypes.js intersectionThisTypes.js.golden
+! exists intersectionThisTypes.d.ts
+! exists intersectionThisTypes.js.map
+
+-- intersectionThisTypes.ts --
+interface Thing1 {
+    a: number;
+    self(): this;
+}
+
+interface Thing2 {
+    b: number;
+    me(): this;
+}
+
+type Thing3 = Thing1 & Thing2;
+type Thing4 = Thing3 & string[];
+
+function f1(t: Thing3) {
+    t = t.self();
+    t = t.me().self().me();
+}
+
+interface Thing5 extends Thing4 {
+    c: string;
+}
+
+function f2(t: Thing5) {
+    t = t.self();
+    t = t.me().self().me();
+}
+
+interface Component {
+    extend<T>(props: T): this & T;
+}
+
+interface Label extends Component {
+    title: string;
+}
+
+function test(label: Label) {
+    const extended = label.extend({ id: 67 }).extend({ tag: "hello" });
+    extended.id;  // Ok
+    extended.tag;  // Ok
+}
+-- intersectionThisTypes.js.golden --
+"use strict";
+function f1(t) {
+    t = t.self();
+    t = t.me().self().me();
+}
+function f2(t) {
+    t = t.self();
+    t = t.me().self().me();
+}
+function test(label) {
+    const extended = label.extend({ id: 67 }).extend({ tag: "hello" });
+    extended.id; // Ok
+    extended.tag; // Ok
+}

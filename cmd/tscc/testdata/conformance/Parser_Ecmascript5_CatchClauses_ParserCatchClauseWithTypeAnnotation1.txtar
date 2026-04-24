@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/CatchClauses/parserCatchClauseWithTypeAnnotation1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserCatchClauseWithTypeAnnotation1.js parserCatchClauseWithTypeAnnotation1.ts
+stderr 'TS1196'
+! exists parserCatchClauseWithTypeAnnotation1.js
+! exists parserCatchClauseWithTypeAnnotation1.d.ts
+! exists parserCatchClauseWithTypeAnnotation1.js.map
+
+-- parserCatchClauseWithTypeAnnotation1.ts --
+try {
+} catch (e: Error) {
+}

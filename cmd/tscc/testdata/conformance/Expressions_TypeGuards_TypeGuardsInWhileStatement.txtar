@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardsInWhileStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardsInWhileStatement.js typeGuardsInWhileStatement.ts
+stderr 'TS2322'
+! exists typeGuardsInWhileStatement.js
+! exists typeGuardsInWhileStatement.d.ts
+! exists typeGuardsInWhileStatement.js.map
+
+-- typeGuardsInWhileStatement.ts --
+let cond: boolean;
+function a(x: string | number) {
+    while (typeof x === "string") {
+        x; // string
+        x = undefined;
+    }
+    x; // number
+}
+function b(x: string | number) {
+    while (typeof x === "string") {
+        if (cond) continue;
+        x; // string
+        x = undefined;
+    }
+    x; // number
+}
+function c(x: string | number) {
+    while (typeof x === "string") {
+        if (cond) break;
+        x; // string
+        x = undefined;
+    }
+    x; // string | number
+}

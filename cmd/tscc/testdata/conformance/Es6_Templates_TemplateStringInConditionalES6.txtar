@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInConditionalES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringInConditionalES6.js templateStringInConditionalES6.ts
+! stderr .
+cmp templateStringInConditionalES6.js templateStringInConditionalES6.js.golden
+! exists templateStringInConditionalES6.d.ts
+! exists templateStringInConditionalES6.js.map
+
+-- templateStringInConditionalES6.ts --
+var x = `abc${ " " }def` ? `abc${ " " }def` : `abc${ " " }def`;
+-- templateStringInConditionalES6.js.golden --
+"use strict";
+var x = `abc${" "}def` ? `abc${" "}def` : `abc${" "}def`;

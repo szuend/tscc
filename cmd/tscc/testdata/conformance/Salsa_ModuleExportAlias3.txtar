@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAlias3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug24062.js
+! stderr .
+! exists bug24062.d.ts
+! exists bug24062.js.map
+
+-- bug24062.js --
+// #24062
+class C {
+}
+module.exports = {
+    C
+};

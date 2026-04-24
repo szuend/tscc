@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames25_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames25_ES6.js computedPropertyNames25_ES6.ts
+! stderr .
+cmp computedPropertyNames25_ES6.js computedPropertyNames25_ES6.js.golden
+! exists computedPropertyNames25_ES6.d.ts
+! exists computedPropertyNames25_ES6.js.map
+
+-- computedPropertyNames25_ES6.ts --
+class Base {
+    bar() {
+        return 0;
+    }
+}
+class C extends Base {
+    foo() {
+        var obj = {
+            [super.bar()]() { }
+        };
+        return 0;
+    }
+}
+-- computedPropertyNames25_ES6.js.golden --
+"use strict";
+class Base {
+    bar() {
+        return 0;
+    }
+}
+class C extends Base {
+    foo() {
+        var obj = {
+            [super.bar()]() { }
+        };
+        return 0;
+    }
+}

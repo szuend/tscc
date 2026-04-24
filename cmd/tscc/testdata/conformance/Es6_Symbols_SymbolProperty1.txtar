@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty1.js symbolProperty1.ts
+stderr 'TS2454'
+! exists symbolProperty1.js
+! exists symbolProperty1.d.ts
+! exists symbolProperty1.js.map
+
+-- symbolProperty1.ts --
+var s: symbol;
+var x = {
+    [s]: 0,
+    [s]() { },
+    get [s]() {
+        return 0;
+    }
+}

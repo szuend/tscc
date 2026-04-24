@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/expressions/nullishCoalescingOperator/nullishCoalescingOperator10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nullishCoalescingOperator10.js nullishCoalescingOperator10.ts
+! stderr .
+cmp nullishCoalescingOperator10.js nullishCoalescingOperator10.js.golden
+! exists nullishCoalescingOperator10.d.ts
+! exists nullishCoalescingOperator10.js.map
+
+-- nullishCoalescingOperator10.ts --
+declare function f(): string | undefined;
+
+let gg = f() ?? 'foo'
+
+-- nullishCoalescingOperator10.js.golden --
+"use strict";
+var _a;
+let gg = (_a = f()) !== null && _a !== void 0 ? _a : 'foo';

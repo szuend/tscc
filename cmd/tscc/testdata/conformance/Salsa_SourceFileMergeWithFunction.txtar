@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/salsa/sourceFileMergeWithFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js foo.js foo.ts
+! stderr .
+cmp foo.js foo.js.golden
+! exists foo.d.ts
+! exists foo.js.map
+
+-- foo.ts --
+/// <reference path="types.d.ts" />
+declare function foo(): any;
+-- types.d.ts --
+declare function foo(props: any): any;
+export default foo;
+export as namespace foo;
+-- foo.js.golden --
+"use strict";
+/// <reference path="types.d.ts" />

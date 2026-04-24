@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionDeclarationEmit2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts 0.d.ts --module es2020 --target es2020 --lib es2020,dom --out-js 0.js 0.ts
+! stderr .
+cmp 0.d.ts 0.d.ts.golden
+cmp 0.js 0.js.golden
+! exists 0.js.map
+
+-- 0.ts --
+export function foo() { return "foo"; }
+-- 1.ts --
+var p1 = import("./0");
+-- 0.d.ts.golden --
+export declare function foo(): string;
+-- 0.js.golden --
+export function foo() { return "foo"; }

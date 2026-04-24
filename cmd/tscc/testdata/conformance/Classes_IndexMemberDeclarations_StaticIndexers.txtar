@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/indexMemberDeclarations/staticIndexers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticIndexers.js staticIndexers.ts
+stderr 'TS2302'
+! exists staticIndexers.js
+! exists staticIndexers.d.ts
+! exists staticIndexers.js.map
+
+-- staticIndexers.ts --
+// static indexers not allowed
+
+class C {
+    static [x: string]: string;
+}
+
+class D {
+    static [x: number]: string;
+}
+
+class E<T> {
+    static [x: string]: T;
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/types/typeAliases/interfaceDoesNotDependOnBaseTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceDoesNotDependOnBaseTypes.js interfaceDoesNotDependOnBaseTypes.ts
+stderr 'TS2454'
+stderr 'TS2339'
+! exists interfaceDoesNotDependOnBaseTypes.js
+! exists interfaceDoesNotDependOnBaseTypes.d.ts
+! exists interfaceDoesNotDependOnBaseTypes.js.map
+
+-- interfaceDoesNotDependOnBaseTypes.ts --
+var x: StringTree;
+if (typeof x !== "string") {
+    x.push("");
+    x.push([""]);
+}
+
+type StringTree = string | StringTreeArray;
+interface StringTreeArray extends Array<StringTree> { }

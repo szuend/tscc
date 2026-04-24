@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList13.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserParameterList13.js parserParameterList13.ts
+stderr 'TS2369'
+! exists parserParameterList13.js
+! exists parserParameterList13.d.ts
+! exists parserParameterList13.js.map
+
+-- parserParameterList13.ts --
+interface I {
+    new (public x);
+}

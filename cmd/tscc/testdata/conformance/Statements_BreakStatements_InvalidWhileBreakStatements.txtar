@@ -1,0 +1,50 @@
+# Ported from tests/cases/conformance/statements/breakStatements/invalidWhileBreakStatements.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidWhileBreakStatements.js invalidWhileBreakStatements.ts
+stderr 'TS1105'
+stderr 'TS1116'
+stderr 'TS1107'
+stderr 'TS1344'
+! exists invalidWhileBreakStatements.js
+! exists invalidWhileBreakStatements.d.ts
+! exists invalidWhileBreakStatements.js.map
+
+-- invalidWhileBreakStatements.ts --
+// All errors
+
+// naked break not allowed
+break;
+
+// non-existent label
+ONE:
+while (true) break TWO;
+
+// break from inside function
+TWO:
+while (true){
+    var x = () => {
+        break TWO;
+    }
+}
+
+THREE:
+while (true) {
+    var fn = function () {
+        break THREE;
+    }
+}
+
+// break forward
+while (true) {
+    break FIVE;
+    FIVE:
+    while (true) { }
+}
+
+// label on non-loop statement
+NINE:
+var y = 12;
+
+while (true) {
+    break NINE;
+}

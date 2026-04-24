@@ -1,0 +1,44 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeQueries/typeofClass2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeofClass2.js typeofClass2.ts
+! stderr .
+cmp typeofClass2.js typeofClass2.js.golden
+! exists typeofClass2.d.ts
+! exists typeofClass2.js.map
+
+-- typeofClass2.ts --
+class C {
+    constructor(x: number);
+    constructor(x: string);
+    constructor(x) { }
+
+    static foo(x: number);
+    static foo(x: C);
+    static foo(x) { }
+
+    static bar(x) { }
+}
+
+class D extends C {
+    static baz(x: number) { }
+    foo() { }
+}
+
+var d: D;
+
+var r1: typeof D;
+var r2: typeof d;
+-- typeofClass2.js.golden --
+"use strict";
+class C {
+    constructor(x) { }
+    static foo(x) { }
+    static bar(x) { }
+}
+class D extends C {
+    static baz(x) { }
+    foo() { }
+}
+var d;
+var r1;
+var r2;

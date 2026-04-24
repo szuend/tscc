@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeAndMemberIdentity/objectTypesIdentityWithPrivates3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectTypesIdentityWithPrivates3.js objectTypesIdentityWithPrivates3.ts
+stderr 'TS7008'
+stderr 'TS2454'
+stderr 'TS2564'
+stderr 'TS2352'
+! exists objectTypesIdentityWithPrivates3.js
+! exists objectTypesIdentityWithPrivates3.d.ts
+! exists objectTypesIdentityWithPrivates3.js.map
+
+-- objectTypesIdentityWithPrivates3.ts --
+interface T1 { }
+interface T2 { z }
+
+class C1<T> {
+    private x;
+}
+
+class C2 extends C1<T1> {
+    y;
+}
+
+var c1: C1<T2>;
+<C2>c1; // Should succeed (private x originates in the same declaration)
+
+
+class C3<T> {
+    private x: T; // This T is the difference between C3 and C1
+}
+
+class C4 extends C3<T1> {
+    y;
+}
+
+var c3: C3<T2>;
+<C4>c3; // Should fail (private x originates in the same declaration, but different types)

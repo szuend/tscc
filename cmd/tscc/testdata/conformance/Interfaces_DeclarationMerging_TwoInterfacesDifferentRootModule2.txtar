@@ -1,0 +1,46 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/twoInterfacesDifferentRootModule2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js twoInterfacesDifferentRootModule2.js twoInterfacesDifferentRootModule2.ts
+stderr 'TS2339'
+! exists twoInterfacesDifferentRootModule2.js
+! exists twoInterfacesDifferentRootModule2.d.ts
+! exists twoInterfacesDifferentRootModule2.js.map
+
+-- twoInterfacesDifferentRootModule2.ts --
+// two interfaces with different root modules should not merge
+
+namespace M {
+    export interface A {
+        foo: string;
+    }
+
+    export interface B<T> {
+        foo: T;
+    }
+
+    namespace M2 {
+        export interface A {
+            bar: number;
+        }
+
+        declare var a: A;
+        var r1 = a.foo; // error
+        var r2 = a.bar;
+
+        export interface B<T> {
+            bar: T;
+        }
+
+        declare var b: B<string>;
+        var r3 = b.foo; // error
+        var r4 = b.bar;
+    }
+
+    declare var a: A;
+    var r1 = a.foo; 
+    var r2 = a.bar; // error
+
+    declare var b: B<string>;
+    var r3 = b.foo; 
+    var r4 = b.bar; // error
+}

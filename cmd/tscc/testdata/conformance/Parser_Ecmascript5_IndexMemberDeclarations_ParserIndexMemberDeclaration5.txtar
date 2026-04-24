@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/IndexMemberDeclarations/parserIndexMemberDeclaration5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserIndexMemberDeclaration5.js parserIndexMemberDeclaration5.ts
+stderr 'TS1005'
+! exists parserIndexMemberDeclaration5.js
+! exists parserIndexMemberDeclaration5.d.ts
+! exists parserIndexMemberDeclaration5.js.map
+
+-- parserIndexMemberDeclaration5.ts --
+class C {
+   [a: string]: number public v: number
+}

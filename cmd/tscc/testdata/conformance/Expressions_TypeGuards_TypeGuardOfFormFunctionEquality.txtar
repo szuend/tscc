@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardOfFormFunctionEquality.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeGuardOfFormFunctionEquality.js typeGuardOfFormFunctionEquality.ts
+! stderr .
+cmp typeGuardOfFormFunctionEquality.js typeGuardOfFormFunctionEquality.js.golden
+! exists typeGuardOfFormFunctionEquality.d.ts
+! exists typeGuardOfFormFunctionEquality.js.map
+
+-- typeGuardOfFormFunctionEquality.ts --
+declare function isString1(a: number, b: Object): b is string;
+
+declare function isString2(a: Object): a is string;
+
+switch (isString1(0, "")) {
+    case isString2(""):
+    default:
+}
+
+var x = isString1(0, "") === isString2("");
+
+function isString3(a: number, b: number, c: Object): c is string {
+    return isString1(0, c);
+}
+-- typeGuardOfFormFunctionEquality.js.golden --
+"use strict";
+switch (isString1(0, "")) {
+    case isString2(""):
+    default:
+}
+var x = isString1(0, "") === isString2("");
+function isString3(a, b, c) {
+    return isString1(0, c);
+}

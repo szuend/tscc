@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/expressions/typeSatisfaction/typeSatisfaction_ensureInterfaceImpl.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeSatisfaction_ensureInterfaceImpl.js typeSatisfaction_ensureInterfaceImpl.ts
+! stderr .
+cmp typeSatisfaction_ensureInterfaceImpl.js typeSatisfaction_ensureInterfaceImpl.js.golden
+! exists typeSatisfaction_ensureInterfaceImpl.d.ts
+! exists typeSatisfaction_ensureInterfaceImpl.js.map
+
+-- typeSatisfaction_ensureInterfaceImpl.ts --
+type Movable = {
+    move(distance: number): void;
+};
+
+const car = {
+    start() { },
+    move(d) {
+        // d should be number
+    },
+    stop() { }
+} satisfies Movable & Record<string, unknown>;
+-- typeSatisfaction_ensureInterfaceImpl.js.golden --
+"use strict";
+const car = {
+    start() { },
+    move(d) {
+        // d should be number
+    },
+    stop() { }
+};

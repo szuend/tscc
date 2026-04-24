@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolDeclarationEmit6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts symbolDeclarationEmit6.d.ts --target ES6 --lib ES6,dom --out-js symbolDeclarationEmit6.js symbolDeclarationEmit6.ts
+! stderr .
+cmp symbolDeclarationEmit6.d.ts symbolDeclarationEmit6.d.ts.golden
+cmp symbolDeclarationEmit6.js symbolDeclarationEmit6.js.golden
+! exists symbolDeclarationEmit6.js.map
+
+-- symbolDeclarationEmit6.ts --
+interface I {
+    [Symbol.isConcatSpreadable]: string;
+}
+-- symbolDeclarationEmit6.d.ts.golden --
+interface I {
+    [Symbol.isConcatSpreadable]: string;
+}
+-- symbolDeclarationEmit6.js.golden --
+"use strict";

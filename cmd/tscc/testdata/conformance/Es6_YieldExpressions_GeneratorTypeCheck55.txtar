@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck55.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js generatorTypeCheck55.js generatorTypeCheck55.ts
+! stderr .
+cmp generatorTypeCheck55.js generatorTypeCheck55.js.golden
+! exists generatorTypeCheck55.d.ts
+! exists generatorTypeCheck55.js.map
+
+-- generatorTypeCheck55.ts --
+function* g() {
+    var x = class C extends (yield) {};
+}
+-- generatorTypeCheck55.js.golden --
+"use strict";
+function* g() {
+    var x = class C extends (yield) {
+    };
+}

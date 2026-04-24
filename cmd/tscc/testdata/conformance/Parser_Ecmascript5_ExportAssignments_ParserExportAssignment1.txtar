@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js parserExportAssignment1.js parserExportAssignment1.ts
+stderr 'TS2304'
+! exists parserExportAssignment1.js
+! exists parserExportAssignment1.d.ts
+! exists parserExportAssignment1.js.map
+
+-- parserExportAssignment1.ts --
+export = foo

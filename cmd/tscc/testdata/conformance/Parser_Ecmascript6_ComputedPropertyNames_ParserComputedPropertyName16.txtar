@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserComputedPropertyName16.js parserComputedPropertyName16.ts
+stderr 'TS1164'
+! exists parserComputedPropertyName16.js
+! exists parserComputedPropertyName16.d.ts
+! exists parserComputedPropertyName16.js.map
+
+-- parserComputedPropertyName16.ts --
+enum E {
+  [e] = 1
+}

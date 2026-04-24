@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/scanner/ecmascript3/scannerES3NumericLiteral4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js scannerES3NumericLiteral4.js scannerES3NumericLiteral4.ts
+stderr 'TS1124'
+! exists scannerES3NumericLiteral4.js
+! exists scannerES3NumericLiteral4.d.ts
+! exists scannerES3NumericLiteral4.js.map
+
+-- scannerES3NumericLiteral4.ts --
+1e

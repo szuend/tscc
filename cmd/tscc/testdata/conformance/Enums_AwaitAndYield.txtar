@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/enums/awaitAndYield.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES2019 --lib ES2019,dom --out-js awaitAndYield.js awaitAndYield.ts
+stderr 'TS1308'
+stderr 'TS1163'
+! exists awaitAndYield.js
+! exists awaitAndYield.d.ts
+! exists awaitAndYield.js.map
+
+-- awaitAndYield.ts --
+async function* test(x: Promise<number>) {
+    enum E {
+        foo = await x,
+        baz = yield 1,
+    }
+}

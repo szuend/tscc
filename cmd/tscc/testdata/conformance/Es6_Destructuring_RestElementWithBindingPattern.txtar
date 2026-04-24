@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/destructuring/restElementWithBindingPattern.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js restElementWithBindingPattern.js restElementWithBindingPattern.ts
+! stderr .
+cmp restElementWithBindingPattern.js restElementWithBindingPattern.js.golden
+! exists restElementWithBindingPattern.d.ts
+! exists restElementWithBindingPattern.js.map
+
+-- restElementWithBindingPattern.ts --
+var [...[a, b]] = [0, 1];
+-- restElementWithBindingPattern.js.golden --
+"use strict";
+var [...[a, b]] = [0, 1];

@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeLiterals/functionLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionLiteral.js functionLiteral.ts
+! stderr .
+cmp functionLiteral.js functionLiteral.js.golden
+! exists functionLiteral.d.ts
+! exists functionLiteral.js.map
+
+-- functionLiteral.ts --
+// basic valid forms of function literals
+
+var x = () => 1;
+var x: {
+    (): number;
+}
+
+var y: { (x: string): string; };
+var y: (x: string) => string;
+var y2: { <T>(x: T): T; } = <T>(x: T) => x
+
+var z: { new (x: number): number; };
+var z: new (x: number) => number;
+-- functionLiteral.js.golden --
+"use strict";
+// basic valid forms of function literals
+var x = () => 1;
+var x;
+var y;
+var y;
+var y2 = (x) => x;
+var z;
+var z;

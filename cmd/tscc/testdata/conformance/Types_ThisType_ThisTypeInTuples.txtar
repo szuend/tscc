@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/thisType/thisTypeInTuples.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisTypeInTuples.js thisTypeInTuples.ts
+! stderr .
+cmp thisTypeInTuples.js thisTypeInTuples.js.golden
+! exists thisTypeInTuples.d.ts
+! exists thisTypeInTuples.js.map
+
+-- thisTypeInTuples.ts --
+interface Array<T> {
+    slice(): this;
+}
+
+let t: [number, string] = [42, "hello"];
+let a = t.slice();
+let b = t.slice(1);
+let c = t.slice(0, 1);
+-- thisTypeInTuples.js.golden --
+"use strict";
+let t = [42, "hello"];
+let a = t.slice();
+let b = t.slice(1);
+let c = t.slice(0, 1);

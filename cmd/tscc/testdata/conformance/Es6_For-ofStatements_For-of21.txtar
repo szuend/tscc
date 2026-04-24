@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of21.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of21.js for-of21.ts
+! stderr .
+cmp for-of21.js for-of21.js.golden
+! exists for-of21.d.ts
+! exists for-of21.js.map
+
+-- for-of21.ts --
+class Foo { }
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+for (const v of new FooIterator) {
+    v;
+}
+-- for-of21.js.golden --
+"use strict";
+class Foo {
+}
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+for (const v of new FooIterator) {
+    v;
+}

@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/es6/modules/exportSpellingSuggestion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export function assertNever(x: never, msg: string) {
+    throw new Error("Unexpected " + msg);
+}
+-- b.ts --
+import { assertNevar } from "./a";
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.assertNever = assertNever;
+function assertNever(x, msg) {
+    throw new Error("Unexpected " + msg);
+}

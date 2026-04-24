@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of46.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of46.js for-of46.ts
+stderr 'TS2322'
+! exists for-of46.js
+! exists for-of46.d.ts
+! exists for-of46.js.map
+
+-- for-of46.ts --
+var k: string, v: boolean;
+var map = new Map([["", true]]);
+for ([k = false, v = ""] of map) {
+    k;
+    v;
+}

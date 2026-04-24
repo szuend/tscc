@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.js superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.ts
+stderr 'TS2335'
+! exists superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.js
+! exists superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.d.ts
+! exists superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.js.map
+
+-- superCallFromClassThatHasNoBaseTypeButWithSameSymbolInterface.ts --
+interface Foo extends Array<number> {}
+
+class Foo {
+    constructor() {
+        super(); // error
+    }
+}

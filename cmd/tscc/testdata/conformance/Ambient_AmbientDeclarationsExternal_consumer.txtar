@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/ambient/ambientDeclarationsExternal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --path equ=decls.ts --path equ2=decls.ts --out-js consumer.js consumer.ts
+! stderr .
+cmp consumer.js consumer.js.golden
+! exists consumer.d.ts
+! exists consumer.js.map
+
+-- consumer.ts --
+/// <reference path="decls.ts" />
+import imp1 = require('equ');
+
+
+// Ambient external module members are always exported with or without export keyword when module lacks export assignment
+import imp3 = require('equ2');
+var n = imp3.x;
+var n: number;
+-- decls.ts --
+// Ambient external module with export assignment
+declare module 'equ' {
+    var x;
+    export = x;
+}
+
+declare module 'equ2' {
+    var x: number;
+}
+
+// Ambient external import declaration referencing ambient external module using top level module name
+-- consumer.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// Ambient external module members are always exported with or without export keyword when module lacks export assignment
+const imp3 = require("equ2");
+var n = imp3.x;
+var n;

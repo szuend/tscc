@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/async/es6/await_unaryExpression_es6_1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js await_unaryExpression_es6_1.js await_unaryExpression_es6_1.ts
+stderr 'TS2703'
+! exists await_unaryExpression_es6_1.js
+! exists await_unaryExpression_es6_1.d.ts
+! exists await_unaryExpression_es6_1.js.map
+
+-- await_unaryExpression_es6_1.ts --
+async function bar() {
+    !await 42; // OK
+}
+
+async function bar1() {
+    delete await 42; // OK
+}
+
+async function bar2() {
+    delete await 42; // OK
+}
+
+async function bar3() {
+    void await 42;
+}
+
+async function bar4() {
+    +await 42;
+}

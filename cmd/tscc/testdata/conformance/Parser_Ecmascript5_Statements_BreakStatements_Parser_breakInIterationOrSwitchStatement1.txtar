@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/BreakStatements/parser_breakInIterationOrSwitchStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parser_breakInIterationOrSwitchStatement1.js parser_breakInIterationOrSwitchStatement1.ts
+! stderr .
+cmp parser_breakInIterationOrSwitchStatement1.js parser_breakInIterationOrSwitchStatement1.js.golden
+! exists parser_breakInIterationOrSwitchStatement1.d.ts
+! exists parser_breakInIterationOrSwitchStatement1.js.map
+
+-- parser_breakInIterationOrSwitchStatement1.ts --
+while (true) {
+  break;
+}
+-- parser_breakInIterationOrSwitchStatement1.js.golden --
+"use strict";
+while (true) {
+    break;
+}

@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/salsa/moduleExportNestedNamespaces.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom mod.js
+stderr 'TS2339'
+! exists mod.d.ts
+! exists mod.js.map
+
+-- mod.js --
+module.exports.n = {};
+module.exports.n.K = function C() {
+    this.x = 10;
+}
+module.exports.Classic = class {
+    constructor() {
+        this.p = 1
+    }
+}
+-- use.js --
+import * as s from './mod'
+
+var k = new s.n.K()
+k.x
+var classic = new s.Classic()
+
+
+/** @param {s.n.K} c
+    @param {s.Classic} classic */
+function f(c, classic) {
+    c.x
+    classic.p
+}

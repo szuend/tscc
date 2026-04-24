@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionShouldNotGetParen.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es2020 --no-implicit-any --target es6 --lib es6,dom --out-js importCallExpressionShouldNotGetParen.js importCallExpressionShouldNotGetParen.ts
+! stderr .
+cmp importCallExpressionShouldNotGetParen.js importCallExpressionShouldNotGetParen.js.golden
+! exists importCallExpressionShouldNotGetParen.d.ts
+! exists importCallExpressionShouldNotGetParen.js.map
+
+-- importCallExpressionShouldNotGetParen.ts --
+const localeName = "zh-CN";
+import(`./locales/${localeName}.js`).then(bar => {
+    let x = bar;
+});
+
+import("./locales/" + localeName + ".js").then(bar => {
+    let x = bar;
+});
+-- importCallExpressionShouldNotGetParen.js.golden --
+"use strict";
+const localeName = "zh-CN";
+import(`./locales/${localeName}.js`).then(bar => {
+    let x = bar;
+});
+import("./locales/" + localeName + ".js").then(bar => {
+    let x = bar;
+});

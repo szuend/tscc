@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es2017/useSharedArrayBuffer3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js useSharedArrayBuffer3.js useSharedArrayBuffer3.ts
+stderr 'TS2583'
+! exists useSharedArrayBuffer3.js
+! exists useSharedArrayBuffer3.d.ts
+! exists useSharedArrayBuffer3.js.map
+
+-- useSharedArrayBuffer3.ts --
+var foge = new SharedArrayBuffer(1024);
+var bar = foge.slice(1, 10);
+var len = foge.byteLength;

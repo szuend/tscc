@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesUnique-4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNamesUnique-4.js privateNamesUnique-4.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists privateNamesUnique-4.js
+! exists privateNamesUnique-4.d.ts
+! exists privateNamesUnique-4.js.map
+
+-- privateNamesUnique-4.ts --
+class A1 { }
+interface A2 extends A1 { }
+declare const a: A2;
+
+class C { #something: number }
+const c: C = a;

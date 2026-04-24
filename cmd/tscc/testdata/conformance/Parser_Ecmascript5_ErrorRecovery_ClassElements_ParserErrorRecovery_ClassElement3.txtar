@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_ClassElement3.js parserErrorRecovery_ClassElement3.ts
+stderr 'TS1127'
+stderr 'TS1109'
+stderr 'TS1005'
+! exists parserErrorRecovery_ClassElement3.js
+! exists parserErrorRecovery_ClassElement3.d.ts
+! exists parserErrorRecovery_ClassElement3.js.map
+
+-- parserErrorRecovery_ClassElement3.ts --
+namespace M {
+   ¬
+   class C {
+   }
+   @
+   enum E {
+   ¬

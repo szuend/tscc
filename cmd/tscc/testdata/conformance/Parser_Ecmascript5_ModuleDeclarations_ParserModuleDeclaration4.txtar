@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserModuleDeclaration4.js parserModuleDeclaration4.ts
+! stderr .
+cmp parserModuleDeclaration4.js parserModuleDeclaration4.js.golden
+! exists parserModuleDeclaration4.d.ts
+! exists parserModuleDeclaration4.js.map
+
+-- parserModuleDeclaration4.ts --
+namespace M {
+  declare namespace M1 {
+    namespace M2 {
+    }
+  }
+}
+-- parserModuleDeclaration4.js.golden --
+"use strict";

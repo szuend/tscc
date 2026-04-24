@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty36.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty36.js symbolProperty36.ts
+stderr 'TS1117'
+! exists symbolProperty36.js
+! exists symbolProperty36.d.ts
+! exists symbolProperty36.js.map
+
+-- symbolProperty36.ts --
+var x = {
+    [Symbol.isConcatSpreadable]: 0,
+    [Symbol.isConcatSpreadable]: 1
+}

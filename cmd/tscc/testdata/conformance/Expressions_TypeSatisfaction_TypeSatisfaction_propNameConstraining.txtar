@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/expressions/typeSatisfaction/typeSatisfaction_propNameConstraining.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeSatisfaction_propNameConstraining.js typeSatisfaction_propNameConstraining.ts
+stderr 'TS2353'
+stderr 'TS2339'
+! exists typeSatisfaction_propNameConstraining.js
+! exists typeSatisfaction_propNameConstraining.d.ts
+! exists typeSatisfaction_propNameConstraining.js.map
+
+-- typeSatisfaction_propNameConstraining.ts --
+type Keys = 'a' | 'b' | 'c' | 'd';
+
+const p = {
+    a: 0,
+    b: "hello",
+    x: 8 // Should error, 'x' isn't in 'Keys'
+} satisfies Partial<Record<Keys, unknown>>;
+
+// Should be OK -- retain info that a is number and b is string
+let a = p.a.toFixed();
+let b = p.b.substring(1);
+// Should error even though 'd' is in 'Keys'
+let d = p.d;

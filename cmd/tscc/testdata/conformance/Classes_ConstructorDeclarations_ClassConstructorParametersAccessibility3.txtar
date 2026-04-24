@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/classConstructorParametersAccessibility3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classConstructorParametersAccessibility3.js classConstructorParametersAccessibility3.ts
+stderr 'TS2454'
+! exists classConstructorParametersAccessibility3.js
+! exists classConstructorParametersAccessibility3.d.ts
+! exists classConstructorParametersAccessibility3.js.map
+
+-- classConstructorParametersAccessibility3.ts --
+class Base {
+    constructor(protected p: number) { }
+}
+
+class Derived extends Base {
+    constructor(public p: number) {
+        super(p);
+        this.p; // OK
+    }
+}
+
+var d: Derived;
+d.p;  // public, OK

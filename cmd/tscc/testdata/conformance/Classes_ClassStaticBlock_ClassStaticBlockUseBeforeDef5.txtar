@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/classes/classStaticBlock/classStaticBlockUseBeforeDef5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts classStaticBlockUseBeforeDef5.d.ts --strict --target esnext --lib esnext,dom --out-js classStaticBlockUseBeforeDef5.js classStaticBlockUseBeforeDef5.ts
+stderr 'TS2729'
+! exists classStaticBlockUseBeforeDef5.d.ts
+! exists classStaticBlockUseBeforeDef5.js
+! exists classStaticBlockUseBeforeDef5.js.map
+
+-- classStaticBlockUseBeforeDef5.ts --
+class C {
+    static {
+        this.x = 1;
+    }
+    static accessor x;
+}

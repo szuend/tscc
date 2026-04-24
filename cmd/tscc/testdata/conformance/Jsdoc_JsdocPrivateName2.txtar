@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocPrivateName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --lib dom,esnext --target es2015 jsdocPrivateName1.js
+stderr 'TS1003'
+! exists jsdocPrivateName1.d.ts
+! exists jsdocPrivateName1.js.map
+
+-- jsdocPrivateName1.js --
+// Expecting parse error for private field
+
+/**
+ * @typedef A
+ * @type {object}
+ * @property {string} #id
+ */

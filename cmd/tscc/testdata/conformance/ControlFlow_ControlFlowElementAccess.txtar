@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowElementAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js controlFlowElementAccess.js controlFlowElementAccess.ts
+! stderr .
+cmp controlFlowElementAccess.js controlFlowElementAccess.js.golden
+! exists controlFlowElementAccess.d.ts
+! exists controlFlowElementAccess.js.map
+
+-- controlFlowElementAccess.ts --
+let x: { o: boolean } = { o: false }
+if (x['o'] === false) {
+    x['o'] = true
+}
+
+const y: [number, number] = [0, 0];
+if (y[0] === 0) {
+    y[0] = -1;
+}
+-- controlFlowElementAccess.js.golden --
+"use strict";
+let x = { o: false };
+if (x['o'] === false) {
+    x['o'] = true;
+}
+const y = [0, 0];
+if (y[0] === 0) {
+    y[0] = -1;
+}

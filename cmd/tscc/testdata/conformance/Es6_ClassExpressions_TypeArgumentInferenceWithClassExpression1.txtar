@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/classExpressions/typeArgumentInferenceWithClassExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgumentInferenceWithClassExpression1.js typeArgumentInferenceWithClassExpression1.ts
+stderr 'TS2322'
+! exists typeArgumentInferenceWithClassExpression1.js
+! exists typeArgumentInferenceWithClassExpression1.d.ts
+! exists typeArgumentInferenceWithClassExpression1.js.map
+
+-- typeArgumentInferenceWithClassExpression1.ts --
+function foo<T>(x = class { static prop: T }): T {
+    return undefined;
+}
+
+foo(class { static prop = "hello" }).length;

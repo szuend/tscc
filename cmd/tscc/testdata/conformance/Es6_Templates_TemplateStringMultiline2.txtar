@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringMultiline2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringMultiline2.js templateStringMultiline2.ts
+! stderr .
+cmp templateStringMultiline2.js templateStringMultiline2.js.golden
+! exists templateStringMultiline2.d.ts
+! exists templateStringMultiline2.js.map
+
+-- templateStringMultiline2.ts --
+// newlines are <LF>
+`
+\
+`
+-- templateStringMultiline2.js.golden --
+"use strict";
+// newlines are <LF>
+`
+\
+`;

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType11.js symbolType11.ts
+stderr 'TS2872'
+! exists symbolType11.js
+! exists symbolType11.d.ts
+! exists symbolType11.js.map
+
+-- symbolType11.ts --
+var s = Symbol.for("logical");
+s && s;
+s && [];
+0 && s;
+s || s;
+s || 1;
+({}) || s;

@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameBadSuper.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js privateNameBadSuper.js privateNameBadSuper.ts
+stderr 'TS2376'
+stderr 'TS17009'
+! exists privateNameBadSuper.js
+! exists privateNameBadSuper.d.ts
+! exists privateNameBadSuper.js.map
+
+-- privateNameBadSuper.ts --
+class B {};
+class A extends B {
+  #x;
+  constructor() {
+    this;
+    super();
+  }
+}

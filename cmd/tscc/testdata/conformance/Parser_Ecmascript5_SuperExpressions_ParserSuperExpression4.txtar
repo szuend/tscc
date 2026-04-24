@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/SuperExpressions/parserSuperExpression4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserSuperExpression4.js parserSuperExpression4.ts
+stderr 'TS2335'
+! exists parserSuperExpression4.js
+! exists parserSuperExpression4.d.ts
+! exists parserSuperExpression4.js.map
+
+-- parserSuperExpression4.ts --
+class C {
+    private foo() {
+        super.foo = 1
+    }
+}
+
+namespace M1.M2 {
+    class C {
+        private foo() {
+            super.foo = 1
+        }
+    }
+}

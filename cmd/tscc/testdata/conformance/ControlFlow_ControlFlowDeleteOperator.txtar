@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowDeleteOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js controlFlowDeleteOperator.js controlFlowDeleteOperator.ts
+stderr 'TS1102'
+! exists controlFlowDeleteOperator.js
+! exists controlFlowDeleteOperator.d.ts
+! exists controlFlowDeleteOperator.js.map
+
+-- controlFlowDeleteOperator.ts --
+function f() {
+    let x: { a?: number | string, b: number | string } = { b: 1 };
+    x.a;
+    x.b;
+    x.a = 1;
+    x.b = 1;
+    x.a;
+    x.b;
+    delete x.a;
+    delete x.b;
+    x.a;
+    x.b;
+    x;
+    delete x;  // No effect
+    x;
+}

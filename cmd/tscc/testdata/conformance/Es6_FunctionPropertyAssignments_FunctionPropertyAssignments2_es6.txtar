@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/functionPropertyAssignments/FunctionPropertyAssignments2_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js FunctionPropertyAssignments2_es6.js FunctionPropertyAssignments2_es6.ts
+stderr 'TS1003'
+! exists FunctionPropertyAssignments2_es6.js
+! exists FunctionPropertyAssignments2_es6.d.ts
+! exists FunctionPropertyAssignments2_es6.js.map
+
+-- FunctionPropertyAssignments2_es6.ts --
+var v = { *() { } }

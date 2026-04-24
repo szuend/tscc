@@ -1,0 +1,46 @@
+# Ported from tests/cases/conformance/types/import/importTypeLocal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts foo2.d.ts --lib es6 --module commonjs --target es2015 --out-js foo2.js foo2.ts
+stderr 'TS2564'
+! exists foo2.d.ts
+! exists foo2.js
+! exists foo2.js.map
+
+-- foo.ts --
+interface Point {
+    x: number;
+    y: number;
+}
+export = Point;
+-- foo2.ts --
+namespace Bar {
+    export interface I {
+        a: string;
+        b: number;
+    }
+}
+
+export namespace Baz {
+    export interface J {
+        a: number;
+        b: string;
+    }
+}
+
+class Bar {
+    item: Bar.I;
+    constructor(input: Baz.J) {}
+}
+export { Bar }
+-- usage.ts --
+export const x: import("./foo") = { x: 0, y: 0 };
+export let y: import("./foo2").Bar.I = { a: "", b: 0 };
+
+export class Bar2 {
+    item: {a: string, b: number, c: object};
+    constructor(input?: any) {}
+}
+
+export let shim: typeof import("./foo2") = {
+    Bar: Bar2
+};

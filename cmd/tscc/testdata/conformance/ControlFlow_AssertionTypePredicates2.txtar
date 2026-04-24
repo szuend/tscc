@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/controlFlow/assertionTypePredicates2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --out-js out_assertionTypePredicates2.js assertionTypePredicates2.js
+stderr 'TS2775'
+! exists out_assertionTypePredicates2.js
+! exists out/assertionTypePredicates2.d.ts
+! exists out/assertionTypePredicates2.js.map
+
+-- assertionTypePredicates2.js --
+/**
+ * @typedef {{ x: number }} A
+ */
+
+/**
+ * @typedef { A & { y: number } } B
+ */
+
+/**
+ * @param {A} a
+ * @returns { asserts a is B }
+ */
+const foo = (a) => {
+    if (/** @type { B } */ (a).y !== 0) throw TypeError();
+    return undefined;
+};
+
+export const main = () => {
+    /** @type { A } */
+    const a = { x: 1 };
+    foo(a);
+};

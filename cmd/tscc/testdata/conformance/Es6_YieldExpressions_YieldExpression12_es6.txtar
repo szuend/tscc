@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/YieldExpression12_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js YieldExpression12_es6.js YieldExpression12_es6.ts
+stderr 'TS1163'
+! exists YieldExpression12_es6.js
+! exists YieldExpression12_es6.d.ts
+! exists YieldExpression12_es6.js.map
+
+-- YieldExpression12_es6.ts --
+class C {
+  constructor() {
+     yield foo
+  }
+}

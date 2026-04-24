@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolDeclarationEmit12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts symbolDeclarationEmit12.d.ts --target ES6 --lib ES6,dom --out-js symbolDeclarationEmit12.js symbolDeclarationEmit12.ts
+stderr 'TS2564'
+stderr 'TS2300'
+stderr 'TS2322'
+! exists symbolDeclarationEmit12.d.ts
+! exists symbolDeclarationEmit12.js
+! exists symbolDeclarationEmit12.js.map
+
+-- symbolDeclarationEmit12.ts --
+namespace M {
+    interface I { }
+    export class C {
+        [Symbol.iterator]: I;
+        [Symbol.toPrimitive](x: I) { }
+        [Symbol.isConcatSpreadable](): I {
+            return undefined
+        }
+        get [Symbol.toPrimitive]() { return undefined; }
+        set [Symbol.toPrimitive](x: I) { }
+    }
+}

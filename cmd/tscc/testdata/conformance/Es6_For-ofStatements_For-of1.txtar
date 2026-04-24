@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of1.js for-of1.ts
+! stderr .
+cmp for-of1.js for-of1.js.golden
+! exists for-of1.d.ts
+! exists for-of1.js.map
+
+-- for-of1.ts --
+var v;
+for (v of []) { }
+-- for-of1.js.golden --
+"use strict";
+var v;
+for (v of []) { }

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType10.js symbolType10.ts
+stderr 'TS2362'
+stderr 'TS2363'
+! exists symbolType10.js
+! exists symbolType10.d.ts
+! exists symbolType10.js.map
+
+-- symbolType10.ts --
+var s = Symbol.for("bitwise");
+s & s;
+s | s;
+s ^ s;
+
+s & 0;
+0 | s;

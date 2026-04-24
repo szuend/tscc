@@ -1,0 +1,71 @@
+# Ported from tests/cases/conformance/expressions/assignmentOperator/compoundAssignmentLHSIsReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js compoundAssignmentLHSIsReference.js compoundAssignmentLHSIsReference.ts
+! stderr .
+cmp compoundAssignmentLHSIsReference.js compoundAssignmentLHSIsReference.js.golden
+! exists compoundAssignmentLHSIsReference.d.ts
+! exists compoundAssignmentLHSIsReference.js.map
+
+-- compoundAssignmentLHSIsReference.ts --
+var value;
+
+// identifiers: variable and parameter
+var x1: number;
+x1 *= value;
+x1 += value;
+
+function fn1(x2: number) {
+    x2 *= value;
+    x2 += value;
+}
+
+// property accesses
+var x3: { a: number };
+x3.a *= value;
+x3.a += value;
+
+x3['a'] *= value;
+x3['a'] += value;
+
+// parentheses, the contained expression is reference
+(x1) *= value;
+(x1) += value;
+
+function fn2(x4: number) {
+    (x4) *= value;
+    (x4) += value;
+}
+
+(x3.a) *= value;
+(x3.a) += value;
+
+(x3['a']) *= value;
+(x3['a']) += value;
+-- compoundAssignmentLHSIsReference.js.golden --
+"use strict";
+var value;
+// identifiers: variable and parameter
+var x1;
+x1 *= value;
+x1 += value;
+function fn1(x2) {
+    x2 *= value;
+    x2 += value;
+}
+// property accesses
+var x3;
+x3.a *= value;
+x3.a += value;
+x3['a'] *= value;
+x3['a'] += value;
+// parentheses, the contained expression is reference
+(x1) *= value;
+(x1) += value;
+function fn2(x4) {
+    (x4) *= value;
+    (x4) += value;
+}
+(x3.a) *= value;
+(x3.a) += value;
+(x3['a']) *= value;
+(x3['a']) += value;

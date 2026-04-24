@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocReadonly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target esnext --lib esnext,dom jsdocReadonly.js
+stderr 'TS2540'
+! exists jsdocReadonly.d.ts
+! exists jsdocReadonly.js.map
+
+-- jsdocReadonly.js --
+class LOL {
+    /**
+     * @readonly
+     * @private
+     * @type {number}
+     * Order rules do not apply to JSDoc
+     */
+    x = 1
+    /** @readonly */
+    y = 2
+    /** @readonly Definitely not here */
+    static z = 3
+    /** @readonly This is OK too */
+    constructor() {
+        /** ok */
+        this.y = 2
+        /** @readonly ok */
+        this.ka = 2
+    }
+}
+
+var l = new LOL()
+l.y = 12

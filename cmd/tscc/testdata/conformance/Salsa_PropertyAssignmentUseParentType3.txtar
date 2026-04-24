@@ -1,0 +1,49 @@
+# Ported from tests/cases/conformance/salsa/propertyAssignmentUseParentType3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAssignmentUseParentType3.js propertyAssignmentUseParentType3.ts
+! stderr .
+cmp propertyAssignmentUseParentType3.js propertyAssignmentUseParentType3.js.golden
+! exists propertyAssignmentUseParentType3.d.ts
+! exists propertyAssignmentUseParentType3.js.map
+
+-- propertyAssignmentUseParentType3.ts --
+// don't use the parent type if it's a function declaration (#33741)
+
+function foo1(): number {
+    return 123;
+}
+foo1.toFixed = "";
+
+function foo2(): any[] {
+    return [];
+}
+foo2.join = "";
+
+function foo3(): string {
+    return "";
+}
+foo3.trim = "";
+
+function foo4(): ({x: number}) {
+    return {x: 123};
+}
+foo4.x = "456";
+-- propertyAssignmentUseParentType3.js.golden --
+"use strict";
+// don't use the parent type if it's a function declaration (#33741)
+function foo1() {
+    return 123;
+}
+foo1.toFixed = "";
+function foo2() {
+    return [];
+}
+foo2.join = "";
+function foo3() {
+    return "";
+}
+foo3.trim = "";
+function foo4() {
+    return { x: 123 };
+}
+foo4.x = "456";

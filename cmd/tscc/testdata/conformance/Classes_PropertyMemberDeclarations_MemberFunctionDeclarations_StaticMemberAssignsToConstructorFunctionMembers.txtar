@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/staticMemberAssignsToConstructorFunctionMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticMemberAssignsToConstructorFunctionMembers.js staticMemberAssignsToConstructorFunctionMembers.ts
+stderr 'TS2322'
+! exists staticMemberAssignsToConstructorFunctionMembers.js
+! exists staticMemberAssignsToConstructorFunctionMembers.d.ts
+! exists staticMemberAssignsToConstructorFunctionMembers.js.map
+
+-- staticMemberAssignsToConstructorFunctionMembers.ts --
+class C {
+    static foo() {
+        C.foo = () => { }
+    }
+
+    static bar(x: number): number {
+        C.bar = () => { } // error
+        C.bar = (x) => x; // ok
+        C.bar = (x: number) => 1; // ok
+        return 1;
+    }
+}

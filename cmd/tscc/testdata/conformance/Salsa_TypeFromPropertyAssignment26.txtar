@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment26.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom bug24730.js
+stderr 'TS2339'
+! exists bug24730.d.ts
+! exists bug24730.js.map
+
+-- bug24730.js --
+var UI = {}
+UI.TreeElement = class {
+    constructor() {
+        this.treeOutline = 12
+    }
+};
+UI.context = new UI.TreeElement()
+
+class C extends UI.TreeElement {
+    onpopulate() {
+        this.doesNotExist
+        this.treeOutline.doesntExistEither()
+    }
+};

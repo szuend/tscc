@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserDebuggerStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserDebuggerStatement1.js parserDebuggerStatement1.ts
+! stderr .
+cmp parserDebuggerStatement1.js parserDebuggerStatement1.js.golden
+! exists parserDebuggerStatement1.d.ts
+! exists parserDebuggerStatement1.js.map
+
+-- parserDebuggerStatement1.ts --
+debugger
+-- parserDebuggerStatement1.js.golden --
+"use strict";
+debugger;

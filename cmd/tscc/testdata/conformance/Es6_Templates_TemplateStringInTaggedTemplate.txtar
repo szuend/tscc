@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInTaggedTemplate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInTaggedTemplate.js templateStringInTaggedTemplate.ts
+stderr 'TS2349'
+! exists templateStringInTaggedTemplate.js
+! exists templateStringInTaggedTemplate.d.ts
+! exists templateStringInTaggedTemplate.js.map
+
+-- templateStringInTaggedTemplate.ts --
+`I AM THE ${ `${ `TAG` } ` } PORTION`    `I ${ "AM" } THE TEMPLATE PORTION`

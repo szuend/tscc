@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty6.js symbolProperty6.ts
+stderr 'TS2564'
+! exists symbolProperty6.js
+! exists symbolProperty6.d.ts
+! exists symbolProperty6.js.map
+
+-- symbolProperty6.ts --
+class C {
+    [Symbol.iterator] = 0;
+    [Symbol.unscopables]: number;
+    [Symbol.toPrimitive]() { }
+    get [Symbol.toStringTag]() {
+        return 0;
+    }
+}

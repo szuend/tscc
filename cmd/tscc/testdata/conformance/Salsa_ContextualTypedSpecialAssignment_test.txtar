@@ -1,0 +1,87 @@
+# Ported from tests/cases/conformance/salsa/contextualTypedSpecialAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom test.js
+stderr 'TS2322'
+stderr 'TS7006'
+stderr 'TS2339'
+! exists test.d.ts
+! exists test.js.map
+
+-- mod.js --
+// module.exports assignment
+/** @type {{ status: 'done', m(n: number): void }} */
+module.exports = {
+    status: "done",
+    m(n) { }
+}
+-- test.js --
+/** @typedef {{
+    status: 'done'
+    m(n: number): void
+}} DoneStatus */
+
+// property assignment
+var ns = {}
+/** @type {DoneStatus} */
+ns.x = {
+    status: 'done',
+    m(n) { }
+}
+
+ns.x = {
+    status: 'done',
+    m(n) { }
+}
+ns.x
+
+
+// this-property assignment
+class Thing {
+    constructor() {
+        /** @type {DoneStatus} */
+        this.s = {
+            status: 'done',
+            m(n) { }
+        }
+    }
+
+    fail() {
+        this.s = {
+            status: 'done',
+            m(n) { }
+        }
+    }
+}
+
+// exports-property assignment
+
+/** @type {DoneStatus} */
+exports.x = {
+    status: "done",
+    m(n) { }
+}
+exports.x
+
+/** @type {DoneStatus} */
+module.exports.y = {
+    status: "done",
+    m(n) { }
+}
+module.exports.y
+
+// prototype-property assignment
+/** @type {DoneStatus} */
+Thing.prototype.x = {
+    status: 'done',
+    m(n) { }
+}
+Thing.prototype.x
+
+// prototype assignment
+function F() {
+}
+/** @type {DoneStatus} */
+F.prototype = {
+    status: "done",
+    m(n) { }
+}

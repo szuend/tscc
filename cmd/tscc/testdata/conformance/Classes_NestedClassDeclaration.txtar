@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/classes/nestedClassDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nestedClassDeclaration.js nestedClassDeclaration.ts
+stderr 'TS1068'
+stderr 'TS1128'
+stderr 'TS1005'
+! exists nestedClassDeclaration.js
+! exists nestedClassDeclaration.d.ts
+! exists nestedClassDeclaration.js.map
+
+-- nestedClassDeclaration.ts --
+// nested classes are not allowed
+
+class C {
+    x: string;
+    class C2 {
+    }
+}
+
+function foo() {
+    class C3 {
+    }
+}
+
+var x = {
+    class C4 {
+    }
+}

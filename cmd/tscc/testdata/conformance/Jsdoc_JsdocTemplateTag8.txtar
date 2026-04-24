@@ -1,0 +1,70 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTemplateTag8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom a.js
+stderr 'TS1274'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @template out T
+ * @typedef {Object} Covariant
+ * @property {T} x
+ */
+
+/**
+ * @type {Covariant<unknown>}
+ */
+let super_covariant = { x: 1 };
+
+/**
+ * @type {Covariant<string>}
+ */
+let sub_covariant = { x: '' };
+
+super_covariant = sub_covariant;
+sub_covariant   = super_covariant; // Error
+
+/**
+ * @template in T
+ * @typedef {Object} Contravariant
+ * @property {(x: T) => void} f
+ */
+
+/**
+ * @type {Contravariant<unknown>}
+ */
+let super_contravariant = { f: (x) => {} };
+
+/**
+ * @type {Contravariant<string>}
+ */
+let sub_contravariant = { f: (x) => {} };
+
+super_contravariant = sub_contravariant;  // Error
+sub_contravariant = super_contravariant;
+
+/**
+ * @template in out T
+ * @typedef {Object} Invariant
+ * @property {(x: T) => T} f
+ */
+
+/**
+ * @type {Invariant<unknown>}
+ */
+let super_invariant = { f: (x) => {} };
+
+/**
+ * @type {Invariant<string>}
+ */
+let sub_invariant = { f: (x) => { return "" } };
+
+super_invariant = sub_invariant;  // Error
+sub_invariant = super_invariant;  // Error
+
+/**
+ * @template in T
+ * @param {T} x
+ */
+function f(x) {}

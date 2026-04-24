@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/classes/members/accessibility/privateStaticMemberAccessibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateStaticMemberAccessibility.js privateStaticMemberAccessibility.ts
+stderr 'TS2341'
+! exists privateStaticMemberAccessibility.js
+! exists privateStaticMemberAccessibility.d.ts
+! exists privateStaticMemberAccessibility.js.map
+
+-- privateStaticMemberAccessibility.ts --
+class Base {
+    private static foo: string;
+}
+
+class Derived extends Base {
+    static bar = Base.foo; // error
+    bing = () => Base.foo; // error
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInIndexExpressionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringInIndexExpressionES6.js templateStringInIndexExpressionES6.ts
+! stderr .
+cmp templateStringInIndexExpressionES6.js templateStringInIndexExpressionES6.js.golden
+! exists templateStringInIndexExpressionES6.d.ts
+! exists templateStringInIndexExpressionES6.js.map
+
+-- templateStringInIndexExpressionES6.ts --
+`abc${0}abc`[`0`];
+-- templateStringInIndexExpressionES6.js.golden --
+"use strict";
+`abc${0}abc`[`0`];

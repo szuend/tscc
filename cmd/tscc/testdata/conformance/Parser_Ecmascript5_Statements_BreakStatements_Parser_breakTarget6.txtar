@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/BreakStatements/parser_breakTarget6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser_breakTarget6.js parser_breakTarget6.ts
+stderr 'TS1116'
+! exists parser_breakTarget6.js
+! exists parser_breakTarget6.d.ts
+! exists parser_breakTarget6.js.map
+
+-- parser_breakTarget6.ts --
+while (true) {
+  break target;
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/typings/typingsSuggestion2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js a.js a.ts
+stderr 'TS2591'
+! exists a.js
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+module.exports = 1;
+-- tsconfig.json --
+{ "compilerOptions": {} }

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/primitives/string/assignFromStringInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignFromStringInterface.js assignFromStringInterface.ts
+stderr 'TS2322'
+! exists assignFromStringInterface.js
+! exists assignFromStringInterface.d.ts
+! exists assignFromStringInterface.js.map
+
+-- assignFromStringInterface.ts --
+var x = '';
+declare var a: String;
+x = a;
+a = x;

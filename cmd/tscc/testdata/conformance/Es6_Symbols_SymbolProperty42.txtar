@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty42.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty42.js symbolProperty42.ts
+stderr 'TS2388'
+stderr 'TS2387'
+! exists symbolProperty42.js
+! exists symbolProperty42.d.ts
+! exists symbolProperty42.js.map
+
+-- symbolProperty42.ts --
+class C {
+    [Symbol.iterator](x: string): string;
+    static [Symbol.iterator](x: number): number;
+    [Symbol.iterator](x: any) {
+        return undefined;
+    }
+}

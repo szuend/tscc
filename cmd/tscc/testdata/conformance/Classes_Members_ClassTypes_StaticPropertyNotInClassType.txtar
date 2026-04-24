@@ -1,0 +1,50 @@
+# Ported from tests/cases/conformance/classes/members/classTypes/staticPropertyNotInClassType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticPropertyNotInClassType.js staticPropertyNotInClassType.ts
+stderr 'TS2576'
+stderr 'TS2339'
+stderr 'TS2302'
+! exists staticPropertyNotInClassType.js
+! exists staticPropertyNotInClassType.d.ts
+! exists staticPropertyNotInClassType.js.map
+
+-- staticPropertyNotInClassType.ts --
+namespace NonGeneric {
+    class C {
+        fn() { return this; }
+        static get x() { return 1; }
+        static set x(v) { }
+        constructor(public a: number, private b: number) { }
+        static foo: string; // not reflected in class type
+    }
+
+    namespace C {
+        export var bar = ''; // not reflected in class type
+    }
+
+    var c = new C(1, 2);
+    var r = c.fn();
+    var r4 = c.foo; // error
+    var r5 = c.bar; // error
+    var r6 = c.x; // error
+}
+
+namespace Generic {
+    class C<T, U> {
+        fn() { return this; }
+        static get x() { return 1; }
+        static set x(v) { }
+        constructor(public a: T, private b: U) { }
+        static foo: T; // not reflected in class type
+    }
+
+    namespace C {
+        export var bar = ''; // not reflected in class type
+    }
+
+    var c = new C(1, '');
+    var r = c.fn();
+    var r4 = c.foo; // error
+    var r5 = c.bar; // error
+    var r6 = c.x; // error
+}

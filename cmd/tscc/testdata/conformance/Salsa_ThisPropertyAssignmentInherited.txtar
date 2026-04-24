@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/salsa/thisPropertyAssignmentInherited.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --out-dts thisPropertyAssignmentInherited.d.ts --strict --target es2015 --lib es2015,dom thisPropertyAssignmentInherited.js
+! stderr .
+cmp thisPropertyAssignmentInherited.d.ts thisPropertyAssignmentInherited.d.ts.golden
+! exists out_thisPropertyAssignmentInherited.js
+! exists thisPropertyAssignmentInherited.js.map
+
+-- thisPropertyAssignmentInherited.js --
+export class Element {
+  /**
+   * @returns {String}
+   */
+  get textContent() {
+    return  ''
+  }
+  set textContent(x) {}
+  cloneNode() { return this}
+}
+export class HTMLElement extends Element {}
+export class TextElement extends HTMLElement {
+  get innerHTML() { return this.textContent; }
+  set innerHTML(html) { this.textContent = html; }
+  toString() {
+  }
+}
+
+-- thisPropertyAssignmentInherited.d.ts.golden --
+export declare class Element {
+    /**
+     * @returns {String}
+     */
+    get textContent(): String;
+    set textContent(x: string);
+    cloneNode(): this;
+}
+export declare class HTMLElement extends Element {
+}
+export declare class TextElement extends HTMLElement {
+    get innerHTML(): string;
+    set innerHTML(html: string);
+    toString(): void;
+}

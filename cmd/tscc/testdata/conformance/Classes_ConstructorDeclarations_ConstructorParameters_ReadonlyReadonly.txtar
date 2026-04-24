@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/readonlyReadonly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js readonlyReadonly.js readonlyReadonly.ts
+stderr 'TS1030'
+! exists readonlyReadonly.js
+! exists readonlyReadonly.d.ts
+! exists readonlyReadonly.js.map
+
+-- readonlyReadonly.ts --
+class C {
+    readonly readonly x: number;
+    constructor(readonly readonly y: number) {}
+}

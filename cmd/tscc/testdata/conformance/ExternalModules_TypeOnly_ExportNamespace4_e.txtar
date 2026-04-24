@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/exportNamespace4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts e.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js e.js e.ts
+stderr 'TS1362'
+! exists e.d.ts
+! exists e.js
+! exists e.js.map
+
+-- a.ts --
+export class A {}
+-- b.ts --
+export type * from './a';
+-- c.ts --
+export type * as ns from './a';
+-- d.ts --
+import { A } from './b';
+A;
+-- e.ts --
+import { ns } from './c';
+ns.A;

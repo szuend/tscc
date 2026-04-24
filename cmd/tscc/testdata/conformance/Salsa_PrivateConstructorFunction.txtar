@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/salsa/privateConstructorFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts privateConstructorFunction.d.ts --target es2015 --lib es2015,dom --out-js out_privateConstructorFunction.js privateConstructorFunction.js
+stderr 'TS2683'
+stderr 'TS7009'
+! exists out_privateConstructorFunction.js
+! exists privateConstructorFunction.d.ts
+! exists salsa/privateConstructorFunction.js.map
+
+-- privateConstructorFunction.js --
+{
+    // make sure not to crash when parent's a block rather than a source file or some other
+    // symbol-having node.
+
+    /** @private */
+    function C() {
+        this.x = 1
+    }
+    new C()
+}

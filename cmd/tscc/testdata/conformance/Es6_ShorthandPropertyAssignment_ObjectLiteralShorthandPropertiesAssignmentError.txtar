@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesAssignmentError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js objectLiteralShorthandPropertiesAssignmentError.js objectLiteralShorthandPropertiesAssignmentError.ts
+stderr 'TS2353'
+stderr 'TS7008'
+stderr 'TS2322'
+! exists objectLiteralShorthandPropertiesAssignmentError.js
+! exists objectLiteralShorthandPropertiesAssignmentError.d.ts
+! exists objectLiteralShorthandPropertiesAssignmentError.js.map
+
+-- objectLiteralShorthandPropertiesAssignmentError.ts --
+var id: number = 10000;
+var name: string = "my name";
+
+var person: { b: string; id: number } = { name, id };  // error
+var person1: { name, id };  // ok
+function foo(name: string, id: number): { id: string, name: number } { return { name, id }; }  // error
+function bar(obj: { name: string; id: boolean }) { }
+bar({ name, id });  // error
+

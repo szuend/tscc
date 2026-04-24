@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/modules/importEmptyFromModuleNotExisted.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importEmptyFromModuleNotExisted.js importEmptyFromModuleNotExisted.ts
+stderr 'TS2307'
+! exists importEmptyFromModuleNotExisted.js
+! exists importEmptyFromModuleNotExisted.d.ts
+! exists importEmptyFromModuleNotExisted.js.map
+
+-- importEmptyFromModuleNotExisted.ts --
+import {} from 'module-not-existed'

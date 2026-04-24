@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/externalModules/typeValueMerge1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom main.ts
+! stderr .
+! exists main.d.ts
+! exists main.js.map
+
+-- main.ts --
+import { A, B } from "./other";
+
+A();
+
+export const C = B;
+-- other.ts --
+export type A = string;
+function A() {}
+export { A };
+
+export type B = string;
+var B = 10;
+export { B };

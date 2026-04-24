@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern28.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es2015 --target ES6 --out-js iterableArrayPattern28.js iterableArrayPattern28.ts
+stderr 'TS2769'
+! exists iterableArrayPattern28.js
+! exists iterableArrayPattern28.d.ts
+! exists iterableArrayPattern28.js.map
+
+-- iterableArrayPattern28.ts --
+function takeFirstTwoEntries(...[[k1, v1], [k2, v2]]: [string, number][]) { }
+takeFirstTwoEntries(...new Map([["", 0], ["hello", true]]));

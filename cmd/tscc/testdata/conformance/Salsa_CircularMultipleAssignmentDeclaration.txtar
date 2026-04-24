@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/salsa/circularMultipleAssignmentDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom circularMultipleAssignmentDeclaration.js
+stderr 'TS2304'
+! exists circularMultipleAssignmentDeclaration.d.ts
+! exists circularMultipleAssignmentDeclaration.js.map
+
+-- circularMultipleAssignmentDeclaration.js --
+ns.next = ns.next || { shared: {} };
+ns.next.shared.mymethod = {};

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser566700.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser566700.js parser566700.ts
+stderr 'TS1109'
+! exists parser566700.js
+! exists parser566700.d.ts
+! exists parser566700.js.map
+
+-- parser566700.ts --
+var v = ()({});

@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/jsdoc/importTag18.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts a.d.ts --target es2015 --lib es2015,dom a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+
+-- a.ts --
+export interface Foo {}
+-- b.js --
+/**
+ * @import {
+ *    Foo
+ * } from "./a"
+ */
+
+/**
+ * @param {Foo} a
+ */
+export function foo(a) {}
+-- a.d.ts.golden --
+export interface Foo {
+}

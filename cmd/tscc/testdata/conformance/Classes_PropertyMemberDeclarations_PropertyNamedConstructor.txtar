@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/propertyNamedConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js propertyNamedConstructor.js propertyNamedConstructor.ts
+stderr 'TS18006'
+! exists propertyNamedConstructor.js
+! exists propertyNamedConstructor.d.ts
+! exists propertyNamedConstructor.js.map
+
+-- propertyNamedConstructor.ts --
+class X1 {
+  "constructor" = 3; // Error
+}
+
+class X2 {
+  ["constructor"] = 3;
+}

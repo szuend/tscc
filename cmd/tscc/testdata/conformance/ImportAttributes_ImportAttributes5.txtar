@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/importAttributes/importAttributes5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importAttributes5.js importAttributes5.ts
+stderr 'TS1005'
+! exists importAttributes5.js
+! exists importAttributes5.d.ts
+! exists importAttributes5.js.map
+
+-- importAttributes5.ts --
+import * as f from "./first" with {

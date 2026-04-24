@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueTarget2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parser_continueTarget2.js parser_continueTarget2.ts
+! stderr .
+cmp parser_continueTarget2.js parser_continueTarget2.js.golden
+! exists parser_continueTarget2.d.ts
+! exists parser_continueTarget2.js.map
+
+-- parser_continueTarget2.ts --
+target:
+while (true) {
+  continue target;
+}
+-- parser_continueTarget2.js.golden --
+"use strict";
+target: while (true) {
+    continue target;
+}

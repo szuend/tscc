@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameNestedMethodAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameNestedMethodAccess.js privateNameNestedMethodAccess.ts
+stderr 'TS18014'
+! exists privateNameNestedMethodAccess.js
+! exists privateNameNestedMethodAccess.d.ts
+! exists privateNameNestedMethodAccess.js.map
+
+-- privateNameNestedMethodAccess.ts --
+class C {
+    #foo = 42;
+    #bar() { new C().#baz; }
+    get #baz() { return 42; }
+
+    m() {
+        return class D {
+            #bar() {}
+            constructor() {
+                new C().#foo;
+                new C().#bar; // Error
+                new C().#baz;
+                new D().#bar;
+            }
+
+            n(x: any) {
+                x.#foo;
+                x.#bar;
+                x.#unknown; // Error
+            }
+        }
+    }
+}

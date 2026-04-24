@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/types/nonPrimitive/nonPrimitiveAndEmptyObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts nonPrimitiveAndEmptyObject.d.ts --strict --target es2015 --lib es2015,dom --out-js nonPrimitiveAndEmptyObject.js nonPrimitiveAndEmptyObject.ts
+! stderr .
+cmp nonPrimitiveAndEmptyObject.d.ts nonPrimitiveAndEmptyObject.d.ts.golden
+cmp nonPrimitiveAndEmptyObject.js nonPrimitiveAndEmptyObject.js.golden
+! exists nonPrimitiveAndEmptyObject.js.map
+
+-- nonPrimitiveAndEmptyObject.ts --
+// Repro from #49480
+
+export interface BarProps {
+    barProp?: string;
+}
+
+export interface FooProps {
+    fooProps?: BarProps & object;
+}
+
+declare const foo: FooProps;
+const { fooProps = {} } = foo;
+
+fooProps.barProp;
+-- nonPrimitiveAndEmptyObject.d.ts.golden --
+export interface BarProps {
+    barProp?: string;
+}
+export interface FooProps {
+    fooProps?: BarProps & object;
+}
+-- nonPrimitiveAndEmptyObject.js.golden --
+// Repro from #49480
+const { fooProps = {} } = foo;
+fooProps.barProp;
+export {};

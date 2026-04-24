@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/parser/ecmascript2021/numericSeparators/parser.numericSeparators.hexNegative.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js 4.js 4.ts
+stderr 'TS6189'
+! exists 4.js
+! exists 4.d.ts
+! exists 4.js.map
+
+-- 1.ts --
+0x00_
+-- 2.ts --
+0x_110
+-- 3.ts --
+0_X0101
+-- 4.ts --
+0x01__11
+-- 5.ts --
+0X0110_0110__
+-- 6.ts --
+0x___0111010_0101_1

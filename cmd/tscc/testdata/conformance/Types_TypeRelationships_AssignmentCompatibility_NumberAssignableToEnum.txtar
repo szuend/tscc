@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/numberAssignableToEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numberAssignableToEnum.js numberAssignableToEnum.ts
+stderr 'TS2454'
+! exists numberAssignableToEnum.js
+! exists numberAssignableToEnum.d.ts
+! exists numberAssignableToEnum.js.map
+
+-- numberAssignableToEnum.ts --
+enum E { A }
+var n: number;
+var e: E;
+e = n;
+n = e;

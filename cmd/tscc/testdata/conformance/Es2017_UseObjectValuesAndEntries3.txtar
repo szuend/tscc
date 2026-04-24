@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es2017/useObjectValuesAndEntries3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js useObjectValuesAndEntries3.js useObjectValuesAndEntries3.ts
+stderr 'TS2550'
+! exists useObjectValuesAndEntries3.js
+! exists useObjectValuesAndEntries3.d.ts
+! exists useObjectValuesAndEntries3.js.map
+
+-- useObjectValuesAndEntries3.ts --
+var o = { a: 1, b: 2 };
+
+for (var x of Object.values(o)) {
+    let y = x;
+}
+
+var entries = Object.entries(o);

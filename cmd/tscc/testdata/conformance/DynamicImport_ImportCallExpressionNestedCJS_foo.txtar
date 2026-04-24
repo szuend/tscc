@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionNestedCJS.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es6 --module commonjs --skip-lib-check --target es6 --out-js foo.js foo.ts
+! stderr .
+cmp foo.js foo.js.golden
+! exists foo.d.ts
+! exists foo.js.map
+
+-- foo.ts --
+export default "./foo";
+-- index.ts --
+async function foo() {
+    return await import((await import("./foo")).default);
+}
+-- foo.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = "./foo";

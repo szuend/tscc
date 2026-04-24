@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/exportNamespace12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js main.js main.ts
+stderr 'TS1362'
+! exists main.js
+! exists main.d.ts
+! exists main.js.map
+
+-- main.ts --
+import { c } from './types'
+import * as types from './types'
+console.log(c) // Fails as expected, import is still allowed though.
+console.log(types.c) // Expected an error here.
+-- types.ts --
+export type * from './values'
+-- values.ts --
+export const c = 10

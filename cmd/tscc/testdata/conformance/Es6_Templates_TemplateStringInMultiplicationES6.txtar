@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInMultiplicationES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js templateStringInMultiplicationES6.js templateStringInMultiplicationES6.ts
+stderr 'TS2363'
+! exists templateStringInMultiplicationES6.js
+! exists templateStringInMultiplicationES6.d.ts
+! exists templateStringInMultiplicationES6.js.map
+
+-- templateStringInMultiplicationES6.ts --
+var x = 1 * `abc${ 1 }def`;

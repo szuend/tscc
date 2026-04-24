@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/variableDeclarations/VariableDeclaration6_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js VariableDeclaration6_es6.js VariableDeclaration6_es6.ts
+stderr 'TS1212'
+! exists VariableDeclaration6_es6.js
+! exists VariableDeclaration6_es6.d.ts
+! exists VariableDeclaration6_es6.js.map
+
+-- VariableDeclaration6_es6.ts --
+let

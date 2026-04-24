@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGreaterThanTokenAmbiguity14.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserGreaterThanTokenAmbiguity14.js parserGreaterThanTokenAmbiguity14.ts
+stderr 'TS1109'
+! exists parserGreaterThanTokenAmbiguity14.js
+! exists parserGreaterThanTokenAmbiguity14.d.ts
+! exists parserGreaterThanTokenAmbiguity14.js.map
+
+-- parserGreaterThanTokenAmbiguity14.ts --
+1 >>
+= 2;

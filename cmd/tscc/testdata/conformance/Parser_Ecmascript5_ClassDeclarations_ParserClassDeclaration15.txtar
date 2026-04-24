@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration15.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserClassDeclaration15.js parserClassDeclaration15.ts
+stderr 'TS2391'
+! exists parserClassDeclaration15.js
+! exists parserClassDeclaration15.d.ts
+! exists parserClassDeclaration15.js.map
+
+-- parserClassDeclaration15.ts --
+class C {
+   foo();
+   constructor() { }
+}

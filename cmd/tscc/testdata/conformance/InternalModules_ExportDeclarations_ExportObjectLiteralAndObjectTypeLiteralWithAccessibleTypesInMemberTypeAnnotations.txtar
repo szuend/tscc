@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.js ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.ts
+! stderr .
+cmp ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.js ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.js.golden
+! exists ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.d.ts
+! exists ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.js.map
+
+-- ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.ts --
+namespace A {
+
+    class Point {
+        constructor(public x: number, public y: number) { }
+    }
+
+    export var Origin: Point = { x: 0, y: 0 };
+
+    export var Unity = { start: new Point(0, 0), end: new Point(1, 0) };
+}
+-- ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.js.golden --
+"use strict";
+var A;
+(function (A) {
+    class Point {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    A.Origin = { x: 0, y: 0 };
+    A.Unity = { start: new Point(0, 0), end: new Point(1, 0) };
+})(A || (A = {}));

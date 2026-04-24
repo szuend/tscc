@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeQueries/typeQueryWithReservedWords.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeQueryWithReservedWords.js typeQueryWithReservedWords.ts
+! stderr .
+cmp typeQueryWithReservedWords.js typeQueryWithReservedWords.js.golden
+! exists typeQueryWithReservedWords.d.ts
+! exists typeQueryWithReservedWords.js.map
+
+-- typeQueryWithReservedWords.ts --
+class Controller {
+    create() {
+    }
+    delete() {
+    }
+    var() {
+    }
+}
+
+interface IScope {
+    create: typeof Controller.prototype.create;  
+    delete: typeof Controller.prototype.delete;  // Should not error
+    var: typeof Controller.prototype.var;        // Should not error
+}
+-- typeQueryWithReservedWords.js.golden --
+"use strict";
+class Controller {
+    create() {
+    }
+    delete() {
+    }
+    var() {
+    }
+}

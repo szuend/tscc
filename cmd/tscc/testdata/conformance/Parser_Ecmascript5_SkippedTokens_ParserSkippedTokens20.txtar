@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/SkippedTokens/parserSkippedTokens20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserSkippedTokens20.js parserSkippedTokens20.ts
+stderr 'TS1127'
+! exists parserSkippedTokens20.js
+! exists parserSkippedTokens20.d.ts
+! exists parserSkippedTokens20.js.map
+
+-- parserSkippedTokens20.ts --
+var v: X<T \

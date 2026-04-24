@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/VariableLists/parserErrorRecovery_VariableList1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_VariableList1.js parserErrorRecovery_VariableList1.ts
+stderr 'TS1009'
+stderr 'TS1108'
+! exists parserErrorRecovery_VariableList1.js
+! exists parserErrorRecovery_VariableList1.d.ts
+! exists parserErrorRecovery_VariableList1.js.map
+
+-- parserErrorRecovery_VariableList1.ts --
+var a,
+return;

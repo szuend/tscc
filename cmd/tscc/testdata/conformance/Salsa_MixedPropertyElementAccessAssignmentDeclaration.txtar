@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/salsa/mixedPropertyElementAccessAssignmentDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js mixedPropertyElementAccessAssignmentDeclaration.js mixedPropertyElementAccessAssignmentDeclaration.ts
+! stderr .
+cmp mixedPropertyElementAccessAssignmentDeclaration.js mixedPropertyElementAccessAssignmentDeclaration.js.golden
+! exists mixedPropertyElementAccessAssignmentDeclaration.d.ts
+! exists mixedPropertyElementAccessAssignmentDeclaration.js.map
+
+-- mixedPropertyElementAccessAssignmentDeclaration.ts --
+// Should not crash: #34642
+var arr = [];
+arr[0].prop[2] = {};
+-- mixedPropertyElementAccessAssignmentDeclaration.js.golden --
+"use strict";
+// Should not crash: #34642
+var arr = [];
+arr[0].prop[2] = {};

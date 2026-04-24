@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnum3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserEnum3.js parserEnum3.ts
+! stderr .
+cmp parserEnum3.js parserEnum3.js.golden
+! exists parserEnum3.d.ts
+! exists parserEnum3.js.map
+
+-- parserEnum3.ts --
+    export enum SignatureFlags {
+    }
+-- parserEnum3.js.golden --
+export var SignatureFlags;
+(function (SignatureFlags) {
+})(SignatureFlags || (SignatureFlags = {}));

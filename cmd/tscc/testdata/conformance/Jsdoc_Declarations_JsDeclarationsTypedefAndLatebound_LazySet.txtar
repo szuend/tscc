@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsTypedefAndLatebound.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --lib es2017 --target es2015 LazySet.js
+! stderr .
+! exists LazySet.d.ts
+! exists LazySet.js.map
+
+-- LazySet.js --
+// Comment out this JSDoc, and note that the errors index.js go away.
+/**
+ * @typedef {Object} SomeObject
+ */
+class LazySet {
+    /**
+     * @param {LazySet} iterable
+     */
+    addAll(iterable) {}
+    [Symbol.iterator]() {}
+}
+
+module.exports = LazySet;
+-- index.js --
+const LazySet = require("./LazySet");
+
+/** @type {LazySet} */
+const stringSet = undefined;
+stringSet.addAll(stringSet);
+

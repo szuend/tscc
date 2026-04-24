@@ -1,0 +1,46 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeReferences/genericTypeReferenceWithoutTypeArgument2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericTypeReferenceWithoutTypeArgument2.js genericTypeReferenceWithoutTypeArgument2.ts
+stderr 'TS1268'
+! exists genericTypeReferenceWithoutTypeArgument2.js
+! exists genericTypeReferenceWithoutTypeArgument2.d.ts
+! exists genericTypeReferenceWithoutTypeArgument2.js.map
+
+-- genericTypeReferenceWithoutTypeArgument2.ts --
+// it is an error to use a generic type without type arguments
+// all of these are errors 
+
+interface I<T> {
+    foo: T;
+}
+
+var c: I;
+
+var a: { x: I };
+var b: { (x: I): I };
+var d: { [x: I]: I };
+
+var e = (x: I) => { var y: I; return y; }
+
+function f(x: I): I { var y: I; return y; }
+
+var g = function f(x: I): I { var y: I; return y; }
+
+class D extends I {
+}
+
+interface U extends I {}
+
+namespace M {
+    export interface E<T> { foo: T }
+}
+
+class D2 extends M.C { }
+interface D3<T extends M.E> { }
+interface I2 extends M.C { }
+
+function h<T extends I>(x: T) { }
+function i<T extends M.E>(x: T) { }
+
+var j = <C>null;
+var k = <M.E>null;

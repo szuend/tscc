@@ -1,0 +1,60 @@
+# Ported from tests/cases/conformance/es7/exponentiationOperator/emitExponentiationOperatorInTemplateString2ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js emitExponentiationOperatorInTemplateString2ES6.js emitExponentiationOperatorInTemplateString2ES6.ts
+! stderr .
+cmp emitExponentiationOperatorInTemplateString2ES6.js emitExponentiationOperatorInTemplateString2ES6.js.golden
+! exists emitExponentiationOperatorInTemplateString2ES6.d.ts
+! exists emitExponentiationOperatorInTemplateString2ES6.js.map
+
+-- emitExponentiationOperatorInTemplateString2ES6.ts --
+var t1 = 10;
+var t2 = 10;
+var s;
+
+// With templateHead
+`hello ${t1 ** t2}`;
+`hello ${t1 ** t2 ** t1}`;
+`hello ${t1 + t2 ** t1}`;
+`hello ${t1 ** t2 + t1}`;
+`hello ${t1 + t2 ** t2 + t1 }`;
+`hello ${typeof (t1 ** t2 ** t1) }`;
+`hello ${1 + typeof (t1 ** t2 ** t1) }`;
+
+`hello ${t1 ** t2}${t1 ** t2}`;
+`hello ${t1 ** t2 ** t1}${t1 ** t2 ** t1}`;
+`hello ${t1 + t2 ** t1}${t1 + t2 ** t1}`;
+`hello ${t1 ** t2 + t1}${t1 ** t2 + t1}`;
+`hello ${t1 + t2 ** t2 + t1}${t1 + t2 ** t2 + t1}`;
+`hello ${typeof (t1 ** t2 ** t1) }${typeof (t1 ** t2 ** t1) }`;
+
+`hello ${t1 ** t2} hello world ${t1 ** t2}`;
+`hello ${t1 ** t2 ** t1} hello world ${t1 ** t2 ** t1}`;
+`hello ${t1 + t2 ** t1} hello world ${t1 + t2 ** t1}`;
+`hello ${t1 ** t2 + t1} hello world ${t1 ** t2 + t1}`;
+`hello ${t1 + t2 ** t2 + t1} hello world ${t1 + t2 ** t2 + t1}`;
+`hello ${typeof (t1 ** t2 ** t1) } hello world ${typeof (t1 ** t2 ** t1) }`;
+-- emitExponentiationOperatorInTemplateString2ES6.js.golden --
+"use strict";
+var t1 = 10;
+var t2 = 10;
+var s;
+// With templateHead
+`hello ${Math.pow(t1, t2)}`;
+`hello ${Math.pow(t1, Math.pow(t2, t1))}`;
+`hello ${t1 + Math.pow(t2, t1)}`;
+`hello ${Math.pow(t1, t2) + t1}`;
+`hello ${t1 + Math.pow(t2, t2) + t1}`;
+`hello ${typeof (Math.pow(t1, Math.pow(t2, t1)))}`;
+`hello ${1 + typeof (Math.pow(t1, Math.pow(t2, t1)))}`;
+`hello ${Math.pow(t1, t2)}${Math.pow(t1, t2)}`;
+`hello ${Math.pow(t1, Math.pow(t2, t1))}${Math.pow(t1, Math.pow(t2, t1))}`;
+`hello ${t1 + Math.pow(t2, t1)}${t1 + Math.pow(t2, t1)}`;
+`hello ${Math.pow(t1, t2) + t1}${Math.pow(t1, t2) + t1}`;
+`hello ${t1 + Math.pow(t2, t2) + t1}${t1 + Math.pow(t2, t2) + t1}`;
+`hello ${typeof (Math.pow(t1, Math.pow(t2, t1)))}${typeof (Math.pow(t1, Math.pow(t2, t1)))}`;
+`hello ${Math.pow(t1, t2)} hello world ${Math.pow(t1, t2)}`;
+`hello ${Math.pow(t1, Math.pow(t2, t1))} hello world ${Math.pow(t1, Math.pow(t2, t1))}`;
+`hello ${t1 + Math.pow(t2, t1)} hello world ${t1 + Math.pow(t2, t1)}`;
+`hello ${Math.pow(t1, t2) + t1} hello world ${Math.pow(t1, t2) + t1}`;
+`hello ${t1 + Math.pow(t2, t2) + t1} hello world ${t1 + Math.pow(t2, t2) + t1}`;
+`hello ${typeof (Math.pow(t1, Math.pow(t2, t1)))} hello world ${typeof (Math.pow(t1, Math.pow(t2, t1)))}`;

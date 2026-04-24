@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ParameterLists/parserErrorRecovery_ParameterList4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_ParameterList4.js parserErrorRecovery_ParameterList4.ts
+stderr 'TS1127'
+! exists parserErrorRecovery_ParameterList4.js
+! exists parserErrorRecovery_ParameterList4.d.ts
+! exists parserErrorRecovery_ParameterList4.js.map
+
+-- parserErrorRecovery_ParameterList4.ts --
+function f(a,¬) {
+}

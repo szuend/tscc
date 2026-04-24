@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/destructuring/restElementWithBindingPattern2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restElementWithBindingPattern2.js restElementWithBindingPattern2.ts
+stderr 'TS2339'
+! exists restElementWithBindingPattern2.js
+! exists restElementWithBindingPattern2.d.ts
+! exists restElementWithBindingPattern2.js.map
+
+-- restElementWithBindingPattern2.ts --
+var [...{0: a, b }] = [0, 1];

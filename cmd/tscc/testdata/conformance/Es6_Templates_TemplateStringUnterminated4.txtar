@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringUnterminated4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringUnterminated4.js templateStringUnterminated4.ts
+stderr 'TS1160'
+! exists templateStringUnterminated4.js
+! exists templateStringUnterminated4.d.ts
+! exists templateStringUnterminated4.js.map
+
+-- templateStringUnterminated4.ts --
+`\\\`

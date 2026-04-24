@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/salsa/moduleExportsAliasLoop2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom x.js
+stderr 'TS2339'
+! exists x.d.ts
+! exists x.js.map
+
+-- x.js --
+const Foo = { min: 3 };
+exports.fn1();
+exports.fn2 = Foo.min;

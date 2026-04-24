@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames32_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames32_ES6.js computedPropertyNames32_ES6.ts
+stderr 'TS2467'
+! exists computedPropertyNames32_ES6.js
+! exists computedPropertyNames32_ES6.d.ts
+! exists computedPropertyNames32_ES6.js.map
+
+-- computedPropertyNames32_ES6.ts --
+function foo<T>() { return '' }
+class C<T> {
+    bar() {
+        return 0;
+    }
+    [foo<T>()]() { }
+}

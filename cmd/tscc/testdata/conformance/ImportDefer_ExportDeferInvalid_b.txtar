@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/importDefer/exportDeferInvalid.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module esnext --target es2015 --lib es2015,dom --out-js b.js b.ts
+stderr 'TS1128'
+stderr 'TS1005'
+stderr 'TS1434'
+! exists b.js
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export function foo() {
+  console.log("foo from a");
+}
+-- b.ts --
+export defer * as ns from "a";

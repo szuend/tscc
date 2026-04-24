@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/types/typeRelationships/recursiveTypes/nominalSubtypeCheckOfTypeParameter2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nominalSubtypeCheckOfTypeParameter2.js nominalSubtypeCheckOfTypeParameter2.ts
+! stderr .
+cmp nominalSubtypeCheckOfTypeParameter2.js nominalSubtypeCheckOfTypeParameter2.js.golden
+! exists nominalSubtypeCheckOfTypeParameter2.d.ts
+! exists nominalSubtypeCheckOfTypeParameter2.js.map
+
+-- nominalSubtypeCheckOfTypeParameter2.ts --
+interface B<T> {
+    bar: T;
+}
+
+// ok
+interface A<T> extends B<T> {
+    foo: T;
+}
+
+// ok
+interface A2<T> extends B<B<string>> {
+    baz: T;
+}
+
+interface C<T> {
+    bam: T;
+}
+
+// ok
+interface A3<T> extends B<C<T>> {
+    bing: T;
+}
+-- nominalSubtypeCheckOfTypeParameter2.js.golden --
+"use strict";

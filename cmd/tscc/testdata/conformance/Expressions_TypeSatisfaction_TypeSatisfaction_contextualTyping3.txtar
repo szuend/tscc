@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/expressions/typeSatisfaction/typeSatisfaction_contextualTyping3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom typeSatisfaction_contextualTyping3.ts
+! stderr .
+! exists typeSatisfaction_contextualTyping3.d.ts
+! exists typeSatisfaction_contextualTyping3.js.map
+
+-- typeSatisfaction_contextualTyping3.ts --
+// see https://github.com/microsoft/TypeScript/issues/53920#issuecomment-1516616255
+
+const obj = {
+   foo: (param = "default") => param,
+} satisfies {
+   [key: string]: (...params: any) => any;
+};
+
+const obj2 = {
+   foo: (param = "default") => param,
+} satisfies {
+   [key: string]: Function;
+};
+
+type StringOrNumberFunc = (x: string | number) => any;
+
+const fn = ((x = "ok") => null) satisfies StringOrNumberFunc;
+fn();
+fn(32);
+

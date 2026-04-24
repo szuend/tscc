@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/scanner/jsdocInvalidTokens.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom jsdocInvalidTokens.js
+! stderr .
+! exists jsdocInvalidTokens.d.ts
+! exists jsdocInvalidTokens.js.map
+
+-- jsdocInvalidTokens.js --
+/**
+ *
+ * unicode-escape = "\u{abcdefghi}" -- should not have error for invalid unicode escape
+ * unicode-escape2 = "qq\u{abcdefghi}" -- no error here either
+ * quoted-pair = "\" -- should not have error for invalid quote sequence
+ * or for the tag below:
+ * @private
+ */
+var hi = 1

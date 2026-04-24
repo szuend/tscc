@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/constEnums/constEnumNoObjectPrototypePropertyAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom constEnumNoObjectPrototypePropertyAccess.ts
+stderr 'TS2339'
+! exists constEnumNoObjectPrototypePropertyAccess.d.ts
+! exists constEnumNoObjectPrototypePropertyAccess.js.map
+
+-- constEnumNoObjectPrototypePropertyAccess.ts --
+// https://github.com/microsoft/TypeScript/issues/55421
+
+const enum Bebra {}
+
+console.log(Bebra.constructor)
+console.log(Bebra.hasOwnProperty)
+console.log(Bebra.isPrototypeOf)
+console.log(Bebra.propertyIsEnumerable)
+console.log(Bebra.toLocaleString)
+console.log(Bebra.toString)
+console.log(Bebra.valueOf)

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_SwitchStatement1.js parserErrorRecovery_SwitchStatement1.ts
+stderr 'TS1109'
+! exists parserErrorRecovery_SwitchStatement1.js
+! exists parserErrorRecovery_SwitchStatement1.d.ts
+! exists parserErrorRecovery_SwitchStatement1.js.map
+
+-- parserErrorRecovery_SwitchStatement1.ts --
+switch (e) {
+    case 1:
+       1 + 
+    case 2:
+       1 + 
+    default:
+}

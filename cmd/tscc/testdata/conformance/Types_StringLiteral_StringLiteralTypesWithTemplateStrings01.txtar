@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesWithTemplateStrings01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesWithTemplateStrings01.d.ts --target es2015 --lib es2015,dom --out-js stringLiteralTypesWithTemplateStrings01.js stringLiteralTypesWithTemplateStrings01.ts
+! stderr .
+cmp stringLiteralTypesWithTemplateStrings01.d.ts stringLiteralTypesWithTemplateStrings01.d.ts.golden
+cmp stringLiteralTypesWithTemplateStrings01.js stringLiteralTypesWithTemplateStrings01.js.golden
+! exists stringLiteralTypesWithTemplateStrings01.js.map
+
+-- stringLiteralTypesWithTemplateStrings01.ts --
+let ABC: "ABC" = `ABC`;
+let DE_NEWLINE_F: "DE\nF" = `DE
+F`;
+let G_QUOTE_HI: 'G"HI';
+let JK_BACKTICK_L: "JK`L" = `JK\`L`;
+-- stringLiteralTypesWithTemplateStrings01.d.ts.golden --
+declare let ABC: "ABC";
+declare let DE_NEWLINE_F: "DE\nF";
+declare let G_QUOTE_HI: 'G"HI';
+declare let JK_BACKTICK_L: "JK`L";
+-- stringLiteralTypesWithTemplateStrings01.js.golden --
+"use strict";
+let ABC = `ABC`;
+let DE_NEWLINE_F = `DE
+F`;
+let G_QUOTE_HI;
+let JK_BACKTICK_L = `JK\`L`;

@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/externalModules/umd-errors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --path Foo=err2.d.ts --out-js err5.js err5.ts
+stderr 'TS1315'
+! exists err5.js
+! exists err5.d.ts
+! exists err5.js.map
+
+-- err1.d.ts --
+// Illegal, can't be in script file
+export as namespace Foo;
+-- err2.d.ts --
+// Illegal, can't be in external ambient module
+declare module "Foo" {
+	export as namespace Bar;
+}
+-- err3.d.ts --
+// Illegal, can't have modifiers
+export var p;
+static export as namespace oo1;
+declare export as namespace oo2;
+public export as namespace oo3;
+const export as namespace oo4;
+-- err4.d.ts --
+// Illegal, must be at top-level
+export namespace B {
+	export as namespace C1;
+}
+-- err5.ts --
+// Illegal, may not appear in implementation files
+export var v;
+export as namespace C2;
+

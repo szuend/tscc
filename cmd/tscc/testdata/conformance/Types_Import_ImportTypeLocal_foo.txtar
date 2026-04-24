@@ -1,0 +1,55 @@
+# Ported from tests/cases/conformance/types/import/importTypeLocal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts foo.d.ts --lib es6 --module commonjs --target es2015 --out-js foo.js foo.ts
+! stderr .
+cmp foo.d.ts foo.d.ts.golden
+cmp foo.js foo.js.golden
+! exists foo.js.map
+
+-- foo.ts --
+interface Point {
+    x: number;
+    y: number;
+}
+export = Point;
+-- foo2.ts --
+namespace Bar {
+    export interface I {
+        a: string;
+        b: number;
+    }
+}
+
+export namespace Baz {
+    export interface J {
+        a: number;
+        b: string;
+    }
+}
+
+class Bar {
+    item: Bar.I;
+    constructor(input: Baz.J) {}
+}
+export { Bar }
+-- usage.ts --
+export const x: import("./foo") = { x: 0, y: 0 };
+export let y: import("./foo2").Bar.I = { a: "", b: 0 };
+
+export class Bar2 {
+    item: {a: string, b: number, c: object};
+    constructor(input?: any) {}
+}
+
+export let shim: typeof import("./foo2") = {
+    Bar: Bar2
+};
+-- foo.d.ts.golden --
+interface Point {
+    x: number;
+    y: number;
+}
+export = Point;
+-- foo.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

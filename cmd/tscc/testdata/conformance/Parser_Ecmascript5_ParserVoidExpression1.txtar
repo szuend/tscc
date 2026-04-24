@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserVoidExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserVoidExpression1.js parserVoidExpression1.ts
+! stderr .
+cmp parserVoidExpression1.js parserVoidExpression1.js.golden
+! exists parserVoidExpression1.d.ts
+! exists parserVoidExpression1.js.map
+
+-- parserVoidExpression1.ts --
+void 0;
+-- parserVoidExpression1.js.golden --
+"use strict";
+void 0;

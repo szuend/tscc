@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of57.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of57.js for-of57.ts
+stderr 'TS2454'
+! exists for-of57.js
+! exists for-of57.d.ts
+! exists for-of57.js.map
+
+-- for-of57.ts --
+var iter: Iterable<number>;
+for (let num of iter) { }

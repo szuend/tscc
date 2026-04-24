@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/destructuring/declarationWithNoInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js declarationWithNoInitializer.js declarationWithNoInitializer.ts
+stderr 'TS1182'
+! exists declarationWithNoInitializer.js
+! exists declarationWithNoInitializer.d.ts
+! exists declarationWithNoInitializer.js.map
+
+-- declarationWithNoInitializer.ts --
+var [a, b];          // Error, no initializer
+var {c, d};          // Error, no initializer

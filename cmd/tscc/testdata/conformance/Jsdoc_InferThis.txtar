@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/jsdoc/inferThis.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+export class C {
+    /**
+     * @template T
+     * @this {T}
+     * @return {T}
+     */
+    static a() {
+        return this;
+    }
+
+    /**
+     * @template T
+     * @this {T}
+     * @return {T}
+     */
+    b() {
+        return this;
+    }
+}
+
+const a = C.a();
+a; // typeof C
+
+const c = new C();
+const b = c.b();
+b; // C

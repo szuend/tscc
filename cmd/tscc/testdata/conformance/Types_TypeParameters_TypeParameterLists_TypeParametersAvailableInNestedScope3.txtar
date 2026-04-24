@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterLists/typeParametersAvailableInNestedScope3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts typeParametersAvailableInNestedScope3.d.ts --target es2015 --lib es2015,dom --out-js typeParametersAvailableInNestedScope3.js typeParametersAvailableInNestedScope3.ts
+! stderr .
+cmp typeParametersAvailableInNestedScope3.d.ts typeParametersAvailableInNestedScope3.d.ts.golden
+cmp typeParametersAvailableInNestedScope3.js typeParametersAvailableInNestedScope3.js.golden
+! exists typeParametersAvailableInNestedScope3.js.map
+
+-- typeParametersAvailableInNestedScope3.ts --
+function foo<T>(v: T) {
+    function a<T>(a: T) { return a; }
+    function b(): T { return v; }
+
+    function c<T>(v: T) {
+        function a<T>(a: T) { return a; }
+        function b(): T { return v; }
+        return { a, b };
+    }
+
+    return { a, b, c };
+}
+-- typeParametersAvailableInNestedScope3.d.ts.golden --
+declare function foo<T>(v: T): {
+    a: <T>(a: T) => T;
+    b: () => T;
+    c: <T>(v: T) => {
+        a: <T_1>(a: T_1) => T_1;
+        b: () => T;
+    };
+};
+-- typeParametersAvailableInNestedScope3.js.golden --
+"use strict";
+function foo(v) {
+    function a(a) { return a; }
+    function b() { return v; }
+    function c(v) {
+        function a(a) { return a; }
+        function b() { return v; }
+        return { a, b };
+    }
+    return { a, b, c };
+}

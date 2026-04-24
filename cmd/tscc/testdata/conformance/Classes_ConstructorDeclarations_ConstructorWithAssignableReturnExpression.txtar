@@ -1,0 +1,46 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorWithAssignableReturnExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorWithAssignableReturnExpression.js constructorWithAssignableReturnExpression.ts
+stderr 'TS2564'
+stderr 'TS2322'
+stderr 'TS2409'
+! exists constructorWithAssignableReturnExpression.js
+! exists constructorWithAssignableReturnExpression.d.ts
+! exists constructorWithAssignableReturnExpression.js.map
+
+-- constructorWithAssignableReturnExpression.ts --
+// a class constructor may return an expression, it must be assignable to the class instance type to be valid
+
+class C {
+    constructor() {
+        return 1;
+    }
+}
+
+class D {
+    x: number;
+    constructor() {
+        return 1; // error
+    }
+}
+
+class E {
+    x: number;
+    constructor() {
+        return { x: 1 };
+    }
+}
+
+class F<T> {
+    x: T;
+    constructor() {
+        return { x: 1 }; // error
+    }
+}
+
+class G<T> {
+    x: T;
+    constructor() {
+        return { x: <T>null };
+    }
+}

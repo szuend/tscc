@@ -1,0 +1,48 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/mergedInterfacesWithInheritedPrivates3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedInterfacesWithInheritedPrivates3.js mergedInterfacesWithInheritedPrivates3.ts
+stderr 'TS2564'
+stderr 'TS2320'
+! exists mergedInterfacesWithInheritedPrivates3.js
+! exists mergedInterfacesWithInheritedPrivates3.d.ts
+! exists mergedInterfacesWithInheritedPrivates3.js.map
+
+-- mergedInterfacesWithInheritedPrivates3.ts --
+class C {
+    private x: number;
+}
+
+class C2 {
+    private x: number;
+}
+
+interface A extends C { // error
+    y: string;
+}
+
+interface A extends C2 { 
+    z: string;
+}
+
+class D extends C implements A { // error
+    y: string;
+    z: string;
+}
+
+namespace M {
+    class C {
+        private x: string;
+    }
+
+    class C2 {
+        private x: number;
+    }
+
+    interface A extends C { // error, privates conflict
+        y: string;
+    }
+
+    interface A extends C2 {
+        z: string;
+    }
+}

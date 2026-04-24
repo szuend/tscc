@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/internalModules/DeclarationMerging/ClassAndModuleThatMergeWithStaticVariableAndExportedVarThatShareAName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ClassAndModuleThatMergeWithStaticVariableAndExportedVarThatShareAName.js ClassAndModuleThatMergeWithStaticVariableAndExportedVarThatShareAName.ts
+stderr 'TS2300'
+! exists ClassAndModuleThatMergeWithStaticVariableAndExportedVarThatShareAName.js
+! exists ClassAndModuleThatMergeWithStaticVariableAndExportedVarThatShareAName.d.ts
+! exists ClassAndModuleThatMergeWithStaticVariableAndExportedVarThatShareAName.js.map
+
+-- ClassAndModuleThatMergeWithStaticVariableAndExportedVarThatShareAName.ts --
+class Point {
+    constructor(public x: number, public y: number) { }
+
+    static Origin: Point = { x: 0, y: 0 };
+}
+
+namespace Point {
+    export var Origin = ""; //expected duplicate identifier error
+}
+
+
+namespace A {
+    export class Point {
+        constructor(public x: number, public y: number) { }
+
+        static Origin: Point = { x: 0, y: 0 };
+    }
+
+    export namespace Point {
+        export var Origin = ""; //expected duplicate identifier error
+    }
+}

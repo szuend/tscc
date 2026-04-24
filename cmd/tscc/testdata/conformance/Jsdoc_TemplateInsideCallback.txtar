@@ -1,0 +1,68 @@
+# Ported from tests/cases/conformance/jsdoc/templateInsideCallback.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --out-dts templateInsideCallback.d.ts --strict --target es2015 --lib es2015,dom --out-js out_templateInsideCallback.js templateInsideCallback.js
+stderr 'TS8039'
+stderr 'TS2315'
+stderr 'TS2304'
+stderr 'TS7006'
+stderr 'TS2394'
+stderr 'TS7012'
+! exists out_templateInsideCallback.js
+! exists dist/templateInsideCallback.js.map
+! exists templateInsideCallback.d.ts
+
+-- templateInsideCallback.js --
+/**
+ * @typedef Oops
+ * @template T
+ * @property {T} a
+ * @property {T} b
+ */
+/**
+ * @callback Call
+ * @template T
+ * @param {T} x
+ * @returns {T}
+ */
+/**
+ * @template T
+ * @type {Call<T>}
+ */
+const identity = x => x;
+
+/**
+ * @typedef Nested
+ * @property {Object} oh
+ * @property {number} oh.no
+ * @template T
+ * @property {string} oh.noooooo
+ */
+
+
+/**
+ * @overload
+ * @template T
+ * @template U
+ * @param {T[]} array
+ * @param {(x: T) => U[]} iterable
+ * @returns {U[]}
+ */
+/**
+ * @overload
+ * @template T
+ * @param {T[][]} array
+ * @returns {T[]}
+ */
+/**
+ * @param {unknown[]} array
+ * @param {(x: unknown) => unknown} iterable
+ * @returns {unknown[]}
+ */
+function flatMap(array, iterable = identity) {
+  /** @type {unknown[]} */
+  const result = [];
+  for (let i = 0; i < array.length; i += 1) {
+    result.push(.../** @type {unknown[]} */(iterable(array[i])));
+  }
+  return result;
+}

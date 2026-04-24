@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithTypeArgumentInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js emitClassDeclarationWithTypeArgumentInES6.js emitClassDeclarationWithTypeArgumentInES6.ts
+stderr 'TS2564'
+! exists emitClassDeclarationWithTypeArgumentInES6.js
+! exists emitClassDeclarationWithTypeArgumentInES6.d.ts
+! exists emitClassDeclarationWithTypeArgumentInES6.js.map
+
+-- emitClassDeclarationWithTypeArgumentInES6.ts --
+class B<T> {
+    x: T;
+    B: T;
+    constructor(a: T) { this.B = a;}
+    foo(): T {
+        return this.x;
+    }
+    get BB(): T {
+        return this.B;
+    }
+    set BBWith(c: T) {
+        this.B = c;
+    }
+}

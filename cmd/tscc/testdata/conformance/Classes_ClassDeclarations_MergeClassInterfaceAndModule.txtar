@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/mergeClassInterfaceAndModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mergeClassInterfaceAndModule.js mergeClassInterfaceAndModule.ts
+! stderr .
+cmp mergeClassInterfaceAndModule.js mergeClassInterfaceAndModule.js.golden
+! exists mergeClassInterfaceAndModule.d.ts
+! exists mergeClassInterfaceAndModule.js.map
+
+-- mergeClassInterfaceAndModule.ts --
+interface C1 {}
+declare class C1 {}
+namespace C1 {}
+
+declare class C2 {}
+interface C2 {}
+namespace C2 {}
+
+declare class C3 {}
+namespace C3 {}
+interface C3 {}
+
+namespace C4 {}
+declare class C4 {} // error -- class declaration must precede module declaration
+interface C4 {}
+-- mergeClassInterfaceAndModule.js.golden --
+"use strict";

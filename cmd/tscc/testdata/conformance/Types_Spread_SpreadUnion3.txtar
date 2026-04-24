@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/types/spread/spreadUnion3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js spreadUnion3.js spreadUnion3.ts
+stderr 'TS2322'
+stderr 'TS2698'
+! exists spreadUnion3.js
+! exists spreadUnion3.d.ts
+! exists spreadUnion3.js.map
+
+-- spreadUnion3.ts --
+function f(x: { y: string } | undefined): { y: string } {
+    return { y: 123, ...x } // y: string | number
+}
+f(undefined)
+
+
+function g(t?: { a: number } | null): void {
+    let b = { ...t };
+    let c: number = b.a;  // might not have 'a'
+}
+g()
+g(undefined)
+g(null)
+
+// spreading nothing but null and undefined is not allowed
+declare const nullAndUndefinedUnion: null | undefined;
+var x = { ...nullAndUndefinedUnion, ...nullAndUndefinedUnion };
+var y = { ...nullAndUndefinedUnion };

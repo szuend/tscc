@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/types/spread/spreadExcessProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js spreadExcessProperty.js spreadExcessProperty.ts
+! stderr .
+cmp spreadExcessProperty.js spreadExcessProperty.js.golden
+! exists spreadExcessProperty.d.ts
+! exists spreadExcessProperty.js.map
+
+-- spreadExcessProperty.ts --
+type A = { a: string, b: string };
+const extra1 = { a: "a", b: "b", extra: "extra" };
+const a1: A = { ...extra1 }; // spread should not give excess property errors
+-- spreadExcessProperty.js.golden --
+"use strict";
+const extra1 = { a: "a", b: "b", extra: "extra" };
+const a1 = Object.assign({}, extra1); // spread should not give excess property errors

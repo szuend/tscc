@@ -1,0 +1,54 @@
+# Ported from tests/cases/conformance/expressions/functions/typeOfThisInFunctionExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeOfThisInFunctionExpression.js typeOfThisInFunctionExpression.ts
+stderr 'TS2683'
+! exists typeOfThisInFunctionExpression.js
+! exists typeOfThisInFunctionExpression.d.ts
+! exists typeOfThisInFunctionExpression.js.map
+
+-- typeOfThisInFunctionExpression.ts --
+// type of 'this' in FunctionExpression is Any
+
+function fn() {
+    var p = this;
+    var p: any;
+}
+
+var t = function () {
+    var p = this;
+    var p: any;
+}
+
+var t2 = function f() {
+    var x = this;
+    var x: any;
+}
+
+class C {
+    x = function () {
+        var q: any;
+        var q = this;
+    }
+    y = function ff() {
+        var q: any;
+        var q = this;
+    }
+}
+
+namespace M {
+    function fn() {
+        var p = this;
+        var p: any;
+    }
+
+    var t = function () {
+        var p = this;
+        var p: any;
+    }
+
+    var t2 = function f() {
+        var x = this;
+        var x: any;
+    }
+
+}

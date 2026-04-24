@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript3/Accessors/parserES3Accessors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserES3Accessors1.js parserES3Accessors1.ts
+stderr 'TS2378'
+! exists parserES3Accessors1.js
+! exists parserES3Accessors1.d.ts
+! exists parserES3Accessors1.js.map
+
+-- parserES3Accessors1.ts --
+class C {
+    get Foo() { }
+}

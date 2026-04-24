@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/classes/members/instanceAndStaticMembers/typeOfThisInStaticMembers2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeOfThisInStaticMembers2.js typeOfThisInStaticMembers2.ts
+! stderr .
+cmp typeOfThisInStaticMembers2.js typeOfThisInStaticMembers2.js.golden
+! exists typeOfThisInStaticMembers2.d.ts
+! exists typeOfThisInStaticMembers2.js.map
+
+-- typeOfThisInStaticMembers2.ts --
+class C {
+    static foo = this; // ok
+}
+
+class C2<T> {
+    static foo = this; // ok
+}
+-- typeOfThisInStaticMembers2.js.golden --
+"use strict";
+var _a, _b;
+class C {
+}
+_a = C;
+C.foo = _a; // ok
+class C2 {
+}
+_b = C2;
+C2.foo = _b; // ok

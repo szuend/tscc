@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrExpressionIsNotContextuallyTyped.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js logicalOrExpressionIsNotContextuallyTyped.js logicalOrExpressionIsNotContextuallyTyped.ts
+stderr 'TS2454'
+! exists logicalOrExpressionIsNotContextuallyTyped.js
+! exists logicalOrExpressionIsNotContextuallyTyped.d.ts
+! exists logicalOrExpressionIsNotContextuallyTyped.js.map
+
+-- logicalOrExpressionIsNotContextuallyTyped.ts --
+// The || operator permits the operands to be of any type.
+// If the || expression is not contextually typed, the right operand is contextually typed
+// by the type of the left operand and the result is of the best common type of the two
+// operand types.
+
+
+var a: (a: string) => string;
+
+// bug 786110
+var r = a || ((a) => a.toLowerCase());

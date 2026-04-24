@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es2016/es2016IntlAPIs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2016 --lib es2016,dom --out-js es2016IntlAPIs.js es2016IntlAPIs.ts
+stderr 'TS18046'
+! exists es2016IntlAPIs.js
+! exists es2016IntlAPIs.d.ts
+! exists es2016IntlAPIs.js.map
+
+-- es2016IntlAPIs.ts --
+// Sample from
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/getCanonicalLocales
+console.log(Intl.getCanonicalLocales('EN-US'));
+// Expected output: Array ["en-US"]
+
+console.log(Intl.getCanonicalLocales(['EN-US', 'Fr']));
+// Expected output: Array ["en-US", "fr"]
+
+try {
+  Intl.getCanonicalLocales('EN_US');
+} catch (err) {
+  console.log(err.toString());
+  // Expected output: RangeError: invalid language tag: EN_US
+}

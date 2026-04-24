@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/derivedInterfaceDoesNotHideBaseSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js derivedInterfaceDoesNotHideBaseSignatures.js derivedInterfaceDoesNotHideBaseSignatures.ts
+! stderr .
+cmp derivedInterfaceDoesNotHideBaseSignatures.js derivedInterfaceDoesNotHideBaseSignatures.js.golden
+! exists derivedInterfaceDoesNotHideBaseSignatures.d.ts
+! exists derivedInterfaceDoesNotHideBaseSignatures.js.map
+
+-- derivedInterfaceDoesNotHideBaseSignatures.ts --
+// Derived interfaces no longer hide signatures from base types, so these signatures are always compatible.
+interface Base {
+    (): string;
+    new (x: string): number;
+}
+
+interface Derived extends Base {
+    (): number;
+    new (x: string): string;
+}
+-- derivedInterfaceDoesNotHideBaseSignatures.js.golden --
+"use strict";

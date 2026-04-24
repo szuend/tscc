@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName34.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserComputedPropertyName34.js parserComputedPropertyName34.ts
+stderr 'TS1164'
+! exists parserComputedPropertyName34.js
+! exists parserComputedPropertyName34.d.ts
+! exists parserComputedPropertyName34.js.map
+
+-- parserComputedPropertyName34.ts --
+enum E {
+    // no ASI, comma expected
+    [e] = id++,
+    [e2] = 1
+}

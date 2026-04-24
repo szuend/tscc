@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithEmbeddedObjectLiteral.js templateStringWithEmbeddedObjectLiteral.ts
+! stderr .
+cmp templateStringWithEmbeddedObjectLiteral.js templateStringWithEmbeddedObjectLiteral.js.golden
+! exists templateStringWithEmbeddedObjectLiteral.d.ts
+! exists templateStringWithEmbeddedObjectLiteral.js.map
+
+-- templateStringWithEmbeddedObjectLiteral.ts --
+var x = `abc${ { x: 10, y: 20 } }def`;
+-- templateStringWithEmbeddedObjectLiteral.js.golden --
+"use strict";
+var x = `abc${{ x: 10, y: 20 }}def`;

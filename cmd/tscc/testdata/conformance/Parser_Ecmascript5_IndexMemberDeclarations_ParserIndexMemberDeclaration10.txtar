@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/IndexMemberDeclarations/parserIndexMemberDeclaration10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserIndexMemberDeclaration10.js parserIndexMemberDeclaration10.ts
+stderr 'TS1434'
+! exists parserIndexMemberDeclaration10.js
+! exists parserIndexMemberDeclaration10.d.ts
+! exists parserIndexMemberDeclaration10.js.map
+
+-- parserIndexMemberDeclaration10.ts --
+class C {
+   static static [x: string]: string;
+}

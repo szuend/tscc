@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts privateNameDeclaration.d.ts --target es2015 --lib es2015,dom --out-js privateNameDeclaration.js privateNameDeclaration.ts
+stderr 'TS2564'
+! exists privateNameDeclaration.d.ts
+! exists privateNameDeclaration.js
+! exists privateNameDeclaration.js.map
+
+-- privateNameDeclaration.ts --
+class A {
+    #foo: string;
+    #bar = 6;
+    baz: string;
+    qux = 6;
+    quux(): void {
+
+    }
+}

@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern29.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iterableArrayPattern29.js iterableArrayPattern29.ts
+stderr 'TS2345'
+! exists iterableArrayPattern29.js
+! exists iterableArrayPattern29.d.ts
+! exists iterableArrayPattern29.js.map
+
+-- iterableArrayPattern29.ts --
+function takeFirstTwoEntries(...[[k1, v1], [k2, v2]]: [string, number][]) { }
+takeFirstTwoEntries(...new Map([["", true], ["hello", true]]));

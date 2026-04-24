@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames29_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames29_ES6.js computedPropertyNames29_ES6.ts
+! stderr .
+cmp computedPropertyNames29_ES6.js computedPropertyNames29_ES6.js.golden
+! exists computedPropertyNames29_ES6.d.ts
+! exists computedPropertyNames29_ES6.js.map
+
+-- computedPropertyNames29_ES6.ts --
+class C {
+    bar() {
+        () => {
+            var obj = {
+                [this.bar()]() { } // needs capture
+            };
+        }
+        return 0;
+    }
+}
+-- computedPropertyNames29_ES6.js.golden --
+"use strict";
+class C {
+    bar() {
+        () => {
+            var obj = {
+                [this.bar()]() { } // needs capture
+            };
+        };
+        return 0;
+    }
+}

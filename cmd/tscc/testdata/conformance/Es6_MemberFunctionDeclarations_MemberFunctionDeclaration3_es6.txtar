@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/memberFunctionDeclarations/MemberFunctionDeclaration3_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js MemberFunctionDeclaration3_es6.js MemberFunctionDeclaration3_es6.ts
+stderr 'TS2304'
+! exists MemberFunctionDeclaration3_es6.js
+! exists MemberFunctionDeclaration3_es6.d.ts
+! exists MemberFunctionDeclaration3_es6.js.map
+
+-- MemberFunctionDeclaration3_es6.ts --
+class C {
+   *[foo]() { }
+}

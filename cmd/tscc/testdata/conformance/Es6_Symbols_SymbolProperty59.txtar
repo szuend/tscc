@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty59.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty59.js symbolProperty59.ts
+stderr 'TS2464'
+! exists symbolProperty59.js
+! exists symbolProperty59.d.ts
+! exists symbolProperty59.js.map
+
+-- symbolProperty59.ts --
+interface I {
+    [Symbol.keyFor]: string;
+}

@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeReferences/nonGenericTypeReferenceWithTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nonGenericTypeReferenceWithTypeArguments.js nonGenericTypeReferenceWithTypeArguments.ts
+stderr 'TS2315'
+! exists nonGenericTypeReferenceWithTypeArguments.js
+! exists nonGenericTypeReferenceWithTypeArguments.d.ts
+! exists nonGenericTypeReferenceWithTypeArguments.js.map
+
+-- nonGenericTypeReferenceWithTypeArguments.ts --
+// Check that errors are reported for non-generic types with type arguments
+
+class C { }
+interface I { }
+enum E { }
+type T = { };
+var v1: C<string>;
+var v2: I<string>;
+var v3: E<string>;
+var v4: T<string>;
+
+function f<U>() {
+    class C { }
+    interface I { }
+    enum E { }
+    type T = {};
+    var v1: C<string>;
+    var v2: I<string>;
+    var v3: E<string>;
+    var v4: T<string>;
+    var v5: U<string>;
+}

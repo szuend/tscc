@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classHeritageSpecification/derivedTypeDoesNotRequireExtendsClause.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js derivedTypeDoesNotRequireExtendsClause.js derivedTypeDoesNotRequireExtendsClause.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists derivedTypeDoesNotRequireExtendsClause.js
+! exists derivedTypeDoesNotRequireExtendsClause.d.ts
+! exists derivedTypeDoesNotRequireExtendsClause.js.map
+
+-- derivedTypeDoesNotRequireExtendsClause.ts --
+class Base {
+    foo: string;
+}
+
+class Derived {
+    foo: string;
+    bar: number;
+}
+
+class Derived2 extends Base {
+    bar: string;
+}
+
+var b: Base;
+var d1: Derived;
+var d2: Derived2;
+b = d1;
+b = d2;
+
+var r: Base[] = [d1, d2];

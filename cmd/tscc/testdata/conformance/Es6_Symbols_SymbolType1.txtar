@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType1.js symbolType1.ts
+stderr 'TS2358'
+stderr 'TS2359'
+! exists symbolType1.js
+! exists symbolType1.d.ts
+! exists symbolType1.js.map
+
+-- symbolType1.ts --
+Symbol() instanceof Symbol;
+Symbol instanceof Symbol();
+(Symbol() || {}) instanceof Object; // This one should be okay, it's a valid way of distinguishing types
+Symbol instanceof (Symbol() || {});

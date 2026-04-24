@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/mergedInheritedMembersSatisfyAbstractBase.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedInheritedMembersSatisfyAbstractBase.js mergedInheritedMembersSatisfyAbstractBase.ts
+stderr 'TS2320'
+! exists mergedInheritedMembersSatisfyAbstractBase.js
+! exists mergedInheritedMembersSatisfyAbstractBase.d.ts
+! exists mergedInheritedMembersSatisfyAbstractBase.js.map
+
+-- mergedInheritedMembersSatisfyAbstractBase.ts --
+abstract class BaseClass {
+  abstract bar: number;
+}
+
+class Broken extends BaseClass {}
+
+// declaration merging should satisfy abstract bar
+interface IGetters {
+  bar: number;
+}
+interface Broken extends IGetters {}
+
+new Broken().bar
+
+class IncorrectlyExtends extends BaseClass {}
+interface IncorrectGetters {
+  bar: string;
+}
+interface IncorrectlyExtends extends IncorrectGetters {}

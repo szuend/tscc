@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/TypeArgumentLists/TypeArgumentList1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js TypeArgumentList1.js TypeArgumentList1.ts
+stderr 'TS1127'
+! exists TypeArgumentList1.js
+! exists TypeArgumentList1.d.ts
+! exists TypeArgumentList1.js.map
+
+-- TypeArgumentList1.ts --
+Foo<A,B,\ C>(4, 5, 6);

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsAssertionsInEqualityComparisons02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsAssertionsInEqualityComparisons02.js stringLiteralsAssertionsInEqualityComparisons02.ts
+stderr 'TS2367'
+stderr 'TS2352'
+! exists stringLiteralsAssertionsInEqualityComparisons02.js
+! exists stringLiteralsAssertionsInEqualityComparisons02.d.ts
+! exists stringLiteralsAssertionsInEqualityComparisons02.js.map
+
+-- stringLiteralsAssertionsInEqualityComparisons02.ts --
+type EnhancedString = string & { enhancements: any };
+
+var a = "foo" === "bar" as "baz";
+var b = "foo" !== ("bar" as "foo");
+var c = "foo" == (<number>"bar");
+var d = "foo" === ("bar" as EnhancedString);

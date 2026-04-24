@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/externalModules/typeAndNamespaceExportMerge.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.js index.js.golden
+! exists index.d.ts
+! exists index.js.map
+
+-- constants.ts --
+export const COFFEE = 0;
+export const TEA = 1;
+
+-- drink.ts --
+export type Drink = 0 | 1;
+export * as Drink from "./constants";
+
+-- index.ts --
+import { Drink } from "./drink";
+// 'Drink' only refers to a type, but is being used as a value here
+const x: Drink = Drink.TEA;
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const drink_1 = require("./drink");
+// 'Drink' only refers to a type, but is being used as a value here
+const x = drink_1.Drink.TEA;

@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolDeclarationEmit13.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts symbolDeclarationEmit13.d.ts --no-strict --target ES6 --lib ES6,dom --out-js symbolDeclarationEmit13.js symbolDeclarationEmit13.ts
+! stderr .
+cmp symbolDeclarationEmit13.d.ts symbolDeclarationEmit13.d.ts.golden
+cmp symbolDeclarationEmit13.js symbolDeclarationEmit13.js.golden
+! exists symbolDeclarationEmit13.js.map
+
+-- symbolDeclarationEmit13.ts --
+class C {
+    get [Symbol.toPrimitive]() { return ""; }
+    set [Symbol.toStringTag](x) { }
+}
+-- symbolDeclarationEmit13.d.ts.golden --
+declare class C {
+    get [Symbol.toPrimitive](): string;
+    set [Symbol.toStringTag](x: any);
+}
+-- symbolDeclarationEmit13.js.golden --
+"use strict";
+class C {
+    get [Symbol.toPrimitive]() { return ""; }
+    set [Symbol.toStringTag](x) { }
+}

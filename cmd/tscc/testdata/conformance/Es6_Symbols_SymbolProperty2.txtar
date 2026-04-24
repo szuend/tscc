@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty2.js symbolProperty2.ts
+! stderr .
+cmp symbolProperty2.js symbolProperty2.js.golden
+! exists symbolProperty2.d.ts
+! exists symbolProperty2.js.map
+
+-- symbolProperty2.ts --
+var s = Symbol();
+var x = {
+    [s]: 0,
+    [s]() { },
+    get [s]() {
+        return 0;
+    }
+}
+-- symbolProperty2.js.golden --
+"use strict";
+var s = Symbol();
+var x = {
+    [s]: 0,
+    [s]() { },
+    get [s]() {
+        return 0;
+    }
+};

@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/externalModules/topLevelAwaitErrors.11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target esnext --lib esnext,dom --out-js other.js other.ts
+! stderr .
+cmp other.js other.js.golden
+! exists other.d.ts
+! exists other.js.map
+
+-- index.ts --
+// await disallowed in import=
+declare var require: any;
+import await = require("./other");
+-- other.ts --
+declare const _await: any;
+export { _await as await };
+-- other.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.await = void 0;

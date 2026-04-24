@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithBackslashEscapes01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithBackslashEscapes01.js templateStringWithBackslashEscapes01.ts
+! stderr .
+cmp templateStringWithBackslashEscapes01.js templateStringWithBackslashEscapes01.js.golden
+! exists templateStringWithBackslashEscapes01.d.ts
+! exists templateStringWithBackslashEscapes01.js.map
+
+-- templateStringWithBackslashEscapes01.ts --
+var a = `hello\world`;
+var b = `hello\\world`;
+var c = `hello\\\world`;
+var d = `hello\\\\world`;
+-- templateStringWithBackslashEscapes01.js.golden --
+"use strict";
+var a = `hello\world`;
+var b = `hello\\world`;
+var c = `hello\\\world`;
+var d = `hello\\\\world`;

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/MethodSignatures/parserMethodSignature7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserMethodSignature7.js parserMethodSignature7.ts
+! stderr .
+cmp parserMethodSignature7.js parserMethodSignature7.js.golden
+! exists parserMethodSignature7.d.ts
+! exists parserMethodSignature7.js.map
+
+-- parserMethodSignature7.ts --
+interface I {
+  "G"<T>();
+}
+-- parserMethodSignature7.js.golden --
+"use strict";

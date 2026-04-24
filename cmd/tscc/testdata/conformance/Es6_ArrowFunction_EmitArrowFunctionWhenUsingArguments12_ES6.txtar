@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments12_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js emitArrowFunctionWhenUsingArguments12_ES6.js emitArrowFunctionWhenUsingArguments12_ES6.ts
+stderr 'TS1210'
+! exists emitArrowFunctionWhenUsingArguments12_ES6.js
+! exists emitArrowFunctionWhenUsingArguments12_ES6.d.ts
+! exists emitArrowFunctionWhenUsingArguments12_ES6.js.map
+
+-- emitArrowFunctionWhenUsingArguments12_ES6.ts --
+class C {
+    f(arguments) {
+        var a = () => arguments;
+    }
+}

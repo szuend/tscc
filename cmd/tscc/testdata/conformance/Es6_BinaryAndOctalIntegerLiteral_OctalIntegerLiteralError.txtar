@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/binaryAndOctalIntegerLiteral/octalIntegerLiteralError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js octalIntegerLiteralError.js octalIntegerLiteralError.ts
+stderr 'TS1005'
+! exists octalIntegerLiteralError.js
+! exists octalIntegerLiteralError.d.ts
+! exists octalIntegerLiteralError.js.map
+
+-- octalIntegerLiteralError.ts --
+// error
+var oct1 = 0O13334823;
+var oct2 = 0o34318592;
+
+var obj1 = {
+    0O45436: "hi",
+    19230: "Hello",
+    "19230": "world",
+};

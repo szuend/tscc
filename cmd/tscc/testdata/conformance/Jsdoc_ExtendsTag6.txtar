@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/jsdoc/extendsTag6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target esnext --lib esnext,dom foo.js
+! stderr .
+! exists foo.d.ts
+! exists foo.js.map
+
+-- foo.js --
+/**
+ * @constructor
+ */
+class A {
+    constructor() {}
+}
+
+/**
+ * @extends { A }
+ * @constructor
+ */
+class B extends A {
+    constructor() {
+        super();
+    }
+}

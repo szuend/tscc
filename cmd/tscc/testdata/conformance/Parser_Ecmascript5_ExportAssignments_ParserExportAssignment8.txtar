@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js parserExportAssignment8.js parserExportAssignment8.ts
+stderr 'TS2309'
+stderr 'TS2304'
+! exists parserExportAssignment8.js
+! exists parserExportAssignment8.d.ts
+! exists parserExportAssignment8.js.map
+
+-- parserExportAssignment8.ts --
+export = B;
+
+export class C {
+}

@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/externalModules/exportAssignmentAndDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo_0.js foo_0.ts
+stderr 'TS2309'
+! exists foo_0.js
+! exists foo_0.d.ts
+! exists foo_0.js.map
+
+-- foo_0.ts --
+export enum E1 {
+	A,B,C
+}
+
+class C1 {
+
+}
+
+// Invalid, as there is already an exported member.
+export = C1;

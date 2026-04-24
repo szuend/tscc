@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Protected/Protected6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js Protected6.js Protected6.ts
+stderr 'TS1029'
+! exists Protected6.js
+! exists Protected6.d.ts
+! exists Protected6.js.map
+
+-- Protected6.ts --
+class C {
+  static protected m() { }
+}

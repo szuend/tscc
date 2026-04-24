@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInTypeOf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringInTypeOf.js templateStringInTypeOf.ts
+! stderr .
+cmp templateStringInTypeOf.js templateStringInTypeOf.js.golden
+! exists templateStringInTypeOf.d.ts
+! exists templateStringInTypeOf.js.map
+
+-- templateStringInTypeOf.ts --
+var x = typeof `abc${ 123 }def`;
+-- templateStringInTypeOf.js.golden --
+"use strict";
+var x = typeof `abc${123}def`;

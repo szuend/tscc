@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInWhile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringInWhile.js templateStringInWhile.ts
+! stderr .
+cmp templateStringInWhile.js templateStringInWhile.js.golden
+! exists templateStringInWhile.d.ts
+! exists templateStringInWhile.js.map
+
+-- templateStringInWhile.ts --
+while (`abc${0}abc`) {
+    `def${1}def`;
+}
+-- templateStringInWhile.js.golden --
+"use strict";
+while (`abc${0}abc`) {
+    `def${1}def`;
+}

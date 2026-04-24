@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserConstructorAmbiguity1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserConstructorAmbiguity1.js parserConstructorAmbiguity1.ts
+stderr 'TS2304'
+! exists parserConstructorAmbiguity1.js
+! exists parserConstructorAmbiguity1.d.ts
+! exists parserConstructorAmbiguity1.js.map
+
+-- parserConstructorAmbiguity1.ts --
+new Date<A;

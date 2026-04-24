@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/functionDeclarations/FunctionDeclaration12_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js FunctionDeclaration12_es6.js FunctionDeclaration12_es6.ts
+stderr 'TS1212'
+! exists FunctionDeclaration12_es6.js
+! exists FunctionDeclaration12_es6.d.ts
+! exists FunctionDeclaration12_es6.js.map
+
+-- FunctionDeclaration12_es6.ts --
+var v = function * yield() { }

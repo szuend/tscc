@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringInFunctionType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts destructuringInFunctionType.d.ts --no-strict --target es2015 --lib es2015,dom --out-js destructuringInFunctionType.js destructuringInFunctionType.ts
+stderr 'TS2842'
+! exists destructuringInFunctionType.d.ts
+! exists destructuringInFunctionType.js
+! exists destructuringInFunctionType.js.map
+
+-- destructuringInFunctionType.ts --
+interface a { a }
+interface b { b }
+interface c { c }
+
+type T1 = ([a, b, c]);
+type F1 = ([a, b, c]) => void;
+
+type T2 = ({ a });
+type F2 = ({ a }) => void;
+
+type T3 = ([{ a: b }, { b: a }]);
+type F3 = ([{ a: b }, { b: a }]) => void;
+
+type T4 = ([{ a: [b, c] }]);
+type F4 = ([{ a: [b, c] }]) => void;
+
+type C1 = new ([{ a: [b, c] }]) => void;
+
+var v1 = ([a, b, c]) => "hello";
+var v2: ([a, b, c]) => string;

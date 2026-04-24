@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/types/tuple/tupleLengthCheck.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js tupleLengthCheck.js tupleLengthCheck.ts
+stderr 'TS2493'
+! exists tupleLengthCheck.js
+! exists tupleLengthCheck.d.ts
+! exists tupleLengthCheck.js.map
+
+-- tupleLengthCheck.ts --
+declare const a: [number, string]
+declare const rest: [number, string, ...boolean[]]
+
+const a1 = a[1]
+const a2 = a[2]
+const a3 = a[1000]
+
+const a4 = rest[1]
+const a5 = rest[2]
+const a6 = rest[3]
+const a7 = rest[1000]

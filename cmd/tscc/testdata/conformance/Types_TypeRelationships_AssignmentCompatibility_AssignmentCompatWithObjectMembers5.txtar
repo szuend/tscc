@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/assignmentCompatWithObjectMembers5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js assignmentCompatWithObjectMembers5.js assignmentCompatWithObjectMembers5.ts
+stderr 'TS2741'
+! exists assignmentCompatWithObjectMembers5.js
+! exists assignmentCompatWithObjectMembers5.d.ts
+! exists assignmentCompatWithObjectMembers5.js.map
+
+-- assignmentCompatWithObjectMembers5.ts --
+class C {
+    foo: string;
+}
+
+declare var c: C;
+
+interface I {
+    fooo: string;
+}
+
+declare var i: I;
+
+c = i; // error
+i = c; // error

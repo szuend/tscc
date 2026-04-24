@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesNoDelete.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNamesNoDelete.js privateNamesNoDelete.ts
+stderr 'TS18011'
+! exists privateNamesNoDelete.js
+! exists privateNamesNoDelete.d.ts
+! exists privateNamesNoDelete.js.map
+
+-- privateNamesNoDelete.ts --
+class A {
+    #v = 1;
+    constructor() {
+        delete this.#v; // Error: The operand of a delete operator cannot be a private name.
+    }
+}

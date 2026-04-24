@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/destructuring/nonIterableRestElement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nonIterableRestElement1.js nonIterableRestElement1.ts
+! stderr .
+cmp nonIterableRestElement1.js nonIterableRestElement1.js.golden
+! exists nonIterableRestElement1.d.ts
+! exists nonIterableRestElement1.js.map
+
+-- nonIterableRestElement1.ts --
+var c = {};
+[...c] = ["", 0];
+-- nonIterableRestElement1.js.golden --
+"use strict";
+var c = {};
+[...c] = ["", 0];

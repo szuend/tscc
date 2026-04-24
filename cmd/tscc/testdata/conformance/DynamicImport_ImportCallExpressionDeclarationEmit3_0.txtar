@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionDeclarationEmit3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts 0.d.ts --module es2020 --target es2020 --lib es2020,dom --out-js 0.js 0.ts
+! stderr .
+cmp 0.d.ts 0.d.ts.golden
+cmp 0.js 0.js.golden
+! exists 0.js.map
+
+-- 0.ts --
+export function foo() { return "foo"; }
+-- 1.ts --
+declare function getPath(): string;
+import * as Zero from "./0";
+import("./0");
+
+export var p0: Promise<typeof Zero> = import(getPath());
+export var p1: Promise<typeof Zero> = import("./0");
+export var p2: Promise<any> = import("./0");
+-- 0.d.ts.golden --
+export declare function foo(): string;
+-- 0.js.golden --
+export function foo() { return "foo"; }

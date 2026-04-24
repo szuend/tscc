@@ -1,0 +1,53 @@
+# Ported from tests/cases/conformance/jsdoc/overloadTag1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts overloadTag1.d.ts --no-strict --target es2015 --lib es2015,dom --out-js out_overloadTag1.js overloadTag1.js
+stderr 'TS2394'
+stderr 'TS2769'
+! exists out_overloadTag1.js
+! exists foo/overloadTag1.js.map
+! exists overloadTag1.d.ts
+
+-- overloadTag1.js --
+/**
+ * @overload
+ * @param {number} a 
+ * @param {number} b
+ * @returns {number} 
+ *
+ * @overload
+ * @param {string} a
+ * @param {boolean} b
+ * @returns {string}
+ *
+ * @param {string | number} a
+ * @param {string | number} b
+ * @returns {string | number}
+ */
+export function overloaded(a,b) {
+  if (typeof a === "string" && typeof b === "string") {
+    return a + b;
+  } else if (typeof a === "number" && typeof b === "number") {
+    return a + b;
+  }
+  throw new Error("Invalid arguments");
+}
+var o1 = overloaded(1,2)
+var o2 = overloaded("zero", "one")
+var o3 = overloaded("a",false)
+
+/**
+ * @overload
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ *
+ * @overload
+ * @param {string} a
+ * @param {boolean} b
+ * @returns {string}
+ */
+export function uncheckedInternally(a, b) {
+    return a + b;
+}
+uncheckedInternally(1,2)
+uncheckedInternally("zero", "one")

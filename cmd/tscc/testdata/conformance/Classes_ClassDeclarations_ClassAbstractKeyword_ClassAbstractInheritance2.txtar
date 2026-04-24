@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInheritance2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractInheritance2.js classAbstractInheritance2.ts
+stderr 'TS2655'
+stderr 'TS2650'
+! exists classAbstractInheritance2.js
+! exists classAbstractInheritance2.d.ts
+! exists classAbstractInheritance2.js.map
+
+-- classAbstractInheritance2.ts --
+abstract class A {
+    abstract m1(): number;
+    abstract m2(): number;
+    abstract m3(): number;
+    abstract m4(): number;
+    abstract m5(): number;
+    abstract m6(): number;
+}
+
+class B extends A { }
+const C = class extends A {}

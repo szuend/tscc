@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInParentheses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringInParentheses.js templateStringInParentheses.ts
+! stderr .
+cmp templateStringInParentheses.js templateStringInParentheses.js.golden
+! exists templateStringInParentheses.d.ts
+! exists templateStringInParentheses.js.map
+
+-- templateStringInParentheses.ts --
+var x = (`abc${0}abc`);
+-- templateStringInParentheses.js.golden --
+"use strict";
+var x = (`abc${0}abc`);

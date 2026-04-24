@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/types/objectTypeLiteral/callSignatures/callSignaturesThatDifferOnlyByReturnType3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js callSignaturesThatDifferOnlyByReturnType3.js callSignaturesThatDifferOnlyByReturnType3.ts
+! stderr .
+cmp callSignaturesThatDifferOnlyByReturnType3.js callSignaturesThatDifferOnlyByReturnType3.js.golden
+! exists callSignaturesThatDifferOnlyByReturnType3.d.ts
+! exists callSignaturesThatDifferOnlyByReturnType3.js.map
+
+-- callSignaturesThatDifferOnlyByReturnType3.ts --
+// Normally it is an error to have multiple overloads with identical signatures in a single type declaration.
+// Here the multiple overloads come from multiple merged declarations.
+
+interface I {
+    (x: string): string;
+}
+
+interface I {
+    (x: string): number;
+}
+
+interface I2<T> {
+    (x: string): string;
+}
+
+interface I2<T> {
+    (x: string): number;
+}
+-- callSignaturesThatDifferOnlyByReturnType3.js.golden --
+"use strict";
+// Normally it is an error to have multiple overloads with identical signatures in a single type declaration.
+// Here the multiple overloads come from multiple merged declarations.

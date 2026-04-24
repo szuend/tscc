@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames46_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames46_ES6.js computedPropertyNames46_ES6.ts
+stderr 'TS2873'
+! exists computedPropertyNames46_ES6.js
+! exists computedPropertyNames46_ES6.d.ts
+! exists computedPropertyNames46_ES6.js.map
+
+-- computedPropertyNames46_ES6.ts --
+var o = {
+    ["" || 0]: 0
+};

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedMultiplication.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithEmbeddedMultiplication.js templateStringWithEmbeddedMultiplication.ts
+! stderr .
+cmp templateStringWithEmbeddedMultiplication.js templateStringWithEmbeddedMultiplication.js.golden
+! exists templateStringWithEmbeddedMultiplication.d.ts
+! exists templateStringWithEmbeddedMultiplication.js.map
+
+-- templateStringWithEmbeddedMultiplication.ts --
+var x = `abc${ 7 * 6 }def`;
+-- templateStringWithEmbeddedMultiplication.js.golden --
+"use strict";
+var x = `abc${7 * 6}def`;

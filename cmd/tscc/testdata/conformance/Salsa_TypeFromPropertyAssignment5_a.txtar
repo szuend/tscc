@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es6 --lib es6,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+export default function MyClass() {
+}
+MyClass.bar = class C {
+}
+MyClass.bar
+-- b.js --
+import MC from './a'
+MC.bar
+/** @type {MC.bar} */
+var x

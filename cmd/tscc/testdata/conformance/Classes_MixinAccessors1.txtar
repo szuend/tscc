@@ -1,0 +1,69 @@
+# Ported from tests/cases/conformance/classes/mixinAccessors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts mixinAccessors1.d.ts --lib dom,esnext --strict --target esnext --out-js mixinAccessors1.js mixinAccessors1.ts
+! stderr .
+cmp mixinAccessors1.d.ts mixinAccessors1.d.ts.golden
+cmp mixinAccessors1.js mixinAccessors1.js.golden
+! exists mixinAccessors1.js.map
+
+-- mixinAccessors1.ts --
+// https://github.com/microsoft/TypeScript/issues/58790
+
+function mixin<T extends { new (...args: any[]): {} }>(superclass: T) {
+  return class extends superclass {
+    get validationTarget(): HTMLElement {
+      return document.createElement("input");
+    }
+  };
+}
+
+class BaseClass {
+  get validationTarget(): HTMLElement {
+    return document.createElement("div");
+  }
+}
+
+class MyClass extends mixin(BaseClass) {
+  get validationTarget(): HTMLElement {
+    return document.createElement("select");
+  }
+}
+-- mixinAccessors1.d.ts.golden --
+declare function mixin<T extends {
+    new (...args: any[]): {};
+}>(superclass: T): {
+    new (...args: any[]): {
+        get validationTarget(): HTMLElement;
+    };
+} & T;
+declare class BaseClass {
+    get validationTarget(): HTMLElement;
+}
+declare const MyClass_base: {
+    new (...args: any[]): {
+        get validationTarget(): HTMLElement;
+    };
+} & typeof BaseClass;
+declare class MyClass extends MyClass_base {
+    get validationTarget(): HTMLElement;
+}
+-- mixinAccessors1.js.golden --
+"use strict";
+// https://github.com/microsoft/TypeScript/issues/58790
+function mixin(superclass) {
+    return class extends superclass {
+        get validationTarget() {
+            return document.createElement("input");
+        }
+    };
+}
+class BaseClass {
+    get validationTarget() {
+        return document.createElement("div");
+    }
+}
+class MyClass extends mixin(BaseClass) {
+    get validationTarget() {
+        return document.createElement("select");
+    }
+}

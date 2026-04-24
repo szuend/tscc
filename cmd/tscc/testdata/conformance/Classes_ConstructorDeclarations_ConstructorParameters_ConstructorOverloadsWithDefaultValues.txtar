@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/constructorOverloadsWithDefaultValues.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorOverloadsWithDefaultValues.js constructorOverloadsWithDefaultValues.ts
+stderr 'TS2564'
+stderr 'TS2371'
+! exists constructorOverloadsWithDefaultValues.js
+! exists constructorOverloadsWithDefaultValues.d.ts
+! exists constructorOverloadsWithDefaultValues.js.map
+
+-- constructorOverloadsWithDefaultValues.ts --
+class C {
+    foo: string;
+    constructor(x = 1); // error
+    constructor() {
+    }
+}
+
+class D<T> {
+    foo: string;
+    constructor(x = 1); // error
+    constructor() {
+    }
+}

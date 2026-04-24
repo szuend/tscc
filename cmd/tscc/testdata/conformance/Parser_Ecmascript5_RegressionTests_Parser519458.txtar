@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser519458.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser519458.js parser519458.ts
+stderr 'TS1005'
+! exists parser519458.js
+! exists parser519458.d.ts
+! exists parser519458.js.map
+
+-- parser519458.ts --
+import rect = module("rect"); var bar = new rect.Rect();

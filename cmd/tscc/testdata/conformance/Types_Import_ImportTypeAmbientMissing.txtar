@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/types/import/importTypeAmbientMissing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts importTypeAmbientMissing.d.ts --lib es6 --target es2015 --path foo=importTypeAmbientMissing.ts --out-js importTypeAmbientMissing.js importTypeAmbientMissing.ts
+stderr 'TS2307'
+! exists importTypeAmbientMissing.d.ts
+! exists importTypeAmbientMissing.js
+! exists importTypeAmbientMissing.js.map
+
+-- importTypeAmbientMissing.ts --
+declare module "foo" {
+    interface Point {
+        x: number;
+        y: number;
+    }
+    export = Point;
+}
+const x: import("fo") = { x: 0, y: 0 }; // typo, error
+

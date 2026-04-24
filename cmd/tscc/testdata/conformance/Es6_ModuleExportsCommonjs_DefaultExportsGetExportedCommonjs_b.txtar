@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/moduleExportsCommonjs/defaultExportsGetExportedCommonjs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target ES6 --lib ES6,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export default class Foo {}
+-- b.ts --
+export default function foo() {}
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = foo;
+function foo() { }

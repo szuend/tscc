@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/types/intersection/intersectionAsWeakTypeSource.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js intersectionAsWeakTypeSource.js intersectionAsWeakTypeSource.ts
+stderr 'TS2559'
+stderr 'TS2322'
+! exists intersectionAsWeakTypeSource.js
+! exists intersectionAsWeakTypeSource.d.ts
+! exists intersectionAsWeakTypeSource.js.map
+
+-- intersectionAsWeakTypeSource.ts --
+interface X { x: string }
+interface Y { y: number }
+interface Z { z?: boolean }
+
+type XY = X & Y;
+const xy: XY = {x: 'x', y: 10};
+
+const z1: Z = xy; // error, {xy} doesn't overlap with {z}
+
+
+interface ViewStyle {
+    view: number
+    styleMedia: string
+}
+type Brand<T> = number & { __brand: T }
+declare function create<T extends { [s: string]: ViewStyle }>(styles: T): { [P in keyof T]: Brand<T[P]> };
+const wrapped = create({ first: { view: 0, styleMedia: "???" } });
+const vs: ViewStyle = wrapped.first // error, first is a branded number

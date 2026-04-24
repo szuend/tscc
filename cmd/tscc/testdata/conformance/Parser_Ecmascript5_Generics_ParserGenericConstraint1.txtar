@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGenericConstraint1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserGenericConstraint1.js parserGenericConstraint1.ts
+! stderr .
+cmp parserGenericConstraint1.js parserGenericConstraint1.js.golden
+! exists parserGenericConstraint1.d.ts
+! exists parserGenericConstraint1.js.map
+
+-- parserGenericConstraint1.ts --
+class C<T extends number> {
+}
+-- parserGenericConstraint1.js.golden --
+"use strict";
+class C {
+}

@@ -1,0 +1,48 @@
+# Ported from tests/cases/conformance/expressions/nullishCoalescingOperator/nullishCoalescingOperator5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js nullishCoalescingOperator5.js nullishCoalescingOperator5.ts
+stderr 'TS5076'
+! exists nullishCoalescingOperator5.js
+! exists nullishCoalescingOperator5.d.ts
+! exists nullishCoalescingOperator5.js.map
+
+-- nullishCoalescingOperator5.ts --
+declare const a: string | undefined
+declare const b: string | undefined
+declare const c: string | undefined
+
+// should be a syntax error
+a ?? b || c;
+
+// should be a syntax error
+a || b ?? c;
+
+// should be a syntax error
+a ?? b && c;
+
+// should be a syntax error
+a && b ?? c;
+
+// Valid according to spec
+a ?? (b || c);
+
+// Valid according to spec
+(a ?? b) || c;
+
+// Valid according to spec
+(a || b) ?? c;
+
+// Valid according to spec
+a || (b ?? c);
+
+// Valid according to spec
+a ?? (b && c);
+
+// Valid according to spec
+(a ?? b) && c;
+
+// Valid according to spec
+(a && b) ?? c;
+
+// Valid according to spec
+a && (b ?? c);

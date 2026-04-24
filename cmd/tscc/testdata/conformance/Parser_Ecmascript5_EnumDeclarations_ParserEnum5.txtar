@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnum5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserEnum5.js parserEnum5.ts
+stderr 'TS1357'
+! exists parserEnum5.js
+! exists parserEnum5.d.ts
+! exists parserEnum5.js.map
+
+-- parserEnum5.ts --
+enum E2 { a, }
+enum E3 { a: 1, }
+enum E1 { a, b: 1, c, d: 2 = 3 }

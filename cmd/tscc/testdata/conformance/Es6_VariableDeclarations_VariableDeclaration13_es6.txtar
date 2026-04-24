@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/variableDeclarations/VariableDeclaration13_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js VariableDeclaration13_es6.js VariableDeclaration13_es6.ts
+stderr 'TS1181'
+stderr 'TS1005'
+stderr 'TS1128'
+! exists VariableDeclaration13_es6.js
+! exists VariableDeclaration13_es6.d.ts
+! exists VariableDeclaration13_es6.js.map
+
+-- VariableDeclaration13_es6.ts --
+// An ExpressionStatement cannot start with the two token sequence `let [` because
+// that would make it ambiguous with a `let` LexicalDeclaration whose first LexicalBinding was an ArrayBindingPattern.
+var let: any;
+let[0] = 100;

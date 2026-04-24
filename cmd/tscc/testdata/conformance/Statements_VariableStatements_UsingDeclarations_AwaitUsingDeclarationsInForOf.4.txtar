@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarationsInForOf.4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarationsInForOf.4.js awaitUsingDeclarationsInForOf.4.ts
+stderr 'TS2853'
+stderr 'TS2448'
+! exists awaitUsingDeclarationsInForOf.4.js
+! exists awaitUsingDeclarationsInForOf.4.d.ts
+! exists awaitUsingDeclarationsInForOf.4.js.map
+
+-- awaitUsingDeclarationsInForOf.4.ts --
+// https://github.com/microsoft/TypeScript/issues/55555
+
+{
+  for (await using of of of) {};
+}

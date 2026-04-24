@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/superCallBeforeThisAccessing2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js superCallBeforeThisAccessing2.js superCallBeforeThisAccessing2.ts
+! stderr .
+cmp superCallBeforeThisAccessing2.js superCallBeforeThisAccessing2.js.golden
+! exists superCallBeforeThisAccessing2.d.ts
+! exists superCallBeforeThisAccessing2.js.map
+
+-- superCallBeforeThisAccessing2.ts --
+class Base {
+    constructor(c) { }
+}
+class D extends Base {
+    private _t;
+    constructor() {
+        super(() => { this._t }); // no error. only check when this is directly accessing in constructor
+    }
+}
+-- superCallBeforeThisAccessing2.js.golden --
+"use strict";
+class Base {
+    constructor(c) { }
+}
+class D extends Base {
+    constructor() {
+        super(() => { this._t; }); // no error. only check when this is directly accessing in constructor
+    }
+}

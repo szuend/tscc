@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/asiPreventsParsingAsInterface04.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js asiPreventsParsingAsInterface04.js asiPreventsParsingAsInterface04.ts
+stderr 'TS1212'
+! exists asiPreventsParsingAsInterface04.js
+! exists asiPreventsParsingAsInterface04.d.ts
+! exists asiPreventsParsingAsInterface04.js.map
+
+-- asiPreventsParsingAsInterface04.ts --
+var declare: boolean, interface: number, I: string;
+
+declare     // This should be the identifier 'declare'
+interface   // This should be the identifier 'interface'
+I           // This should be the identifier 'I'
+{}          // This should be a block body

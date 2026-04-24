@@ -1,0 +1,73 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/classConstructorAccessibility4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts classConstructorAccessibility4.d.ts --target es2015 --lib es2015,dom --out-js classConstructorAccessibility4.js classConstructorAccessibility4.ts
+! stderr .
+cmp classConstructorAccessibility4.d.ts classConstructorAccessibility4.d.ts.golden
+cmp classConstructorAccessibility4.js classConstructorAccessibility4.js.golden
+! exists classConstructorAccessibility4.js.map
+
+-- classConstructorAccessibility4.ts --
+class A {
+    private constructor() { }
+
+    method() {
+        class B {
+            method() {
+                new A(); // OK
+            }
+        }
+
+        class C extends A { // OK
+        }
+    }
+}
+
+class D {
+    protected constructor() { }
+
+    method() {
+        class E {
+            method() {
+                new D(); // OK
+            }
+        }
+
+        class F extends D { // OK
+        }
+    }
+}
+-- classConstructorAccessibility4.d.ts.golden --
+declare class A {
+    private constructor();
+    method(): void;
+}
+declare class D {
+    protected constructor();
+    method(): void;
+}
+-- classConstructorAccessibility4.js.golden --
+"use strict";
+class A {
+    constructor() { }
+    method() {
+        class B {
+            method() {
+                new A(); // OK
+            }
+        }
+        class C extends A {
+        }
+    }
+}
+class D {
+    constructor() { }
+    method() {
+        class E {
+            method() {
+                new D(); // OK
+            }
+        }
+        class F extends D {
+        }
+    }
+}

@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom a.js
+stderr 'TS2749'
+stderr 'TS2503'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+var Outer = class O {
+    m(x, y) { }
+}
+Outer.Inner = class I {
+    n(a, b) { }
+
+}
+/** @type {Outer} */
+var si
+si.m
+/** @type {Outer.Inner} */
+var oi
+oi.n
+

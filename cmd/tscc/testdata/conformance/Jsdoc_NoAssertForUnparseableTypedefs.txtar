@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/jsdoc/noAssertForUnparseableTypedefs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug26693.js
+stderr 'TS1005'
+! exists bug26693.d.ts
+! exists bug26693.js.map
+
+-- bug26693.js --
+/** @typedef {module:locale} hi */
+import { nope } from 'nope';

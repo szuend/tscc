@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserForInStatement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserForInStatement2.js parserForInStatement2.ts
+stderr 'TS1123'
+! exists parserForInStatement2.js
+! exists parserForInStatement2.d.ts
+! exists parserForInStatement2.js.map
+
+-- parserForInStatement2.ts --
+for (var in X) {
+}

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringObjectBindingPatternAndAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js destructuringObjectBindingPatternAndAssignment3.js destructuringObjectBindingPatternAndAssignment3.ts
+stderr 'TS1005'
+! exists destructuringObjectBindingPatternAndAssignment3.js
+! exists destructuringObjectBindingPatternAndAssignment3.d.ts
+! exists destructuringObjectBindingPatternAndAssignment3.js.map
+
+-- destructuringObjectBindingPatternAndAssignment3.ts --
+// Error
+var {h?} = { h?: 1 };
+var {i}: string | number = { i: 2 };
+var {i1}: string | number| {} = { i1: 2 };
+var { f2: {f21} = { f212: "string" } }: any = undefined;
+var {1} = { 1 };
+var {"prop"} = { "prop": 1 };

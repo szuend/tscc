@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/MemberFunctionDeclarations/parserMemberFunctionDeclaration5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserMemberFunctionDeclaration5.js parserMemberFunctionDeclaration5.ts
+stderr 'TS1031'
+stderr 'TS1183'
+! exists parserMemberFunctionDeclaration5.js
+! exists parserMemberFunctionDeclaration5.d.ts
+! exists parserMemberFunctionDeclaration5.js.map
+
+-- parserMemberFunctionDeclaration5.ts --
+class C {
+    declare Foo() { }
+}

@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty23.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty23.js symbolProperty23.ts
+! stderr .
+cmp symbolProperty23.js symbolProperty23.js.golden
+! exists symbolProperty23.d.ts
+! exists symbolProperty23.js.map
+
+-- symbolProperty23.ts --
+interface I {
+    [Symbol.toPrimitive]: () => boolean;
+}
+
+class C implements I {
+    [Symbol.toPrimitive]() {
+        return true;
+    }
+}
+-- symbolProperty23.js.golden --
+"use strict";
+class C {
+    [Symbol.toPrimitive]() {
+        return true;
+    }
+}

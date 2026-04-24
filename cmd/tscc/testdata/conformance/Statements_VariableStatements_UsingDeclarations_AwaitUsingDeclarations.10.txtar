@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarations.10.js awaitUsingDeclarations.10.ts
+stderr 'TS1156'
+! exists awaitUsingDeclarations.10.js
+! exists awaitUsingDeclarations.10.d.ts
+! exists awaitUsingDeclarations.10.js.map
+
+-- awaitUsingDeclarations.10.ts --
+export {};
+
+declare var x: any;
+async function f() {
+    if (x) await using a = null;
+}

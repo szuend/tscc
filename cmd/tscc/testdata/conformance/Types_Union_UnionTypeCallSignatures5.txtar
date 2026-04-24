@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/union/unionTypeCallSignatures5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unionTypeCallSignatures5.js unionTypeCallSignatures5.ts
+stderr 'TS2684'
+! exists unionTypeCallSignatures5.js
+! exists unionTypeCallSignatures5.d.ts
+! exists unionTypeCallSignatures5.js.map
+
+-- unionTypeCallSignatures5.ts --
+// #31485
+interface A {
+  (this: void, b?: number): void;
+}
+interface B {
+  (this: number, b?: number): void;
+}
+interface C {
+  (i: number): void;
+}
+declare const fn: A | B | C;
+fn(0);

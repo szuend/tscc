@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInheritance1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classAbstractInheritance1.js classAbstractInheritance1.ts
+stderr 'TS2515'
+! exists classAbstractInheritance1.js
+! exists classAbstractInheritance1.d.ts
+! exists classAbstractInheritance1.js.map
+
+-- classAbstractInheritance1.ts --
+abstract class A {}
+
+abstract class B extends A {}
+
+class C extends A {}
+
+abstract class AA {
+    abstract foo();
+}
+
+abstract class BB extends AA {}
+
+class CC extends AA {}
+
+class DD extends BB {}
+
+abstract class EE extends BB {}
+
+class FF extends CC {}
+
+abstract class GG extends CC {}

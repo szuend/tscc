@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserInterfaceDeclaration1.js parserInterfaceDeclaration1.ts
+stderr 'TS1172'
+! exists parserInterfaceDeclaration1.js
+! exists parserInterfaceDeclaration1.d.ts
+! exists parserInterfaceDeclaration1.js.map
+
+-- parserInterfaceDeclaration1.ts --
+interface I extends A extends B {
+}

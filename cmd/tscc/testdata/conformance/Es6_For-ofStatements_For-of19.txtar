@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of19.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of19.js for-of19.ts
+! stderr .
+cmp for-of19.js for-of19.js.golden
+! exists for-of19.d.ts
+! exists for-of19.js.map
+
+-- for-of19.ts --
+class Foo { }
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+for (var v of new FooIterator) {
+    v;
+}
+-- for-of19.js.golden --
+"use strict";
+class Foo {
+}
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+for (var v of new FooIterator) {
+    v;
+}

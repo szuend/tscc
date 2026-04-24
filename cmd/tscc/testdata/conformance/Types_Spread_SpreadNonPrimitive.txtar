@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/spread/spreadNonPrimitive.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js spreadNonPrimitive.js spreadNonPrimitive.ts
+! stderr .
+cmp spreadNonPrimitive.js spreadNonPrimitive.js.golden
+! exists spreadNonPrimitive.d.ts
+! exists spreadNonPrimitive.js.map
+
+-- spreadNonPrimitive.ts --
+declare let o: object;
+const x: { a: number, b: number } = { a: 1, ...o, b: 2 };
+-- spreadNonPrimitive.js.golden --
+"use strict";
+const x = Object.assign(Object.assign({ a: 1 }, o), { b: 2 });

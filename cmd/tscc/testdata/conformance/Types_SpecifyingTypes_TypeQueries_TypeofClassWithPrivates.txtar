@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeQueries/typeofClassWithPrivates.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeofClassWithPrivates.js typeofClassWithPrivates.ts
+stderr 'TS2564'
+stderr 'TS2302'
+! exists typeofClassWithPrivates.js
+! exists typeofClassWithPrivates.d.ts
+! exists typeofClassWithPrivates.js.map
+
+-- typeofClassWithPrivates.ts --
+class C<T> {
+    private a: number;
+    private static b: number;
+    x: T;
+    static y: T;
+}
+
+var c: C<string>;
+var r: typeof C;
+var r2: typeof c;

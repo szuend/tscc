@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/StrictMode/parserStrictMode4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserStrictMode4.js parserStrictMode4.ts
+stderr 'TS1100'
+! exists parserStrictMode4.js
+! exists parserStrictMode4.d.ts
+! exists parserStrictMode4.js.map
+
+-- parserStrictMode4.ts --
+"use strict";
+arguments = 1;

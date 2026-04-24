@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/salsa/exportPropertyAssignmentNameResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug24492.js
+stderr 'TS2304'
+! exists bug24492.d.ts
+! exists bug24492.js.map
+
+-- bug24492.js --
+module.exports.D = class { }
+new D()

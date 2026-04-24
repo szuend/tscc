@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/tuple/wideningTuples6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js wideningTuples6.js wideningTuples6.ts
+! stderr .
+cmp wideningTuples6.js wideningTuples6.js.golden
+! exists wideningTuples6.d.ts
+! exists wideningTuples6.js.map
+
+-- wideningTuples6.ts --
+var [a, b] = [undefined, null];
+a = "";
+b = "";
+-- wideningTuples6.js.golden --
+"use strict";
+var [a, b] = [undefined, null];
+a = "";
+b = "";

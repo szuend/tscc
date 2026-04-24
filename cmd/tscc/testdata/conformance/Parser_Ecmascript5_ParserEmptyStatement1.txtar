@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserEmptyStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserEmptyStatement1.js parserEmptyStatement1.ts
+! stderr .
+cmp parserEmptyStatement1.js parserEmptyStatement1.js.golden
+! exists parserEmptyStatement1.d.ts
+! exists parserEmptyStatement1.js.map
+
+-- parserEmptyStatement1.ts --
+; ;
+var a = 1;
+; 
+-- parserEmptyStatement1.js.golden --
+"use strict";
+;
+;
+var a = 1;
+;

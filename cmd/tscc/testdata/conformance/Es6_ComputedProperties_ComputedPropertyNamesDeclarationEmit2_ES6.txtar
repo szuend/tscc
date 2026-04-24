@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesDeclarationEmit2_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts computedPropertyNamesDeclarationEmit2_ES6.d.ts --no-strict --target es6 --lib es6,dom --out-js computedPropertyNamesDeclarationEmit2_ES6.js computedPropertyNamesDeclarationEmit2_ES6.ts
+! stderr .
+cmp computedPropertyNamesDeclarationEmit2_ES6.d.ts computedPropertyNamesDeclarationEmit2_ES6.d.ts.golden
+cmp computedPropertyNamesDeclarationEmit2_ES6.js computedPropertyNamesDeclarationEmit2_ES6.js.golden
+! exists computedPropertyNamesDeclarationEmit2_ES6.js.map
+
+-- computedPropertyNamesDeclarationEmit2_ES6.ts --
+class C {
+    static ["" + ""]() { }
+    static get ["" + ""]() { return 0; }
+    static set ["" + ""](x) { }
+}
+-- computedPropertyNamesDeclarationEmit2_ES6.d.ts.golden --
+declare class C {
+}
+-- computedPropertyNamesDeclarationEmit2_ES6.js.golden --
+"use strict";
+class C {
+    static ["" + ""]() { }
+    static get ["" + ""]() { return 0; }
+    static set ["" + ""](x) { }
+}

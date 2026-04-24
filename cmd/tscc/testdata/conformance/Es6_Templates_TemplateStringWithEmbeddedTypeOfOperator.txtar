@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedTypeOfOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithEmbeddedTypeOfOperator.js templateStringWithEmbeddedTypeOfOperator.ts
+! stderr .
+cmp templateStringWithEmbeddedTypeOfOperator.js templateStringWithEmbeddedTypeOfOperator.js.golden
+! exists templateStringWithEmbeddedTypeOfOperator.d.ts
+! exists templateStringWithEmbeddedTypeOfOperator.js.map
+
+-- templateStringWithEmbeddedTypeOfOperator.ts --
+var x = `abc${ typeof "hi" }def`;
+-- templateStringWithEmbeddedTypeOfOperator.js.golden --
+"use strict";
+var x = `abc${typeof "hi"}def`;

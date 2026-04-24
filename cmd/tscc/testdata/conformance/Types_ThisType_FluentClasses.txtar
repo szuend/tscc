@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/types/thisType/fluentClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js fluentClasses.js fluentClasses.ts
+stderr 'TS2454'
+! exists fluentClasses.js
+! exists fluentClasses.d.ts
+! exists fluentClasses.js.map
+
+-- fluentClasses.ts --
+class A {
+    foo() {
+        return this;
+    }
+}
+class B extends A {
+    bar() {
+        return this;
+    }
+}
+class C extends B {
+    baz() {
+        return this;
+    }
+}
+var c: C;
+var z = c.foo().bar().baz();  // Fluent pattern

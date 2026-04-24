@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArrowFunctions/ArrowFunction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ArrowFunction1.js ArrowFunction1.ts
+stderr 'TS1110'
+! exists ArrowFunction1.js
+! exists ArrowFunction1.d.ts
+! exists ArrowFunction1.js.map
+
+-- ArrowFunction1.ts --
+var v = (a: ) => {
+   
+};

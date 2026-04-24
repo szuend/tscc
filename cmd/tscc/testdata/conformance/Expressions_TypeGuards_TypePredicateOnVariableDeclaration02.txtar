@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typePredicateOnVariableDeclaration02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts typePredicateOnVariableDeclaration02.d.ts --target es2015 --lib es2015,dom --out-js typePredicateOnVariableDeclaration02.js typePredicateOnVariableDeclaration02.ts
+stderr 'TS1005'
+! exists typePredicateOnVariableDeclaration02.d.ts
+! exists typePredicateOnVariableDeclaration02.js
+! exists typePredicateOnVariableDeclaration02.js.map
+
+-- typePredicateOnVariableDeclaration02.ts --
+var y: z is number;

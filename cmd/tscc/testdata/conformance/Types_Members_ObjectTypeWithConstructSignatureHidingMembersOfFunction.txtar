@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/types/members/objectTypeWithConstructSignatureHidingMembersOfFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectTypeWithConstructSignatureHidingMembersOfFunction.js objectTypeWithConstructSignatureHidingMembersOfFunction.ts
+stderr 'TS2454'
+! exists objectTypeWithConstructSignatureHidingMembersOfFunction.js
+! exists objectTypeWithConstructSignatureHidingMembersOfFunction.d.ts
+! exists objectTypeWithConstructSignatureHidingMembersOfFunction.js.map
+
+-- objectTypeWithConstructSignatureHidingMembersOfFunction.ts --
+interface I {
+    new(): number;
+    apply(a: any, b?: any): void;
+    call(thisArg: number, ...argArray: number[]): any;
+}
+
+var i: I;
+var r1: (a: any, b?: any) => void = i.apply;
+var r1b: (thisArg: number, ...argArray: number[]) => void = i.call;
+var r1c = i.arguments;
+
+var x: {
+    new(): number;
+    apply(a: any, b?: any): void;
+    call(thisArg: number, ...argArray: number[]): any;
+}
+
+var r2: (a: any, b?: any) => void = x.apply;
+var r2b: (thisArg: number, ...argArray: number[]) => void = x.call;
+var r2c = x.arguments;

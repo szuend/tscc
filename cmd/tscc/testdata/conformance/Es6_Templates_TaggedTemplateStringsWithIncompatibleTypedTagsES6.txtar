@@ -1,0 +1,41 @@
+# Ported from tests/cases/conformance/es6/templates/taggedTemplateStringsWithIncompatibleTypedTagsES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js taggedTemplateStringsWithIncompatibleTypedTagsES6.js taggedTemplateStringsWithIncompatibleTypedTagsES6.ts
+stderr 'TS2345'
+! exists taggedTemplateStringsWithIncompatibleTypedTagsES6.js
+! exists taggedTemplateStringsWithIncompatibleTypedTagsES6.d.ts
+! exists taggedTemplateStringsWithIncompatibleTypedTagsES6.js.map
+
+-- taggedTemplateStringsWithIncompatibleTypedTagsES6.ts --
+interface I {
+    (stringParts: TemplateStringsArray, ...rest: boolean[]): I;
+    g: I;
+    h: I;
+    member: I;
+    thisIsNotATag(x: string): void
+    [x: number]: I;
+}
+
+declare var f: I;
+
+f `abc`
+
+f `abc${1}def${2}ghi`;
+
+f `abc`.member
+
+f `abc${1}def${2}ghi`.member;
+
+f `abc`["member"];
+
+f `abc${1}def${2}ghi`["member"];
+
+f `abc`[0].member `abc${1}def${2}ghi`;
+
+f `abc${1}def${2}ghi`["member"].member `abc${1}def${2}ghi`;
+
+f `abc${ true }def${ true }ghi`["member"].member `abc${ 1 }def${ 2 }ghi`;
+
+f.thisIsNotATag(`abc`);
+
+f.thisIsNotATag(`abc${1}def${2}ghi`);

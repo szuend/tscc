@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractConstructorAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractConstructorAssignability.js classAbstractConstructorAssignability.ts
+stderr 'TS2322'
+stderr 'TS2511'
+! exists classAbstractConstructorAssignability.js
+! exists classAbstractConstructorAssignability.d.ts
+! exists classAbstractConstructorAssignability.js.map
+
+-- classAbstractConstructorAssignability.ts --
+class A {}
+
+abstract class B extends A {}
+
+class C extends B {}
+
+var AA : typeof A = B;
+var BB : typeof B = A;
+var CC : typeof C = B;
+
+new AA;
+new BB;
+new CC;

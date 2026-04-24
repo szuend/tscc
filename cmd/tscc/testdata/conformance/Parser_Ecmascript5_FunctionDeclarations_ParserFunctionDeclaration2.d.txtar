@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration2.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserFunctionDeclaration2.d.js parserFunctionDeclaration2.d.ts
+stderr 'TS1046'
+stderr 'TS1183'
+! exists parserFunctionDeclaration2.d.js
+! exists parserFunctionDeclaration2.d.d.ts
+! exists parserFunctionDeclaration2.d.js.map
+
+-- parserFunctionDeclaration2.d.ts --
+function F() {
+}

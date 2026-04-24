@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/statements/labeledStatements/labeledStatementWithLabel_strict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js labeledStatementWithLabel_strict.js labeledStatementWithLabel_strict.ts
+stderr 'TS1344'
+stderr 'TS1235'
+! exists labeledStatementWithLabel_strict.js
+! exists labeledStatementWithLabel_strict.d.ts
+! exists labeledStatementWithLabel_strict.js.map
+
+-- labeledStatementWithLabel_strict.ts --
+"use strict"
+label: function fn() { }
+label: function* gen() { }
+label: async function gen1() { }
+label: enum E {}
+label: interface I {}
+label: class C { }
+label: var a = 1;
+label: let b = 1;
+label: const c = 1;
+
+label: namespace M { }
+label: namespace N {}
+label: type T = {}

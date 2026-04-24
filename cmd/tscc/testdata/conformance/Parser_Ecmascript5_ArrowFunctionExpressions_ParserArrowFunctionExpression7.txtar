@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js parserArrowFunctionExpression7.js parserArrowFunctionExpression7.ts
+! stderr .
+cmp parserArrowFunctionExpression7.js parserArrowFunctionExpression7.js.golden
+! exists parserArrowFunctionExpression7.d.ts
+! exists parserArrowFunctionExpression7.js.map
+
+-- parserArrowFunctionExpression7.ts --
+({
+	async m() {
+		for (;;) {
+		}
+	}
+});
+-- parserArrowFunctionExpression7.js.golden --
+"use strict";
+({
+    async m() {
+        for (;;) {
+        }
+    }
+});

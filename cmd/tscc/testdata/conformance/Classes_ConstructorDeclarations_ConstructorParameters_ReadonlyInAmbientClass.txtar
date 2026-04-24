@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/readonlyInAmbientClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js readonlyInAmbientClass.js readonlyInAmbientClass.ts
+stderr 'TS2369'
+! exists readonlyInAmbientClass.js
+! exists readonlyInAmbientClass.d.ts
+! exists readonlyInAmbientClass.js.map
+
+-- readonlyInAmbientClass.ts --
+declare class C{
+	constructor(readonly x: number);
+	method(readonly x: number);
+}

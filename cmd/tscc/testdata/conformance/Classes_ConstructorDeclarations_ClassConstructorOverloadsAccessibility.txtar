@@ -1,0 +1,41 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/classConstructorOverloadsAccessibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts classConstructorOverloadsAccessibility.d.ts --target es2015 --lib es2015,dom --out-js classConstructorOverloadsAccessibility.js classConstructorOverloadsAccessibility.ts
+stderr 'TS2385'
+! exists classConstructorOverloadsAccessibility.d.ts
+! exists classConstructorOverloadsAccessibility.js
+! exists classConstructorOverloadsAccessibility.js.map
+
+-- classConstructorOverloadsAccessibility.ts --
+class A {
+	public constructor(a: boolean) // error
+	protected constructor(a: number) // error
+	private constructor(a: string)
+	private constructor() { 
+		
+	}
+}
+
+class B {
+	protected constructor(a: number) // error
+	constructor(a: string)
+	constructor() { 
+		
+	}
+}
+
+class C {
+	protected constructor(a: number)
+	protected constructor(a: string)
+	protected constructor() { 
+		
+	}
+}
+
+class D {
+	constructor(a: number)
+	constructor(a: string)
+	public constructor() { 
+		
+	}
+}

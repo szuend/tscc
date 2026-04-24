@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty41.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty41.js symbolProperty41.ts
+! stderr .
+cmp symbolProperty41.js symbolProperty41.js.golden
+! exists symbolProperty41.d.ts
+! exists symbolProperty41.js.map
+
+-- symbolProperty41.ts --
+class C {
+    [Symbol.iterator](x: string): { x: string };
+    [Symbol.iterator](x: "hello"): { x: string; hello: string };
+    [Symbol.iterator](x: any) {
+        return undefined;
+    }
+}
+
+var c = new C;
+c[Symbol.iterator]("");
+c[Symbol.iterator]("hello");
+-- symbolProperty41.js.golden --
+"use strict";
+class C {
+    [Symbol.iterator](x) {
+        return undefined;
+    }
+}
+var c = new C;
+c[Symbol.iterator]("");
+c[Symbol.iterator]("hello");

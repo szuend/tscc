@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/expressions/asOperator/asOperatorASI.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js asOperatorASI.js asOperatorASI.ts
+! stderr .
+cmp asOperatorASI.js asOperatorASI.js.golden
+! exists asOperatorASI.d.ts
+! exists asOperatorASI.js.map
+
+-- asOperatorASI.ts --
+class Foo { }
+declare function as(...args: any[]);
+
+// Example 1
+var x = 10
+as `Hello world`; // should not error
+
+// Example 2
+var y = 20
+as(Foo); // should emit
+-- asOperatorASI.js.golden --
+"use strict";
+class Foo {
+}
+// Example 1
+var x = 10;
+as `Hello world`; // should not error
+// Example 2
+var y = 20;
+as(Foo); // should emit

@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty11.js symbolProperty11.ts
+! stderr .
+cmp symbolProperty11.js symbolProperty11.js.golden
+! exists symbolProperty11.d.ts
+! exists symbolProperty11.js.map
+
+-- symbolProperty11.ts --
+class C { }
+interface I {
+    [Symbol.iterator]?: { x };
+}
+
+var i: I;
+i = new C;
+var c: C = i;
+-- symbolProperty11.js.golden --
+"use strict";
+class C {
+}
+var i;
+i = new C;
+var c = i;

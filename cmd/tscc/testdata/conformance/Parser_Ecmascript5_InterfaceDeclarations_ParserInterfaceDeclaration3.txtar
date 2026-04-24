@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserInterfaceDeclaration3.js parserInterfaceDeclaration3.ts
+stderr 'TS1044'
+! exists parserInterfaceDeclaration3.js
+! exists parserInterfaceDeclaration3.d.ts
+! exists parserInterfaceDeclaration3.js.map
+
+-- parserInterfaceDeclaration3.ts --
+public interface I {
+}

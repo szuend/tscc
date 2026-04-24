@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithOpenCommentInStringPortion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithOpenCommentInStringPortion.js templateStringWithOpenCommentInStringPortion.ts
+! stderr .
+cmp templateStringWithOpenCommentInStringPortion.js templateStringWithOpenCommentInStringPortion.js.golden
+! exists templateStringWithOpenCommentInStringPortion.d.ts
+! exists templateStringWithOpenCommentInStringPortion.js.map
+
+-- templateStringWithOpenCommentInStringPortion.ts --
+` /**head  ${ 10 } // still middle  ${ 20 } /* still tail `
+-- templateStringWithOpenCommentInStringPortion.js.golden --
+"use strict";
+` /**head  ${10} // still middle  ${20} /* still tail `;

@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/declarationEmit/exportDefaultNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts exportDefaultNamespace.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultNamespace.js exportDefaultNamespace.ts
+! stderr .
+cmp exportDefaultNamespace.d.ts exportDefaultNamespace.d.ts.golden
+cmp exportDefaultNamespace.js exportDefaultNamespace.js.golden
+! exists exportDefaultNamespace.js.map
+
+-- exportDefaultNamespace.ts --
+export default function someFunc() {
+    return 'hello!';
+}
+
+someFunc.someProp = 'yo';
+-- exportDefaultNamespace.d.ts.golden --
+declare function someFunc(): string;
+export default someFunc;
+declare namespace someFunc {
+    var someProp: string;
+}
+-- exportDefaultNamespace.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = someFunc;
+function someFunc() {
+    return 'hello!';
+}
+someFunc.someProp = 'yo';

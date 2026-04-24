@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/jsdoc/extendsTag1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --lib esnext --target es2015 bug25101.js
+! stderr .
+! exists bug25101.d.ts
+! exists bug25101.js.map
+
+-- bug25101.js --
+/**
+ * @template T
+ * @extends {Set<T>} Should prefer this Set<T>, not the Set in the heritage clause
+ */
+class My extends Set {}

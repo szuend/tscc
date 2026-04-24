@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/members/accessibility/privateStaticNotAccessibleInClodule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateStaticNotAccessibleInClodule.js privateStaticNotAccessibleInClodule.ts
+stderr 'TS2564'
+stderr 'TS2341'
+! exists privateStaticNotAccessibleInClodule.js
+! exists privateStaticNotAccessibleInClodule.d.ts
+! exists privateStaticNotAccessibleInClodule.js.map
+
+-- privateStaticNotAccessibleInClodule.ts --
+// Any attempt to access a private property member outside the class body that contains its declaration results in a compile-time error.
+
+class C {
+    private foo: string;
+    private static bar: string;
+}
+
+namespace C {
+    export var y = C.bar; // error
+}

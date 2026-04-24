@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration25.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserClassDeclaration25.js parserClassDeclaration25.ts
+stderr 'TS2391'
+! exists parserClassDeclaration25.js
+! exists parserClassDeclaration25.d.ts
+! exists parserClassDeclaration25.js.map
+
+-- parserClassDeclaration25.ts --
+interface IList<T> {
+    data(): T;
+    next(): string;
+}
+class List<U> implements IList<U> {
+    data(): U;
+    next(): string;
+}

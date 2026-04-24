@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/externalModules/multipleExportDefault2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js multipleExportDefault2.js multipleExportDefault2.ts
+stderr 'TS2528'
+! exists multipleExportDefault2.js
+! exists multipleExportDefault2.d.ts
+! exists multipleExportDefault2.js.map
+
+-- multipleExportDefault2.ts --
+export default {
+    uhoh: "another default",
+};
+
+export default function Foo() { }
+

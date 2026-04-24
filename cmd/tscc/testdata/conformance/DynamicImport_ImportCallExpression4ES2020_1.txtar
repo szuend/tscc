@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpression4ES2020.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2020 --module es2020 --target es2020 --out-js 1.js 1.ts
+! stderr .
+cmp 1.js 1.js.golden
+! exists 1.d.ts
+! exists 1.js.map
+
+-- 0.ts --
+export class B {
+    print() { return "I am B"}
+}
+
+export function foo() { return "foo" }
+-- 1.ts --
+export function backup() { return "backup"; }
+-- 2.ts --
+declare var console: any;
+class C {
+    private myModule = import("./0");
+    method() {
+        const loadAsync = import ("./0");
+        this.myModule.then(Zero => {
+            console.log(Zero.foo());
+        }, async err => {
+            console.log(err);
+            let one = await import("./1");
+            console.log(one.backup());
+        });
+    }
+}
+-- 1.js.golden --
+export function backup() { return "backup"; }

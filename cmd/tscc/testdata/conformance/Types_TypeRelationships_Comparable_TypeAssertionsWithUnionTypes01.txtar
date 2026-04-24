@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/types/typeRelationships/comparable/typeAssertionsWithUnionTypes01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeAssertionsWithUnionTypes01.js typeAssertionsWithUnionTypes01.ts
+stderr 'TS2352'
+! exists typeAssertionsWithUnionTypes01.js
+! exists typeAssertionsWithUnionTypes01.d.ts
+! exists typeAssertionsWithUnionTypes01.js.map
+
+-- typeAssertionsWithUnionTypes01.ts --
+interface I1 {
+    p1: number
+}
+
+interface I2 extends I1 {
+    p2: number;
+}
+
+var x = { p1: 10, p2: 20 };
+var y: number | I2 = x;
+var z: I1 = x;
+
+var a = <number | I2>z;
+var b = <number>z;
+var c = <I2>z;
+var d = <I1>y;

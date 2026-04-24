@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/classes/classStaticBlock/classStaticBlock16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classStaticBlock16.js classStaticBlock16.ts
+stderr 'TS18013'
+! exists classStaticBlock16.js
+! exists classStaticBlock16.d.ts
+! exists classStaticBlock16.js.map
+
+-- classStaticBlock16.ts --
+let getX: (c: C) => number;
+class C {
+  #x = 1
+  constructor(x: number) {
+    this.#x = x;
+  }
+
+  static {
+    // getX has privileged access to #x
+    getX = (obj: C) => obj.#x;
+    getY = (obj: D) => obj.#y;
+  }
+}
+
+let getY: (c: D) => number;
+class D {
+  #y = 1
+
+  static {
+    // getY has privileged access to y
+    getX = (obj: C) => obj.#x;
+    getY = (obj: D) => obj.#y;
+  }
+}

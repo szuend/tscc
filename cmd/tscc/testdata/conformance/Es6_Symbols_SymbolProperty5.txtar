@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty5.js symbolProperty5.ts
+! stderr .
+cmp symbolProperty5.js symbolProperty5.js.golden
+! exists symbolProperty5.d.ts
+! exists symbolProperty5.js.map
+
+-- symbolProperty5.ts --
+var x = {
+    [Symbol.iterator]: 0,
+    [Symbol.toPrimitive]() { },
+    get [Symbol.toStringTag]() {
+        return 0;
+    }
+}
+-- symbolProperty5.js.golden --
+"use strict";
+var x = {
+    [Symbol.iterator]: 0,
+    [Symbol.toPrimitive]() { },
+    get [Symbol.toStringTag]() {
+        return 0;
+    }
+};

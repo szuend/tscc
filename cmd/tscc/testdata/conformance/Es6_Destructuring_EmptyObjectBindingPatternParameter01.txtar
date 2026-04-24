@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/destructuring/emptyObjectBindingPatternParameter01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts emptyObjectBindingPatternParameter01.d.ts --target es2015 --lib es2015,dom --out-js emptyObjectBindingPatternParameter01.js emptyObjectBindingPatternParameter01.ts
+! stderr .
+cmp emptyObjectBindingPatternParameter01.d.ts emptyObjectBindingPatternParameter01.d.ts.golden
+cmp emptyObjectBindingPatternParameter01.js emptyObjectBindingPatternParameter01.js.golden
+! exists emptyObjectBindingPatternParameter01.js.map
+
+-- emptyObjectBindingPatternParameter01.ts --
+function f({}) {
+    var x, y, z;
+}
+-- emptyObjectBindingPatternParameter01.d.ts.golden --
+declare function f({}: {}): void;
+-- emptyObjectBindingPatternParameter01.js.golden --
+"use strict";
+function f({}) {
+    var x, y, z;
+}

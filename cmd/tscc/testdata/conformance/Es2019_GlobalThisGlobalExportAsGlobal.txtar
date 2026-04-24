@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es2019/globalThisGlobalExportAsGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js globalThisGlobalExportAsGlobal.js globalThisGlobalExportAsGlobal.ts
+stderr 'TS2669'
+stderr 'TS2661'
+! exists globalThisGlobalExportAsGlobal.js
+! exists globalThisGlobalExportAsGlobal.d.ts
+! exists globalThisGlobalExportAsGlobal.js.map
+
+-- globalThisGlobalExportAsGlobal.ts --
+// https://github.com/microsoft/TypeScript/issues/33754
+declare global {
+    export { globalThis as global }
+}

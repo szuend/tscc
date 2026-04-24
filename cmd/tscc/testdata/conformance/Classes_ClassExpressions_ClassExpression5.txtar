@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/classes/classExpressions/classExpression5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExpression5.js classExpression5.ts
+! stderr .
+cmp classExpression5.js classExpression5.js.golden
+! exists classExpression5.d.ts
+! exists classExpression5.js.map
+
+-- classExpression5.ts --
+new class {
+    hi() {
+        return "Hi!";
+    }
+}().hi();
+-- classExpression5.js.golden --
+"use strict";
+new class {
+    hi() {
+        return "Hi!";
+    }
+}().hi();

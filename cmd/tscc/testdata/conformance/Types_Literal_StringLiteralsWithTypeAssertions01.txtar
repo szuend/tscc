@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsWithTypeAssertions01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsWithTypeAssertions01.js stringLiteralsWithTypeAssertions01.ts
+stderr 'TS2454'
+! exists stringLiteralsWithTypeAssertions01.js
+! exists stringLiteralsWithTypeAssertions01.d.ts
+! exists stringLiteralsWithTypeAssertions01.js.map
+
+-- stringLiteralsWithTypeAssertions01.ts --
+let fooOrBar: "foo" | "bar";
+
+let a = "foo" as "bar";
+let b = "bar" as "foo";
+let c = fooOrBar as "foo";
+let d = fooOrBar as "bar";
+let e = fooOrBar as "baz";
+let f = "baz" as typeof fooOrBar;

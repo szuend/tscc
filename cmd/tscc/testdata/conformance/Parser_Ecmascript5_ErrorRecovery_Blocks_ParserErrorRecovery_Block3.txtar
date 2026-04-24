@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/Blocks/parserErrorRecovery_Block3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_Block3.js parserErrorRecovery_Block3.ts
+stderr 'TS1128'
+! exists parserErrorRecovery_Block3.js
+! exists parserErrorRecovery_Block3.d.ts
+! exists parserErrorRecovery_Block3.js.map
+
+-- parserErrorRecovery_Block3.ts --
+class C  {
+    private a(): boolean {
+
+    private b(): boolean {
+    }
+}

@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/types/typeRelationships/comparable/switchCaseWithIntersectionTypes01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js switchCaseWithIntersectionTypes01.js switchCaseWithIntersectionTypes01.ts
+stderr 'TS2454'
+! exists switchCaseWithIntersectionTypes01.js
+! exists switchCaseWithIntersectionTypes01.d.ts
+! exists switchCaseWithIntersectionTypes01.js.map
+
+-- switchCaseWithIntersectionTypes01.ts --
+var strAndNum: string & number;
+var numAndBool: number & boolean;
+var str: string;
+var num: number;
+var bool: boolean;
+
+switch (strAndNum) {
+    // Identical
+    case strAndNum:
+        break;
+
+    // Constituents
+    case str:
+    case num:
+        break;
+
+    // Overlap in constituents
+    case numAndBool:
+        break;
+
+    // No relation
+    case bool:
+        break;
+}

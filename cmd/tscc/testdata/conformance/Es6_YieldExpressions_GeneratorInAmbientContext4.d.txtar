@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorInAmbientContext4.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js generatorInAmbientContext4.d.js generatorInAmbientContext4.d.ts
+stderr 'TS1221'
+! exists generatorInAmbientContext4.d.js
+! exists generatorInAmbientContext4.d.d.ts
+! exists generatorInAmbientContext4.d.js.map
+
+-- generatorInAmbientContext4.d.ts --
+declare namespace M {
+    function *generator(): any;
+}

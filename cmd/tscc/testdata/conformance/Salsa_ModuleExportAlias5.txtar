@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAlias5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug24754.js
+stderr 'TS2309'
+stderr 'TS2339'
+! exists bug24754.d.ts
+! exists bug24754.js.map
+
+-- bug24754.js --
+// #24754
+const webpack = function (){
+}
+exports = module.exports = webpack;
+exports.version = 1001;
+
+webpack.WebpackOptionsDefaulter = 1111;

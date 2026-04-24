@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithObjectTypeArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCallWithObjectTypeArgs.js genericCallWithObjectTypeArgs.ts
+stderr 'TS2564'
+stderr 'TS2345'
+! exists genericCallWithObjectTypeArgs.js
+! exists genericCallWithObjectTypeArgs.d.ts
+! exists genericCallWithObjectTypeArgs.js.map
+
+-- genericCallWithObjectTypeArgs.ts --
+class C {
+    private x: string;
+}
+
+class D {
+    private x: string;
+}
+
+class X<T> {
+    x: T;
+}
+
+function foo<T>(t: X<T>, t2: X<T>) {
+    var x!: T;
+    return x;
+}
+
+var c1 = new X<C>();
+var d1 = new X<D>();
+var r = foo(c1, d1); // error
+var r2 = foo(c1, c1); // ok

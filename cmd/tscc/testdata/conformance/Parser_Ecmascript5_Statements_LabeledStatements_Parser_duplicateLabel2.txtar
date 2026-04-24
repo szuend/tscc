@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/LabeledStatements/parser_duplicateLabel2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser_duplicateLabel2.js parser_duplicateLabel2.ts
+stderr 'TS1114'
+! exists parser_duplicateLabel2.js
+! exists parser_duplicateLabel2.d.ts
+! exists parser_duplicateLabel2.js.map
+
+-- parser_duplicateLabel2.ts --
+target:
+while (true) {
+  target:
+  while (true) {
+  }
+}

@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/superCallBeforeThisAccessing3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallBeforeThisAccessing3.js superCallBeforeThisAccessing3.ts
+stderr 'TS7006'
+stderr 'TS7008'
+stderr 'TS17009'
+! exists superCallBeforeThisAccessing3.js
+! exists superCallBeforeThisAccessing3.d.ts
+! exists superCallBeforeThisAccessing3.js.map
+
+-- superCallBeforeThisAccessing3.ts --
+class Base {
+    constructor(c) { }
+}
+class D extends Base {
+    private _t;
+    constructor() {
+        let x = () => { this._t };
+        x();  // no error; we only check super is called before this when the container is a constructor
+        this._t;  // error
+        super(undefined);
+    }
+}

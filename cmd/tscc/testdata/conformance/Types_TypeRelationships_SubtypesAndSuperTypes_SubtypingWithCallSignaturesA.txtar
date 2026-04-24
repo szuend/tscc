@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/typeRelationships/subtypesAndSuperTypes/subtypingWithCallSignaturesA.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js subtypingWithCallSignaturesA.js subtypingWithCallSignaturesA.ts
+stderr 'TS2345'
+! exists subtypingWithCallSignaturesA.js
+! exists subtypingWithCallSignaturesA.d.ts
+! exists subtypingWithCallSignaturesA.js.map
+
+-- subtypingWithCallSignaturesA.ts --
+declare function foo3(cb: (x: number) => number): typeof cb;
+var r5 = foo3((x: number) => ''); // error

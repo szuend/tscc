@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractCrashedOnce.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classAbstractCrashedOnce.js classAbstractCrashedOnce.ts
+stderr 'TS1003'
+! exists classAbstractCrashedOnce.js
+! exists classAbstractCrashedOnce.d.ts
+! exists classAbstractCrashedOnce.js.map
+
+-- classAbstractCrashedOnce.ts --
+abstract class foo {
+    protected abstract test();
+}
+
+class bar extends foo {
+    test() {
+        this.
+    }
+}
+var x = new bar();

@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/spread/iteratorSpreadInArray10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iteratorSpreadInArray10.js iteratorSpreadInArray10.ts
+stderr 'TS2488'
+! exists iteratorSpreadInArray10.js
+! exists iteratorSpreadInArray10.d.ts
+! exists iteratorSpreadInArray10.js.map
+
+-- iteratorSpreadInArray10.ts --
+class SymbolIterator {
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var array = [...new SymbolIterator];

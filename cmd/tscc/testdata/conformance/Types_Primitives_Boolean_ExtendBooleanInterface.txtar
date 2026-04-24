@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/types/primitives/boolean/extendBooleanInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js extendBooleanInterface.js extendBooleanInterface.ts
+! stderr .
+cmp extendBooleanInterface.js extendBooleanInterface.js.golden
+! exists extendBooleanInterface.d.ts
+! exists extendBooleanInterface.js.map
+
+-- extendBooleanInterface.ts --
+interface Boolean {
+    doStuff(): string;
+    doOtherStuff<T>(x: T): T;
+}
+
+var x = true;
+var a: string = x.doStuff();
+var b: string = x.doOtherStuff('hm');
+var c: string = x['doStuff']();
+var d: string = x['doOtherStuff']('hm');
+-- extendBooleanInterface.js.golden --
+"use strict";
+var x = true;
+var a = x.doStuff();
+var b = x.doOtherStuff('hm');
+var c = x['doStuff']();
+var d = x['doOtherStuff']('hm');

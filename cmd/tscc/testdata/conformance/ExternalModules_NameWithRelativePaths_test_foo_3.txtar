@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/externalModules/nameWithRelativePaths.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo_3.js test/foo_3.ts
+! stderr .
+cmp foo_3.js foo_3.js.golden
+! exists test/foo_3.d.ts
+! exists test/foo_3.js.map
+
+-- foo_0.ts --
+export var foo = 42;
+-- test/foo_2.ts --
+export namespace M2 {
+	export var x = true;
+}
+-- test/foo_3.ts --
+import foo0 = require('../foo_0');
+import foo1 = require('./test/foo_1');
+import foo2 = require('./.././test/foo_2');
+
+if(foo2.M2.x){
+	var x = foo0.foo + foo1.f();
+}
+-- test/test/foo_1.ts --
+export function f(){
+	return 42;
+}
+-- foo_3.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const foo0 = require("../foo_0");
+const foo1 = require("./test/foo_1");
+const foo2 = require("./.././test/foo_2");
+if (foo2.M2.x) {
+    var x = foo0.foo + foo1.f();
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/destructuring/optionalBindingParameters1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js optionalBindingParameters1.js optionalBindingParameters1.ts
+stderr 'TS2463'
+stderr 'TS2322'
+! exists optionalBindingParameters1.js
+! exists optionalBindingParameters1.d.ts
+! exists optionalBindingParameters1.js.map
+
+-- optionalBindingParameters1.ts --
+function foo([x,y,z]?: [string, number, boolean]) {
+
+}
+
+foo(["", 0, false]);
+
+foo([false, 0, ""]);

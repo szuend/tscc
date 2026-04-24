@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralCheckedInIf01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralCheckedInIf01.js stringLiteralCheckedInIf01.ts
+! stderr .
+cmp stringLiteralCheckedInIf01.js stringLiteralCheckedInIf01.js.golden
+! exists stringLiteralCheckedInIf01.d.ts
+! exists stringLiteralCheckedInIf01.js.map
+
+-- stringLiteralCheckedInIf01.ts --
+type S = "a" | "b";
+type T = S[] | S;
+
+function f(foo: T) {
+    if (foo === "a") {
+        return foo;
+    }
+    else if (foo === "b") {
+        return foo;
+    }
+    else { 
+        return (foo as S[])[0];
+    }
+}
+-- stringLiteralCheckedInIf01.js.golden --
+"use strict";
+function f(foo) {
+    if (foo === "a") {
+        return foo;
+    }
+    else if (foo === "b") {
+        return foo;
+    }
+    else {
+        return foo[0];
+    }
+}

@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserPostfixPostfixExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserPostfixPostfixExpression1.js parserPostfixPostfixExpression1.ts
+stderr 'TS1005'
+stderr 'TS1109'
+! exists parserPostfixPostfixExpression1.js
+! exists parserPostfixPostfixExpression1.d.ts
+! exists parserPostfixPostfixExpression1.js.map
+
+-- parserPostfixPostfixExpression1.ts --
+a++ ++;

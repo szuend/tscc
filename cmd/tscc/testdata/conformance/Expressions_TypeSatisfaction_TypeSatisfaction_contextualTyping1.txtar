@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/expressions/typeSatisfaction/typeSatisfaction_contextualTyping1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeSatisfaction_contextualTyping1.js typeSatisfaction_contextualTyping1.ts
+! stderr .
+cmp typeSatisfaction_contextualTyping1.js typeSatisfaction_contextualTyping1.js.golden
+! exists typeSatisfaction_contextualTyping1.d.ts
+! exists typeSatisfaction_contextualTyping1.js.map
+
+-- typeSatisfaction_contextualTyping1.ts --
+type Predicates = { [s: string]: (n: number) => boolean };
+
+const p = {
+    isEven: n => n % 2 === 0,
+    isOdd: n => n % 2 === 1
+} satisfies Predicates;
+-- typeSatisfaction_contextualTyping1.js.golden --
+"use strict";
+const p = {
+    isEven: n => n % 2 === 0,
+    isOdd: n => n % 2 === 1
+};

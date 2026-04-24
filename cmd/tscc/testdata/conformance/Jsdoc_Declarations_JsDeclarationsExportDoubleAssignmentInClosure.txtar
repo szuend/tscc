@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsExportDoubleAssignmentInClosure.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts index.d.ts --target es2015 --lib es2015,dom --out-js out_index.js index.js
+stderr 'TS6425'
+! exists out_index.js
+! exists index.d.ts
+! exists out/index.js.map
+
+-- index.js --
+// @ts-nocheck
+function foo() {
+    module.exports = exports = function (o) {
+        return (o == null) ? create(base) : defineProperties(Object(o), descriptors);
+    };
+    const m = function () {
+        // I have no idea what to put here
+    }
+    exports.methods = m;
+}

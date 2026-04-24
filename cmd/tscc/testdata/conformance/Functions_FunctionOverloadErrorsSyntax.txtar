@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/functions/functionOverloadErrorsSyntax.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloadErrorsSyntax.js functionOverloadErrorsSyntax.ts
+stderr 'TS1016'
+stderr 'TS1014'
+! exists functionOverloadErrorsSyntax.js
+! exists functionOverloadErrorsSyntax.d.ts
+! exists functionOverloadErrorsSyntax.js.map
+
+-- functionOverloadErrorsSyntax.ts --
+//Function overload signature with optional parameter followed by non-optional parameter
+function fn4a(x?: number, y: string);
+function fn4a() { }
+
+function fn4b(n: string, x?: number, y: string);
+function fn4b() { }
+
+//Function overload signature with rest param followed by non-optional parameter
+function fn5(x: string, ...y: any[], z: string);
+function fn5() { }

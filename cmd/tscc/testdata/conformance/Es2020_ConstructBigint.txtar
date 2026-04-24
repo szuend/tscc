@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es2020/constructBigint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --strict --target esnext --out-js constructBigint.js constructBigint.ts
+stderr 'TS2345'
+! exists constructBigint.js
+! exists constructBigint.d.ts
+! exists constructBigint.js.map
+
+-- constructBigint.ts --
+BigInt(1);
+BigInt(1n);
+BigInt("0");
+BigInt(false);
+
+BigInt(Symbol());
+BigInt({ e: 1, m: 1 })
+BigInt(null);
+BigInt(undefined)
+

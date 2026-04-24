@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/types/tuple/wideningTuples5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --no-strict --target es2015 --lib es2015,dom --out-js wideningTuples5.js wideningTuples5.ts
+stderr 'TS7031'
+! exists wideningTuples5.js
+! exists wideningTuples5.d.ts
+! exists wideningTuples5.js.map
+
+-- wideningTuples5.ts --
+var [a, b] = [undefined, null];

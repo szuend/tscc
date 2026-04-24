@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/primitives/void/validVoidAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js validVoidAssignments.js validVoidAssignments.ts
+! stderr .
+cmp validVoidAssignments.js validVoidAssignments.js.golden
+! exists validVoidAssignments.d.ts
+! exists validVoidAssignments.js.map
+
+-- validVoidAssignments.ts --
+var x: void;
+var y: any;
+var z: void;
+y = x;
+x = y;
+x = z;
+-- validVoidAssignments.js.golden --
+"use strict";
+var x;
+var y;
+var z;
+y = x;
+x = y;
+x = z;

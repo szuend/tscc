@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classAbstractMixedWithModifiers.js classAbstractMixedWithModifiers.ts
+stderr 'TS1243'
+stderr 'TS1029'
+! exists classAbstractMixedWithModifiers.js
+! exists classAbstractMixedWithModifiers.d.ts
+! exists classAbstractMixedWithModifiers.js.map
+
+-- classAbstractMixedWithModifiers.ts --
+abstract class A {
+    abstract foo_a();
+
+    public abstract foo_b();
+    protected abstract foo_c();
+    private abstract foo_d();
+
+    abstract public foo_bb();
+    abstract protected foo_cc();
+    abstract private foo_dd();
+
+    abstract static foo_d();
+    static abstract foo_e();
+
+    abstract async foo_f();
+    async abstract foo_g();
+}

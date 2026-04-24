@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ParameterLists/parserParameterList11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserParameterList11.js parserParameterList11.ts
+stderr 'TS1047'
+! exists parserParameterList11.js
+! exists parserParameterList11.d.ts
+! exists parserParameterList11.js.map
+
+-- parserParameterList11.ts --
+(...arg?) => 102;

@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesWithVariousOperators02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts stringLiteralTypesWithVariousOperators02.d.ts --target es2015 --lib es2015,dom --out-js stringLiteralTypesWithVariousOperators02.js stringLiteralTypesWithVariousOperators02.ts
+stderr 'TS2365'
+stderr 'TS2356'
+stderr 'TS2362'
+stderr 'TS2367'
+! exists stringLiteralTypesWithVariousOperators02.d.ts
+! exists stringLiteralTypesWithVariousOperators02.js
+! exists stringLiteralTypesWithVariousOperators02.js.map
+
+-- stringLiteralTypesWithVariousOperators02.ts --
+declare let abc: "ABC";
+declare let xyz: "XYZ";
+declare let abcOrXyz: "ABC" | "XYZ";
+declare let abcOrXyzOrNumber: "ABC" | "XYZ" | number;
+
+let a = abcOrXyzOrNumber + 100;
+let b = 100 + abcOrXyzOrNumber;
+let c = abcOrXyzOrNumber + abcOrXyzOrNumber;
+let d = abcOrXyzOrNumber + true;
+let e = false + abcOrXyzOrNumber;
+let f = abcOrXyzOrNumber++;
+let g = --abcOrXyzOrNumber;
+let h = abcOrXyzOrNumber ^ 10;
+let i = abcOrXyzOrNumber | 10;
+let j = abc < xyz;
+let k = abc === xyz;
+let l = abc != xyz;

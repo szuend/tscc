@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithAccessibilityModifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceWithAccessibilityModifiers.js interfaceWithAccessibilityModifiers.ts
+stderr 'TS1070'
+! exists interfaceWithAccessibilityModifiers.js
+! exists interfaceWithAccessibilityModifiers.d.ts
+! exists interfaceWithAccessibilityModifiers.js.map
+
+-- interfaceWithAccessibilityModifiers.ts --
+// Errors
+interface Foo {
+    public a: any;
+    private b: any;
+    protected c: any;
+}

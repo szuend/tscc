@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames34_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames34_ES6.js computedPropertyNames34_ES6.ts
+stderr 'TS2302'
+! exists computedPropertyNames34_ES6.js
+! exists computedPropertyNames34_ES6.d.ts
+! exists computedPropertyNames34_ES6.js.map
+
+-- computedPropertyNames34_ES6.ts --
+function foo<T>() { return '' }
+class C<T> {
+    static bar() {
+        var obj = {
+            [foo<T>()]() { }
+        };
+        return 0;
+    }
+}

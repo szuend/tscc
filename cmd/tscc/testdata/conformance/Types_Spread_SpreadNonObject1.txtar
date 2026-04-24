@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/types/spread/spreadNonObject1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom spreadNonObject1.ts
+stderr 'TS2698'
+! exists spreadNonObject1.d.ts
+! exists spreadNonObject1.js.map
+
+-- spreadNonObject1.ts --
+// https://github.com/microsoft/TypeScript/issues/45493
+
+type S = `${number}`;
+const b = {
+  c: (["4"] as S[]).map(function (s) {
+    const a = { ...s, y: 6 };
+  }),
+};

@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardOfFormTypeOfIsOrderIndependent.js typeGuardOfFormTypeOfIsOrderIndependent.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists typeGuardOfFormTypeOfIsOrderIndependent.js
+! exists typeGuardOfFormTypeOfIsOrderIndependent.d.ts
+! exists typeGuardOfFormTypeOfIsOrderIndependent.js.map
+
+-- typeGuardOfFormTypeOfIsOrderIndependent.ts --
+var strOrNum: string | number;
+var strOrBool: string | boolean;
+var strOrFunc: string | (() => void);
+var numOrBool: number | boolean
+var str: string;
+var num: number;
+var bool: boolean;
+var func: () => void;
+
+if ("string" === typeof strOrNum) {
+    str = strOrNum;
+}
+else {
+    num = strOrNum;
+}
+if ("function" === typeof strOrFunc) {
+    func = strOrFunc;
+}
+else {
+    str = strOrFunc;
+}
+if ("number" === typeof numOrBool) {
+    num = numOrBool;
+}
+else {
+    bool = numOrBool;
+}
+if ("boolean" === typeof strOrBool) {
+    bool = strOrBool;
+}
+else {
+    str = strOrBool;
+}

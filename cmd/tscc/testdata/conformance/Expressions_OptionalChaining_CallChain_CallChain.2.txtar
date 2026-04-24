@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/expressions/optionalChaining/callChain/callChain.2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js callChain.2.js callChain.2.ts
+! stderr .
+cmp callChain.2.js callChain.2.js.golden
+! exists callChain.2.d.ts
+! exists callChain.2.js.map
+
+-- callChain.2.ts --
+declare const o1: undefined | (() => number);
+o1?.();
+
+declare const o2: undefined | { b: () => number };
+o2?.b();
+
+declare const o3: { b: (() => { c: string }) | undefined };
+o3.b?.().c;
+-- callChain.2.js.golden --
+"use strict";
+var _a;
+o1 === null || o1 === void 0 ? void 0 : o1();
+o2 === null || o2 === void 0 ? void 0 : o2.b();
+(_a = o3.b) === null || _a === void 0 ? void 0 : _a.call(o3).c;

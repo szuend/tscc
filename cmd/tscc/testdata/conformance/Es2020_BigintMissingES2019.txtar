@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es2020/bigintMissingES2019.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib dom,es2019 --target es2019 --out-js bigintMissingES2019.js bigintMissingES2019.ts
+! stderr .
+cmp bigintMissingES2019.js bigintMissingES2019.js.golden
+! exists bigintMissingES2019.d.ts
+! exists bigintMissingES2019.js.map
+
+-- bigintMissingES2019.ts --
+declare function test<A, B extends A>(): void;
+
+test<{t?: string}, object>();
+test<{t?: string}, bigint>();
+
+// no error when bigint is used even when ES2020 lib is not present
+-- bigintMissingES2019.js.golden --
+"use strict";
+test();
+test();
+// no error when bigint is used even when ES2020 lib is not present

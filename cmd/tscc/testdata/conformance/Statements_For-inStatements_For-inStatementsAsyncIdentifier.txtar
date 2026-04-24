@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/statements/for-inStatements/for-inStatementsAsyncIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target esnext --lib esnext,dom --out-js for-inStatementsAsyncIdentifier.js for-inStatementsAsyncIdentifier.ts
+! stderr .
+cmp for-inStatementsAsyncIdentifier.js for-inStatementsAsyncIdentifier.js.golden
+! exists for-inStatementsAsyncIdentifier.d.ts
+! exists for-inStatementsAsyncIdentifier.js.map
+
+-- for-inStatementsAsyncIdentifier.ts --
+var async;
+for (async in { a: 1, b: 2 }) {}
+-- for-inStatementsAsyncIdentifier.js.golden --
+"use strict";
+var async;
+for (async in { a: 1, b: 2 }) { }

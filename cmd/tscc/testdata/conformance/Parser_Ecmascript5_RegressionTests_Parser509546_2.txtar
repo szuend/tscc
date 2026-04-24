@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser509546_2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parser509546_2.js parser509546_2.ts
+! stderr .
+cmp parser509546_2.js parser509546_2.js.golden
+! exists parser509546_2.d.ts
+! exists parser509546_2.js.map
+
+-- parser509546_2.ts --
+"use strict";
+
+export class Logger { 
+     public
+}
+-- parser509546_2.js.golden --
+"use strict";
+export class Logger {
+}

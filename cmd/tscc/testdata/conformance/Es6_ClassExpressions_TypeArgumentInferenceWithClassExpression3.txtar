@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/classExpressions/typeArgumentInferenceWithClassExpression3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgumentInferenceWithClassExpression3.js typeArgumentInferenceWithClassExpression3.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists typeArgumentInferenceWithClassExpression3.js
+! exists typeArgumentInferenceWithClassExpression3.d.ts
+! exists typeArgumentInferenceWithClassExpression3.js.map
+
+-- typeArgumentInferenceWithClassExpression3.ts --
+function foo<T>(x = class { prop: T }): T {
+    return undefined;
+}
+
+foo(class { prop = "hello" }).length;

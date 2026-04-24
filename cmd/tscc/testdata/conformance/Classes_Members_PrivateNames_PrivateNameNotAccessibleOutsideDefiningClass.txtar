@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameNotAccessibleOutsideDefiningClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameNotAccessibleOutsideDefiningClass.js privateNameNotAccessibleOutsideDefiningClass.ts
+stderr 'TS18013'
+! exists privateNameNotAccessibleOutsideDefiningClass.js
+! exists privateNameNotAccessibleOutsideDefiningClass.d.ts
+! exists privateNameNotAccessibleOutsideDefiningClass.js.map
+
+-- privateNameNotAccessibleOutsideDefiningClass.ts --
+class A {
+    #foo: number = 3;
+}
+
+new A().#foo = 4;               // Error

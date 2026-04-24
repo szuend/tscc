@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of36.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of36.js for-of36.ts
+! stderr .
+cmp for-of36.js for-of36.js.golden
+! exists for-of36.d.ts
+! exists for-of36.js.map
+
+-- for-of36.ts --
+var tuple: [string, boolean] = ["", true];
+for (var v of tuple) {
+    v;
+}
+-- for-of36.js.golden --
+"use strict";
+var tuple = ["", true];
+for (var v of tuple) {
+    v;
+}

@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ExportFunctionWithInaccessibleTypesInParameterTypeAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js ExportFunctionWithInaccessibleTypesInParameterTypeAnnotation.js ExportFunctionWithInaccessibleTypesInParameterTypeAnnotation.ts
+stderr 'TS2564'
+! exists ExportFunctionWithInaccessibleTypesInParameterTypeAnnotation.js
+! exists ExportFunctionWithInaccessibleTypesInParameterTypeAnnotation.d.ts
+! exists ExportFunctionWithInaccessibleTypesInParameterTypeAnnotation.js.map
+
+-- ExportFunctionWithInaccessibleTypesInParameterTypeAnnotation.ts --
+namespace A {
+
+    class Point {
+        x: number;
+        y: number;
+    }
+
+    export class Line {
+        constructor(public start: Point, public end: Point) { }
+    }
+
+    export function fromOrigin(p: Point): Line {
+        return new Line({ x: 0, y: 0 }, p);
+    }
+}

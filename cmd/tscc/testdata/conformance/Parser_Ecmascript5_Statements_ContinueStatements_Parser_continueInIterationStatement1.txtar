@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueInIterationStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parser_continueInIterationStatement1.js parser_continueInIterationStatement1.ts
+! stderr .
+cmp parser_continueInIterationStatement1.js parser_continueInIterationStatement1.js.golden
+! exists parser_continueInIterationStatement1.d.ts
+! exists parser_continueInIterationStatement1.js.map
+
+-- parser_continueInIterationStatement1.ts --
+while (true) {
+  continue;
+}
+-- parser_continueInIterationStatement1.js.golden --
+"use strict";
+while (true) {
+    continue;
+}

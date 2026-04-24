@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/jsdoc/constructorTagWithThisTag.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom classthisboth.js
+! stderr .
+! exists classthisboth.d.ts
+! exists classthisboth.js.map
+
+-- classthisboth.js --
+/**
+ * @class
+ * @this {{ e: number, m: number }}
+ * this-tag should win, both 'e' and 'm' should be defined.
+ */
+function C() {
+    this.e = this.m + 1
+}

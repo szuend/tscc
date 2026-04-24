@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment25.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom bug24703.js
+! stderr .
+! exists bug24703.d.ts
+! exists bug24703.js.map
+
+-- bug24703.js --
+var Common = {};
+Common.I = class {
+    constructor() {
+        this.i = 1
+    }
+}
+Common.O = class extends Common.I {
+    constructor() {
+        super()
+        this.o = 2
+    }
+}
+var o = new Common.O()
+var i = new Common.I()
+o.i
+o.o
+i.i
+

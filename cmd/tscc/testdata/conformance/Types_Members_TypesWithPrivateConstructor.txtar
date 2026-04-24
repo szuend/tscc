@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/types/members/typesWithPrivateConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts typesWithPrivateConstructor.d.ts --target es2015 --lib es2015,dom --out-js typesWithPrivateConstructor.js typesWithPrivateConstructor.ts
+stderr 'TS2673'
+stderr 'TS2322'
+! exists typesWithPrivateConstructor.d.ts
+! exists typesWithPrivateConstructor.js
+! exists typesWithPrivateConstructor.js.map
+
+-- typesWithPrivateConstructor.ts --
+class C {
+    private constructor() { }
+}
+
+var c = new C(); // error C is private
+var r: () => void = c.constructor;
+
+class C2 {
+    private constructor(x: number);
+    private constructor(x: any) { }
+}
+
+var c2 = new C2(); // error C2 is private
+var r2: (x: number) => void = c2.constructor;

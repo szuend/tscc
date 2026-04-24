@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedInstanceOfES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedInstanceOfES6.js templateStringWithEmbeddedInstanceOfES6.ts
+stderr 'TS2358'
+! exists templateStringWithEmbeddedInstanceOfES6.js
+! exists templateStringWithEmbeddedInstanceOfES6.d.ts
+! exists templateStringWithEmbeddedInstanceOfES6.js.map
+
+-- templateStringWithEmbeddedInstanceOfES6.ts --
+var x = `abc${ "hello" instanceof String }def`;

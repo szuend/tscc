@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/functionPropertyAssignments/FunctionPropertyAssignments1_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js FunctionPropertyAssignments1_es6.js FunctionPropertyAssignments1_es6.ts
+! stderr .
+cmp FunctionPropertyAssignments1_es6.js FunctionPropertyAssignments1_es6.js.golden
+! exists FunctionPropertyAssignments1_es6.d.ts
+! exists FunctionPropertyAssignments1_es6.js.map
+
+-- FunctionPropertyAssignments1_es6.ts --
+var v = { *foo() { } }
+-- FunctionPropertyAssignments1_es6.js.golden --
+"use strict";
+var v = { *foo() { } };

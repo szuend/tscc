@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/externalModules/importNonExternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo_0.js foo_0.ts
+! stderr .
+cmp foo_0.js foo_0.js.golden
+! exists foo_0.d.ts
+! exists foo_0.js.map
+
+-- foo_0.ts --
+namespace foo {
+	export var answer = 42;
+}
+-- foo_1.ts --
+import foo = require("./foo_0");
+// Import should fail.  foo_0 not an external module
+if(foo.answer === 42){
+
+}
+-- foo_0.js.golden --
+"use strict";
+var foo;
+(function (foo) {
+    foo.answer = 42;
+})(foo || (foo = {}));

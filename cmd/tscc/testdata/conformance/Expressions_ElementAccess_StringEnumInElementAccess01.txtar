@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/expressions/elementAccess/stringEnumInElementAccess01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js stringEnumInElementAccess01.js stringEnumInElementAccess01.ts
+! stderr .
+cmp stringEnumInElementAccess01.js stringEnumInElementAccess01.js.golden
+! exists stringEnumInElementAccess01.d.ts
+! exists stringEnumInElementAccess01.js.map
+
+-- stringEnumInElementAccess01.ts --
+enum E {
+    A = "a",
+    B = "b",
+    C = "c",
+}
+
+interface Item {
+    a: string;
+    b: number;
+    c: boolean;
+}
+
+declare const item: Item;
+declare const e: E;
+const snb: string | number | boolean = item[e];
+-- stringEnumInElementAccess01.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E["A"] = "a";
+    E["B"] = "b";
+    E["C"] = "c";
+})(E || (E = {}));
+const snb = item[e];

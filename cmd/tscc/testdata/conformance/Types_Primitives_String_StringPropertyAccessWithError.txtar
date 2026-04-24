@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/primitives/string/stringPropertyAccessWithError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringPropertyAccessWithError.js stringPropertyAccessWithError.ts
+stderr 'TS2345'
+! exists stringPropertyAccessWithError.js
+! exists stringPropertyAccessWithError.d.ts
+! exists stringPropertyAccessWithError.js.map
+
+-- stringPropertyAccessWithError.ts --
+var x = '';
+var d = x['charAt']('invalid'); // error

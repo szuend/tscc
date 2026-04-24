@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowElementAccess2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js controlFlowElementAccess2.js controlFlowElementAccess2.ts
+! stderr .
+cmp controlFlowElementAccess2.js controlFlowElementAccess2.js.golden
+! exists controlFlowElementAccess2.d.ts
+! exists controlFlowElementAccess2.js.map
+
+-- controlFlowElementAccess2.ts --
+declare const config: {
+    [key: string]: boolean | { prop: string };
+};
+
+if (typeof config['works'] !== 'boolean') {
+    config.works.prop = 'test'; // ok
+    config['works'].prop = 'test'; // error, config['works']: boolean | { 'prop': string }
+}
+if (typeof config.works !== 'boolean') {
+    config['works'].prop = 'test'; // error, config['works']: boolean | { 'prop': string }
+    config.works.prop = 'test'; // ok
+}
+-- controlFlowElementAccess2.js.golden --
+"use strict";
+if (typeof config['works'] !== 'boolean') {
+    config.works.prop = 'test'; // ok
+    config['works'].prop = 'test'; // error, config['works']: boolean | { 'prop': string }
+}
+if (typeof config.works !== 'boolean') {
+    config['works'].prop = 'test'; // error, config['works']: boolean | { 'prop': string }
+    config.works.prop = 'test'; // ok
+}

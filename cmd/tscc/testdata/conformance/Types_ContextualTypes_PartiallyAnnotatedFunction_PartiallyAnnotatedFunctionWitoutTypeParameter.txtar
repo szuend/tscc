@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/types/contextualTypes/partiallyAnnotatedFunction/partiallyAnnotatedFunctionWitoutTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js partiallyAnnotatedFunctionWitoutTypeParameter.js partiallyAnnotatedFunctionWitoutTypeParameter.ts
+! stderr .
+cmp partiallyAnnotatedFunctionWitoutTypeParameter.js partiallyAnnotatedFunctionWitoutTypeParameter.js.golden
+! exists partiallyAnnotatedFunctionWitoutTypeParameter.d.ts
+! exists partiallyAnnotatedFunctionWitoutTypeParameter.js.map
+
+-- partiallyAnnotatedFunctionWitoutTypeParameter.ts --
+// simple case
+declare function simple(f: (a: number, b: number) => void): {}
+
+simple((a: number, b) => {})
+simple((a, b: number) => {})
+-- partiallyAnnotatedFunctionWitoutTypeParameter.js.golden --
+"use strict";
+simple((a, b) => { });
+simple((a, b) => { });

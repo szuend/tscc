@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/externalModules/topLevelAwait.3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es2022 --no-strict --target esnext --lib esnext,dom --out-js index.d.js index.d.ts
+! stderr .
+! exists index.d.d.ts
+! exists index.d.js
+! exists index.d.js.map
+
+-- index.d.ts --
+// await keyword allowed as identifier in a declaration file
+export {};
+declare const await: any;
+declare class C extends await {}

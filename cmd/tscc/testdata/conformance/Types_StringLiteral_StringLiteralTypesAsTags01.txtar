@@ -1,0 +1,88 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesAsTags01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesAsTags01.d.ts --no-strict --target es2015 --lib es2015,dom --out-js stringLiteralTypesAsTags01.js stringLiteralTypesAsTags01.ts
+! stderr .
+cmp stringLiteralTypesAsTags01.d.ts stringLiteralTypesAsTags01.d.ts.golden
+cmp stringLiteralTypesAsTags01.js stringLiteralTypesAsTags01.js.golden
+! exists stringLiteralTypesAsTags01.js.map
+
+-- stringLiteralTypesAsTags01.ts --
+type Kind = "A" | "B"
+
+interface Entity {
+    kind: Kind;
+}
+
+interface A extends Entity {
+    kind: "A";
+    a: number;
+}
+
+interface B extends Entity {
+    kind: "B";
+    b: string;
+}
+
+function hasKind(entity: Entity, kind: "A"): entity is A;
+function hasKind(entity: Entity, kind: "B"): entity is B;
+function hasKind(entity: Entity, kind: Kind): entity is Entity;
+function hasKind(entity: Entity, kind: Kind): boolean {
+    return entity.kind === kind;
+}
+
+let x: A = {
+    kind: "A",
+    a: 100,
+}
+
+if (hasKind(x, "A")) {
+    let a = x;
+}
+else {
+    let b = x;
+}
+
+if (!hasKind(x, "B")) {
+    let c = x;
+}
+else {
+    let d = x;
+}
+-- stringLiteralTypesAsTags01.d.ts.golden --
+type Kind = "A" | "B";
+interface Entity {
+    kind: Kind;
+}
+interface A extends Entity {
+    kind: "A";
+    a: number;
+}
+interface B extends Entity {
+    kind: "B";
+    b: string;
+}
+declare function hasKind(entity: Entity, kind: "A"): entity is A;
+declare function hasKind(entity: Entity, kind: "B"): entity is B;
+declare function hasKind(entity: Entity, kind: Kind): entity is Entity;
+declare let x: A;
+-- stringLiteralTypesAsTags01.js.golden --
+"use strict";
+function hasKind(entity, kind) {
+    return entity.kind === kind;
+}
+let x = {
+    kind: "A",
+    a: 100,
+};
+if (hasKind(x, "A")) {
+    let a = x;
+}
+else {
+    let b = x;
+}
+if (!hasKind(x, "B")) {
+    let c = x;
+}
+else {
+    let d = x;
+}

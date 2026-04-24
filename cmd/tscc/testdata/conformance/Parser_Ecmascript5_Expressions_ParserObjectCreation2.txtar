@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserObjectCreation2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserObjectCreation2.js parserObjectCreation2.ts
+stderr 'TS2304'
+! exists parserObjectCreation2.js
+! exists parserObjectCreation2.d.ts
+! exists parserObjectCreation2.js.map
+
+-- parserObjectCreation2.ts --
+new new Foo()()

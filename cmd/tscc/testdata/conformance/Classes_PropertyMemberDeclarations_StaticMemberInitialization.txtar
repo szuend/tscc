@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/staticMemberInitialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js staticMemberInitialization.js staticMemberInitialization.ts
+! stderr .
+cmp staticMemberInitialization.js staticMemberInitialization.js.golden
+! exists staticMemberInitialization.d.ts
+! exists staticMemberInitialization.js.map
+
+-- staticMemberInitialization.ts --
+class C {
+    static x = 1;
+}
+
+var c = new C();
+var r = C.x;
+-- staticMemberInitialization.js.golden --
+"use strict";
+class C {
+}
+C.x = 1;
+var c = new C();
+var r = C.x;

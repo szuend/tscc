@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameStaticFieldAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameStaticFieldAccess.js privateNameStaticFieldAccess.ts
+stderr 'TS2339'
+! exists privateNameStaticFieldAccess.js
+! exists privateNameStaticFieldAccess.d.ts
+! exists privateNameStaticFieldAccess.js.map
+
+-- privateNameStaticFieldAccess.ts --
+class A {
+    static #myField = "hello world";
+    constructor() {
+        console.log(A.#myField); //Ok
+        console.log(this.#myField); //Error
+    }
+}

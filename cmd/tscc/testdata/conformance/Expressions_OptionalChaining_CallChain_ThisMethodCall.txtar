@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/expressions/optionalChaining/callChain/thisMethodCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es6 --lib es6,dom --out-js thisMethodCall.js thisMethodCall.ts
+! stderr .
+cmp thisMethodCall.js thisMethodCall.js.golden
+! exists thisMethodCall.d.ts
+! exists thisMethodCall.js.map
+
+-- thisMethodCall.ts --
+class C {
+    method?() {}
+    other() {
+        this.method?.();
+    }
+}
+-- thisMethodCall.js.golden --
+"use strict";
+class C {
+    method() { }
+    other() {
+        var _a;
+        (_a = this.method) === null || _a === void 0 ? void 0 : _a.call(this);
+    }
+}

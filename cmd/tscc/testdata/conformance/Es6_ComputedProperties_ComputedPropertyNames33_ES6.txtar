@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames33_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames33_ES6.js computedPropertyNames33_ES6.ts
+! stderr .
+cmp computedPropertyNames33_ES6.js computedPropertyNames33_ES6.js.golden
+! exists computedPropertyNames33_ES6.d.ts
+! exists computedPropertyNames33_ES6.js.map
+
+-- computedPropertyNames33_ES6.ts --
+function foo<T>() { return '' }
+class C<T> {
+    bar() {
+        var obj = {
+            [foo<T>()]() { }
+        };
+        return 0;
+    }
+}
+-- computedPropertyNames33_ES6.js.golden --
+"use strict";
+function foo() { return ''; }
+class C {
+    bar() {
+        var obj = {
+            [foo()]() { }
+        };
+        return 0;
+    }
+}

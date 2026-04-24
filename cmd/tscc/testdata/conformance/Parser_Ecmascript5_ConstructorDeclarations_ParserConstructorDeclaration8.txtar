@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserConstructorDeclaration8.js parserConstructorDeclaration8.ts
+stderr 'TS1005'
+! exists parserConstructorDeclaration8.js
+! exists parserConstructorDeclaration8.d.ts
+! exists parserConstructorDeclaration8.js.map
+
+-- parserConstructorDeclaration8.ts --
+class C {
+  // Not a constructor
+  public constructor;
+}

@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/expressions/contextualTyping/superCallParameterContextualTyping1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superCallParameterContextualTyping1.js superCallParameterContextualTyping1.ts
+! stderr .
+cmp superCallParameterContextualTyping1.js superCallParameterContextualTyping1.js.golden
+! exists superCallParameterContextualTyping1.d.ts
+! exists superCallParameterContextualTyping1.js.map
+
+-- superCallParameterContextualTyping1.ts --
+class A<T1, T2> {
+    constructor(private map: (value: T1) => T2) {
+
+    }
+}
+
+class B extends A<number, string> {
+    // Ensure 'value' is of type 'number (and not '{}') by using its 'toExponential()' method.
+    constructor() { super(value => String(value.toExponential())); }
+}
+-- superCallParameterContextualTyping1.js.golden --
+"use strict";
+class A {
+    constructor(map) {
+        this.map = map;
+    }
+}
+class B extends A {
+    // Ensure 'value' is of type 'number (and not '{}') by using its 'toExponential()' method.
+    constructor() { super(value => String(value.toExponential())); }
+}

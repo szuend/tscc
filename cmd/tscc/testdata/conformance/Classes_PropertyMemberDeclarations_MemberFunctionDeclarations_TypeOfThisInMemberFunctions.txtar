@@ -1,0 +1,40 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/typeOfThisInMemberFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeOfThisInMemberFunctions.js typeOfThisInMemberFunctions.ts
+stderr 'TS2564'
+! exists typeOfThisInMemberFunctions.js
+! exists typeOfThisInMemberFunctions.d.ts
+! exists typeOfThisInMemberFunctions.js.map
+
+-- typeOfThisInMemberFunctions.ts --
+class C {
+    foo() {
+        var r = this;
+    }
+
+    static bar() {
+        var r2 = this;
+    }
+}
+
+class D<T> {
+    x: T;
+    foo() {
+        var r = this;
+    }
+
+    static bar() {
+        var r2 = this;
+    }
+}
+
+class E<T extends Date> {
+    x: T;
+    foo() {
+        var r = this;
+    }
+
+    static bar() {
+        var r2 = this;
+    }
+}

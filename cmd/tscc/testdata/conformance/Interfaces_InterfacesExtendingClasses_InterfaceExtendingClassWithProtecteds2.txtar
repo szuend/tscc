@@ -1,0 +1,38 @@
+# Ported from tests/cases/conformance/interfaces/interfacesExtendingClasses/interfaceExtendingClassWithProtecteds2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceExtendingClassWithProtecteds2.js interfaceExtendingClassWithProtecteds2.ts
+stderr 'TS2320'
+stderr 'TS2430'
+stderr 'TS2445'
+! exists interfaceExtendingClassWithProtecteds2.js
+! exists interfaceExtendingClassWithProtecteds2.d.ts
+! exists interfaceExtendingClassWithProtecteds2.js.map
+
+-- interfaceExtendingClassWithProtecteds2.ts --
+class Foo {
+    protected x!: string;
+}
+
+class Bar {
+    protected x!: string;
+}
+
+interface I3 extends Foo, Bar { // error
+}
+
+interface I4 extends Foo, Bar { // error
+    x: string;
+}
+
+class Baz {
+    protected y!: string;
+}
+
+interface I5 extends Foo, Baz {
+    z: string;
+}
+
+declare var i: I5;
+var r: string = i.z;
+var r2 = i.x; // error
+var r3 = i.y; // error

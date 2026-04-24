@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/superCalls/derivedClassSuperCallsWithThisArg.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js derivedClassSuperCallsWithThisArg.js derivedClassSuperCallsWithThisArg.ts
+stderr 'TS17009'
+! exists derivedClassSuperCallsWithThisArg.js
+! exists derivedClassSuperCallsWithThisArg.d.ts
+! exists derivedClassSuperCallsWithThisArg.js.map
+
+-- derivedClassSuperCallsWithThisArg.ts --
+class Base {
+    x: string;
+    constructor(a) { }
+}
+
+class Derived extends Base {
+    constructor() {
+        super(this); // ok
+    }
+}
+
+class Derived2 extends Base {
+    constructor(public a: string) {
+        super(this); // error
+    }
+}
+
+class Derived3 extends Base {
+    constructor(public a: string) {
+        super(() => this); // error
+    }
+}
+
+class Derived4 extends Base {
+    constructor(public a: string) {
+        super(function () { return this; }); // ok
+    }
+}

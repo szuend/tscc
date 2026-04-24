@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/types/members/duplicateStringIndexers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateStringIndexers.js duplicateStringIndexers.ts
+stderr 'TS2374'
+! exists duplicateStringIndexers.js
+! exists duplicateStringIndexers.d.ts
+! exists duplicateStringIndexers.js.map
+
+-- duplicateStringIndexers.ts --
+// it is an error to have duplicate index signatures of the same kind in a type
+
+namespace test {
+    interface Number {
+        [x: string]: string;
+        [x: string]: string;
+    }
+
+    interface String {
+        [x: string]: string;
+        [x: string]: string;
+    }
+
+    interface Array<T> {
+        [x: string]: T;
+        [x: string]: T;
+    }
+
+    class C {
+        [x: string]: string;
+        [x: string]: string;
+    }
+
+    interface I {
+        [x: string]: string;
+        [x: string]: string;
+    }
+
+    var a: {
+        [x: string]: string;
+        [x: string]: string;
+    }
+}

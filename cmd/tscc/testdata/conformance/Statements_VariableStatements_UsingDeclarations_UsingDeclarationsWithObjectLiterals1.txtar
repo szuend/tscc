@@ -1,0 +1,49 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/usingDeclarationsWithObjectLiterals1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --strict --target esnext usingDeclarationsWithObjectLiterals1.ts
+stderr 'TS2353'
+! exists usingDeclarationsWithObjectLiterals1.d.ts
+! exists usingDeclarationsWithObjectLiterals1.js.map
+
+-- usingDeclarationsWithObjectLiterals1.ts --
+interface MyDisposable {
+  value: number;
+  [Symbol.dispose](): void;
+}
+
+{
+  using _ = { [Symbol.dispose]() {} };
+}
+
+{
+  using _ = { [Symbol.dispose]() {}, value: 1 };
+}
+
+{
+  using _: MyDisposable = { [Symbol.dispose]() {}, value: 1, extra: "foo" };
+}
+
+interface MyAsyncDisposable {
+  value: number;
+  [Symbol.asyncDispose](): Promise<void>;
+}
+
+async function f() {
+  {
+    await using _ = { async [Symbol.asyncDispose]() {} };
+  }
+
+  {
+    await using _ = { async [Symbol.asyncDispose]() {}, value: 1 };
+  }
+
+  {
+    await using _: MyAsyncDisposable = {
+      async [Symbol.asyncDispose]() {},
+      value: 1,
+      extra: "foo",
+    };
+  }
+}
+
+export {};

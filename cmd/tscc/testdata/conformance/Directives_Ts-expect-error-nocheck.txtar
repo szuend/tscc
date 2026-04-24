@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/directives/ts-expect-error-nocheck.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js ts-expect-error-nocheck.js ts-expect-error-nocheck.ts
+! stderr .
+cmp ts-expect-error-nocheck.js ts-expect-error-nocheck.js.golden
+! exists ts-expect-error-nocheck.d.ts
+! exists ts-expect-error-nocheck.js.map
+
+-- ts-expect-error-nocheck.ts --
+// @ts-nocheck
+
+// there should not be a "Unused @ts-expect-error" error due to the // @ts-nocheck
+
+// @ts-expect-error
+const a = 1;
+-- ts-expect-error-nocheck.js.golden --
+"use strict";
+// @ts-nocheck
+// there should not be a "Unused @ts-expect-error" error due to the // @ts-nocheck
+// @ts-expect-error
+const a = 1;

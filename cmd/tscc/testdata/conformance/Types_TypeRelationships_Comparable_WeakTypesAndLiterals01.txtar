@@ -1,0 +1,70 @@
+# Ported from tests/cases/conformance/types/typeRelationships/comparable/weakTypesAndLiterals01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts weakTypesAndLiterals01.d.ts --strict --target es2015 --lib es2015,dom weakTypesAndLiterals01.ts
+! stderr .
+cmp weakTypesAndLiterals01.d.ts weakTypesAndLiterals01.d.ts.golden
+! exists weakTypesAndLiterals01.js.map
+
+-- weakTypesAndLiterals01.ts --
+type WeakTypes =
+    | { optional?: true; }
+    | { toLowerCase?(): string }
+    | { toUpperCase?(): string, otherOptionalProp?: number };
+
+type LiteralsOrWeakTypes =
+    | "A"
+    | "B"
+    | WeakTypes;
+
+declare let aOrB: "A" | "B";
+
+const f = (arg: LiteralsOrWeakTypes) => {
+    if (arg === "A") {
+        return arg;
+    }
+    else {
+        return arg;
+    }
+}
+
+const g = (arg: WeakTypes) => {
+    if (arg === "A") {
+        return arg;
+    }
+    else {
+        return arg;
+    }
+}
+
+const h = (arg: LiteralsOrWeakTypes) => {
+    if (arg === aOrB) {
+        return arg;
+    }
+    else {
+        return arg;
+    }
+}
+
+const i = (arg: WeakTypes) => {
+    if (arg === aOrB) {
+        return arg;
+    }
+    else {
+        return arg;
+    }
+}
+-- weakTypesAndLiterals01.d.ts.golden --
+type WeakTypes = {
+    optional?: true;
+} | {
+    toLowerCase?(): string;
+} | {
+    toUpperCase?(): string;
+    otherOptionalProp?: number;
+};
+type LiteralsOrWeakTypes = "A" | "B" | WeakTypes;
+declare let aOrB: "A" | "B";
+declare const f: (arg: LiteralsOrWeakTypes) => "A" | "B" | WeakTypes;
+declare const g: (arg: WeakTypes) => WeakTypes;
+declare const h: (arg: LiteralsOrWeakTypes) => LiteralsOrWeakTypes;
+declare const i: (arg: WeakTypes) => WeakTypes;

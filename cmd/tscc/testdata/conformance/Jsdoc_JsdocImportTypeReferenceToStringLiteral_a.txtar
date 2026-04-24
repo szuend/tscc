@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocImportTypeReferenceToStringLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+stderr 'TS2694'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** @type {import('./b').FOO} */
+let x;
+-- b.js --
+export const FOO = "foo";

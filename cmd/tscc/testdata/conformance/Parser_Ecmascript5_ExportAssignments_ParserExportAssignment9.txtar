@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserExportAssignment9.js parserExportAssignment9.ts
+stderr 'TS1319'
+! exists parserExportAssignment9.js
+! exists parserExportAssignment9.d.ts
+! exists parserExportAssignment9.js.map
+
+-- parserExportAssignment9.ts --
+namespace Foo {
+  export default foo;
+}
+
+namespace Bar {
+  export default bar;
+}

@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/types/mapped/mappedTypeInferenceErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js mappedTypeInferenceErrors.js mappedTypeInferenceErrors.ts
+stderr 'TS2322'
+! exists mappedTypeInferenceErrors.js
+! exists mappedTypeInferenceErrors.d.ts
+! exists mappedTypeInferenceErrors.js.map
+
+-- mappedTypeInferenceErrors.ts --
+// Repro from #19316
+
+type ComputedOf<T> = {
+    [K in keyof T]: () => T[K];
+}
+
+declare function foo<P, C>(options: { props: P, computed: ComputedOf<C> } & ThisType<P & C>): void;
+
+foo({
+    props: { x: 10, y: 20 },
+    computed: {
+        bar(): number {
+            let z = this.bar;
+            return 42;
+        },
+        baz: 42
+    }
+});

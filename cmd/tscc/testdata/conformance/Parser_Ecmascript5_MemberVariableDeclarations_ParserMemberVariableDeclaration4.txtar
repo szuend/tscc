@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/MemberVariableDeclarations/parserMemberVariableDeclaration4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserMemberVariableDeclaration4.js parserMemberVariableDeclaration4.ts
+stderr 'TS1031'
+! exists parserMemberVariableDeclaration4.js
+! exists parserMemberVariableDeclaration4.d.ts
+! exists parserMemberVariableDeclaration4.js.map
+
+-- parserMemberVariableDeclaration4.ts --
+class C {
+  export Foo;
+}

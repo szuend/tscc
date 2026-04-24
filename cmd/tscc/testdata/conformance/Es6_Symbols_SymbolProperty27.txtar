@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty27.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty27.js symbolProperty27.ts
+! stderr .
+cmp symbolProperty27.js symbolProperty27.js.golden
+! exists symbolProperty27.d.ts
+! exists symbolProperty27.js.map
+
+-- symbolProperty27.ts --
+class C1 {
+    [Symbol.toStringTag]() {
+        return {};
+    }
+}
+
+class C2 extends C1 {
+    [Symbol.toStringTag]() {
+        return "";
+    }
+}
+-- symbolProperty27.js.golden --
+"use strict";
+class C1 {
+    [Symbol.toStringTag]() {
+        return {};
+    }
+}
+class C2 extends C1 {
+    [Symbol.toStringTag]() {
+        return "";
+    }
+}

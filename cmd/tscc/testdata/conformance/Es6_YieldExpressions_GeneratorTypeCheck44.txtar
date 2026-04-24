@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck44.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js generatorTypeCheck44.js generatorTypeCheck44.ts
+! stderr .
+cmp generatorTypeCheck44.js generatorTypeCheck44.js.golden
+! exists generatorTypeCheck44.d.ts
+! exists generatorTypeCheck44.js.map
+
+-- generatorTypeCheck44.ts --
+function* g() {
+    let x = {
+        get [yield 0]() {
+            return 0;
+        }
+    }
+}
+-- generatorTypeCheck44.js.golden --
+"use strict";
+function* g() {
+    let x = {
+        get [yield 0]() {
+            return 0;
+        }
+    };
+}

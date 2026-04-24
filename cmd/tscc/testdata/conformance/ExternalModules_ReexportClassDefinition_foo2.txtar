@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/externalModules/reexportClassDefinition.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo2.js foo2.ts
+! stderr .
+cmp foo2.js foo2.js.golden
+! exists foo2.d.ts
+! exists foo2.js.map
+
+-- foo1.ts --
+class x{}
+export = x; 
+-- foo2.ts --
+import foo1 = require('./foo1');
+
+export = {
+    x: foo1
+}
+-- foo3.ts --
+import foo2 = require('./foo2')
+class x extends foo2.x {}
+
+-- foo2.js.golden --
+"use strict";
+const foo1 = require("./foo1");
+module.exports = {
+    x: foo1
+};

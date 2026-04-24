@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ObjectTypes/parserObjectType4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserObjectType4.js parserObjectType4.ts
+! stderr .
+cmp parserObjectType4.js parserObjectType4.js.golden
+! exists parserObjectType4.d.ts
+! exists parserObjectType4.js.map
+
+-- parserObjectType4.ts --
+var v: {
+  x
+  y
+};
+-- parserObjectType4.js.golden --
+"use strict";
+var v;

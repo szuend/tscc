@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTypeReferenceToImportOfClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom MW.js
+! stderr .
+! exists MW.d.ts
+! exists MW.js.map
+
+-- MC.js --
+const MW = require("./MW");
+
+/** @typedef {number} Cictema */
+
+module.exports = class MC {
+  watch() {
+    return new MW(this);
+  }
+};
+-- MW.js --
+/** @typedef {import("./MC")} MC */
+
+class MW {
+  /**
+   * @param {MC} compiler the compiler
+   */
+  constructor(compiler) {
+    this.compiler = compiler;
+  }
+}
+
+module.exports = MW;

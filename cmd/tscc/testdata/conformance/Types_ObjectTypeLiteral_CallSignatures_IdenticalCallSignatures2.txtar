@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/objectTypeLiteral/callSignatures/identicalCallSignatures2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js identicalCallSignatures2.js identicalCallSignatures2.ts
+! stderr .
+cmp identicalCallSignatures2.js identicalCallSignatures2.js.golden
+! exists identicalCallSignatures2.d.ts
+! exists identicalCallSignatures2.js.map
+
+-- identicalCallSignatures2.ts --
+// Normally it is an error to have multiple overloads with identical signatures in a single type declaration.
+// Here the multiple overloads come from multiple bases.
+
+interface Base<T> {
+    (x: number): string;
+}
+
+interface I extends Base<string>, Base<number> { }
+
+interface I2<T> extends Base<string>, Base<number> { }
+-- identicalCallSignatures2.js.golden --
+"use strict";
+// Normally it is an error to have multiple overloads with identical signatures in a single type declaration.
+// Here the multiple overloads come from multiple bases.

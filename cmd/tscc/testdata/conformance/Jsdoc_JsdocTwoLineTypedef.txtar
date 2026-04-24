@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTwoLineTypedef.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js jsdocTwoLineTypedef.js jsdocTwoLineTypedef.ts
+! stderr .
+cmp jsdocTwoLineTypedef.js jsdocTwoLineTypedef.js.golden
+! exists jsdocTwoLineTypedef.d.ts
+! exists jsdocTwoLineTypedef.js.map
+
+-- jsdocTwoLineTypedef.ts --
+// Regression from #18301
+/**
+ * @typedef LoadCallback
+ * @type {function}
+ */
+type LoadCallback = void;
+-- jsdocTwoLineTypedef.js.golden --
+"use strict";

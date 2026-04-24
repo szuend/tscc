@@ -1,0 +1,50 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/plusOperator/plusOperatorWithNumberType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js plusOperatorWithNumberType.js plusOperatorWithNumberType.ts
+stderr 'TS2695'
+! exists plusOperatorWithNumberType.js
+! exists plusOperatorWithNumberType.d.ts
+! exists plusOperatorWithNumberType.js.map
+
+-- plusOperatorWithNumberType.ts --
+// + operator on number type
+declare var NUMBER: number;
+var NUMBER1: number[] = [1, 2];
+
+function foo(): number { return 1; }
+
+class A {
+    public a!: number;
+    static foo() { return 1; }
+}
+namespace M {
+    export var n: number = 0;
+}
+
+var objA = new A();
+
+// number type var
+var ResultIsNumber1 = +NUMBER;
+var ResultIsNumber2 = +NUMBER1;
+
+// number type literal
+var ResultIsNumber3 = +1;
+var ResultIsNumber4 = +{ x: 1, y: 2};
+var ResultIsNumber5 = +{ x: 1, y: (n: number) => { return n; } };
+
+// number type expressions
+var ResultIsNumber6 = +objA.a;
+var ResultIsNumber7 = +M.n;
+var ResultIsNumber8 = +NUMBER1[0];
+var ResultIsNumber9 = +foo();
+var ResultIsNumber10 = +A.foo();
+var ResultIsNumber11 = +(NUMBER + NUMBER);
+
+// miss assignment operators
++1;
++NUMBER;
++NUMBER1;
++foo();
++objA.a;
++M.n;
++objA.a, M.n;

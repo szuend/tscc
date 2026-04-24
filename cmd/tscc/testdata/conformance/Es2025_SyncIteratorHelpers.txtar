@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es2025/syncIteratorHelpers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2024,es2025.iterator --strict --target esnext syncIteratorHelpers.ts
+! stderr .
+! exists syncIteratorHelpers.d.ts
+! exists syncIteratorHelpers.js.map
+
+-- syncIteratorHelpers.ts --
+[1, 2, 3, 4].values()
+    .filter((x) => x % 2 === 0)
+    .map((x) => x * 10)
+    .toArray();

@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithStaticPropertyAssignmentInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js emitClassDeclarationWithStaticPropertyAssignmentInES6.js emitClassDeclarationWithStaticPropertyAssignmentInES6.ts
+! stderr .
+cmp emitClassDeclarationWithStaticPropertyAssignmentInES6.js emitClassDeclarationWithStaticPropertyAssignmentInES6.js.golden
+! exists emitClassDeclarationWithStaticPropertyAssignmentInES6.d.ts
+! exists emitClassDeclarationWithStaticPropertyAssignmentInES6.js.map
+
+-- emitClassDeclarationWithStaticPropertyAssignmentInES6.ts --
+class C {
+    static z: string = "Foo";
+}
+
+class D {
+    x = 20000;
+    static b = true;
+}
+-- emitClassDeclarationWithStaticPropertyAssignmentInES6.js.golden --
+"use strict";
+class C {
+}
+C.z = "Foo";
+class D {
+    constructor() {
+        this.x = 20000;
+    }
+}
+D.b = true;

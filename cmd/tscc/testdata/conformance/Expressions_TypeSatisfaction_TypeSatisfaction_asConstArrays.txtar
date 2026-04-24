@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/expressions/typeSatisfaction/typeSatisfaction_asConstArrays.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom typeSatisfaction_asConstArrays.ts
+! stderr .
+! exists typeSatisfaction_asConstArrays.d.ts
+! exists typeSatisfaction_asConstArrays.js.map
+
+-- typeSatisfaction_asConstArrays.ts --
+// with readonly array
+const arr1 = [1, 2, 3] as const satisfies readonly unknown[]
+
+// with mutable array
+const arr2 = [1, 2, 3] as const satisfies unknown[]

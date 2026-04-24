@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsCommonjsRelativePath.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --out-dts thing.d.ts --module commonjs --target es2015 --lib es2015,dom thing.js
+! stderr .
+cmp thing.d.ts thing.d.ts.golden
+! exists out_thing.js
+! exists thing.js.map
+
+-- reexport.js --
+'use strict';
+const Thing = require('./thing').Thing
+module.exports = { Thing }
+-- thing.js --
+'use strict';
+class Thing {}
+module.exports = { Thing }
+-- thing.d.ts.golden --
+declare class Thing {
+}
+declare const _default: {
+    Thing: typeof Thing;
+};
+export = _default;

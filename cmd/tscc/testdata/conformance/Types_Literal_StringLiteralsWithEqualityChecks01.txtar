@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsWithEqualityChecks01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsWithEqualityChecks01.js stringLiteralsWithEqualityChecks01.ts
+stderr 'TS2367'
+! exists stringLiteralsWithEqualityChecks01.js
+! exists stringLiteralsWithEqualityChecks01.d.ts
+! exists stringLiteralsWithEqualityChecks01.js.map
+
+-- stringLiteralsWithEqualityChecks01.ts --
+declare let x: "foo";
+declare let y: "foo" | "bar";
+
+let b: boolean;
+b = x === y;
+b = "foo" === y
+b = y === "foo";
+b = "foo" === "bar";
+b = "bar" === x;
+b = x === "bar";
+b = y === "bar";
+b = "bar" === y;
+
+b = x !== y;
+b = "foo" !== y
+b = y !== "foo";
+b = "foo" !== "bar";
+b = "bar" !== x;
+b = x !== "bar";
+b = y !== "bar";
+b = "bar" !== y;
+

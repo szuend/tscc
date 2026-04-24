@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment37.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom mod.js
+! stderr .
+! exists mod.d.ts
+! exists mod.js.map
+
+-- mod.js --
+const util = exports = module.exports = {}
+if (!!false) {
+    util.existy = function () { }
+}
+-- use.js --
+const util = require('./mod')
+function n() {
+    util.existy // no error
+}
+util.existy // no error

@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/es2019/globalThisUnknown.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js globalThisUnknown.js globalThisUnknown.ts
+stderr 'TS2339'
+! exists globalThisUnknown.js
+! exists globalThisUnknown.d.ts
+! exists globalThisUnknown.js.map
+
+-- globalThisUnknown.ts --
+declare let win: Window & typeof globalThis;
+
+// this access should be an error
+win.hi
+// these two should be fine, with type any
+this.hi
+globalThis.hi
+
+// element access is always ok without noImplicitAny
+win['hi']
+this['hi']
+globalThis['hi']
+

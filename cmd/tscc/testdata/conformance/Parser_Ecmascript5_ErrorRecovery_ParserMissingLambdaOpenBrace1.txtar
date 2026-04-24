@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserMissingLambdaOpenBrace1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserMissingLambdaOpenBrace1.js parserMissingLambdaOpenBrace1.ts
+stderr 'TS1005'
+! exists parserMissingLambdaOpenBrace1.js
+! exists parserMissingLambdaOpenBrace1.d.ts
+! exists parserMissingLambdaOpenBrace1.js.map
+
+-- parserMissingLambdaOpenBrace1.ts --
+class C {
+    where(filter: Iterator<T, boolean>): Query<T> {
+        return fromDoWhile(test =>
+            var index = 0;
+            return this.doWhile((item, i) => filter(item, i) ? test(item, index++) : true);
+        });
+    }
+}

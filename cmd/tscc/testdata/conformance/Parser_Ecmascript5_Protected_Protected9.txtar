@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Protected/Protected9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js Protected9.js Protected9.ts
+! stderr .
+cmp Protected9.js Protected9.js.golden
+! exists Protected9.d.ts
+! exists Protected9.js.map
+
+-- Protected9.ts --
+class C {
+   constructor(protected p) { }
+}
+-- Protected9.js.golden --
+"use strict";
+class C {
+    constructor(p) {
+        this.p = p;
+    }
+}

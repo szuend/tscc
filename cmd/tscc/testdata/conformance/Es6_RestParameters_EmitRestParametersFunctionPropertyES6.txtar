@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/es6/restParameters/emitRestParametersFunctionPropertyES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js emitRestParametersFunctionPropertyES6.js emitRestParametersFunctionPropertyES6.ts
+! stderr .
+cmp emitRestParametersFunctionPropertyES6.js emitRestParametersFunctionPropertyES6.js.golden
+! exists emitRestParametersFunctionPropertyES6.d.ts
+! exists emitRestParametersFunctionPropertyES6.js.map
+
+-- emitRestParametersFunctionPropertyES6.ts --
+var obj: {
+    func1: (...rest) => void
+}
+
+var obj2 = {
+    func(...rest) { }
+}
+-- emitRestParametersFunctionPropertyES6.js.golden --
+"use strict";
+var obj;
+var obj2 = {
+    func(...rest) { }
+};

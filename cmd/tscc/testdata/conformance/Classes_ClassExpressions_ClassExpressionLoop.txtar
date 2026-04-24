@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/classes/classExpressions/classExpressionLoop.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExpressionLoop.js classExpressionLoop.ts
+! stderr .
+cmp classExpressionLoop.js classExpressionLoop.js.golden
+! exists classExpressionLoop.d.ts
+! exists classExpressionLoop.js.map
+
+-- classExpressionLoop.ts --
+let arr = [];
+for (let i = 0; i < 10; ++i) {
+    arr.push(class C {
+        prop = i;
+    });
+}
+-- classExpressionLoop.js.golden --
+"use strict";
+let arr = [];
+for (let i = 0; i < 10; ++i) {
+    arr.push(class C {
+        constructor() {
+            this.prop = i;
+        }
+    });
+}

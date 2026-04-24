@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/classes/awaitAndYieldInProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2019 --lib es2019,dom --out-js awaitAndYieldInProperty.js awaitAndYieldInProperty.ts
+stderr 'TS1166'
+stderr 'TS1308'
+stderr 'TS1163'
+! exists awaitAndYieldInProperty.js
+! exists awaitAndYieldInProperty.d.ts
+! exists awaitAndYieldInProperty.js.map
+
+-- awaitAndYieldInProperty.ts --
+async function* test(x: Promise<string>) {
+    class C {
+        [await x] = await x;
+        static [await x] = await x;
+
+        [yield 1] = yield 2;
+        static [yield 3] = yield 4;
+    }
+
+    return class {
+        [await x] = await x;
+        static [await x] = await x;
+
+        [yield 1] = yield 2;
+        static [yield 3] = yield 4;
+    }
+}

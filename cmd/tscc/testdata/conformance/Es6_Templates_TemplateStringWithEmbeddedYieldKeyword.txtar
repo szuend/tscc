@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedYieldKeyword.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithEmbeddedYieldKeyword.js templateStringWithEmbeddedYieldKeyword.ts
+stderr 'TS1005'
+! exists templateStringWithEmbeddedYieldKeyword.js
+! exists templateStringWithEmbeddedYieldKeyword.d.ts
+! exists templateStringWithEmbeddedYieldKeyword.js.map
+
+-- templateStringWithEmbeddedYieldKeyword.ts --
+function* gen {
+    // Once this is supported, yield *must* be parenthesized.
+    var x = `abc${ yield 10 }def`;
+}

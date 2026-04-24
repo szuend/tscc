@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/externalModules/exportNonLocalDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportNonLocalDeclarations.js exportNonLocalDeclarations.ts
+stderr 'TS2661'
+! exists exportNonLocalDeclarations.js
+! exists exportNonLocalDeclarations.d.ts
+! exists exportNonLocalDeclarations.js.map
+
+-- exportNonLocalDeclarations.ts --
+export { string };
+export type { number };

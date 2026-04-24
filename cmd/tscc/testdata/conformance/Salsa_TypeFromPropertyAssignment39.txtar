@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment39.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts a.d.ts --strict --target es2015 --lib es2015,dom a.js
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+! exists out_a.js
+
+-- a.js --
+const foo = {};
+foo["baz"] = {};
+foo["baz"]["blah"] = 3;
+-- a.d.ts.golden --
+declare const foo: {
+    baz: {
+        blah: number;
+    };
+};
+declare namespace foo {
+    var baz: {
+        blah: number;
+    };
+}
+declare namespace foo {
+    var blah: number;
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames3_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js computedPropertyNames3_ES6.js computedPropertyNames3_ES6.ts
+stderr 'TS1102'
+! exists computedPropertyNames3_ES6.js
+! exists computedPropertyNames3_ES6.d.ts
+! exists computedPropertyNames3_ES6.js.map
+
+-- computedPropertyNames3_ES6.ts --
+var id;
+class C {
+    [0 + 1]() { }
+    static [() => { }]() { }
+    get [delete id]() { }
+    set [[0, 1]](v) { }
+    static get [<String>""]() { }
+    static set [id.toString()](v) { }
+}

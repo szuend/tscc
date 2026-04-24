@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/salsa/propertyAssignmentOnImportedSymbol.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom bug24658.js
+! stderr .
+! exists bug24658.d.ts
+! exists bug24658.js.map
+
+-- bug24658.js --
+import { hurk } from './mod1'
+hurk.expando = 4
+-- mod1.js --
+export var hurk = {}

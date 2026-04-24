@@ -1,0 +1,52 @@
+# Ported from tests/cases/conformance/types/members/classWithPublicProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classWithPublicProperty.js classWithPublicProperty.ts
+! stderr .
+cmp classWithPublicProperty.js classWithPublicProperty.js.golden
+! exists classWithPublicProperty.d.ts
+! exists classWithPublicProperty.js.map
+
+-- classWithPublicProperty.ts --
+class C {
+    public x;
+    public a = '';
+    public b: string = '';
+    public c() { return '' }
+    public d = () => '';
+    public static e;
+    public static f() { return '' }
+    public static g = () => '';
+}
+
+// all of these are valid
+var c = new C();
+var r1: string = c.x;
+var r2: string = c.a;
+var r3: string = c.b;
+var r4: string = c.c();
+var r5: string = c.d();
+var r6: string = C.e;
+var r7: string = C.f();
+var r8: string = C.g();
+-- classWithPublicProperty.js.golden --
+"use strict";
+class C {
+    constructor() {
+        this.a = '';
+        this.b = '';
+        this.d = () => '';
+    }
+    c() { return ''; }
+    static f() { return ''; }
+}
+C.g = () => '';
+// all of these are valid
+var c = new C();
+var r1 = c.x;
+var r2 = c.a;
+var r3 = c.b;
+var r4 = c.c();
+var r5 = c.d();
+var r6 = C.e;
+var r7 = C.f();
+var r8 = C.g();

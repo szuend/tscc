@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty38.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty38.js symbolProperty38.ts
+! stderr .
+cmp symbolProperty38.js symbolProperty38.js.golden
+! exists symbolProperty38.d.ts
+! exists symbolProperty38.js.map
+
+-- symbolProperty38.ts --
+interface I {
+    [Symbol.isConcatSpreadable]: string;
+}
+interface I {
+    [Symbol.isConcatSpreadable]: string;
+}
+-- symbolProperty38.js.golden --
+"use strict";

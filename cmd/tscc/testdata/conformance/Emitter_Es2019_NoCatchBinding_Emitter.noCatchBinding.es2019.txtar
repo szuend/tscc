@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/emitter/es2019/noCatchBinding/emitter.noCatchBinding.es2019.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2019 --lib es2019,dom --out-js emitter.noCatchBinding.es2019.js emitter.noCatchBinding.es2019.ts
+! stderr .
+cmp emitter.noCatchBinding.es2019.js emitter.noCatchBinding.es2019.js.golden
+! exists emitter.noCatchBinding.es2019.d.ts
+! exists emitter.noCatchBinding.es2019.js.map
+
+-- emitter.noCatchBinding.es2019.ts --
+function f() {
+    try { } catch { }
+    try { } catch { 
+        try { } catch { }
+    }
+    try { } catch { } finally { }
+}
+-- emitter.noCatchBinding.es2019.js.golden --
+"use strict";
+function f() {
+    try { }
+    catch { }
+    try { }
+    catch {
+        try { }
+        catch { }
+    }
+    try { }
+    catch { }
+    finally { }
+}

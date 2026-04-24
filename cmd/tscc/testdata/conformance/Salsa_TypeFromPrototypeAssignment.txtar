@@ -1,0 +1,48 @@
+# Ported from tests/cases/conformance/salsa/typeFromPrototypeAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom a.js
+stderr 'TS2683'
+stderr 'TS2339'
+stderr 'TS7009'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+// all references to _map, set, get, addon should be ok
+
+/** @constructor */
+var Multimap = function() {
+    this._map = {};
+    this._map
+    this.set
+    this.get
+    this.addon
+};
+
+Multimap.prototype = {
+    set: function() {
+        this._map
+        this.set
+        this.get
+        this.addon
+    },
+    get() {
+        this._map
+        this.set
+        this.get
+        this.addon
+    }
+}
+
+Multimap.prototype.addon = function () {
+    this._map
+    this.set
+    this.get
+    this.addon
+}
+
+var mm = new Multimap();
+mm._map
+mm.set
+mm.get
+mm.addon

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/scanner/ecmascript5/scannerImportDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js scannerImportDeclaration1.js scannerImportDeclaration1.ts
+stderr 'TS2503'
+! exists scannerImportDeclaration1.js
+! exists scannerImportDeclaration1.d.ts
+! exists scannerImportDeclaration1.js.map
+
+-- scannerImportDeclaration1.ts --
+import TypeScript = TypeScriptServices.TypeScript;

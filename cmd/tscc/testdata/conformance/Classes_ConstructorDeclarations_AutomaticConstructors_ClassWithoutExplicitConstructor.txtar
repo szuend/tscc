@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/automaticConstructors/classWithoutExplicitConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classWithoutExplicitConstructor.js classWithoutExplicitConstructor.ts
+stderr 'TS2554'
+stderr 'TS2322'
+! exists classWithoutExplicitConstructor.js
+! exists classWithoutExplicitConstructor.d.ts
+! exists classWithoutExplicitConstructor.js.map
+
+-- classWithoutExplicitConstructor.ts --
+class C {
+    x = 1
+    y = 'hello';
+}
+
+var c = new C();
+var c2 = new C(null); // error
+
+class D<T extends Date> {
+    x = 2
+    y: T = null;
+}
+
+var d = new D();
+var d2 = new D(null); // error

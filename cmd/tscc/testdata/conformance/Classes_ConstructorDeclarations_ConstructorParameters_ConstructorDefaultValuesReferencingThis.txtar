@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/constructorDefaultValuesReferencingThis.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorDefaultValuesReferencingThis.js constructorDefaultValuesReferencingThis.ts
+stderr 'TS17009'
+! exists constructorDefaultValuesReferencingThis.js
+! exists constructorDefaultValuesReferencingThis.d.ts
+! exists constructorDefaultValuesReferencingThis.js.map
+
+-- constructorDefaultValuesReferencingThis.ts --
+class C {
+    public baseProp = 1;
+    constructor(x = this) { }
+}
+
+class D<T> {
+    constructor(x = this) { }
+}
+
+class E<T> {
+    constructor(public x = this) { }
+}
+
+class F extends C {
+    constructor(y = this.baseProp) {
+        super();
+    }
+}

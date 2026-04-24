@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserClassDeclaration16.js parserClassDeclaration16.ts
+! stderr .
+cmp parserClassDeclaration16.js parserClassDeclaration16.js.golden
+! exists parserClassDeclaration16.d.ts
+! exists parserClassDeclaration16.js.map
+
+-- parserClassDeclaration16.ts --
+class C {
+   foo();
+   foo() { }
+}
+-- parserClassDeclaration16.js.golden --
+"use strict";
+class C {
+    foo() { }
+}

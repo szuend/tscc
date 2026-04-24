@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/externalModules/topLevelFileModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js foo_0.js vs/foo_0.ts
+! stderr .
+cmp foo_0.js foo_0.js.golden
+! exists vs/foo_0.d.ts
+! exists vs/foo_0.js.map
+
+-- foo_1.ts --
+import foo = require("./vs/foo_0");
+import fum = require("./vs/fum");
+var z = foo.x + fum.y;
+-- vs/foo_0.ts --
+export var x: number;
+-- vs/fum.d.ts --
+export declare var y: number;
+-- foo_0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = void 0;

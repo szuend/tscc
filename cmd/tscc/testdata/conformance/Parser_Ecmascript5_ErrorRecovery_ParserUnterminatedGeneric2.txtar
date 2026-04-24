@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserUnterminatedGeneric2.js parserUnterminatedGeneric2.ts
+stderr 'TS1435'
+stderr 'TS1005'
+! exists parserUnterminatedGeneric2.js
+! exists parserUnterminatedGeneric2.d.ts
+! exists parserUnterminatedGeneric2.js.map
+
+-- parserUnterminatedGeneric2.ts --
+declare namespace ng {
+    interfaceICompiledExpression {
+        (context: any, locals?: any): any;
+        assign(context: any, value: any): any;
+    }
+
+    interface IQService {
+        all(promises: IPromise < any > []): IPromise<

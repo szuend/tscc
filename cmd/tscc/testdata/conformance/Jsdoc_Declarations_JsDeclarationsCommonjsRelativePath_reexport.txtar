@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsCommonjsRelativePath.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --out-dts reexport.d.ts --module commonjs --target es2015 --lib es2015,dom reexport.js
+! stderr .
+cmp reexport.d.ts reexport.d.ts.golden
+! exists out_reexport.js
+! exists reexport.js.map
+
+-- reexport.js --
+'use strict';
+const Thing = require('./thing').Thing
+module.exports = { Thing }
+-- thing.js --
+'use strict';
+class Thing {}
+module.exports = { Thing }
+-- reexport.d.ts.golden --
+declare const _default: {
+    Thing: {
+        new (): {};
+    };
+};
+export = _default;

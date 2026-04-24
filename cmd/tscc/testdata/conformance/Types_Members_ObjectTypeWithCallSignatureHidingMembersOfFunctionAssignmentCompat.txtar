@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/members/objectTypeWithCallSignatureHidingMembersOfFunctionAssignmentCompat.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectTypeWithCallSignatureHidingMembersOfFunctionAssignmentCompat.js objectTypeWithCallSignatureHidingMembersOfFunctionAssignmentCompat.ts
+stderr 'TS2322'
+! exists objectTypeWithCallSignatureHidingMembersOfFunctionAssignmentCompat.js
+! exists objectTypeWithCallSignatureHidingMembersOfFunctionAssignmentCompat.d.ts
+! exists objectTypeWithCallSignatureHidingMembersOfFunctionAssignmentCompat.js.map
+
+-- objectTypeWithCallSignatureHidingMembersOfFunctionAssignmentCompat.ts --
+interface I {
+    (): void;
+}
+
+declare var i: I;
+declare var f: Object;
+f = i;
+i = f;
+
+declare var a: {
+    (): void
+}
+f = a;
+a = f;

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedAdditionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedAdditionES6.js templateStringWithEmbeddedAdditionES6.ts
+! stderr .
+cmp templateStringWithEmbeddedAdditionES6.js templateStringWithEmbeddedAdditionES6.js.golden
+! exists templateStringWithEmbeddedAdditionES6.d.ts
+! exists templateStringWithEmbeddedAdditionES6.js.map
+
+-- templateStringWithEmbeddedAdditionES6.ts --
+var x = `abc${ 10 + 10 }def`;
+-- templateStringWithEmbeddedAdditionES6.js.golden --
+"use strict";
+var x = `abc${10 + 10}def`;

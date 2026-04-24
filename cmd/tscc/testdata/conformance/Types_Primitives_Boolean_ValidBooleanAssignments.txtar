@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/primitives/boolean/validBooleanAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js validBooleanAssignments.js validBooleanAssignments.ts
+! stderr .
+cmp validBooleanAssignments.js validBooleanAssignments.js.golden
+! exists validBooleanAssignments.d.ts
+! exists validBooleanAssignments.js.map
+
+-- validBooleanAssignments.ts --
+var x = true;
+
+var a: any = x;
+var b: Object = x;
+var c: Boolean = x;
+var d: boolean = x;
+-- validBooleanAssignments.js.golden --
+"use strict";
+var x = true;
+var a = x;
+var b = x;
+var c = x;
+var d = x;

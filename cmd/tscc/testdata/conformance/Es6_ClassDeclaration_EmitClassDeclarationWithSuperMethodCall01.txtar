@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithSuperMethodCall01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js emitClassDeclarationWithSuperMethodCall01.js emitClassDeclarationWithSuperMethodCall01.ts
+! stderr .
+cmp emitClassDeclarationWithSuperMethodCall01.js emitClassDeclarationWithSuperMethodCall01.js.golden
+! exists emitClassDeclarationWithSuperMethodCall01.d.ts
+! exists emitClassDeclarationWithSuperMethodCall01.js.map
+
+-- emitClassDeclarationWithSuperMethodCall01.ts --
+class Parent {
+    foo() {
+    }
+}
+
+class Foo extends Parent {
+    foo() {
+        var x = () => super.foo();
+    }
+}
+-- emitClassDeclarationWithSuperMethodCall01.js.golden --
+"use strict";
+class Parent {
+    foo() {
+    }
+}
+class Foo extends Parent {
+    foo() {
+        var x = () => super.foo();
+    }
+}

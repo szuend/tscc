@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classHeritageSpecification/classExtendingOptionalChain.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classExtendingOptionalChain.js classExtendingOptionalChain.ts
+stderr 'TS2500'
+! exists classExtendingOptionalChain.js
+! exists classExtendingOptionalChain.d.ts
+! exists classExtendingOptionalChain.js.map
+
+-- classExtendingOptionalChain.ts --
+namespace A {
+    export class B {}
+}
+
+// ok
+class C1 extends A?.B {}
+
+// error
+class C2 implements A?.B {}

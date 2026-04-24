@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithObjectTypeArgsAndIndexers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCallWithObjectTypeArgsAndIndexers.js genericCallWithObjectTypeArgsAndIndexers.ts
+stderr 'TS2454'
+! exists genericCallWithObjectTypeArgsAndIndexers.js
+! exists genericCallWithObjectTypeArgsAndIndexers.d.ts
+! exists genericCallWithObjectTypeArgsAndIndexers.js.map
+
+-- genericCallWithObjectTypeArgsAndIndexers.ts --
+// Type inference infers from indexers in target type, no errors expected
+
+function foo<T>(x: T) {
+    return x;
+}
+
+var a: {
+    [x: string]: Object;
+    [x: number]: Date;
+};
+var r = foo(a);
+
+function other<T extends Date>(arg: T) {
+    var b: {
+        [x: string]: Object;
+        [x: number]: T
+    };
+    var r2 = foo(b);
+    var d = r2[1]; 
+    var e = r2['1']; 
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/arrowFunction/emitArrowFunctionsAsIsES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js emitArrowFunctionsAsIsES6.js emitArrowFunctionsAsIsES6.ts
+! stderr .
+cmp emitArrowFunctionsAsIsES6.js emitArrowFunctionsAsIsES6.js.golden
+! exists emitArrowFunctionsAsIsES6.d.ts
+! exists emitArrowFunctionsAsIsES6.js.map
+
+-- emitArrowFunctionsAsIsES6.ts --
+var arrow1 =  a => { };
+var arrow2 = (a) => { };
+
+var arrow3 = (a, b) => { };
+-- emitArrowFunctionsAsIsES6.js.golden --
+"use strict";
+var arrow1 = a => { };
+var arrow2 = (a) => { };
+var arrow3 = (a, b) => { };

@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/salsa/moduleExportWithExportPropertyAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom mod1.js
+stderr 'TS2322'
+stderr 'TS2309'
+stderr 'TS2339'
+! exists mod1.d.ts
+! exists mod1.js.map
+
+-- a.js --
+/// <reference path='./requires.d.ts' />
+var mod1 = require('./mod1')
+mod1.justExport.toFixed()
+mod1.bothBefore.toFixed() // error, 'toFixed' not on 'string | number'
+mod1.bothAfter.toFixed() // error, 'toFixed' not on 'string | number'
+mod1.justProperty.length
+-- mod1.js --
+/// <reference path='./requires.d.ts' />
+module.exports.bothBefore = 'string'
+module.exports = {
+    justExport: 1,
+    bothBefore: 2,
+    bothAfter: 3,
+}
+module.exports.bothAfter = 'string'
+module.exports.justProperty = 'string'
+-- requires.d.ts --
+declare var module: { exports: any };
+declare function require(name: string): any;

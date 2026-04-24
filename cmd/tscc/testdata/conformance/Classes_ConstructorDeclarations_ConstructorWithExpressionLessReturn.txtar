@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorWithExpressionLessReturn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorWithExpressionLessReturn.js constructorWithExpressionLessReturn.ts
+stderr 'TS2564'
+! exists constructorWithExpressionLessReturn.js
+! exists constructorWithExpressionLessReturn.d.ts
+! exists constructorWithExpressionLessReturn.js.map
+
+-- constructorWithExpressionLessReturn.ts --
+class C {
+    constructor() {
+        return;
+    }
+}
+
+class D {
+    x: number;
+    constructor() {
+        return;
+    }
+}
+
+class E {
+    constructor(public x: number) {
+        return;
+    }
+}
+
+class F<T> {
+    constructor(public x: T) {
+        return;
+    }
+}

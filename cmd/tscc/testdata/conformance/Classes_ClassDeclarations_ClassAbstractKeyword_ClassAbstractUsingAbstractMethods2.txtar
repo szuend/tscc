@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractUsingAbstractMethods2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classAbstractUsingAbstractMethods2.js classAbstractUsingAbstractMethods2.ts
+stderr 'TS1244'
+! exists classAbstractUsingAbstractMethods2.js
+! exists classAbstractUsingAbstractMethods2.d.ts
+! exists classAbstractUsingAbstractMethods2.js.map
+
+-- classAbstractUsingAbstractMethods2.ts --
+class A {
+    abstract foo();
+}
+
+class B extends A  {}
+
+abstract class C extends A {}
+
+class D extends A {
+    foo() {}
+}
+
+abstract class E extends A {
+    foo() {}
+}
+
+abstract class AA {
+    abstract foo();
+}
+
+class BB extends AA  {}
+
+abstract class CC extends AA {}
+
+class DD extends AA {
+    foo() {}
+}

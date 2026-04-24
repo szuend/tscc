@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarationsWithAsyncIteratorObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --target esnext awaitUsingDeclarationsWithAsyncIteratorObject.ts
+stderr 'TS2851'
+! exists awaitUsingDeclarationsWithAsyncIteratorObject.d.ts
+! exists awaitUsingDeclarationsWithAsyncIteratorObject.js.map
+
+-- awaitUsingDeclarationsWithAsyncIteratorObject.ts --
+declare const ai: AsyncIterator<string, undefined>;
+declare const aio: AsyncIteratorObject<string, undefined, unknown>;
+declare const ag: AsyncGenerator<string, void>;
+
+async function f() {
+    // should pass
+    await using it0 = aio;
+    await using it1 = ag;
+
+    // should fail
+    await using it2 = ai;
+}

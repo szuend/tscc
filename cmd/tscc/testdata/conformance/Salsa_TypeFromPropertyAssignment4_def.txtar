@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom def.js
+! stderr .
+! exists def.d.ts
+! exists def.js.map
+
+-- a.js --
+Outer.Inner = class {
+    constructor() {
+        /** @type {number} */
+        this.y = 12
+    }
+}
+
+/** @type {Outer.Inner} */
+var local
+local.y
+var inner = new Outer.Inner()
+inner.y
+-- b.js --
+/** @type {Outer.Inner} */
+var x
+x.y
+var z = new Outer.Inner()
+z.y
+-- def.js --
+var Outer = {};

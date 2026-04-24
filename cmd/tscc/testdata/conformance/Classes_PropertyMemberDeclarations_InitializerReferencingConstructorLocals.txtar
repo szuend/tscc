@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/initializerReferencingConstructorLocals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js initializerReferencingConstructorLocals.js initializerReferencingConstructorLocals.ts
+stderr 'TS2304'
+stderr 'TS2339'
+! exists initializerReferencingConstructorLocals.js
+! exists initializerReferencingConstructorLocals.d.ts
+! exists initializerReferencingConstructorLocals.js.map
+
+-- initializerReferencingConstructorLocals.ts --
+// Initializer expressions for instance member variables are evaluated in the scope of the class constructor body but are not permitted to reference parameters or local variables of the constructor. 
+
+class C {
+    a = z; // error
+    b: typeof z; // error
+    c = this.z; // error
+    d: typeof this.z; // error
+    constructor(x) {
+        z = 1;
+    }
+}
+
+class D<T> {
+    a = z; // error
+    b: typeof z; // error
+    c = this.z; // error
+    d: typeof this.z; // error
+    constructor(x: T) {
+        z = 1;
+    }
+}

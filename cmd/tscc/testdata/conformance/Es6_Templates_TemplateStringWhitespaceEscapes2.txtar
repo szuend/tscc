@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWhitespaceEscapes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWhitespaceEscapes2.js templateStringWhitespaceEscapes2.ts
+! stderr .
+cmp templateStringWhitespaceEscapes2.js templateStringWhitespaceEscapes2.js.golden
+! exists templateStringWhitespaceEscapes2.d.ts
+! exists templateStringWhitespaceEscapes2.js.map
+
+-- templateStringWhitespaceEscapes2.ts --
+// <TAB>, <VT>, <FF>, <SP>, <NBSP>, <BOM>
+`\u0009\u000B\u000C\u0020\u00A0\uFEFF`;
+-- templateStringWhitespaceEscapes2.js.golden --
+"use strict";
+// <TAB>, <VT>, <FF>, <SP>, <NBSP>, <BOM>
+`\u0009\u000B\u000C\u0020\u00A0\uFEFF`;

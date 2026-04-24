@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/classWithTwoConstructorDefinitions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classWithTwoConstructorDefinitions.js classWithTwoConstructorDefinitions.ts
+stderr 'TS2392'
+! exists classWithTwoConstructorDefinitions.js
+! exists classWithTwoConstructorDefinitions.d.ts
+! exists classWithTwoConstructorDefinitions.js.map
+
+-- classWithTwoConstructorDefinitions.ts --
+class C {
+    constructor() { } // error
+    constructor(x) { } // error
+}
+
+class D<T> {
+    constructor(x: T) { } // error
+    constructor(x: T, y: T) { } // error
+}

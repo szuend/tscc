@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty8.js symbolProperty8.ts
+! stderr .
+cmp symbolProperty8.js symbolProperty8.js.golden
+! exists symbolProperty8.d.ts
+! exists symbolProperty8.js.map
+
+-- symbolProperty8.ts --
+interface I {
+    [Symbol.unscopables]: number;
+    [Symbol.toPrimitive]();
+}
+-- symbolProperty8.js.golden --
+"use strict";

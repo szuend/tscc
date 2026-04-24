@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/salsa/chainedPrototypeAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom mod.js
+stderr 'TS2683'
+! exists mod.d.ts
+! exists mod.js.map
+
+-- mod.js --
+/// <reference path='./types.d.ts'/>
+var A = function A() {
+    this.a = 1
+}
+var B = function B() {
+    this.b = 2
+}
+exports.A = A
+exports.B = B
+A.prototype = B.prototype = {
+    /** @param {number} n */
+    m(n) {
+        return n + 1
+    }
+}
+-- types.d.ts --
+declare function require(name: string): any;
+declare var exports: any;
+-- use.js --
+/// <reference path='./types.d.ts'/>
+var mod = require('./mod');
+var a = new mod.A()
+var b = new mod.B()
+a.m('nope')
+b.m('not really')

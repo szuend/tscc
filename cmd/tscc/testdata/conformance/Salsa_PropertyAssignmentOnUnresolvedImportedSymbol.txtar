@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/salsa/propertyAssignmentOnUnresolvedImportedSymbol.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom bug28576.js
+stderr 'TS2307'
+! exists bug28576.d.ts
+! exists bug28576.js.map
+
+-- bug28576.js --
+import x from 'arglebaz'
+{
+    x.bar = 1
+}

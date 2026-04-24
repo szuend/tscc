@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesContextualType5_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js computedPropertyNamesContextualType5_ES6.js computedPropertyNamesContextualType5_ES6.ts
+! stderr .
+cmp computedPropertyNamesContextualType5_ES6.js computedPropertyNamesContextualType5_ES6.js.golden
+! exists computedPropertyNamesContextualType5_ES6.d.ts
+! exists computedPropertyNamesContextualType5_ES6.js.map
+
+-- computedPropertyNamesContextualType5_ES6.ts --
+interface I {
+    [s: string]: any;
+    [s: number]: any;
+}
+
+var o: I = {
+    [+"foo"]: "",
+    [+"bar"]: 0
+}
+-- computedPropertyNamesContextualType5_ES6.js.golden --
+"use strict";
+var o = {
+    [+"foo"]: "",
+    [+"bar"]: 0
+};

@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/discriminatedUnionInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js discriminatedUnionInference.js discriminatedUnionInference.ts
+! stderr .
+cmp discriminatedUnionInference.js discriminatedUnionInference.js.golden
+! exists discriminatedUnionInference.d.ts
+! exists discriminatedUnionInference.js.map
+
+-- discriminatedUnionInference.ts --
+// Repro from #28862
+
+type Foo<A> = { type: "foo", (): A[] };
+type Bar<A> = { type: "bar", (): A };
+
+type FooBar<A> = Foo<A> | Bar<A>;
+
+type InferA<T> = T extends FooBar<infer A> ? A : never;
+
+type FooA = InferA<Foo<number>>;  // number
+
+// Repro from #28862
+
+type Item<T> = { kind: 'a', data: T } | { kind: 'b', data: T[] };
+
+declare function foo<T>(item: Item<T>): T;
+
+let x1 = foo({ kind: 'a', data: 42 });  // number
+let x2 = foo({ kind: 'b', data: [1, 2] });  // number
+-- discriminatedUnionInference.js.golden --
+"use strict";
+// Repro from #28862
+let x1 = foo({ kind: 'a', data: 42 }); // number
+let x2 = foo({ kind: 'b', data: [1, 2] }); // number

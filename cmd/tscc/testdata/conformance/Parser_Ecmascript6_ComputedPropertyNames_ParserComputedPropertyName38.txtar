@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName38.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserComputedPropertyName38.js parserComputedPropertyName38.ts
+stderr 'TS1213'
+! exists parserComputedPropertyName38.js
+! exists parserComputedPropertyName38.d.ts
+! exists parserComputedPropertyName38.js.map
+
+-- parserComputedPropertyName38.ts --
+class C {
+    [public]() { }
+}

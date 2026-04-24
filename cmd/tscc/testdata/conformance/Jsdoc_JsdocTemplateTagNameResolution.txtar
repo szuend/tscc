@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTemplateTagNameResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts file.d.ts --no-strict --target es2015 --lib es2015,dom --out-js out_file.js file.js
+stderr 'TS2322'
+! exists out_file.js
+! exists file.d.ts
+! exists out/file.js.map
+
+-- file.js --
+/**
+ * @template T
+ * @template {keyof T} K
+ * @typedef {T[K]} Foo
+ */
+
+const x = { a: 1 };
+
+/** @type {Foo<typeof x, "a">} */
+const y = "a";

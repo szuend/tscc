@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAssignment5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom axios.js
+stderr 'TS2309'
+stderr 'TS2339'
+! exists axios.d.ts
+! exists axios.js.map
+
+-- axios.js --
+class Axios {
+    constructor() {
+    }
+    m() { }
+}
+var axios = new Axios();
+// none of the 3 references should have a use-before-def error
+axios.m()
+module.exports = axios;
+module.exports.default = axios;

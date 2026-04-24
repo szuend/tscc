@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/expressions/asOperator/asOperator1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js asOperator1.js asOperator1.ts
+stderr 'TS2352'
+! exists asOperator1.js
+! exists asOperator1.d.ts
+! exists asOperator1.js.map
+
+-- asOperator1.ts --
+var as = 43;
+var x = undefined as number;
+var y = (null as string).length;
+var z = Date as any as string;
+
+// Should parse as a union type, not a bitwise 'or' of (32 as number) and 'string'
+var j = 32 as number|string;
+j = '';

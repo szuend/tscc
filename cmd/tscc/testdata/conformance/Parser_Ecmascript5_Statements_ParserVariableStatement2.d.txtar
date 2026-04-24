@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserVariableStatement2.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserVariableStatement2.d.js parserVariableStatement2.d.ts
+stderr 'TS1046'
+! exists parserVariableStatement2.d.js
+! exists parserVariableStatement2.d.d.ts
+! exists parserVariableStatement2.d.js.map
+
+-- parserVariableStatement2.d.ts --
+var v;

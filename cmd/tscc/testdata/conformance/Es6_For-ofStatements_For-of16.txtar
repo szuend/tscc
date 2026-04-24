@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of16.js for-of16.ts
+stderr 'TS2488'
+! exists for-of16.js
+! exists for-of16.d.ts
+! exists for-of16.js.map
+
+-- for-of16.ts --
+class MyStringIterator {
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var v: string;
+for (v of new MyStringIterator) { } // Should fail
+
+for (v of new MyStringIterator) { } // Should still fail (related errors should still be shown even though type is cached).

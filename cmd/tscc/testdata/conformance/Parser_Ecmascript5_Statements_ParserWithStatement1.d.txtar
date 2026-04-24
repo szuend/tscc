@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserWithStatement1.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserWithStatement1.d.js parserWithStatement1.d.ts
+stderr 'TS1036'
+stderr 'TS1101'
+! exists parserWithStatement1.d.js
+! exists parserWithStatement1.d.d.ts
+! exists parserWithStatement1.d.js.map
+
+-- parserWithStatement1.d.ts --
+with (foo) {
+}

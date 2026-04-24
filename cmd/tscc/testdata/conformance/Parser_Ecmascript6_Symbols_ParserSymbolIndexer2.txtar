@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Symbols/parserSymbolIndexer2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js parserSymbolIndexer2.js parserSymbolIndexer2.ts
+! stderr .
+cmp parserSymbolIndexer2.js parserSymbolIndexer2.js.golden
+! exists parserSymbolIndexer2.d.ts
+! exists parserSymbolIndexer2.js.map
+
+-- parserSymbolIndexer2.ts --
+class C {
+    [s: symbol]: string;
+}
+-- parserSymbolIndexer2.js.golden --
+"use strict";
+class C {
+}

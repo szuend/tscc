@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es2025/regExpEscape.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2024,es2025.regexp --strict --target esnext regExpEscape.ts
+! stderr .
+! exists regExpEscape.d.ts
+! exists regExpEscape.js.map
+
+-- regExpEscape.ts --
+const regExp = new RegExp(RegExp.escape("foo.bar"));
+regExp.test("foo.bar");

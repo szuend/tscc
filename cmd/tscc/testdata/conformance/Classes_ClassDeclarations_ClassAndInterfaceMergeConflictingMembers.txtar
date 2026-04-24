@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAndInterfaceMergeConflictingMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAndInterfaceMergeConflictingMembers.js classAndInterfaceMergeConflictingMembers.ts
+stderr 'TS2687'
+! exists classAndInterfaceMergeConflictingMembers.js
+! exists classAndInterfaceMergeConflictingMembers.d.ts
+! exists classAndInterfaceMergeConflictingMembers.js.map
+
+-- classAndInterfaceMergeConflictingMembers.ts --
+declare class C1 {
+    public x : number;
+}
+
+interface C1 {
+    x : number;
+}
+
+declare class C2 {
+    protected x : number;
+}
+
+interface C2 {
+    x : number;
+}
+
+declare class C3 {
+    private x : number;
+}
+
+interface C3 {
+    x : number;
+}

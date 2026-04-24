@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInSwitchAndCase.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInSwitchAndCase.js templateStringInSwitchAndCase.ts
+stderr 'TS2678'
+! exists templateStringInSwitchAndCase.js
+! exists templateStringInSwitchAndCase.d.ts
+! exists templateStringInSwitchAndCase.js.map
+
+-- templateStringInSwitchAndCase.ts --
+switch (`abc${0}abc`) {
+    case `abc`:
+    case `123`:
+    case `abc${0}abc`:
+        `def${1}def`;
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTypeReferenceToMergedClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom jsdocTypeReferenceToMergedClass.js
+stderr 'TS2503'
+! exists jsdocTypeReferenceToMergedClass.d.ts
+! exists jsdocTypeReferenceToMergedClass.js.map
+
+-- jsdocTypeReferenceToMergedClass.js --
+var Workspace = {}
+/** @type {Workspace.Project} */
+var p;
+p.isServiceProject()
+
+Workspace.Project = function wp() { }
+Workspace.Project.prototype = {
+  isServiceProject() {}
+}

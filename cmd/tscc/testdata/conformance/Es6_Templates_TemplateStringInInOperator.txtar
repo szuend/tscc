@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInInOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringInInOperator.js templateStringInInOperator.ts
+! stderr .
+cmp templateStringInInOperator.js templateStringInInOperator.js.golden
+! exists templateStringInInOperator.d.ts
+! exists templateStringInInOperator.js.map
+
+-- templateStringInInOperator.ts --
+var x = `${ "hi" }` in { hi: 10, hello: 20};
+-- templateStringInInOperator.js.golden --
+"use strict";
+var x = `${"hi"}` in { hi: 10, hello: 20 };

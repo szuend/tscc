@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesInterfaceExtendingClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js privateNamesInterfaceExtendingClass.js privateNamesInterfaceExtendingClass.ts
+stderr 'TS18013'
+! exists privateNamesInterfaceExtendingClass.js
+! exists privateNamesInterfaceExtendingClass.d.ts
+! exists privateNamesInterfaceExtendingClass.js.map
+
+-- privateNamesInterfaceExtendingClass.ts --
+class C {
+    #prop;
+    func(x: I) {
+        x.#prop = 123;
+    }
+}
+interface I extends C {}
+
+function func(x: I) {
+    x.#prop = 123;
+}
+

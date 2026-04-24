@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/expressions/nullishCoalescingOperator/nullishCoalescingOperator12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target ES2015 --lib ES2015,dom --out-js nullishCoalescingOperator12.js nullishCoalescingOperator12.ts
+! stderr .
+cmp nullishCoalescingOperator12.js nullishCoalescingOperator12.js.golden
+! exists nullishCoalescingOperator12.d.ts
+! exists nullishCoalescingOperator12.js.map
+
+-- nullishCoalescingOperator12.ts --
+const obj: { arr: any[] } = { arr: [] };
+for (const i of obj?.arr ?? []) { }
+-- nullishCoalescingOperator12.js.golden --
+"use strict";
+var _a;
+const obj = { arr: [] };
+for (const i of (_a = obj === null || obj === void 0 ? void 0 : obj.arr) !== null && _a !== void 0 ? _a : []) { }

@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/ambient/ambientModuleDeclarationWithReservedIdentifierInDottedPath2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts ambientModuleDeclarationWithReservedIdentifierInDottedPath2.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js ambientModuleDeclarationWithReservedIdentifierInDottedPath2.js ambientModuleDeclarationWithReservedIdentifierInDottedPath2.ts
+stderr 'TS1005'
+! exists ambientModuleDeclarationWithReservedIdentifierInDottedPath2.d.ts
+! exists ambientModuleDeclarationWithReservedIdentifierInDottedPath2.js
+! exists ambientModuleDeclarationWithReservedIdentifierInDottedPath2.js.map
+
+-- ambientModuleDeclarationWithReservedIdentifierInDottedPath2.ts --
+declare namespace chrome.debugger {
+    declare var tabId: number;
+}
+
+export const tabId = chrome.debugger.tabId;
+
+declare namespace test.class {}
+
+declare namespace debugger {} // still an error

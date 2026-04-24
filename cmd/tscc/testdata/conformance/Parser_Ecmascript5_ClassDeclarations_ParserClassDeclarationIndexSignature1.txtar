@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclarationIndexSignature1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserClassDeclarationIndexSignature1.js parserClassDeclarationIndexSignature1.ts
+! stderr .
+cmp parserClassDeclarationIndexSignature1.js parserClassDeclarationIndexSignature1.js.golden
+! exists parserClassDeclarationIndexSignature1.d.ts
+! exists parserClassDeclarationIndexSignature1.js.map
+
+-- parserClassDeclarationIndexSignature1.ts --
+class C {
+    [index:number]:number
+}
+-- parserClassDeclarationIndexSignature1.js.golden --
+"use strict";
+class C {
+}

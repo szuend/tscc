@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/types/mapped/mappedTypeErrors2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts mappedTypeErrors2.d.ts --strict-null-checks --target es2015 --lib es2015,dom --out-js mappedTypeErrors2.js mappedTypeErrors2.ts
+stderr 'TS2536'
+stderr 'TS2322'
+! exists mappedTypeErrors2.d.ts
+! exists mappedTypeErrors2.js
+! exists mappedTypeErrors2.js.map
+
+-- mappedTypeErrors2.ts --
+// Repros from #17238
+
+type AB = {
+    a: 'a'
+    b: 'a'
+};
+
+type T1<K extends keyof AB> = { [key in AB[K]]: true };
+type T2<K extends 'a'|'b'> = T1<K>[K]; // Error
+
+type R = AB[keyof AB]; // "a"
+type T3 = { [key in R]: true };
+type T4<K extends 'a'|'b'> = T3[K] // Error
+
+type T5<S extends 'a'|'b'|'extra'> = {[key in AB[S]]: true}[S]; // Error
+
+type T6<S extends 'a'|'b', L extends 'a'|'b'> = {[key in AB[S]]: true}[L]; // Error
+
+type T7<S extends 'a'|'b', L extends 'a'> = {[key in AB[S]]: true}[L];

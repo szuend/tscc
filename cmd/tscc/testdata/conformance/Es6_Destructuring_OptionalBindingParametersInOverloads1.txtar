@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/destructuring/optionalBindingParametersInOverloads1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js optionalBindingParametersInOverloads1.js optionalBindingParametersInOverloads1.ts
+stderr 'TS7010'
+stderr 'TS2322'
+! exists optionalBindingParametersInOverloads1.js
+! exists optionalBindingParametersInOverloads1.d.ts
+! exists optionalBindingParametersInOverloads1.js.map
+
+-- optionalBindingParametersInOverloads1.ts --
+function foo([x, y, z] ?: [string, number, boolean]);
+function foo(...rest: any[]) {
+
+}
+
+foo(["", 0, false]);
+
+foo([false, 0, ""]);

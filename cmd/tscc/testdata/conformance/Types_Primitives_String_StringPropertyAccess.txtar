@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/primitives/string/stringPropertyAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js stringPropertyAccess.js stringPropertyAccess.ts
+! stderr .
+cmp stringPropertyAccess.js stringPropertyAccess.js.golden
+! exists stringPropertyAccess.d.ts
+! exists stringPropertyAccess.js.map
+
+-- stringPropertyAccess.ts --
+var x = '';
+var a = x.charAt(0);
+var b = x.hasOwnProperty('charAt');
+
+var c = x['charAt'](0);
+var e = x['hasOwnProperty']('toFixed');
+-- stringPropertyAccess.js.golden --
+"use strict";
+var x = '';
+var a = x.charAt(0);
+var b = x.hasOwnProperty('charAt');
+var c = x['charAt'](0);
+var e = x['hasOwnProperty']('toFixed');

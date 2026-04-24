@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/exportNamespace2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export class A {}
+-- b.ts --
+export * as a from './a';
+-- c.ts --
+import type { a } from './b';
+export { a };
+-- d.ts --
+import { a } from './c';
+new a.A(); // Error
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.A = void 0;
+class A {
+}
+exports.A = A;

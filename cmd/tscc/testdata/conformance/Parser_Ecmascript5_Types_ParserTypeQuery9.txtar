@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Types/parserTypeQuery9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserTypeQuery9.js parserTypeQuery9.ts
+stderr 'TS2304'
+! exists parserTypeQuery9.js
+! exists parserTypeQuery9.d.ts
+! exists parserTypeQuery9.js.map
+
+-- parserTypeQuery9.ts --
+var s: typeof A[];

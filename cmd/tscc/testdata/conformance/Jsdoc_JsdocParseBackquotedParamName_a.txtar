@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocParseBackquotedParamName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom a.js
+stderr 'TS1016'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @param {string=} `args`
+ * @param `bwarg` {?number?}
+ */
+function f(args, bwarg) {
+}
+-- ts.ts --
+/**
+ * @param `arg` - this is fine
+ */
+function g(arg: string) {
+}

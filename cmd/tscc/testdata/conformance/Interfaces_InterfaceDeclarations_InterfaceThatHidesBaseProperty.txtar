@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceThatHidesBaseProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js interfaceThatHidesBaseProperty.js interfaceThatHidesBaseProperty.ts
+! stderr .
+cmp interfaceThatHidesBaseProperty.js interfaceThatHidesBaseProperty.js.golden
+! exists interfaceThatHidesBaseProperty.d.ts
+! exists interfaceThatHidesBaseProperty.js.map
+
+-- interfaceThatHidesBaseProperty.ts --
+interface Base {
+    x: { a: number };
+}
+
+interface Derived extends Base {
+    x: {
+        a: number; b: number;
+    };
+}
+-- interfaceThatHidesBaseProperty.js.golden --
+"use strict";

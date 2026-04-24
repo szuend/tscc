@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/types/contextualTypes/logicalAnd/contextuallyTypeLogicalAnd02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js contextuallyTypeLogicalAnd02.js contextuallyTypeLogicalAnd02.ts
+stderr 'TS2322'
+! exists contextuallyTypeLogicalAnd02.js
+! exists contextuallyTypeLogicalAnd02.d.ts
+! exists contextuallyTypeLogicalAnd02.js.map
+
+-- contextuallyTypeLogicalAnd02.ts --
+let x: (a: string) => string;
+let y = true;
+
+x = y && (a => {
+    const b: number = a;
+    return b;
+});

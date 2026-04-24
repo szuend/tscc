@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/scanner/ecmascript5/scannerStringLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js scannerStringLiterals.js scannerStringLiterals.ts
+stderr 'TS1002'
+! exists scannerStringLiterals.js
+! exists scannerStringLiterals.d.ts
+! exists scannerStringLiterals.js.map
+
+-- scannerStringLiterals.ts --
+""
+" "
+"a"
+"'"
+'"'
+"\""
+'\u2192\   '
+"Legal line continuation \
+"
+"Should error because of newline.
+"Should error because of end of file.

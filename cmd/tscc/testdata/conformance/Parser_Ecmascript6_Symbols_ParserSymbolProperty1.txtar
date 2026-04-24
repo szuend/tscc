@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Symbols/parserSymbolProperty1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js parserSymbolProperty1.js parserSymbolProperty1.ts
+! stderr .
+cmp parserSymbolProperty1.js parserSymbolProperty1.js.golden
+! exists parserSymbolProperty1.d.ts
+! exists parserSymbolProperty1.js.map
+
+-- parserSymbolProperty1.ts --
+interface I {
+    [Symbol.iterator]: string;
+}
+-- parserSymbolProperty1.js.golden --
+"use strict";

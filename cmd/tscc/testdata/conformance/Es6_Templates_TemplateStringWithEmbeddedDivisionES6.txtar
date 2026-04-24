@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedDivisionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedDivisionES6.js templateStringWithEmbeddedDivisionES6.ts
+! stderr .
+cmp templateStringWithEmbeddedDivisionES6.js templateStringWithEmbeddedDivisionES6.js.golden
+! exists templateStringWithEmbeddedDivisionES6.d.ts
+! exists templateStringWithEmbeddedDivisionES6.js.map
+
+-- templateStringWithEmbeddedDivisionES6.ts --
+var x = `abc${ 1 / 1 }def`;
+-- templateStringWithEmbeddedDivisionES6.js.golden --
+"use strict";
+var x = `abc${1 / 1}def`;

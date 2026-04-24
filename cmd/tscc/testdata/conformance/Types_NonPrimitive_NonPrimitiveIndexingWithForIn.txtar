@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/types/nonPrimitive/nonPrimitiveIndexingWithForIn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js nonPrimitiveIndexingWithForIn.js nonPrimitiveIndexingWithForIn.ts
+! stderr .
+cmp nonPrimitiveIndexingWithForIn.js nonPrimitiveIndexingWithForIn.js.golden
+! exists nonPrimitiveIndexingWithForIn.d.ts
+! exists nonPrimitiveIndexingWithForIn.js.map
+
+-- nonPrimitiveIndexingWithForIn.ts --
+var a: object;
+
+for (var key in a) {
+    var value = a[key];
+}
+-- nonPrimitiveIndexingWithForIn.js.golden --
+"use strict";
+var a;
+for (var key in a) {
+    var value = a[key];
+}

@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/nonPrimitive/assignObjectToNonPrimitive.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js assignObjectToNonPrimitive.js assignObjectToNonPrimitive.ts
+! stderr .
+cmp assignObjectToNonPrimitive.js assignObjectToNonPrimitive.js.golden
+! exists assignObjectToNonPrimitive.d.ts
+! exists assignObjectToNonPrimitive.js.map
+
+-- assignObjectToNonPrimitive.ts --
+var x = {};
+var y = {foo: "bar"};
+var a: object;
+a = x;
+a = y;
+-- assignObjectToNonPrimitive.js.golden --
+"use strict";
+var x = {};
+var y = { foo: "bar" };
+var a;
+a = x;
+a = y;

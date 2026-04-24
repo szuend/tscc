@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/generators/generatorReturnTypeFallback.3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5,es2015.iterable --strict --target esnext generatorReturnTypeFallback.3.ts
+! stderr .
+! exists generatorReturnTypeFallback.3.d.ts
+! exists generatorReturnTypeFallback.3.js.map
+
+-- generatorReturnTypeFallback.3.ts --
+function* f() {
+    const x: string = yield 1;
+}

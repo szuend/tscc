@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty57.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty57.js symbolProperty57.ts
+! stderr .
+cmp symbolProperty57.js symbolProperty57.js.golden
+! exists symbolProperty57.d.ts
+! exists symbolProperty57.js.map
+
+-- symbolProperty57.ts --
+var obj = {
+    [Symbol.iterator]: 0
+};
+
+// Should give type 'any'.
+obj[Symbol["nonsense"]];
+-- symbolProperty57.js.golden --
+"use strict";
+var obj = {
+    [Symbol.iterator]: 0
+};
+// Should give type 'any'.
+obj[Symbol["nonsense"]];

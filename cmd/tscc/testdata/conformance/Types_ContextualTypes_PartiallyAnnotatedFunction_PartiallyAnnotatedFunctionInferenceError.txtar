@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/contextualTypes/partiallyAnnotatedFunction/partiallyAnnotatedFunctionInferenceError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js partiallyAnnotatedFunctionInferenceError.js partiallyAnnotatedFunctionInferenceError.ts
+stderr 'TS2345'
+! exists partiallyAnnotatedFunctionInferenceError.js
+! exists partiallyAnnotatedFunctionInferenceError.d.ts
+! exists partiallyAnnotatedFunctionInferenceError.js.map
+
+-- partiallyAnnotatedFunctionInferenceError.ts --
+class C {
+  test: string
+}
+
+class D extends C {
+  test2: string
+}
+
+declare function testError<T extends C>(a: (t: T, t1: T) => void): T
+
+// more args
+testError((t1: D, t2, t3) => {})
+testError((t1, t2: D, t3) => {})
+testError((t1, t2, t3: D) => {})

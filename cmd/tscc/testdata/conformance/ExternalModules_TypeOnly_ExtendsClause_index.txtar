@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/extendsClause.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+stderr 'TS1361'
+! exists index.js
+! exists index.d.ts
+! exists index.js.map
+
+-- index.ts --
+import { types } from './ns';
+import type { C, I } from './types';
+
+interface Q extends C {}
+interface R extends I {}
+interface S extends types.C {}
+interface T extends types.I {}
+
+class U extends C {} // Error
+class V extends types.C {} // Error
+-- ns.ts --
+import type * as types from './types';
+export { types };
+-- types.ts --
+export interface I {}
+export class C {}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/jsdoc/typeTagModuleExports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug27327.js
+stderr 'TS2322'
+! exists bug27327.d.ts
+! exists bug27327.js.map
+
+-- bug27327.js --
+/** @type {string} */
+module.exports = 0;

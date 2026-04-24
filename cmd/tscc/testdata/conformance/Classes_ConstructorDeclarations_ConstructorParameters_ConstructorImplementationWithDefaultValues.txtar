@@ -1,0 +1,46 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/constructorImplementationWithDefaultValues.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js constructorImplementationWithDefaultValues.js constructorImplementationWithDefaultValues.ts
+! stderr .
+cmp constructorImplementationWithDefaultValues.js constructorImplementationWithDefaultValues.js.golden
+! exists constructorImplementationWithDefaultValues.d.ts
+! exists constructorImplementationWithDefaultValues.js.map
+
+-- constructorImplementationWithDefaultValues.ts --
+class C {
+    constructor(x);
+    constructor(x = 1) {
+        var y = x;
+    }
+}
+
+class D<T> {
+    constructor(x);
+    constructor(x:T = null) {
+        var y = x;
+    }
+}
+
+class E<T extends Date> {
+    constructor(x);
+    constructor(x: T = null) {
+        var y = x;
+    }
+}
+-- constructorImplementationWithDefaultValues.js.golden --
+"use strict";
+class C {
+    constructor(x = 1) {
+        var y = x;
+    }
+}
+class D {
+    constructor(x = null) {
+        var y = x;
+    }
+}
+class E {
+    constructor(x = null) {
+        var y = x;
+    }
+}

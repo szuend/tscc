@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/internalModules/moduleBody/invalidModuleWithVarStatements.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidModuleWithVarStatements.js invalidModuleWithVarStatements.ts
+stderr 'TS1044'
+! exists invalidModuleWithVarStatements.js
+! exists invalidModuleWithVarStatements.d.ts
+! exists invalidModuleWithVarStatements.js.map
+
+-- invalidModuleWithVarStatements.ts --
+// All of these should be an error
+
+namespace Y {
+    public var x: number = 0;
+}
+
+namespace Y2 {
+    public function fn(x: string) { }
+}
+
+namespace Y4 {
+    static var x: number = 0;
+}
+
+namespace YY {
+    static function fn(x: string) { }
+}
+
+namespace YY2 {
+    private var x: number = 0;
+}
+
+
+namespace YY3 {
+    private function fn(x: string) { }
+}

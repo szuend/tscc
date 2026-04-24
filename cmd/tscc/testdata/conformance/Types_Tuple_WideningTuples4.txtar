@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/tuple/wideningTuples4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js wideningTuples4.js wideningTuples4.ts
+stderr 'TS2322'
+! exists wideningTuples4.js
+! exists wideningTuples4.d.ts
+! exists wideningTuples4.js.map
+
+-- wideningTuples4.ts --
+var a: [any];
+
+var b = a = [undefined, null];
+b = ["", ""];

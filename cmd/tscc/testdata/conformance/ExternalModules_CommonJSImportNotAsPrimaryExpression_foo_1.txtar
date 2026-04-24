@@ -1,0 +1,45 @@
+# Ported from tests/cases/conformance/externalModules/commonJSImportNotAsPrimaryExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo_1.js foo_1.ts
+! stderr .
+cmp foo_1.js foo_1.js.golden
+! exists foo_1.d.ts
+! exists foo_1.js.map
+
+-- foo_0.ts --
+export class C1 {
+	m1 = 42;
+	static s1 = true;
+}
+
+export interface I1 {
+	name: string;
+	age: number;
+}
+
+export namespace M1 {
+	export interface I2 {
+		foo: string;
+	}
+}
+
+export enum E1 {
+	A,B,C
+}
+-- foo_1.ts --
+import foo = require("./foo_0");
+// None of the below should cause a runtime dependency on foo_0
+import f = foo.M1;
+var i: f.I2;
+var x: foo.C1 = <{m1: number}>{};
+var y: typeof foo.C1.s1 = false;
+var z: foo.M1.I2;
+var e: number = <foo.E1>0;
+-- foo_1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var i;
+var x = {};
+var y = false;
+var z;
+var e = 0;

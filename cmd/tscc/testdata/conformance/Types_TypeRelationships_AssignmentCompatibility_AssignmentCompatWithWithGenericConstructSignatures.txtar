@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/assignmentCompatWithWithGenericConstructSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatWithWithGenericConstructSignatures.js assignmentCompatWithWithGenericConstructSignatures.ts
+! stderr .
+cmp assignmentCompatWithWithGenericConstructSignatures.js assignmentCompatWithWithGenericConstructSignatures.js.golden
+! exists assignmentCompatWithWithGenericConstructSignatures.d.ts
+! exists assignmentCompatWithWithGenericConstructSignatures.js.map
+
+-- assignmentCompatWithWithGenericConstructSignatures.ts --
+
+-- assignmentCompatWithWithGenericConstructSignatures.js.golden --
+"use strict";

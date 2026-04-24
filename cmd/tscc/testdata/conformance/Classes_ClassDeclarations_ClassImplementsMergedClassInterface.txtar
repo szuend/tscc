@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classImplementsMergedClassInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classImplementsMergedClassInterface.js classImplementsMergedClassInterface.ts
+stderr 'TS2720'
+stderr 'TS2564'
+! exists classImplementsMergedClassInterface.js
+! exists classImplementsMergedClassInterface.d.ts
+! exists classImplementsMergedClassInterface.js.map
+
+-- classImplementsMergedClassInterface.ts --
+declare class C1 {
+    x : number;
+}
+
+interface C1 {
+    y : number;
+}
+
+class C2 implements C1 { // error -- missing x
+}
+
+class C3 implements C1 { // error -- missing y
+    x : number;
+}
+
+class C4 implements C1 { // error -- missing x
+    y : number;
+}
+
+class C5 implements C1 { // okay
+    x : number;
+    y : number;
+}

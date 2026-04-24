@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/types/union/discriminatedUnionTypes3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js discriminatedUnionTypes3.js discriminatedUnionTypes3.ts
+! stderr .
+cmp discriminatedUnionTypes3.js discriminatedUnionTypes3.js.golden
+! exists discriminatedUnionTypes3.d.ts
+! exists discriminatedUnionTypes3.js.map
+
+-- discriminatedUnionTypes3.ts --
+// Repro from #44435
+
+type Correct = {
+	code: string
+	property: true
+	err: undefined
+}
+type Err = {
+	err: `${string} is wrong!`
+}
+type SomeReturnType = Correct | Err;
+
+const example: SomeReturnType = {} as SomeReturnType;
+
+if (example.err === undefined) {
+	example.property;  // true
+}
+-- discriminatedUnionTypes3.js.golden --
+"use strict";
+// Repro from #44435
+const example = {};
+if (example.err === undefined) {
+    example.property; // true
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/expressions/asOperator/asOperator2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js asOperator2.js asOperator2.ts
+stderr 'TS2352'
+! exists asOperator2.js
+! exists asOperator2.d.ts
+! exists asOperator2.js.map
+
+-- asOperator2.ts --
+var x = 23 as string;

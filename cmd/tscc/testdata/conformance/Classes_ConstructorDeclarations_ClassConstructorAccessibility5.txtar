@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/classConstructorAccessibility5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classConstructorAccessibility5.js classConstructorAccessibility5.ts
+stderr 'TS2674'
+! exists classConstructorAccessibility5.js
+! exists classConstructorAccessibility5.d.ts
+! exists classConstructorAccessibility5.js.map
+
+-- classConstructorAccessibility5.ts --
+class Base {
+    protected constructor() { }
+}
+class Derived extends Base {
+    static make() { new Base() } // ok
+}
+
+class Unrelated {
+    static fake() { new Base() } // error
+}

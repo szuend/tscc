@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom a.js
+stderr 'TS2749'
+stderr 'TS2503'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+var Outer = function O() {
+    this.y = 2
+}
+Outer.Inner = class I {
+    constructor() {
+        this.x = 1
+    }
+}
+/** @type {Outer} */
+var ja
+ja.y
+/** @type {Outer.Inner} */
+var da
+da.x

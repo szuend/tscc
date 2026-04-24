@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Protected/Protected2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js Protected2.js Protected2.ts
+stderr 'TS1044'
+! exists Protected2.js
+! exists Protected2.d.ts
+! exists Protected2.js.map
+
+-- Protected2.ts --
+protected namespace M {
+}

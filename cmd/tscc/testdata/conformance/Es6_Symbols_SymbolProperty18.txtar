@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty18.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty18.js symbolProperty18.ts
+! stderr .
+cmp symbolProperty18.js symbolProperty18.js.golden
+! exists symbolProperty18.d.ts
+! exists symbolProperty18.js.map
+
+-- symbolProperty18.ts --
+var i = {
+    [Symbol.iterator]: 0,
+    [Symbol.toStringTag]() { return "" },
+    set [Symbol.toPrimitive](p: boolean) { }
+}
+
+var it = i[Symbol.iterator];
+var str = i[Symbol.toStringTag]();
+i[Symbol.toPrimitive] = false;
+-- symbolProperty18.js.golden --
+"use strict";
+var i = {
+    [Symbol.iterator]: 0,
+    [Symbol.toStringTag]() { return ""; },
+    set [Symbol.toPrimitive](p) { }
+};
+var it = i[Symbol.iterator];
+var str = i[Symbol.toStringTag]();
+i[Symbol.toPrimitive] = false;

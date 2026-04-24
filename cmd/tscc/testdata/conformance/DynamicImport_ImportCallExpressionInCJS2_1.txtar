@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionInCJS2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target esnext --lib esnext,dom --out-js 1.js 1.ts
+! stderr .
+cmp 1.js 1.js.golden
+! exists 1.d.ts
+! exists 1.js.map
+
+-- 0.ts --
+export function foo() { return "foo"; }
+-- 1.ts --
+export function backup() { return "backup"; }
+-- 2.ts --
+async function compute(promise: Promise<any>) {
+    let j = await promise;
+    if (!j) {
+        j = await import("./1");
+        return j.backup();
+    }
+    return j.foo();
+}
+
+compute(import("./0"));
+-- 1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.backup = backup;
+function backup() { return "backup"; }

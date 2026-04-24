@@ -1,0 +1,57 @@
+# Ported from tests/cases/conformance/async/es6/functionDeclarations/asyncOrYieldAsBindingIdentifier1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js asyncOrYieldAsBindingIdentifier1.js asyncOrYieldAsBindingIdentifier1.ts
+stderr 'TS1359'
+stderr 'TS1212'
+! exists asyncOrYieldAsBindingIdentifier1.js
+! exists asyncOrYieldAsBindingIdentifier1.d.ts
+! exists asyncOrYieldAsBindingIdentifier1.js.map
+
+-- asyncOrYieldAsBindingIdentifier1.ts --
+function f_let () {
+    let await = 1
+}
+
+function f1_var () {
+    var await = 1
+}
+
+function f1_const () {
+    const await = 1
+}
+
+async function f2_let () {
+    let await = 1
+}
+
+async function f2_var () {
+    var await = 1
+}
+
+async function f2_const () {
+    const await = 1
+}
+
+function f3_let () {
+    let yield = 2
+}
+
+function f3_var () {
+    var yield = 2
+}
+
+function f3_const () {
+    const yield = 2
+}
+
+function * f4_let () {
+    let yield = 2;
+}
+
+function * f4_var () {
+    var yield = 2;
+}
+
+function * f4_const () {
+    const yield = 2;
+}

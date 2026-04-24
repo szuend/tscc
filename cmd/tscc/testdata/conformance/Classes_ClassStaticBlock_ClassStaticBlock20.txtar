@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/classStaticBlock/classStaticBlock20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classStaticBlock20.js classStaticBlock20.ts
+stderr 'TS1184'
+! exists classStaticBlock20.js
+! exists classStaticBlock20.d.ts
+! exists classStaticBlock20.js.map
+
+-- classStaticBlock20.ts --
+class C {
+    async static {
+        // something
+    }
+
+    public static {
+        // something
+    }
+
+    readonly private static {
+        // something
+    }
+}

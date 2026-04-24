@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedTypeAssertionOnAdditionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedTypeAssertionOnAdditionES6.js templateStringWithEmbeddedTypeAssertionOnAdditionES6.ts
+! stderr .
+cmp templateStringWithEmbeddedTypeAssertionOnAdditionES6.js templateStringWithEmbeddedTypeAssertionOnAdditionES6.js.golden
+! exists templateStringWithEmbeddedTypeAssertionOnAdditionES6.d.ts
+! exists templateStringWithEmbeddedTypeAssertionOnAdditionES6.js.map
+
+-- templateStringWithEmbeddedTypeAssertionOnAdditionES6.ts --
+var x = `abc${ <any>(10 + 10) }def`;
+-- templateStringWithEmbeddedTypeAssertionOnAdditionES6.js.golden --
+"use strict";
+var x = `abc${(10 + 10)}def`;

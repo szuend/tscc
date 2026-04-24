@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classExtendingNull.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExtendingNull.js classExtendingNull.ts
+! stderr .
+cmp classExtendingNull.js classExtendingNull.js.golden
+! exists classExtendingNull.d.ts
+! exists classExtendingNull.js.map
+
+-- classExtendingNull.ts --
+class C1 extends null { }
+class C2 extends (null) { }
+class C3 extends null { x = 1; }
+class C4 extends (null) { x = 1; }
+-- classExtendingNull.js.golden --
+"use strict";
+class C1 extends null {
+}
+class C2 extends (null) {
+}
+class C3 extends null {
+    constructor() {
+        this.x = 1;
+    }
+}
+class C4 extends (null) {
+    constructor() {
+        this.x = 1;
+    }
+}

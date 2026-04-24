@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty39.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty39.js symbolProperty39.ts
+stderr 'TS2393'
+! exists symbolProperty39.js
+! exists symbolProperty39.d.ts
+! exists symbolProperty39.js.map
+
+-- symbolProperty39.ts --
+class C {
+    [Symbol.iterator](x: string): string;
+    [Symbol.iterator](x: number): number;
+    [Symbol.iterator](x: any) {
+        return undefined;
+    }
+    [Symbol.iterator](x: any) {
+        return undefined;
+    }
+}

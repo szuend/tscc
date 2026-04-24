@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/constEnums/constEnum3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js constEnum3.js constEnum3.ts
+! stderr .
+cmp constEnum3.js constEnum3.js.golden
+! exists constEnum3.d.ts
+! exists constEnum3.js.map
+
+-- constEnum3.ts --
+const enum TestType { foo, bar }
+type TestTypeStr = keyof typeof TestType;
+
+function f1(f: TestType) { }
+function f2(f: TestTypeStr) { }
+
+f1(TestType.foo)
+f1(TestType.bar)
+f2('foo')
+f2('bar')
+-- constEnum3.js.golden --
+"use strict";
+function f1(f) { }
+function f2(f) { }
+f1(0 /* TestType.foo */);
+f1(1 /* TestType.bar */);
+f2('foo');
+f2('bar');

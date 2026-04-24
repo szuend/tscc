@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of48.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of48.js for-of48.ts
+stderr 'TS2322'
+! exists for-of48.js
+! exists for-of48.d.ts
+! exists for-of48.js.map
+
+-- for-of48.ts --
+var x: string, y: number;
+var array = [{ x: "", y: true }]
+enum E { x }
+for ({x, y = E.x} of array) {
+    x;
+    y;
+}

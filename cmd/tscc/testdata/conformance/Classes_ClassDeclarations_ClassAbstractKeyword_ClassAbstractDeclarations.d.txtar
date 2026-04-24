@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractDeclarations.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classAbstractDeclarations.d.js classAbstractDeclarations.d.ts
+stderr 'TS1242'
+stderr 'TS1183'
+! exists classAbstractDeclarations.d.js
+! exists classAbstractDeclarations.d.d.ts
+! exists classAbstractDeclarations.d.js.map
+
+-- classAbstractDeclarations.d.ts --
+declare abstract class A {
+    abstract constructor() {}
+}
+
+declare abstract class AA {
+    abstract foo();
+}
+
+declare abstract class BB extends AA {}
+
+declare class CC extends AA {}
+
+declare class DD extends BB {}
+
+declare abstract class EE extends BB {}
+
+declare class FF extends CC {}
+
+declare abstract class GG extends CC {}
+
+declare abstract class AAA {}
+
+declare abstract class BBB extends AAA {}
+
+declare class CCC extends AAA {}

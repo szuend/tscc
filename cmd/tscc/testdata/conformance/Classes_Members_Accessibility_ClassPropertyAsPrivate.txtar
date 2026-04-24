@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/classes/members/accessibility/classPropertyAsPrivate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js classPropertyAsPrivate.js classPropertyAsPrivate.ts
+stderr 'TS2341'
+! exists classPropertyAsPrivate.js
+! exists classPropertyAsPrivate.d.ts
+! exists classPropertyAsPrivate.js.map
+
+-- classPropertyAsPrivate.ts --
+class C {
+    private x: string;
+    private get y() { return null; }
+    private set y(x) { }
+    private foo() { }
+
+    private static a: string;
+    private static get b() { return null; }
+    private static set b(x) { }
+    private static foo() { }
+}
+
+declare var c: C;
+// all errors
+c.x;
+c.y;
+c.y = 1;
+c.foo();
+
+C.a;
+C.b();
+C.b = 1;
+C.foo();

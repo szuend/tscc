@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpressionDivideAmbiguity3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserRegularExpressionDivideAmbiguity3.js parserRegularExpressionDivideAmbiguity3.ts
+stderr 'TS1499'
+! exists parserRegularExpressionDivideAmbiguity3.js
+! exists parserRegularExpressionDivideAmbiguity3.d.ts
+! exists parserRegularExpressionDivideAmbiguity3.js.map
+
+-- parserRegularExpressionDivideAmbiguity3.ts --
+if (1) /regexp/a.foo();

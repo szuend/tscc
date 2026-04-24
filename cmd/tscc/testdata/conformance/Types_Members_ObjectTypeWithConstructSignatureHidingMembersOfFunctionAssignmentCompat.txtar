@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/members/objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.js objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.ts
+stderr 'TS2322'
+! exists objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.js
+! exists objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.d.ts
+! exists objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.js.map
+
+-- objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.ts --
+interface I {
+    new(): any;
+}
+
+declare var i: I;
+declare var f: Object;
+f = i;
+i = f;
+
+declare var a: {
+    new(): any
+}
+f = a;
+a = f;

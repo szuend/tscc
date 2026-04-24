@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType7.js symbolType7.ts
+stderr 'TS2362'
+stderr 'TS2363'
+! exists symbolType7.js
+! exists symbolType7.d.ts
+! exists symbolType7.js.map
+
+-- symbolType7.ts --
+var s = Symbol.for("shift");
+s << s;
+s << 0;
+s >> s;
+s >> 0;
+s >>> s;
+s >>> 0;

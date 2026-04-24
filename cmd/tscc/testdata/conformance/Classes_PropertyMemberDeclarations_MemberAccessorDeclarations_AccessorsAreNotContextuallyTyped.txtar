@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/accessorsAreNotContextuallyTyped.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js accessorsAreNotContextuallyTyped.js accessorsAreNotContextuallyTyped.ts
+stderr 'TS2454'
+! exists accessorsAreNotContextuallyTyped.js
+! exists accessorsAreNotContextuallyTyped.d.ts
+! exists accessorsAreNotContextuallyTyped.js.map
+
+-- accessorsAreNotContextuallyTyped.ts --
+// accessors are not contextually typed
+
+class C {
+    set x(v: (a: string) => string) {
+    }
+
+    get x() {
+        return (x: string) => "";
+    }
+}
+
+var c: C;
+var r = c.x(''); // string

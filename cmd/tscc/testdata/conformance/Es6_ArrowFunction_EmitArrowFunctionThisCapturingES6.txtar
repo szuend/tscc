@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/es6/arrowFunction/emitArrowFunctionThisCapturingES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js emitArrowFunctionThisCapturingES6.js emitArrowFunctionThisCapturingES6.ts
+stderr 'TS2339'
+! exists emitArrowFunctionThisCapturingES6.js
+! exists emitArrowFunctionThisCapturingES6.d.ts
+! exists emitArrowFunctionThisCapturingES6.js.map
+
+-- emitArrowFunctionThisCapturingES6.ts --
+var f1 = () => {
+    this.age = 10
+};
+
+var f2 = (x: string) => {
+    this.name = x
+}
+
+function foo(func: () => boolean){ }
+foo(() => {
+    this.age = 100;
+    return true;
+});

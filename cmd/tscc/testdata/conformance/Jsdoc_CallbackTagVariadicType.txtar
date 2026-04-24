@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/jsdoc/callbackTagVariadicType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --out-dts callbackTagVariadicType.d.ts --target es2015 --lib es2015,dom --out-js out_callbackTagVariadicType.js callbackTagVariadicType.js
+stderr 'TS2370'
+stderr 'TS2345'
+! exists out_callbackTagVariadicType.js
+! exists bin/callbackTagVariadicType.js.map
+! exists callbackTagVariadicType.d.ts
+
+-- callbackTagVariadicType.js --
+/**
+ * @callback Foo
+ * @param {...string} args
+ * @returns {number}
+ */
+
+/** @type {Foo} */
+export const x = () => 1
+var res = x('a', 'b')

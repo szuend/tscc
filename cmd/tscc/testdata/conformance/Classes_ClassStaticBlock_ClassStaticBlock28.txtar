@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/classes/classStaticBlock/classStaticBlock28.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js classStaticBlock28.js classStaticBlock28.ts
+! stderr .
+cmp classStaticBlock28.js classStaticBlock28.js.golden
+! exists classStaticBlock28.d.ts
+! exists classStaticBlock28.js.map
+
+-- classStaticBlock28.ts --
+let foo: number;
+
+class C {
+    static {
+        foo = 1
+    }
+}
+
+console.log(foo)
+-- classStaticBlock28.js.golden --
+"use strict";
+let foo;
+class C {
+}
+(() => {
+    foo = 1;
+})();
+console.log(foo);

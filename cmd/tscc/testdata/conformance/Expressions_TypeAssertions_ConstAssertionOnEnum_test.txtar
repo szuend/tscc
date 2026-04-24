@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/expressions/typeAssertions/constAssertionOnEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom --out-js test.js test.ts
+! stderr .
+cmp test.js test.js.golden
+! exists test.d.ts
+! exists test.js.map
+
+-- enum.ts --
+export enum Foo {
+    A,
+    B,
+}
+-- more.ts --
+export enum Foo { X }
+(Foo).X as const;
+-- ns.ts --
+namespace ns {
+    export enum Foo { X }
+    ns.Foo.X as const;
+}
+-- test.ts --
+import {Foo} from './enum';
+
+enum Bar {
+    A,
+    B,
+}
+let foo = Foo.A as const;
+let bar = Bar.A as const;
+-- test.js.golden --
+import { Foo } from './enum';
+var Bar;
+(function (Bar) {
+    Bar[Bar["A"] = 0] = "A";
+    Bar[Bar["B"] = 1] = "B";
+})(Bar || (Bar = {}));
+let foo = Foo.A;
+let bar = Bar.A;

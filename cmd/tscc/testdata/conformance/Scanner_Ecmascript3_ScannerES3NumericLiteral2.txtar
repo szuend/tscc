@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/scanner/ecmascript3/scannerES3NumericLiteral2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js scannerES3NumericLiteral2.js scannerES3NumericLiteral2.ts
+stderr 'TS1121'
+! exists scannerES3NumericLiteral2.js
+! exists scannerES3NumericLiteral2.d.ts
+! exists scannerES3NumericLiteral2.js.map
+
+-- scannerES3NumericLiteral2.ts --
+01

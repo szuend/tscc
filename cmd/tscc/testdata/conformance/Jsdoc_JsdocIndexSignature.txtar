@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom indices.js
+stderr 'TS2322'
+! exists indices.d.ts
+! exists indices.js.map
+
+-- indices.js --
+/** @type {Object.<string, number>} */
+var o1;
+/** @type {Object.<number, boolean>} */
+var o2;
+/** @type {Object.<boolean, string>} */
+var o3;
+/** @param {Object.<string, boolean>} o */
+function f(o) {
+    o.foo = 1; // error
+    o.bar = false; // ok
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserFuzz1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserFuzz1.js parserFuzz1.ts
+stderr 'TS1005'
+stderr 'TS1434'
+stderr 'TS1128'
+! exists parserFuzz1.js
+! exists parserFuzz1.d.ts
+! exists parserFuzz1.js.map
+
+-- parserFuzz1.ts --
+cla <ss {
+  _ static try

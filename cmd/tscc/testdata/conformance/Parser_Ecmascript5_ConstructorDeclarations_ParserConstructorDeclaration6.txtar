@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserConstructorDeclaration6.js parserConstructorDeclaration6.ts
+stderr 'TS1028'
+! exists parserConstructorDeclaration6.js
+! exists parserConstructorDeclaration6.d.ts
+! exists parserConstructorDeclaration6.js.map
+
+-- parserConstructorDeclaration6.ts --
+class C {
+  public public constructor() { }
+}

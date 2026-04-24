@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/declarationEmit/libReferenceDeclarationEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts file2.d.ts --lib esnext --module commonjs --target esnext --out-js file2.js file2.ts
+! stderr .
+cmp file2.d.ts file2.d.ts.golden
+cmp file2.js file2.js.golden
+! exists file2.js.map
+
+-- file1.ts --
+/// <reference lib="dom" preserve="true" />
+export declare const elem: HTMLElement;
+-- file2.ts --
+/// <reference lib="dom" preserve="true" />
+export {}
+declare const elem: HTMLElement;
+-- file2.d.ts.golden --
+/// <reference lib="dom" preserve="true" />
+export {};
+-- file2.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/any/narrowExceptionVariableInCatchClause.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js narrowExceptionVariableInCatchClause.js narrowExceptionVariableInCatchClause.ts
+stderr 'TS2551'
+! exists narrowExceptionVariableInCatchClause.js
+! exists narrowExceptionVariableInCatchClause.d.ts
+! exists narrowExceptionVariableInCatchClause.js.map
+
+-- narrowExceptionVariableInCatchClause.ts --
+declare function isFooError(x: any): x is { type: 'foo'; dontPanic(); };
+
+function tryCatch() {
+    try {
+        // do stuff...
+    }
+    catch (err) { // err is implicitly 'any' and cannot be annotated
+
+        if (isFooError(err)) {
+            err.dontPanic(); // OK
+            err.doPanic(); // ERROR: Property 'doPanic' does not exist on type '{...}'
+        }
+
+        else if (err instanceof Error) {
+            err.message;
+            err.massage; // ERROR: Property 'massage' does not exist on type 'Error'
+        }
+
+        else {
+            throw err;
+        }
+    }
+}

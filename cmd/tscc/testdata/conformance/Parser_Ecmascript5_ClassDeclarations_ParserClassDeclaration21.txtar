@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration21.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserClassDeclaration21.js parserClassDeclaration21.ts
+stderr 'TS2389'
+! exists parserClassDeclaration21.js
+! exists parserClassDeclaration21.d.ts
+! exists parserClassDeclaration21.js.map
+
+-- parserClassDeclaration21.ts --
+class C {
+    0();
+    1() { }
+}

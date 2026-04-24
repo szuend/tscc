@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/classes/constructorDeclarations/constructorParameters/constructorParameterProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js constructorParameterProperties.js constructorParameterProperties.ts
+stderr 'TS2564'
+stderr 'TS2341'
+stderr 'TS2445'
+stderr 'TS2339'
+! exists constructorParameterProperties.js
+! exists constructorParameterProperties.d.ts
+! exists constructorParameterProperties.js.map
+
+-- constructorParameterProperties.ts --
+class C {
+    y: string;
+    constructor(private x: string, protected z: string) { }
+}
+
+declare var c: C;
+var r = c.y;
+var r2 = c.x; // error
+var r3 = c.z; // error
+
+class D<T> {
+    y: T;
+    constructor(a: T, private x: T, protected z: T) { }
+}
+
+declare var d: D<string>;
+var r = d.y;
+var r2 = d.x; // error
+var r3 = d.a; // error
+var r4 = d.z; // error

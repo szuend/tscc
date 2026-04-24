@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/typeParameters/recurringTypeParamForContainerOfBase01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts recurringTypeParamForContainerOfBase01.d.ts --target es2015 --lib es2015,dom --out-js recurringTypeParamForContainerOfBase01.js recurringTypeParamForContainerOfBase01.ts
+! stderr .
+cmp recurringTypeParamForContainerOfBase01.d.ts recurringTypeParamForContainerOfBase01.d.ts.golden
+cmp recurringTypeParamForContainerOfBase01.js recurringTypeParamForContainerOfBase01.js.golden
+! exists recurringTypeParamForContainerOfBase01.js.map
+
+-- recurringTypeParamForContainerOfBase01.ts --
+interface BoxOfFoo<T extends Foo<T>> {
+    item: T
+}
+
+interface Foo<T extends Foo<T>> {
+    self: T;
+}
+
+interface Bar<T extends Bar<T>> extends Foo<T> {
+    other: BoxOfFoo<T>;
+}
+-- recurringTypeParamForContainerOfBase01.d.ts.golden --
+interface BoxOfFoo<T extends Foo<T>> {
+    item: T;
+}
+interface Foo<T extends Foo<T>> {
+    self: T;
+}
+interface Bar<T extends Bar<T>> extends Foo<T> {
+    other: BoxOfFoo<T>;
+}
+-- recurringTypeParamForContainerOfBase01.js.golden --
+"use strict";

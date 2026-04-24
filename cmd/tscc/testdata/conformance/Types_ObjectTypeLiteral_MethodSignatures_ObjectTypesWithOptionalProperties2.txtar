@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js objectTypesWithOptionalProperties2.js objectTypesWithOptionalProperties2.ts
+stderr 'TS1005'
+stderr 'TS1131'
+stderr 'TS1144'
+stderr 'TS1068'
+stderr 'TS1136'
+! exists objectTypesWithOptionalProperties2.js
+! exists objectTypesWithOptionalProperties2.d.ts
+! exists objectTypesWithOptionalProperties2.js.map
+
+-- objectTypesWithOptionalProperties2.ts --
+// Illegal attempts to define optional methods
+
+var a: {
+    x()?: number; // error
+}
+
+interface I {
+    x()?: number; // error
+}
+
+class C {
+    x()?: number; // error
+}
+
+interface I2<T> {
+    x()?: T; // error
+}
+
+class C2<T> {
+    x()?: T; // error
+}
+
+
+var b = {
+    x()?: 1 // error
+}

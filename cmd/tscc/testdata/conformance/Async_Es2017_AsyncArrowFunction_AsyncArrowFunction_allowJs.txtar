@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/async/es2017/asyncArrowFunction/asyncArrowFunction_allowJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2017 --lib es2017,dom file.js
+stderr 'TS1005'
+! exists file.d.ts
+! exists file.js.map
+
+-- file.js --
+// Error (good)
+/** @type {function(): string} */
+const a = () => 0
+
+// Error (good)
+/** @type {function(): string} */
+const b = async () => 0
+
+// No error (bad)
+/** @type {function(): string} */
+const c = async () => {
+	return 0
+}
+
+// Error (good)
+/** @type {function(): string} */
+const d = async () => {
+	return ""
+}
+
+/** @type {function(function(): string): void} */
+const f = (p) => {}
+
+// Error (good)
+f(async () => {
+	return 0
+})

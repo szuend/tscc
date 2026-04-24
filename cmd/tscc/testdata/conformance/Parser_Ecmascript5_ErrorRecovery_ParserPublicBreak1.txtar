@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserPublicBreak1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserPublicBreak1.js parserPublicBreak1.ts
+stderr 'TS1128'
+! exists parserPublicBreak1.js
+! exists parserPublicBreak1.d.ts
+! exists parserPublicBreak1.js.map
+
+-- parserPublicBreak1.ts --
+public break;

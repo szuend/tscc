@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTypeReferenceToImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom jsdocTypeReferenceToImport.js
+stderr 'TS2749'
+! exists jsdocTypeReferenceToImport.d.ts
+! exists jsdocTypeReferenceToImport.js.map
+
+-- ex.d.ts --
+export class C {
+    start: number
+    end: number
+}
+-- jsdocTypeReferenceToImport.js --
+const C = require('./ex').C;
+const D = require('./ex')?.C;
+/** @type {C} c */
+var c = new C()
+c.start
+c.end
+
+/** @type {D} c */
+var d = new D()
+d.start
+d.end

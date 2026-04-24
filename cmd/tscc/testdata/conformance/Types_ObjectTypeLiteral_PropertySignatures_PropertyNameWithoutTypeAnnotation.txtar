@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/types/objectTypeLiteral/propertySignatures/propertyNameWithoutTypeAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyNameWithoutTypeAnnotation.js propertyNameWithoutTypeAnnotation.ts
+! stderr .
+cmp propertyNameWithoutTypeAnnotation.js propertyNameWithoutTypeAnnotation.js.golden
+! exists propertyNameWithoutTypeAnnotation.d.ts
+! exists propertyNameWithoutTypeAnnotation.js.map
+
+-- propertyNameWithoutTypeAnnotation.ts --
+class C {
+    foo;
+}
+
+interface I {
+    foo;
+}
+
+var a: {
+    foo;
+}
+
+var b = {
+    foo: null
+}
+
+// These should all be of type 'any'
+var r1 = (new C()).foo;
+var r2 = (<I>null).foo;
+var r3 = a.foo;
+var r4 = b.foo;
+-- propertyNameWithoutTypeAnnotation.js.golden --
+"use strict";
+class C {
+}
+var a;
+var b = {
+    foo: null
+};
+// These should all be of type 'any'
+var r1 = (new C()).foo;
+var r2 = null.foo;
+var r3 = a.foo;
+var r4 = b.foo;

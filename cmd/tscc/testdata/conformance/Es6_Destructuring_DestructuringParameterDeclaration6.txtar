@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringParameterDeclaration6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js destructuringParameterDeclaration6.js destructuringParameterDeclaration6.ts
+stderr 'TS1005'
+stderr 'TS1181'
+stderr 'TS1109'
+stderr 'TS1128'
+stderr 'TS1359'
+! exists destructuringParameterDeclaration6.js
+! exists destructuringParameterDeclaration6.d.ts
+! exists destructuringParameterDeclaration6.js.map
+
+-- destructuringParameterDeclaration6.ts --
+// A parameter declaration may specify either an identifier or a binding pattern.
+
+// Reserved words are not allowed to be used as an identifier in parameter declaration
+"use strict"
+
+// Error
+function a({while}) { }
+function a1({public}) { }
+function a4([while, for, public]){ }
+function a5(...while) { }
+function a6(...public) { }
+function a7(...a: string) { }
+a({ while: 1 });
+
+// No Error
+function b1({public: x}) { }
+function b2({while: y}) { }
+b1({ public: 1 });
+b2({ while: 1 });
+

@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/jsdoc/paramTagOnFunctionUsingArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom a.js
+stderr 'TS8029'
+stderr 'TS2554'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @param {string} first
+ */
+function concat(/* first, second, ... */) {
+  var s = ''
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    s += arguments[i]
+  }
+  return s
+}
+
+/**
+ * @param {...string} strings
+ */
+function correct() {
+    arguments
+}
+
+correct(1,2,3) // oh no
+-- decls.d.ts --
+declare function factory(type: string): {};

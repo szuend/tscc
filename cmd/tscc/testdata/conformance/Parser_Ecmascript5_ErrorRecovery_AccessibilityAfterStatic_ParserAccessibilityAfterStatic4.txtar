@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/AccessibilityAfterStatic/parserAccessibilityAfterStatic4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserAccessibilityAfterStatic4.js parserAccessibilityAfterStatic4.ts
+! stderr .
+cmp parserAccessibilityAfterStatic4.js parserAccessibilityAfterStatic4.js.golden
+! exists parserAccessibilityAfterStatic4.d.ts
+! exists parserAccessibilityAfterStatic4.js.map
+
+-- parserAccessibilityAfterStatic4.ts --
+class Outer
+{
+static public: number;
+}
+-- parserAccessibilityAfterStatic4.js.golden --
+"use strict";
+class Outer {
+}

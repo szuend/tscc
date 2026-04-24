@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/expressions/functionCalls/forgottenNew.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js forgottenNew.js forgottenNew.ts
+stderr 'TS2348'
+! exists forgottenNew.js
+! exists forgottenNew.d.ts
+! exists forgottenNew.js.map
+
+-- forgottenNew.ts --
+namespace Tools {
+    export class NullLogger { }
+}
+
+var logger = Tools.NullLogger();

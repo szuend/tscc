@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringMultiline3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringMultiline3.js templateStringMultiline3.ts
+! stderr .
+cmp templateStringMultiline3.js templateStringMultiline3.js.golden
+! exists templateStringMultiline3.d.ts
+! exists templateStringMultiline3.js.map
+
+-- templateStringMultiline3.ts --
+// newlines are <CR>`\`
+-- templateStringMultiline3.js.golden --
+"use strict";
+// newlines are <CR>
+`\`;

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserInExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserInExpression1.js parserInExpression1.ts
+! stderr .
+cmp parserInExpression1.js parserInExpression1.js.golden
+! exists parserInExpression1.d.ts
+! exists parserInExpression1.js.map
+
+-- parserInExpression1.ts --
+console.log("a" in { "a": true });
+-- parserInExpression1.js.golden --
+"use strict";
+console.log("a" in { "a": true });

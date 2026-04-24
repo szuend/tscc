@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/expressions/propertyAccess/propertyAccessWidening.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js propertyAccessWidening.js propertyAccessWidening.ts
+stderr 'TS2339'
+stderr 'TS7053'
+! exists propertyAccessWidening.js
+! exists propertyAccessWidening.d.ts
+! exists propertyAccessWidening.js.map
+
+-- propertyAccessWidening.ts --
+// Repro from #31762
+
+function g1(headerNames: any) {
+    let t = [{ hasLineBreak: false, cells: [] }];
+    const table = [{cells: headerNames }].concat(t);
+}
+
+function g2(headerNames: any) {
+    let t = [{ hasLineBreak: false, cells: [] }];
+    const table = [{cells: headerNames }]["concat"](t);
+}
+
+// Object in property or element access is widened when target of assignment
+
+function foo(options?: { a: string, b: number }) {
+    let x1 = (options || {}).a;     // Object type not widened
+    let x2 = (options || {})["a"];  // Object type not widened
+    (options || {}).a = 1;          // Object type widened, error
+    (options || {})["a"] = 1;       // Object type widened, error
+}

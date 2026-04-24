@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/jsdoc/paramTagNestedWithoutTopLevelObject4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom paramTagNestedWithoutTopLevelObject4.js
+stderr 'TS8032'
+! exists paramTagNestedWithoutTopLevelObject4.d.ts
+! exists paramTagNestedWithoutTopLevelObject4.js.map
+
+-- paramTagNestedWithoutTopLevelObject4.js --
+/**
+ * @param {number} xyz.bar.p
+ */
+function g(xyz) {
+    return xyz.bar.p;
+}

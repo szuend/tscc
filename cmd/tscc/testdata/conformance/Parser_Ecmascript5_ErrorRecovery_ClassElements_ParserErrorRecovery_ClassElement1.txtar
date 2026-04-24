@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_ClassElement1.js parserErrorRecovery_ClassElement1.ts
+stderr 'TS1068'
+! exists parserErrorRecovery_ClassElement1.js
+! exists parserErrorRecovery_ClassElement1.d.ts
+! exists parserErrorRecovery_ClassElement1.js.map
+
+-- parserErrorRecovery_ClassElement1.ts --
+class C {
+
+// Classes can't be nested.  So we should bail out of parsing here and recover
+// this as a source unit element.
+class D {
+}

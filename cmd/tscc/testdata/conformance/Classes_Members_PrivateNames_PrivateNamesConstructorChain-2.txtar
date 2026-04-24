@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesConstructorChain-2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNamesConstructorChain-2.js privateNamesConstructorChain-2.ts
+stderr 'TS2339'
+! exists privateNamesConstructorChain-2.js
+! exists privateNamesConstructorChain-2.d.ts
+! exists privateNamesConstructorChain-2.js.map
+
+-- privateNamesConstructorChain-2.ts --
+class Parent<T> {
+    #foo = 3;
+    static #bar = 5;
+    accessChildProps() {
+        new Child<string>().#foo; // OK (`#foo` was added when `Parent`'s constructor was called on `child`)
+        Child.#bar;       // Error: not found
+    }
+}
+
+class Child<T> extends Parent<T> {
+    #foo = "foo";       // OK (Child's #foo does not conflict, as `Parent`'s `#foo` is not accessible)
+    #bar = "bar";       // OK
+}
+
+new Parent<number>().accessChildProps();

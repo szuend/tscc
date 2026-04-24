@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/declarationEmit/typeofImportTypeOnlyExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts button.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js button.js button.ts
+! stderr .
+cmp button.d.ts button.d.ts.golden
+cmp button.js button.js.golden
+! exists button.js.map
+
+-- button.ts --
+import {classMap} from './lit.js';
+export const c = classMap();
+-- lit.ts --
+class ClassMapDirective {}
+
+export type {ClassMapDirective};
+
+export const directive =
+  <C>(class_: C) =>
+  () => ({
+    directive: class_,
+  });
+
+export const classMap = directive(ClassMapDirective);
+-- button.d.ts.golden --
+export declare const c: {
+    directive: typeof import("./lit.js").ClassMapDirective;
+};
+-- button.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.c = void 0;
+const lit_js_1 = require("./lit.js");
+exports.c = (0, lit_js_1.classMap)();

@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/types/intersection/intersectionOfUnionNarrowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js intersectionOfUnionNarrowing.js intersectionOfUnionNarrowing.ts
+! stderr .
+cmp intersectionOfUnionNarrowing.js intersectionOfUnionNarrowing.js.golden
+! exists intersectionOfUnionNarrowing.d.ts
+! exists intersectionOfUnionNarrowing.js.map
+
+-- intersectionOfUnionNarrowing.ts --
+interface X {
+  a?: { aProp: string };
+  b?: { bProp: string };
+}
+type AorB = { a: object; b: undefined } | { a: undefined; b: object };
+
+declare const q: X & AorB;
+
+if (q.a !== undefined) {
+  q.a.aProp;
+} else {
+  // q.b is previously incorrectly inferred as potentially undefined
+  q.b.bProp;
+}
+-- intersectionOfUnionNarrowing.js.golden --
+"use strict";
+if (q.a !== undefined) {
+    q.a.aProp;
+}
+else {
+    // q.b is previously incorrectly inferred as potentially undefined
+    q.b.bProp;
+}

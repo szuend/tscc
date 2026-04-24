@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es2024/transferableArrayBuffer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2023,es2024.arraybuffer --strict --target esnext transferableArrayBuffer.ts
+! stderr .
+! exists transferableArrayBuffer.d.ts
+! exists transferableArrayBuffer.js.map
+
+-- transferableArrayBuffer.ts --
+const buffer = new ArrayBuffer(8);
+const buffer2 = buffer.transfer();
+
+buffer.detached;
+buffer2.detached;

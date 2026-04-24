@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocParseMatchingBackticks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom jsdocParseMatchingBackticks.js
+! stderr .
+! exists jsdocParseMatchingBackticks.d.ts
+! exists jsdocParseMatchingBackticks.js.map
+
+-- jsdocParseMatchingBackticks.js --
+/**
+ * `@param` initial at-param is OK in title comment
+ * @param {string} x hi there `@param`
+ * @param {string} y hi there `@ * param
+ *                   this is the margin
+ *                   so we'll drop everything before it
+ `@param` @param {string} z hello???
+ * `@param` @param {string} alpha hello???
+ * `@ * param` @param {string} beta hello???
+ * @param {string} gamma
+ */
+export function f(x, y, z, alpha, beta, gamma) {
+    return x + y + z + alpha + beta + gamma
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserVariableDeclaration1.js parserVariableDeclaration1.ts
+stderr 'TS2304'
+! exists parserVariableDeclaration1.js
+! exists parserVariableDeclaration1.d.ts
+! exists parserVariableDeclaration1.js.map
+
+-- parserVariableDeclaration1.ts --
+		var selection = a, 
+			position = b,
+			model = c,
+			support = d;

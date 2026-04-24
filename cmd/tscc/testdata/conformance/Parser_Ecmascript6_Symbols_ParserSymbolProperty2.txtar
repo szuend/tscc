@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Symbols/parserSymbolProperty2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js parserSymbolProperty2.js parserSymbolProperty2.ts
+! stderr .
+cmp parserSymbolProperty2.js parserSymbolProperty2.js.golden
+! exists parserSymbolProperty2.d.ts
+! exists parserSymbolProperty2.js.map
+
+-- parserSymbolProperty2.ts --
+interface I {
+    [Symbol.unscopables](): string;
+}
+-- parserSymbolProperty2.js.golden --
+"use strict";

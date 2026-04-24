@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es6 --lib es6,dom --out-js out_fileJs.js fileJs.js
+stderr 'TS2304'
+! exists out_fileJs.js
+! exists out/fileJs.d.ts
+! exists out/fileJs.js.map
+
+-- fileJs.js --
+a ? b ? c : (d) : e => f // Legal JS
+-- fileTs.ts --
+a ? b ? c : (d) : e => f

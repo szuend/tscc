@@ -1,0 +1,59 @@
+# Ported from tests/cases/conformance/types/never/neverTypeErrors2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js neverTypeErrors2.js neverTypeErrors2.ts
+stderr 'TS2322'
+stderr 'TS2349'
+stderr 'TS2534'
+stderr 'TS2488'
+stderr 'TS2407'
+! exists neverTypeErrors2.js
+! exists neverTypeErrors2.d.ts
+! exists neverTypeErrors2.js.map
+
+-- neverTypeErrors2.ts --
+function f1() {
+    let x: never;
+    x = 1;
+    x = "abc";
+    x = false;
+    x = undefined;
+    x = null;
+    x = {};
+    x();
+}
+
+function f2(): never {
+    return;
+}
+
+function f3(): never {
+    return 1;
+}
+
+function f4(): never {
+}
+
+for (const n of f4()) {}
+for (const n in f4()) {}
+
+function f5() {
+    let x: never[] = [];  // Ok
+}
+
+// Repro from #46032
+
+interface A {
+    foo: "a";
+}
+
+interface B {
+    foo: "b";
+}
+
+type Union = A & B;
+
+function func(): { value: Union[] } {
+    return {
+        value: [],
+    };
+}

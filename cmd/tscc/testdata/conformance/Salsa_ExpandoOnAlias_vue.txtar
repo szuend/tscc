@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/salsa/expandoOnAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts vue.d.ts --no-strict --target es2015 --lib es2015,dom vue.js
+! stderr .
+cmp vue.d.ts vue.d.ts.golden
+! exists out_vue.js
+! exists vue.js.map
+
+-- test.js --
+import { Vue, config } from "./vue";
+
+// Expando declarations aren't allowed on aliases.
+Vue.config = {};
+new Vue();
+
+// This is not an expando declaration; it's just a plain property assignment.
+config.x = 1;
+
+// This is not an expando declaration; it works because non-strict JS allows
+// loosey goosey assignment on objects.
+config.y = {};
+config.x;
+config.y;
+-- vue.js --
+export class Vue {}
+export const config = { x: 0 };
+-- vue.d.ts.golden --
+export declare class Vue {
+}
+export declare const config: {
+    x: number;
+};

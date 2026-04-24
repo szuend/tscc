@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/classes/staticIndexSignature/staticIndexSignature7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js staticIndexSignature7.js staticIndexSignature7.ts
+stderr 'TS2411'
+! exists staticIndexSignature7.js
+! exists staticIndexSignature7.d.ts
+! exists staticIndexSignature7.js.map
+
+-- staticIndexSignature7.ts --
+class X {
+    static [index: string]: string;
+    static x = 12; // Should error, incompatible with index signature
+}
+class Y {
+    static [index: string]: string;
+    static foo() {} // should error, incompatible with index signature
+}

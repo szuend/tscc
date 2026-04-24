@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/expressions/optionalChaining/callChain/callChainInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js callChainInference.js callChainInference.ts
+! stderr .
+cmp callChainInference.js callChainInference.js.golden
+! exists callChainInference.d.ts
+! exists callChainInference.js.map
+
+-- callChainInference.ts --
+// Repro from #42404
+
+interface Y {
+    foo<T>(this: T, arg: keyof T): void;
+    a: number;
+    b: string;
+}
+
+declare const value: Y | undefined;
+
+if (value) {
+    value?.foo("a");
+}
+
+value?.foo("a");
+-- callChainInference.js.golden --
+"use strict";
+// Repro from #42404
+if (value) {
+    value === null || value === void 0 ? void 0 : value.foo("a");
+}
+value === null || value === void 0 ? void 0 : value.foo("a");

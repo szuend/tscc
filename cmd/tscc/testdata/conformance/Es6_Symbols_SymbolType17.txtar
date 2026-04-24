@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType17.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolType17.js symbolType17.ts
+! stderr .
+cmp symbolType17.js symbolType17.js.golden
+! exists symbolType17.d.ts
+! exists symbolType17.js.map
+
+-- symbolType17.ts --
+interface Foo { prop }
+var x: symbol | Foo;
+
+x;
+if (typeof x === "symbol") {
+    x;
+}
+else {
+    x;
+}
+-- symbolType17.js.golden --
+"use strict";
+var x;
+x;
+if (typeof x === "symbol") {
+    x;
+}
+else {
+    x;
+}

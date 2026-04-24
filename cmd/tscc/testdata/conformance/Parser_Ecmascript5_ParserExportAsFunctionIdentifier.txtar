@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserExportAsFunctionIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserExportAsFunctionIdentifier.js parserExportAsFunctionIdentifier.ts
+stderr 'TS2454'
+! exists parserExportAsFunctionIdentifier.js
+! exists parserExportAsFunctionIdentifier.d.ts
+! exists parserExportAsFunctionIdentifier.js.map
+
+-- parserExportAsFunctionIdentifier.ts --
+interface Foo {
+       export(): string;
+}
+
+var f: Foo;
+var x = f.export();

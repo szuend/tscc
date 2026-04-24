@@ -1,0 +1,41 @@
+# Ported from tests/cases/conformance/internalModules/DeclarationMerging/TwoInternalModulesThatMergeEachWithExportedClassesOfTheSameName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js TwoInternalModulesThatMergeEachWithExportedClassesOfTheSameName.js TwoInternalModulesThatMergeEachWithExportedClassesOfTheSameName.ts
+stderr 'TS2300'
+stderr 'TS2564'
+! exists TwoInternalModulesThatMergeEachWithExportedClassesOfTheSameName.js
+! exists TwoInternalModulesThatMergeEachWithExportedClassesOfTheSameName.d.ts
+! exists TwoInternalModulesThatMergeEachWithExportedClassesOfTheSameName.js.map
+
+-- TwoInternalModulesThatMergeEachWithExportedClassesOfTheSameName.ts --
+namespace A {
+    export class Point {
+        x: number;
+        y: number;
+    }
+}
+
+namespace A{
+    // expected error
+    export class Point {
+        origin: number;
+        angle: number;
+    }
+}
+
+namespace X.Y.Z {
+    export class Line {
+        length: number;
+    }
+}
+
+namespace X {
+    export namespace Y {
+        export namespace Z {
+            // expected error
+            export class Line {
+                name: string;
+            }
+        }
+    }
+}

@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTemplateConstructorFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom templateTagOnConstructorFunctions.js
+stderr 'TS2683'
+stderr 'TS2304'
+stderr 'TS7009'
+! exists templateTagOnConstructorFunctions.d.ts
+! exists templateTagOnConstructorFunctions.js.map
+
+-- templateTagOnConstructorFunctions.js --
+/**
+ * @template U
+ * @typedef {(u: U) => U} Id
+ */
+/**
+ * @param {T} t
+ * @template T
+ */
+function Zet(t) {
+    /** @type {T} */
+    this.u
+    this.t = t
+}
+/**
+ * @param {T} v
+ * @param {Id<T>} id
+ */
+Zet.prototype.add = function(v, id) {
+    this.u = v || this.t
+    return id(this.u)
+}
+var z = new Zet(1)
+z.t = 2
+z.u = false

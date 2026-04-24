@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarations.12.js awaitUsingDeclarations.12.ts
+stderr 'TS2851'
+! exists awaitUsingDeclarations.12.js
+! exists awaitUsingDeclarations.12.d.ts
+! exists awaitUsingDeclarations.12.js.map
+
+-- awaitUsingDeclarations.12.ts --
+async function f() {
+    await using x = {};
+}

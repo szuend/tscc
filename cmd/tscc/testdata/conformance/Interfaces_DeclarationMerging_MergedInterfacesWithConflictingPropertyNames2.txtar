@@ -1,0 +1,52 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/mergedInterfacesWithConflictingPropertyNames2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mergedInterfacesWithConflictingPropertyNames2.js mergedInterfacesWithConflictingPropertyNames2.ts
+! stderr .
+cmp mergedInterfacesWithConflictingPropertyNames2.js mergedInterfacesWithConflictingPropertyNames2.js.golden
+! exists mergedInterfacesWithConflictingPropertyNames2.d.ts
+! exists mergedInterfacesWithConflictingPropertyNames2.js.map
+
+-- mergedInterfacesWithConflictingPropertyNames2.ts --
+interface A {
+    x: string; // error
+}
+
+interface A {
+    x: string; // error
+}
+
+namespace M {
+    interface A<T> {
+        x: T;
+    }
+
+    interface A<T> {
+        x: T;  // error
+    }
+}
+
+namespace M2 {
+    interface A<T> {
+        x: T;
+    }   
+}
+
+namespace M2 {
+    interface A<T> {
+        x: T;  // ok, different declaration space than other M2
+    }
+}
+
+namespace M3 {
+    export interface A<T> {
+        x: T;
+    }
+}
+
+namespace M3 {
+    export interface A<T> {
+        x: T;  // error
+    }
+}
+-- mergedInterfacesWithConflictingPropertyNames2.js.golden --
+"use strict";

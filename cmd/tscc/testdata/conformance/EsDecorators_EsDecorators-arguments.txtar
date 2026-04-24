@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/esDecorators/esDecorators-arguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js esDecorators-arguments.js esDecorators-arguments.ts
+stderr 'TS1238'
+! exists esDecorators-arguments.js
+! exists esDecorators-arguments.d.ts
+! exists esDecorators-arguments.js.map
+
+-- esDecorators-arguments.ts --
+@(() => {})
+@((a: any) => {})
+@((a: any, b: any) => {})
+@((a: any, b: any, c: any) => {})
+@((a: any, b: any, c: any, ...d: any[]) => {})
+class C1 {}

@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocLinkTag6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+class A {
+    foo() {}
+}
+class B extends A {
+    /**
+     * @override {@link A.foo}
+     */
+    foo() {}
+}
+-- a.js.golden --
+"use strict";
+class A {
+    foo() { }
+}
+class B extends A {
+    /**
+     * @override {@link A.foo}
+     */
+    foo() { }
+}

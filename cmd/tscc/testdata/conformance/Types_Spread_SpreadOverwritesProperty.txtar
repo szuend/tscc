@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/spread/spreadOverwritesProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js spreadOverwritesProperty.js spreadOverwritesProperty.ts
+stderr 'TS2783'
+! exists spreadOverwritesProperty.js
+! exists spreadOverwritesProperty.d.ts
+! exists spreadOverwritesProperty.js.map
+
+-- spreadOverwritesProperty.ts --
+// without strict null checks, none of these should be an error
+declare var ab: { a: number, b: number };
+declare var abq: { a: number, b?: number };
+var unused1 = { b: 1, ...ab }
+var unused2 = { ...ab, ...ab }
+var unused3 = { b: 1, ...abq }
+
+function g(obj: { x: number | undefined }) {
+    return { x: 1, ...obj };
+}
+function h(obj: { x: number }) {
+    return { x: 1, ...obj };
+}

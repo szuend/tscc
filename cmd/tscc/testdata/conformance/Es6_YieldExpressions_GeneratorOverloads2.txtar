@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorOverloads2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js generatorOverloads2.js generatorOverloads2.ts
+stderr 'TS1221'
+! exists generatorOverloads2.js
+! exists generatorOverloads2.d.ts
+! exists generatorOverloads2.js.map
+
+-- generatorOverloads2.ts --
+declare namespace M {
+    function* f(s: string): Iterable<any>;
+    function* f(s: number): Iterable<any>;
+    function* f(s: any): Iterable<any>;
+}

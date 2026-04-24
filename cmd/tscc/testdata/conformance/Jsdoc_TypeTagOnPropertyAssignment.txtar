@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/jsdoc/typeTagOnPropertyAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --target es2015 --lib es2015,dom typeTagOnPropertyAssignment.js
+! stderr .
+! exists typeTagOnPropertyAssignment.d.ts
+! exists typeTagOnPropertyAssignment.js.map
+
+-- typeTagOnPropertyAssignment.js --
+const o = {
+    /**
+     * @type {"a"}
+     */
+    a: "a",
+    /** @type {() => 'b'} */
+    n: () => 'b'
+};
+o.a
+o.n

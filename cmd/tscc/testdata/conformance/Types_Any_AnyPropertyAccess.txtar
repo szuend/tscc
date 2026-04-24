@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/types/any/anyPropertyAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js anyPropertyAccess.js anyPropertyAccess.ts
+! stderr .
+cmp anyPropertyAccess.js anyPropertyAccess.js.golden
+! exists anyPropertyAccess.d.ts
+! exists anyPropertyAccess.js.map
+
+-- anyPropertyAccess.ts --
+var x: any;
+var a = x.foo;
+var b = x['foo'];
+var c = x['fn']();
+var d = x.bar.baz;
+var e = x[0].foo;
+var f = x['0'].bar;
+-- anyPropertyAccess.js.golden --
+"use strict";
+var x;
+var a = x.foo;
+var b = x['foo'];
+var c = x['fn']();
+var d = x.bar.baz;
+var e = x[0].foo;
+var f = x['0'].bar;

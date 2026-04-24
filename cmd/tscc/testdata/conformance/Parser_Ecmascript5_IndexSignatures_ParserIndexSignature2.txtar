@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserIndexSignature2.js parserIndexSignature2.ts
+stderr 'TS1018'
+! exists parserIndexSignature2.js
+! exists parserIndexSignature2.d.ts
+! exists parserIndexSignature2.js.map
+
+-- parserIndexSignature2.ts --
+interface I {
+  [public a]
+}

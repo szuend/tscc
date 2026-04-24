@@ -1,0 +1,41 @@
+# Ported from tests/cases/conformance/types/forAwait/types.forAwait.es2018.1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --target es2018 types.forAwait.es2018.1.ts
+! stderr .
+! exists types.forAwait.es2018.1.d.ts
+! exists types.forAwait.es2018.1.js.map
+
+-- types.forAwait.es2018.1.ts --
+declare const asyncIterable: AsyncIterable<number>;
+declare const iterable: Iterable<number>;
+declare const iterableOfPromise: Iterable<Promise<number>>;
+async function f1() {
+    let y: number;
+    for await (const x of asyncIterable) {
+    }
+    for await (const x of iterable) {
+    }
+    for await (const x of iterableOfPromise) {
+    }
+    for await (y of asyncIterable) {
+    }
+    for await (y of iterable) {
+    }
+    for await (y of iterableOfPromise) {
+    }
+}
+async function * f2() {
+    let y: number;
+    for await (const x of asyncIterable) {
+    }
+    for await (const x of iterable) {
+    }
+    for await (const x of iterableOfPromise) {
+    }
+    for await (y of asyncIterable) {
+    }
+    for await (y of iterable) {
+    }
+    for await (y of iterableOfPromise) {
+    }
+}

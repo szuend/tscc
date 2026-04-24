@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNamesAndkeyof.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNamesAndkeyof.js privateNamesAndkeyof.ts
+stderr 'TS2322'
+! exists privateNamesAndkeyof.js
+! exists privateNamesAndkeyof.d.ts
+! exists privateNamesAndkeyof.js.map
+
+-- privateNamesAndkeyof.ts --
+class A {
+    #fooField = 3;
+    #fooMethod() { };
+    get #fooProp() { return 1; };
+    set #fooProp(value: number) { };
+    bar = 3;
+    baz = 3;
+}
+
+// `keyof A` should not include '#foo*'
+let k: keyof A = "bar"; // OK
+k = "baz"; // OK
+
+k = "#fooField"; // Error
+k = "#fooMethod"; // Error
+k = "#fooProp"; // Error
+
+k = "fooField"; // Error
+k = "fooMethod"; // Error
+k = "fooProp"; // Error

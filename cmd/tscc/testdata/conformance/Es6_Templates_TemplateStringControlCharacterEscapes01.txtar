@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringControlCharacterEscapes01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringControlCharacterEscapes01.js templateStringControlCharacterEscapes01.ts
+! stderr .
+cmp templateStringControlCharacterEscapes01.js templateStringControlCharacterEscapes01.js.golden
+! exists templateStringControlCharacterEscapes01.d.ts
+! exists templateStringControlCharacterEscapes01.js.map
+
+-- templateStringControlCharacterEscapes01.ts --
+var x = `\0\x00\u0000 0 00 0000`;
+-- templateStringControlCharacterEscapes01.js.golden --
+"use strict";
+var x = `\0\x00\u0000 0 00 0000`;

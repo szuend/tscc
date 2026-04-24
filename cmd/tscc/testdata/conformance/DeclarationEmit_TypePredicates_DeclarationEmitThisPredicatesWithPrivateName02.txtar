@@ -1,0 +1,41 @@
+# Ported from tests/cases/conformance/declarationEmit/typePredicates/declarationEmitThisPredicatesWithPrivateName02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitThisPredicatesWithPrivateName02.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitThisPredicatesWithPrivateName02.js declarationEmitThisPredicatesWithPrivateName02.ts
+! stderr .
+cmp declarationEmitThisPredicatesWithPrivateName02.d.ts declarationEmitThisPredicatesWithPrivateName02.d.ts.golden
+cmp declarationEmitThisPredicatesWithPrivateName02.js declarationEmitThisPredicatesWithPrivateName02.js.golden
+! exists declarationEmitThisPredicatesWithPrivateName02.js.map
+
+-- declarationEmitThisPredicatesWithPrivateName02.ts --
+interface Foo {
+    a: string;
+    b: number;
+    c: boolean;
+}
+
+export const obj = {
+    m(): this is Foo {
+        let dis = this as {} as Foo;
+        return dis.a != null && dis.b != null && dis.c != null;
+    }
+}
+-- declarationEmitThisPredicatesWithPrivateName02.d.ts.golden --
+interface Foo {
+    a: string;
+    b: number;
+    c: boolean;
+}
+export declare const obj: {
+    m(): this is Foo;
+};
+export {};
+-- declarationEmitThisPredicatesWithPrivateName02.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.obj = void 0;
+exports.obj = {
+    m() {
+        let dis = this;
+        return dis.a != null && dis.b != null && dis.c != null;
+    }
+};

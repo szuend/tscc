@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es2017/useObjectValuesAndEntries4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2017 --target es6 --out-js useObjectValuesAndEntries4.js useObjectValuesAndEntries4.ts
+! stderr .
+cmp useObjectValuesAndEntries4.js useObjectValuesAndEntries4.js.golden
+! exists useObjectValuesAndEntries4.d.ts
+! exists useObjectValuesAndEntries4.js.map
+
+-- useObjectValuesAndEntries4.ts --
+var o = { a: 1, b: 2 };
+
+for (var x of Object.values(o)) {
+    let y = x;
+}
+
+var entries = Object.entries(o);
+-- useObjectValuesAndEntries4.js.golden --
+"use strict";
+var o = { a: 1, b: 2 };
+for (var x of Object.values(o)) {
+    let y = x;
+}
+var entries = Object.entries(o);

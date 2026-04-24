@@ -1,0 +1,45 @@
+# Ported from tests/cases/conformance/types/rest/objectRestReadonly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js objectRestReadonly.js objectRestReadonly.ts
+! stderr .
+cmp objectRestReadonly.js objectRestReadonly.js.golden
+! exists objectRestReadonly.d.ts
+! exists objectRestReadonly.js.map
+
+-- objectRestReadonly.ts --
+// #23734
+type ObjType = {
+  foo: string
+  baz: string
+  quux: string
+}
+
+const obj: Readonly<ObjType> = {
+  foo: 'bar',
+  baz: 'qux',
+  quux: 'quuz',
+}
+
+const { foo, ...rest } = obj
+
+delete rest.baz
+-- objectRestReadonly.js.golden --
+"use strict";
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+const obj = {
+    foo: 'bar',
+    baz: 'qux',
+    quux: 'quuz',
+};
+const { foo } = obj, rest = __rest(obj, ["foo"]);
+delete rest.baz;

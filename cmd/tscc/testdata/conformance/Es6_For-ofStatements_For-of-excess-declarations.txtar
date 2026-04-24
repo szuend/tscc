@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of-excess-declarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js for-of-excess-declarations.js for-of-excess-declarations.ts
+stderr 'TS1188'
+! exists for-of-excess-declarations.js
+! exists for-of-excess-declarations.d.ts
+! exists for-of-excess-declarations.js.map
+
+-- for-of-excess-declarations.ts --
+for (const a, { [b]: c} of [1]) {
+
+}

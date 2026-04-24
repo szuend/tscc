@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/classes/classStaticBlock/classStaticBlockUseBeforeDef1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2022 --lib es2022,dom classStaticBlockUseBeforeDef1.ts
+! stderr .
+! exists classStaticBlockUseBeforeDef1.d.ts
+! exists classStaticBlockUseBeforeDef1.js.map
+
+-- classStaticBlockUseBeforeDef1.ts --
+class C {
+    static x;
+    static {
+        this.x = 1;
+    }
+    static y = this.x;
+    static z;
+    static {
+        this.z = this.y;
+    }
+}

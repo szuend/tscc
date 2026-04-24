@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/destructuring/restElementWithAssignmentPattern2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js restElementWithAssignmentPattern2.js restElementWithAssignmentPattern2.ts
+stderr 'TS2322'
+stderr 'TS2339'
+! exists restElementWithAssignmentPattern2.js
+! exists restElementWithAssignmentPattern2.d.ts
+! exists restElementWithAssignmentPattern2.js.map
+
+-- restElementWithAssignmentPattern2.ts --
+var a: string, b: number;
+[...{ 0: a = "", b }] = ["", 1];

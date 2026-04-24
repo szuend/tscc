@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractProperties.js classAbstractProperties.ts
+stderr 'TS1243'
+! exists classAbstractProperties.js
+! exists classAbstractProperties.d.ts
+! exists classAbstractProperties.js.map
+
+-- classAbstractProperties.ts --
+abstract class A {
+    abstract x : number;
+    public abstract y : number;
+    protected abstract z : number;
+    private abstract w : number;
+    
+    abstract m: () => void; 
+    
+    abstract foo_x() : number;
+    public abstract foo_y() : number;
+    protected abstract foo_z() : number;
+    private abstract foo_w() : number;
+}

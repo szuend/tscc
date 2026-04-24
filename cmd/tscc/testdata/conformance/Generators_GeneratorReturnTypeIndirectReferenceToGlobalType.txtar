@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/generators/generatorReturnTypeIndirectReferenceToGlobalType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom --out-js generatorReturnTypeIndirectReferenceToGlobalType.js generatorReturnTypeIndirectReferenceToGlobalType.ts
+! stderr .
+cmp generatorReturnTypeIndirectReferenceToGlobalType.js generatorReturnTypeIndirectReferenceToGlobalType.js.golden
+! exists generatorReturnTypeIndirectReferenceToGlobalType.d.ts
+! exists generatorReturnTypeIndirectReferenceToGlobalType.js.map
+
+-- generatorReturnTypeIndirectReferenceToGlobalType.ts --
+interface I1 extends Iterator<0, 1, 2> {}
+
+function* f1(): I1 {
+  const a = yield 0;
+  return 1;
+}
+-- generatorReturnTypeIndirectReferenceToGlobalType.js.golden --
+"use strict";
+function* f1() {
+    const a = yield 0;
+    return 1;
+}

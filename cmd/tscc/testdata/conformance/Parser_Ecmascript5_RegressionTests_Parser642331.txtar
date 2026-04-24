@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser642331.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parser642331.js parser642331.ts
+stderr 'TS1213'
+! exists parser642331.js
+! exists parser642331.d.ts
+! exists parser642331.js.map
+
+-- parser642331.ts --
+class test {
+    constructor (static) { }
+}

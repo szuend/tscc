@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/salsa/constructorNameInObjectLiteralAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js constructorNameInObjectLiteralAccessor.js constructorNameInObjectLiteralAccessor.ts
+! stderr .
+cmp constructorNameInObjectLiteralAccessor.js constructorNameInObjectLiteralAccessor.js.golden
+! exists constructorNameInObjectLiteralAccessor.d.ts
+! exists constructorNameInObjectLiteralAccessor.js.map
+
+-- constructorNameInObjectLiteralAccessor.ts --
+const c1 = {
+    get constructor() { return },
+    set constructor(value) {}
+}
+-- constructorNameInObjectLiteralAccessor.js.golden --
+"use strict";
+const c1 = {
+    get constructor() { return; },
+    set constructor(value) { }
+};

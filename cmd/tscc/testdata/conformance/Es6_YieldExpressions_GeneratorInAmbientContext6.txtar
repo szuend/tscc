@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorInAmbientContext6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts generatorInAmbientContext6.d.ts --target ES6 --lib ES6,dom --out-js generatorInAmbientContext6.js generatorInAmbientContext6.ts
+! stderr .
+cmp generatorInAmbientContext6.d.ts generatorInAmbientContext6.d.ts.golden
+cmp generatorInAmbientContext6.js generatorInAmbientContext6.js.golden
+! exists generatorInAmbientContext6.js.map
+
+-- generatorInAmbientContext6.ts --
+namespace M {
+    export function *generator(): any { }
+}
+-- generatorInAmbientContext6.d.ts.golden --
+declare namespace M {
+    function generator(): any;
+}
+-- generatorInAmbientContext6.js.golden --
+"use strict";
+var M;
+(function (M) {
+    function* generator() { }
+    M.generator = generator;
+})(M || (M = {}));

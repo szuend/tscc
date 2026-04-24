@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js generatorTypeCheck20.js generatorTypeCheck20.ts
+stderr 'TS2564'
+stderr 'TS2322'
+stderr 'TS2741'
+! exists generatorTypeCheck20.js
+! exists generatorTypeCheck20.d.ts
+! exists generatorTypeCheck20.js.map
+
+-- generatorTypeCheck20.ts --
+class Foo { x: number }
+class Baz { z: number }
+function* g(): IterableIterator<Foo> {
+    yield;
+    yield * [new Baz];
+}

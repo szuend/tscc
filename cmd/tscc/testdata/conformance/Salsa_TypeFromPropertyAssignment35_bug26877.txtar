@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment35.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom bug26877.js
+stderr 'TS2503'
+! exists bug26877.d.ts
+! exists bug26877.js.map
+
+-- bug26877.js --
+/** @param {Emu.D} x */
+function ollKorrect(x) {
+    x._model
+    const y = new Emu.D()
+    const z = Emu.D._wrapperInstance;
+}
+Emu.D = class {
+    constructor() {
+        this._model = 1
+    }
+}
+-- second.js --
+var Emu = {}
+/** @type {string} */
+Emu.D._wrapperInstance;
+

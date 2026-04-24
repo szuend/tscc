@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment8_1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --lib es6,dom --no-strict --target esnext a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+var my = my ?? {};
+my.app = my.app ?? {};
+
+my.app.Application = (function () {
+var Application = function () {
+    //...
+};
+return Application;
+})();
+my.app.Application()
+-- b.js --
+var min = window.min ?? {};
+min.app = min.app ?? {};
+
+min.app.Application = (function () {
+var Application = function () {
+    //...
+};
+return Application;
+})();
+min.app.Application()

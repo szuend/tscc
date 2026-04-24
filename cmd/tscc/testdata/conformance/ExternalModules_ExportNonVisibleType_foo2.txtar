@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/externalModules/exportNonVisibleType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo2.js foo2.ts
+stderr 'TS2564'
+! exists foo2.js
+! exists foo2.d.ts
+! exists foo2.js.map
+
+-- foo1.ts --
+interface I1 {
+	a: string;
+	b: number;
+}
+
+var x: I1 = {a: "test", b: 42};
+export = x; // Should fail, I1 not exported.
+
+-- foo2.ts --
+interface I1 {
+	a: string;
+	b: number;
+}
+
+class C1 {
+	m1: I1;
+}
+
+export = C1; // Should fail, type I1 of visible member C1.m1 not exported.
+-- foo3.ts --
+interface I1 {
+	a: string;
+	b: number;
+}
+
+class C1 {
+	private m1: I1;
+}
+
+export = C1; // Should work, private type I1 of visible class C1 only used in private member m1.

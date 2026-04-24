@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserUnaryExpression3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserUnaryExpression3.js parserUnaryExpression3.ts
+stderr 'TS2356'
+! exists parserUnaryExpression3.js
+! exists parserUnaryExpression3.d.ts
+! exists parserUnaryExpression3.js.map
+
+-- parserUnaryExpression3.ts --
+++[0];

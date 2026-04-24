@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedTemplateStringES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedTemplateStringES6.js templateStringWithEmbeddedTemplateStringES6.ts
+! stderr .
+cmp templateStringWithEmbeddedTemplateStringES6.js templateStringWithEmbeddedTemplateStringES6.js.golden
+! exists templateStringWithEmbeddedTemplateStringES6.d.ts
+! exists templateStringWithEmbeddedTemplateStringES6.js.map
+
+-- templateStringWithEmbeddedTemplateStringES6.ts --
+var x = `123${ `456 ${ " | " } 654` }321 123${ `456 ${ " | " } 654` }321`;
+-- templateStringWithEmbeddedTemplateStringES6.js.golden --
+"use strict";
+var x = `123${`456 ${" | "} 654`}321 123${`456 ${" | "} 654`}321`;

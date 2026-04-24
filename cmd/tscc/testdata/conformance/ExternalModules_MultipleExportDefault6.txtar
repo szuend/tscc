@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/externalModules/multipleExportDefault6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js multipleExportDefault6.js multipleExportDefault6.ts
+stderr 'TS2528'
+! exists multipleExportDefault6.js
+! exists multipleExportDefault6.d.ts
+! exists multipleExportDefault6.js.map
+
+-- multipleExportDefault6.ts --
+export default {
+    lol: 1
+}
+
+export default {
+    lol: 2
+}

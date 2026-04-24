@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/jsdoc/constructorTagOnClassConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug27025.js
+! stderr .
+! exists bug27025.d.ts
+! exists bug27025.js.map
+
+-- bug27025.js --
+export class Alpha { }
+export class Beta {
+  /**
+   * @constructor
+   */
+  constructor() {
+  }
+}
+
+const arr = [Alpha, Beta];

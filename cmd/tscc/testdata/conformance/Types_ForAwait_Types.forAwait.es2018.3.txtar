@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/forAwait/types.forAwait.es2018.3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2018 types.forAwait.es2018.3.ts
+stderr 'TS2495'
+! exists types.forAwait.es2018.3.d.ts
+! exists types.forAwait.es2018.3.js.map
+
+-- types.forAwait.es2018.3.ts --
+async function f1() {
+    let y: number;
+    for await (const x of {}) {
+    }
+    for await (y of {}) {
+    }
+}
+async function* f2() {
+    let y: number;
+    for await (const x of {}) {
+    }
+    for await (y of {}) {
+    }
+}

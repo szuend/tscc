@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/jsdoc/typedefScope1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --out-dts typedefScope1.d.ts --strict --target es2015 --lib es2015,dom --out-js out_typedefScope1.js typedefScope1.js
+stderr 'TS2304'
+! exists out_typedefScope1.js
+! exists out/typedefScope1.js.map
+! exists typedefScope1.d.ts
+
+-- typedefScope1.js --
+function B1() {
+    /** @typedef {number} B */
+    /** @type {B} */
+    var ok1 = 0;
+}
+
+function B2() {
+    /** @typedef {string} B */
+    /** @type {B} */
+    var ok2 = 'hi';
+}
+
+/** @type {B} */
+var notOK = 0;

@@ -1,0 +1,43 @@
+# Ported from tests/cases/conformance/types/typeRelationships/subtypesAndSuperTypes/subtypingWithObjectMembersAccessibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js subtypingWithObjectMembersAccessibility.js subtypingWithObjectMembersAccessibility.ts
+stderr 'TS2564'
+stderr 'TS2415'
+! exists subtypingWithObjectMembersAccessibility.js
+! exists subtypingWithObjectMembersAccessibility.d.ts
+! exists subtypingWithObjectMembersAccessibility.js.map
+
+-- subtypingWithObjectMembersAccessibility.ts --
+// Derived member is private, base member is not causes errors
+
+class Base {
+    foo: string;
+}
+
+class Derived extends Base {
+    bar: string;
+}
+
+class A {
+    public foo: Base;
+}
+
+class B extends A {
+    private foo: Derived; // error
+}
+
+class A2 {
+    public 1: Base; 
+}
+
+class B2 extends A2 {
+    private 1: Derived; // error
+}
+
+class A3 {
+    public '1': Base;
+}
+
+class B3 extends A3 {
+    private '1': Derived; // error
+}

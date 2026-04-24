@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty29.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty29.js symbolProperty29.ts
+! stderr .
+cmp symbolProperty29.js symbolProperty29.js.golden
+! exists symbolProperty29.d.ts
+! exists symbolProperty29.js.map
+
+-- symbolProperty29.ts --
+class C1 {
+    [Symbol.toStringTag]() {
+        return { x: "" };
+    }
+    [s: symbol]: () => { x: string };
+}
+-- symbolProperty29.js.golden --
+"use strict";
+class C1 {
+    [Symbol.toStringTag]() {
+        return { x: "" };
+    }
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInCallExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInCallExpression.js templateStringInCallExpression.ts
+stderr 'TS2349'
+! exists templateStringInCallExpression.js
+! exists templateStringInCallExpression.d.ts
+! exists templateStringInCallExpression.js.map
+
+-- templateStringInCallExpression.ts --
+`abc${0}abc`(`hello ${0} world`, `   `, `1${2}3`);

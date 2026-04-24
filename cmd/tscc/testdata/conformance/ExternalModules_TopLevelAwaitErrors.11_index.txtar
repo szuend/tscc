@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/externalModules/topLevelAwaitErrors.11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target esnext --lib esnext,dom --out-js index.js index.ts
+stderr 'TS1262'
+! exists index.js
+! exists index.d.ts
+! exists index.js.map
+
+-- index.ts --
+// await disallowed in import=
+declare var require: any;
+import await = require("./other");
+-- other.ts --
+declare const _await: any;
+export { _await as await };

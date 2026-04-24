@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeLiterals/unionTypeLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unionTypeLiterals.js unionTypeLiterals.ts
+stderr 'TS2403'
+! exists unionTypeLiterals.js
+! exists unionTypeLiterals.d.ts
+! exists unionTypeLiterals.js.map
+
+-- unionTypeLiterals.ts --
+// basic valid forms of union literals
+
+var simpleUnion: string | number;
+var unionOfUnion: string | number | boolean;
+
+var arrayOfUnions: (string | number)[];
+var arrayOfUnions: Array<string | number>;
+
+var unionOfFunctionType: (() => string) | (() => number);
+var unionOfFunctionType: { (): string } | { (): number };
+var unionOfFunctionType: () => string | number;
+
+var unionOfConstructorType: (new () => string) | (new () => number);
+var unionOfConstructorType: { new (): string } | { new (): number };
+var unionOfConstructorType: new () => string | number;

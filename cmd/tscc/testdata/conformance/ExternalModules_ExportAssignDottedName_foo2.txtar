@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/externalModules/exportAssignDottedName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo2.js foo2.ts
+! stderr .
+cmp foo2.js foo2.js.golden
+! exists foo2.d.ts
+! exists foo2.js.map
+
+-- foo1.ts --
+export function x(){
+	return true;
+}
+-- foo2.ts --
+import foo1 = require('./foo1');
+export = foo1.x; // Ok
+-- foo2.js.golden --
+"use strict";
+const foo1 = require("./foo1");
+module.exports = foo1.x;

@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocBindingInUnreachableCode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug27341.js
+! stderr .
+! exists bug27341.d.ts
+! exists bug27341.js.map
+
+-- bug27341.js --
+if (false) {
+    /**
+     * @param {string} s
+     */
+    const x = function (s) {
+    };
+}

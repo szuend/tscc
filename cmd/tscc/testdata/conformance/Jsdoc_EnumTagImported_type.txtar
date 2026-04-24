@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/jsdoc/enumTagImported.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom type.js
+stderr 'TS2694'
+! exists type.d.ts
+! exists type.js.map
+
+-- mod1.js --
+/** @enum {string} */
+export const TestEnum = {
+    ADD: 'add',
+    REMOVE: 'remove'
+}
+-- type.js --
+/** @typedef {import("./mod1").TestEnum} TE */
+/** @type {TE} */
+const test = 'add'
+/** @type {import("./mod1").TestEnum} */
+const tost = 'remove'
+-- value.js --
+import { TestEnum } from "./mod1"
+/** @type {TestEnum} */
+const tist = TestEnum.ADD
+

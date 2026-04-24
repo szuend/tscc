@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserModifierOnStatementInBlock1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserModifierOnStatementInBlock1.js parserModifierOnStatementInBlock1.ts
+stderr 'TS1184'
+! exists parserModifierOnStatementInBlock1.js
+! exists parserModifierOnStatementInBlock1.d.ts
+! exists parserModifierOnStatementInBlock1.js.map
+
+-- parserModifierOnStatementInBlock1.ts --
+export function foo() {
+   export var x = this;
+}

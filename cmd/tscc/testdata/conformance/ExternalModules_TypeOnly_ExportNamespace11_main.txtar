@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/exportNamespace11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js main.js main.ts
+stderr 'TS2339'
+! exists main.js
+! exists main.d.ts
+! exists main.js.map
+
+-- ghost.ts --
+export class Ghost {}
+-- intermediate.ts --
+export type * from './ghost'
+-- main.ts --
+import * as intermediate from './intermediate'
+const ghost: intermediate.Ghost = new intermediate.Ghost()

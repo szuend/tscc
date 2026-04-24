@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/genericAndNonGenericInterfaceWithTheSameName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericAndNonGenericInterfaceWithTheSameName2.js genericAndNonGenericInterfaceWithTheSameName2.ts
+! stderr .
+cmp genericAndNonGenericInterfaceWithTheSameName2.js genericAndNonGenericInterfaceWithTheSameName2.js.golden
+! exists genericAndNonGenericInterfaceWithTheSameName2.d.ts
+! exists genericAndNonGenericInterfaceWithTheSameName2.js.map
+
+-- genericAndNonGenericInterfaceWithTheSameName2.ts --
+// generic and non-generic interfaces with the same name do not merge
+
+namespace M {
+    interface A<T> {
+        bar: T;
+    }
+}
+
+namespace M2 {
+    interface A { // ok
+        foo: string;
+    }
+}
+
+namespace N {
+    namespace M {
+        interface A<T> {
+            bar: T;
+        }
+    }
+
+    namespace M2 {
+        interface A { // ok
+            foo: string;
+        }
+    }
+}
+-- genericAndNonGenericInterfaceWithTheSameName2.js.golden --
+"use strict";
+// generic and non-generic interfaces with the same name do not merge

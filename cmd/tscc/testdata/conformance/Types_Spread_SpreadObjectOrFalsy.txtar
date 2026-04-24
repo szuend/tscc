@@ -1,0 +1,59 @@
+# Ported from tests/cases/conformance/types/spread/spreadObjectOrFalsy.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts spreadObjectOrFalsy.d.ts --strict --target es2015 --lib es2015,dom --out-js spreadObjectOrFalsy.js spreadObjectOrFalsy.ts
+stderr 'TS2698'
+! exists spreadObjectOrFalsy.d.ts
+! exists spreadObjectOrFalsy.js
+! exists spreadObjectOrFalsy.js.map
+
+-- spreadObjectOrFalsy.ts --
+function f1<T>(a: T & undefined) {
+    return { ...a };  // Error
+}
+
+function f2<T>(a: T | T & undefined) {
+    return { ...a };
+}
+
+function f3<T extends undefined>(a: T) {
+    return { ...a };  // Error
+}
+
+function f4<T extends undefined>(a: object | T) {
+    return { ...a };
+}
+
+function f5<S, T extends undefined>(a: S | T) {
+    return { ...a };
+}
+
+function f6<T extends object | undefined>(a: T) {
+    return { ...a };
+}
+
+// Repro from #46976
+
+function g1<T extends {}, A extends { z: (T | undefined) & T }>(a: A) {
+    const { z } = a;
+    return {
+        ...z
+    };
+}
+
+// Repro from #47028
+
+interface DatafulFoo<T> {
+    data: T;
+}
+
+class Foo<T extends string> {
+    data: T | undefined;
+    bar() {
+        if (this.hasData()) {
+            this.data.toLocaleLowerCase();
+        }
+    }
+    hasData(): this is DatafulFoo<T> {
+        return true;
+    }
+}

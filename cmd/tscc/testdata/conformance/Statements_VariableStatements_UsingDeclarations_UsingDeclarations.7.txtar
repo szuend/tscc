@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/usingDeclarations.7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js usingDeclarations.7.js usingDeclarations.7.ts
+stderr 'TS1492'
+! exists usingDeclarations.7.js
+! exists usingDeclarations.7.d.ts
+! exists usingDeclarations.7.js.map
+
+-- usingDeclarations.7.ts --
+{
+    using a = null,
+          {b} = null,
+          c = null;
+}

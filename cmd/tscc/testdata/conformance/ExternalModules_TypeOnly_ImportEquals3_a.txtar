@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/importEquals3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export class A {}
+-- b.ts --
+import type * as a from './a';
+import A = a.A; // Error
+import aa = a;  // Error
+
+const x = 0;
+export { a, A, x };
+-- c.ts --
+import * as b from './b';
+import A = b.a.A; // Error
+import AA = b.A; // Error
+
+import x = b.x;
+console.log(x);
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.A = void 0;
+class A {
+}
+exports.A = A;

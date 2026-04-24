@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserVariableDeclaration3.js parserVariableDeclaration3.ts
+stderr 'TS2304'
+stderr 'TS2503'
+! exists parserVariableDeclaration3.js
+! exists parserVariableDeclaration3.d.ts
+! exists parserVariableDeclaration3.js.map
+
+-- parserVariableDeclaration3.ts --
+function runTests() {
+    var outfile = new Harness.Compiler.WriterAggregator()
+      , outerr = new Harness.Compiler.WriterAggregator()
+      , compiler = <TypeScript.TypeScriptCompiler>new TypeScript.TypeScriptCompiler(outerr)
+      , code;
+}

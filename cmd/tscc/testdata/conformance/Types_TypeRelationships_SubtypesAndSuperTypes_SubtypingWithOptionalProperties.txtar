@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/types/typeRelationships/subtypesAndSuperTypes/subtypingWithOptionalProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js subtypingWithOptionalProperties.js subtypingWithOptionalProperties.ts
+stderr 'TS2322'
+! exists subtypingWithOptionalProperties.js
+! exists subtypingWithOptionalProperties.d.ts
+! exists subtypingWithOptionalProperties.js.map
+
+-- subtypingWithOptionalProperties.ts --
+// subtyping is not transitive due to optional properties but the subtyping algorithm assumes it is for the 99% case
+
+// returns { s?: number; }
+function f<T>(a: T) {
+    var b: { s?: number } = a;
+    return b;
+}
+
+var r = f({ s: new Object() }); // ok
+r.s && r.s.toFixed(); // would blow up at runtime

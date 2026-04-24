@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/StrictMode/parserStrictMode3-negative.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserStrictMode3-negative.js parserStrictMode3-negative.ts
+stderr 'TS1100'
+! exists parserStrictMode3-negative.js
+! exists parserStrictMode3-negative.d.ts
+! exists parserStrictMode3-negative.js.map
+
+-- parserStrictMode3-negative.ts --
+eval = 1;

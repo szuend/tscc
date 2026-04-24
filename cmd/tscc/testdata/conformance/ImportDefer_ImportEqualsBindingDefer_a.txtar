@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/importDefer/importEqualsBindingDefer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2020 --lib es2020,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export = 2;
+-- b.ts --
+import defer = require("./a");
+-- a.js.golden --
+"use strict";
+module.exports = 2;

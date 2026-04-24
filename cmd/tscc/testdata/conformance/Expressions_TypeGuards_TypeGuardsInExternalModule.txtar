@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardsInExternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js typeGuardsInExternalModule.js typeGuardsInExternalModule.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists typeGuardsInExternalModule.js
+! exists typeGuardsInExternalModule.d.ts
+! exists typeGuardsInExternalModule.js.map
+
+-- typeGuardsInExternalModule.ts --
+// Note that type guards affect types of variables and parameters only and 
+// have no effect on members of objects such as properties. 
+
+// local variable in external module
+var num: number;
+var var1: string | number;
+if (typeof var1 === "string") {
+    num = var1.length; // string
+}
+else {
+    num = var1; // number
+}
+
+// exported variable in external module
+var strOrNum: string | number;
+export var var2: string | number;
+if (typeof var2 === "string") {
+    // export makes the var property and not variable
+    strOrNum = var2; // string | number
+}
+else {
+    strOrNum = var2; // number | string
+}

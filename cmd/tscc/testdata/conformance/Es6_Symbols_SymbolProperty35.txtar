@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty35.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty35.js symbolProperty35.ts
+stderr 'TS2320'
+! exists symbolProperty35.js
+! exists symbolProperty35.d.ts
+! exists symbolProperty35.js.map
+
+-- symbolProperty35.ts --
+interface I1 {
+    [Symbol.toStringTag](): { x: string }
+}
+interface I2 {
+    [Symbol.toStringTag](): { x: number }
+}
+
+interface I3 extends I1, I2 { }

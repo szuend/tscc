@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/es6/newTarget/invalidNewTarget.es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js invalidNewTarget.es6.js invalidNewTarget.es6.ts
+stderr 'TS17013'
+! exists invalidNewTarget.es6.js
+! exists invalidNewTarget.es6.d.ts
+! exists invalidNewTarget.es6.js.map
+
+-- invalidNewTarget.es6.ts --
+const a = new.target;
+const b = () => new.target;
+
+class C {
+    [new.target]() { }
+    c() { return new.target; }
+    get d() { return new.target; }
+    set e(_) { _ = new.target; }
+    f = () => new.target;
+
+    static [new.target]() { }
+    static g() { return new.target; }
+    static get h() { return new.target; }
+    static set i(_) { _ = new.target; }
+    static j = () => new.target;
+}
+
+const O = {
+    [new.target]: undefined,
+    k() { return new.target; },
+    get l() { return new.target; },
+    set m(_) { _ = new.target; },
+    n: new.target,
+};

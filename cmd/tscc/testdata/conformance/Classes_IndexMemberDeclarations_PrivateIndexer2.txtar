@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/classes/indexMemberDeclarations/privateIndexer2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js privateIndexer2.js privateIndexer2.ts
+stderr 'TS1005'
+stderr 'TS1136'
+! exists privateIndexer2.js
+! exists privateIndexer2.d.ts
+! exists privateIndexer2.js.map
+
+-- privateIndexer2.ts --
+// private indexers not allowed
+
+var x = {
+    private [x: string]: string;
+}
+
+var y: {
+    private[x: string]: string;
+}

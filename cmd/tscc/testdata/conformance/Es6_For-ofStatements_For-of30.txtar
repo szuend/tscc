@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of30.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of30.js for-of30.ts
+stderr 'TS2767'
+! exists for-of30.js
+! exists for-of30.d.ts
+! exists for-of30.js.map
+
+-- for-of30.ts --
+class MyStringIterator {
+    next() {
+        return {
+            done: false,
+            value: ""
+        }
+    }
+
+    return = 0;
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+for (var v of new MyStringIterator) { }

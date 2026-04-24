@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/enums/enumErrorOnConstantBindingWithInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js enumErrorOnConstantBindingWithInitializer.js enumErrorOnConstantBindingWithInitializer.ts
+stderr 'TS18033'
+! exists enumErrorOnConstantBindingWithInitializer.js
+! exists enumErrorOnConstantBindingWithInitializer.d.ts
+! exists enumErrorOnConstantBindingWithInitializer.js.map
+
+-- enumErrorOnConstantBindingWithInitializer.ts --
+type Thing = {
+  value?: string | number;
+};
+
+declare const thing: Thing;
+const { value = "123" } = thing;
+
+enum E {
+  test = value,
+}

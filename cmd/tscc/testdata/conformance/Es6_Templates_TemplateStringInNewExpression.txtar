@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInNewExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInNewExpression.js templateStringInNewExpression.ts
+stderr 'TS2351'
+! exists templateStringInNewExpression.js
+! exists templateStringInNewExpression.d.ts
+! exists templateStringInNewExpression.js.map
+
+-- templateStringInNewExpression.ts --
+new `abc${0}abc`(`hello ${0} world`, `   `, `1${2}3`);

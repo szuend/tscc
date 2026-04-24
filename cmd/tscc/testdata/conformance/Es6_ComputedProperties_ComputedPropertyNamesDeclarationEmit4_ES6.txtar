@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesDeclarationEmit4_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts computedPropertyNamesDeclarationEmit4_ES6.d.ts --target es6 --lib es6,dom --out-js computedPropertyNamesDeclarationEmit4_ES6.js computedPropertyNamesDeclarationEmit4_ES6.ts
+stderr 'TS1170'
+! exists computedPropertyNamesDeclarationEmit4_ES6.d.ts
+! exists computedPropertyNamesDeclarationEmit4_ES6.js
+! exists computedPropertyNamesDeclarationEmit4_ES6.js.map
+
+-- computedPropertyNamesDeclarationEmit4_ES6.ts --
+var v: {
+    ["" + ""](): void;
+}

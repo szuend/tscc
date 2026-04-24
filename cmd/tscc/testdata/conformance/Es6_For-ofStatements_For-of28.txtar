@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of28.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of28.js for-of28.ts
+! stderr .
+cmp for-of28.js for-of28.js.golden
+! exists for-of28.d.ts
+! exists for-of28.js.map
+
+-- for-of28.ts --
+class MyStringIterator {
+    next: any;
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+for (var v of new MyStringIterator) { }
+-- for-of28.js.golden --
+"use strict";
+class MyStringIterator {
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+for (var v of new MyStringIterator) { }

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/salsa/moduleExportPropertyAssignmentDefault.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom axios.js
+stderr 'TS2309'
+stderr 'TS2339'
+! exists axios.d.ts
+! exists axios.js.map
+
+-- axios.js --
+var axios = {}
+module.exports = axios // both assignments should be ok
+module.exports.default = axios

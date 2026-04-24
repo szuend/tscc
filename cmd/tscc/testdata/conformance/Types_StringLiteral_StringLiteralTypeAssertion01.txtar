@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypeAssertion01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralTypeAssertion01.js stringLiteralTypeAssertion01.ts
+stderr 'TS2454'
+! exists stringLiteralTypeAssertion01.js
+! exists stringLiteralTypeAssertion01.d.ts
+! exists stringLiteralTypeAssertion01.js.map
+
+-- stringLiteralTypeAssertion01.ts --
+type S = "a" | "b";
+type T = S[] | S;
+
+var s: S;
+var t: T;
+var str: string;
+
+////////////////
+
+s = <S>t;
+s = t as S;
+
+s = <S>str;
+s = str as S;
+
+////////////////
+
+t = <T>s;
+t = s as T;
+
+t = <T>str;
+t = str as T;
+
+////////////////
+
+str = <string>s;
+str = s as string;
+
+str = <string>t;
+str = t as string;

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/jsdoc/exportedAliasedEnumTag.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom exportedAliasedEnumTag.js
+! stderr .
+! exists exportedAliasedEnumTag.d.ts
+! exists exportedAliasedEnumTag.js.map
+
+-- exportedAliasedEnumTag.js --
+var middlewarify = module.exports = {};
+
+/** @enum */
+middlewarify.Type = {
+  BEFORE: 'before'
+};

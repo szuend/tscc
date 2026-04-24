@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameReadonly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameReadonly.js privateNameReadonly.ts
+stderr 'TS2322'
+stderr 'TS2803'
+! exists privateNameReadonly.js
+! exists privateNameReadonly.d.ts
+! exists privateNameReadonly.js.map
+
+-- privateNameReadonly.ts --
+const C = class {
+    #bar() {}
+    foo() {
+        this.#bar = console.log("should log this then throw");
+    }
+}
+
+console.log(new C().foo());

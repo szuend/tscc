@@ -1,0 +1,36 @@
+# Ported from tests/cases/conformance/types/typeRelationships/typeInference/genericCallWithTupleType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCallWithTupleType.js genericCallWithTupleType.ts
+stderr 'TS2454'
+stderr 'TS2322'
+stderr 'TS2493'
+! exists genericCallWithTupleType.js
+! exists genericCallWithTupleType.d.ts
+! exists genericCallWithTupleType.js.map
+
+-- genericCallWithTupleType.ts --
+interface I<T, U> {
+    tuple1: [T, U];
+} 
+
+var i1: I<string, number>;
+declare var i1: I<string, number>;
+declare var i2: I<{}, {}>;
+
+// no error
+i1.tuple1 = ["foo", 5];
+var e1 = i1.tuple1[0];  // string
+var e2 = i1.tuple1[1];  // number
+i1.tuple1 = ["foo", 5, false, true];
+var e3 = i1.tuple1[2];  // {}
+i1.tuple1[3] = { a: "string" };
+var e4 = i1.tuple1[3];  // {}
+i2.tuple1 = ["foo", 5];
+i2.tuple1 = ["foo", "bar"];
+i2.tuple1 = [5, "bar"];
+i2.tuple1 = [{}, {}];
+
+// error
+i1.tuple1 = [5, "foo"];
+i1.tuple1 = [{}, {}];
+i2.tuple1 = [{}];

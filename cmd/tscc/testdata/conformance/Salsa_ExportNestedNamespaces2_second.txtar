@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/salsa/exportNestedNamespaces2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom second.js
+stderr 'TS2339'
+! exists second.d.ts
+! exists second.js.map
+
+-- first.js --
+exports = require('./mod')
+exports.formatters.j = function (v) {
+    return v
+}
+-- mod.js --
+// Based on a pattern from adonis
+exports.formatters = {}
+-- second.js --
+exports = require('./mod')
+exports.formatters.o = function (v) {
+    return v
+}
+-- use.js --
+import * as debug from './mod'
+
+debug.formatters.j
+var one = debug.formatters.o(1)

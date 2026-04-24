@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/externalModules/multipleExportDefault5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js multipleExportDefault5.js multipleExportDefault5.ts
+stderr 'TS2323'
+stderr 'TS2814'
+stderr 'TS2813'
+! exists multipleExportDefault5.js
+! exists multipleExportDefault5.d.ts
+! exists multipleExportDefault5.js.map
+
+-- multipleExportDefault5.ts --
+export default function bar() { }
+export default class C {}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameNestedClassNameConflict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameNestedClassNameConflict.js privateNameNestedClassNameConflict.ts
+stderr 'TS2564'
+! exists privateNameNestedClassNameConflict.js
+! exists privateNameNestedClassNameConflict.d.ts
+! exists privateNameNestedClassNameConflict.js.map
+
+-- privateNameNestedClassNameConflict.ts --
+class A {
+    #foo: string;
+    constructor() {
+        class A {
+            #foo: string;
+        }
+    }
+}

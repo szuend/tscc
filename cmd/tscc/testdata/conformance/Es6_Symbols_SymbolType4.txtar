@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType4.js symbolType4.ts
+stderr 'TS2356'
+! exists symbolType4.js
+! exists symbolType4.d.ts
+! exists symbolType4.js.map
+
+-- symbolType4.ts --
+var s = Symbol.for("postfix");
+s++;
+s--;

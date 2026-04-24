@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/ambient/ambientEnumDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js ambientEnumDeclaration1.js ambientEnumDeclaration1.ts
+! stderr .
+cmp ambientEnumDeclaration1.js ambientEnumDeclaration1.js.golden
+! exists ambientEnumDeclaration1.d.ts
+! exists ambientEnumDeclaration1.js.map
+
+-- ambientEnumDeclaration1.ts --
+// In ambient enum declarations, all values specified in enum member declarations must be classified as constant enum expressions.
+
+declare enum E {
+    a = 10,
+    b = 10 + 1,
+    c = b,
+    d = (c) + 1,
+    e = 10 << 2 * 8,
+}
+-- ambientEnumDeclaration1.js.golden --
+"use strict";
+// In ambient enum declarations, all values specified in enum member declarations must be classified as constant enum expressions.

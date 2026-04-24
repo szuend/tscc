@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/YieldExpression10_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js YieldExpression10_es6.js YieldExpression10_es6.ts
+stderr 'TS2304'
+! exists YieldExpression10_es6.js
+! exists YieldExpression10_es6.d.ts
+! exists YieldExpression10_es6.js.map
+
+-- YieldExpression10_es6.ts --
+var v = { * foo() {
+    yield(foo);
+  }
+}

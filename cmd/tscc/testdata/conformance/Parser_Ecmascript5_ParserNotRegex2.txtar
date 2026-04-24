@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserNotRegex2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserNotRegex2.js parserNotRegex2.ts
+! stderr .
+cmp parserNotRegex2.js parserNotRegex2.js.golden
+! exists parserNotRegex2.d.ts
+! exists parserNotRegex2.js.map
+
+-- parserNotRegex2.ts --
+declare const A: any;
+declare const B: any;
+declare const C: any;
+const x = (A / 2);
+B(
+    C(),
+    () => { },
+    () => { }
+);
+-- parserNotRegex2.js.golden --
+"use strict";
+const x = (A / 2);
+B(C(), () => { }, () => { });

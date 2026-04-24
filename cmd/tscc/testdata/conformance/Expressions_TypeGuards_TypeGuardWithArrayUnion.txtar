@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/TypeGuardWithArrayUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js TypeGuardWithArrayUnion.js TypeGuardWithArrayUnion.ts
+stderr 'TS2564'
+! exists TypeGuardWithArrayUnion.js
+! exists TypeGuardWithArrayUnion.d.ts
+! exists TypeGuardWithArrayUnion.js.map
+
+-- TypeGuardWithArrayUnion.ts --
+class Message {
+    value: string;
+}
+
+function saySize(message: Message | Message[]) {
+    if (message instanceof Array) {
+        return message.length;  // Should have type Message[] here
+    }
+}

@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractFactoryFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractFactoryFunction.js classAbstractFactoryFunction.ts
+stderr 'TS2511'
+stderr 'TS2345'
+! exists classAbstractFactoryFunction.js
+! exists classAbstractFactoryFunction.d.ts
+! exists classAbstractFactoryFunction.js.map
+
+-- classAbstractFactoryFunction.ts --
+class A {}
+abstract class B extends A {}
+
+function NewA(Factory: typeof A) {
+    return new A;
+}
+
+function NewB(Factory: typeof B) {
+    return new B;
+}
+
+NewA(A);
+NewA(B);
+
+NewB(A);
+NewB(B);

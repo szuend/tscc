@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringParameterProperties2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js destructuringParameterProperties2.js destructuringParameterProperties2.ts
+stderr 'TS1187'
+! exists destructuringParameterProperties2.js
+! exists destructuringParameterProperties2.d.ts
+! exists destructuringParameterProperties2.js.map
+
+-- destructuringParameterProperties2.ts --
+class C1 {
+    constructor(private k: number, private [a, b, c]: [number, string, boolean]) {
+        if ((b === undefined && c === undefined) || (this.b === undefined && this.c === undefined)) {
+            this.a = a || k;
+        }
+    }
+
+    public getA() {
+        return this.a
+    }
+
+    public getB() {
+        return this.b
+    }
+
+    public getC() {
+        return this.c;
+    }
+}
+
+var x = new C1(undefined, [0, undefined, ""]);
+var [x_a, x_b, x_c] = [x.getA(), x.getB(), x.getC()];
+
+var y = new C1(10, [0, "", true]);
+var [y_a, y_b, y_c] = [y.getA(), y.getB(), y.getC()];
+
+var z = new C1(10, [undefined, "", null]);
+var [z_a, z_b, z_c] = [z.getA(), z.getB(), z.getC()];

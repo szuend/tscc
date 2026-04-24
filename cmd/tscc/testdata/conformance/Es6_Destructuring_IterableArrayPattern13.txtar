@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/es6/destructuring/iterableArrayPattern13.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js iterableArrayPattern13.js iterableArrayPattern13.ts
+stderr 'TS2345'
+! exists iterableArrayPattern13.js
+! exists iterableArrayPattern13.d.ts
+! exists iterableArrayPattern13.js.map
+
+-- iterableArrayPattern13.ts --
+class Bar { x }
+class Foo extends Bar { y }
+class FooIterator {
+    next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+function fun([a, ...b]) { }
+fun(new FooIterator);

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js generatorTypeCheck11.js generatorTypeCheck11.ts
+! stderr .
+cmp generatorTypeCheck11.js generatorTypeCheck11.js.golden
+! exists generatorTypeCheck11.d.ts
+! exists generatorTypeCheck11.js.map
+
+-- generatorTypeCheck11.ts --
+function* g(): IterableIterator<number, number> {
+    return 0;
+}
+-- generatorTypeCheck11.js.golden --
+"use strict";
+function* g() {
+    return 0;
+}

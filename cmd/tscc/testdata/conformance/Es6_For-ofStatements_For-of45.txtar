@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of45.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of45.js for-of45.ts
+! stderr .
+cmp for-of45.js for-of45.js.golden
+! exists for-of45.d.ts
+! exists for-of45.js.map
+
+-- for-of45.ts --
+var k: string, v: boolean;
+var map = new Map([["", true]]);
+for ([k = "", v = false] of map) {
+    k;
+    v;
+}
+-- for-of45.js.golden --
+"use strict";
+var k, v;
+var map = new Map([["", true]]);
+for ([k = "", v = false] of map) {
+    k;
+    v;
+}

@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserIfStatement1.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserIfStatement1.d.js parserIfStatement1.d.ts
+stderr 'TS1036'
+! exists parserIfStatement1.d.js
+! exists parserIfStatement1.d.d.ts
+! exists parserIfStatement1.d.js.map
+
+-- parserIfStatement1.d.ts --
+if (foo) {
+}

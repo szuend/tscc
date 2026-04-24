@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/import/importWithTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js importWithTypeArguments.js importWithTypeArguments.ts
+stderr 'TS1326'
+! exists importWithTypeArguments.js
+! exists importWithTypeArguments.d.ts
+! exists importWithTypeArguments.js.map
+
+-- importWithTypeArguments.ts --
+import<T>
+const a = import<string, number>

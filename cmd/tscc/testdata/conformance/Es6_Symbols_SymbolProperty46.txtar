@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty46.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty46.js symbolProperty46.ts
+stderr 'TS2322'
+! exists symbolProperty46.js
+! exists symbolProperty46.d.ts
+! exists symbolProperty46.js.map
+
+-- symbolProperty46.ts --
+class C {
+    get [Symbol.hasInstance]() {
+        return "";
+    }
+    // Should take a string
+    set [Symbol.hasInstance](x) {
+    }
+}
+
+(new C)[Symbol.hasInstance] = 0;
+(new C)[Symbol.hasInstance] = "";

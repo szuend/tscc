@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameAmbientNoImplicitAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target ESNext --lib ESNext,dom --out-js privateNameAmbientNoImplicitAny.js privateNameAmbientNoImplicitAny.ts
+stderr 'TS7008'
+! exists privateNameAmbientNoImplicitAny.js
+! exists privateNameAmbientNoImplicitAny.d.ts
+! exists privateNameAmbientNoImplicitAny.js.map
+
+-- privateNameAmbientNoImplicitAny.ts --
+declare class A {
+    #prop;
+}
+class B {
+    #prop;
+}

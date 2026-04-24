@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/restParameters/emitRestParametersFunctionExpressionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js emitRestParametersFunctionExpressionES6.js emitRestParametersFunctionExpressionES6.ts
+! stderr .
+cmp emitRestParametersFunctionExpressionES6.js emitRestParametersFunctionExpressionES6.js.golden
+! exists emitRestParametersFunctionExpressionES6.d.ts
+! exists emitRestParametersFunctionExpressionES6.js.map
+
+-- emitRestParametersFunctionExpressionES6.ts --
+var funcExp = (...rest) => { }
+var funcExp1 = (X: number, ...rest) => { }
+var funcExp2 = function (...rest) { }
+var funcExp3 = (function (...rest) { })()
+-- emitRestParametersFunctionExpressionES6.js.golden --
+"use strict";
+var funcExp = (...rest) => { };
+var funcExp1 = (X, ...rest) => { };
+var funcExp2 = function (...rest) { };
+var funcExp3 = (function (...rest) { })();

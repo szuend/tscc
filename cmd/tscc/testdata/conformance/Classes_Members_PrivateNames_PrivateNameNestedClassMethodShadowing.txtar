@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameNestedClassMethodShadowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameNestedClassMethodShadowing.js privateNameNestedClassMethodShadowing.ts
+stderr 'TS18014'
+! exists privateNameNestedClassMethodShadowing.js
+! exists privateNameNestedClassMethodShadowing.d.ts
+! exists privateNameNestedClassMethodShadowing.js.map
+
+-- privateNameNestedClassMethodShadowing.ts --
+class Base {
+    #x() { };
+    constructor() {
+        class Derived {
+            #x() { };
+            testBase(x: Base) {
+                console.log(x.#x);
+            }
+            testDerived(x: Derived) {
+                console.log(x.#x);
+            }
+        }
+    }
+}

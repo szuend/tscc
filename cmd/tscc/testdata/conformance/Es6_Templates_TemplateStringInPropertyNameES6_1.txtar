@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInPropertyNameES6_1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js templateStringInPropertyNameES6_1.js templateStringInPropertyNameES6_1.ts
+stderr 'TS1136'
+stderr 'TS1005'
+stderr 'TS1134'
+stderr 'TS1128'
+! exists templateStringInPropertyNameES6_1.js
+! exists templateStringInPropertyNameES6_1.d.ts
+! exists templateStringInPropertyNameES6_1.js.map
+
+-- templateStringInPropertyNameES6_1.ts --
+var x = {
+    `a`: 321
+}

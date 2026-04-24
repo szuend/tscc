@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parser509668.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser509668.js parser509668.ts
+stderr 'TS1317'
+! exists parser509668.js
+! exists parser509668.d.ts
+! exists parser509668.js.map
+
+-- parser509668.ts --
+class Foo3 {
+  // Doesn't work, but should
+  constructor (public ...args: string[]) { }
+}

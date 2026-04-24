@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardTautologicalConsistiency.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardTautologicalConsistiency.js typeGuardTautologicalConsistiency.ts
+stderr 'TS2454'
+! exists typeGuardTautologicalConsistiency.js
+! exists typeGuardTautologicalConsistiency.d.ts
+! exists typeGuardTautologicalConsistiency.js.map
+
+-- typeGuardTautologicalConsistiency.ts --
+let stringOrNumber: string | number;
+
+if (typeof stringOrNumber === "number") {
+    if (typeof stringOrNumber !== "number") {
+        stringOrNumber;
+    }
+}
+
+if (typeof stringOrNumber === "number" && typeof stringOrNumber !== "number") {
+    stringOrNumber;
+}

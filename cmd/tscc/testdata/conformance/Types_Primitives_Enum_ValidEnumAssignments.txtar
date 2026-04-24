@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/types/primitives/enum/validEnumAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js validEnumAssignments.js validEnumAssignments.ts
+stderr 'TS2322'
+! exists validEnumAssignments.js
+! exists validEnumAssignments.d.ts
+! exists validEnumAssignments.js.map
+
+-- validEnumAssignments.ts --
+enum E {
+    A,
+    B
+}
+
+declare var n: number;
+declare var a: any;
+declare var e: E;
+
+n = e;
+n = E.A;
+
+a = n;
+a = e;
+a = E.A;
+
+e = e;
+e = E.A;
+e = E.B;
+e = n;
+e = null;
+e = undefined;
+e = 1;
+e = 1.;
+e = 1.0;
+e = -1;

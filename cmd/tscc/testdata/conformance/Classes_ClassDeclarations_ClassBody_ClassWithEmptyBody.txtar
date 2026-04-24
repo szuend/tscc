@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classBody/classWithEmptyBody.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classWithEmptyBody.js classWithEmptyBody.ts
+stderr 'TS2454'
+! exists classWithEmptyBody.js
+! exists classWithEmptyBody.d.ts
+! exists classWithEmptyBody.js.map
+
+-- classWithEmptyBody.ts --
+class C {
+}
+
+var c: C;
+var o: {} = c;
+c = 1;
+c = { foo: '' }
+c = () => { }
+
+class D {
+    constructor() {
+        return 1;
+    }
+}
+
+var d: D;
+var o: {} = d;
+d = 1;
+d = { foo: '' }
+d = () => { }

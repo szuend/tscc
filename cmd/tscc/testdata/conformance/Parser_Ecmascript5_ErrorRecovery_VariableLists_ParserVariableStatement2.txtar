@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/VariableLists/parserVariableStatement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserVariableStatement2.js parserVariableStatement2.ts
+! stderr .
+cmp parserVariableStatement2.js parserVariableStatement2.js.golden
+! exists parserVariableStatement2.d.ts
+! exists parserVariableStatement2.js.map
+
+-- parserVariableStatement2.ts --
+var a
+  , b
+  , c
+-- parserVariableStatement2.js.golden --
+"use strict";
+var a, b, c;

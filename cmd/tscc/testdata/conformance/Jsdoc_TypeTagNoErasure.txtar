@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/jsdoc/typeTagNoErasure.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --out-dts typeTagNoErasure.d.ts --target es2015 --lib es2015,dom --out-js out_typeTagNoErasure.js typeTagNoErasure.js
+stderr 'TS2345'
+! exists out_typeTagNoErasure.js
+! exists out/typeTagNoErasure.js.map
+! exists typeTagNoErasure.d.ts
+
+-- typeTagNoErasure.js --
+/** @template T @typedef {<T1 extends T>(data: T1) => T1} Test */
+
+/** @type {Test<number>} */
+const test = dibbity => dibbity
+
+test(1) // ok, T=1
+test('hi') // error, T=number

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserConstructorDeclaration5.js parserConstructorDeclaration5.ts
+! stderr .
+cmp parserConstructorDeclaration5.js parserConstructorDeclaration5.js.golden
+! exists parserConstructorDeclaration5.d.ts
+! exists parserConstructorDeclaration5.js.map
+
+-- parserConstructorDeclaration5.ts --
+class C {
+  private constructor() { }
+}
+-- parserConstructorDeclaration5.js.golden --
+"use strict";
+class C {
+    constructor() { }
+}

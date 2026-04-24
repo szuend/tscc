@@ -1,0 +1,33 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractClinterfaceAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractClinterfaceAssignability.js classAbstractClinterfaceAssignability.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists classAbstractClinterfaceAssignability.js
+! exists classAbstractClinterfaceAssignability.d.ts
+! exists classAbstractClinterfaceAssignability.js.map
+
+-- classAbstractClinterfaceAssignability.ts --
+interface I {
+    x: number;
+}
+
+interface IConstructor {
+    new (): I;
+    
+    y: number;
+    prototype: I;
+}
+
+declare var I: IConstructor;
+
+abstract class A {
+    x: number;
+    static y: number;
+}
+
+declare var AA: typeof A;
+AA = I;
+
+declare var AAA: typeof I;
+AAA = A;

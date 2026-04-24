@@ -1,0 +1,42 @@
+# Ported from tests/cases/conformance/types/primitives/undefined/invalidUndefinedValues.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidUndefinedValues.js invalidUndefinedValues.ts
+stderr 'TS2322'
+stderr 'TS2564'
+stderr 'TS2454'
+! exists invalidUndefinedValues.js
+! exists invalidUndefinedValues.d.ts
+! exists invalidUndefinedValues.js.map
+
+-- invalidUndefinedValues.ts --
+var x: typeof undefined;
+
+x = 1;
+x = '';
+x = true;
+var a: void;
+x = a;
+x = null;
+
+class C { foo: string }
+var b: C;
+x = C;
+x = b;
+
+interface I { foo: string }
+var c: I;
+x = c;
+
+namespace M { export var x = 1; }
+x = M;
+
+x = { f() { } }
+
+function f<T>(a: T) {
+    x = a;
+}
+x = f;
+
+enum E { A }
+x = E;
+x = E.A;

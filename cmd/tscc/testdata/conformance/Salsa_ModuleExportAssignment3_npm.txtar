@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/salsa/moduleExportAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom npm.js
+! stderr .
+! exists npm.d.ts
+! exists npm.js.map
+
+-- mod.js --
+module.exports = function x() { }
+module.exports() // should be callable
+-- npm.js --
+var mod = require('./mod')
+mod() // should be callable from here too

@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterLists/typeParametersAvailableInNestedScope.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParametersAvailableInNestedScope.js typeParametersAvailableInNestedScope.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists typeParametersAvailableInNestedScope.js
+! exists typeParametersAvailableInNestedScope.d.ts
+! exists typeParametersAvailableInNestedScope.js.map
+
+-- typeParametersAvailableInNestedScope.ts --
+class C<T> {
+    data: T;
+
+    x = <U>(a: U) => {
+        var y: T;
+        return y;
+    }
+
+    foo() {
+        function temp<U>(a: U) {
+            var y: T;
+            return y;
+        }
+        return temp(<T>null);
+    }
+}
+
+var c = new C<number>();
+c.data = c.x(null);
+c.data = c.foo();

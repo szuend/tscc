@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/staticAndNonStaticPropertiesSameName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticAndNonStaticPropertiesSameName.js staticAndNonStaticPropertiesSameName.ts
+stderr 'TS2564'
+! exists staticAndNonStaticPropertiesSameName.js
+! exists staticAndNonStaticPropertiesSameName.d.ts
+! exists staticAndNonStaticPropertiesSameName.js.map
+
+-- staticAndNonStaticPropertiesSameName.ts --
+class C {
+    x: number;
+    static x: number;
+
+    f() { }
+    static f() { }
+}

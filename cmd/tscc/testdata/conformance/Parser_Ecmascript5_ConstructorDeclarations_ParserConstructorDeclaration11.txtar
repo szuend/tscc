@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserConstructorDeclaration11.js parserConstructorDeclaration11.ts
+stderr 'TS1098'
+stderr 'TS1092'
+! exists parserConstructorDeclaration11.js
+! exists parserConstructorDeclaration11.d.ts
+! exists parserConstructorDeclaration11.js.map
+
+-- parserConstructorDeclaration11.ts --
+class C {
+  constructor<>() { }
+}

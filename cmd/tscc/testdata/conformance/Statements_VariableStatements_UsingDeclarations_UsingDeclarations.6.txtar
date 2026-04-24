@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/usingDeclarations.6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --target esnext --out-js usingDeclarations.6.js usingDeclarations.6.ts
+stderr 'TS1492'
+! exists usingDeclarations.6.js
+! exists usingDeclarations.6.d.ts
+! exists usingDeclarations.6.js.map
+
+-- usingDeclarations.6.ts --
+{
+    using {a} = null;
+}

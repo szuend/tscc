@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesWithTemplateStrings02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts stringLiteralTypesWithTemplateStrings02.d.ts --target es2015 --lib es2015,dom --out-js stringLiteralTypesWithTemplateStrings02.js stringLiteralTypesWithTemplateStrings02.ts
+stderr 'TS2322'
+! exists stringLiteralTypesWithTemplateStrings02.d.ts
+! exists stringLiteralTypesWithTemplateStrings02.js
+! exists stringLiteralTypesWithTemplateStrings02.js.map
+
+-- stringLiteralTypesWithTemplateStrings02.ts --
+let abc: "AB\r\nC" = `AB
+C`;
+let de_NEWLINE_f: "DE\nF" = `DE${"\n"}F`;

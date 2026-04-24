@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecovery_ArgumentList4.js parserErrorRecovery_ArgumentList4.ts
+stderr 'TS1005'
+! exists parserErrorRecovery_ArgumentList4.js
+! exists parserErrorRecovery_ArgumentList4.d.ts
+! exists parserErrorRecovery_ArgumentList4.js.map
+
+-- parserErrorRecovery_ArgumentList4.ts --
+function foo() {
+   bar(a,b
+   return;
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/expressions/nullishCoalescingOperator/nullishCoalescingOperator11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js nullishCoalescingOperator11.js nullishCoalescingOperator11.ts
+stderr 'TS18049'
+! exists nullishCoalescingOperator11.js
+! exists nullishCoalescingOperator11.d.ts
+! exists nullishCoalescingOperator11.js.map
+
+-- nullishCoalescingOperator11.ts --
+declare const f11: 1 | 0 | '' | null | undefined;
+
+let g11 = f11 ?? f11.toFixed()
+
+

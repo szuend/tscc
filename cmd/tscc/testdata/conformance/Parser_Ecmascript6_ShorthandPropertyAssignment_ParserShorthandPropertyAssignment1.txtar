@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ShorthandPropertyAssignment/parserShorthandPropertyAssignment1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js parserShorthandPropertyAssignment1.js parserShorthandPropertyAssignment1.ts
+stderr 'TS1162'
+! exists parserShorthandPropertyAssignment1.js
+! exists parserShorthandPropertyAssignment1.d.ts
+! exists parserShorthandPropertyAssignment1.js.map
+
+-- parserShorthandPropertyAssignment1.ts --
+function foo(obj: { name?: string; id: number }) { }
+var name:any, id: any;
+foo({ name?, id? });

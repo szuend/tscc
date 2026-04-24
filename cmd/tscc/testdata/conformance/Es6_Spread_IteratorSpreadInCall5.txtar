@@ -1,0 +1,63 @@
+# Ported from tests/cases/conformance/es6/spread/iteratorSpreadInCall5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js iteratorSpreadInCall5.js iteratorSpreadInCall5.ts
+! stderr .
+cmp iteratorSpreadInCall5.js iteratorSpreadInCall5.js.golden
+! exists iteratorSpreadInCall5.d.ts
+! exists iteratorSpreadInCall5.js.map
+
+-- iteratorSpreadInCall5.ts --
+function foo(...s: (symbol | string)[]) { }
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+class _StringIterator {
+    next() {
+        return {
+            value: "",
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+foo(...new SymbolIterator, ...new _StringIterator);
+-- iteratorSpreadInCall5.js.golden --
+"use strict";
+function foo(...s) { }
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+class _StringIterator {
+    next() {
+        return {
+            value: "",
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+foo(...new SymbolIterator, ...new _StringIterator);

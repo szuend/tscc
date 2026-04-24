@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/destructuring/objectBindingPatternKeywordIdentifiers06.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js objectBindingPatternKeywordIdentifiers06.js objectBindingPatternKeywordIdentifiers06.ts
+! stderr .
+cmp objectBindingPatternKeywordIdentifiers06.js objectBindingPatternKeywordIdentifiers06.js.golden
+! exists objectBindingPatternKeywordIdentifiers06.d.ts
+! exists objectBindingPatternKeywordIdentifiers06.js.map
+
+-- objectBindingPatternKeywordIdentifiers06.ts --
+var { as: as } = { as: 1 }
+-- objectBindingPatternKeywordIdentifiers06.js.golden --
+"use strict";
+var { as: as } = { as: 1 };

@@ -1,0 +1,38 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of18.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of18.js for-of18.ts
+! stderr .
+cmp for-of18.js for-of18.js.golden
+! exists for-of18.d.ts
+! exists for-of18.js.map
+
+-- for-of18.ts --
+class MyStringIterator {
+    next() {
+        return {
+            value: "",
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+var v: string;
+for (v of new MyStringIterator) { } // Should succeed
+-- for-of18.js.golden --
+"use strict";
+class MyStringIterator {
+    next() {
+        return {
+            value: "",
+            done: false
+        };
+    }
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+var v;
+for (v of new MyStringIterator) { } // Should succeed

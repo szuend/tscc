@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName26.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js parserComputedPropertyName26.js parserComputedPropertyName26.ts
+stderr 'TS1164'
+! exists parserComputedPropertyName26.js
+! exists parserComputedPropertyName26.d.ts
+! exists parserComputedPropertyName26.js.map
+
+-- parserComputedPropertyName26.ts --
+enum E {
+    // No ASI
+    [e] = 0
+    [e2] = 1
+}

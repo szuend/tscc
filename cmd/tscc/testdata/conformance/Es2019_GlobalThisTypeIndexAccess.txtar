@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es2019/globalThisTypeIndexAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js globalThisTypeIndexAccess.js globalThisTypeIndexAccess.ts
+! stderr .
+cmp globalThisTypeIndexAccess.js globalThisTypeIndexAccess.js.golden
+! exists globalThisTypeIndexAccess.d.ts
+! exists globalThisTypeIndexAccess.js.map
+
+-- globalThisTypeIndexAccess.ts --
+declare const w_e: (typeof globalThis)["globalThis"]
+-- globalThisTypeIndexAccess.js.golden --
+"use strict";

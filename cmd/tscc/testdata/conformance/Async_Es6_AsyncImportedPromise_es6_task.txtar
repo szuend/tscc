@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/async/es6/asyncImportedPromise_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es6 --lib es6,dom --out-js task.js task.ts
+! stderr .
+cmp task.js task.js.golden
+! exists task.d.ts
+! exists task.js.map
+
+-- task.ts --
+export class Task<T> extends Promise<T> { }
+-- test.ts --
+import { Task } from "./task";
+class Test {
+    async example<T>(): Task<T> { return; }
+}
+-- task.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Task = void 0;
+class Task extends Promise {
+}
+exports.Task = Task;

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserErrantAccessibilityModifierInModule1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrantAccessibilityModifierInModule1.js parserErrantAccessibilityModifierInModule1.ts
+stderr 'TS1128'
+! exists parserErrantAccessibilityModifierInModule1.js
+! exists parserErrantAccessibilityModifierInModule1.d.ts
+! exists parserErrantAccessibilityModifierInModule1.js.map
+
+-- parserErrantAccessibilityModifierInModule1.ts --
+namespace M {
+    var x=10;  // variable local to this module body
+    private y=x;  // property visible only in module
+    export var z=y;  // property visible to any code
+}

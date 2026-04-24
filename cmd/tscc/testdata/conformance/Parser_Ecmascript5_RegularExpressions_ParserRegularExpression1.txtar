@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserRegularExpression1.js parserRegularExpression1.ts
+! stderr .
+cmp parserRegularExpression1.js parserRegularExpression1.js.golden
+! exists parserRegularExpression1.d.ts
+! exists parserRegularExpression1.js.map
+
+-- parserRegularExpression1.ts --
+/(#?-?\d*\.\d\w*%?)|(@?#?[\w-?]+%?)/g;
+-- parserRegularExpression1.js.golden --
+"use strict";
+/(#?-?\d*\.\d\w*%?)|(@?#?[\w-?]+%?)/g;

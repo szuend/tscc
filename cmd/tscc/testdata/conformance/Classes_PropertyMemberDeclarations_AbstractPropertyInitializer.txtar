@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/abstractPropertyInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts abstractPropertyInitializer.d.ts --strict --target es2015 --lib es2015,dom --out-js abstractPropertyInitializer.js abstractPropertyInitializer.ts
+stderr 'TS1267'
+! exists abstractPropertyInitializer.d.ts
+! exists abstractPropertyInitializer.js
+! exists abstractPropertyInitializer.js.map
+
+-- abstractPropertyInitializer.ts --
+abstract class C {
+    abstract prop = 1
+}

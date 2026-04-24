@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserNotRegex1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserNotRegex1.js parserNotRegex1.ts
+stderr 'TS1108'
+! exists parserNotRegex1.js
+! exists parserNotRegex1.d.ts
+! exists parserNotRegex1.js.map
+
+-- parserNotRegex1.ts --
+  if (a.indexOf(-(4/3)))      // We should not get a regex here because of the / in the comment.
+  {
+    return true;
+  }

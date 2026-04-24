@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringParameterProperties4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js destructuringParameterProperties4.js destructuringParameterProperties4.ts
+stderr 'TS1187'
+! exists destructuringParameterProperties4.js
+! exists destructuringParameterProperties4.d.ts
+! exists destructuringParameterProperties4.js.map
+
+-- destructuringParameterProperties4.ts --
+class C1<T, U, V> {
+    constructor(private k: T, protected [a, b, c]: [T,U,V]) {
+        if ((b === undefined && c === undefined) || (this.b === undefined && this.c === undefined)) {
+            this.a = a || k;
+        }
+    }
+
+    public getA() {
+        return this.a
+    }
+
+    public getB() {
+        return this.b
+    }
+
+    public getC() {
+        return this.c;
+    }
+}
+
+class C2 extends C1<number, string, boolean> {
+    public doSomethingWithSuperProperties() {
+        return `${this.a} ${this.b} ${this.c}`;
+    }
+}

@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/jsdoc/typeTagWithGenericSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom bug25618.js
+! stderr .
+! exists bug25618.d.ts
+! exists bug25618.js.map
+
+-- bug25618.js --
+/** @type {<T>(param?: T) => T | undefined} */
+function typed(param) {
+    return param;
+}
+
+var n = typed(1);
+

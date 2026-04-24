@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserFunctionDeclaration5.js parserFunctionDeclaration5.ts
+! stderr .
+cmp parserFunctionDeclaration5.js parserFunctionDeclaration5.js.golden
+! exists parserFunctionDeclaration5.d.ts
+! exists parserFunctionDeclaration5.js.map
+
+-- parserFunctionDeclaration5.ts --
+function foo();
+function foo() { }
+-- parserFunctionDeclaration5.js.golden --
+"use strict";
+function foo() { }

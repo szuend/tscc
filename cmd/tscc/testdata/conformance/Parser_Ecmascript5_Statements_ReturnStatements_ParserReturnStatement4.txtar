@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/ReturnStatements/parserReturnStatement4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserReturnStatement4.js parserReturnStatement4.ts
+! stderr .
+cmp parserReturnStatement4.js parserReturnStatement4.js.golden
+! exists parserReturnStatement4.d.ts
+! exists parserReturnStatement4.js.map
+
+-- parserReturnStatement4.ts --
+var v = { get foo() { return } };
+-- parserReturnStatement4.js.golden --
+"use strict";
+var v = { get foo() { return; } };

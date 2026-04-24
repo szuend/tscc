@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserOptionalTypeMembers1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserOptionalTypeMembers1.js parserOptionalTypeMembers1.ts
+! stderr .
+cmp parserOptionalTypeMembers1.js parserOptionalTypeMembers1.js.golden
+! exists parserOptionalTypeMembers1.d.ts
+! exists parserOptionalTypeMembers1.js.map
+
+-- parserOptionalTypeMembers1.ts --
+interface PropertyDescriptor2 {
+    configurable?: boolean;
+    enumerable?: boolean;
+    value?: any;
+    writable?: boolean;
+    get?(): any;
+    set?(v: any): void;
+}
+-- parserOptionalTypeMembers1.js.golden --
+"use strict";

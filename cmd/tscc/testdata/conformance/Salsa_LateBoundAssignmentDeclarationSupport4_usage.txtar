@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/salsa/lateBoundAssignmentDeclarationSupport4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es6 --lib es6,dom usage.js
+stderr 'TS7009'
+! exists usage.d.ts
+! exists usage.js.map
+
+-- lateBoundAssignmentDeclarationSupport4.js --
+// currently unsupported
+const _sym = Symbol();
+const _str = "my-fake-sym";
+
+function F() {
+}
+F.prototype[_sym] = "ok";
+F.prototype[_str] = "ok";
+const inst =  new F();
+const _y = inst[_str];
+const _z = inst[_sym];
+module.exports.F = F;
+module.exports.S = _sym;
+-- usage.js --
+const x = require("./lateBoundAssignmentDeclarationSupport4.js");
+const inst =  new x.F();
+const y = inst["my-fake-sym"];
+const z = inst[x.S];

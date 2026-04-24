@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractUsingAbstractMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractUsingAbstractMethod1.js classAbstractUsingAbstractMethod1.ts
+stderr 'TS2511'
+! exists classAbstractUsingAbstractMethod1.js
+! exists classAbstractUsingAbstractMethod1.d.ts
+! exists classAbstractUsingAbstractMethod1.js.map
+
+-- classAbstractUsingAbstractMethod1.ts --
+abstract class A {
+    abstract foo() : number;
+}
+
+class B extends A {
+    foo() { return 1; }
+}
+
+abstract class C extends A  {
+    abstract foo() : number;
+}
+
+var a = new B;
+a.foo();
+
+a = new C; // error, cannot instantiate abstract class.
+a.foo();

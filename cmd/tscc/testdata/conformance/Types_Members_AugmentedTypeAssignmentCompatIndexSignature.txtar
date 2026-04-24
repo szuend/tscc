@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/types/members/augmentedTypeAssignmentCompatIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js augmentedTypeAssignmentCompatIndexSignature.js augmentedTypeAssignmentCompatIndexSignature.ts
+stderr 'TS2322'
+! exists augmentedTypeAssignmentCompatIndexSignature.js
+! exists augmentedTypeAssignmentCompatIndexSignature.d.ts
+! exists augmentedTypeAssignmentCompatIndexSignature.js.map
+
+-- augmentedTypeAssignmentCompatIndexSignature.ts --
+interface Foo { a }
+interface Bar { b }
+
+interface Object {
+    [n: number]: Foo;
+}
+
+interface Function {
+    [n: number]: Bar;
+}
+
+var o = {};
+var f = () => { };
+
+var v1: {
+    [n: number]: Foo
+} = o; // Should be allowed
+
+var v2: {
+    [n: number]: Bar
+} = f; // Should be allowed

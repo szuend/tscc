@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorOverloads5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js generatorOverloads5.js generatorOverloads5.ts
+! stderr .
+cmp generatorOverloads5.js generatorOverloads5.js.golden
+! exists generatorOverloads5.d.ts
+! exists generatorOverloads5.js.map
+
+-- generatorOverloads5.ts --
+namespace M {
+    function f(s: string): Iterable<any>;
+    function f(s: number): Iterable<any>;
+    function* f(s: any): Iterable<any> { }
+}
+-- generatorOverloads5.js.golden --
+"use strict";
+var M;
+(function (M) {
+    function* f(s) { }
+})(M || (M = {}));

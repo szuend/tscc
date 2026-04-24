@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck57.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js generatorTypeCheck57.js generatorTypeCheck57.ts
+stderr 'TS1163'
+! exists generatorTypeCheck57.js
+! exists generatorTypeCheck57.d.ts
+! exists generatorTypeCheck57.js.map
+
+-- generatorTypeCheck57.ts --
+function* g() {
+    class C {
+        x = yield 0;
+    };
+}

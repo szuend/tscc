@@ -1,0 +1,86 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesAsTags02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesAsTags02.d.ts --no-strict --target es2015 --lib es2015,dom --out-js stringLiteralTypesAsTags02.js stringLiteralTypesAsTags02.ts
+! stderr .
+cmp stringLiteralTypesAsTags02.d.ts stringLiteralTypesAsTags02.d.ts.golden
+cmp stringLiteralTypesAsTags02.js stringLiteralTypesAsTags02.js.golden
+! exists stringLiteralTypesAsTags02.js.map
+
+-- stringLiteralTypesAsTags02.ts --
+type Kind = "A" | "B"
+
+interface Entity {
+    kind: Kind;
+}
+
+interface A extends Entity {
+    kind: "A";
+    a: number;
+}
+
+interface B extends Entity {
+    kind: "B";
+    b: string;
+}
+
+function hasKind(entity: Entity, kind: "A"): entity is A;
+function hasKind(entity: Entity, kind: "B"): entity is B;
+function hasKind(entity: Entity, kind: Kind): entity is (A | B) {
+    return entity.kind === kind;
+}
+
+let x: A = {
+    kind: "A",
+    a: 100,
+}
+
+if (hasKind(x, "A")) {
+    let a = x;
+}
+else {
+    let b = x;
+}
+
+if (!hasKind(x, "B")) {
+    let c = x;
+}
+else {
+    let d = x;
+}
+-- stringLiteralTypesAsTags02.d.ts.golden --
+type Kind = "A" | "B";
+interface Entity {
+    kind: Kind;
+}
+interface A extends Entity {
+    kind: "A";
+    a: number;
+}
+interface B extends Entity {
+    kind: "B";
+    b: string;
+}
+declare function hasKind(entity: Entity, kind: "A"): entity is A;
+declare function hasKind(entity: Entity, kind: "B"): entity is B;
+declare let x: A;
+-- stringLiteralTypesAsTags02.js.golden --
+"use strict";
+function hasKind(entity, kind) {
+    return entity.kind === kind;
+}
+let x = {
+    kind: "A",
+    a: 100,
+};
+if (hasKind(x, "A")) {
+    let a = x;
+}
+else {
+    let b = x;
+}
+if (!hasKind(x, "B")) {
+    let c = x;
+}
+else {
+    let d = x;
+}

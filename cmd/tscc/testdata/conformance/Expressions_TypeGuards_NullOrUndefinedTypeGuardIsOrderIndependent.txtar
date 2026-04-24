@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/nullOrUndefinedTypeGuardIsOrderIndependent.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js nullOrUndefinedTypeGuardIsOrderIndependent.js nullOrUndefinedTypeGuardIsOrderIndependent.ts
+! stderr .
+cmp nullOrUndefinedTypeGuardIsOrderIndependent.js nullOrUndefinedTypeGuardIsOrderIndependent.js.golden
+! exists nullOrUndefinedTypeGuardIsOrderIndependent.d.ts
+! exists nullOrUndefinedTypeGuardIsOrderIndependent.js.map
+
+-- nullOrUndefinedTypeGuardIsOrderIndependent.ts --
+function test(strOrNull: string | null, strOrUndefined: string | undefined) {
+    var str: string = "original";
+    var nil: null;
+    if (null === strOrNull) {
+        nil = strOrNull;
+    }
+    else {
+        str = strOrNull;
+    }
+    if (undefined !== strOrUndefined) {
+        str = strOrUndefined;
+    }
+}
+-- nullOrUndefinedTypeGuardIsOrderIndependent.js.golden --
+"use strict";
+function test(strOrNull, strOrUndefined) {
+    var str = "original";
+    var nil;
+    if (null === strOrNull) {
+        nil = strOrNull;
+    }
+    else {
+        str = strOrNull;
+    }
+    if (undefined !== strOrUndefined) {
+        str = strOrUndefined;
+    }
+}

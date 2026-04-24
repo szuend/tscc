@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/salsa/constructorNameInGenerator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js constructorNameInGenerator.js constructorNameInGenerator.ts
+stderr 'TS1368'
+! exists constructorNameInGenerator.js
+! exists constructorNameInGenerator.d.ts
+! exists constructorNameInGenerator.js.map
+
+-- constructorNameInGenerator.ts --
+class C2 {
+    *constructor() {}
+}

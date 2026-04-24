@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesContextualType9_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNamesContextualType9_ES6.js computedPropertyNamesContextualType9_ES6.ts
+stderr 'TS2322'
+! exists computedPropertyNamesContextualType9_ES6.js
+! exists computedPropertyNamesContextualType9_ES6.d.ts
+! exists computedPropertyNamesContextualType9_ES6.js.map
+
+-- computedPropertyNamesContextualType9_ES6.ts --
+interface I {
+    [s: string]: boolean;
+    [s: number]: boolean;
+}
+
+var o: I = {
+    [+"foo"]: "",
+    [+"bar"]: 0
+}

@@ -1,0 +1,34 @@
+# Ported from tests/cases/conformance/interfaces/interfacesExtendingClasses/implementingAnInterfaceExtendingClassWithPrivates.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js implementingAnInterfaceExtendingClassWithPrivates.js implementingAnInterfaceExtendingClassWithPrivates.ts
+stderr 'TS2564'
+stderr 'TS2420'
+! exists implementingAnInterfaceExtendingClassWithPrivates.js
+! exists implementingAnInterfaceExtendingClassWithPrivates.d.ts
+! exists implementingAnInterfaceExtendingClassWithPrivates.js.map
+
+-- implementingAnInterfaceExtendingClassWithPrivates.ts --
+class Foo {
+    private x: string;
+}
+
+interface I extends Foo {
+    y: number;
+}
+
+class Bar implements I { // error
+}
+
+class Bar2 implements I { // error
+    y: number;
+}
+
+class Bar3 implements I { // error
+    x: string;
+    y: number;
+}
+
+class Bar4 implements I { // error
+    private x: string;
+    y: number;
+}

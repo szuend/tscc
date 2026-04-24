@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/types/nonPrimitive/nonPrimitiveAsProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts nonPrimitiveAsProperty.d.ts --target es2015 --lib es2015,dom --out-js nonPrimitiveAsProperty.js nonPrimitiveAsProperty.ts
+stderr 'TS2322'
+! exists nonPrimitiveAsProperty.d.ts
+! exists nonPrimitiveAsProperty.js
+! exists nonPrimitiveAsProperty.js.map
+
+-- nonPrimitiveAsProperty.ts --
+interface WithNonPrimitive {
+    foo: object
+}
+
+var a: WithNonPrimitive = { foo: {bar: "bar"} };
+
+var b: WithNonPrimitive = {foo: "bar"}; // expect error

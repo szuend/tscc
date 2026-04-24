@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js for-of8.js for-of8.ts
+stderr 'TS2454'
+! exists for-of8.js
+! exists for-of8.d.ts
+! exists for-of8.js.map
+
+-- for-of8.ts --
+v;
+for (var v of [0]) { }

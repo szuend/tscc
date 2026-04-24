@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorInvalidOperations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeofOperatorInvalidOperations.js typeofOperatorInvalidOperations.ts
+stderr 'TS1005'
+stderr 'TS1109'
+! exists typeofOperatorInvalidOperations.js
+! exists typeofOperatorInvalidOperations.d.ts
+! exists typeofOperatorInvalidOperations.js.map
+
+-- typeofOperatorInvalidOperations.ts --
+// Unary operator typeof
+
+// opreand before typeof
+var ANY = ANY typeof ;    //expect error
+
+// miss an operand
+var ANY1 = typeof ;

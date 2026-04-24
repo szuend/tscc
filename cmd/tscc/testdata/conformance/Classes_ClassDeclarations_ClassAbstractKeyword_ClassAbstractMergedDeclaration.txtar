@@ -1,0 +1,50 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractMergedDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAbstractMergedDeclaration.js classAbstractMergedDeclaration.ts
+stderr 'TS2300'
+stderr 'TS2511'
+! exists classAbstractMergedDeclaration.js
+! exists classAbstractMergedDeclaration.d.ts
+! exists classAbstractMergedDeclaration.js.map
+
+-- classAbstractMergedDeclaration.ts --
+abstract class CM {}
+namespace CM {}
+
+namespace MC {}
+abstract class MC {}
+
+abstract class CI {}
+interface CI {}
+
+interface IC {}
+abstract class IC {}
+
+abstract class CC1 {}
+class CC1 {}
+
+class CC2 {}
+abstract class CC2 {}
+
+declare abstract class DCI {}
+interface DCI {}
+
+interface DIC {}
+declare abstract class DIC {}
+
+declare abstract class DCC1 {}
+declare class DCC1 {}
+
+declare class DCC2 {}
+declare abstract class DCC2 {}
+
+new CM;
+new MC;
+new CI;
+new IC;
+new CC1;
+new CC2;
+new DCI;
+new DIC;
+new DCC1;
+new DCC2;

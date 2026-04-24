@@ -1,0 +1,38 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/superCallBeforeThisAccessing1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js superCallBeforeThisAccessing1.js superCallBeforeThisAccessing1.ts
+! stderr .
+cmp superCallBeforeThisAccessing1.js superCallBeforeThisAccessing1.js.golden
+! exists superCallBeforeThisAccessing1.d.ts
+! exists superCallBeforeThisAccessing1.js.map
+
+-- superCallBeforeThisAccessing1.ts --
+declare var Factory: any
+
+class Base {
+    constructor(c) { }
+}
+class D extends Base {
+    private _t;
+    constructor() {
+        super(i);
+        var s = {
+            t: this._t
+        }
+        var i = Factory.create(s);
+    }
+}
+-- superCallBeforeThisAccessing1.js.golden --
+"use strict";
+class Base {
+    constructor(c) { }
+}
+class D extends Base {
+    constructor() {
+        super(i);
+        var s = {
+            t: this._t
+        };
+        var i = Factory.create(s);
+    }
+}

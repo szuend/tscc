@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/primitives/string/validStringAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js validStringAssignments.js validStringAssignments.ts
+! stderr .
+cmp validStringAssignments.js validStringAssignments.js.golden
+! exists validStringAssignments.d.ts
+! exists validStringAssignments.js.map
+
+-- validStringAssignments.ts --
+var x = '';
+
+var a: any = x;
+var b: Object = x;
+var c: string = x;
+var d: String = x;
+-- validStringAssignments.js.golden --
+"use strict";
+var x = '';
+var a = x;
+var b = x;
+var c = x;
+var d = x;

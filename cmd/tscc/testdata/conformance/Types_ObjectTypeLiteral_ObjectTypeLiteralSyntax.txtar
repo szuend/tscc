@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/types/objectTypeLiteral/objectTypeLiteralSyntax.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js objectTypeLiteralSyntax.js objectTypeLiteralSyntax.ts
+! stderr .
+cmp objectTypeLiteralSyntax.js objectTypeLiteralSyntax.js.golden
+! exists objectTypeLiteralSyntax.d.ts
+! exists objectTypeLiteralSyntax.js.map
+
+-- objectTypeLiteralSyntax.ts --
+var x: {
+    foo: string;
+    bar: string;
+}
+
+var y: {
+    foo: string;
+    bar: string
+}
+-- objectTypeLiteralSyntax.js.golden --
+"use strict";
+var x;
+var y;

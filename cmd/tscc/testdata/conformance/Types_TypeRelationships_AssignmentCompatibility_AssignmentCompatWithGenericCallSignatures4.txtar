@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/assignmentCompatWithGenericCallSignatures4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatWithGenericCallSignatures4.js assignmentCompatWithGenericCallSignatures4.ts
+stderr 'TS2322'
+! exists assignmentCompatWithGenericCallSignatures4.js
+! exists assignmentCompatWithGenericCallSignatures4.d.ts
+! exists assignmentCompatWithGenericCallSignatures4.js.map
+
+-- assignmentCompatWithGenericCallSignatures4.ts --
+// some complex cases of assignment compat of generic signatures.
+
+interface I2<T> {
+    p: T
+}
+
+declare var x: <T extends I2<T>>(z: T) => void;
+declare var y: <T extends I2<I2<T>>>(z: T) => void;
+
+// These both do not make sense as we would eventually be comparing I2<T> to I2<I2<T>>, and they are self referencing anyway
+x = y 
+y = x 

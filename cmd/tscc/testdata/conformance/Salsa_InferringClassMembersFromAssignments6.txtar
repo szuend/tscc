@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/salsa/inferringClassMembersFromAssignments6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --strict-null-checks --target es2015 --lib es2015,dom inferringClassMembersFromAssignments6.js
+stderr 'TS2683'
+stderr 'TS7009'
+! exists inferringClassMembersFromAssignments6.d.ts
+! exists inferringClassMembersFromAssignments6.js.map
+
+-- inferringClassMembersFromAssignments6.js --
+function Foonly() {
+    var self = this
+    self.x = 1
+    self.m = function() {
+        console.log(self.x)
+    }
+}
+Foonly.prototype.mreal = function() {
+    var self = this
+    self.y = 2
+}
+const foo = new Foonly()
+foo.x
+foo.y
+foo.m()

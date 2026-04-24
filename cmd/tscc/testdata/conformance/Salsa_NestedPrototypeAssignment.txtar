@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/salsa/nestedPrototypeAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom mod.js
+stderr 'TS2304'
+! exists mod.d.ts
+! exists mod.js.map
+
+-- mod.js --
+// #24111 -- shouldn't assert
+C.prototype = {}
+C.prototype.bar.foo = {};

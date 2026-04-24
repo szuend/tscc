@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowWithTemplateLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js controlFlowWithTemplateLiterals.js controlFlowWithTemplateLiterals.ts
+! stderr .
+cmp controlFlowWithTemplateLiterals.js controlFlowWithTemplateLiterals.js.golden
+! exists controlFlowWithTemplateLiterals.d.ts
+! exists controlFlowWithTemplateLiterals.js.map
+
+-- controlFlowWithTemplateLiterals.ts --
+declare const envVar: string | undefined;
+if (typeof envVar === `string`) {
+  envVar.slice(0)
+}
+
+declare const obj: {test: string} | {}
+if (`test` in obj) {
+  obj.test.slice(0)
+}
+-- controlFlowWithTemplateLiterals.js.golden --
+"use strict";
+if (typeof envVar === `string`) {
+    envVar.slice(0);
+}
+if (`test` in obj) {
+    obj.test.slice(0);
+}

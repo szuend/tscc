@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/jsdoc/constructorTagOnObjectLiteralMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom example.js
+stderr 'TS2339'
+stderr 'TS7009'
+! exists example.d.ts
+! exists example.js.map
+
+-- example.js --
+const obj = {
+  /** @constructor */
+  Foo() { this.bar = "bar" }
+};
+(new obj.Foo()).bar

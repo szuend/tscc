@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowElementAccessNoCrash1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom controlFlowElementAccessNoCrash1.ts
+! stderr .
+! exists controlFlowElementAccessNoCrash1.d.ts
+! exists controlFlowElementAccessNoCrash1.js.map
+
+-- controlFlowElementAccessNoCrash1.ts --
+interface TestTscEdit {
+  caption: string;
+  commandLineArgs?: readonly string[];
+}
+
+interface TestTscCompile {
+  subScenario: string;
+  commandLineArgs: readonly string[];
+}
+
+interface VerifyTscEditDiscrepanciesInput {
+  index: number;
+  edits: readonly TestTscEdit[];
+  commandLineArgs: TestTscCompile["commandLineArgs"];
+}
+
+function testTscCompile(input: TestTscCompile) {}
+
+function verifyTscEditDiscrepancies({
+  index,
+  edits,
+  commandLineArgs,
+}: VerifyTscEditDiscrepanciesInput) {
+  const { caption } = edits[index];
+  testTscCompile({
+    subScenario: caption,
+    commandLineArgs: edits[index].commandLineArgs || commandLineArgs,
+  });
+}

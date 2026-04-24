@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/async/es6/await_unaryExpression_es6_3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js await_unaryExpression_es6_3.js await_unaryExpression_es6_3.ts
+stderr 'TS1109'
+! exists await_unaryExpression_es6_3.js
+! exists await_unaryExpression_es6_3.d.ts
+! exists await_unaryExpression_es6_3.js.map
+
+-- await_unaryExpression_es6_3.ts --
+async function bar1() {
+    ++await 42; // Error
+}
+
+async function bar2() {
+    --await 42; // Error
+}
+
+async function bar3() {
+    var x = 42;
+    await x++; // OK but shouldn't need parenthesis
+}
+
+async function bar4() {
+    var x = 42;
+    await x--; // OK but shouldn't need parenthesis
+}

@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck64.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom generatorTypeCheck64.ts
+! stderr .
+! exists generatorTypeCheck64.d.ts
+! exists generatorTypeCheck64.js.map
+
+-- generatorTypeCheck64.ts --
+function* g3(): Generator<Generator<(x: string) => number>> {
+    yield function* () {
+        yield x => x.length;
+    } ()
+}
+
+function* g4(): Iterator<Iterable<(x: string) => number>> {
+  yield (function* () {
+    yield (x) => x.length;
+  })();
+}

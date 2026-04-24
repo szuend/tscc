@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom bluebird.js
+! stderr .
+! exists bluebird.d.ts
+! exists bluebird.js.map
+
+-- bluebird.js --
+!function outer (f) { return f }(
+    function inner () {
+        function Async() {
+            this._trampolineEnabled = true;
+        }
+
+        Async.prototype.disableTrampolineIfNecessary = function dtin(b) {
+            if (b) {
+                this._trampolineEnabled = false;
+            }
+        };
+    })

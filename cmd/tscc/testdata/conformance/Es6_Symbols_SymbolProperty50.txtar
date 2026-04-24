@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty50.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty50.js symbolProperty50.ts
+! stderr .
+cmp symbolProperty50.js symbolProperty50.js.golden
+! exists symbolProperty50.d.ts
+! exists symbolProperty50.js.map
+
+-- symbolProperty50.ts --
+namespace M {
+    interface Symbol { }
+
+    class C {
+        [Symbol.iterator]() { }
+    }
+}
+-- symbolProperty50.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class C {
+        [Symbol.iterator]() { }
+    }
+})(M || (M = {}));

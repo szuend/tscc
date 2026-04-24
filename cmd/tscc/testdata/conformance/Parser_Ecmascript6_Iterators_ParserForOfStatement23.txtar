@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/Iterators/parserForOfStatement23.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js parserForOfStatement23.js parserForOfStatement23.ts
+! stderr .
+cmp parserForOfStatement23.js parserForOfStatement23.js.golden
+! exists parserForOfStatement23.d.ts
+! exists parserForOfStatement23.js.map
+
+-- parserForOfStatement23.ts --
+async function foo(x: any) {
+    var async;
+    for await (async of x) {}
+}
+-- parserForOfStatement23.js.golden --
+"use strict";
+async function foo(x) {
+    var async;
+    for await (async of x) { }
+}

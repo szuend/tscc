@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithConstructSignaturesThatHidesBaseSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceWithConstructSignaturesThatHidesBaseSignature.js interfaceWithConstructSignaturesThatHidesBaseSignature.ts
+stderr 'TS2454'
+! exists interfaceWithConstructSignaturesThatHidesBaseSignature.js
+! exists interfaceWithConstructSignaturesThatHidesBaseSignature.d.ts
+! exists interfaceWithConstructSignaturesThatHidesBaseSignature.js.map
+
+-- interfaceWithConstructSignaturesThatHidesBaseSignature.ts --
+interface Foo {
+    new (): { a: number };
+}
+
+interface Derived extends Foo {
+    new (): { a: number; b: number };
+}
+
+var d: Derived;
+var r = new d();

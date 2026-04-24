@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserUnicode3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserUnicode3.js parserUnicode3.ts
+! stderr .
+cmp parserUnicode3.js parserUnicode3.js.golden
+! exists parserUnicode3.d.ts
+! exists parserUnicode3.js.map
+
+-- parserUnicode3.ts --
+class 剩下 {
+}
+-- parserUnicode3.js.golden --
+"use strict";
+class 剩下 {
+}

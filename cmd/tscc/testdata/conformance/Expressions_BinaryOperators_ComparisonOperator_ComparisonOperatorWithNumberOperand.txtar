@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNumberOperand.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom comparisonOperatorWithNumberOperand.ts
+stderr 'TS2365'
+! exists comparisonOperatorWithNumberOperand.d.ts
+! exists comparisonOperatorWithNumberOperand.js.map
+
+-- comparisonOperatorWithNumberOperand.ts --
+// repro #52036
+declare const t1: number | Promise<number>
+t1 >= 0 // error

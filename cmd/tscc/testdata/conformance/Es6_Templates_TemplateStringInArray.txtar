@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringInArray.js templateStringInArray.ts
+! stderr .
+cmp templateStringInArray.js templateStringInArray.js.golden
+! exists templateStringInArray.d.ts
+! exists templateStringInArray.js.map
+
+-- templateStringInArray.ts --
+var x = [1, 2, `abc${ 123 }def`];
+-- templateStringInArray.js.golden --
+"use strict";
+var x = [1, 2, `abc${123}def`];

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/MemberFunctionDeclarations/parserMemberFunctionDeclaration2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserMemberFunctionDeclaration2.js parserMemberFunctionDeclaration2.ts
+stderr 'TS1434'
+! exists parserMemberFunctionDeclaration2.js
+! exists parserMemberFunctionDeclaration2.d.ts
+! exists parserMemberFunctionDeclaration2.js.map
+
+-- parserMemberFunctionDeclaration2.ts --
+class C {
+    static static Foo() { }
+}

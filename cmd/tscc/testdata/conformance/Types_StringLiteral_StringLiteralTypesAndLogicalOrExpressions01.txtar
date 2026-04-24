@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesAndLogicalOrExpressions01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesAndLogicalOrExpressions01.d.ts --target es2015 --lib es2015,dom --out-js stringLiteralTypesAndLogicalOrExpressions01.js stringLiteralTypesAndLogicalOrExpressions01.ts
+! stderr .
+cmp stringLiteralTypesAndLogicalOrExpressions01.d.ts stringLiteralTypesAndLogicalOrExpressions01.d.ts.golden
+cmp stringLiteralTypesAndLogicalOrExpressions01.js stringLiteralTypesAndLogicalOrExpressions01.js.golden
+! exists stringLiteralTypesAndLogicalOrExpressions01.js.map
+
+-- stringLiteralTypesAndLogicalOrExpressions01.ts --
+declare function myRandBool(): boolean;
+
+let a: "foo" = "foo";
+let b = a || "foo";
+let c: "foo" = b;
+let d = b || "bar";
+let e: "foo" | "bar" = d;
+-- stringLiteralTypesAndLogicalOrExpressions01.d.ts.golden --
+declare function myRandBool(): boolean;
+declare let a: "foo";
+declare let b: "foo";
+declare let c: "foo";
+declare let d: "foo";
+declare let e: "foo" | "bar";
+-- stringLiteralTypesAndLogicalOrExpressions01.js.golden --
+"use strict";
+let a = "foo";
+let b = a || "foo";
+let c = b;
+let d = b || "bar";
+let e = d;

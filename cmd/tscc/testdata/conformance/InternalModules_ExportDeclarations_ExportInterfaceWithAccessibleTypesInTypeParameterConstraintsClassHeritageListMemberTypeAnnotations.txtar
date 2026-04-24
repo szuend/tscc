@@ -1,0 +1,37 @@
+# Ported from tests/cases/conformance/internalModules/exportDeclarations/ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.js ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.ts
+! stderr .
+cmp ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.js ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.js.golden
+! exists ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.d.ts
+! exists ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.js.map
+
+-- ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.ts --
+namespace A {
+
+    export interface Point {
+        x: number;
+        y: number;
+    }
+
+    export var Origin: Point = { x: 0, y: 0 };
+
+    export interface Point3d extends Point {
+        z: number;
+    }
+
+    export var Origin3d: Point3d = { x: 0, y: 0, z: 0 };
+
+    export interface Line<TPoint extends Point>{
+        new (start: TPoint, end: TPoint);
+        start: TPoint;
+        end: TPoint;
+    }
+}
+-- ExportInterfaceWithAccessibleTypesInTypeParameterConstraintsClassHeritageListMemberTypeAnnotations.js.golden --
+"use strict";
+var A;
+(function (A) {
+    A.Origin = { x: 0, y: 0 };
+    A.Origin3d = { x: 0, y: 0, z: 0 };
+})(A || (A = {}));

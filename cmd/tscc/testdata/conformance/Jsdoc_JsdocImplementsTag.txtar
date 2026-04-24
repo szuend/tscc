@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocImplementsTag.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @typedef { { foo: string } } A
+ */
+
+/**
+ * @implements { A }
+ */
+class B {
+    foo = ''
+}

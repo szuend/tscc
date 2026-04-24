@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceExtendingOptionalChain.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceExtendingOptionalChain.js interfaceExtendingOptionalChain.ts
+stderr 'TS2499'
+! exists interfaceExtendingOptionalChain.js
+! exists interfaceExtendingOptionalChain.d.ts
+! exists interfaceExtendingOptionalChain.js.map
+
+-- interfaceExtendingOptionalChain.ts --
+namespace Foo {
+    export class Bar {}
+}
+
+interface C1 extends Foo?.Bar {}

@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es2021/intlDateTimeFormatRangeES2021.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2021 --target es2015 --out-js intlDateTimeFormatRangeES2021.js intlDateTimeFormatRangeES2021.ts
+! stderr .
+cmp intlDateTimeFormatRangeES2021.js intlDateTimeFormatRangeES2021.js.golden
+! exists intlDateTimeFormatRangeES2021.d.ts
+! exists intlDateTimeFormatRangeES2021.js.map
+
+-- intlDateTimeFormatRangeES2021.ts --
+new Intl.DateTimeFormat().formatRange(new Date(0), new Date());
+const [ part ] = new Intl.DateTimeFormat().formatRangeToParts(1000, 1000000000);
+-- intlDateTimeFormatRangeES2021.js.golden --
+"use strict";
+new Intl.DateTimeFormat().formatRange(new Date(0), new Date());
+const [part] = new Intl.DateTimeFormat().formatRangeToParts(1000, 1000000000);

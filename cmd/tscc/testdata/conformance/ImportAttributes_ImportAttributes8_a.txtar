@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/importAttributes/importAttributes8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2015 --module esnext --target es2015 --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export default {
+    a: "a",
+    b: "b",
+}
+-- b.ts --
+import a from "./a" with { a: "a", "b": "b" }; // ok
+-- a.js.golden --
+export default {
+    a: "a",
+    b: "b",
+};

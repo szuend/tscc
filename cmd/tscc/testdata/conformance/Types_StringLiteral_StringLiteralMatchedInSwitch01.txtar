@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralMatchedInSwitch01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralMatchedInSwitch01.js stringLiteralMatchedInSwitch01.ts
+stderr 'TS2454'
+! exists stringLiteralMatchedInSwitch01.js
+! exists stringLiteralMatchedInSwitch01.d.ts
+! exists stringLiteralMatchedInSwitch01.js.map
+
+-- stringLiteralMatchedInSwitch01.ts --
+type S = "a" | "b";
+type T = S[] | S;
+
+var foo: T;
+switch (foo) {
+    case "a":
+    case "b":
+        break;
+    default:
+        foo = (foo as S[])[0];
+        break;
+}

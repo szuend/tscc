@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/typeRelationships/recursiveTypes/infiniteExpansionThroughTypeInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js infiniteExpansionThroughTypeInference.js infiniteExpansionThroughTypeInference.ts
+! stderr .
+cmp infiniteExpansionThroughTypeInference.js infiniteExpansionThroughTypeInference.js.golden
+! exists infiniteExpansionThroughTypeInference.d.ts
+! exists infiniteExpansionThroughTypeInference.js.map
+
+-- infiniteExpansionThroughTypeInference.ts --
+interface G<T> {
+    x: G<G<T>> // infinitely expanding type reference
+    y: T
+}
+
+function ff<T>(g: G<T>): void {
+    ff(g) // when infering T here we need to make sure to not descend into the structure of G<T> infinitely
+}
+
+-- infiniteExpansionThroughTypeInference.js.golden --
+"use strict";
+function ff(g) {
+    ff(g); // when infering T here we need to make sure to not descend into the structure of G<T> infinitely
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnum4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserEnum4.js parserEnum4.ts
+stderr 'TS1132'
+! exists parserEnum4.js
+! exists parserEnum4.d.ts
+! exists parserEnum4.js.map
+
+-- parserEnum4.ts --
+    export enum SignatureFlags {
+        ,
+    }

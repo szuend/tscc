@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/expressions/typeGuards/typeGuardEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardEnums.js typeGuardEnums.ts
+stderr 'TS2454'
+! exists typeGuardEnums.js
+! exists typeGuardEnums.d.ts
+! exists typeGuardEnums.js.map
+
+-- typeGuardEnums.ts --
+enum E {}
+enum V {}
+
+let x: number|string|E|V;
+
+if (typeof x === "number") {
+    x; // number|E|V
+}
+else {
+    x; // string
+}
+
+if (typeof x !== "number") {
+    x; // string
+}
+else {
+    x; // number|E|V
+}

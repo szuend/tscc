@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames27_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js computedPropertyNames27_ES6.js computedPropertyNames27_ES6.ts
+stderr 'TS2466'
+! exists computedPropertyNames27_ES6.js
+! exists computedPropertyNames27_ES6.d.ts
+! exists computedPropertyNames27_ES6.js.map
+
+-- computedPropertyNames27_ES6.ts --
+class Base {
+}
+class C extends Base {
+    [(super(), "prop")]() { }
+}

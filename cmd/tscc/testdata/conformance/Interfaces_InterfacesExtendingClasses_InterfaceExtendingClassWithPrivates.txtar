@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/interfaces/interfacesExtendingClasses/interfaceExtendingClassWithPrivates.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceExtendingClassWithPrivates.js interfaceExtendingClassWithPrivates.ts
+stderr 'TS2430'
+stderr 'TS2341'
+! exists interfaceExtendingClassWithPrivates.js
+! exists interfaceExtendingClassWithPrivates.d.ts
+! exists interfaceExtendingClassWithPrivates.js.map
+
+-- interfaceExtendingClassWithPrivates.ts --
+class Foo {
+    private x!: string;
+}
+
+interface I extends Foo { // error
+    x: string;
+}
+
+interface I2 extends Foo {
+    y: string;
+}
+
+declare var i: I2;
+var r = i.y;
+var r2 = i.x; // error

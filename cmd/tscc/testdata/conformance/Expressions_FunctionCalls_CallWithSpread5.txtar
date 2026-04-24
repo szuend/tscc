@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/expressions/functionCalls/callWithSpread5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js callWithSpread5.js callWithSpread5.ts
+stderr 'TS2345'
+stderr 'TS2556'
+! exists callWithSpread5.js
+! exists callWithSpread5.d.ts
+! exists callWithSpread5.js.map
+
+-- callWithSpread5.ts --
+declare const x: number
+declare const nnnu: [number, number, number?]
+declare const nntnnnt: [number, number] | [number, number, number]
+declare function fn(a: number, b: number, bb: number, ...c: number[]): number
+
+fn(...nnnu, x)
+fn(...nntnnnt, x)

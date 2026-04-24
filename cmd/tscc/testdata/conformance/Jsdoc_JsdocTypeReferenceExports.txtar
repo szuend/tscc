@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/jsdoc/jsdocTypeReferenceExports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug27342.js
+stderr 'TS2749'
+! exists bug27342.d.ts
+! exists bug27342.js.map
+
+-- bug27342.js --
+module.exports = {}
+/**
+ * @type {exports}
+ */
+var x
+

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueNotInIterationStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parser_continueNotInIterationStatement1.js parser_continueNotInIterationStatement1.ts
+stderr 'TS1104'
+! exists parser_continueNotInIterationStatement1.js
+! exists parser_continueNotInIterationStatement1.d.ts
+! exists parser_continueNotInIterationStatement1.js.map
+
+-- parser_continueNotInIterationStatement1.ts --
+continue;

@@ -1,0 +1,55 @@
+# Ported from tests/cases/conformance/internalModules/importDeclarations/importAliasIdentifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js importAliasIdentifiers.js importAliasIdentifiers.ts
+stderr 'TS2564'
+! exists importAliasIdentifiers.js
+! exists importAliasIdentifiers.d.ts
+! exists importAliasIdentifiers.js.map
+
+-- importAliasIdentifiers.ts --
+namespace moduleA {
+    export class Point {
+        constructor(public x: number, public y: number) { }
+    }
+}
+
+import alias = moduleA;
+
+var p: alias.Point;
+var p: moduleA.Point;
+var p: { x: number; y: number; };
+
+class clodule {
+    name: string;
+}
+
+namespace clodule {
+    export interface Point {
+        x: number; y: number;
+    }
+    var Point: Point = { x: 0, y: 0 };
+}
+
+import clolias = clodule;
+
+var p: clolias.Point;
+var p: clodule.Point;
+var p: { x: number; y: number; };
+
+
+function fundule() {
+    return { x: 0, y: 0 };
+}
+
+namespace fundule {
+    export interface Point {
+        x: number; y: number;
+    }
+    var Point: Point = { x: 0, y: 0 };
+}
+
+import funlias = fundule;
+
+var p: funlias.Point;
+var p: fundule.Point;
+var p: { x: number; y: number; };

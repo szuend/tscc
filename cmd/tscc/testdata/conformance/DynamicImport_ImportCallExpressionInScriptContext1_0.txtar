@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/dynamicImport/importCallExpressionInScriptContext1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-no-implicit-any --target es6 --lib es6,dom --out-js 0.js 0.ts
+! stderr .
+cmp 0.js 0.js.golden
+! exists 0.d.ts
+! exists 0.js.map
+
+-- 0.ts --
+export function foo() { return "foo"; }
+-- 1.ts --
+var p1 = import("./0");
+function arguments() { } // this is allow as the file doesn't have implicit "use strict"
+-- 0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.foo = foo;
+function foo() { return "foo"; }

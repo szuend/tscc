@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/es6/binaryAndOctalIntegerLiteral/binaryIntegerLiteralError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js binaryIntegerLiteralError.js binaryIntegerLiteralError.ts
+stderr 'TS1005'
+! exists binaryIntegerLiteralError.js
+! exists binaryIntegerLiteralError.d.ts
+! exists binaryIntegerLiteralError.js.map
+
+-- binaryIntegerLiteralError.ts --
+// error
+var bin1 = 0B1102110;
+var bin1 = 0b11023410;
+
+var obj1 = {
+    0b11010: "hi",
+    26: "Hello",
+    "26": "world",
+};

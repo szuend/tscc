@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parservoidInQualifiedName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parservoidInQualifiedName1.js parservoidInQualifiedName1.ts
+stderr 'TS1005'
+! exists parservoidInQualifiedName1.js
+! exists parservoidInQualifiedName1.d.ts
+! exists parservoidInQualifiedName1.js.map
+
+-- parservoidInQualifiedName1.ts --
+var v : void.x;

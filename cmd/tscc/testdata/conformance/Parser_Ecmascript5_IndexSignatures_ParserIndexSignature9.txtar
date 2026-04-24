@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserIndexSignature9.js parserIndexSignature9.ts
+stderr 'TS1096'
+! exists parserIndexSignature9.js
+! exists parserIndexSignature9.d.ts
+! exists parserIndexSignature9.js.map
+
+-- parserIndexSignature9.ts --
+interface I {
+   []: number
+}

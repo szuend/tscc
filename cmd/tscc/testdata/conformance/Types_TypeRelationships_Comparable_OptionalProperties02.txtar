@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/typeRelationships/comparable/optionalProperties02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts optionalProperties02.d.ts --strict-null-checks --target es2015 --lib es2015,dom --out-js optionalProperties02.js optionalProperties02.ts
+! stderr .
+cmp optionalProperties02.d.ts optionalProperties02.d.ts.golden
+cmp optionalProperties02.js optionalProperties02.js.golden
+! exists optionalProperties02.js.map
+
+-- optionalProperties02.ts --
+interface Foo {
+    a?: string;
+    b: string;
+}
+
+<Foo>{ a: undefined };
+-- optionalProperties02.d.ts.golden --
+interface Foo {
+    a?: string;
+    b: string;
+}
+-- optionalProperties02.js.golden --
+"use strict";
+({ a: undefined });

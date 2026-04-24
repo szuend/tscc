@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsUniqueSymbolUsage.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts b.d.ts --lib es2017 --target es2015 b.js
+! stderr .
+cmp b.d.ts b.d.ts.golden
+! exists b.js.map
+! exists out_b.js
+
+-- a.js --
+export const kSymbol = Symbol("my-symbol");
+
+/**
+ * @typedef {{[kSymbol]: true}} WithSymbol
+ */
+-- b.js --
+/**
+ * @returns {import('./a').WithSymbol} 
+ * @param {import('./a').WithSymbol} value 
+ */
+export function b(value) {
+    return value;
+}
+-- b.d.ts.golden --
+/**
+ * @returns {import('./a').WithSymbol}
+ * @param {import('./a').WithSymbol} value
+ */
+export declare function b(value: import('./a').WithSymbol): import('./a').WithSymbol;

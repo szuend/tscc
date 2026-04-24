@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/destructuring/emptyArrayBindingPatternParameter04.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts emptyArrayBindingPatternParameter04.d.ts --target es2015 --lib es2015,dom --out-js emptyArrayBindingPatternParameter04.js emptyArrayBindingPatternParameter04.ts
+! stderr .
+cmp emptyArrayBindingPatternParameter04.d.ts emptyArrayBindingPatternParameter04.d.ts.golden
+cmp emptyArrayBindingPatternParameter04.js emptyArrayBindingPatternParameter04.js.golden
+! exists emptyArrayBindingPatternParameter04.js.map
+
+-- emptyArrayBindingPatternParameter04.ts --
+function f([] = [1,2,3,4]) {
+    var x, y, z;
+}
+-- emptyArrayBindingPatternParameter04.d.ts.golden --
+declare function f([]?: number[]): void;
+-- emptyArrayBindingPatternParameter04.js.golden --
+"use strict";
+function f([] = [1, 2, 3, 4]) {
+    var x, y, z;
+}

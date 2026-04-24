@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameCircularReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameCircularReference.js privateNameCircularReference.ts
+stderr 'TS7022'
+stderr 'TS2729'
+! exists privateNameCircularReference.js
+! exists privateNameCircularReference.d.ts
+! exists privateNameCircularReference.js.map
+
+-- privateNameCircularReference.ts --
+class A {
+    #foo = this.#bar;
+    #bar = this.#foo;
+    ["#baz"] = this["#baz"]; // Error (should *not* be private name error)
+}

@@ -1,0 +1,56 @@
+# Ported from tests/cases/conformance/interfaces/declarationMerging/mergeTwoInterfaces2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergeTwoInterfaces2.js mergeTwoInterfaces2.ts
+stderr 'TS2454'
+! exists mergeTwoInterfaces2.js
+! exists mergeTwoInterfaces2.d.ts
+! exists mergeTwoInterfaces2.js.map
+
+-- mergeTwoInterfaces2.ts --
+// two interfaces with the same root module should merge
+
+// root module now multiple module declarations
+namespace M2 {
+    export interface A {
+        foo: string;
+    }
+
+    var a: A;
+    var r1 = a.foo
+    var r2 = a.bar;
+}
+
+namespace M2 {
+    export interface A {
+        bar: number;
+    }
+
+    var a: A;
+    var r1 = a.foo
+    var r2 = a.bar;
+}
+
+// same as above but with an additional level of nesting
+namespace M2 {
+    export namespace M3 {
+        export interface A {
+            foo: string;
+        }
+
+        var a: A;
+        var r1 = a.foo
+        var r2 = a.bar;
+    }
+}
+
+namespace M2 {
+    export namespace M3 {
+        export interface A {
+            bar: number;
+        }
+
+        var a: A;
+        var r1 = a.foo
+        var r2 = a.bar;
+    }
+}

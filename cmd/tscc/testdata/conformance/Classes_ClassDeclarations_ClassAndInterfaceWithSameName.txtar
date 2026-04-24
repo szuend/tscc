@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAndInterfaceWithSameName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAndInterfaceWithSameName.js classAndInterfaceWithSameName.ts
+stderr 'TS2564'
+! exists classAndInterfaceWithSameName.js
+! exists classAndInterfaceWithSameName.d.ts
+! exists classAndInterfaceWithSameName.js.map
+
+-- classAndInterfaceWithSameName.ts --
+class C { foo: string; }
+interface C { foo: string; }
+
+namespace M {
+    class D {
+        bar: string;
+    }
+
+    interface D {
+        bar: string;
+    }
+}

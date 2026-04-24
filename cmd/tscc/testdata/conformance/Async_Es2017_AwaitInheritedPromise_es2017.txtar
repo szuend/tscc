@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/async/es2017/awaitInheritedPromise_es2017.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2017 --lib es2017,dom --out-js awaitInheritedPromise_es2017.js awaitInheritedPromise_es2017.ts
+! stderr .
+cmp awaitInheritedPromise_es2017.js awaitInheritedPromise_es2017.js.golden
+! exists awaitInheritedPromise_es2017.d.ts
+! exists awaitInheritedPromise_es2017.js.map
+
+-- awaitInheritedPromise_es2017.ts --
+interface A extends Promise<string> {}
+declare var a: A;
+async function f() {
+    await a;
+}
+-- awaitInheritedPromise_es2017.js.golden --
+"use strict";
+async function f() {
+    await a;
+}

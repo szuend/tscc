@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/variableDeclarations/VariableDeclaration9_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js VariableDeclaration9_es6.js VariableDeclaration9_es6.ts
+! stderr .
+cmp VariableDeclaration9_es6.js VariableDeclaration9_es6.js.golden
+! exists VariableDeclaration9_es6.d.ts
+! exists VariableDeclaration9_es6.js.map
+
+-- VariableDeclaration9_es6.ts --
+let a: number
+-- VariableDeclaration9_es6.js.golden --
+"use strict";
+let a;

@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck45.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js generatorTypeCheck45.js generatorTypeCheck45.ts
+! stderr .
+cmp generatorTypeCheck45.js generatorTypeCheck45.js.golden
+! exists generatorTypeCheck45.d.ts
+! exists generatorTypeCheck45.js.map
+
+-- generatorTypeCheck45.ts --
+declare function foo<T, U>(x: T, fun: () => Iterator<(x: T) => U>, fun2: (y: U) => T): T;
+
+foo("", function* () { yield x => x.length }, p => undefined); // T is fixed, should be string
+-- generatorTypeCheck45.js.golden --
+"use strict";
+foo("", function* () { yield x => x.length; }, p => undefined); // T is fixed, should be string

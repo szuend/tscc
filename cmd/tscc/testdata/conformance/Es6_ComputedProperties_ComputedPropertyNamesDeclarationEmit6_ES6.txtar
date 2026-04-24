@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNamesDeclarationEmit6_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts computedPropertyNamesDeclarationEmit6_ES6.d.ts --target es6 --lib es6,dom --out-js computedPropertyNamesDeclarationEmit6_ES6.js computedPropertyNamesDeclarationEmit6_ES6.ts
+stderr 'TS2464'
+! exists computedPropertyNamesDeclarationEmit6_ES6.d.ts
+! exists computedPropertyNamesDeclarationEmit6_ES6.js
+! exists computedPropertyNamesDeclarationEmit6_ES6.js.map
+
+-- computedPropertyNamesDeclarationEmit6_ES6.ts --
+var v = {
+  [-1]: {},
+  [+1]: {},
+  [~1]: {},
+  [!1]: {}
+}

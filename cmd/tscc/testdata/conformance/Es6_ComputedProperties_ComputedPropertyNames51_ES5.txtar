@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames51_ES5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js computedPropertyNames51_ES5.js computedPropertyNames51_ES5.ts
+stderr 'TS2464'
+! exists computedPropertyNames51_ES5.js
+! exists computedPropertyNames51_ES5.d.ts
+! exists computedPropertyNames51_ES5.js.map
+
+-- computedPropertyNames51_ES5.ts --
+function f<T, K extends keyof T>() {
+    var t!: T;
+    var k!: K;
+    var v = {
+        [t]: 0,
+        [k]: 1
+    };
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js parserComputedPropertyName20.js parserComputedPropertyName20.ts
+stderr 'TS2304'
+! exists parserComputedPropertyName20.js
+! exists parserComputedPropertyName20.d.ts
+! exists parserComputedPropertyName20.js.map
+
+-- parserComputedPropertyName20.ts --
+interface I {
+    [e](): number 
+}

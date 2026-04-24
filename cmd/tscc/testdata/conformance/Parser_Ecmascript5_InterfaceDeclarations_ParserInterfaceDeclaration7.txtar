@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserInterfaceDeclaration7.js parserInterfaceDeclaration7.ts
+! stderr .
+cmp parserInterfaceDeclaration7.js parserInterfaceDeclaration7.js.golden
+! exists parserInterfaceDeclaration7.d.ts
+! exists parserInterfaceDeclaration7.js.map
+
+-- parserInterfaceDeclaration7.ts --
+export interface I {
+}
+-- parserInterfaceDeclaration7.js.golden --
+export {};

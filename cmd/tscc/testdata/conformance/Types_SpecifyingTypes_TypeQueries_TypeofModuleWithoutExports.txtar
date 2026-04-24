@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/types/specifyingTypes/typeQueries/typeofModuleWithoutExports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeofModuleWithoutExports.js typeofModuleWithoutExports.ts
+stderr 'TS2564'
+! exists typeofModuleWithoutExports.js
+! exists typeofModuleWithoutExports.d.ts
+! exists typeofModuleWithoutExports.js.map
+
+-- typeofModuleWithoutExports.ts --
+namespace M {
+    var x = 1;
+    class C {
+        foo: number;
+    }
+}
+
+var r: typeof M;

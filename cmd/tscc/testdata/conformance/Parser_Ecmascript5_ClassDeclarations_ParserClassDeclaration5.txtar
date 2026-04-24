@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserClassDeclaration5.js parserClassDeclaration5.ts
+stderr 'TS1175'
+! exists parserClassDeclaration5.js
+! exists parserClassDeclaration5.d.ts
+! exists parserClassDeclaration5.js.map
+
+-- parserClassDeclaration5.ts --
+class C extends A implements B implements C {
+}

@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/es6/destructuring/destructuringParameterDeclaration10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom destructuringParameterDeclaration10.ts
+! stderr .
+! exists destructuringParameterDeclaration10.d.ts
+! exists destructuringParameterDeclaration10.js.map
+
+-- destructuringParameterDeclaration10.ts --
+export function prepareConfig({
+    additionalFiles: {
+        json = []
+    } = {}
+}: {
+  additionalFiles?: Partial<Record<"json" | "jsonc" | "json5", string[]>>;
+} = {}) {
+    json // string[]
+}
+
+export function prepareConfigWithoutAnnotation({
+    additionalFiles: {
+        json = []
+    } = {}
+} = {}) {
+    json
+}
+
+export const prepareConfigWithContextualSignature: (param:{
+  additionalFiles?: Partial<Record<"json" | "jsonc" | "json5", string[]>>;
+}) => void = ({
+    additionalFiles: {
+        json = []
+    } = {}
+} = {}) => {
+    json // string[]
+}

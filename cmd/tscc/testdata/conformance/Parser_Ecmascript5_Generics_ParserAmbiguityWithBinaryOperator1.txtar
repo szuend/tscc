@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserAmbiguityWithBinaryOperator1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserAmbiguityWithBinaryOperator1.js parserAmbiguityWithBinaryOperator1.ts
+! stderr .
+cmp parserAmbiguityWithBinaryOperator1.js parserAmbiguityWithBinaryOperator1.js.golden
+! exists parserAmbiguityWithBinaryOperator1.d.ts
+! exists parserAmbiguityWithBinaryOperator1.js.map
+
+-- parserAmbiguityWithBinaryOperator1.ts --
+function f1() {
+    var a, b, c;
+    if (a < b || b > (c + 1)) { }
+}
+-- parserAmbiguityWithBinaryOperator1.js.golden --
+"use strict";
+function f1() {
+    var a, b, c;
+    if (a < b || b > (c + 1)) { }
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserArrowFunctionExpression1.js parserArrowFunctionExpression1.ts
+stderr 'TS2369'
+! exists parserArrowFunctionExpression1.js
+! exists parserArrowFunctionExpression1.d.ts
+! exists parserArrowFunctionExpression1.js.map
+
+-- parserArrowFunctionExpression1.ts --
+var v = (public x: string) => { };

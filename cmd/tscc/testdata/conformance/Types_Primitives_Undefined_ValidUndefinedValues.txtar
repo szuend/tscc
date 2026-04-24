@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/types/primitives/undefined/validUndefinedValues.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js validUndefinedValues.js validUndefinedValues.ts
+! stderr .
+cmp validUndefinedValues.js validUndefinedValues.js.golden
+! exists validUndefinedValues.d.ts
+! exists validUndefinedValues.js.map
+
+-- validUndefinedValues.ts --
+var x: typeof undefined;
+x = undefined;
+-- validUndefinedValues.js.golden --
+"use strict";
+var x;
+x = undefined;

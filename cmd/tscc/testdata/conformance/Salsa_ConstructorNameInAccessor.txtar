@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/salsa/constructorNameInAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js constructorNameInAccessor.js constructorNameInAccessor.ts
+stderr 'TS1341'
+! exists constructorNameInAccessor.js
+! exists constructorNameInAccessor.d.ts
+! exists constructorNameInAccessor.js.map
+
+-- constructorNameInAccessor.ts --
+class C1 {
+    get constructor() { return }
+    set constructor(value) {}
+}

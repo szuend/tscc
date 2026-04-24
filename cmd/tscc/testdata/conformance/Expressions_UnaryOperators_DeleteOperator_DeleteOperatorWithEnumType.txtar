@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithEnumType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js deleteOperatorWithEnumType.js deleteOperatorWithEnumType.ts
+stderr 'TS1102'
+! exists deleteOperatorWithEnumType.js
+! exists deleteOperatorWithEnumType.d.ts
+! exists deleteOperatorWithEnumType.js.map
+
+-- deleteOperatorWithEnumType.ts --
+// delete  operator on enum type
+
+enum ENUM { };
+enum ENUM1 { A, B, "" };
+
+// enum type var
+var ResultIsBoolean1 = delete ENUM;
+var ResultIsBoolean2 = delete ENUM1;
+
+// enum type expressions
+var ResultIsBoolean3 = delete ENUM1["A"];
+var ResultIsBoolean4 = delete (ENUM[0] + ENUM1["B"]);
+
+// multiple delete  operators
+var ResultIsBoolean5 = delete delete ENUM;
+var ResultIsBoolean6 = delete delete delete (ENUM[0] + ENUM1["B"]);
+
+// miss assignment operators
+delete ENUM;
+delete ENUM1;
+delete ENUM1.B;
+delete ENUM, ENUM1;

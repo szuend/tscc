@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegressionTests/parserNotHexLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserNotHexLiteral1.js parserNotHexLiteral1.ts
+! stderr .
+cmp parserNotHexLiteral1.js parserNotHexLiteral1.js.golden
+! exists parserNotHexLiteral1.d.ts
+! exists parserNotHexLiteral1.js.map
+
+-- parserNotHexLiteral1.ts --
+var x = {e0: 'cat', x0: 'dog'};
+console.info (x.x0);
+// tsc dies on this next line with "bug.ts (5,16): Expected ')'"
+//   tsc seems to be parsing the e0 as a hex constant.
+console.info (x.e0);
+-- parserNotHexLiteral1.js.golden --
+"use strict";
+var x = { e0: 'cat', x0: 'dog' };
+console.info(x.x0);
+// tsc dies on this next line with "bug.ts (5,16): Expected ')'"
+//   tsc seems to be parsing the e0 as a hex constant.
+console.info(x.e0);

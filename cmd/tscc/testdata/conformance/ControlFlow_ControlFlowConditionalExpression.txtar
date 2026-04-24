@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowConditionalExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js controlFlowConditionalExpression.js controlFlowConditionalExpression.ts
+stderr 'TS2454'
+! exists controlFlowConditionalExpression.js
+! exists controlFlowConditionalExpression.d.ts
+! exists controlFlowConditionalExpression.js.map
+
+-- controlFlowConditionalExpression.ts --
+let x: string | number | boolean;
+let cond: boolean;
+
+cond ? x = "" : x = 3;
+x; // string | number

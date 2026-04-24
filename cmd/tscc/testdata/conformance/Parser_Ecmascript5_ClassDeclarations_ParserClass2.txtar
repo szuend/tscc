@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClass2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserClass2.js parserClass2.ts
+stderr 'TS2304'
+stderr 'TS2339'
+! exists parserClass2.js
+! exists parserClass2.d.ts
+! exists parserClass2.js.map
+
+-- parserClass2.ts --
+    export class LoggerAdapter implements ILogger {
+        constructor (public logger: ILogger) { 
+            this._information = this.logger.information();
+        }
+    }

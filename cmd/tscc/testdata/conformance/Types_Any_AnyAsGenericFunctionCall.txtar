@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/types/any/anyAsGenericFunctionCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js anyAsGenericFunctionCall.js anyAsGenericFunctionCall.ts
+stderr 'TS2347'
+stderr 'TS2564'
+! exists anyAsGenericFunctionCall.js
+! exists anyAsGenericFunctionCall.d.ts
+! exists anyAsGenericFunctionCall.js.map
+
+-- anyAsGenericFunctionCall.ts --
+// any is considered an untyped function call
+// can be called except with type arguments which is an error
+
+var x: any;
+var a = x<number>();
+var b = x<string>('hello');
+
+class C { foo: string; }
+var c = x<C>(x);
+var d = x<any>(x);

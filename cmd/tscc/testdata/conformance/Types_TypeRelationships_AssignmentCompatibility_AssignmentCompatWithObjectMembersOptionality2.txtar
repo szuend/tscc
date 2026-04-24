@@ -1,0 +1,99 @@
+# Ported from tests/cases/conformance/types/typeRelationships/assignmentCompatibility/assignmentCompatWithObjectMembersOptionality2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js assignmentCompatWithObjectMembersOptionality2.js assignmentCompatWithObjectMembersOptionality2.ts
+stderr 'TS2559'
+stderr 'TS2741'
+! exists assignmentCompatWithObjectMembersOptionality2.js
+! exists assignmentCompatWithObjectMembersOptionality2.d.ts
+! exists assignmentCompatWithObjectMembersOptionality2.js.map
+
+-- assignmentCompatWithObjectMembersOptionality2.ts --
+// M is optional and S contains no property with the same name as M
+// N is optional and T contains no property with the same name as N
+
+class Base { foo: string; }
+class Derived extends Base { bar: string; }
+class Derived2 extends Derived { baz: string; }
+
+namespace TargetHasOptional {
+    // targets
+    interface C {
+        opt?: Base
+    }
+    declare var c: C;
+
+    declare var a: { opt?: Base; };
+    var b: typeof a = { opt: new Base() }
+
+    // sources
+    interface D {
+        other: Base;
+    }
+    interface E {
+        other: Derived;
+    }
+    interface F {
+        other?: Derived;
+    }
+    declare var d: D;
+    declare var e: E;
+    declare var f: F;
+
+    // disallowed by weak type checking
+    c = d;
+    c = e;
+    c = f;
+    a = d;
+    a = e;
+    a = f;
+    b = d;
+    b = e;
+    b = f;
+
+    // ok
+    c = a;
+    a = c;
+    b = a;
+    b = c;
+}
+
+namespace SourceHasOptional {
+    // targets
+    interface C {
+        opt: Base
+    }
+    declare var c: C;
+
+    declare var a: { opt: Base; };
+    var b = { opt: new Base() }
+
+    // sources
+    interface D {
+        other?: Base;
+    }
+    interface E {
+        other?: Derived;
+    }
+    interface F {
+        other: Derived;
+    }
+    declare var d: D;
+    declare var e: E;
+    declare var f: F;
+
+    c = d; // error
+    c = e; // error
+    c = f; // error
+    c = a; // ok
+
+    a = d; // error
+    a = e; // error
+    a = f; // error
+    a = c; // ok
+
+    b = d; // error
+    b = e; // error
+    b = f; // error
+    b = a; // ok
+    b = c; // ok
+}

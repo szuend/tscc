@@ -1,0 +1,49 @@
+# Ported from tests/cases/conformance/classes/mixinAccessors5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts mixinAccessors5.d.ts --strict --target esnext --lib esnext,dom --out-js mixinAccessors5.js mixinAccessors5.ts
+! stderr .
+cmp mixinAccessors5.d.ts mixinAccessors5.d.ts.golden
+cmp mixinAccessors5.js mixinAccessors5.js.golden
+! exists mixinAccessors5.js.map
+
+-- mixinAccessors5.ts --
+// https://github.com/microsoft/TypeScript/issues/61967
+
+declare function basicMixin<T extends object, U extends object>(
+  t: T,
+  u: U,
+): T & U;
+  
+declare class GetterA {
+  constructor(...args: any[]);
+
+  get inCompendium(): boolean;
+}
+  
+declare class GetterB {
+  constructor(...args: any[]);
+
+  get inCompendium(): boolean;
+}
+  
+declare class TestB extends basicMixin(GetterA, GetterB) {
+  override get inCompendium(): boolean;
+}
+  
+-- mixinAccessors5.d.ts.golden --
+declare function basicMixin<T extends object, U extends object>(t: T, u: U): T & U;
+declare class GetterA {
+    constructor(...args: any[]);
+    get inCompendium(): boolean;
+}
+declare class GetterB {
+    constructor(...args: any[]);
+    get inCompendium(): boolean;
+}
+declare const TestB_base: typeof GetterA & typeof GetterB;
+declare class TestB extends TestB_base {
+    get inCompendium(): boolean;
+}
+-- mixinAccessors5.js.golden --
+"use strict";
+// https://github.com/microsoft/TypeScript/issues/61967

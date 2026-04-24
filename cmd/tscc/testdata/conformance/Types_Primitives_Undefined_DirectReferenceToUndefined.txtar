@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/primitives/undefined/directReferenceToUndefined.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js directReferenceToUndefined.js directReferenceToUndefined.ts
+stderr 'TS2304'
+! exists directReferenceToUndefined.js
+! exists directReferenceToUndefined.d.ts
+! exists directReferenceToUndefined.js.map
+
+-- directReferenceToUndefined.ts --
+var x: Undefined;
+var y = undefined;

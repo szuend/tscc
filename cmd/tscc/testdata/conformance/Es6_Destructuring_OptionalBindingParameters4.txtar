@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/destructuring/optionalBindingParameters4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** 
+* @param {{ cause?: string }} [options] 
+*/ 
+function foo({ cause } = {}) {
+    return cause;
+}

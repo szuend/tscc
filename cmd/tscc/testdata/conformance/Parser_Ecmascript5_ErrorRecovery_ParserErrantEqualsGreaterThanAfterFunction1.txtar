@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/parserErrantEqualsGreaterThanAfterFunction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrantEqualsGreaterThanAfterFunction1.js parserErrantEqualsGreaterThanAfterFunction1.ts
+stderr 'TS1144'
+! exists parserErrantEqualsGreaterThanAfterFunction1.js
+! exists parserErrantEqualsGreaterThanAfterFunction1.d.ts
+! exists parserErrantEqualsGreaterThanAfterFunction1.js.map
+
+-- parserErrantEqualsGreaterThanAfterFunction1.ts --
+function f() => 4;

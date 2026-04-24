@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInObjectLiteralES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js templateStringInObjectLiteralES6.js templateStringInObjectLiteralES6.ts
+stderr 'TS1136'
+stderr 'TS1005'
+stderr 'TS1134'
+stderr 'TS1128'
+! exists templateStringInObjectLiteralES6.js
+! exists templateStringInObjectLiteralES6.d.ts
+! exists templateStringInObjectLiteralES6.js.map
+
+-- templateStringInObjectLiteralES6.ts --
+var x = {
+    a: `abc${ 123 }def`,
+    `b`: 321
+}

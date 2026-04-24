@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/es7/exponentiationOperator/exponentiationOperatorWithNullValueAndValidOperands.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js exponentiationOperatorWithNullValueAndValidOperands.js exponentiationOperatorWithNullValueAndValidOperands.ts
+stderr 'TS18050'
+! exists exponentiationOperatorWithNullValueAndValidOperands.js
+! exists exponentiationOperatorWithNullValueAndValidOperands.d.ts
+! exists exponentiationOperatorWithNullValueAndValidOperands.js.map
+
+-- exponentiationOperatorWithNullValueAndValidOperands.ts --
+// If one operand is the null or undefined value, it is treated as having the type of the
+// other operand.
+
+enum E {
+    a,
+    b
+}
+
+declare var a: any;
+declare var b: number;
+
+// operator **
+var r1 = null ** a;
+var r2 = null ** b;
+var r3 = null ** 1;
+var r4 = null ** E.a;
+var r5 = a ** null;
+var r6 = b ** null;
+var r7 = 0 ** null;
+var r8 = E.b ** null;

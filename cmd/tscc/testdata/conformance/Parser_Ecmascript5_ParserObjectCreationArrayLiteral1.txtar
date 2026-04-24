@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserObjectCreationArrayLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserObjectCreationArrayLiteral1.js parserObjectCreationArrayLiteral1.ts
+stderr 'TS1011'
+! exists parserObjectCreationArrayLiteral1.js
+! exists parserObjectCreationArrayLiteral1.d.ts
+! exists parserObjectCreationArrayLiteral1.js.map
+
+-- parserObjectCreationArrayLiteral1.ts --
+new Foo[];

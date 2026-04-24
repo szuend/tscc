@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/internalModules/moduleDeclarations/InvalidNonInstantiatedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js InvalidNonInstantiatedModule.js InvalidNonInstantiatedModule.ts
+stderr 'TS2708'
+! exists InvalidNonInstantiatedModule.js
+! exists InvalidNonInstantiatedModule.d.ts
+! exists InvalidNonInstantiatedModule.js.map
+
+-- InvalidNonInstantiatedModule.ts --
+namespace M {
+    export interface Point { x: number; y: number }
+}
+
+var m = M; // Error, not instantiated can not be used as var
+
+var x: typeof M; // Error only a namespace

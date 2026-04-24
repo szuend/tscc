@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserErrorRecoveryIfStatement4.js parserErrorRecoveryIfStatement4.ts
+stderr 'TS1109'
+! exists parserErrorRecoveryIfStatement4.js
+! exists parserErrorRecoveryIfStatement4.d.ts
+! exists parserErrorRecoveryIfStatement4.js.map
+
+-- parserErrorRecoveryIfStatement4.ts --
+class Foo {
+  f1() {
+    if (a.b)
+  }
+  f2() {
+  }
+  f3() {
+  }
+}

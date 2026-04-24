@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/jsdoc/paramTagBracketsAddOptionalUndefined.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @param {number} [p]
+ * @param {number=} q
+ * @param {number} [r=101]
+ */
+function f(p, q, r) {
+    p = undefined
+    q = undefined
+    // note that, unlike TS, JSDOC [r=101] retains | undefined because
+    // there's no code emitted to get rid of it.
+    r = undefined
+}
+f()
+f(undefined, undefined, undefined)
+f(1, 2, 3)

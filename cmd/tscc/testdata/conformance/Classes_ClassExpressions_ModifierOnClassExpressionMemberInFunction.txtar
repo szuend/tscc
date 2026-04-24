@@ -1,0 +1,31 @@
+# Ported from tests/cases/conformance/classes/classExpressions/modifierOnClassExpressionMemberInFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts modifierOnClassExpressionMemberInFunction.d.ts --target es2015 --lib es2015,dom --out-js modifierOnClassExpressionMemberInFunction.js modifierOnClassExpressionMemberInFunction.ts
+! stderr .
+cmp modifierOnClassExpressionMemberInFunction.d.ts modifierOnClassExpressionMemberInFunction.d.ts.golden
+cmp modifierOnClassExpressionMemberInFunction.js modifierOnClassExpressionMemberInFunction.js.golden
+! exists modifierOnClassExpressionMemberInFunction.js.map
+
+-- modifierOnClassExpressionMemberInFunction.ts --
+function g() {
+    var x = class C {
+        public prop1 = 1;
+        private foo() { }
+        static prop2 = 43;
+    }
+}
+-- modifierOnClassExpressionMemberInFunction.d.ts.golden --
+declare function g(): void;
+-- modifierOnClassExpressionMemberInFunction.js.golden --
+"use strict";
+function g() {
+    var _a;
+    var x = (_a = class C {
+            constructor() {
+                this.prop1 = 1;
+            }
+            foo() { }
+        },
+        _a.prop2 = 43,
+        _a);
+}

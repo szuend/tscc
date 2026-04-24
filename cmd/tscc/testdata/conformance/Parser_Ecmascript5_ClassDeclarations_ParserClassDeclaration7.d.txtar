@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration7.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserClassDeclaration7.d.js parserClassDeclaration7.d.ts
+! stderr .
+! exists parserClassDeclaration7.d.d.ts
+! exists parserClassDeclaration7.d.js
+! exists parserClassDeclaration7.d.js.map
+
+-- parserClassDeclaration7.d.ts --
+declare class C {
+}

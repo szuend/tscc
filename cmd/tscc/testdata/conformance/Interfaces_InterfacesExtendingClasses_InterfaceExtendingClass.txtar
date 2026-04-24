@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/interfaces/interfacesExtendingClasses/interfaceExtendingClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceExtendingClass.js interfaceExtendingClass.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists interfaceExtendingClass.js
+! exists interfaceExtendingClass.d.ts
+! exists interfaceExtendingClass.js.map
+
+-- interfaceExtendingClass.ts --
+class Foo {
+    x: string;
+    y() { }
+    get Z() {
+        return 1;
+    }
+    [x: string]: Object;
+}
+
+interface I extends Foo {
+}
+
+var i: I;
+var r1 = i.x;
+var r2 = i.y();
+var r3 = i.Z;
+
+var f: Foo = i;
+i = f;

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/types/rest/objectRestPropertyMustBeLast.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js objectRestPropertyMustBeLast.js objectRestPropertyMustBeLast.ts
+stderr 'TS2462'
+! exists objectRestPropertyMustBeLast.js
+! exists objectRestPropertyMustBeLast.d.ts
+! exists objectRestPropertyMustBeLast.js.map
+
+-- objectRestPropertyMustBeLast.ts --
+var {...a, x } = { x: 1 };    // Error, rest must be last property
+({...a, x } = { x: 1 });      // Error, rest must be last property
+
+var {...a, x, ...b } = { x: 1 };    // Error, rest must be last property
+({...a, x, ...b } = { x: 1 });      // Error, rest must be last property

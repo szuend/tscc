@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/jsdoc/thisPrototypeMethodCompoundAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom thisPrototypeMethodCompoundAssignment.ts
+! stderr .
+! exists thisPrototypeMethodCompoundAssignment.d.ts
+! exists thisPrototypeMethodCompoundAssignment.js.map
+
+-- thisPrototypeMethodCompoundAssignment.ts --
+Element.prototype.remove ??= function () {
+  this.parentNode?.removeChild(this);
+};

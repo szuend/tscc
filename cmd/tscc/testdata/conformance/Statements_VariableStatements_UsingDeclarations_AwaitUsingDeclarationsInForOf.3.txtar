@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarationsInForOf.3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --out-js awaitUsingDeclarationsInForOf.3.js awaitUsingDeclarationsInForOf.3.ts
+stderr 'TS1492'
+! exists awaitUsingDeclarationsInForOf.3.js
+! exists awaitUsingDeclarationsInForOf.3.d.ts
+! exists awaitUsingDeclarationsInForOf.3.js.map
+
+-- awaitUsingDeclarationsInForOf.3.ts --
+async function main() {
+    for (await using {} of []) {
+    }
+}

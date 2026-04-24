@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/usingDeclarationsDeclarationEmit.1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts usingDeclarationsDeclarationEmit.1.d.ts --module esnext --target esnext --lib esnext,dom --out-js usingDeclarationsDeclarationEmit.1.js usingDeclarationsDeclarationEmit.1.ts
+! stderr .
+cmp usingDeclarationsDeclarationEmit.1.d.ts usingDeclarationsDeclarationEmit.1.d.ts.golden
+cmp usingDeclarationsDeclarationEmit.1.js usingDeclarationsDeclarationEmit.1.js.golden
+! exists usingDeclarationsDeclarationEmit.1.js.map
+
+-- usingDeclarationsDeclarationEmit.1.ts --
+using r1 = { [Symbol.dispose]() {} };
+export { r1 };
+
+await using r2 = { async [Symbol.asyncDispose]() {} };
+export { r2 };
+-- usingDeclarationsDeclarationEmit.1.d.ts.golden --
+declare const r1: {
+    [Symbol.dispose](): void;
+};
+export { r1 };
+declare const r2: {
+    [Symbol.asyncDispose](): Promise<void>;
+};
+export { r2 };
+-- usingDeclarationsDeclarationEmit.1.js.golden --
+using r1 = { [Symbol.dispose]() { } };
+export { r1 };
+await using r2 = { async [Symbol.asyncDispose]() { } };
+export { r2 };

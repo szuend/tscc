@@ -1,0 +1,39 @@
+# Ported from tests/cases/conformance/types/localTypes/localTypes5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js localTypes5.js localTypes5.ts
+! stderr .
+cmp localTypes5.js localTypes5.js.golden
+! exists localTypes5.d.ts
+! exists localTypes5.js.map
+
+-- localTypes5.ts --
+function foo<A>() {
+    class X {
+        m<B, C>() {
+            return (function <D>() {
+                class Y<E> {
+                }
+                return new Y<string>();
+            })<Date>();
+        }
+    }
+    var x = new X();
+    return x.m<number, boolean>();
+}
+var x = foo<void>();
+-- localTypes5.js.golden --
+"use strict";
+function foo() {
+    class X {
+        m() {
+            return (function () {
+                class Y {
+                }
+                return new Y();
+            })();
+        }
+    }
+    var x = new X();
+    return x.m();
+}
+var x = foo();

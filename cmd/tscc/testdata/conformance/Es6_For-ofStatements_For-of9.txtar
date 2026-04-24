@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of9.js for-of9.ts
+! stderr .
+cmp for-of9.js for-of9.js.golden
+! exists for-of9.d.ts
+! exists for-of9.js.map
+
+-- for-of9.ts --
+var v: string;
+for (v of ["hello"]) { }
+for (v of "hello") { }
+-- for-of9.js.golden --
+"use strict";
+var v;
+for (v of ["hello"]) { }
+for (v of "hello") { }

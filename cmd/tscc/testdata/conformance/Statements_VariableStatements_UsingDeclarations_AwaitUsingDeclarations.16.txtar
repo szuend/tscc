@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/statements/VariableStatements/usingDeclarations/awaitUsingDeclarations.16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --module esnext --no-strict --target esnext --path M=awaitUsingDeclarations.16.ts --out-js awaitUsingDeclarations.16.js awaitUsingDeclarations.16.ts
+stderr 'TS1546'
+! exists awaitUsingDeclarations.16.js
+! exists awaitUsingDeclarations.16.d.ts
+! exists awaitUsingDeclarations.16.js.map
+
+-- awaitUsingDeclarations.16.ts --
+declare namespace N {
+    await using x: { [Symbol.asyncDispose](): Promise<void> };
+    await using y: null;
+}
+declare module 'M' {
+    await using x: { [Symbol.asyncDispose](): Promise<void> };
+    await using y: null;
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/es6/functionDeclarations/FunctionDeclaration6_es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js FunctionDeclaration6_es6.js FunctionDeclaration6_es6.ts
+stderr 'TS2523'
+stderr 'TS7057'
+! exists FunctionDeclaration6_es6.js
+! exists FunctionDeclaration6_es6.d.ts
+! exists FunctionDeclaration6_es6.js.map
+
+-- FunctionDeclaration6_es6.ts --
+function*foo(a = yield) {
+}

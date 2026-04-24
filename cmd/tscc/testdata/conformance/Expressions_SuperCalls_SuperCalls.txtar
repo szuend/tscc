@@ -1,0 +1,64 @@
+# Ported from tests/cases/conformance/expressions/superCalls/superCalls.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superCalls.js superCalls.ts
+! stderr .
+cmp superCalls.js superCalls.js.golden
+! exists superCalls.d.ts
+! exists superCalls.js.map
+
+-- superCalls.ts --
+class Base {
+    x = 43;
+    constructor(n: string) {
+
+    }
+}
+
+function v(): void { }
+
+class Derived extends Base {
+    //super call in class constructor of derived type
+    constructor(public q: number) {
+        super('');
+        //type of super call expression is void
+        var p = super('');
+        var p = v();
+    }
+}
+
+class OtherBase {
+
+}
+
+class OtherDerived extends OtherBase {
+    constructor() {
+        var p = '';
+        super();
+    }
+}
+-- superCalls.js.golden --
+"use strict";
+class Base {
+    constructor(n) {
+        this.x = 43;
+    }
+}
+function v() { }
+class Derived extends Base {
+    //super call in class constructor of derived type
+    constructor(q) {
+        super('');
+        this.q = q;
+        //type of super call expression is void
+        var p = super('');
+        var p = v();
+    }
+}
+class OtherBase {
+}
+class OtherDerived extends OtherBase {
+    constructor() {
+        var p = '';
+        super();
+    }
+}

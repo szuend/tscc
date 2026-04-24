@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/ArrayLiteralExpressions/parserArrayLiteralExpression9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserArrayLiteralExpression9.js parserArrayLiteralExpression9.ts
+! stderr .
+cmp parserArrayLiteralExpression9.js parserArrayLiteralExpression9.js.golden
+! exists parserArrayLiteralExpression9.d.ts
+! exists parserArrayLiteralExpression9.js.map
+
+-- parserArrayLiteralExpression9.ts --
+var v = [1,1];
+-- parserArrayLiteralExpression9.js.golden --
+"use strict";
+var v = [1, 1];

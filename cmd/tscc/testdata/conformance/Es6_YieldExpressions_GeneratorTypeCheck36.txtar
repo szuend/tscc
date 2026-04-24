@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/yieldExpressions/generatorTypeCheck36.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js generatorTypeCheck36.js generatorTypeCheck36.ts
+! stderr .
+cmp generatorTypeCheck36.js generatorTypeCheck36.js.golden
+! exists generatorTypeCheck36.d.ts
+! exists generatorTypeCheck36.js.map
+
+-- generatorTypeCheck36.ts --
+function* g() {
+    yield yield 0;
+}
+-- generatorTypeCheck36.js.golden --
+"use strict";
+function* g() {
+    yield yield 0;
+}

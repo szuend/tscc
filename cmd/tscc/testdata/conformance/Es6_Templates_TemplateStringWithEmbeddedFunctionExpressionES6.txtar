@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedFunctionExpressionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedFunctionExpressionES6.js templateStringWithEmbeddedFunctionExpressionES6.ts
+! stderr .
+cmp templateStringWithEmbeddedFunctionExpressionES6.js templateStringWithEmbeddedFunctionExpressionES6.js.golden
+! exists templateStringWithEmbeddedFunctionExpressionES6.d.ts
+! exists templateStringWithEmbeddedFunctionExpressionES6.js.map
+
+-- templateStringWithEmbeddedFunctionExpressionES6.ts --
+var x = `abc${ function y() { return y; } }def`;
+-- templateStringWithEmbeddedFunctionExpressionES6.js.golden --
+"use strict";
+var x = `abc${function y() { return y; }}def`;

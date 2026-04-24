@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/types/tuple/tupleElementTypes1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js tupleElementTypes1.js tupleElementTypes1.ts
+stderr 'TS2322'
+! exists tupleElementTypes1.js
+! exists tupleElementTypes1.d.ts
+! exists tupleElementTypes1.js.map
+
+-- tupleElementTypes1.ts --
+var [a, b]: [number, any] = [undefined, undefined];

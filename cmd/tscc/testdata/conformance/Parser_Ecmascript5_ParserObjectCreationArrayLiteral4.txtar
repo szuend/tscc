@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserObjectCreationArrayLiteral4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserObjectCreationArrayLiteral4.js parserObjectCreationArrayLiteral4.ts
+stderr 'TS2304'
+! exists parserObjectCreationArrayLiteral4.js
+! exists parserObjectCreationArrayLiteral4.d.ts
+! exists parserObjectCreationArrayLiteral4.js.map
+
+-- parserObjectCreationArrayLiteral4.ts --
+new Foo[1]();

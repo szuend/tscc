@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/salsa/propertyAssignmentUseParentType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom propertyAssignmentUseParentType2.js
+stderr 'TS2322'
+! exists propertyAssignmentUseParentType2.d.ts
+! exists propertyAssignmentUseParentType2.js.map
+
+-- propertyAssignmentUseParentType2.js --
+/** @type {{ (): boolean; nuo: 789 }} */
+export const inlined = () => true
+inlined.nuo = 789
+
+/** @type {{ (): boolean; nuo: 789 }} */
+export const duplicated = () => true
+/** @type {789} */
+duplicated.nuo = 789
+
+/** @type {{ (): boolean; nuo: 789 }} */
+export const conflictingDuplicated = () => true
+/** @type {1000} */
+conflictingDuplicated.nuo = 789

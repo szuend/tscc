@@ -1,0 +1,28 @@
+# Ported from tests/cases/conformance/salsa/typeFromPrototypeAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom bug26885.js
+stderr 'TS2683'
+stderr 'TS2339'
+stderr 'TS2749'
+stderr 'TS7009'
+! exists bug26885.d.ts
+! exists bug26885.js.map
+
+-- bug26885.js --
+function Multimap3() {
+    this._map = {};
+};
+
+Multimap3.prototype = {
+    /**
+     * @param {string} key
+     * @returns {number} the value ok
+     */
+    get(key) {
+        return this._map[key + ''];
+    }
+}
+
+/** @type {Multimap3} */
+const map = new Multimap3();
+const n = map.get('hi')

@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGreaterThanTokenAmbiguity6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserGreaterThanTokenAmbiguity6.js parserGreaterThanTokenAmbiguity6.ts
+! stderr .
+cmp parserGreaterThanTokenAmbiguity6.js parserGreaterThanTokenAmbiguity6.js.golden
+! exists parserGreaterThanTokenAmbiguity6.d.ts
+! exists parserGreaterThanTokenAmbiguity6.js.map
+
+-- parserGreaterThanTokenAmbiguity6.ts --
+1 >>> 2;
+-- parserGreaterThanTokenAmbiguity6.js.golden --
+"use strict";
+1 >>> 2;

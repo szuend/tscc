@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Generics/parserGenericsInTypeContexts1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserGenericsInTypeContexts1.js parserGenericsInTypeContexts1.ts
+stderr 'TS2304'
+stderr 'TS2315'
+stderr 'TS2503'
+! exists parserGenericsInTypeContexts1.js
+! exists parserGenericsInTypeContexts1.d.ts
+! exists parserGenericsInTypeContexts1.js.map
+
+-- parserGenericsInTypeContexts1.ts --
+class C extends A<T> implements B<T> {
+}
+
+var v1: C<T>;
+var v2: D<T> = null;
+var v3: E.F<T>;
+var v3: G.H.I<T>;
+var v6: K<T>[];
+
+
+function f1(a: E<T>) {
+}
+
+function f2(): F<T> {
+}
+

@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/ReturnStatements/parserReturnStatement3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserReturnStatement3.js parserReturnStatement3.ts
+! stderr .
+cmp parserReturnStatement3.js parserReturnStatement3.js.golden
+! exists parserReturnStatement3.d.ts
+! exists parserReturnStatement3.js.map
+
+-- parserReturnStatement3.ts --
+function f() {
+   return;
+}
+-- parserReturnStatement3.js.golden --
+"use strict";
+function f() {
+    return;
+}

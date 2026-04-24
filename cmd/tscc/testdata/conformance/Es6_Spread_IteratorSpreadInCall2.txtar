@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/es6/spread/iteratorSpreadInCall2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js iteratorSpreadInCall2.js iteratorSpreadInCall2.ts
+stderr 'TS2556'
+! exists iteratorSpreadInCall2.js
+! exists iteratorSpreadInCall2.d.ts
+! exists iteratorSpreadInCall2.js.map
+
+-- iteratorSpreadInCall2.ts --
+function foo(s: symbol[]) { }
+class SymbolIterator {
+    next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this;
+    }
+}
+
+foo(...new SymbolIterator);

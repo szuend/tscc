@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/classes/propertyMemberDeclarations/autoAccessor11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2022 --lib es2022,dom --out-js autoAccessor11.js autoAccessor11.ts
+stderr 'TS2300'
+! exists autoAccessor11.js
+! exists autoAccessor11.d.ts
+! exists autoAccessor11.js.map
+
+-- autoAccessor11.ts --
+class C {
+    accessor
+    a
+
+    static accessor
+    b
+
+    static
+    accessor
+    c
+
+    accessor accessor
+    d;
+}

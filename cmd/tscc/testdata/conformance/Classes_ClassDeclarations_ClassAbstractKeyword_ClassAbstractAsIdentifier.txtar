@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractAsIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classAbstractAsIdentifier.js classAbstractAsIdentifier.ts
+! stderr .
+cmp classAbstractAsIdentifier.js classAbstractAsIdentifier.js.golden
+! exists classAbstractAsIdentifier.d.ts
+! exists classAbstractAsIdentifier.js.map
+
+-- classAbstractAsIdentifier.ts --
+class abstract {
+    foo() { return 1; }
+}
+
+new abstract;
+-- classAbstractAsIdentifier.js.golden --
+"use strict";
+class abstract {
+    foo() { return 1; }
+}
+new abstract;

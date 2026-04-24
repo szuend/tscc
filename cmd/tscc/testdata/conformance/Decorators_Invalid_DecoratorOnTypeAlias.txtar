@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnTypeAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js decoratorOnTypeAlias.js decoratorOnTypeAlias.ts
+stderr 'TS1206'
+! exists decoratorOnTypeAlias.js
+! exists decoratorOnTypeAlias.d.ts
+! exists decoratorOnTypeAlias.js.map
+
+-- decoratorOnTypeAlias.ts --
+declare function dec<T>(target: T): T;
+
+@dec
+type T = number;

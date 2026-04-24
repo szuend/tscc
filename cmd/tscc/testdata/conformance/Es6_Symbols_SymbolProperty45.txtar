@@ -1,0 +1,27 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty45.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty45.js symbolProperty45.ts
+! stderr .
+cmp symbolProperty45.js symbolProperty45.js.golden
+! exists symbolProperty45.d.ts
+! exists symbolProperty45.js.map
+
+-- symbolProperty45.ts --
+class C {
+    get [Symbol.hasInstance]() {
+        return "";
+    }
+    get [Symbol.toPrimitive]() {
+        return "";
+    }
+}
+-- symbolProperty45.js.golden --
+"use strict";
+class C {
+    get [Symbol.hasInstance]() {
+        return "";
+    }
+    get [Symbol.toPrimitive]() {
+        return "";
+    }
+}

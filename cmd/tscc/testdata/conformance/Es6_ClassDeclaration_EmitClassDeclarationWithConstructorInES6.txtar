@@ -1,0 +1,48 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/emitClassDeclarationWithConstructorInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js emitClassDeclarationWithConstructorInES6.js emitClassDeclarationWithConstructorInES6.ts
+! stderr .
+cmp emitClassDeclarationWithConstructorInES6.js emitClassDeclarationWithConstructorInES6.js.golden
+! exists emitClassDeclarationWithConstructorInES6.d.ts
+! exists emitClassDeclarationWithConstructorInES6.js.map
+
+-- emitClassDeclarationWithConstructorInES6.ts --
+class A {
+    y: number;
+    constructor(x: number) {
+    }
+    foo(a: any);
+    foo() { }
+}
+
+class B {
+    y: number;
+    x: string = "hello";
+    _bar: string;
+
+    constructor(x: number, z = "hello", ...args) {
+        this.y = 10;
+    }
+    baz(...args): string;
+    baz(z: string, v: number): string {
+        return this._bar;
+    } 
+}
+
+
+-- emitClassDeclarationWithConstructorInES6.js.golden --
+"use strict";
+class A {
+    constructor(x) {
+    }
+    foo() { }
+}
+class B {
+    constructor(x, z = "hello", ...args) {
+        this.x = "hello";
+        this.y = 10;
+    }
+    baz(z, v) {
+        return this._bar;
+    }
+}

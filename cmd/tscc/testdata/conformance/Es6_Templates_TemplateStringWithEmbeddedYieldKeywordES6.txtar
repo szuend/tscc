@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedYieldKeywordES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js templateStringWithEmbeddedYieldKeywordES6.js templateStringWithEmbeddedYieldKeywordES6.ts
+! stderr .
+cmp templateStringWithEmbeddedYieldKeywordES6.js templateStringWithEmbeddedYieldKeywordES6.js.golden
+! exists templateStringWithEmbeddedYieldKeywordES6.d.ts
+! exists templateStringWithEmbeddedYieldKeywordES6.js.map
+
+-- templateStringWithEmbeddedYieldKeywordES6.ts --
+function* gen() {
+    // Once this is supported, yield *must* be parenthesized.
+    var x = `abc${ yield 10 }def`;
+}
+-- templateStringWithEmbeddedYieldKeywordES6.js.golden --
+"use strict";
+function* gen() {
+    // Once this is supported, yield *must* be parenthesized.
+    var x = `abc${yield 10}def`;
+}

@@ -1,0 +1,40 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolType12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js symbolType12.js symbolType12.ts
+stderr 'TS2362'
+stderr 'TS2363'
+stderr 'TS2365'
+stderr 'TS2469'
+! exists symbolType12.js
+! exists symbolType12.d.ts
+! exists symbolType12.js.map
+
+-- symbolType12.ts --
+var s = Symbol.for("assign");
+var str = "";
+s *= s;
+s *= 0;
+s /= s;
+s /= 0;
+s %= s;
+s %= 0;
+s += s;
+s += 0;
+s += "";
+str += s;
+s -= s;
+s -= 0;
+s <<= s;
+s <<= 0;
+s >>= s;
+s >>= 0;
+s >>>= s;
+s >>>= 0;
+s &= s;
+s &= 0;
+s ^= s;
+s ^= 0;
+s |= s;
+s |= 0;
+
+str += (s || str);

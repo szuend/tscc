@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/TupleTypes/TupleType3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js TupleType3.js TupleType3.ts
+! stderr .
+cmp TupleType3.js TupleType3.js.golden
+! exists TupleType3.d.ts
+! exists TupleType3.js.map
+
+-- TupleType3.ts --
+var v: []
+-- TupleType3.js.golden --
+"use strict";
+var v;

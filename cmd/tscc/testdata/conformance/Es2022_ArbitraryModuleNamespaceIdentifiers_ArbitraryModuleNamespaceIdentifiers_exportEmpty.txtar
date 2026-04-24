@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es2022/arbitraryModuleNamespaceIdentifiers/arbitraryModuleNamespaceIdentifiers_exportEmpty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts arbitraryModuleNamespaceIdentifiers_exportEmpty.d.ts --module ES2022 --target ES2022 --lib ES2022,dom --out-js arbitraryModuleNamespaceIdentifiers_exportEmpty.js arbitraryModuleNamespaceIdentifiers_exportEmpty.ts
+stderr 'TS2322'
+! exists arbitraryModuleNamespaceIdentifiers_exportEmpty.d.ts
+! exists arbitraryModuleNamespaceIdentifiers_exportEmpty.js
+! exists arbitraryModuleNamespaceIdentifiers_exportEmpty.js.map
+
+-- arbitraryModuleNamespaceIdentifiers_exportEmpty.ts --
+// This should result in a type error. In particular, the empty string is a now
+// a valid module export name, and should be treated as such here.
+const empty = "empty";
+export { empty as "" };
+import { "" as foo } from "./arbitraryModuleNamespaceIdentifiers_exportEmpty";
+const bar: "type error expected here" = foo;

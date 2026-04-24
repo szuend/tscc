@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/jsdoc/thisTag1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** @this {{ n: number }} Mount Holyoke Preparatory School
+ * @param {string} s
+ * @return {number}
+ */
+function f(s) {
+    return this.n + s.length
+}
+
+const o = {
+    f,
+    n: 1
+}
+o.f('hi')

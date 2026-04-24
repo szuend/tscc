@@ -1,0 +1,18 @@
+# Ported from tests/cases/conformance/salsa/checkSpecialPropertyAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bug24252.js
+stderr 'TS2322'
+! exists bug24252.d.ts
+! exists bug24252.js.map
+
+-- bug24252.js --
+var A = {};
+A.B = class {
+    m() {
+        /** @type {string[]} */
+        var x = [];
+        /** @type {number[]} */
+        var y;
+        y = x;
+    }
+};

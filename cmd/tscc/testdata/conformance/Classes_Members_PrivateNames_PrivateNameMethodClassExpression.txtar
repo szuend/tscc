@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameMethodClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameMethodClassExpression.js privateNameMethodClassExpression.ts
+stderr 'TS18013'
+! exists privateNameMethodClassExpression.js
+! exists privateNameMethodClassExpression.d.ts
+! exists privateNameMethodClassExpression.js.map
+
+-- privateNameMethodClassExpression.ts --
+const C = class {
+    #field = this.#method();
+    #method() { return 42; }
+    static getInstance() { return new C(); }
+    getField() { return this.#field };
+}
+
+console.log(C.getInstance().getField());
+C.getInstance().#method; // Error
+C.getInstance().#field; // Error
+

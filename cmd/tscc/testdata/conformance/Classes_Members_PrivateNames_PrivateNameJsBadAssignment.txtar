@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameJsBadAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom privateNameJsBadAssignment.js
+stderr 'TS18016'
+! exists privateNameJsBadAssignment.d.ts
+! exists privateNameJsBadAssignment.js.map
+
+-- privateNameJsBadAssignment.js --
+exports.#nope = 1;           // Error (outside class body)
+function A() { }
+A.prototype.#no = 2;         // Error (outside class body)
+
+class B {}
+B.#foo = 3;                  // Error (outside class body)
+
+class C {
+    #bar = 6;
+    constructor () {
+        this.#foo = 3;       // Error (undeclared)
+    }
+}

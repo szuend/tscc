@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringWithEmbeddedUnaryPlus.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js templateStringWithEmbeddedUnaryPlus.js templateStringWithEmbeddedUnaryPlus.ts
+! stderr .
+cmp templateStringWithEmbeddedUnaryPlus.js templateStringWithEmbeddedUnaryPlus.js.golden
+! exists templateStringWithEmbeddedUnaryPlus.d.ts
+! exists templateStringWithEmbeddedUnaryPlus.js.map
+
+-- templateStringWithEmbeddedUnaryPlus.ts --
+var x = `abc${ +Infinity }def`;
+-- templateStringWithEmbeddedUnaryPlus.js.golden --
+"use strict";
+var x = `abc${+Infinity}def`;

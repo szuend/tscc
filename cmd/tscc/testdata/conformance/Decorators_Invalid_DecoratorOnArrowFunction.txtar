@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnArrowFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js decoratorOnArrowFunction.js decoratorOnArrowFunction.ts
+stderr 'TS1109'
+stderr 'TS1005'
+! exists decoratorOnArrowFunction.js
+! exists decoratorOnArrowFunction.d.ts
+! exists decoratorOnArrowFunction.js.map
+
+-- decoratorOnArrowFunction.ts --
+declare function dec<T>(target: T): T;
+
+var F = @dec () => {
+}

@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js symbolProperty4.js symbolProperty4.ts
+! stderr .
+cmp symbolProperty4.js symbolProperty4.js.golden
+! exists symbolProperty4.d.ts
+! exists symbolProperty4.js.map
+
+-- symbolProperty4.ts --
+var x = {
+    [Symbol()]: 0,
+    [Symbol()]() { },
+    get [Symbol()]() {
+        return 0;
+    }
+}
+-- symbolProperty4.js.golden --
+"use strict";
+var x = {
+    [Symbol()]: 0,
+    [Symbol()]() { },
+    get [Symbol()]() {
+        return 0;
+    }
+};

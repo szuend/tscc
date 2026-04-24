@@ -1,0 +1,35 @@
+# Ported from tests/cases/conformance/expressions/superPropertyAccess/superSymbolIndexedAccess1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js superSymbolIndexedAccess1.js superSymbolIndexedAccess1.ts
+! stderr .
+cmp superSymbolIndexedAccess1.js superSymbolIndexedAccess1.js.golden
+! exists superSymbolIndexedAccess1.d.ts
+! exists superSymbolIndexedAccess1.js.map
+
+-- superSymbolIndexedAccess1.ts --
+var symbol = Symbol.for('myThing');
+
+class Foo {
+    [symbol]() {
+        return 0;
+    }
+}
+
+class Bar extends Foo {
+    [symbol]() {
+        return super[symbol]();
+    }
+}
+-- superSymbolIndexedAccess1.js.golden --
+"use strict";
+var symbol = Symbol.for('myThing');
+class Foo {
+    [symbol]() {
+        return 0;
+    }
+}
+class Bar extends Foo {
+    [symbol]() {
+        return super[symbol]();
+    }
+}

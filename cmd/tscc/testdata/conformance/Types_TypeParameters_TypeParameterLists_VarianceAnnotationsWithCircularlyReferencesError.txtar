@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/types/typeParameters/typeParameterLists/varianceAnnotationsWithCircularlyReferencesError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts varianceAnnotationsWithCircularlyReferencesError.d.ts --strict --target es2015 --lib es2015,dom --out-js varianceAnnotationsWithCircularlyReferencesError.js varianceAnnotationsWithCircularlyReferencesError.ts
+stderr 'TS1359'
+! exists varianceAnnotationsWithCircularlyReferencesError.d.ts
+! exists varianceAnnotationsWithCircularlyReferencesError.js
+! exists varianceAnnotationsWithCircularlyReferencesError.js.map
+
+-- varianceAnnotationsWithCircularlyReferencesError.ts --
+type T1<in in> = T1 // Error: circularly references 
+type T2<out out> = T2 // Error: circularly references 

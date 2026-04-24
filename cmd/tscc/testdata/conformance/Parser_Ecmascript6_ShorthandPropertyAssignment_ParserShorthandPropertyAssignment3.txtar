@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/parser/ecmascript6/ShorthandPropertyAssignment/parserShorthandPropertyAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserShorthandPropertyAssignment3.js parserShorthandPropertyAssignment3.ts
+stderr 'TS1005'
+! exists parserShorthandPropertyAssignment3.js
+! exists parserShorthandPropertyAssignment3.d.ts
+! exists parserShorthandPropertyAssignment3.js.map
+
+-- parserShorthandPropertyAssignment3.ts --
+var v = { "" };

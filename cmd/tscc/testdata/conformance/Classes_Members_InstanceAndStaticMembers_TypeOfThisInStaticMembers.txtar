@@ -1,0 +1,70 @@
+# Ported from tests/cases/conformance/classes/members/instanceAndStaticMembers/typeOfThisInStaticMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeOfThisInStaticMembers.js typeOfThisInStaticMembers.ts
+! stderr .
+cmp typeOfThisInStaticMembers.js typeOfThisInStaticMembers.js.golden
+! exists typeOfThisInStaticMembers.d.ts
+! exists typeOfThisInStaticMembers.js.map
+
+-- typeOfThisInStaticMembers.ts --
+class C {
+    constructor(x: number) { }
+    static foo: number;
+    static bar() {
+        // type of this is the constructor function type
+        var t = this;
+        return this;
+    }
+}
+
+var t = C.bar();
+// all ok
+var r2 = t.foo + 1;
+var r3 = t.bar();
+var r4 = new t(1);
+
+class C2<T> {
+    static test: number;
+    constructor(x: string) { }
+    static foo: string;
+    static bar() {
+        // type of this is the constructor function type
+        var t = this;
+        return this;
+    }
+}
+
+var t2 = C2.bar();
+// all ok
+var r5 = t2.foo + 1;
+var r6 = t2.bar();
+var r7 = new t2('');
+
+-- typeOfThisInStaticMembers.js.golden --
+"use strict";
+class C {
+    constructor(x) { }
+    static bar() {
+        // type of this is the constructor function type
+        var t = this;
+        return this;
+    }
+}
+var t = C.bar();
+// all ok
+var r2 = t.foo + 1;
+var r3 = t.bar();
+var r4 = new t(1);
+class C2 {
+    constructor(x) { }
+    static bar() {
+        // type of this is the constructor function type
+        var t = this;
+        return this;
+    }
+}
+var t2 = C2.bar();
+// all ok
+var r5 = t2.foo + 1;
+var r6 = t2.bar();
+var r7 = new t2('');

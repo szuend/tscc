@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserDoStatement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserDoStatement2.js parserDoStatement2.ts
+! stderr .
+cmp parserDoStatement2.js parserDoStatement2.js.golden
+! exists parserDoStatement2.d.ts
+! exists parserDoStatement2.js.map
+
+-- parserDoStatement2.ts --
+do{;}while(false)false
+-- parserDoStatement2.js.golden --
+"use strict";
+do {
+    ;
+} while (false);
+false;

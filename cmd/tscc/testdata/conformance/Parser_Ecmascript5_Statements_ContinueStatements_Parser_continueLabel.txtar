@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueLabel.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parser_continueLabel.js parser_continueLabel.ts
+! stderr .
+cmp parser_continueLabel.js parser_continueLabel.js.golden
+! exists parser_continueLabel.d.ts
+! exists parser_continueLabel.js.map
+
+-- parser_continueLabel.ts --
+label1: for(var i = 0; i < 1; i++) {
+    continue label1;
+}
+-- parser_continueLabel.js.golden --
+"use strict";
+label1: for (var i = 0; i < 1; i++) {
+    continue label1;
+}

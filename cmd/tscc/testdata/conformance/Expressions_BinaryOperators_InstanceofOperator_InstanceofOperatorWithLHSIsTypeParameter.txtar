@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/expressions/binaryOperators/instanceofOperator/instanceofOperatorWithLHSIsTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js instanceofOperatorWithLHSIsTypeParameter.js instanceofOperatorWithLHSIsTypeParameter.ts
+! stderr .
+cmp instanceofOperatorWithLHSIsTypeParameter.js instanceofOperatorWithLHSIsTypeParameter.js.golden
+! exists instanceofOperatorWithLHSIsTypeParameter.d.ts
+! exists instanceofOperatorWithLHSIsTypeParameter.js.map
+
+-- instanceofOperatorWithLHSIsTypeParameter.ts --
+function foo<T>(t: T) {
+    var x: any;
+    var r = t instanceof x;
+}
+-- instanceofOperatorWithLHSIsTypeParameter.js.golden --
+"use strict";
+function foo(t) {
+    var x;
+    var r = t instanceof x;
+}

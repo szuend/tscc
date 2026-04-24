@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesWithoutSubtype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js derivedClassOverridesWithoutSubtype.js derivedClassOverridesWithoutSubtype.ts
+stderr 'TS2564'
+! exists derivedClassOverridesWithoutSubtype.js
+! exists derivedClassOverridesWithoutSubtype.d.ts
+! exists derivedClassOverridesWithoutSubtype.js.map
+
+-- derivedClassOverridesWithoutSubtype.ts --
+class Base {
+    x: {
+        foo: string;
+    }
+}
+
+class Derived extends Base {
+    x: {
+        foo: any;
+    }
+}
+
+class Base2 {
+    static y: {
+        foo: string;
+    }
+}
+
+class Derived2 extends Base2 {
+    static y: {
+        foo: any;
+    }
+}

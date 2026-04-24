@@ -1,0 +1,25 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameAndObjectRestSpread.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameAndObjectRestSpread.js privateNameAndObjectRestSpread.ts
+stderr 'TS2339'
+! exists privateNameAndObjectRestSpread.js
+! exists privateNameAndObjectRestSpread.d.ts
+! exists privateNameAndObjectRestSpread.js.map
+
+-- privateNameAndObjectRestSpread.ts --
+class C {
+    #prop = 1;
+    static #propStatic = 1;
+
+    method(other: C) {
+        const obj = { ...other };
+        obj.#prop;
+        const { ...rest } = other;
+        rest.#prop;
+
+        const statics = { ... C};
+        statics.#propStatic
+        const { ...sRest } = C;
+        sRest.#propStatic;
+    }
+}

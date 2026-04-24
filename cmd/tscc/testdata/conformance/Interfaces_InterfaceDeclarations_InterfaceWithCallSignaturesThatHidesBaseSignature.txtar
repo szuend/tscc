@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/interfaces/interfaceDeclarations/interfaceWithCallSignaturesThatHidesBaseSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceWithCallSignaturesThatHidesBaseSignature.js interfaceWithCallSignaturesThatHidesBaseSignature.ts
+stderr 'TS2454'
+! exists interfaceWithCallSignaturesThatHidesBaseSignature.js
+! exists interfaceWithCallSignaturesThatHidesBaseSignature.d.ts
+! exists interfaceWithCallSignaturesThatHidesBaseSignature.js.map
+
+-- interfaceWithCallSignaturesThatHidesBaseSignature.ts --
+interface Foo {
+    (): { a: number };
+}
+
+interface Derived extends Foo {
+    (): { a: number; b: number };
+}
+
+var d: Derived;
+var r = d();

@@ -1,0 +1,23 @@
+# Ported from tests/cases/conformance/types/literal/stringLiteralsWithSwitchStatements02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralsWithSwitchStatements02.js stringLiteralsWithSwitchStatements02.ts
+stderr 'TS2367'
+! exists stringLiteralsWithSwitchStatements02.js
+! exists stringLiteralsWithSwitchStatements02.d.ts
+! exists stringLiteralsWithSwitchStatements02.js.map
+
+-- stringLiteralsWithSwitchStatements02.ts --
+declare let x: "foo";
+declare let y: "foo" | "bar";
+
+let b: boolean;
+b = x == y;
+b = "foo" == y
+b = y == "foo";
+b = "foo" == "bar";
+
+b = x != y;
+b = "foo" != y
+b = y != "foo";
+b = "foo" != "bar";
+

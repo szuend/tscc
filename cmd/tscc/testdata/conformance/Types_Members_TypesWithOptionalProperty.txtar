@@ -1,0 +1,55 @@
+# Ported from tests/cases/conformance/types/members/typesWithOptionalProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typesWithOptionalProperty.js typesWithOptionalProperty.ts
+! stderr .
+cmp typesWithOptionalProperty.js typesWithOptionalProperty.js.golden
+! exists typesWithOptionalProperty.d.ts
+! exists typesWithOptionalProperty.js.map
+
+-- typesWithOptionalProperty.ts --
+// basic uses of optional properties without errors
+
+interface I {
+    foo: string;
+    bar?: number;
+    baz? (): string;
+}
+
+var a: {
+    foo: string;
+    bar?: number;
+    baz? (): string;
+};
+
+var b = { foo: '' };
+var c = { foo: '', bar: 3 };
+var d = { foo: '', bar: 3, baz: () => '' };
+
+var i: I;
+
+i = b;
+i = c;
+i = d;
+
+a = b;
+a = c;
+a = d;
+
+i = a;
+a = i;
+-- typesWithOptionalProperty.js.golden --
+"use strict";
+// basic uses of optional properties without errors
+var a;
+var b = { foo: '' };
+var c = { foo: '', bar: 3 };
+var d = { foo: '', bar: 3, baz: () => '' };
+var i;
+i = b;
+i = c;
+i = d;
+a = b;
+a = c;
+a = d;
+i = a;
+a = i;

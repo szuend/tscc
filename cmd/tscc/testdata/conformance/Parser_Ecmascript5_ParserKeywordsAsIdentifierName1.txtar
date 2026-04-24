@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserKeywordsAsIdentifierName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserKeywordsAsIdentifierName1.js parserKeywordsAsIdentifierName1.ts
+! stderr .
+cmp parserKeywordsAsIdentifierName1.js parserKeywordsAsIdentifierName1.js.golden
+! exists parserKeywordsAsIdentifierName1.d.ts
+! exists parserKeywordsAsIdentifierName1.js.map
+
+-- parserKeywordsAsIdentifierName1.ts --
+var big = {
+   break : 0,
+   super : 0,
+   const : 0
+}
+-- parserKeywordsAsIdentifierName1.js.golden --
+"use strict";
+var big = {
+    break: 0,
+    super: 0,
+    const: 0
+};

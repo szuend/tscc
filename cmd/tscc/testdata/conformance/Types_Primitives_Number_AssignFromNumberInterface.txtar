@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/types/primitives/number/assignFromNumberInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignFromNumberInterface.js assignFromNumberInterface.ts
+stderr 'TS2322'
+! exists assignFromNumberInterface.js
+! exists assignFromNumberInterface.d.ts
+! exists assignFromNumberInterface.js.map
+
+-- assignFromNumberInterface.ts --
+var x = 1;
+declare var a: Number;
+x = a;
+a = x;

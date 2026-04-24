@@ -1,0 +1,24 @@
+# Ported from tests/cases/conformance/types/spread/spreadContextualTypedBindingPattern.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js spreadContextualTypedBindingPattern.js spreadContextualTypedBindingPattern.ts
+! stderr .
+cmp spreadContextualTypedBindingPattern.js spreadContextualTypedBindingPattern.js.golden
+! exists spreadContextualTypedBindingPattern.d.ts
+! exists spreadContextualTypedBindingPattern.js.map
+
+-- spreadContextualTypedBindingPattern.ts --
+// #18308
+interface Person {
+  naam: string,
+  age: number
+}
+
+declare const bob: Person
+declare const alice: Person
+
+// [ts] Initializer provides no value for this binding element and the binding element has no default value.
+const { naam, age } = {...bob, ...alice}
+-- spreadContextualTypedBindingPattern.js.golden --
+"use strict";
+// [ts] Initializer provides no value for this binding element and the binding element has no default value.
+const { naam, age } = Object.assign(Object.assign({}, bob), alice);

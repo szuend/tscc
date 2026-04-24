@@ -1,0 +1,30 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithEnumType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js logicalNotOperatorWithEnumType.js logicalNotOperatorWithEnumType.ts
+stderr 'TS2695'
+! exists logicalNotOperatorWithEnumType.js
+! exists logicalNotOperatorWithEnumType.d.ts
+! exists logicalNotOperatorWithEnumType.js.map
+
+-- logicalNotOperatorWithEnumType.ts --
+// ! operator on enum type
+
+enum ENUM { A, B, C };
+enum ENUM1 { };
+
+// enum type var
+var ResultIsBoolean1 = !ENUM;
+
+// enum type expressions
+var ResultIsBoolean2 = !ENUM["B"];
+var ResultIsBoolean3 = !(ENUM.B + ENUM["C"]);
+
+// multiple ! operators
+var ResultIsBoolean4 = !!ENUM;
+var ResultIsBoolean5 = !!!(ENUM["B"] + ENUM.C);
+
+// miss assignment operators
+!ENUM;
+!ENUM1;
+!ENUM.B;
+!ENUM, ENUM1;

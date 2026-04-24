@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesInVariableDeclarations01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts stringLiteralTypesInVariableDeclarations01.d.ts --no-strict --target es2015 --lib es2015,dom --out-js stringLiteralTypesInVariableDeclarations01.js stringLiteralTypesInVariableDeclarations01.ts
+stderr 'TS1155'
+! exists stringLiteralTypesInVariableDeclarations01.d.ts
+! exists stringLiteralTypesInVariableDeclarations01.js
+! exists stringLiteralTypesInVariableDeclarations01.js.map
+
+-- stringLiteralTypesInVariableDeclarations01.ts --
+let a: "";
+var b: "foo";
+let c: "bar";
+const d: "baz";
+
+a = "";
+b = "foo";
+c = "bar";
+
+let e: "" = "";
+var f: "foo" = "foo";
+let g: "bar" = "bar";
+const h: "baz" = "baz";
+
+e = "";
+f = "foo";
+g = "bar";

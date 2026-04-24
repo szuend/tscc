@@ -1,0 +1,10 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInDivision.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInDivision.js templateStringInDivision.ts
+stderr 'TS2362'
+! exists templateStringInDivision.js
+! exists templateStringInDivision.d.ts
+! exists templateStringInDivision.js.map
+
+-- templateStringInDivision.ts --
+var x = `abc${ 1 }def` / 1;

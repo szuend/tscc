@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameInObjectLiteral-1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateNameInObjectLiteral-1.js privateNameInObjectLiteral-1.ts
+stderr 'TS18016'
+! exists privateNameInObjectLiteral-1.js
+! exists privateNameInObjectLiteral-1.d.ts
+! exists privateNameInObjectLiteral-1.js.map
+
+-- privateNameInObjectLiteral-1.ts --
+const obj = {
+    #foo: 1
+};

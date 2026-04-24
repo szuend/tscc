@@ -1,0 +1,20 @@
+# Ported from tests/cases/conformance/salsa/requireAssertsFromTypescript.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom 38379.js
+! stderr .
+! exists 38379.d.ts
+! exists 38379.js.map
+
+-- 38379.js --
+const { art } = require('./ex')
+const artoo = require('./ex2')
+let x = 1
+art(x)
+let y = 1
+artoo(y)
+-- ex.d.ts --
+// based on assert in @types/node
+export function art(value: any, message?: string | Error): asserts value;
+-- ex2.d.ts --
+declare function art(value: any, message?: string | Error): asserts value;
+export = art;

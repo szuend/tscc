@@ -1,0 +1,16 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpression6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parserRegularExpression6.js parserRegularExpression6.ts
+! stderr .
+cmp parserRegularExpression6.js parserRegularExpression6.js.golden
+! exists parserRegularExpression6.d.ts
+! exists parserRegularExpression6.js.map
+
+-- parserRegularExpression6.ts --
+declare var a;
+a /= 1; // parse as infix
+a = /=/; // parse as regexp
+-- parserRegularExpression6.js.golden --
+"use strict";
+a /= 1; // parse as infix
+a = /=/; // parse as regexp

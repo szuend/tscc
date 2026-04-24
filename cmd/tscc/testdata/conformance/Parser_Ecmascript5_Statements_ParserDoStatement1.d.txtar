@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Statements/parserDoStatement1.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserDoStatement1.d.js parserDoStatement1.d.ts
+stderr 'TS1036'
+! exists parserDoStatement1.d.js
+! exists parserDoStatement1.d.d.ts
+! exists parserDoStatement1.d.js.map
+
+-- parserDoStatement1.d.ts --
+do {
+}
+while (e);

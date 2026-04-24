@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/parseClassDeclarationInStrictModeByDefaultInES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js parseClassDeclarationInStrictModeByDefaultInES6.js parseClassDeclarationInStrictModeByDefaultInES6.ts
+stderr 'TS1210'
+! exists parseClassDeclarationInStrictModeByDefaultInES6.js
+! exists parseClassDeclarationInStrictModeByDefaultInES6.d.ts
+! exists parseClassDeclarationInStrictModeByDefaultInES6.js.map
+
+-- parseClassDeclarationInStrictModeByDefaultInES6.ts --
+class C {
+    interface = 10;
+    public implements() { }
+    public foo(arguments: any) { }
+    private bar(eval:any) {
+        arguments = "hello";
+    }
+}

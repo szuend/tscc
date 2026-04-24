@@ -1,0 +1,50 @@
+# Ported from tests/cases/conformance/types/stringLiteral/stringLiteralTypesAsTypeParameterConstraint01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts stringLiteralTypesAsTypeParameterConstraint01.d.ts --target es2015 --lib es2015,dom --out-js stringLiteralTypesAsTypeParameterConstraint01.js stringLiteralTypesAsTypeParameterConstraint01.ts
+! stderr .
+cmp stringLiteralTypesAsTypeParameterConstraint01.d.ts stringLiteralTypesAsTypeParameterConstraint01.d.ts.golden
+cmp stringLiteralTypesAsTypeParameterConstraint01.js stringLiteralTypesAsTypeParameterConstraint01.js.golden
+! exists stringLiteralTypesAsTypeParameterConstraint01.js.map
+
+-- stringLiteralTypesAsTypeParameterConstraint01.ts --
+function foo<T extends "foo">(f: (x: T) => T) {
+    return f;
+}
+
+function bar<T extends "foo" | "bar">(f: (x: T) => T) {
+    return f;
+}
+
+let f = foo(x => x);
+let fResult = f("foo");
+
+let g = foo((x => x));
+let gResult = g("foo");
+
+let h = bar(x => x);
+let hResult = h("foo");
+hResult = h("bar");
+-- stringLiteralTypesAsTypeParameterConstraint01.d.ts.golden --
+declare function foo<T extends "foo">(f: (x: T) => T): (x: T) => T;
+declare function bar<T extends "foo" | "bar">(f: (x: T) => T): (x: T) => T;
+declare let f: (x: "foo") => "foo";
+declare let fResult: "foo";
+declare let g: (x: "foo") => "foo";
+declare let gResult: "foo";
+declare let h: (x: "bar" | "foo") => "bar" | "foo";
+declare let hResult: "bar" | "foo";
+-- stringLiteralTypesAsTypeParameterConstraint01.js.golden --
+"use strict";
+function foo(f) {
+    return f;
+}
+function bar(f) {
+    return f;
+}
+let f = foo(x => x);
+let fResult = f("foo");
+let g = foo((x => x));
+let gResult = g("foo");
+let h = bar(x => x);
+let hResult = h("foo");
+hResult = h("bar");

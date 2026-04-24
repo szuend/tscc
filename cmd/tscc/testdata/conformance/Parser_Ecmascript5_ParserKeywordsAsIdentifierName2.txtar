@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/parserKeywordsAsIdentifierName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserKeywordsAsIdentifierName2.js parserKeywordsAsIdentifierName2.ts
+stderr 'TS1010'
+! exists parserKeywordsAsIdentifierName2.js
+! exists parserKeywordsAsIdentifierName2.d.ts
+! exists parserKeywordsAsIdentifierName2.js.map
+
+-- parserKeywordsAsIdentifierName2.ts --
+// 'public' should be marked unusable, should complain on trailing /*
+a.public /*

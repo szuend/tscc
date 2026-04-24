@@ -1,0 +1,29 @@
+# Ported from tests/cases/conformance/controlFlow/dependentDestructuredVariablesWithExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom dependentDestructuredVariablesWithExport.ts
+! stderr .
+! exists dependentDestructuredVariablesWithExport.d.ts
+! exists dependentDestructuredVariablesWithExport.js.map
+
+-- dependentDestructuredVariablesWithExport.ts --
+// https://github.com/microsoft/TypeScript/issues/59652
+
+declare function mutuallyEnabledPair(): {
+    discriminator: true,
+    value: string,
+  } | {
+    discriminator: false,
+    value: null | undefined,
+  }
+
+const { discriminator: discriminator1, value: value1 } = mutuallyEnabledPair()
+
+if (discriminator1) {
+  value1;
+}
+
+export const { discriminator: discriminator2, value: value2 } = mutuallyEnabledPair()
+
+if (discriminator2) {
+  value2;
+}

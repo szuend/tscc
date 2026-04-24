@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/EnumDeclarations/parserEnum1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js parserEnum1.js parserEnum1.ts
+! stderr .
+cmp parserEnum1.js parserEnum1.js.golden
+! exists parserEnum1.d.ts
+! exists parserEnum1.js.map
+
+-- parserEnum1.ts --
+    export enum SignatureFlags {
+        None = 0,
+        IsIndexer = 1,
+        IsStringIndexer = 1 << 1,
+        IsNumberIndexer = 1 << 2,
+    }
+-- parserEnum1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SignatureFlags = void 0;
+var SignatureFlags;
+(function (SignatureFlags) {
+    SignatureFlags[SignatureFlags["None"] = 0] = "None";
+    SignatureFlags[SignatureFlags["IsIndexer"] = 1] = "IsIndexer";
+    SignatureFlags[SignatureFlags["IsStringIndexer"] = 2] = "IsStringIndexer";
+    SignatureFlags[SignatureFlags["IsNumberIndexer"] = 4] = "IsNumberIndexer";
+})(SignatureFlags || (exports.SignatureFlags = SignatureFlags = {}));

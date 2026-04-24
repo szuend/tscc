@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/expressions/functionCalls/grammarAmbiguities.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js grammarAmbiguities.js grammarAmbiguities.ts
+stderr 'TS2554'
+! exists grammarAmbiguities.js
+! exists grammarAmbiguities.d.ts
+! exists grammarAmbiguities.js.map
+
+-- grammarAmbiguities.ts --
+function f(n: any) { return null; }
+function g<A, B>(x: any) { return null; }
+interface A { }
+interface B { }
+var A, B;
+
+f(g<A, B>(7));
+f(g < A, B > 7); // Should error
+f(g < A, B > +(7)); // Should error
+

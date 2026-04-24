@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/salsa/inferringClassMembersFromAssignments8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inferringClassMembersFromAssignments8.js inferringClassMembersFromAssignments8.ts
+! stderr .
+cmp inferringClassMembersFromAssignments8.js inferringClassMembersFromAssignments8.js.golden
+! exists inferringClassMembersFromAssignments8.d.ts
+! exists inferringClassMembersFromAssignments8.js.map
+
+-- inferringClassMembersFromAssignments8.ts --
+// no inference in TS files, even for `this` aliases:
+
+var app = function() {
+    var _this = this;
+    _this.swap = function() { }
+}
+var a = new app()
+a
+-- inferringClassMembersFromAssignments8.js.golden --
+"use strict";
+// no inference in TS files, even for `this` aliases:
+var app = function () {
+    var _this = this;
+    _this.swap = function () { };
+};
+var a = new app();
+a;

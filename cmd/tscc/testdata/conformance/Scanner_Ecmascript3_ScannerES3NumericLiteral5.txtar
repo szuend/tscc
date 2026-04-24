@@ -1,0 +1,13 @@
+# Ported from tests/cases/conformance/scanner/ecmascript3/scannerES3NumericLiteral5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js scannerES3NumericLiteral5.js scannerES3NumericLiteral5.ts
+! stderr .
+cmp scannerES3NumericLiteral5.js scannerES3NumericLiteral5.js.golden
+! exists scannerES3NumericLiteral5.d.ts
+! exists scannerES3NumericLiteral5.js.map
+
+-- scannerES3NumericLiteral5.ts --
+1e0
+-- scannerES3NumericLiteral5.js.golden --
+"use strict";
+1e0;

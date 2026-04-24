@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/decorators/invalid/decoratorOnImportEquals2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js decoratorOnImportEquals2_0.js decoratorOnImportEquals2_0.ts
+! stderr .
+cmp decoratorOnImportEquals2_0.js decoratorOnImportEquals2_0.js.golden
+! exists decoratorOnImportEquals2_0.d.ts
+! exists decoratorOnImportEquals2_0.js.map
+
+-- decoratorOnImportEquals2_0.ts --
+export var X;
+-- decoratorOnImportEquals2_1.ts --
+@dec
+import lib = require('./decoratorOnImportEquals2_0');
+
+declare function dec<T>(target: T): T;
+-- decoratorOnImportEquals2_0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.X = void 0;

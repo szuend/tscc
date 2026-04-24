@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/computedProperties/computedPropertyNames2_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js computedPropertyNames2_ES6.js computedPropertyNames2_ES6.ts
+stderr 'TS2378'
+! exists computedPropertyNames2_ES6.js
+! exists computedPropertyNames2_ES6.d.ts
+! exists computedPropertyNames2_ES6.js.map
+
+-- computedPropertyNames2_ES6.ts --
+var methodName = "method";
+var accessorName = "accessor";
+class C {
+    [methodName]() { }
+    static [methodName]() { }
+    get [accessorName]() { }
+    set [accessorName](v) { }
+    static get [accessorName]() { }
+    static set [accessorName](v) { }
+}

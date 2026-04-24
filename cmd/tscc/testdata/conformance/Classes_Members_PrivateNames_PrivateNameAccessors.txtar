@@ -1,0 +1,22 @@
+# Ported from tests/cases/conformance/classes/members/privateNames/privateNameAccessors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es6 --lib es6,dom --out-js privateNameAccessors.js privateNameAccessors.ts
+stderr 'TS2540'
+! exists privateNameAccessors.js
+! exists privateNameAccessors.d.ts
+! exists privateNameAccessors.js.map
+
+-- privateNameAccessors.ts --
+class A1 {
+    get #prop() { return ""; }
+    set #prop(param: string) { }
+
+    get #roProp() { return ""; }
+
+    constructor(name: string) {
+        this.#prop = "";
+        this.#roProp = ""; // Error
+        console.log(this.#prop);
+        console.log(this.#roProp);
+    }
+}

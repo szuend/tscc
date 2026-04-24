@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/parser/ecmascript5/Expressions/parserAssignmentExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserAssignmentExpression1.js parserAssignmentExpression1.ts
+stderr 'TS2364'
+stderr 'TS2304'
+! exists parserAssignmentExpression1.js
+! exists parserAssignmentExpression1.d.ts
+! exists parserAssignmentExpression1.js.map
+
+-- parserAssignmentExpression1.ts --
+(foo()) = bar;

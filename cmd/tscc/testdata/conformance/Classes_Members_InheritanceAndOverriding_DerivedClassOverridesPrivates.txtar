@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPrivates.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js derivedClassOverridesPrivates.js derivedClassOverridesPrivates.ts
+stderr 'TS2564'
+stderr 'TS2415'
+stderr 'TS2417'
+! exists derivedClassOverridesPrivates.js
+! exists derivedClassOverridesPrivates.d.ts
+! exists derivedClassOverridesPrivates.js.map
+
+-- derivedClassOverridesPrivates.ts --
+class Base {
+    private x: { foo: string };
+}
+
+class Derived extends Base {
+    private x: { foo: string; bar: string; }; // error
+}
+
+class Base2 {
+    private static y: { foo: string };
+}
+
+class Derived2 extends Base2 {
+    private static y: { foo: string; bar: string; }; // error
+}

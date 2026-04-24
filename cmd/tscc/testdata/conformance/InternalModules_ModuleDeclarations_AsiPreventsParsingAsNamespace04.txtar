@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/internalModules/moduleDeclarations/asiPreventsParsingAsNamespace04.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js asiPreventsParsingAsNamespace04.js asiPreventsParsingAsNamespace04.ts
+! stderr .
+cmp asiPreventsParsingAsNamespace04.js asiPreventsParsingAsNamespace04.js.golden
+! exists asiPreventsParsingAsNamespace04.d.ts
+! exists asiPreventsParsingAsNamespace04.js.map
+
+-- asiPreventsParsingAsNamespace04.ts --
+let module = 10;
+module in {}
+-- asiPreventsParsingAsNamespace04.js.golden --
+"use strict";
+let module = 10;
+module in {};

@@ -1,0 +1,15 @@
+# Ported from tests/cases/conformance/es6/for-ofStatements/for-of24.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js for-of24.js for-of24.ts
+! stderr .
+cmp for-of24.js for-of24.js.golden
+! exists for-of24.d.ts
+! exists for-of24.js.map
+
+-- for-of24.ts --
+var x: any;
+for (var v of x) { }
+-- for-of24.js.golden --
+"use strict";
+var x;
+for (var v of x) { }

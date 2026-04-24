@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/classes/classDeclarations/classHeritageSpecification/classAppearsToHaveMembersOfObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classAppearsToHaveMembersOfObject.js classAppearsToHaveMembersOfObject.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists classAppearsToHaveMembersOfObject.js
+! exists classAppearsToHaveMembersOfObject.d.ts
+! exists classAppearsToHaveMembersOfObject.js.map
+
+-- classAppearsToHaveMembersOfObject.ts --
+class C { foo: string; }
+
+var c: C;
+var r = c.toString();
+var r2 = c.hasOwnProperty('');
+var o: Object = c;
+var o2: {} = c;

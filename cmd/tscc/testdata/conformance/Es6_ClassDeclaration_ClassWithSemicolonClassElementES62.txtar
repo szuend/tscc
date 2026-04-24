@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/classDeclaration/classWithSemicolonClassElementES62.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js classWithSemicolonClassElementES62.js classWithSemicolonClassElementES62.ts
+! stderr .
+cmp classWithSemicolonClassElementES62.js classWithSemicolonClassElementES62.js.golden
+! exists classWithSemicolonClassElementES62.d.ts
+! exists classWithSemicolonClassElementES62.js.map
+
+-- classWithSemicolonClassElementES62.ts --
+class C {
+    ;
+    ;
+}
+-- classWithSemicolonClassElementES62.js.golden --
+"use strict";
+class C {
+    ;
+    ;
+}

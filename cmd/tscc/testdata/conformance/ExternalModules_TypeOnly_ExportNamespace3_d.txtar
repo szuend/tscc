@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/externalModules/typeOnly/exportNamespace3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js d.js d.ts
+stderr 'TS2339'
+! exists d.js
+! exists d.d.ts
+! exists d.js.map
+
+-- a.ts --
+export class A {}
+-- b.ts --
+export type { A } from './a';
+-- c.ts --
+export * as a from './b';
+-- d.ts --
+import { a } from './c';
+new a.A(); // Error

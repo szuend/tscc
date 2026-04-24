@@ -1,0 +1,12 @@
+# Ported from tests/cases/conformance/node/allowJs/nodeModulesAllowJsCjsFromJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module nodenext --target es2022 --lib es2022,dom bar.ts
+! stderr .
+! exists bar.d.ts
+! exists bar.js.map
+
+-- bar.ts --
+import foo from "./foo.cjs"
+foo.foo;
+-- foo.cjs --
+exports.foo = "foo"

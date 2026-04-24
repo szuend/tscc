@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/es6/destructuring/restElementWithInitializer1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restElementWithInitializer1.js restElementWithInitializer1.ts
+stderr 'TS1186'
+! exists restElementWithInitializer1.js
+! exists restElementWithInitializer1.d.ts
+! exists restElementWithInitializer1.js.map
+
+-- restElementWithInitializer1.ts --
+declare var a: number[];
+var [...x = a] = a;  // Error, rest element cannot have initializer

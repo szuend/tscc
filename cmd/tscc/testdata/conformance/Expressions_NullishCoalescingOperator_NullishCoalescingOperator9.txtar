@@ -1,0 +1,17 @@
+# Ported from tests/cases/conformance/expressions/nullishCoalescingOperator/nullishCoalescingOperator9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nullishCoalescingOperator9.js nullishCoalescingOperator9.ts
+! stderr .
+cmp nullishCoalescingOperator9.js nullishCoalescingOperator9.js.golden
+! exists nullishCoalescingOperator9.d.ts
+! exists nullishCoalescingOperator9.js.map
+
+-- nullishCoalescingOperator9.ts --
+declare let f: null | ((x: string) => void);
+
+let g = f || (abc => { void abc.toLowerCase() })
+let gg = f ?? (abc => { void abc.toLowerCase() })
+-- nullishCoalescingOperator9.js.golden --
+"use strict";
+let g = f || (abc => { void abc.toLowerCase(); });
+let gg = f !== null && f !== void 0 ? f : (abc => { void abc.toLowerCase(); });

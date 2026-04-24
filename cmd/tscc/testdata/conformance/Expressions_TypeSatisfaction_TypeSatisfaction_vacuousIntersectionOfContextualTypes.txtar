@@ -1,0 +1,11 @@
+# Ported from tests/cases/conformance/expressions/typeSatisfaction/typeSatisfaction_vacuousIntersectionOfContextualTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeSatisfaction_vacuousIntersectionOfContextualTypes.js typeSatisfaction_vacuousIntersectionOfContextualTypes.ts
+stderr 'TS2322'
+! exists typeSatisfaction_vacuousIntersectionOfContextualTypes.js
+! exists typeSatisfaction_vacuousIntersectionOfContextualTypes.d.ts
+! exists typeSatisfaction_vacuousIntersectionOfContextualTypes.js.map
+
+-- typeSatisfaction_vacuousIntersectionOfContextualTypes.ts --
+const a: "baz" = "foo" satisfies "foo" | "bar";
+const b: { xyz: "baz" } = { xyz: "foo" } satisfies { xyz: "foo" | "bar" };

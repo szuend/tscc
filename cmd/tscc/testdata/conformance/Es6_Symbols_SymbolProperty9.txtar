@@ -1,0 +1,19 @@
+# Ported from tests/cases/conformance/es6/Symbols/symbolProperty9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js symbolProperty9.js symbolProperty9.ts
+stderr 'TS2322'
+! exists symbolProperty9.js
+! exists symbolProperty9.d.ts
+! exists symbolProperty9.js.map
+
+-- symbolProperty9.ts --
+class C {
+    [Symbol.iterator]: { x; y };
+}
+interface I {
+    [Symbol.iterator]: { x };
+}
+
+var i: I;
+i = new C;
+var c: C = i;

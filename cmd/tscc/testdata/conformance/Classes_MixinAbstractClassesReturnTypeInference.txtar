@@ -1,0 +1,68 @@
+# Ported from tests/cases/conformance/classes/mixinAbstractClassesReturnTypeInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts mixinAbstractClassesReturnTypeInference.d.ts --target esnext --lib esnext,dom --out-js mixinAbstractClassesReturnTypeInference.js mixinAbstractClassesReturnTypeInference.ts
+! stderr .
+cmp mixinAbstractClassesReturnTypeInference.d.ts mixinAbstractClassesReturnTypeInference.d.ts.golden
+cmp mixinAbstractClassesReturnTypeInference.js mixinAbstractClassesReturnTypeInference.js.golden
+! exists mixinAbstractClassesReturnTypeInference.js.map
+
+-- mixinAbstractClassesReturnTypeInference.ts --
+interface Mixin1 {
+    mixinMethod(): void;
+}
+
+abstract class AbstractBase {
+    abstract abstractBaseMethod(): void;
+}
+
+function Mixin2<TBase extends abstract new (...args: any[]) => any>(baseClass: TBase) {
+    // must be `abstract` because we cannot know *all* of the possible abstract members that need to be
+    // implemented for this to be concrete.
+    abstract class MixinClass extends baseClass implements Mixin1 {
+        mixinMethod(): void {}
+        static staticMixinMethod(): void {}
+    }
+    return MixinClass;
+}
+
+class DerivedFromAbstract2 extends Mixin2(AbstractBase) {
+    abstractBaseMethod() {}
+}
+-- mixinAbstractClassesReturnTypeInference.d.ts.golden --
+interface Mixin1 {
+    mixinMethod(): void;
+}
+declare abstract class AbstractBase {
+    abstract abstractBaseMethod(): void;
+}
+declare function Mixin2<TBase extends abstract new (...args: any[]) => any>(baseClass: TBase): ((abstract new (...args: any[]) => {
+    [x: string]: any;
+    mixinMethod(): void;
+}) & {
+    staticMixinMethod(): void;
+}) & TBase;
+declare const DerivedFromAbstract2_base: ((abstract new (...args: any[]) => {
+    [x: string]: any;
+    mixinMethod(): void;
+}) & {
+    staticMixinMethod(): void;
+}) & typeof AbstractBase;
+declare class DerivedFromAbstract2 extends DerivedFromAbstract2_base {
+    abstractBaseMethod(): void;
+}
+-- mixinAbstractClassesReturnTypeInference.js.golden --
+"use strict";
+class AbstractBase {
+}
+function Mixin2(baseClass) {
+    // must be `abstract` because we cannot know *all* of the possible abstract members that need to be
+    // implemented for this to be concrete.
+    class MixinClass extends baseClass {
+        mixinMethod() { }
+        static staticMixinMethod() { }
+    }
+    return MixinClass;
+}
+class DerivedFromAbstract2 extends Mixin2(AbstractBase) {
+    abstractBaseMethod() { }
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/conformance/es6/templates/templateStringInFunctionParameterType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js templateStringInFunctionParameterType.js templateStringInFunctionParameterType.ts
+stderr 'TS1003'
+! exists templateStringInFunctionParameterType.js
+! exists templateStringInFunctionParameterType.d.ts
+! exists templateStringInFunctionParameterType.js.map
+
+-- templateStringInFunctionParameterType.ts --
+function f(`hello`);
+function f(x: string);
+function f(x: string) {
+    return x;
+}

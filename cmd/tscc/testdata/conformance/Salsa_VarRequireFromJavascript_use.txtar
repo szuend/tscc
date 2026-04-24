@@ -1,0 +1,32 @@
+# Ported from tests/cases/conformance/salsa/varRequireFromJavascript.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom use.js
+! stderr .
+! exists use.d.ts
+! exists use.js.map
+
+-- ex.js --
+export class Crunch {
+    /** @param {number} n */
+    constructor(n) {
+        this.n = n
+    }
+    m() {
+        return this.n
+    }
+}
+-- use.js --
+var ex = require('./ex')
+
+// values work
+var crunch = new ex.Crunch(1);
+crunch.n
+
+
+// types work
+/**
+ * @param {ex.Crunch} wrap
+ */
+function f(wrap) {
+    wrap.n
+}

@@ -1,0 +1,26 @@
+# Ported from tests/cases/conformance/controlFlow/controlFlowSuperPropertyAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js controlFlowSuperPropertyAccess.js controlFlowSuperPropertyAccess.ts
+! stderr .
+cmp controlFlowSuperPropertyAccess.js controlFlowSuperPropertyAccess.js.golden
+! exists controlFlowSuperPropertyAccess.d.ts
+! exists controlFlowSuperPropertyAccess.js.map
+
+-- controlFlowSuperPropertyAccess.ts --
+class B {
+    protected m?(): void;
+}
+class C extends B {
+    body() {
+        super.m && super.m();
+    }
+}
+-- controlFlowSuperPropertyAccess.js.golden --
+"use strict";
+class B {
+}
+class C extends B {
+    body() {
+        super.m && super.m();
+    }
+}

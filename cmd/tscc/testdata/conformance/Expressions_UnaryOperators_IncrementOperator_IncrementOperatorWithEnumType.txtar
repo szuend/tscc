@@ -1,0 +1,21 @@
+# Ported from tests/cases/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithEnumType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js incrementOperatorWithEnumType.js incrementOperatorWithEnumType.ts
+stderr 'TS2540'
+! exists incrementOperatorWithEnumType.js
+! exists incrementOperatorWithEnumType.d.ts
+! exists incrementOperatorWithEnumType.js.map
+
+-- incrementOperatorWithEnumType.ts --
+// ++ operator on enum type
+
+enum ENUM1 { A, B, "" };
+
+// expression
+var ResultIsNumber1 = ++ENUM1["B"];
+var ResultIsNumber2 = ENUM1.B++;
+
+// miss assignment operator
+++ENUM1["B"];
+
+ENUM1.B++;
