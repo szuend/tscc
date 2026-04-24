@@ -171,6 +171,11 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-isolated-modules")
 			}
+		case "allowsyntheticdefaultimports":
+			if strings.ToLower(value) == "false" {
+				return nil, &SkipError{Directive: key, Reason: "false is unsupported"}
+			}
+			// true or empty is the default, so we can just ignore it
 		case "lib":
 			flags = append(flags, "--lib", value)
 		case "noemit":

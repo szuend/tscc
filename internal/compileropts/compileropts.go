@@ -103,12 +103,13 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		AllowJs:                    boolToTristate(cfg.AllowJs),
 		CheckJs:                    boolToTristate(cfg.CheckJs),
 		IsolatedModules:            boolToTristate(cfg.IsolatedModules),
-		SuppressOutputPathCheck:    tsccbridge.TSTrue,
-		Module:                     mod,
-		Declaration:                decl,
-		SourceMap:                  srcMap,
-		Lib:                        cfg.Lib,
-		Paths:                      pathsMap,
+
+		SuppressOutputPathCheck: tsccbridge.TSTrue,
+		Module:                  mod,
+		Declaration:             decl,
+		SourceMap:               srcMap,
+		Lib:                     cfg.Lib,
+		Paths:                   pathsMap,
 	}, nil
 }
 

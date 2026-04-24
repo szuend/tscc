@@ -158,6 +158,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-isolated-modules", "--lib", "es2025,dom"},
 		},
 		{
+			name: "allowSyntheticDefaultImports true ignored",
+			directives: map[string]string{
+				"allowSyntheticDefaultImports": "true",
+			},
+			wantFlags: []string{"--lib", "es2025,dom"},
+		},
+		{
+			name: "allowSyntheticDefaultImports false unsupported",
+			directives: map[string]string{
+				"allowSyntheticDefaultImports": "false",
+			},
+			wantSkip: true,
+		},
+		{
 			name: "lib directive present",
 			directives: map[string]string{
 				"lib":    "esnext",

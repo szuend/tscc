@@ -299,6 +299,7 @@ func resolutionGroup(cfg *Config) flagGroup {
 func interopConstraintsGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("interop-constraints", pflag.ContinueOnError)
 	g.BoolVar(&cfg.IsolatedModules, "isolated-modules", false, "Ensure that each file can be safely transpiled without relying on other imports.")
+
 	return flagGroup{Name: "Interop Constraints", Set: g}
 }
 
