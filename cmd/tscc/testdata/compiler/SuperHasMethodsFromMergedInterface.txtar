@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/superHasMethodsFromMergedInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superHasMethodsFromMergedInterface.js superHasMethodsFromMergedInterface.ts
+! stderr .
+cmp superHasMethodsFromMergedInterface.js superHasMethodsFromMergedInterface.js.golden
+! exists superHasMethodsFromMergedInterface.d.ts
+! exists superHasMethodsFromMergedInterface.js.map
+
+-- superHasMethodsFromMergedInterface.ts --
+class C { m1() { } }
+interface C { m2(): void }
+class Sub extends C {
+    m3() {
+        super.m2();
+    }
+}
+-- superHasMethodsFromMergedInterface.js.golden --
+"use strict";
+class C {
+    m1() { }
+}
+class Sub extends C {
+    m3() {
+        super.m2();
+    }
+}

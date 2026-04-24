@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/unresolvedTypeAssertionSymbol.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unresolvedTypeAssertionSymbol.js unresolvedTypeAssertionSymbol.ts
+stderr 'TS2304'
+! exists unresolvedTypeAssertionSymbol.js
+! exists unresolvedTypeAssertionSymbol.d.ts
+! exists unresolvedTypeAssertionSymbol.js.map
+
+-- unresolvedTypeAssertionSymbol.ts --
+var x = 1;
+var y = <asdf>x;
+ 

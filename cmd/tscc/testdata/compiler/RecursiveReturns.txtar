@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/recursiveReturns.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveReturns.js recursiveReturns.ts
+! stderr .
+cmp recursiveReturns.js recursiveReturns.js.golden
+! exists recursiveReturns.d.ts
+! exists recursiveReturns.js.map
+
+-- recursiveReturns.ts --
+function R1() {
+	R1();
+	return;
+}
+
+function R2() { R2(); }
+
+function R3(n:number) {
+	if (n == 0) {
+		//return;
+	}
+	else {
+		R3(n--);
+	}
+}
+-- recursiveReturns.js.golden --
+"use strict";
+function R1() {
+    R1();
+    return;
+}
+function R2() { R2(); }
+function R3(n) {
+    if (n == 0) {
+        //return;
+    }
+    else {
+        R3(n--);
+    }
+}

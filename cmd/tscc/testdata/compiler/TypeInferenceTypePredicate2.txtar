@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/typeInferenceTypePredicate2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeInferenceTypePredicate2.js typeInferenceTypePredicate2.ts
+! stderr .
+cmp typeInferenceTypePredicate2.js typeInferenceTypePredicate2.js.golden
+! exists typeInferenceTypePredicate2.d.ts
+! exists typeInferenceTypePredicate2.js.map
+
+-- typeInferenceTypePredicate2.ts --
+[true, true, false, null]
+    .filter((thing): thing is boolean => thing !== null)
+    .map(thing => thing.toString());
+-- typeInferenceTypePredicate2.js.golden --
+"use strict";
+[true, true, false, null]
+    .filter((thing) => thing !== null)
+    .map(thing => thing.toString());

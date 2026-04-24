@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/strictBooleanMemberAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js strictBooleanMemberAssignability.js strictBooleanMemberAssignability.ts
+! stderr .
+cmp strictBooleanMemberAssignability.js strictBooleanMemberAssignability.js.golden
+! exists strictBooleanMemberAssignability.d.ts
+! exists strictBooleanMemberAssignability.js.map
+
+-- strictBooleanMemberAssignability.ts --
+class Abc {
+    def: boolean
+    constructor() {
+        this.def = true
+    }
+}
+-- strictBooleanMemberAssignability.js.golden --
+"use strict";
+class Abc {
+    constructor() {
+        this.def = true;
+    }
+}

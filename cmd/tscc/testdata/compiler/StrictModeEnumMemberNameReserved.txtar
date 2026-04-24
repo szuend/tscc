@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/strictModeEnumMemberNameReserved.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js strictModeEnumMemberNameReserved.js strictModeEnumMemberNameReserved.ts
+! stderr .
+cmp strictModeEnumMemberNameReserved.js strictModeEnumMemberNameReserved.js.golden
+! exists strictModeEnumMemberNameReserved.d.ts
+! exists strictModeEnumMemberNameReserved.js.map
+
+-- strictModeEnumMemberNameReserved.ts --
+"use strict";
+enum E {
+    static
+}
+
+const x1: E.static = E.static;
+-- strictModeEnumMemberNameReserved.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["static"] = 0] = "static";
+})(E || (E = {}));
+const x1 = E.static;

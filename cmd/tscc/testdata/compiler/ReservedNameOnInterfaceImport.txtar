@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/reservedNameOnInterfaceImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js reservedNameOnInterfaceImport.js reservedNameOnInterfaceImport.ts
+stderr 'TS2438'
+! exists reservedNameOnInterfaceImport.js
+! exists reservedNameOnInterfaceImport.d.ts
+! exists reservedNameOnInterfaceImport.js.map
+
+-- reservedNameOnInterfaceImport.ts --
+declare namespace test {
+    interface istring { }
+
+    // Should error; 'test.istring' is a type, so this import conflicts with the 'string' type.
+    import string = test.istring;
+}

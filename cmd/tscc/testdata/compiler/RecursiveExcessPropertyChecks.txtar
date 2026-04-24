@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/recursiveExcessPropertyChecks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js recursiveExcessPropertyChecks.js recursiveExcessPropertyChecks.ts
+! stderr .
+cmp recursiveExcessPropertyChecks.js recursiveExcessPropertyChecks.js.golden
+! exists recursiveExcessPropertyChecks.d.ts
+! exists recursiveExcessPropertyChecks.js.map
+
+-- recursiveExcessPropertyChecks.ts --
+// Repro from #35804
+
+interface ITreeItem {    
+  Parent?: this;
+}
+
+type NodeWithId = ITreeItem & { Id?: number };
+
+function getMaxId(items: NodeWithId[]) {
+}
+
+const nodes = [] as ITreeItem[];
+getMaxId(nodes);
+-- recursiveExcessPropertyChecks.js.golden --
+"use strict";
+// Repro from #35804
+function getMaxId(items) {
+}
+const nodes = [];
+getMaxId(nodes);

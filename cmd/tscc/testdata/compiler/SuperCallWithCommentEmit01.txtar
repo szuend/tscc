@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/superCallWithCommentEmit01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superCallWithCommentEmit01.js superCallWithCommentEmit01.ts
+! stderr .
+cmp superCallWithCommentEmit01.js superCallWithCommentEmit01.js.golden
+! exists superCallWithCommentEmit01.d.ts
+! exists superCallWithCommentEmit01.js.map
+
+-- superCallWithCommentEmit01.ts --
+class A {
+    constructor(public text: string) { }
+}
+
+class B extends A {
+    constructor(text: string) {
+        // this is subclass constructor
+        super(text)
+     }
+}
+-- superCallWithCommentEmit01.js.golden --
+"use strict";
+class A {
+    constructor(text) {
+        this.text = text;
+    }
+}
+class B extends A {
+    constructor(text) {
+        // this is subclass constructor
+        super(text);
+    }
+}

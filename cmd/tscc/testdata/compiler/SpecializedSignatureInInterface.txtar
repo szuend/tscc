@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/specializedSignatureInInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js specializedSignatureInInterface.js specializedSignatureInInterface.ts
+! stderr .
+cmp specializedSignatureInInterface.js specializedSignatureInInterface.js.golden
+! exists specializedSignatureInInterface.d.ts
+! exists specializedSignatureInInterface.js.map
+
+-- specializedSignatureInInterface.ts --
+interface A {
+  (key:string):void;
+}
+
+interface B extends A {
+  (key:'foo'):string;
+  (key:'bar'):string;
+}
+-- specializedSignatureInInterface.js.golden --
+"use strict";

@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/reverseMappedTypeInferenceWidening2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom reverseMappedTypeInferenceWidening2.ts
+! stderr .
+! exists reverseMappedTypeInferenceWidening2.d.ts
+! exists reverseMappedTypeInferenceWidening2.js.map
+
+-- reverseMappedTypeInferenceWidening2.ts --
+declare function test1<T extends Record<string, { prop: unknown }>>(arg: {
+  [K in keyof T]: T[K];
+}): T;
+
+const res1 = test1({
+  foo: {
+    prop: 1,
+    prop2: "",
+  },
+  bar: {
+    prop: true,
+    prop2: null,
+  },
+});

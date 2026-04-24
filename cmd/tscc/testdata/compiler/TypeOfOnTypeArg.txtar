@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeOfOnTypeArg.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeOfOnTypeArg.js typeOfOnTypeArg.ts
+stderr 'TS2345'
+! exists typeOfOnTypeArg.js
+! exists typeOfOnTypeArg.d.ts
+! exists typeOfOnTypeArg.js.map
+
+-- typeOfOnTypeArg.ts --
+var A = { '': 3 };
+
+function fill<B extends typeof A>(f: B) {
+
+} 
+
+fill(32);

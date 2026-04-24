@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/testTypings.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js testTypings.js testTypings.ts
+! stderr .
+cmp testTypings.js testTypings.js.golden
+! exists testTypings.d.ts
+! exists testTypings.js.map
+
+-- testTypings.ts --
+interface IComparable<T> {
+   compareTo(other: T);
+}
+
+declare function sort<U extends IComparable<U>>(items: U[]): U[];
+
+
+
+
+
+
+
+-- testTypings.js.golden --
+"use strict";

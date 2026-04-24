@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/this_inside-object-literal-getters-and-setters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js this_inside-object-literal-getters-and-setters.js this_inside-object-literal-getters-and-setters.ts
+! stderr .
+cmp this_inside-object-literal-getters-and-setters.js this_inside-object-literal-getters-and-setters.js.golden
+! exists this_inside-object-literal-getters-and-setters.d.ts
+! exists this_inside-object-literal-getters-and-setters.js.map
+
+-- this_inside-object-literal-getters-and-setters.ts --
+namespace ObjectLiteral {
+    var ThisInObjectLiteral = {
+        _foo: '1',
+        get foo(): string {
+            return this._foo;
+        },
+        set foo(value: string) {
+            this._foo = value;
+        },
+        test: function () {
+            return this._foo;
+        }
+    }
+}
+
+-- this_inside-object-literal-getters-and-setters.js.golden --
+"use strict";
+var ObjectLiteral;
+(function (ObjectLiteral) {
+    var ThisInObjectLiteral = {
+        _foo: '1',
+        get foo() {
+            return this._foo;
+        },
+        set foo(value) {
+            this._foo = value;
+        },
+        test: function () {
+            return this._foo;
+        }
+    };
+})(ObjectLiteral || (ObjectLiteral = {}));

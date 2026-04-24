@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/unmetTypeConstraintInImportCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom file1.ts
+! stderr .
+! exists file1.d.ts
+! exists file1.js.map
+
+-- file1.ts --
+export type Foo<T extends string> = { foo: T }
+-- file2.ts --
+type Bar<T> = import('./file1').Foo<T>;

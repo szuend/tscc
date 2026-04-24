@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/typeofAmbientExternalModules.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js typeofAmbientExternalModules_0.js typeofAmbientExternalModules_0.ts
+stderr 'TS2564'
+! exists typeofAmbientExternalModules_0.js
+! exists typeofAmbientExternalModules_0.d.ts
+! exists typeofAmbientExternalModules_0.js.map
+
+-- typeofAmbientExternalModules_0.ts --
+export class C { foo: string; }
+-- typeofAmbientExternalModules_1.ts --
+class D { bar: string; }
+export = D;
+-- typeofAmbientExternalModules_2.ts --
+///<reference path='typeofAmbientExternalModules_0.ts'/>
+///<reference path='typeofAmbientExternalModules_1.ts'/>
+import ext = require('./typeofAmbientExternalModules_0');
+import exp = require('./typeofAmbientExternalModules_1');
+
+var y1: typeof ext = ext;
+y1 = exp;
+var y2: typeof exp = exp;
+y2 = ext;

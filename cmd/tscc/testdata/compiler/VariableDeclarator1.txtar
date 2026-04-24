@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/variableDeclarator1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js variableDeclarator1.js variableDeclarator1.ts
+! stderr .
+cmp variableDeclarator1.js variableDeclarator1.js.golden
+! exists variableDeclarator1.d.ts
+! exists variableDeclarator1.js.map
+
+-- variableDeclarator1.ts --
+var a = function () {
+        var c = 1;
+        return c;
+    };
+-- variableDeclarator1.js.golden --
+"use strict";
+var a = function () {
+    var c = 1;
+    return c;
+};

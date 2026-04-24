@@ -1,0 +1,60 @@
+# Ported from tests/cases/compiler/superErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superErrors.js superErrors.ts
+stderr 'TS1034'
+! exists superErrors.js
+! exists superErrors.d.ts
+! exists superErrors.js.map
+
+-- superErrors.ts --
+function foo() {
+    // super in a non class context
+    var x = super;
+    var y = () => super;
+    var z = () => () => () => super;
+}
+
+class User {
+    name: string = "Bob";
+    sayHello(): void {
+        //console.log("Hello, " + this.name);
+    }
+}
+
+class RegisteredUser extends User {
+    name: string = "Frank";
+    constructor() {
+        super();
+
+        // super call in an inner function in a constructor
+        function inner() {
+            super.sayHello();
+        }
+
+        // super call in a lambda in an inner function in a constructor 
+        function inner2() {
+            var x = () => super.sayHello();
+        }
+
+        // super call in a lambda in a function expression in a constructor 
+        (function() { return () => super; })();
+    }
+    sayHello(): void {
+        // super call in a method
+        super.sayHello();
+
+        // super call in a lambda in an inner function in a method
+        function inner() {
+            var x = () => super.sayHello();
+        }
+
+        // super call in a lambda in a function expression in a constructor 
+        (function() { return () => super; })();
+    }
+    static staticFunction(): void {
+        // super in static functions
+        var s = super;
+        var x = () => super;
+        var y = () => () => () => super;
+    }
+}

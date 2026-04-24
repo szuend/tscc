@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/typeArgumentDefaultUsesConstraintOnCircularDefault.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgumentDefaultUsesConstraintOnCircularDefault.js typeArgumentDefaultUsesConstraintOnCircularDefault.ts
+stderr 'TS2744'
+stderr 'TS2353'
+! exists typeArgumentDefaultUsesConstraintOnCircularDefault.js
+! exists typeArgumentDefaultUsesConstraintOnCircularDefault.d.ts
+! exists typeArgumentDefaultUsesConstraintOnCircularDefault.js.map
+
+-- typeArgumentDefaultUsesConstraintOnCircularDefault.ts --
+type Test<T extends string = T> = { value: T };  // Error
+
+let zz: Test = { foo: "abc" };  // should error on comparison with Test<string>
+
+let zzy: Test = { value: {} };
+
+// Simplified repro from #28873
+
+class C1<T extends C1 = any> {}
+
+class C2<T extends C2<any> = any> {}

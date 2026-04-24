@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/unknownTypeErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unknownTypeErrors.js unknownTypeErrors.ts
+stderr 'TS2304'
+! exists unknownTypeErrors.js
+! exists unknownTypeErrors.d.ts
+! exists unknownTypeErrors.js.map
+
+-- unknownTypeErrors.ts --
+var foo: Unknown = 0;

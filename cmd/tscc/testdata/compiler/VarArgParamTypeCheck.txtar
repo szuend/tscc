@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/varArgParamTypeCheck.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js varArgParamTypeCheck.js varArgParamTypeCheck.ts
+stderr 'TS2683'
+! exists varArgParamTypeCheck.js
+! exists varArgParamTypeCheck.d.ts
+! exists varArgParamTypeCheck.js.map
+
+-- varArgParamTypeCheck.ts --
+function sequence(...sequences:{():void;}[]) {
+}
+
+function callback(clb:()=>void) {
+}
+
+sequence(
+    function bar() {
+    },
+    function foo() {
+        callback(()=>{
+            this();
+        });
+    },
+    function baz() {
+        callback(()=>{
+            this();
+        });
+    }
+);

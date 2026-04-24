@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/recursiveInheritanceGeneric.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveInheritanceGeneric.js recursiveInheritanceGeneric.ts
+stderr 'TS2310'
+! exists recursiveInheritanceGeneric.js
+! exists recursiveInheritanceGeneric.d.ts
+! exists recursiveInheritanceGeneric.js.map
+
+-- recursiveInheritanceGeneric.ts --
+interface I5<T> extends I5<T> { 
+    foo():void;
+}  

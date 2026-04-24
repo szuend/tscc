@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/staticClassMemberError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js staticClassMemberError.js staticClassMemberError.ts
+stderr 'TS2662'
+stderr 'TS2391'
+stderr 'TS2814'
+stderr 'TS2813'
+! exists staticClassMemberError.js
+! exists staticClassMemberError.d.ts
+! exists staticClassMemberError.js.map
+
+-- staticClassMemberError.ts --
+class C {
+	static s;
+	public a() {
+		s = 1;
+	}
+}
+
+// just want to make sure this one doesn't crash the compiler
+function Foo();
+class Foo {
+ static bar;
+}

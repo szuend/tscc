@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/rectype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js rectype.js rectype.ts
+stderr 'TS2454'
+! exists rectype.js
+! exists rectype.d.ts
+! exists rectype.js.map
+
+-- rectype.ts --
+namespace M {
+    interface I { (i:I):I; }
+
+    export function f(p: I) { return f };
+
+    var i:I;
+
+    f(i);
+    f(f(i));
+    f((f(f(i))));
+}
+

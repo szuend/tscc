@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/structuralTypeInDeclareFileForModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts structuralTypeInDeclareFileForModule.d.ts --no-strict --target es2015 --lib es2015,dom --out-js structuralTypeInDeclareFileForModule.js structuralTypeInDeclareFileForModule.ts
+! stderr .
+cmp structuralTypeInDeclareFileForModule.d.ts structuralTypeInDeclareFileForModule.d.ts.golden
+cmp structuralTypeInDeclareFileForModule.js structuralTypeInDeclareFileForModule.js.golden
+! exists structuralTypeInDeclareFileForModule.js.map
+
+-- structuralTypeInDeclareFileForModule.ts --
+namespace M { export var x; }
+var m = M;
+-- structuralTypeInDeclareFileForModule.d.ts.golden --
+declare namespace M {
+    var x: any;
+}
+declare var m: typeof M;
+-- structuralTypeInDeclareFileForModule.js.golden --
+"use strict";
+var M;
+(function (M) {
+})(M || (M = {}));
+var m = M;

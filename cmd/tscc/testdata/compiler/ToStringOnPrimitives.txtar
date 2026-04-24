@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/toStringOnPrimitives.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js toStringOnPrimitives.js toStringOnPrimitives.ts
+! stderr .
+cmp toStringOnPrimitives.js toStringOnPrimitives.js.golden
+! exists toStringOnPrimitives.d.ts
+! exists toStringOnPrimitives.js.map
+
+-- toStringOnPrimitives.ts --
+true.toString()
+var aBool = false;
+aBool.toString();
+1..toString();
+-- toStringOnPrimitives.js.golden --
+"use strict";
+true.toString();
+var aBool = false;
+aBool.toString();
+1..toString();

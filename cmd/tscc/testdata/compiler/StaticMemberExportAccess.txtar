@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/staticMemberExportAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticMemberExportAccess.js staticMemberExportAccess.ts
+stderr 'TS2351'
+stderr 'TS2576'
+stderr 'TS2339'
+! exists staticMemberExportAccess.js
+! exists staticMemberExportAccess.d.ts
+! exists staticMemberExportAccess.js.map
+
+-- staticMemberExportAccess.ts --
+class Sammy {
+   foo() { return "hi"; }
+  static bar() {
+    return -1;
+   }
+}
+namespace Sammy {
+    export var x = 1;
+}
+interface JQueryStatic {
+    sammy: Sammy; // class instance
+}
+declare var $: JQueryStatic;
+var instanceOfClassSammy: Sammy = new $.sammy(); // should be error
+var r1 = instanceOfClassSammy.foo(); // r1 is string
+var r2 = $.sammy.foo();
+var r3 = $.sammy.bar(); // error
+var r4 = $.sammy.x; // error
+
+Sammy.bar();

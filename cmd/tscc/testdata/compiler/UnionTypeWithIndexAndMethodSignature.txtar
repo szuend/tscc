@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/unionTypeWithIndexAndMethodSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js unionTypeWithIndexAndMethodSignature.js unionTypeWithIndexAndMethodSignature.ts
+! stderr .
+cmp unionTypeWithIndexAndMethodSignature.js unionTypeWithIndexAndMethodSignature.js.golden
+! exists unionTypeWithIndexAndMethodSignature.d.ts
+! exists unionTypeWithIndexAndMethodSignature.js.map
+
+-- unionTypeWithIndexAndMethodSignature.ts --
+interface Options {
+    m(x: number): void;
+    [key: string]: unknown;
+}
+declare function f(options: number | Options): void;
+f({
+    m(x) { },
+});
+-- unionTypeWithIndexAndMethodSignature.js.golden --
+"use strict";
+f({
+    m(x) { },
+});

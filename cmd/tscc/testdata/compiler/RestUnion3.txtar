@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/restUnion3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js restUnion3.js restUnion3.ts
+stderr 'TS2700'
+! exists restUnion3.js
+! exists restUnion3.d.ts
+! exists restUnion3.js.map
+
+-- restUnion3.ts --
+declare const nullAndUndefinedUnion: null | undefined;
+var rest4: { };
+var {...rest4 } = nullAndUndefinedUnion;
+
+declare const unionWithIntersection: ({ n: number } & { s: string }) & undefined;
+var rest5: { n: number, s: string };
+var {...rest5 } = unionWithIntersection;

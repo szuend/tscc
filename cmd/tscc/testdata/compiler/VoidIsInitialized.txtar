@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/voidIsInitialized.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js voidIsInitialized.js voidIsInitialized.ts
+! stderr .
+cmp voidIsInitialized.js voidIsInitialized.js.golden
+! exists voidIsInitialized.d.ts
+! exists voidIsInitialized.js.map
+
+-- voidIsInitialized.ts --
+const x: void = undefined;
+const y: void = undefined;
+
+if(typeof x === "undefined") {
+    x // no error: assume x2 is initialised
+}
+
+if(typeof y !== "undefined") {
+    y // no error: do not narrow void
+}
+-- voidIsInitialized.js.golden --
+"use strict";
+const x = undefined;
+const y = undefined;
+if (typeof x === "undefined") {
+    x; // no error: assume x2 is initialised
+}
+if (typeof y !== "undefined") {
+    y; // no error: do not narrow void
+}

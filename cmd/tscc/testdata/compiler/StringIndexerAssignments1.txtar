@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/stringIndexerAssignments1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringIndexerAssignments1.js stringIndexerAssignments1.ts
+stderr 'TS2322'
+! exists stringIndexerAssignments1.js
+! exists stringIndexerAssignments1.d.ts
+! exists stringIndexerAssignments1.js.map
+
+-- stringIndexerAssignments1.ts --
+var x: { [index: string]: string; one: string; };
+declare var a: { one: string; };
+declare var b: { one: number; two: string; };
+x = a;
+x = b; // error

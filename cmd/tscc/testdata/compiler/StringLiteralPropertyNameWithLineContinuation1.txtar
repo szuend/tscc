@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/stringLiteralPropertyNameWithLineContinuation1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js stringLiteralPropertyNameWithLineContinuation1.js stringLiteralPropertyNameWithLineContinuation1.ts
+! stderr .
+cmp stringLiteralPropertyNameWithLineContinuation1.js stringLiteralPropertyNameWithLineContinuation1.js.golden
+! exists stringLiteralPropertyNameWithLineContinuation1.d.ts
+! exists stringLiteralPropertyNameWithLineContinuation1.js.map
+
+-- stringLiteralPropertyNameWithLineContinuation1.ts --
+var x = {'text\
+':'hello'}
+x.text = "bar"
+-- stringLiteralPropertyNameWithLineContinuation1.js.golden --
+"use strict";
+var x = { 'text\
+': 'hello' };
+x.text = "bar";

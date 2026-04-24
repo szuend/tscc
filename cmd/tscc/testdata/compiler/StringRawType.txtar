@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/stringRawType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js stringRawType.js stringRawType.ts
+! stderr .
+cmp stringRawType.js stringRawType.js.golden
+! exists stringRawType.d.ts
+! exists stringRawType.js.map
+
+-- stringRawType.ts --
+String.raw({ raw: ["foo", "bar", "baz"] }, 1, 2);
+-- stringRawType.js.golden --
+"use strict";
+String.raw({ raw: ["foo", "bar", "baz"] }, 1, 2);

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/reservedWords3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js reservedWords3.js reservedWords3.ts
+stderr 'TS1390'
+stderr 'TS1003'
+stderr 'TS1005'
+! exists reservedWords3.js
+! exists reservedWords3.d.ts
+! exists reservedWords3.js.map
+
+-- reservedWords3.ts --
+function f1(enum) {}
+function f2(class) {}
+function f3(function) {}
+function f4(while) {}
+function f5(for) {}

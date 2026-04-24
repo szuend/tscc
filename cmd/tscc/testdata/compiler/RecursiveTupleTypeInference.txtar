@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/recursiveTupleTypeInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js recursiveTupleTypeInference.js recursiveTupleTypeInference.ts
+stderr 'TS2345'
+! exists recursiveTupleTypeInference.js
+! exists recursiveTupleTypeInference.d.ts
+! exists recursiveTupleTypeInference.js.map
+
+-- recursiveTupleTypeInference.ts --
+// Repro from #37475
+
+export type A = "number" | "null" | A[];
+
+export type F<T> = null extends T
+    ? [F<NonNullable<T>>, "null"]
+    : T extends number
+    ? "number"
+    : never;
+
+export type G<T> = { [k in keyof T]: F<T[k]> };
+
+interface K {
+    b: number | null;
+}
+
+const gK: { [key in keyof K]: A } = { b: ["number", "null"] };
+
+function foo<T>(g: G<T>): T {
+    return {} as any;
+}
+
+foo(gK);

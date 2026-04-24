@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/quotedPropertyName3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js quotedPropertyName3.js quotedPropertyName3.ts
+! stderr .
+cmp quotedPropertyName3.js quotedPropertyName3.js.golden
+! exists quotedPropertyName3.d.ts
+! exists quotedPropertyName3.js.map
+
+-- quotedPropertyName3.ts --
+class Test {
+    "prop1": number;
+    foo() {
+        var x = () => this["prop1"];
+        var y: number = x();
+    }
+}
+-- quotedPropertyName3.js.golden --
+"use strict";
+class Test {
+    foo() {
+        var x = () => this["prop1"];
+        var y = x();
+    }
+}

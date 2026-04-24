@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/varianceAnnotationValidation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts varianceAnnotationValidation.d.ts --strict --target es2015 --lib es2015,dom --out-js varianceAnnotationValidation.js varianceAnnotationValidation.ts
+stderr 'TS2636'
+stderr 'TS2322'
+! exists varianceAnnotationValidation.d.ts
+! exists varianceAnnotationValidation.js
+! exists varianceAnnotationValidation.js.map
+
+-- varianceAnnotationValidation.ts --
+// Repro from #49607
+
+// Variance annotation error expected
+
+interface Controller<out T> {
+	createAnimal: () => T;
+	run: (animal: T) => void;
+}
+
+interface Animal {
+	run(): void;
+};
+
+class Dog implements Animal {
+	run() {};
+	bark() {};
+}
+
+interface AnimalContainer<T> {
+	controller: Controller<T>;
+}
+
+declare let ca: AnimalContainer<Animal>;
+declare let cd: AnimalContainer<Dog>;
+
+ca = cd;  // Ok
+cd = ca;  // Error

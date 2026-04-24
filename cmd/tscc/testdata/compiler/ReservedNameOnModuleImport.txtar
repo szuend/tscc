@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/reservedNameOnModuleImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js reservedNameOnModuleImport.js reservedNameOnModuleImport.ts
+! stderr .
+cmp reservedNameOnModuleImport.js reservedNameOnModuleImport.js.golden
+! exists reservedNameOnModuleImport.d.ts
+! exists reservedNameOnModuleImport.js.map
+
+-- reservedNameOnModuleImport.ts --
+declare namespace test {
+    namespace mstring { }
+
+    // Should be fine; this does not clobber any declared values.
+    export import string = mstring;
+}
+-- reservedNameOnModuleImport.js.golden --
+"use strict";

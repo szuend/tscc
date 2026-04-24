@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/typeGuardNarrowsIndexedAccessOfKnownProperty3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js typeGuardNarrowsIndexedAccessOfKnownProperty3.js typeGuardNarrowsIndexedAccessOfKnownProperty3.ts
+! stderr .
+cmp typeGuardNarrowsIndexedAccessOfKnownProperty3.js typeGuardNarrowsIndexedAccessOfKnownProperty3.js.golden
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty3.d.ts
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty3.js.map
+
+-- typeGuardNarrowsIndexedAccessOfKnownProperty3.ts --
+type Foo = (number | undefined)[] | undefined;
+
+const foo: Foo = [1, 2, 3];
+const index = 1;
+
+if (foo !== undefined && foo[index] !== undefined && foo[index] >= 0) {
+    foo[index] // number
+}
+-- typeGuardNarrowsIndexedAccessOfKnownProperty3.js.golden --
+"use strict";
+const foo = [1, 2, 3];
+const index = 1;
+if (foo !== undefined && foo[index] !== undefined && foo[index] >= 0) {
+    foo[index]; // number
+}

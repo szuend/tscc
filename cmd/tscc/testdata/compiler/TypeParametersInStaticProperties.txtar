@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/typeParametersInStaticProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParametersInStaticProperties.js typeParametersInStaticProperties.ts
+stderr 'TS2302'
+! exists typeParametersInStaticProperties.js
+! exists typeParametersInStaticProperties.d.ts
+! exists typeParametersInStaticProperties.js.map
+
+-- typeParametersInStaticProperties.ts --
+class foo<T> {
+    static P: T;
+} 

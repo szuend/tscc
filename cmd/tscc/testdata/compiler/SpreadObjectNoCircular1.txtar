@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/spreadObjectNoCircular1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom spreadObjectNoCircular1.ts
+! stderr .
+! exists spreadObjectNoCircular1.d.ts
+! exists spreadObjectNoCircular1.js.map
+
+-- spreadObjectNoCircular1.ts --
+type Box = {
+  content?: Foo | Box;
+};
+
+declare const b: Box;
+
+class Foo {
+  get foo() {
+    return {
+      content: this as Foo | Box,
+      ...b,
+    };
+  }
+}

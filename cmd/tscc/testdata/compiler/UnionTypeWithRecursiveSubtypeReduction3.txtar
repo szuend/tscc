@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/unionTypeWithRecursiveSubtypeReduction3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unionTypeWithRecursiveSubtypeReduction3.js unionTypeWithRecursiveSubtypeReduction3.ts
+stderr 'TS2322'
+! exists unionTypeWithRecursiveSubtypeReduction3.js
+! exists unionTypeWithRecursiveSubtypeReduction3.d.ts
+! exists unionTypeWithRecursiveSubtypeReduction3.js.map
+
+-- unionTypeWithRecursiveSubtypeReduction3.ts --
+declare var a27: { prop: number } | { prop: T27 };
+type T27 = typeof a27;
+
+declare var b: T27;
+var s: string = b;

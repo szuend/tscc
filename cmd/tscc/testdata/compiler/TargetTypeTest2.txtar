@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/targetTypeTest2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js targetTypeTest2.js targetTypeTest2.ts
+! stderr .
+cmp targetTypeTest2.js targetTypeTest2.js.golden
+! exists targetTypeTest2.d.ts
+! exists targetTypeTest2.js.map
+
+-- targetTypeTest2.ts --
+// Test target typing for array literals and call expressions
+
+
+var a : any[] = [1,2,"3"];
+
+
+function func1(stuff:any[]) { return stuff; }
+
+function func2(stuff1:string, stuff2:number, stuff3:number) {
+	return func1([stuff1, stuff2, stuff3]);
+}
+-- targetTypeTest2.js.golden --
+"use strict";
+// Test target typing for array literals and call expressions
+var a = [1, 2, "3"];
+function func1(stuff) { return stuff; }
+function func2(stuff1, stuff2, stuff3) {
+    return func1([stuff1, stuff2, stuff3]);
+}

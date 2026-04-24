@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/regexMatchAll-esnext.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js regexMatchAll-esnext.js regexMatchAll-esnext.ts
+! stderr .
+cmp regexMatchAll-esnext.js regexMatchAll-esnext.js.golden
+! exists regexMatchAll-esnext.d.ts
+! exists regexMatchAll-esnext.js.map
+
+-- regexMatchAll-esnext.ts --
+const matches = /\w/g[Symbol.matchAll]("matchAll");
+const array = [...matches];
+const { index, input } = array[0];
+-- regexMatchAll-esnext.js.golden --
+"use strict";
+const matches = /\w/g[Symbol.matchAll]("matchAll");
+const array = [...matches];
+const { index, input } = array[0];

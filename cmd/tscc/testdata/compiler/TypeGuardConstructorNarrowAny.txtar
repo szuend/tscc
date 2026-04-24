@@ -1,0 +1,52 @@
+# Ported from tests/cases/compiler/typeGuardConstructorNarrowAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js typeGuardConstructorNarrowAny.js typeGuardConstructorNarrowAny.ts
+! stderr .
+cmp typeGuardConstructorNarrowAny.js typeGuardConstructorNarrowAny.js.golden
+! exists typeGuardConstructorNarrowAny.d.ts
+! exists typeGuardConstructorNarrowAny.js.map
+
+-- typeGuardConstructorNarrowAny.ts --
+// Narrowing any to primitives
+let var1: any;
+
+if (var1.constructor === String) {
+    var1; // String
+}
+if (var1.constructor === Number) {
+    var1; // Number
+}
+if (var1.constructor === Boolean) {
+    var1; // Boolean
+}
+if (var1.constructor === Array) {
+    var1; // any[]
+}
+if (var1.constructor === Symbol) {
+    var1; // Symbol
+}
+if (var1.constructor === BigInt) {
+    var1; // BigInt
+}
+-- typeGuardConstructorNarrowAny.js.golden --
+"use strict";
+// Narrowing any to primitives
+let var1;
+if (var1.constructor === String) {
+    var1; // String
+}
+if (var1.constructor === Number) {
+    var1; // Number
+}
+if (var1.constructor === Boolean) {
+    var1; // Boolean
+}
+if (var1.constructor === Array) {
+    var1; // any[]
+}
+if (var1.constructor === Symbol) {
+    var1; // Symbol
+}
+if (var1.constructor === BigInt) {
+    var1; // BigInt
+}

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/thisInSuperCall3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisInSuperCall3.js thisInSuperCall3.ts
+stderr 'TS17009'
+! exists thisInSuperCall3.js
+! exists thisInSuperCall3.d.ts
+! exists thisInSuperCall3.js.map
+
+-- thisInSuperCall3.ts --
+class Base { 
+    constructor(a: any) {}
+}
+
+class Foo extends Base {
+    public x: number = 0;
+
+    constructor() {
+        super(this);
+    }
+}

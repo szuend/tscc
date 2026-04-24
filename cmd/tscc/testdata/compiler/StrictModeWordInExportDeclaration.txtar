@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/strictModeWordInExportDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js strictModeWordInExportDeclaration.js strictModeWordInExportDeclaration.ts
+! stderr .
+cmp strictModeWordInExportDeclaration.js strictModeWordInExportDeclaration.js.golden
+! exists strictModeWordInExportDeclaration.d.ts
+! exists strictModeWordInExportDeclaration.js.map
+
+-- strictModeWordInExportDeclaration.ts --
+"use strict"
+var x = 1;
+export { x as foo }
+export { x as implements }
+export { x as while }
+-- strictModeWordInExportDeclaration.js.golden --
+"use strict";
+var x = 1;
+export { x as foo };
+export { x as implements };
+export { x as while };

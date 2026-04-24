@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/superAccess2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superAccess2.js superAccess2.ts
+stderr 'TS1034'
+! exists superAccess2.js
+! exists superAccess2.d.ts
+! exists superAccess2.js.map
+
+-- superAccess2.ts --
+class P {
+    x() { }
+    static y() { }
+}
+
+class Q extends P {
+    xx = super;
+    static yy = super; // error for static initializer accessing super
+
+    // Super is not allowed in constructor args
+    constructor(public z = super, zz = super, zzz = () => super) {
+        super();
+    }
+
+    foo(zz = super) {
+        super.x();
+        super.y(); // error
+    }
+
+    static bar(zz = super) {
+        super.x(); // error
+        super.y();
+    }
+}

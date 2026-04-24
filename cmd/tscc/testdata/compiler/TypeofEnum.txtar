@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeofEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeofEnum.js typeofEnum.ts
+stderr 'TS2454'
+! exists typeofEnum.js
+! exists typeofEnum.d.ts
+! exists typeofEnum.js.map
+
+-- typeofEnum.ts --
+enum E {
+    e1,
+    e2
+}
+
+var e1: typeof E;
+e1.e1;

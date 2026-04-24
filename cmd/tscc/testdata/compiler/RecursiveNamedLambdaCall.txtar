@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/recursiveNamedLambdaCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --no-strict --target es2015 --out-js recursiveNamedLambdaCall.js recursiveNamedLambdaCall.ts
+stderr 'TS2304'
+! exists recursiveNamedLambdaCall.js
+! exists recursiveNamedLambdaCall.d.ts
+! exists recursiveNamedLambdaCall.js.map
+
+-- recursiveNamedLambdaCall.ts --
+var promise = function( obj ) {
+	
+		if ( top && top.doScroll ) {
+			(function doScrollCheck() {
+				if ( false ) {
+
+					try {
+						top.doScroll("left");
+					} catch(e) {
+						return setTimeout( doScrollCheck, 50 );
+					}
+
+					// detach all dom ready events
+					detach();
+
+				}
+			})();
+		}
+};

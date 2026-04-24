@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/superCallWithMissingBaseClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallWithMissingBaseClass.js superCallWithMissingBaseClass.ts
+stderr 'TS2304'
+! exists superCallWithMissingBaseClass.js
+! exists superCallWithMissingBaseClass.d.ts
+! exists superCallWithMissingBaseClass.js.map
+
+-- superCallWithMissingBaseClass.ts --
+class Foo extends Bar {
+    m1() {
+        return super.m1();
+    }
+
+    static m2() {
+        return super.m2();
+    }
+}

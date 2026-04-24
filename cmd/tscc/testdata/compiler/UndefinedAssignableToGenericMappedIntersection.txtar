@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/undefinedAssignableToGenericMappedIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js undefinedAssignableToGenericMappedIntersection.js undefinedAssignableToGenericMappedIntersection.ts
+stderr 'TS2322'
+! exists undefinedAssignableToGenericMappedIntersection.js
+! exists undefinedAssignableToGenericMappedIntersection.d.ts
+! exists undefinedAssignableToGenericMappedIntersection.js.map
+
+-- undefinedAssignableToGenericMappedIntersection.ts --
+type Errors<T> = { [P in keyof T]: string | undefined } & {all: string | undefined};
+function foo<T>() {
+    let obj!: Errors<T>
+    let x!: keyof T;
+    obj[x] = undefined;
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/selfReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js selfReference.js selfReference.ts
+! stderr .
+cmp selfReference.js selfReference.js.golden
+! exists selfReference.d.ts
+! exists selfReference.js.map
+
+-- selfReference.ts --
+declare function asFunction<T>(value: T): () => T;
+asFunction(() => { return 1; });
+-- selfReference.js.golden --
+"use strict";
+asFunction(() => { return 1; });

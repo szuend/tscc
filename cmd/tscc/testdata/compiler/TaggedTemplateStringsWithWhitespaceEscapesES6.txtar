@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/taggedTemplateStringsWithWhitespaceEscapesES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js taggedTemplateStringsWithWhitespaceEscapesES6.js taggedTemplateStringsWithWhitespaceEscapesES6.ts
+! stderr .
+cmp taggedTemplateStringsWithWhitespaceEscapesES6.js taggedTemplateStringsWithWhitespaceEscapesES6.js.golden
+! exists taggedTemplateStringsWithWhitespaceEscapesES6.d.ts
+! exists taggedTemplateStringsWithWhitespaceEscapesES6.js.map
+
+-- taggedTemplateStringsWithWhitespaceEscapesES6.ts --
+function f(...args: any[]) {
+}
+
+f `\t\n\v\f\r\\`;
+-- taggedTemplateStringsWithWhitespaceEscapesES6.js.golden --
+"use strict";
+function f(...args) {
+}
+f `\t\n\v\f\r\\`;

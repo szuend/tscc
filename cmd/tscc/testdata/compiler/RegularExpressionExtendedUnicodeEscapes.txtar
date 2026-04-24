@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/regularExpressionExtendedUnicodeEscapes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js regularExpressionExtendedUnicodeEscapes.js regularExpressionExtendedUnicodeEscapes.ts
+stderr 'TS1538'
+! exists regularExpressionExtendedUnicodeEscapes.js
+! exists regularExpressionExtendedUnicodeEscapes.d.ts
+! exists regularExpressionExtendedUnicodeEscapes.js.map
+
+-- regularExpressionExtendedUnicodeEscapes.ts --
+const regexes: RegExp[] = [
+	/\u{10000}[\u{10000}]/,
+	/\u{10000}[\u{10000}]/u,
+	/\u{10000}[\u{10000}]/v,
+];

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/selfReferentialFunctionType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts selfReferentialFunctionType.d.ts --strict --target es2015 --lib es2015,dom --out-js selfReferentialFunctionType.js selfReferentialFunctionType.ts
+! stderr .
+cmp selfReferentialFunctionType.d.ts selfReferentialFunctionType.d.ts.golden
+cmp selfReferentialFunctionType.js selfReferentialFunctionType.js.golden
+! exists selfReferentialFunctionType.js.map
+
+-- selfReferentialFunctionType.ts --
+declare function f<T>(args: typeof f<T>): T;
+declare function g<T = typeof g>(args: T): T;
+declare function h<T>(): typeof h<T>;
+-- selfReferentialFunctionType.d.ts.golden --
+declare function f<T>(args: typeof f<T>): T;
+declare function g<T = typeof g>(args: T): T;
+declare function h<T>(): typeof h<T>;
+-- selfReferentialFunctionType.js.golden --
+"use strict";

@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/super.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js super.js super.ts
+stderr 'TS2335'
+! exists super.js
+! exists super.d.ts
+! exists super.js.map
+
+-- super.ts --
+class Base {
+    constructor() {
+        var x;
+    }
+    public foo() {
+        return "base";
+    }
+
+    public bar() {
+        return "basebar";
+    }
+}
+
+class Sub1 extends Base {
+    public foo() {
+        return "sub1" + super.foo() + super.bar();
+    }
+}
+
+
+class SubSub1 extends Sub1 {
+    public foo() {
+        return "subsub1" + super.foo();
+    }
+}
+
+class Base2 {
+    public foo() {
+        super.foo();
+    }
+}
+
+var s = new Sub1();
+var ss = new SubSub1();
+s.foo() + ss.foo();
+

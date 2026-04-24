@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/unionTypeWithRecursiveSubtypeReduction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unionTypeWithRecursiveSubtypeReduction1.js unionTypeWithRecursiveSubtypeReduction1.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists unionTypeWithRecursiveSubtypeReduction1.js
+! exists unionTypeWithRecursiveSubtypeReduction1.d.ts
+! exists unionTypeWithRecursiveSubtypeReduction1.js.map
+
+-- unionTypeWithRecursiveSubtypeReduction1.ts --
+class Module {
+    public members: Class[];
+}
+
+class Namespace {
+    public members: (Class | Property)[];
+}
+
+class Class {
+    public parent: Namespace;
+}
+
+class Property {
+    public parent: Module | Class;
+}
+
+var t: Class | Property;
+t.parent;

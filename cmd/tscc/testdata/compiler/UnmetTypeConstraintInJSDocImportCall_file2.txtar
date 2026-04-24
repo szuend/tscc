@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/unmetTypeConstraintInJSDocImportCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom file2.js
+stderr 'TS2344'
+! exists file2.d.ts
+! exists file2.js.map
+
+-- file1.js --
+/**
+ * @template {string} T
+ * @typedef {{ foo: T }} Foo
+ */
+
+export default {};
+-- file2.js --
+/**
+ * @template T
+ * @typedef {import('./file1').Foo<T>} Bar
+ */

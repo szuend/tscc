@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/undefinedArgumentInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedArgumentInference.js undefinedArgumentInference.ts
+stderr 'TS2322'
+! exists undefinedArgumentInference.js
+! exists undefinedArgumentInference.d.ts
+! exists undefinedArgumentInference.js.map
+
+-- undefinedArgumentInference.ts --
+function foo1<T>(f1: { x: T; y: T }): T {
+
+   return undefined;
+
+}
+
+var z1 = foo1({ x: undefined, y: undefined }); 

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/typeParameterWithInvalidConstraintType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeParameterWithInvalidConstraintType.js typeParameterWithInvalidConstraintType.ts
+stderr 'TS2313'
+stderr 'TS2339'
+stderr 'TS2351'
+stderr 'TS2349'
+! exists typeParameterWithInvalidConstraintType.js
+! exists typeParameterWithInvalidConstraintType.d.ts
+! exists typeParameterWithInvalidConstraintType.js.map
+
+-- typeParameterWithInvalidConstraintType.ts --
+class A<T extends T> {
+    foo() {
+        var x!: T;
+        var a = x.foo();
+        var b = new x(123);
+        var c = x[1];
+        var d = x();
+    }
+}

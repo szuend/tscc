@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/satisfiesEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js satisfiesEmit.js satisfiesEmit.ts
+stderr 'TS2307'
+stderr 'TS2304'
+! exists satisfiesEmit.js
+! exists satisfiesEmit.d.ts
+! exists satisfiesEmit.js.map
+
+-- satisfiesEmit.ts --
+// This import should not be elided in the emitted JS
+import a = require("foo");
+const p = a satisfies bleh;

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/thisInConstructorParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisInConstructorParameter1.js thisInConstructorParameter1.ts
+! stderr .
+cmp thisInConstructorParameter1.js thisInConstructorParameter1.js.golden
+! exists thisInConstructorParameter1.d.ts
+! exists thisInConstructorParameter1.js.map
+
+-- thisInConstructorParameter1.ts --
+class Foo {
+    public y;
+    constructor(x = this.y) { }
+}
+-- thisInConstructorParameter1.js.golden --
+"use strict";
+class Foo {
+    constructor(x = this.y) { }
+}

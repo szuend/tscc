@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/superInCatchBlock1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superInCatchBlock1.js superInCatchBlock1.ts
+! stderr .
+cmp superInCatchBlock1.js superInCatchBlock1.js.golden
+! exists superInCatchBlock1.d.ts
+! exists superInCatchBlock1.js.map
+
+-- superInCatchBlock1.ts --
+class A {
+ m(): void { }
+}
+class B extends A {
+ m() {
+  try {
+  }
+  catch (e) {
+   super.m();
+  }
+ }
+}
+-- superInCatchBlock1.js.golden --
+"use strict";
+class A {
+    m() { }
+}
+class B extends A {
+    m() {
+        try {
+        }
+        catch (e) {
+            super.m();
+        }
+    }
+}

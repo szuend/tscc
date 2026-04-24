@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/tsxDefaultImports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+enum SomeEnum {
+  one,
+}
+export default class SomeClass {
+  public static E = SomeEnum;
+}
+-- b.ts --
+import {default as Def} from "./a"
+let a = Def.E.one;
+-- b.js.golden --
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const a_1 = __importDefault(require("./a"));
+let a = a_1.default.E.one;

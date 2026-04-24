@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/relatedViaDiscriminatedTypeNoError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js relatedViaDiscriminatedTypeNoError.js relatedViaDiscriminatedTypeNoError.ts
+! stderr .
+cmp relatedViaDiscriminatedTypeNoError.js relatedViaDiscriminatedTypeNoError.js.golden
+! exists relatedViaDiscriminatedTypeNoError.d.ts
+! exists relatedViaDiscriminatedTypeNoError.js.map
+
+-- relatedViaDiscriminatedTypeNoError.ts --
+class Model {
+    constructor(public flag: boolean) {}
+}
+
+type DiscriminatedUnion = { flag: true } | { flag: false };
+class A<T extends DiscriminatedUnion> {
+    constructor(public model: T) { }
+}
+
+class B extends A<Model> { }
+-- relatedViaDiscriminatedTypeNoError.js.golden --
+"use strict";
+class Model {
+    constructor(flag) {
+        this.flag = flag;
+    }
+}
+class A {
+    constructor(model) {
+        this.model = model;
+    }
+}
+class B extends A {
+}

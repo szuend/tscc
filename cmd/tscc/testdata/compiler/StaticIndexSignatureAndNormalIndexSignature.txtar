@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/staticIndexSignatureAndNormalIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js staticIndexSignatureAndNormalIndexSignature.js staticIndexSignatureAndNormalIndexSignature.ts
+! stderr .
+cmp staticIndexSignatureAndNormalIndexSignature.js staticIndexSignatureAndNormalIndexSignature.js.golden
+! exists staticIndexSignatureAndNormalIndexSignature.d.ts
+! exists staticIndexSignatureAndNormalIndexSignature.js.map
+
+-- staticIndexSignatureAndNormalIndexSignature.ts --
+class Foo {
+    [p: string]: any;
+    static [p: string]: number;
+}
+-- staticIndexSignatureAndNormalIndexSignature.js.golden --
+"use strict";
+class Foo {
+}

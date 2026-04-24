@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/thisInModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisInModule.js thisInModule.ts
+stderr 'TS2331'
+stderr 'TS2683'
+! exists thisInModule.js
+! exists thisInModule.d.ts
+! exists thisInModule.js.map
+
+-- thisInModule.ts --
+namespace myMod {
+    var x;
+    this.x = 5;
+}

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/this_inside-enum-should-not-be-allowed.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js this_inside-enum-should-not-be-allowed.js this_inside-enum-should-not-be-allowed.ts
+stderr 'TS2332'
+stderr 'TS2683'
+! exists this_inside-enum-should-not-be-allowed.js
+! exists this_inside-enum-should-not-be-allowed.d.ts
+! exists this_inside-enum-should-not-be-allowed.js.map
+
+-- this_inside-enum-should-not-be-allowed.ts --
+enum TopLevelEnum {
+    ThisWasAllowedButShouldNotBe = this // Should not be allowed
+}
+
+namespace ModuleEnum {
+    enum EnumInModule {
+        WasADifferentError = this // this was handled as if this was in a module
+    }
+}

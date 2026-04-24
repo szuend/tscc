@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/spreadExpressionContainingObjectExpressionContextualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom spreadExpressionContainingObjectExpressionContextualType.ts
+! stderr .
+! exists spreadExpressionContainingObjectExpressionContextualType.d.ts
+! exists spreadExpressionContainingObjectExpressionContextualType.js.map
+
+-- spreadExpressionContainingObjectExpressionContextualType.ts --
+// repro #49585
+
+const { value } = (() => ({
+  value: "",
+  ...(true ? {} : {}),
+}))();
+
+// repro 49684#discussion_r920545763
+
+const { value2 } = {
+  value2: "",
+  ...(() => true ? {} : {})(),
+};

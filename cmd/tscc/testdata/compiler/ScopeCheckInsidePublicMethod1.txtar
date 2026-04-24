@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/scopeCheckInsidePublicMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js scopeCheckInsidePublicMethod1.js scopeCheckInsidePublicMethod1.ts
+stderr 'TS2662'
+! exists scopeCheckInsidePublicMethod1.js
+! exists scopeCheckInsidePublicMethod1.d.ts
+! exists scopeCheckInsidePublicMethod1.js.map
+
+-- scopeCheckInsidePublicMethod1.ts --
+class C {
+   static s;
+   public a() {
+      s = 1; // ERR
+   }
+}

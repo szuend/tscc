@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/scopeCheckClassProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js scopeCheckClassProperty.js scopeCheckClassProperty.ts
+! stderr .
+cmp scopeCheckClassProperty.js scopeCheckClassProperty.js.golden
+! exists scopeCheckClassProperty.d.ts
+! exists scopeCheckClassProperty.js.map
+
+-- scopeCheckClassProperty.ts --
+class C {
+  constructor() {
+    new A().p; // ok
+  }
+  public x = new A().p; // should also be ok
+}
+class A {
+  public p = '';
+}
+-- scopeCheckClassProperty.js.golden --
+"use strict";
+class C {
+    constructor() {
+        this.x = new A().p; // should also be ok
+        new A().p; // ok
+    }
+}
+class A {
+    constructor() {
+        this.p = '';
+    }
+}

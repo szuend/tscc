@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/unusedImportWithSpread.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js b1.js b1.ts
+! stderr .
+cmp b1.js b1.js.golden
+! exists b1.d.ts
+! exists b1.js.map
+
+-- a.ts --
+export default { a: 1 };
+-- b1.ts --
+import a from "./a";
+
+const b1 = {} as unknown;
+({
+    // @ts-ignore
+    ...b1,
+    a
+})
+-- b2.ts --
+import a from "./a";
+
+const b2 = {} as never;
+({
+    // @ts-ignore
+    ...b2,
+    a
+})
+-- b1.js.golden --
+import a from "./a";
+const b1 = {};
+({
+    // @ts-ignore
+    ...b1,
+    a
+});

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/typeCheckObjectLiteralMethodBody.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js typeCheckObjectLiteralMethodBody.js typeCheckObjectLiteralMethodBody.ts
+! stderr .
+cmp typeCheckObjectLiteralMethodBody.js typeCheckObjectLiteralMethodBody.js.golden
+! exists typeCheckObjectLiteralMethodBody.d.ts
+! exists typeCheckObjectLiteralMethodBody.js.map
+
+-- typeCheckObjectLiteralMethodBody.ts --
+var foo = { bar() { return undefined } };
+-- typeCheckObjectLiteralMethodBody.js.golden --
+"use strict";
+var foo = { bar() { return undefined; } };

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/unmatchedParameterPositions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js unmatchedParameterPositions.js unmatchedParameterPositions.ts
+! stderr .
+cmp unmatchedParameterPositions.js unmatchedParameterPositions.js.golden
+! exists unmatchedParameterPositions.d.ts
+! exists unmatchedParameterPositions.js.map
+
+-- unmatchedParameterPositions.ts --
+// Repros from #40251
+
+declare let s: (...items: never[]) => never[];
+let t1: () => unknown[] = s;
+let t2: (...args: []) => unknown[] = s;
+-- unmatchedParameterPositions.js.golden --
+"use strict";
+// Repros from #40251
+let t1 = s;
+let t2 = s;

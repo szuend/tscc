@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/undeclaredMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undeclaredMethod.js undeclaredMethod.ts
+stderr 'TS2339'
+! exists undeclaredMethod.js
+! exists undeclaredMethod.d.ts
+! exists undeclaredMethod.js.map
+
+-- undeclaredMethod.ts --
+namespace M {
+    export class C {
+        public salt() {}
+    }
+}
+
+var c:M.C = new M.C();
+
+c.salt();	// cool
+c.saltbar();	// crash
+

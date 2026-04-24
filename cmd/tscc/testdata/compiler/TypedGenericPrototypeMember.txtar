@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/typedGenericPrototypeMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typedGenericPrototypeMember.js typedGenericPrototypeMember.ts
+! stderr .
+cmp typedGenericPrototypeMember.js typedGenericPrototypeMember.js.golden
+! exists typedGenericPrototypeMember.d.ts
+! exists typedGenericPrototypeMember.js.map
+
+-- typedGenericPrototypeMember.ts --
+class List<T> {
+   add(item: T) { }
+}
+
+List.prototype.add("abc"); // Valid because T is instantiated to any
+-- typedGenericPrototypeMember.js.golden --
+"use strict";
+class List {
+    add(item) { }
+}
+List.prototype.add("abc"); // Valid because T is instantiated to any

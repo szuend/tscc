@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/reuseInnerModuleMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js reuseInnerModuleMember_0.js reuseInnerModuleMember_0.ts
+! stderr .
+cmp reuseInnerModuleMember_0.js reuseInnerModuleMember_0.js.golden
+! exists reuseInnerModuleMember_0.d.ts
+! exists reuseInnerModuleMember_0.js.map
+
+-- reuseInnerModuleMember_0.ts --
+export namespace M { }
+-- reuseInnerModuleMember_1.ts --
+///<reference path='reuseInnerModuleMember_0.ts'/>
+declare namespace bar {
+    interface alpha { }
+}
+
+import f = require('./reuseInnerModuleMember_0');
+namespace bar {
+    var x: alpha;
+}
+-- reuseInnerModuleMember_0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

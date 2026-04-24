@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/specializeVarArgs1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js specializeVarArgs1.js specializeVarArgs1.ts
+! stderr .
+cmp specializeVarArgs1.js specializeVarArgs1.js.golden
+! exists specializeVarArgs1.d.ts
+! exists specializeVarArgs1.js.map
+
+-- specializeVarArgs1.ts --
+interface Observable<T>{ }
+
+ 
+
+interface ObservableArray<T> extends Observable<T[]>
+
+{
+
+    push(...values: T[]);
+
+}
+
+ 
+
+function observableArray<T>(): ObservableArray<T> { return null;}
+
+ 
+
+var a =  observableArray<string>();
+
+a.push('Some Value');
+-- specializeVarArgs1.js.golden --
+"use strict";
+function observableArray() { return null; }
+var a = observableArray();
+a.push('Some Value');

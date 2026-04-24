@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/typeCheckObjectCreationExpressionWithUndefinedCallResolutionData.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts file2.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js file2.js file2.ts
+! stderr .
+cmp file2.d.ts file2.d.ts.golden
+cmp file2.js file2.js.golden
+! exists file2.js.map
+
+-- file1.ts --
+export function foo() {
+var classes = undefined;
+    return new classes(null);
+}
+-- file2.ts --
+import f = require('./file1');
+f.foo();
+-- file2.d.ts.golden --
+export {};
+-- file2.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const f = require("./file1");
+f.foo();

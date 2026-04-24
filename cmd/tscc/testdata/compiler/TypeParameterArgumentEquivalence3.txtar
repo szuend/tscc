@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/typeParameterArgumentEquivalence3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterArgumentEquivalence3.js typeParameterArgumentEquivalence3.ts
+stderr 'TS2322'
+! exists typeParameterArgumentEquivalence3.js
+! exists typeParameterArgumentEquivalence3.d.ts
+! exists typeParameterArgumentEquivalence3.js.map
+
+-- typeParameterArgumentEquivalence3.ts --
+function foo<T,U>() {
+    var x!: (item: any) => T;
+    var y!: (item: any) => boolean;
+    x = y;  // Should be an error
+    y = x;  // Shound be an error
+}

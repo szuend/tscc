@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/superCallInsideObjectLiteralExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superCallInsideObjectLiteralExpression.js superCallInsideObjectLiteralExpression.ts
+! stderr .
+cmp superCallInsideObjectLiteralExpression.js superCallInsideObjectLiteralExpression.js.golden
+! exists superCallInsideObjectLiteralExpression.d.ts
+! exists superCallInsideObjectLiteralExpression.js.map
+
+-- superCallInsideObjectLiteralExpression.ts --
+class A {
+    foo() {
+    }
+}
+
+class B extends A {
+    constructor() {
+        var x = {
+            x: super()
+        }
+    }
+}
+-- superCallInsideObjectLiteralExpression.js.golden --
+"use strict";
+class A {
+    foo() {
+    }
+}
+class B extends A {
+    constructor() {
+        var x = {
+            x: super()
+        };
+    }
+}

@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/typeofInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeofInterface.js typeofInterface.ts
+! stderr .
+cmp typeofInterface.js typeofInterface.js.golden
+! exists typeofInterface.d.ts
+! exists typeofInterface.js.map
+
+-- typeofInterface.ts --
+var I: { a: string};
+
+interface I {
+    I: number;
+    foo: typeof I;
+}
+
+var k: I;
+var j: typeof k.foo = { a: "hello" };
+-- typeofInterface.js.golden --
+"use strict";
+var I;
+var k;
+var j = { a: "hello" };

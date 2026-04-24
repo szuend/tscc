@@ -1,0 +1,62 @@
+# Ported from tests/cases/compiler/regularExpressionAnnexB.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js regularExpressionAnnexB.js regularExpressionAnnexB.ts
+stderr 'TS1125'
+stderr 'TS1535'
+stderr 'TS1512'
+stderr 'TS1510'
+stderr 'TS1531'
+stderr 'TS1516'
+stderr 'TS1507'
+stderr 'TS1506'
+stderr 'TS1508'
+stderr 'TS1505'
+stderr 'TS1005'
+! exists regularExpressionAnnexB.js
+! exists regularExpressionAnnexB.d.ts
+! exists regularExpressionAnnexB.js.map
+
+-- regularExpressionAnnexB.ts --
+const regexes: RegExp[] = [
+  /\q\u\i\c\k\_\f\o\x\-\j\u\m\p\s/,
+  /[\q\u\i\c\k\_\f\o\x\-\j\u\m\p\s]/,
+  /\P[\P\w-_]/,
+
+  // Compare to
+  /\q\u\i\c\k\_\f\o\x\-\j\u\m\p\s/u,
+  /[\q\u\i\c\k\_\f\o\x\-\j\u\m\p\s]/u,
+  /\P[\P\w-_]/u,
+];
+
+const regexesWithBraces: RegExp[] = [
+  /{??/,
+  /{,??/,
+  /{,1??/,
+  /{1??/,
+  /{1,??/,
+  /{1,2??/,
+  /{2,1??/,
+  /{}??/,
+  /{,}??/,
+  /{,1}??/,
+  /{1}??/,
+  /{1,}??/,
+  /{1,2}??/,
+  /{2,1}??/,
+
+  // Compare to
+  /{??/u,
+  /{,??/u,
+  /{,1??/u,
+  /{1??/u,
+  /{1,??/u,
+  /{1,2??/u,
+  /{2,1??/u,
+  /{}??/u,
+  /{,}??/u,
+  /{,1}??/u,
+  /{1}??/u,
+  /{1,}??/u,
+  /{1,2}??/u,
+  /{2,1}??/u,
+];

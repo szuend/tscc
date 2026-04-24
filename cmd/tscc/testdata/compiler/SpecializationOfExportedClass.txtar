@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/specializationOfExportedClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js specializationOfExportedClass.js specializationOfExportedClass.ts
+! stderr .
+cmp specializationOfExportedClass.js specializationOfExportedClass.js.golden
+! exists specializationOfExportedClass.d.ts
+! exists specializationOfExportedClass.js.map
+
+-- specializationOfExportedClass.ts --
+namespace M {
+
+export class C<T> { }
+
+}
+ 
+var x = new M.C<string>();
+-- specializationOfExportedClass.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class C {
+    }
+    M.C = C;
+})(M || (M = {}));
+var x = new M.C();

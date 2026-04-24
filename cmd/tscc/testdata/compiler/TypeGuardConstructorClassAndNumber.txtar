@@ -1,0 +1,138 @@
+# Ported from tests/cases/compiler/typeGuardConstructorClassAndNumber.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardConstructorClassAndNumber.js typeGuardConstructorClassAndNumber.ts
+stderr 'TS2339'
+! exists typeGuardConstructorClassAndNumber.js
+! exists typeGuardConstructorClassAndNumber.d.ts
+! exists typeGuardConstructorClassAndNumber.js.map
+
+-- typeGuardConstructorClassAndNumber.ts --
+// Typical case
+class C1 {
+    property1!: string;
+}
+
+declare let var1: C1 | number;
+if (var1.constructor == C1) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+if (var1["constructor"] == C1) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+if (var1.constructor === C1) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+if (var1["constructor"] === C1) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+if (C1 == var1.constructor) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+if (C1 == var1["constructor"]) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+if (C1 === var1.constructor) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+if (C1 === var1["constructor"]) {
+    var1; // C1
+    var1.property1; // string
+}
+else {
+    var1; // number | C1
+}
+
+if (var1.constructor != C1) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+if (var1["constructor"] != C1) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+if (var1.constructor !== C1) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+if (var1["constructor"] !== C1) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+if (C1 != var1.constructor) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+if (C1 != var1["constructor"]) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+if (C1 !== var1.constructor) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+if (C1 !== var1["constructor"]) {
+    var1; // C1 | number
+    var1.property1; // error
+}
+else {
+    var1; // C1
+}
+
+// Repro from #37660
+
+function foo(instance: Function | object) {
+    if (typeof instance === 'function') {
+        if (instance.prototype == null || instance.prototype.constructor == null) {
+            return instance.length;
+        }
+    }
+}

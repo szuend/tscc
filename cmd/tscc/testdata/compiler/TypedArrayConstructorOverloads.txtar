@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/typedArrayConstructorOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom typedArrayConstructorOverloads.ts
+! stderr .
+! exists typedArrayConstructorOverloads.d.ts
+! exists typedArrayConstructorOverloads.js.map
+
+-- typedArrayConstructorOverloads.ts --
+// https://github.com/microsoft/TypeScript/issues/60367
+
+type TypedArrayConstructor =
+    | Int8ArrayConstructor
+    | Uint8ArrayConstructor
+    | Uint8ClampedArrayConstructor
+    | Int16ArrayConstructor
+    | Uint16ArrayConstructor
+    | Int32ArrayConstructor
+    | Uint32ArrayConstructor
+    | Float16ArrayConstructor
+    | Float32ArrayConstructor
+    | Float64ArrayConstructor
+    | BigInt64ArrayConstructor
+    | BigUint64ArrayConstructor
+
+export function makeTypedArray(buffer: ArrayBuffer, ctr: TypedArrayConstructor) {
+    new ctr(buffer);
+    new ctr(buffer, 0, 0);
+}

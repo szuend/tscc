@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/substitutionTypeNoMergeOfAssignableType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js substitutionTypeNoMergeOfAssignableType.js substitutionTypeNoMergeOfAssignableType.ts
+! stderr .
+cmp substitutionTypeNoMergeOfAssignableType.js substitutionTypeNoMergeOfAssignableType.js.golden
+! exists substitutionTypeNoMergeOfAssignableType.d.ts
+! exists substitutionTypeNoMergeOfAssignableType.js.map
+
+-- substitutionTypeNoMergeOfAssignableType.ts --
+interface Entry {
+    comment?: string;
+ }
+ 
+ interface Entity {
+     fields: {[key: string]: Entry};
+ }
+ 
+ type Fields<E extends Entity> = {
+     [P in keyof E["fields"]]: E["fields"][P]
+ };
+ 
+ type Nodes<T = any> = {
+     [P in keyof T]: T[P] extends Entity
+         ? Fields<T[P]>
+         : T[P]
+ };
+ 
+ function makeEntityStore<T extends Record<string, Entity>>(config: T): Nodes<T> {
+     return {} as Nodes<T>
+ }
+ 
+ const myTest = makeEntityStore({ test: { fields: { id: {} } } });
+ myTest.test
+ 
+-- substitutionTypeNoMergeOfAssignableType.js.golden --
+"use strict";
+function makeEntityStore(config) {
+    return {};
+}
+const myTest = makeEntityStore({ test: { fields: { id: {} } } });
+myTest.test;

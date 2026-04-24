@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/widenedTypes1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js widenedTypes1.js widenedTypes1.ts
+! stderr .
+cmp widenedTypes1.js widenedTypes1.js.golden
+! exists widenedTypes1.d.ts
+! exists widenedTypes1.js.map
+
+-- widenedTypes1.ts --
+var a = null;
+var b = undefined;
+
+var c = {x: null};
+var d = [{x: null}];
+var f = [null, null];
+var g = [undefined, undefined];
+var h = [{x: undefined}];
+-- widenedTypes1.js.golden --
+"use strict";
+var a = null;
+var b = undefined;
+var c = { x: null };
+var d = [{ x: null }];
+var f = [null, null];
+var g = [undefined, undefined];
+var h = [{ x: undefined }];

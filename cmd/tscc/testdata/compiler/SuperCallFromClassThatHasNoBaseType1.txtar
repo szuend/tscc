@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/superCallFromClassThatHasNoBaseType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js superCallFromClassThatHasNoBaseType1.js superCallFromClassThatHasNoBaseType1.ts
+stderr 'TS2335'
+! exists superCallFromClassThatHasNoBaseType1.js
+! exists superCallFromClassThatHasNoBaseType1.d.ts
+! exists superCallFromClassThatHasNoBaseType1.js.map
+
+-- superCallFromClassThatHasNoBaseType1.ts --
+class A {
+    constructor(private map: (value: number) => string) {
+
+    }
+}
+
+class B {
+    constructor() { super(value => String(value)); }
+}

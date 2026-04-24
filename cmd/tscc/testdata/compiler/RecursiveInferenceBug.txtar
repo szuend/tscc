@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/recursiveInferenceBug.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveInferenceBug.js recursiveInferenceBug.ts
+! stderr .
+cmp recursiveInferenceBug.js recursiveInferenceBug.js.golden
+! exists recursiveInferenceBug.d.ts
+! exists recursiveInferenceBug.js.map
+
+-- recursiveInferenceBug.ts --
+function f(x: number) {
+    var z = f(x);
+    return x;
+}
+
+
+var zz = {
+    g: () =>{ },
+    get f() { return "abc"; },
+};
+-- recursiveInferenceBug.js.golden --
+"use strict";
+function f(x) {
+    var z = f(x);
+    return x;
+}
+var zz = {
+    g: () => { },
+    get f() { return "abc"; },
+};

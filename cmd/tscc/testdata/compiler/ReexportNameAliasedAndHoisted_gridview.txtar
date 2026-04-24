@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/reexportNameAliasedAndHoisted.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js gridview.js gridview.ts
+! stderr .
+cmp gridview.js gridview.js.golden
+! exists gridview.d.ts
+! exists gridview.js.map
+
+-- gridview.ts --
+export type Sizing = any;
+export const Sizing = null;
+-- index.ts --
+// https://github.com/microsoft/TypeScript/issues/39195
+export { Sizing as GridViewSizing } from './gridview';
+export namespace Sizing {
+    export const Distribute = { type: 'distribute' };
+}
+-- gridview.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Sizing = void 0;
+exports.Sizing = null;

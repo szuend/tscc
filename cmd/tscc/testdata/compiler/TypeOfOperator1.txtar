@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/typeOfOperator1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeOfOperator1.js typeOfOperator1.ts
+stderr 'TS2322'
+! exists typeOfOperator1.js
+! exists typeOfOperator1.d.ts
+! exists typeOfOperator1.js.map
+
+-- typeOfOperator1.ts --
+var x = 1;
+var y: string = typeof x;
+var z: number = typeof x;

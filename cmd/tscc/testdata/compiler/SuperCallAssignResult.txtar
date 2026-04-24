@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/superCallAssignResult.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallAssignResult.js superCallAssignResult.ts
+stderr 'TS2322'
+! exists superCallAssignResult.js
+! exists superCallAssignResult.d.ts
+! exists superCallAssignResult.js.map
+
+-- superCallAssignResult.ts --
+class E {
+    constructor(arg: any) { }
+}
+
+class H extends E {
+    constructor() {
+        var x = super(5); // Should be of type void, not E.
+        x = 5;
+    }
+}

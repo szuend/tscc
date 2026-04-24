@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/typeofInObjectLiteralType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeofInObjectLiteralType.js typeofInObjectLiteralType.ts
+stderr 'TS2304'
+! exists typeofInObjectLiteralType.js
+! exists typeofInObjectLiteralType.d.ts
+! exists typeofInObjectLiteralType.js.map
+
+-- typeofInObjectLiteralType.ts --
+var a: { b: number; c: typeof b }; // Should give error for attempting to use type query on b.

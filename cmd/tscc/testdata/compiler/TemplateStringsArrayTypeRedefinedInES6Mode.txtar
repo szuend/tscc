@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/templateStringsArrayTypeRedefinedInES6Mode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js templateStringsArrayTypeRedefinedInES6Mode.js templateStringsArrayTypeRedefinedInES6Mode.ts
+stderr 'TS2740'
+! exists templateStringsArrayTypeRedefinedInES6Mode.js
+! exists templateStringsArrayTypeRedefinedInES6Mode.d.ts
+! exists templateStringsArrayTypeRedefinedInES6Mode.js.map
+
+-- templateStringsArrayTypeRedefinedInES6Mode.ts --
+class TemplateStringsArray {
+}
+
+function f(x: TemplateStringsArray, y: number, z: number) {
+}
+
+f({}, 10, 10);
+
+f `abcdef${ 1234 }${ 5678 }ghijkl`;

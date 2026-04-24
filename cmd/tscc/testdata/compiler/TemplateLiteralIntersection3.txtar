@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/templateLiteralIntersection3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom templateLiteralIntersection3.ts
+! stderr .
+! exists templateLiteralIntersection3.d.ts
+! exists templateLiteralIntersection3.js.map
+
+-- templateLiteralIntersection3.ts --
+type Path = string & { _pathBrand: any };
+declare const path: Path;
+
+declare const options1: { prop: number; } & { [k: string]: boolean; };
+
+options1[`foo`] = false;
+
+options1[`foo/${path}`] = false;
+
+
+// Lowercase<`foo/${Path}`> => `foo/${Lowercase<Path>}`
+declare const lowercasePath: Lowercase<`foo/${Path}`>;
+
+options1[lowercasePath] = false;

@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/thisInStatics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisInStatics.js thisInStatics.ts
+! stderr .
+cmp thisInStatics.js thisInStatics.js.golden
+! exists thisInStatics.d.ts
+! exists thisInStatics.js.map
+
+-- thisInStatics.ts --
+class C {
+    static f() {
+        var y/*1*/ = this;
+    }
+
+    static get x() {
+        var y/*2*/ = this;
+        return y;
+    }
+}
+-- thisInStatics.js.golden --
+"use strict";
+class C {
+    static f() {
+        var y /*1*/ = this;
+    }
+    static get x() {
+        var y /*2*/ = this;
+        return y;
+    }
+}

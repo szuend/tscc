@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/withStatementInternalComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js withStatementInternalComments.js withStatementInternalComments.ts
+! stderr .
+cmp withStatementInternalComments.js withStatementInternalComments.js.golden
+! exists withStatementInternalComments.d.ts
+! exists withStatementInternalComments.js.map
+
+-- withStatementInternalComments.ts --
+// @ts-ignore
+/*1*/ with /*2*/ ( /*3*/ false /*4*/ ) /*5*/ {}
+-- withStatementInternalComments.js.golden --
+"use strict";
+// @ts-ignore
+/*1*/ with /*2*/ ( /*3*/false /*4*/) /*5*/ { }

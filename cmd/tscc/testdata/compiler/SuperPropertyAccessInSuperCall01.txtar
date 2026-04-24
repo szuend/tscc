@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/superPropertyAccessInSuperCall01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superPropertyAccessInSuperCall01.js superPropertyAccessInSuperCall01.ts
+stderr 'TS17011'
+! exists superPropertyAccessInSuperCall01.js
+! exists superPropertyAccessInSuperCall01.d.ts
+! exists superPropertyAccessInSuperCall01.js.map
+
+-- superPropertyAccessInSuperCall01.ts --
+class A {
+	constructor(f: string) {
+	}
+	public blah(): string { return ""; }
+}
+
+class B extends A {
+	constructor() {
+		super(super.blah())
+	}
+}

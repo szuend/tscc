@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/targetTypingOnFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js targetTypingOnFunctions.js targetTypingOnFunctions.ts
+! stderr .
+cmp targetTypingOnFunctions.js targetTypingOnFunctions.js.golden
+! exists targetTypingOnFunctions.d.ts
+! exists targetTypingOnFunctions.js.map
+
+-- targetTypingOnFunctions.ts --
+var fu: (s: string) => string = function (s) { return s.toLowerCase() };
+
+var zu = fu = function (s) { return s.toLowerCase() };
+-- targetTypingOnFunctions.js.golden --
+"use strict";
+var fu = function (s) { return s.toLowerCase(); };
+var zu = fu = function (s) { return s.toLowerCase(); };

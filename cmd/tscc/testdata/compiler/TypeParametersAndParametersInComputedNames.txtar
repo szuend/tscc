@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/typeParametersAndParametersInComputedNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParametersAndParametersInComputedNames.js typeParametersAndParametersInComputedNames.ts
+stderr 'TS2304'
+stderr 'TS2552'
+! exists typeParametersAndParametersInComputedNames.js
+! exists typeParametersAndParametersInComputedNames.d.ts
+! exists typeParametersAndParametersInComputedNames.js.map
+
+-- typeParametersAndParametersInComputedNames.ts --
+function foo<T>(a: T) : string {
+    return "";
+}
+
+class A {
+    [foo<T>(a)]<T>(a: T) {  
+    }
+}

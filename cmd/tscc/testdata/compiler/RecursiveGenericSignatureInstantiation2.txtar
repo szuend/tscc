@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/recursiveGenericSignatureInstantiation2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveGenericSignatureInstantiation2.js recursiveGenericSignatureInstantiation2.ts
+! stderr .
+cmp recursiveGenericSignatureInstantiation2.js recursiveGenericSignatureInstantiation2.js.golden
+! exists recursiveGenericSignatureInstantiation2.d.ts
+! exists recursiveGenericSignatureInstantiation2.js.map
+
+-- recursiveGenericSignatureInstantiation2.ts --
+
+-- recursiveGenericSignatureInstantiation2.js.golden --
+"use strict";

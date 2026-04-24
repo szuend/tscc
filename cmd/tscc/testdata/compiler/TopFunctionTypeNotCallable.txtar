@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/topFunctionTypeNotCallable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom topFunctionTypeNotCallable.ts
+stderr 'TS2345'
+! exists topFunctionTypeNotCallable.d.ts
+! exists topFunctionTypeNotCallable.js.map
+
+-- topFunctionTypeNotCallable.ts --
+// repro from #48840
+
+declare let foo: (...args: never) => void;
+foo(); // error

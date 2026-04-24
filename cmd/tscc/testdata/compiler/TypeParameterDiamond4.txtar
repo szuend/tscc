@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/typeParameterDiamond4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterDiamond4.js typeParameterDiamond4.ts
+stderr 'TS2322'
+! exists typeParameterDiamond4.js
+! exists typeParameterDiamond4.d.ts
+! exists typeParameterDiamond4.js.map
+
+-- typeParameterDiamond4.ts --
+function diamondTop<Top>() {
+    function diamondMiddle<T, U>() {
+        function diamondBottom<Bottom extends Top | T | U>() {
+            var top!: Top;
+            var middle!: Top | T | U;
+            var bottom!: Bottom;
+
+            top = middle;
+            middle = bottom;
+            top = bottom;
+        }
+    }
+}

@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/templateLiteralIntersection2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom templateLiteralIntersection2.ts
+stderr 'TS2345'
+! exists templateLiteralIntersection2.d.ts
+! exists templateLiteralIntersection2.js.map
+
+-- templateLiteralIntersection2.ts --
+type Path = string & { _pathBrand: any };
+
+type JoinedPath = `${Path}/${Path}`;
+
+declare function joinedPath(p: JoinedPath): void;
+
+joinedPath("foo/bar");
+
+declare const somePath: Path;
+
+joinedPath(`${somePath}/${somePath}`);
+
+
+type StartsWithA = `a${string}`;
+type EndsWithA = `${string}a`;
+
+
+declare function withinAs(p: StartsWithA & EndsWithA): void;
+
+withinAs("");
+withinAs("a");
+withinAs("ab");
+withinAs("aba");
+withinAs("abavvvva");

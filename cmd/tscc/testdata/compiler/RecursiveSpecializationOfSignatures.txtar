@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/recursiveSpecializationOfSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js recursiveSpecializationOfSignatures.js recursiveSpecializationOfSignatures.ts
+! stderr .
+cmp recursiveSpecializationOfSignatures.js recursiveSpecializationOfSignatures.js.golden
+! exists recursiveSpecializationOfSignatures.d.ts
+! exists recursiveSpecializationOfSignatures.js.map
+
+-- recursiveSpecializationOfSignatures.ts --
+class S0<B, A> {
+set S1(S2: S0<any,any>) {
+}
+constructor(public S17: S0<any, (S18) => A>) { }
+}
+-- recursiveSpecializationOfSignatures.js.golden --
+"use strict";
+class S0 {
+    set S1(S2) {
+    }
+    constructor(S17) {
+        this.S17 = S17;
+    }
+}

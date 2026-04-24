@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/superWithGenericSpecialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superWithGenericSpecialization.js superWithGenericSpecialization.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists superWithGenericSpecialization.js
+! exists superWithGenericSpecialization.d.ts
+! exists superWithGenericSpecialization.js.map
+
+-- superWithGenericSpecialization.ts --
+class C<T> {
+    x: T;
+}
+
+class D<T> extends C<string> {
+    y: T;
+    constructor() {
+        super(); // uses the type parameter type of the base class, ie string
+    }
+}
+
+var d: D<number>;
+var r: string = d.x;
+var r2: number = d.y;

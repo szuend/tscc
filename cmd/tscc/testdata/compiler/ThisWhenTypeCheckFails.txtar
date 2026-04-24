@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/thisWhenTypeCheckFails.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisWhenTypeCheckFails.js thisWhenTypeCheckFails.ts
+stderr 'TS2322'
+! exists thisWhenTypeCheckFails.js
+! exists thisWhenTypeCheckFails.d.ts
+! exists thisWhenTypeCheckFails.js.map
+
+-- thisWhenTypeCheckFails.ts --
+class c {
+    public n() {
+        var k = () => {
+            var s: string = this.n();
+        }
+    }    
+}

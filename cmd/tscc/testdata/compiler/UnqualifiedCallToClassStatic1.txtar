@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/unqualifiedCallToClassStatic1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unqualifiedCallToClassStatic1.js unqualifiedCallToClassStatic1.ts
+stderr 'TS2662'
+! exists unqualifiedCallToClassStatic1.js
+! exists unqualifiedCallToClassStatic1.d.ts
+! exists unqualifiedCallToClassStatic1.js.map
+
+-- unqualifiedCallToClassStatic1.ts --
+class Vector {
+ static foo = () => {
+  // 'foo' cannot be called in an unqualified manner.
+  foo();
+ }
+}

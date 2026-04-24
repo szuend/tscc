@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/typeParametersShouldNotBeEqual2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParametersShouldNotBeEqual2.js typeParametersShouldNotBeEqual2.ts
+stderr 'TS2322'
+! exists typeParametersShouldNotBeEqual2.js
+! exists typeParametersShouldNotBeEqual2.d.ts
+! exists typeParametersShouldNotBeEqual2.js.map
+
+-- typeParametersShouldNotBeEqual2.ts --
+function ff<T extends Date, U extends Date, V>(x: T, y: U, z: V) {
+    var zz!: Object;
+    x = x;  // Ok
+    x = y;  // Ok
+    x = z;  // Error
+    z = x;  // Error
+    y = z;  // Error
+    z = y;  // Error
+    x = zz;  // Error
+    zz = x;  // Ok
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/undefinedTypeArgument1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedTypeArgument1.js undefinedTypeArgument1.ts
+stderr 'TS2304'
+! exists undefinedTypeArgument1.js
+! exists undefinedTypeArgument1.d.ts
+! exists undefinedTypeArgument1.js.map
+
+-- undefinedTypeArgument1.ts --
+var cats = new Array<WAWA>();

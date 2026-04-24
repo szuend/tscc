@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.d.ts --lib es6 --module commonjs --target es2015 --out-js variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.js variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.ts
+! stderr .
+cmp variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.d.ts variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.d.ts.golden
+cmp variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.js variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.js.golden
+! exists variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.js.map
+
+-- variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.ts --
+const key = Symbol(), value = 12;
+
+export class Foo {
+    [key] = value;
+}
+-- variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.d.ts.golden --
+declare const key: unique symbol;
+export declare class Foo {
+    [key]: number;
+}
+export {};
+-- variableDeclarationDeclarationEmitUniqueSymbolPartialStatement.js.golden --
+"use strict";
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = void 0;
+const key = Symbol(), value = 12;
+class Foo {
+    constructor() {
+        this[_a] = value;
+    }
+}
+exports.Foo = Foo;
+_a = key;

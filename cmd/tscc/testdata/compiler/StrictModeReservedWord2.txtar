@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/strictModeReservedWord2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js strictModeReservedWord2.js strictModeReservedWord2.ts
+stderr 'TS1212'
+! exists strictModeReservedWord2.js
+! exists strictModeReservedWord2.d.ts
+! exists strictModeReservedWord2.js.map
+
+-- strictModeReservedWord2.ts --
+"use strict"
+interface public { }
+interface implements {
+    foo(package, protected);
+}
+enum package { }
+enum foo {
+    public,
+    private,
+    pacakge
+}
+
+const enum private {
+    public,
+    private,
+    pacakge
+}
+
+const enum bar {
+    public,
+    private,
+    pacakge
+}

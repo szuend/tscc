@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/signatureLengthMismatchCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js signatureLengthMismatchCall.js signatureLengthMismatchCall.ts
+stderr 'TS2345'
+! exists signatureLengthMismatchCall.js
+! exists signatureLengthMismatchCall.d.ts
+! exists signatureLengthMismatchCall.js.map
+
+-- signatureLengthMismatchCall.ts --
+function takesCallback(fn: (a: number) => void) {
+  // ...
+}
+
+takesCallback((a: number, b: number) => {});

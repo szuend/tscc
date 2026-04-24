@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/unionTypeWithIndexAndTuple.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js unionTypeWithIndexAndTuple.js unionTypeWithIndexAndTuple.ts
+! stderr .
+cmp unionTypeWithIndexAndTuple.js unionTypeWithIndexAndTuple.js.golden
+! exists unionTypeWithIndexAndTuple.d.ts
+! exists unionTypeWithIndexAndTuple.js.map
+
+-- unionTypeWithIndexAndTuple.ts --
+interface I {
+    [index: number]: any;
+    someOtherProperty: number;
+}
+function f(args: ["a"] | I) { }
+f(["a"]);
+-- unionTypeWithIndexAndTuple.js.golden --
+"use strict";
+function f(args) { }
+f(["a"]);

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/restArgAssignmentCompat.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restArgAssignmentCompat.js restArgAssignmentCompat.ts
+stderr 'TS2322'
+! exists restArgAssignmentCompat.js
+! exists restArgAssignmentCompat.d.ts
+! exists restArgAssignmentCompat.js.map
+
+-- restArgAssignmentCompat.ts --
+function f(...x: number[]) {
+    x.forEach((n, i) => void ('item ' + i + ' = ' + n));
+}
+function g(x: number[], y: string) { }
+
+var n = g;
+n = f;
+n([4], 'foo');

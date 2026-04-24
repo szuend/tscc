@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es6 --lib es6,dom --out-js uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.js uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.ts
+! stderr .
+cmp uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.js uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.js.golden
+! exists uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.d.ts
+! exists uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.js.map
+
+-- uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.ts --
+const FOO_SYMBOL = Symbol('Foo');
+
+declare global {
+    interface Promise<T> {
+        [FOO_SYMBOL]?: number;
+    }
+}
+
+export function foo<T>(p: Promise<T>) {
+    p[FOO_SYMBOL] = 3;
+}
+-- uniqueSymbolAssignmentOnGlobalAugmentationSuceeds.js.golden --
+const FOO_SYMBOL = Symbol('Foo');
+export function foo(p) {
+    p[FOO_SYMBOL] = 3;
+}

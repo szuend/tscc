@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/recursivelyExpandingUnionNoStackoverflow.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursivelyExpandingUnionNoStackoverflow.js recursivelyExpandingUnionNoStackoverflow.ts
+stderr 'TS2615'
+! exists recursivelyExpandingUnionNoStackoverflow.js
+! exists recursivelyExpandingUnionNoStackoverflow.d.ts
+! exists recursivelyExpandingUnionNoStackoverflow.js.map
+
+-- recursivelyExpandingUnionNoStackoverflow.ts --
+type N<T, K extends string> = T | { [P in K]: N<T, K> }[K];
+
+type M = N<number, "M">;

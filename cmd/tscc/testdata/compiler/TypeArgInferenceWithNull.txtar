@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/typeArgInferenceWithNull.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgInferenceWithNull.js typeArgInferenceWithNull.ts
+stderr 'TS2345'
+stderr 'TS2322'
+! exists typeArgInferenceWithNull.js
+! exists typeArgInferenceWithNull.d.ts
+! exists typeArgInferenceWithNull.js.map
+
+-- typeArgInferenceWithNull.ts --
+// All legal
+
+function fn4<T extends string>(n: T) { }
+fn4(null);
+
+function fn5<T extends { x: string }>(n: T) { }
+fn5({ x: null });
+
+function fn6<T extends { x: string }>(n: T, fun: (x: T) => void, n2: T) { }
+fn6({ x: null }, y => { }, { x: "" }); // y has type { x: any }, but ideally would have type { x: string }

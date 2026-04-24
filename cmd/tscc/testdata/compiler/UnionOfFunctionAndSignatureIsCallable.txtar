@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/unionOfFunctionAndSignatureIsCallable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js unionOfFunctionAndSignatureIsCallable.js unionOfFunctionAndSignatureIsCallable.ts
+! stderr .
+cmp unionOfFunctionAndSignatureIsCallable.js unionOfFunctionAndSignatureIsCallable.js.golden
+! exists unionOfFunctionAndSignatureIsCallable.d.ts
+! exists unionOfFunctionAndSignatureIsCallable.js.map
+
+-- unionOfFunctionAndSignatureIsCallable.ts --
+function f1(c1: Function, c2: () => object,  callable: typeof c1 | typeof c2) {
+    const a = c1();
+    const b = c2();
+    const c = callable();
+}
+
+function f2(fetcherParams: object | (() => object)) {
+    const data = typeof fetcherParams === 'function'
+        ? fetcherParams()
+        : fetcherParams
+}
+-- unionOfFunctionAndSignatureIsCallable.js.golden --
+"use strict";
+function f1(c1, c2, callable) {
+    const a = c1();
+    const b = c2();
+    const c = callable();
+}
+function f2(fetcherParams) {
+    const data = typeof fetcherParams === 'function'
+        ? fetcherParams()
+        : fetcherParams;
+}

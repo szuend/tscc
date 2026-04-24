@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/reverseMappedIntersectionInference1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom reverseMappedIntersectionInference1.ts
+! stderr .
+! exists reverseMappedIntersectionInference1.d.ts
+! exists reverseMappedIntersectionInference1.js.map
+
+-- reverseMappedIntersectionInference1.ts --
+type Results<T> = {
+  [K in keyof T]: {
+    data: T[K];
+    onSuccess: (data: T[K]) => void;
+  };
+};
+
+type Errors<E> = {
+  [K in keyof E]: {
+    error: E[K];
+    onError: (data: E[K]) => void;
+  };
+};
+
+declare function withKeyedObj<T, E>(
+  arg: Results<T> & Errors<E>
+): [T, E];
+
+const res = withKeyedObj({
+  a: {
+    data: "foo",
+    onSuccess: (dataArg) => {
+      dataArg;
+    },
+    error: 404,
+    onError: (errorArg) => {
+      errorArg;
+    },
+  },
+  b: {
+    data: true,
+    onSuccess: (dataArg) => {
+      dataArg;
+    },
+    error: 500,
+    onError: (errorArg) => {
+      errorArg;
+    },
+  },
+});

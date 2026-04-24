@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/strictModeReservedWordInDestructuring.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js strictModeReservedWordInDestructuring.js strictModeReservedWordInDestructuring.ts
+stderr 'TS1212'
+! exists strictModeReservedWordInDestructuring.js
+! exists strictModeReservedWordInDestructuring.d.ts
+! exists strictModeReservedWordInDestructuring.js.map
+
+-- strictModeReservedWordInDestructuring.ts --
+"use strict"
+var [public] = [1];
+var { x: public } = { x: 1 };
+var [[private]] = [["hello"]];
+var { y: { s: static }, z: { o: { p: package } }} = { y: { s: 1 }, z: { o: { p: 'h' } } };
+var { public, protected } = { public: 1, protected: 2 };
+var { public: a, protected: b } = { public: 1, protected: 2 };

@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/typeGuardOnContainerTypeNoHang.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeGuardOnContainerTypeNoHang.js typeGuardOnContainerTypeNoHang.ts
+! stderr .
+cmp typeGuardOnContainerTypeNoHang.js typeGuardOnContainerTypeNoHang.js.golden
+! exists typeGuardOnContainerTypeNoHang.d.ts
+! exists typeGuardOnContainerTypeNoHang.js.map
+
+-- typeGuardOnContainerTypeNoHang.ts --
+export namespace TypeGuards {
+    export function IsObject(value: any) : value is {[index:string]:any} {
+        return typeof(value) === 'object'
+    }
+
+}
+-- typeGuardOnContainerTypeNoHang.js.golden --
+export var TypeGuards;
+(function (TypeGuards) {
+    function IsObject(value) {
+        return typeof (value) === 'object';
+    }
+    TypeGuards.IsObject = IsObject;
+})(TypeGuards || (TypeGuards = {}));

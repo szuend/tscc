@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/typeGuardNarrowsIndexedAccessOfKnownProperty7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom --out-js typeGuardNarrowsIndexedAccessOfKnownProperty7.js typeGuardNarrowsIndexedAccessOfKnownProperty7.ts
+! stderr .
+cmp typeGuardNarrowsIndexedAccessOfKnownProperty7.js typeGuardNarrowsIndexedAccessOfKnownProperty7.js.golden
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty7.d.ts
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty7.js.map
+
+-- typeGuardNarrowsIndexedAccessOfKnownProperty7.ts --
+export namespace Foo {
+    export const key = Symbol();
+}
+
+export class C {
+    [Foo.key]: string;
+
+    constructor() {
+        this[Foo.key] = "hello";
+    }
+}
+-- typeGuardNarrowsIndexedAccessOfKnownProperty7.js.golden --
+export var Foo;
+(function (Foo) {
+    Foo.key = Symbol();
+})(Foo || (Foo = {}));
+export class C {
+    [Foo.key];
+    constructor() {
+        this[Foo.key] = "hello";
+    }
+}

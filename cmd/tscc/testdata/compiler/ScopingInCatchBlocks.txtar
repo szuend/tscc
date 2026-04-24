@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/scopingInCatchBlocks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js scopingInCatchBlocks.js scopingInCatchBlocks.ts
+stderr 'TS2304'
+! exists scopingInCatchBlocks.js
+! exists scopingInCatchBlocks.d.ts
+! exists scopingInCatchBlocks.js.map
+
+-- scopingInCatchBlocks.ts --
+try { } catch(ex1) { 
+	throw ex1;
+}
+
+try { } catch(ex1) { } // should not error
+
+try { } catch(ex1) { } // should not error
+
+var x = ex1; // should error

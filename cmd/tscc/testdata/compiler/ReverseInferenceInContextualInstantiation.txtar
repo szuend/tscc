@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/reverseInferenceInContextualInstantiation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js reverseInferenceInContextualInstantiation.js reverseInferenceInContextualInstantiation.ts
+stderr 'TS2454'
+! exists reverseInferenceInContextualInstantiation.js
+! exists reverseInferenceInContextualInstantiation.d.ts
+! exists reverseInferenceInContextualInstantiation.js.map
+
+-- reverseInferenceInContextualInstantiation.ts --
+function compare<T>(a: T, b: T): number { return 0; }
+var x: number[];
+x.sort(compare); // Error, but shouldn't be

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeParameterFixingWithContextSensitiveArguments3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeParameterFixingWithContextSensitiveArguments3.js typeParameterFixingWithContextSensitiveArguments3.ts
+stderr 'TS2741'
+! exists typeParameterFixingWithContextSensitiveArguments3.js
+! exists typeParameterFixingWithContextSensitiveArguments3.d.ts
+! exists typeParameterFixingWithContextSensitiveArguments3.js.map
+
+-- typeParameterFixingWithContextSensitiveArguments3.ts --
+function f<T, U>(t1: T, u1: U, pf1: (u2: U) => T, pf2: (t2: T) => U): [T, U] { return [t1, pf2(t1)]; }
+interface A { a: A; }
+interface B extends A { b: B; }
+
+declare var a: A, b: B;
+
+var d = f(a, b, u2 => u2.b, t2 => t2);

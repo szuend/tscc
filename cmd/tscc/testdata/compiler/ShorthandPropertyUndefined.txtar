@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/shorthandPropertyUndefined.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js shorthandPropertyUndefined.js shorthandPropertyUndefined.ts
+stderr 'TS18004'
+! exists shorthandPropertyUndefined.js
+! exists shorthandPropertyUndefined.d.ts
+! exists shorthandPropertyUndefined.js.map
+
+-- shorthandPropertyUndefined.ts --
+var a = { b };

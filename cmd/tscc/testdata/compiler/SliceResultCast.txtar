@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/sliceResultCast.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js sliceResultCast.js sliceResultCast.ts
+! stderr .
+cmp sliceResultCast.js sliceResultCast.js.golden
+! exists sliceResultCast.d.ts
+! exists sliceResultCast.js.map
+
+-- sliceResultCast.ts --
+declare var x: [number, string] | [number, string, string];
+
+x.slice(1) as readonly string[];
+-- sliceResultCast.js.golden --
+"use strict";
+x.slice(1);

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/raiseErrorOnParameterProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js raiseErrorOnParameterProperty.js raiseErrorOnParameterProperty.ts
+stderr 'TS2304'
+! exists raiseErrorOnParameterProperty.js
+! exists raiseErrorOnParameterProperty.d.ts
+! exists raiseErrorOnParameterProperty.js.map
+
+-- raiseErrorOnParameterProperty.ts --
+class C1 {
+  constructor(public x: X) {
+  }
+}
+var c1 = new C1(0);
+ 

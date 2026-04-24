@@ -1,0 +1,47 @@
+# Ported from tests/cases/compiler/unionWithIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js unionWithIndexSignature.js unionWithIndexSignature.ts
+! stderr .
+cmp unionWithIndexSignature.js unionWithIndexSignature.js.golden
+! exists unionWithIndexSignature.d.ts
+! exists unionWithIndexSignature.js.map
+
+-- unionWithIndexSignature.ts --
+interface NumList {
+  kind: 'n';
+  [x: number]: number;
+}
+interface StrList {
+  kind: 's';
+  [x: number]: string;
+}
+
+export function foo<T extends NumList | StrList>(arr: T & (NumList | StrList)) {
+  let zz = arr[1];  // Error
+}
+
+// Repro from #38102
+
+export type TypedArray = Int32Array | Uint8Array;
+
+export function isTypedArray(a: {}): a is Int32Array | Uint8Array {
+  return a instanceof Int32Array || a instanceof Uint8Array;
+}
+
+export function flatten<T extends number|TypedArray>(arr: T) {
+  if (isTypedArray(arr)) {
+      arr[1];
+  }
+}
+-- unionWithIndexSignature.js.golden --
+export function foo(arr) {
+    let zz = arr[1]; // Error
+}
+export function isTypedArray(a) {
+    return a instanceof Int32Array || a instanceof Uint8Array;
+}
+export function flatten(arr) {
+    if (isTypedArray(arr)) {
+        arr[1];
+    }
+}

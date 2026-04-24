@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/thisInStaticMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisInStaticMethod1.js thisInStaticMethod1.ts
+! stderr .
+cmp thisInStaticMethod1.js thisInStaticMethod1.js.golden
+! exists thisInStaticMethod1.d.ts
+! exists thisInStaticMethod1.js.map
+
+-- thisInStaticMethod1.ts --
+class foo {
+ static x = 3;
+ static bar() {
+  return this.x;
+ } 
+} 
+var x = foo.bar();
+-- thisInStaticMethod1.js.golden --
+"use strict";
+class foo {
+    static bar() {
+        return this.x;
+    }
+}
+foo.x = 3;
+var x = foo.bar();

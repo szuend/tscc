@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/stripMembersOptionality.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom stripMembersOptionality.ts
+! stderr .
+! exists stripMembersOptionality.d.ts
+! exists stripMembersOptionality.js.map
+
+-- stripMembersOptionality.ts --
+// repro from #52494
+
+declare const someVal: Required<{
+    fn?(key: string): string | null;
+}>;
+someVal.fn("");
+
+declare const someVal2: Required<{
+    fn?: (key: string) => string | null;
+}>;
+someVal2.fn("");

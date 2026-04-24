@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/tryCatchFinally.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js tryCatchFinally.js tryCatchFinally.ts
+! stderr .
+cmp tryCatchFinally.js tryCatchFinally.js.golden
+! exists tryCatchFinally.d.ts
+! exists tryCatchFinally.js.map
+
+-- tryCatchFinally.ts --
+try { } catch(e) { } finally { } 
+
+try {} catch(e) {}
+
+try {} finally {}
+-- tryCatchFinally.js.golden --
+"use strict";
+try { }
+catch (e) { }
+finally { }
+try { }
+catch (e) { }
+try { }
+finally { }

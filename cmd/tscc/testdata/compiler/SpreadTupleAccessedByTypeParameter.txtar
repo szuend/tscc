@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/spreadTupleAccessedByTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js spreadTupleAccessedByTypeParameter.js spreadTupleAccessedByTypeParameter.ts
+! stderr .
+cmp spreadTupleAccessedByTypeParameter.js spreadTupleAccessedByTypeParameter.js.golden
+! exists spreadTupleAccessedByTypeParameter.d.ts
+! exists spreadTupleAccessedByTypeParameter.js.map
+
+-- spreadTupleAccessedByTypeParameter.ts --
+export function test<N extends number>(singletons: ["a"][], i: N) {
+  const singleton = singletons[i];
+  const [, ...rest] = singleton;
+
+  return rest;
+}
+-- spreadTupleAccessedByTypeParameter.js.golden --
+export function test(singletons, i) {
+    const singleton = singletons[i];
+    const [, ...rest] = singleton;
+    return rest;
+}

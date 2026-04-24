@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/specializationsShouldNotAffectEachOther.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js specializationsShouldNotAffectEachOther.js specializationsShouldNotAffectEachOther.ts
+! stderr .
+cmp specializationsShouldNotAffectEachOther.js specializationsShouldNotAffectEachOther.js.golden
+! exists specializationsShouldNotAffectEachOther.d.ts
+! exists specializationsShouldNotAffectEachOther.js.map
+
+-- specializationsShouldNotAffectEachOther.ts --
+interface Series  {
+    data: string[];
+}
+
+var series: Series;
+
+
+function foo() {
+
+    var seriesExtent = (series) => null;
+
+    var series2: number[];
+
+    series2.map(seriesExtent);
+    return null;
+}
+
+
+var keyExtent2: any[] = series.data.map(function (d: string) { return d; });
+-- specializationsShouldNotAffectEachOther.js.golden --
+"use strict";
+var series;
+function foo() {
+    var seriesExtent = (series) => null;
+    var series2;
+    series2.map(seriesExtent);
+    return null;
+}
+var keyExtent2 = series.data.map(function (d) { return d; });

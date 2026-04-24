@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/staticAndMemberFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js staticAndMemberFunctions.js staticAndMemberFunctions.ts
+! stderr .
+cmp staticAndMemberFunctions.js staticAndMemberFunctions.js.golden
+! exists staticAndMemberFunctions.d.ts
+! exists staticAndMemberFunctions.js.map
+
+-- staticAndMemberFunctions.ts --
+class T {
+    static x() { }
+    public y() { }
+}
+-- staticAndMemberFunctions.js.golden --
+"use strict";
+class T {
+    static x() { }
+    y() { }
+}

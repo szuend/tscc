@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/typeValueConflict2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeValueConflict2.js typeValueConflict2.ts
+stderr 'TS2339'
+! exists typeValueConflict2.js
+! exists typeValueConflict2.d.ts
+! exists typeValueConflict2.js.map
+
+-- typeValueConflict2.ts --
+namespace M1 {
+    export class A<T> {
+        constructor(a: T) {
+        }
+    }
+}
+namespace M2 {
+    var M1 = 0;
+    // Should error.  M1 should bind to the variable, not to the module.
+    class B extends M1.A<string> {
+    }
+}
+namespace M3 {
+    // Shouldn't error
+    class B extends M1.A<string> {
+    }
+}

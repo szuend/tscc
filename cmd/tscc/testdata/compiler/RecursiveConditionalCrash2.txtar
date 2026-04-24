@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/recursiveConditionalCrash2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveConditionalCrash2.js recursiveConditionalCrash2.ts
+! stderr .
+cmp recursiveConditionalCrash2.js recursiveConditionalCrash2.js.golden
+! exists recursiveConditionalCrash2.d.ts
+! exists recursiveConditionalCrash2.js.map
+
+-- recursiveConditionalCrash2.ts --
+// Simplified #43529
+
+export type CanBeExpanded<T extends object> = {
+  value: T
+}
+
+type Expand__<O, N, Depth> =
+  N extends Depth ?
+      unknown :
+      O extends CanBeExpanded<any> ?
+          Expand__<O['value'], N, Depth> :
+          O
+
+export type UseQueryOptions<T> = Expand__<T, 4, 2>
+-- recursiveConditionalCrash2.js.golden --
+// Simplified #43529
+export {};

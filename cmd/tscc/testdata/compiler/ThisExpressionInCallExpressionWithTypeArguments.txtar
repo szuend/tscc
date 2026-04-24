@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/thisExpressionInCallExpressionWithTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisExpressionInCallExpressionWithTypeArguments.js thisExpressionInCallExpressionWithTypeArguments.ts
+stderr 'TS2558'
+! exists thisExpressionInCallExpressionWithTypeArguments.js
+! exists thisExpressionInCallExpressionWithTypeArguments.d.ts
+! exists thisExpressionInCallExpressionWithTypeArguments.js.map
+
+-- thisExpressionInCallExpressionWithTypeArguments.ts --
+class C {
+    public foo() { [1,2,3].map<any,any>((x) => { return this; })}
+}

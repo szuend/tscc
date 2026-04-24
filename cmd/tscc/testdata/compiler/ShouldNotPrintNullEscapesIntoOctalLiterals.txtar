@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/shouldNotPrintNullEscapesIntoOctalLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js shouldNotPrintNullEscapesIntoOctalLiterals.js shouldNotPrintNullEscapesIntoOctalLiterals.ts
+! stderr .
+cmp shouldNotPrintNullEscapesIntoOctalLiterals.js shouldNotPrintNullEscapesIntoOctalLiterals.js.golden
+! exists shouldNotPrintNullEscapesIntoOctalLiterals.d.ts
+! exists shouldNotPrintNullEscapesIntoOctalLiterals.js.map
+
+-- shouldNotPrintNullEscapesIntoOctalLiterals.ts --
+"use strict";
+`\x001`;
+`\u00001`;
+`\u{00000000}1`;
+`\u{000000}1`;
+`\u{0}1`;
+-- shouldNotPrintNullEscapesIntoOctalLiterals.js.golden --
+"use strict";
+`\x001`;
+`\u00001`;
+`\u{00000000}1`;
+`\u{000000}1`;
+`\u{0}1`;

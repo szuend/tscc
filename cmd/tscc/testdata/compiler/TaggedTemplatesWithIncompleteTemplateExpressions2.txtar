@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/taggedTemplatesWithIncompleteTemplateExpressions2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js taggedTemplatesWithIncompleteTemplateExpressions2.js taggedTemplatesWithIncompleteTemplateExpressions2.ts
+stderr 'TS1109'
+! exists taggedTemplatesWithIncompleteTemplateExpressions2.js
+! exists taggedTemplatesWithIncompleteTemplateExpressions2.d.ts
+! exists taggedTemplatesWithIncompleteTemplateExpressions2.js.map
+
+-- taggedTemplatesWithIncompleteTemplateExpressions2.ts --
+function f(x: TemplateStringsArray, y: string, z: string) {
+}
+
+// Incomplete call, enough parameters.
+f `123qdawdrqw${ }${

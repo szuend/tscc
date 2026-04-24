@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/simpleArrowFunctionParameterReferencedInObjectLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js simpleArrowFunctionParameterReferencedInObjectLiteral1.js simpleArrowFunctionParameterReferencedInObjectLiteral1.ts
+! stderr .
+cmp simpleArrowFunctionParameterReferencedInObjectLiteral1.js simpleArrowFunctionParameterReferencedInObjectLiteral1.js.golden
+! exists simpleArrowFunctionParameterReferencedInObjectLiteral1.d.ts
+! exists simpleArrowFunctionParameterReferencedInObjectLiteral1.js.map
+
+-- simpleArrowFunctionParameterReferencedInObjectLiteral1.ts --
+[].map(() => [].map(p => ({ X: p })));
+-- simpleArrowFunctionParameterReferencedInObjectLiteral1.js.golden --
+"use strict";
+[].map(() => [].map(p => ({ X: p })));

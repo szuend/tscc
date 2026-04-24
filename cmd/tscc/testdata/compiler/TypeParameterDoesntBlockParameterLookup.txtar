@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/typeParameterDoesntBlockParameterLookup.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeParameterDoesntBlockParameterLookup.js typeParameterDoesntBlockParameterLookup.ts
+! stderr .
+cmp typeParameterDoesntBlockParameterLookup.js typeParameterDoesntBlockParameterLookup.js.golden
+! exists typeParameterDoesntBlockParameterLookup.d.ts
+! exists typeParameterDoesntBlockParameterLookup.js.map
+
+-- typeParameterDoesntBlockParameterLookup.ts --
+declare function f<Foo extends Bar, Bar>(Bar: any): void
+-- typeParameterDoesntBlockParameterLookup.js.golden --
+"use strict";

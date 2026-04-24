@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/yieldExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es6 --lib es6,dom --out-js yieldExpression1.js yieldExpression1.ts
+stderr 'TS2322'
+! exists yieldExpression1.js
+! exists yieldExpression1.d.ts
+! exists yieldExpression1.js.map
+
+-- yieldExpression1.ts --
+function* a() {
+    yield;
+    yield 0;
+}
+
+function* b(): IterableIterator<number> {
+    yield;
+    yield 0;
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/returnTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js returnTypeParameter.js returnTypeParameter.ts
+stderr 'TS2355'
+stderr 'TS2693'
+! exists returnTypeParameter.js
+! exists returnTypeParameter.d.ts
+! exists returnTypeParameter.js.map
+
+-- returnTypeParameter.ts --
+function f<T>(a: T): T { } // error, no return statement
+function f2<T>(a: T): T { return T; } // bug was that this satisfied the return statement requirement

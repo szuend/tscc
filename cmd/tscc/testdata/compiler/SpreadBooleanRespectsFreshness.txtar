@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/spreadBooleanRespectsFreshness.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js spreadBooleanRespectsFreshness.js spreadBooleanRespectsFreshness.ts
+! stderr .
+cmp spreadBooleanRespectsFreshness.js spreadBooleanRespectsFreshness.js.golden
+! exists spreadBooleanRespectsFreshness.d.ts
+! exists spreadBooleanRespectsFreshness.js.map
+
+-- spreadBooleanRespectsFreshness.ts --
+type Foo = FooBase | FooArray;
+type FooBase = string | false;
+type FooArray = FooBase[];
+
+declare let foo1: Foo;
+declare let foo2: Foo;
+foo1 = [...Array.isArray(foo2) ? foo2 : [foo2]];
+-- spreadBooleanRespectsFreshness.js.golden --
+"use strict";
+foo1 = [...Array.isArray(foo2) ? foo2 : [foo2]];

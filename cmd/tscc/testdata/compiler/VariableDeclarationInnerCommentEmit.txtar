@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/variableDeclarationInnerCommentEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js variableDeclarationInnerCommentEmit.js variableDeclarationInnerCommentEmit.ts
+! stderr .
+cmp variableDeclarationInnerCommentEmit.js variableDeclarationInnerCommentEmit.js.golden
+! exists variableDeclarationInnerCommentEmit.d.ts
+! exists variableDeclarationInnerCommentEmit.js.map
+
+-- variableDeclarationInnerCommentEmit.ts --
+var a = /*some comment*/ null;
+var b /*some comment*/ = null;
+var /*some comment*/ c = null;
+
+// no space
+var a=/*some comment*/null;
+-- variableDeclarationInnerCommentEmit.js.golden --
+"use strict";
+var a = /*some comment*/ null;
+var b /*some comment*/ = null;
+var /*some comment*/ c = null;
+// no space
+var a = /*some comment*/ null;

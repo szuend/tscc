@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/useBeforeDefinitionInDeclarationFiles.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js declaration.d.js declaration.d.ts
+! stderr .
+! exists declaration.d.d.ts
+! exists declaration.d.js
+! exists declaration.d.js.map
+
+-- declaration.d.ts --
+export declare class ClassWithSymbols {
+  public readonly [Namespace.locallyExportedCustomSymbol]: string;
+  public [Namespace.fullyExportedCustomSymbol](): void;
+}
+export namespace Namespace {
+  export const locallyExportedCustomSymbol: unique symbol;
+  export const fullyExportedCustomSymbol: unique symbol;
+}

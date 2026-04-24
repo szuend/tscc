@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/requireOfAnEmptyFile1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js requireOfAnEmptyFile1_b.js requireOfAnEmptyFile1_b.ts
+! stderr .
+cmp requireOfAnEmptyFile1_b.js requireOfAnEmptyFile1_b.js.golden
+! exists requireOfAnEmptyFile1_b.d.ts
+! exists requireOfAnEmptyFile1_b.js.map
+
+-- requireOfAnEmptyFile1_a.ts --
+import fs = require('./requireOfAnEmptyFile1_b');
+-- requireOfAnEmptyFile1_b.ts --
+
+-- requireOfAnEmptyFile1_b.js.golden --
+"use strict";

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/typeOfEnumAndVarRedeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeOfEnumAndVarRedeclarations.js typeOfEnumAndVarRedeclarations.ts
+stderr 'TS2403'
+stderr 'TS2374'
+! exists typeOfEnumAndVarRedeclarations.js
+! exists typeOfEnumAndVarRedeclarations.d.ts
+! exists typeOfEnumAndVarRedeclarations.js.map
+
+-- typeOfEnumAndVarRedeclarations.ts --
+enum E {
+    a
+}
+enum E {
+    b = 1
+}
+var x = E;
+var x: { readonly a: E; readonly b: E; readonly [x: number]: string; }; // Shouldnt error
+var y = E;
+var y: { readonly a: E; readonly b: E; readonly [x: number]: string; readonly [x: number]: string } // two errors: the types are not identical and duplicate signatures

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/reverseMappedContravariantInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js reverseMappedContravariantInference.js reverseMappedContravariantInference.ts
+! stderr .
+cmp reverseMappedContravariantInference.js reverseMappedContravariantInference.js.golden
+! exists reverseMappedContravariantInference.d.ts
+! exists reverseMappedContravariantInference.js.map
+
+-- reverseMappedContravariantInference.ts --
+// Repro from #21273
+
+declare function conforms<T>(source: { [K in keyof T]: (val: T[K]) => boolean }): (value: T) => boolean;
+conforms({ foo: (v: string) => false })({ foo: "hello" });
+-- reverseMappedContravariantInference.js.golden --
+"use strict";
+// Repro from #21273
+conforms({ foo: (v) => false })({ foo: "hello" });

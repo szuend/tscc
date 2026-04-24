@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/unicodeStringLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js unicodeStringLiteral.js unicodeStringLiteral.ts
+! stderr .
+cmp unicodeStringLiteral.js unicodeStringLiteral.js.golden
+! exists unicodeStringLiteral.d.ts
+! exists unicodeStringLiteral.js.map
+
+-- unicodeStringLiteral.ts --
+var ੳ = "Ü­ਲĭ";
+-- unicodeStringLiteral.js.golden --
+"use strict";
+var ੳ = "Ü­ਲĭ";

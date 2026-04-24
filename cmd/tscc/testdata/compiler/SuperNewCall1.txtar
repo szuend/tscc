@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/superNewCall1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js superNewCall1.js superNewCall1.ts
+stderr 'TS2377'
+stderr 'TS2351'
+stderr 'TS17011'
+! exists superNewCall1.js
+! exists superNewCall1.d.ts
+! exists superNewCall1.js.map
+
+-- superNewCall1.ts --
+class A<T1, T2> {
+    constructor(private map: (value: T1) => T2) {
+
+    }
+}
+
+class B extends A<number, string> {
+    constructor() {
+        new super(value => String(value));
+    }
+}

@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/substitutionTypeForIndexedAccessType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js substitutionTypeForIndexedAccessType2.js substitutionTypeForIndexedAccessType2.ts
+! stderr .
+cmp substitutionTypeForIndexedAccessType2.js substitutionTypeForIndexedAccessType2.js.golden
+! exists substitutionTypeForIndexedAccessType2.d.ts
+! exists substitutionTypeForIndexedAccessType2.js.map
+
+-- substitutionTypeForIndexedAccessType2.ts --
+interface Foo {
+  foo: string|undefined
+}
+
+type Str<T extends string> = T
+
+type Bar<T> = 
+  T extends Foo
+    ? T['foo'] extends string
+      ? Str<T['foo']>
+      : never
+    : never
+-- substitutionTypeForIndexedAccessType2.js.golden --
+"use strict";

@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/typeofSimple.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeofSimple.js typeofSimple.ts
+stderr 'TS2322'
+stderr 'TS2693'
+! exists typeofSimple.js
+! exists typeofSimple.d.ts
+! exists typeofSimple.js.map
+
+-- typeofSimple.ts --
+var v = 3;
+var v2: typeof v = v;
+var v3: string = v2; // Not assignment compatible
+
+interface I<T> { x: T; }
+interface J { }
+
+declare var numberJ: typeof J; //Error, cannot reference type in typeof
+declare var numberI: I<typeof v2>;
+
+declare var fun: () => I<number>;
+numberI = fun();

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/yieldExpressionInnerCommentEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js yieldExpressionInnerCommentEmit.js yieldExpressionInnerCommentEmit.ts
+! stderr .
+cmp yieldExpressionInnerCommentEmit.js yieldExpressionInnerCommentEmit.js.golden
+! exists yieldExpressionInnerCommentEmit.d.ts
+! exists yieldExpressionInnerCommentEmit.js.map
+
+-- yieldExpressionInnerCommentEmit.ts --
+function * foo2() {
+    /*comment1*/ yield 1;
+    yield /*comment2*/ 2;
+    yield 3 /*comment3*/
+    yield */*comment4*/ [4];
+    yield /*comment5*/* [5];
+}
+-- yieldExpressionInnerCommentEmit.js.golden --
+"use strict";
+function* foo2() {
+    /*comment1*/ yield 1;
+    yield /*comment2*/ 2;
+    yield 3; /*comment3*/
+    yield* /*comment4*/ [4];
+    yield /*comment5*/* [5];
+}

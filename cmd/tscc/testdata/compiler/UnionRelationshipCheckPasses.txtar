@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/unionRelationshipCheckPasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js unionRelationshipCheckPasses.js unionRelationshipCheckPasses.ts
+! stderr .
+cmp unionRelationshipCheckPasses.js unionRelationshipCheckPasses.js.golden
+! exists unionRelationshipCheckPasses.d.ts
+! exists unionRelationshipCheckPasses.js.map
+
+-- unionRelationshipCheckPasses.ts --
+const item: { foo?: undefined } | { foo: number } = null as any as { foo?: number | undefined };
+-- unionRelationshipCheckPasses.js.golden --
+"use strict";
+const item = null;

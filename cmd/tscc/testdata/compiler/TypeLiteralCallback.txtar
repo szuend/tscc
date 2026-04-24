@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/typeLiteralCallback.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeLiteralCallback.js typeLiteralCallback.ts
+stderr 'TS2454'
+! exists typeLiteralCallback.js
+! exists typeLiteralCallback.d.ts
+! exists typeLiteralCallback.js.map
+
+-- typeLiteralCallback.ts --
+interface Foo<T> {
+    reject(arg: T): void ;
+}
+var foo: Foo<string>
+
+interface bar<T> {
+    fail(func: (arg: T) => void ): void ;
+    fail2(func: { (arg: T): void ; }): void ;
+}
+var test: bar<string>;
+
+test.fail(arg => foo.reject(arg));
+test.fail2(arg => foo.reject(arg));  // Should be OK.  Was: Error: Supplied parameters do not match any signature of call target

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/targetTypeObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js targetTypeObjectLiteral.js targetTypeObjectLiteral.ts
+! stderr .
+cmp targetTypeObjectLiteral.js targetTypeObjectLiteral.js.golden
+! exists targetTypeObjectLiteral.d.ts
+! exists targetTypeObjectLiteral.js.map
+
+-- targetTypeObjectLiteral.ts --
+var z: { x: number; y: (w:string)=>number;} = {
+
+    x: 12,
+
+    y: function(w) {
+
+        return 0;
+
+    }
+
+}
+-- targetTypeObjectLiteral.js.golden --
+"use strict";
+var z = {
+    x: 12,
+    y: function (w) {
+        return 0;
+    }
+};

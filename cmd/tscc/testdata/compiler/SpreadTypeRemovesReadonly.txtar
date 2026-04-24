@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/spreadTypeRemovesReadonly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js spreadTypeRemovesReadonly.js spreadTypeRemovesReadonly.ts
+! stderr .
+cmp spreadTypeRemovesReadonly.js spreadTypeRemovesReadonly.js.golden
+! exists spreadTypeRemovesReadonly.d.ts
+! exists spreadTypeRemovesReadonly.js.map
+
+-- spreadTypeRemovesReadonly.ts --
+interface ReadonlyData {
+    readonly value: string;
+}
+
+const data: ReadonlyData = { value: 'foo' };
+const clone = { ...data };
+clone.value = 'bar';
+-- spreadTypeRemovesReadonly.js.golden --
+"use strict";
+const data = { value: 'foo' };
+const clone = Object.assign({}, data);
+clone.value = 'bar';

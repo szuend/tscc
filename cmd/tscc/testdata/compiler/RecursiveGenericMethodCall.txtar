@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/recursiveGenericMethodCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveGenericMethodCall.js recursiveGenericMethodCall.ts
+! stderr .
+cmp recursiveGenericMethodCall.js recursiveGenericMethodCall.js.golden
+! exists recursiveGenericMethodCall.d.ts
+! exists recursiveGenericMethodCall.js.map
+
+-- recursiveGenericMethodCall.ts --
+interface Generator<T> { (): T; }
+
+function Generate<T>(func: Generator<T>): T {
+    return Generate(func);
+}
+-- recursiveGenericMethodCall.js.golden --
+"use strict";
+function Generate(func) {
+    return Generate(func);
+}

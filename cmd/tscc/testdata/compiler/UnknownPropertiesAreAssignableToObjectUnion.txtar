@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/unknownPropertiesAreAssignableToObjectUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js unknownPropertiesAreAssignableToObjectUnion.js unknownPropertiesAreAssignableToObjectUnion.ts
+! stderr .
+cmp unknownPropertiesAreAssignableToObjectUnion.js unknownPropertiesAreAssignableToObjectUnion.js.golden
+! exists unknownPropertiesAreAssignableToObjectUnion.d.ts
+! exists unknownPropertiesAreAssignableToObjectUnion.js.map
+
+-- unknownPropertiesAreAssignableToObjectUnion.ts --
+const x: Object | string = { x: 0 };
+const y: Object | undefined = { x: 0 };
+-- unknownPropertiesAreAssignableToObjectUnion.js.golden --
+"use strict";
+const x = { x: 0 };
+const y = { x: 0 };

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/restParamModifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js restParamModifier.js restParamModifier.ts
+stderr 'TS1005'
+! exists restParamModifier.js
+! exists restParamModifier.d.ts
+! exists restParamModifier.js.map
+
+-- restParamModifier.ts --
+class C {
+    constructor(...public rest: string[]) {}
+}

@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/validUseOfThisInSuper.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js validUseOfThisInSuper.js validUseOfThisInSuper.ts
+! stderr .
+cmp validUseOfThisInSuper.js validUseOfThisInSuper.js.golden
+! exists validUseOfThisInSuper.d.ts
+! exists validUseOfThisInSuper.js.map
+
+-- validUseOfThisInSuper.ts --
+class Base {
+    constructor(public b: Base) {
+    }
+}
+class Super extends Base {
+    constructor() {
+        super((() => this)()); // ok since this is not the case: The constructor declares parameter properties or the containing class declares instance member variables with initializers.
+    }
+}
+-- validUseOfThisInSuper.js.golden --
+"use strict";
+class Base {
+    constructor(b) {
+        this.b = b;
+    }
+}
+class Super extends Base {
+    constructor() {
+        super((() => this)()); // ok since this is not the case: The constructor declares parameter properties or the containing class declares instance member variables with initializers.
+    }
+}

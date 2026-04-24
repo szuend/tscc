@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/recursiveObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveObjectLiteral.js recursiveObjectLiteral.ts
+stderr 'TS7022'
+! exists recursiveObjectLiteral.js
+! exists recursiveObjectLiteral.d.ts
+! exists recursiveObjectLiteral.js.map
+
+-- recursiveObjectLiteral.ts --
+var a = { f: a };

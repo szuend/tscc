@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/unaryOperatorsInStrictMode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unaryOperatorsInStrictMode.js unaryOperatorsInStrictMode.ts
+stderr 'TS1100'
+! exists unaryOperatorsInStrictMode.js
+! exists unaryOperatorsInStrictMode.d.ts
+! exists unaryOperatorsInStrictMode.js.map
+
+-- unaryOperatorsInStrictMode.ts --
+"use strict"
+
+++eval;
+--eval;
+++arguments;
+--arguments;
+eval++;
+eval--;
+arguments++;
+arguments--;

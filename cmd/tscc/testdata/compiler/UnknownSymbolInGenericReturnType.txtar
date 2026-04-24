@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/unknownSymbolInGenericReturnType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unknownSymbolInGenericReturnType.js unknownSymbolInGenericReturnType.ts
+stderr 'TS2304'
+! exists unknownSymbolInGenericReturnType.js
+! exists unknownSymbolInGenericReturnType.d.ts
+! exists unknownSymbolInGenericReturnType.js.map
+
+-- unknownSymbolInGenericReturnType.ts --
+class Linq {
+    public static select<T, S>(values: T[], func: (v: T) => A): any[] {
+        var result = new Array(values.length);
+ 
+        for (var i = 0; i < values.length; i++) {
+            result[i] = func(values[i]);
+        }
+ 
+        return result;
+    }
+}

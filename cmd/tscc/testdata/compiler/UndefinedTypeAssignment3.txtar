@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/undefinedTypeAssignment3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedTypeAssignment3.js undefinedTypeAssignment3.ts
+stderr 'TS2397'
+! exists undefinedTypeAssignment3.js
+! exists undefinedTypeAssignment3.d.ts
+! exists undefinedTypeAssignment3.js.map
+
+-- undefinedTypeAssignment3.ts --
+var undefined = null;

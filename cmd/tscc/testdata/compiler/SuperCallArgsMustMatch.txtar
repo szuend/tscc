@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/superCallArgsMustMatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallArgsMustMatch.js superCallArgsMustMatch.ts
+stderr 'TS2564'
+stderr 'TS2345'
+! exists superCallArgsMustMatch.js
+! exists superCallArgsMustMatch.d.ts
+! exists superCallArgsMustMatch.js.map
+
+-- superCallArgsMustMatch.ts --
+class T5<T>{
+
+    public foo: T;
+
+    constructor(public bar: T) { }
+
+}
+
+ 
+
+class T6 extends T5<number>{
+
+    constructor() {
+
+        // Should error; base constructor has type T for first arg,
+        // which is instantiated with 'number' in the extends clause
+        super("hi");
+
+        var x: number = this.foo;
+
+    }
+
+}
+

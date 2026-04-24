@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/typecheckIfCondition.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typecheckIfCondition.js typecheckIfCondition.ts
+stderr 'TS2591'
+! exists typecheckIfCondition.js
+! exists typecheckIfCondition.d.ts
+! exists typecheckIfCondition.js.map
+
+-- typecheckIfCondition.ts --
+// both uses of module should be an undefined symbol
+function myWrapper()
+{
+    if (!module.exports) module.exports = "";
+    var x = null; // don't want to baseline output
+}

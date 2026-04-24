@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/undefinedTypeAssignment2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js undefinedTypeAssignment2.js undefinedTypeAssignment2.ts
+stderr 'TS2397'
+! exists undefinedTypeAssignment2.js
+! exists undefinedTypeAssignment2.d.ts
+! exists undefinedTypeAssignment2.js.map
+
+-- undefinedTypeAssignment2.ts --
+var undefined = void 0;

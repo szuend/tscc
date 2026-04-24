@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/typeAliasDeclarationEmit3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeAliasDeclarationEmit3.js typeAliasDeclarationEmit3.ts
+stderr 'TS1156'
+! exists typeAliasDeclarationEmit3.js
+! exists typeAliasDeclarationEmit3.d.ts
+! exists typeAliasDeclarationEmit3.js.map
+
+-- typeAliasDeclarationEmit3.ts --
+function f1(): void {
+    for (let i = 0; i < 1; i++)
+        type foo = [];
+        console.log('f1');
+}
+
+function f2(): void {
+    while (true)
+        type foo = [];
+        console.log('f2');
+}
+
+function f3(): void {
+    if (true)
+        type foo = [];
+        console.log('f3');
+}

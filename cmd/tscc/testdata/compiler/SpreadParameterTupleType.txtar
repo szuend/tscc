@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/spreadParameterTupleType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts spreadParameterTupleType.d.ts --target es2015 --lib es2015,dom --out-js spreadParameterTupleType.js spreadParameterTupleType.ts
+! stderr .
+cmp spreadParameterTupleType.d.ts spreadParameterTupleType.d.ts.golden
+cmp spreadParameterTupleType.js spreadParameterTupleType.js.golden
+! exists spreadParameterTupleType.js.map
+
+-- spreadParameterTupleType.ts --
+function f1() {
+    type A = [s: string];
+    type C = [...A, ...A];
+
+    return function fn(...args: C) { } satisfies any
+}
+
+function f2() {
+    type A = [a: string];
+    type B = [b: string];
+    type C = [c: string];
+    type D = [...A, ...A, ...B, ...A, ...B, ...B, ...A, ...C];
+
+    return function fn(...args: D) { } satisfies any;
+}
+-- spreadParameterTupleType.d.ts.golden --
+declare function f1(): (s: string, s_1: string) => void;
+declare function f2(): (a: string, a_1: string, b: string, a_2: string, b_1: string, b_2: string, a_3: string, c: string) => void;
+-- spreadParameterTupleType.js.golden --
+"use strict";
+function f1() {
+    return function fn(...args) { };
+}
+function f2() {
+    return function fn(...args) { };
+}

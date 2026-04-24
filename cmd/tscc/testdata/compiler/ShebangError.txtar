@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/shebangError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js shebangError.js shebangError.ts
+stderr 'TS18026'
+stderr 'TS1005'
+! exists shebangError.js
+! exists shebangError.d.ts
+! exists shebangError.js.map
+
+-- shebangError.ts --
+var foo = 'Shebang is only allowed on the first line';
+#!/usr/bin/env node

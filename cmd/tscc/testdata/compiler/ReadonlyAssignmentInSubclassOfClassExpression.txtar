@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/readonlyAssignmentInSubclassOfClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js readonlyAssignmentInSubclassOfClassExpression.js readonlyAssignmentInSubclassOfClassExpression.ts
+stderr 'TS2540'
+! exists readonlyAssignmentInSubclassOfClassExpression.js
+! exists readonlyAssignmentInSubclassOfClassExpression.d.ts
+! exists readonlyAssignmentInSubclassOfClassExpression.js.map
+
+-- readonlyAssignmentInSubclassOfClassExpression.ts --
+class C extends (class {} as new () => Readonly<{ attrib: number }>) {
+    constructor() {
+        super()
+        this.attrib = 2
+    }
+}

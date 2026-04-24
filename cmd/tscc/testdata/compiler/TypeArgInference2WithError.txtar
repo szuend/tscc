@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeArgInference2WithError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgInference2WithError.js typeArgInference2WithError.ts
+stderr 'TS2345'
+! exists typeArgInference2WithError.js
+! exists typeArgInference2WithError.d.ts
+! exists typeArgInference2WithError.js.map
+
+-- typeArgInference2WithError.ts --
+interface Item {
+    name: string;
+}
+
+declare function foo<T extends Item>(x?: T, y?: T): T;
+
+var z7 = foo("abc", 5); // Error

@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/recursiveClassInstantiationsWithDefaultConstructors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveClassInstantiationsWithDefaultConstructors.js recursiveClassInstantiationsWithDefaultConstructors.ts
+! stderr .
+cmp recursiveClassInstantiationsWithDefaultConstructors.js recursiveClassInstantiationsWithDefaultConstructors.js.golden
+! exists recursiveClassInstantiationsWithDefaultConstructors.d.ts
+! exists recursiveClassInstantiationsWithDefaultConstructors.js.map
+
+-- recursiveClassInstantiationsWithDefaultConstructors.ts --
+namespace TypeScript2 {
+    export class MemberName {
+        public prefix: string = "";
+    }
+    export class MemberNameArray extends MemberName {
+    }
+}
+
+var a = new TypeScript2.MemberNameArray()
+-- recursiveClassInstantiationsWithDefaultConstructors.js.golden --
+"use strict";
+var TypeScript2;
+(function (TypeScript2) {
+    class MemberName {
+        constructor() {
+            this.prefix = "";
+        }
+    }
+    TypeScript2.MemberName = MemberName;
+    class MemberNameArray extends MemberName {
+    }
+    TypeScript2.MemberNameArray = MemberNameArray;
+})(TypeScript2 || (TypeScript2 = {}));
+var a = new TypeScript2.MemberNameArray();

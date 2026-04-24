@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/templateExpressionAsPossiblyDiscriminantValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom templateExpressionAsPossiblyDiscriminantValue.ts
+! stderr .
+! exists templateExpressionAsPossiblyDiscriminantValue.d.ts
+! exists templateExpressionAsPossiblyDiscriminantValue.js.map
+
+-- templateExpressionAsPossiblyDiscriminantValue.ts --
+// repro mentioned in https://github.com/microsoft/TypeScript/issues/53888
+
+type BiomePlainLinkProps = {
+  href: string;
+  onClick?: (event: string) => void;
+}
+
+type BiomeButtonProps = {
+  href?: never;
+  onClick?: (event: number) => void;
+}
+
+export type ClickableDiscriminatedUnion =
+  | BiomePlainLinkProps
+  | BiomeButtonProps;
+
+const p3: ClickableDiscriminatedUnion = {
+  href: `2${undefined}332132`,
+  onClick: (ev) => console.log('@@@@', ev),
+}

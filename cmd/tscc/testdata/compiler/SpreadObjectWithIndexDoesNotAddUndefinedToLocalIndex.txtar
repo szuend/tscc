@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.js spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.ts
+! stderr .
+cmp spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.js spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.js.golden
+! exists spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.d.ts
+! exists spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.js.map
+
+-- spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.ts --
+declare const m: { [k: string]: string };
+const x: { [k: string]: string } = { ...m, ["a" + "b"]: "" };
+-- spreadObjectWithIndexDoesNotAddUndefinedToLocalIndex.js.golden --
+"use strict";
+const x = Object.assign(Object.assign({}, m), { ["a" + "b"]: "" });

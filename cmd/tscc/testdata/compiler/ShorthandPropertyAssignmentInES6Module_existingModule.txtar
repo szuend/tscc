@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/shorthandPropertyAssignmentInES6Module.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target ES6 --lib ES6,dom --out-js existingModule.js existingModule.ts
+! stderr .
+cmp existingModule.js existingModule.js.golden
+! exists existingModule.d.ts
+! exists existingModule.js.map
+
+-- existingModule.ts --
+export var x = 1;
+-- test.ts --
+import {x} from './existingModule';
+import {foo} from './missingModule';
+
+declare function use(a: any): void;
+
+const test = { x, foo };
+
+use(x);
+use(foo);
+-- existingModule.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = void 0;
+exports.x = 1;

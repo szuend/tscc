@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/spyComparisonChecking.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js spyComparisonChecking.js spyComparisonChecking.ts
+stderr 'TS2339'
+! exists spyComparisonChecking.js
+! exists spyComparisonChecking.d.ts
+! exists spyComparisonChecking.js.map
+
+-- spyComparisonChecking.ts --
+interface Spy {
+    (...params: any[]): any;
+
+    identity: string;
+    and: Function;
+    mostRecentCall: { args: any[]; };
+    argsForCall: any[];
+}
+
+type SpyObj<T> = T & {
+    [k in keyof T]: Spy;
+}
+
+declare function createSpyObj<T>(
+    name: string, names: Array<keyof T>): SpyObj<T>;
+
+function mock<T>(spyName: string, methodNames: Array<keyof T>): SpyObj<T> {
+    const spyObj = createSpyObj<T>(spyName, methodNames);
+    for (const methodName of methodNames) {
+        spyObj[methodName].and.returnValue(1);
+    }
+    return spyObj;
+}

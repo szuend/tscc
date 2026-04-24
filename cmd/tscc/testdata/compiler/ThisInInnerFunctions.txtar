@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/thisInInnerFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisInInnerFunctions.js thisInInnerFunctions.ts
+stderr 'TS2683'
+! exists thisInInnerFunctions.js
+! exists thisInInnerFunctions.d.ts
+! exists thisInInnerFunctions.js.map
+
+-- thisInInnerFunctions.ts --
+class Foo {
+    x = "hello";
+    bar() {
+        function inner() {
+            this.y = "hi"; // 'this' should be not type to 'Foo' either
+            var f = () => this.y;  // 'this' should be not type to 'Foo' either
+        }
+    }
+}
+
+function test() {
+    var x = () => {
+        (() => this)();
+        this;
+    };
+}

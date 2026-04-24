@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/topLevelLambda2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js topLevelLambda2.js topLevelLambda2.ts
+! stderr .
+cmp topLevelLambda2.js topLevelLambda2.js.golden
+! exists topLevelLambda2.d.ts
+! exists topLevelLambda2.js.map
+
+-- topLevelLambda2.ts --
+function foo(x:any) {}
+
+foo(()=>this.window);
+-- topLevelLambda2.js.golden --
+"use strict";
+function foo(x) { }
+foo(() => this.window);

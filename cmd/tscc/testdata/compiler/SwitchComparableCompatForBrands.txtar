@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/switchComparableCompatForBrands.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js switchComparableCompatForBrands.js switchComparableCompatForBrands.ts
+stderr 'TS2564'
+! exists switchComparableCompatForBrands.js
+! exists switchComparableCompatForBrands.d.ts
+! exists switchComparableCompatForBrands.js.map
+
+-- switchComparableCompatForBrands.ts --
+class MyBrand
+{
+    private _a: number;
+}
+
+function test(strInput: string & MyBrand) {
+    switch(strInput)
+    {
+        case "a":
+        return 1;
+    }
+    return 0;
+}

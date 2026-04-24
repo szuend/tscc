@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/resolveModuleNameWithSameLetDeclarationName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js resolveModuleNameWithSameLetDeclarationName1.js resolveModuleNameWithSameLetDeclarationName1.ts
+! stderr .
+cmp resolveModuleNameWithSameLetDeclarationName1.js resolveModuleNameWithSameLetDeclarationName1.js.golden
+! exists resolveModuleNameWithSameLetDeclarationName1.d.ts
+! exists resolveModuleNameWithSameLetDeclarationName1.js.map
+
+-- resolveModuleNameWithSameLetDeclarationName1.ts --
+declare namespace foo {
+
+    interface Bar {
+
+    }
+}
+
+let foo: foo.Bar; 
+-- resolveModuleNameWithSameLetDeclarationName1.js.golden --
+"use strict";
+let foo;

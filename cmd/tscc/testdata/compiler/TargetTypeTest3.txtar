@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/targetTypeTest3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js targetTypeTest3.js targetTypeTest3.ts
+stderr 'TS2322'
+! exists targetTypeTest3.js
+! exists targetTypeTest3.d.ts
+! exists targetTypeTest3.js.map
+
+-- targetTypeTest3.ts --
+// Test target typing for array literals and call expressions
+
+
+var a : string[] = [1,2,"3"]; // should produce an error
+
+
+function func1(stuff:any[]) { return stuff; }
+
+function func2(stuff1:string, stuff2:number, stuff3:number) {
+	return func1([stuff1, stuff2, stuff3]);
+}

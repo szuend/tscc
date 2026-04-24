@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/strictOptionalProperties4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --exact-optional-property-types --strict-null-checks --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @typedef Foo
+ * @property {number} [foo]
+ */
+
+const x = /** @type {Foo} */ ({});
+x.foo; // number | undefined
+
+const y = /** @type {Required<Foo>} */ ({});
+y.foo; // number

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/staticsInAFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js staticsInAFunction.js staticsInAFunction.ts
+stderr 'TS1005'
+stderr 'TS1128'
+stderr 'TS1109'
+! exists staticsInAFunction.js
+! exists staticsInAFunction.d.ts
+! exists staticsInAFunction.js.map
+
+-- staticsInAFunction.ts --
+function boo{
+   static test()
+   static test(name:string)
+   static test(name?:any){}
+}

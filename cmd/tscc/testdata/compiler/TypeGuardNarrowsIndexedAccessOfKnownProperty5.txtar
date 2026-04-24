@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/typeGuardNarrowsIndexedAccessOfKnownProperty5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js typeGuardNarrowsIndexedAccessOfKnownProperty5.js typeGuardNarrowsIndexedAccessOfKnownProperty5.ts
+! stderr .
+cmp typeGuardNarrowsIndexedAccessOfKnownProperty5.js typeGuardNarrowsIndexedAccessOfKnownProperty5.js.golden
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty5.d.ts
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty5.js.map
+
+-- typeGuardNarrowsIndexedAccessOfKnownProperty5.ts --
+const a: { key?: { x?: number } } = {};
+const aIndex = "key";
+if (a[aIndex] && a[aIndex].x) {
+    a[aIndex].x // number
+}
+
+const b: { key: { x?: number } } = { key: {} };
+const bIndex = "key";
+if (b[bIndex].x) {
+    b[bIndex].x // number
+}
+
+interface Foo {
+    x: number | undefined;
+}
+const c: Foo[] = [];
+const cIndex = 1;
+if (c[cIndex].x) {
+    c[cIndex].x // number
+}
+-- typeGuardNarrowsIndexedAccessOfKnownProperty5.js.golden --
+"use strict";
+const a = {};
+const aIndex = "key";
+if (a[aIndex] && a[aIndex].x) {
+    a[aIndex].x; // number
+}
+const b = { key: {} };
+const bIndex = "key";
+if (b[bIndex].x) {
+    b[bIndex].x; // number
+}
+const c = [];
+const cIndex = 1;
+if (c[cIndex].x) {
+    c[cIndex].x; // number
+}

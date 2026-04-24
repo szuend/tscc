@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/typeParametersInStaticAccessors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParametersInStaticAccessors.js typeParametersInStaticAccessors.ts
+stderr 'TS2302'
+stderr 'TS2322'
+! exists typeParametersInStaticAccessors.js
+! exists typeParametersInStaticAccessors.d.ts
+! exists typeParametersInStaticAccessors.js.map
+
+-- typeParametersInStaticAccessors.ts --
+class foo<T> {
+    static get Foo(): () => T { return null; }
+    static set Bar(v: { v: T }) { }
+} 

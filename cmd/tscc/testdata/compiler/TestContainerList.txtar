@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/testContainerList.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js testContainerList.js testContainerList.ts
+! stderr .
+cmp testContainerList.js testContainerList.js.golden
+! exists testContainerList.d.ts
+! exists testContainerList.js.map
+
+-- testContainerList.ts --
+// Regression test for #325
+namespace A {
+    class C {
+        constructor(public d: {}) { }
+    }
+}
+-- testContainerList.js.golden --
+"use strict";
+// Regression test for #325
+var A;
+(function (A) {
+    class C {
+        constructor(d) {
+            this.d = d;
+        }
+    }
+})(A || (A = {}));

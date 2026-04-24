@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/regularExpressionGroupNameSuggestions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js regularExpressionGroupNameSuggestions.js regularExpressionGroupNameSuggestions.ts
+stderr 'TS1503'
+stderr 'TS1532'
+! exists regularExpressionGroupNameSuggestions.js
+! exists regularExpressionGroupNameSuggestions.d.ts
+! exists regularExpressionGroupNameSuggestions.js.map
+
+-- regularExpressionGroupNameSuggestions.ts --
+const regex = /(?<foo>)\k<Foo>/;

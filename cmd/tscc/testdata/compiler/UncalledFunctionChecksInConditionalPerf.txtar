@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/uncalledFunctionChecksInConditionalPerf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js uncalledFunctionChecksInConditionalPerf.js uncalledFunctionChecksInConditionalPerf.ts
+! stderr .
+cmp uncalledFunctionChecksInConditionalPerf.js uncalledFunctionChecksInConditionalPerf.js.golden
+! exists uncalledFunctionChecksInConditionalPerf.d.ts
+! exists uncalledFunctionChecksInConditionalPerf.js.map
+
+-- uncalledFunctionChecksInConditionalPerf.ts --
+declare const b: boolean;
+
+((((((((((((((((((((((((((b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b);
+-- uncalledFunctionChecksInConditionalPerf.js.golden --
+"use strict";
+((((((((((((((((((((((((((b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b) && b);

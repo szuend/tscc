@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/typeGuardConstructorNarrowPrimitivesInUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeGuardConstructorNarrowPrimitivesInUnion.js typeGuardConstructorNarrowPrimitivesInUnion.ts
+stderr 'TS2454'
+! exists typeGuardConstructorNarrowPrimitivesInUnion.js
+! exists typeGuardConstructorNarrowPrimitivesInUnion.d.ts
+! exists typeGuardConstructorNarrowPrimitivesInUnion.js.map
+
+-- typeGuardConstructorNarrowPrimitivesInUnion.ts --
+// Union of primitives, number, arrays, and C1
+let var1: number | "hello" | "world" | true | false | number[] | string[];
+
+if (var1.constructor === Number) {
+    var1; // number
+}
+
+if (var1.constructor === String) {
+    var1; // "hello" | "world"
+}
+
+if (var1.constructor === Boolean) {
+    var1; // boolean
+}
+
+if (var1.constructor === Array) {
+    var1; // number[] | string[]
+}

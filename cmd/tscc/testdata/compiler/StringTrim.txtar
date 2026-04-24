@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/stringTrim.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2019 --lib es2019,dom --out-js stringTrim.js stringTrim.ts
+! stderr .
+cmp stringTrim.js stringTrim.js.golden
+! exists stringTrim.d.ts
+! exists stringTrim.js.map
+
+-- stringTrim.ts --
+var trimmed: string;
+trimmed = "abcde".trimEnd();
+trimmed = "abcde".trimStart();
+trimmed = "abcde".trimLeft();
+trimmed = "abcde".trimRight();
+-- stringTrim.js.golden --
+"use strict";
+var trimmed;
+trimmed = "abcde".trimEnd();
+trimmed = "abcde".trimStart();
+trimmed = "abcde".trimLeft();
+trimmed = "abcde".trimRight();

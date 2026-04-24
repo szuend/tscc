@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/unknownTypeArgOnCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js unknownTypeArgOnCall.js unknownTypeArgOnCall.ts
+stderr 'TS2304'
+! exists unknownTypeArgOnCall.js
+! exists unknownTypeArgOnCall.d.ts
+! exists unknownTypeArgOnCall.js.map
+
+-- unknownTypeArgOnCall.ts --
+class Foo<T> {
+  public clone<U>() {
+   return null;
+   }
+}
+var f = new Foo<number>();
+var r = f.clone<Uhhhh>()

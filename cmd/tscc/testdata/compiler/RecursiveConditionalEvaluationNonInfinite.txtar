@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/recursiveConditionalEvaluationNonInfinite.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveConditionalEvaluationNonInfinite.js recursiveConditionalEvaluationNonInfinite.ts
+! stderr .
+cmp recursiveConditionalEvaluationNonInfinite.js recursiveConditionalEvaluationNonInfinite.js.golden
+! exists recursiveConditionalEvaluationNonInfinite.d.ts
+! exists recursiveConditionalEvaluationNonInfinite.js.map
+
+-- recursiveConditionalEvaluationNonInfinite.ts --
+type Test<T> = [T] extends [any[]] ? { array: Test<T[0]> } : { notArray: T };
+declare const x: Test<number[]>;
+const y: { array: { notArray: number } } = x; // Error
+declare const a: Test<number>;
+const b: { notArray: number } = a; // Works
+-- recursiveConditionalEvaluationNonInfinite.js.golden --
+"use strict";
+const y = x; // Error
+const b = a; // Works

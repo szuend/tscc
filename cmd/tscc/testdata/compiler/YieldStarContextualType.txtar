@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/yieldStarContextualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom yieldStarContextualType.ts
+! stderr .
+! exists yieldStarContextualType.d.ts
+! exists yieldStarContextualType.js.map
+
+-- yieldStarContextualType.ts --
+declare const g: <T, U, V>() => Generator<T, U, V>;
+
+function* f(): Generator<string, void, unknown> {
+    const x1 = yield* g();
+    const x2: number = yield* g();
+}

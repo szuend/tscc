@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/staticVisibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticVisibility.js staticVisibility.ts
+stderr 'TS2662'
+stderr 'TS2304'
+stderr 'TS2339'
+! exists staticVisibility.js
+! exists staticVisibility.d.ts
+! exists staticVisibility.js.map
+
+-- staticVisibility.ts --
+class C1 {
+    
+    p: any;
+    static s: any;
+
+    constructor() {
+        var v = 0;
+
+        s = 1; // should be error
+        C1.s = 1; // should be ok
+
+        b(); // should be error
+        C1.b(); // should be ok
+    }
+
+    static b() {
+        v = 1; // should be error
+        this.p = 0; // should be error
+        C1.s = 1; // should be ok
+    }
+}
+
+class C2 {
+ 
+barback:string = "";
+ 
+
+
+
+static get Bar() {return "bar";} // ok
+ 
+static set Bar(bar:string) {barback = bar;} // not ok
+
+}
+

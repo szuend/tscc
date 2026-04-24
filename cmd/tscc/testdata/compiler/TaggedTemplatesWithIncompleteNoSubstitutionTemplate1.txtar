@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/taggedTemplatesWithIncompleteNoSubstitutionTemplate1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js taggedTemplatesWithIncompleteNoSubstitutionTemplate1.js taggedTemplatesWithIncompleteNoSubstitutionTemplate1.ts
+stderr 'TS1160'
+! exists taggedTemplatesWithIncompleteNoSubstitutionTemplate1.js
+! exists taggedTemplatesWithIncompleteNoSubstitutionTemplate1.d.ts
+! exists taggedTemplatesWithIncompleteNoSubstitutionTemplate1.js.map
+
+-- taggedTemplatesWithIncompleteNoSubstitutionTemplate1.ts --
+function f(x: TemplateStringsArray, y: string, z: string) {
+}
+
+// Incomplete call, not enough parameters.
+f `123qdawdrqw

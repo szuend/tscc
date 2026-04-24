@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/subtypeRelationForNever.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js subtypeRelationForNever.js subtypeRelationForNever.ts
+! stderr .
+cmp subtypeRelationForNever.js subtypeRelationForNever.js.golden
+! exists subtypeRelationForNever.d.ts
+! exists subtypeRelationForNever.js.map
+
+-- subtypeRelationForNever.ts --
+function fail(message: string) : never { throw new Error(message); }
+function withFew<a, r>(values: a[], haveFew: (values: a[]) => r, haveNone: (reason: string) => r): r {
+    return values.length > 0 ? haveFew(values) : haveNone('No values.');
+}
+function id<a>(value: a) : a { return value; }
+const result = withFew([1, 2, 3], id, fail); // expected result is number[]
+-- subtypeRelationForNever.js.golden --
+"use strict";
+function fail(message) { throw new Error(message); }
+function withFew(values, haveFew, haveNone) {
+    return values.length > 0 ? haveFew(values) : haveNone('No values.');
+}
+function id(value) { return value; }
+const result = withFew([1, 2, 3], id, fail); // expected result is number[]

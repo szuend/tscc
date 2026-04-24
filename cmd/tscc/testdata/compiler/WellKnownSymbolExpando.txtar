@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/wellKnownSymbolExpando.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target esnext --lib esnext,dom wellKnownSymbolExpando.ts
+! stderr .
+! exists wellKnownSymbolExpando.d.ts
+! exists wellKnownSymbolExpando.js.map
+
+-- wellKnownSymbolExpando.ts --
+function f() {}
+f[Symbol.iterator] = function() {}

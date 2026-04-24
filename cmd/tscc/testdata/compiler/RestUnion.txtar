@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/restUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restUnion.js restUnion.ts
+stderr 'TS2454'
+stderr 'TS2339'
+! exists restUnion.js
+! exists restUnion.d.ts
+! exists restUnion.js.map
+
+-- restUnion.ts --
+var union: { a: number, c: boolean } | { a: string, b: string };
+
+var rest1: { c: boolean } | { b: string };
+var {a, ...rest1 } = union;
+
+
+var undefinedUnion: { n: number } | undefined;
+var rest2: {};
+var {n, ...rest2 } = undefinedUnion;
+
+
+var nullUnion: { n: number } | null;
+var rest3: {};
+var {n, ...rest3 } = nullUnion;

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/restParamAsOptional.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js restParamAsOptional.js restParamAsOptional.ts
+stderr 'TS1047'
+stderr 'TS1048'
+! exists restParamAsOptional.js
+! exists restParamAsOptional.d.ts
+! exists restParamAsOptional.js.map
+
+-- restParamAsOptional.ts --
+function f(...x?) { }
+function f2(...x = []) { }

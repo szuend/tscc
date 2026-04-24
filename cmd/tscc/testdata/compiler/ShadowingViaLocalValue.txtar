@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/shadowingViaLocalValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js shadowingViaLocalValue.js shadowingViaLocalValue.ts
+stderr 'TS2481'
+! exists shadowingViaLocalValue.js
+! exists shadowingViaLocalValue.d.ts
+! exists shadowingViaLocalValue.js.map
+
+-- shadowingViaLocalValue.ts --
+{
+    let x;
+    {
+        var x = 1;
+    }
+}
+
+{
+    let x1;
+    {
+        for (var x1 = 0; ;);
+    }
+}
+

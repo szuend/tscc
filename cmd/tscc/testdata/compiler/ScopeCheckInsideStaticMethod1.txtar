@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/scopeCheckInsideStaticMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js scopeCheckInsideStaticMethod1.js scopeCheckInsideStaticMethod1.ts
+stderr 'TS2304'
+stderr 'TS2339'
+! exists scopeCheckInsideStaticMethod1.js
+! exists scopeCheckInsideStaticMethod1.d.ts
+! exists scopeCheckInsideStaticMethod1.js.map
+
+-- scopeCheckInsideStaticMethod1.ts --
+class C {
+   private v;
+   public p;
+   static s;
+   static b() {
+      v = 1; // ERR
+      C.s = 1;
+      this.p = 1; // ERR
+   }
+}

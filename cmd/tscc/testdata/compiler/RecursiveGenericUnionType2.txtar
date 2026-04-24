@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/recursiveGenericUnionType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveGenericUnionType2.js recursiveGenericUnionType2.ts
+stderr 'TS2454'
+! exists recursiveGenericUnionType2.js
+! exists recursiveGenericUnionType2.d.ts
+! exists recursiveGenericUnionType2.js.map
+
+-- recursiveGenericUnionType2.ts --
+declare namespace Test1 {
+    export type Container<T> = T | {
+        [i: string]: Container<T>[];
+    };
+    export type IStringContainer = Container<string>;
+}
+
+declare namespace Test2 {
+    export type Container<T> = T | {
+        [i: string]: Container<T>[];
+    };
+    export type IStringContainer = Container<string>;
+}
+
+var x: Test1.Container<number>;
+
+var s1: Test1.IStringContainer;
+var s2: Test2.IStringContainer;
+s1 = s2;
+s2 = s1;

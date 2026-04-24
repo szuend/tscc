@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/targetTypeObjectLiteralToAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js targetTypeObjectLiteralToAny.js targetTypeObjectLiteralToAny.ts
+stderr 'TS2454'
+! exists targetTypeObjectLiteralToAny.js
+! exists targetTypeObjectLiteralToAny.d.ts
+! exists targetTypeObjectLiteralToAny.js.map
+
+-- targetTypeObjectLiteralToAny.ts --
+function suggest(){ 
+	var TypeScriptKeywords:string[];  
+	var result:any;	
+					
+	TypeScriptKeywords.forEach(function(keyword) {						
+		result.push({text:keyword, type:"keyword"}); // this should not cause a crash - push should be typed to any
+	});			
+}
+

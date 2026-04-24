@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/reorderProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js reorderProperties.js reorderProperties.ts
+stderr 'TS2454'
+! exists reorderProperties.js
+! exists reorderProperties.d.ts
+! exists reorderProperties.js.map
+
+-- reorderProperties.ts --
+interface A<T> {
+    x: T
+}
+
+interface B<T> {
+    x: T
+}
+
+interface C<S> extends A<D<S>> {
+    y: S
+}
+
+interface D<S> extends B<C<S>> {
+    y: S
+}
+
+var c: C<{ s: string; n: number }>
+var d: D<{ n: number; s: string }> = c

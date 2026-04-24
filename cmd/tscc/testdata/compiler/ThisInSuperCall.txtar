@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/thisInSuperCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisInSuperCall.js thisInSuperCall.ts
+stderr 'TS17009'
+! exists thisInSuperCall.js
+! exists thisInSuperCall.d.ts
+! exists thisInSuperCall.js.map
+
+-- thisInSuperCall.ts --
+class Base { 
+    constructor(x: any) {}
+}
+
+class Foo extends Base {
+    constructor() {
+        super(this); // error: "super" has to be called before "this" accessing
+    }
+}
+
+class Foo2 extends Base {
+    public p = 0;
+    constructor() {
+        super(this); // error
+    }
+}
+
+class Foo3 extends Base {
+    constructor(public p) {
+        super(this); // error
+    }
+}

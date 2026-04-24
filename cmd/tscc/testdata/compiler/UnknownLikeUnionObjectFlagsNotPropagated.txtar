@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/unknownLikeUnionObjectFlagsNotPropagated.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --strict --target es2015 unknownLikeUnionObjectFlagsNotPropagated.ts
+! stderr .
+! exists unknownLikeUnionObjectFlagsNotPropagated.d.ts
+! exists unknownLikeUnionObjectFlagsNotPropagated.js.map
+
+-- unknownLikeUnionObjectFlagsNotPropagated.ts --
+// repro from #52475#issuecomment-1411215277
+
+type MyType = {} | null | undefined;
+
+const myVar: MyType = null as MyType;
+
+myVar?.toLocaleString;
+myVar;
+
+async function myUnusedFunction() {
+    const fetch1 = Promise.resolve(['hello', 'world']);
+    const [data1] = await Promise.all([fetch1]);
+    data1.length;
+}

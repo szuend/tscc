@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/unknownSymbolOffContextualType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unknownSymbolOffContextualType1.js unknownSymbolOffContextualType1.ts
+stderr 'TS2339'
+! exists unknownSymbolOffContextualType1.js
+! exists unknownSymbolOffContextualType1.d.ts
+! exists unknownSymbolOffContextualType1.js.map
+
+-- unknownSymbolOffContextualType1.ts --
+declare var document: Document;
+interface Document {
+    getElementById(elementId: string): HTMLElement;
+}
+interface HTMLElement {
+    isDisabled: boolean;
+}
+function getMaxWidth(elementNames: string[]) {
+    var elements = elementNames.map(function (name) {
+        return document.getElementById(name);
+    });
+    var enabled = elements.filter(function (e) {
+        return !e.isDisabled;
+    });
+    var widths = enabled.map(function (e) {
+        return e.xyxyxyx;  // error expected here
+    });
+    var maxWidth = widths.reduce(function (a, b) {
+        return a > b ? a : b;
+    });
+    return maxWidth;
+}

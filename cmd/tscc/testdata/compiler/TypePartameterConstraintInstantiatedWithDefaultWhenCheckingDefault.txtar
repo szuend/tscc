@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.js typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.ts
+! stderr .
+cmp typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.js typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.js.golden
+! exists typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.d.ts
+! exists typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.js.map
+
+-- typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.ts --
+// tricky interface
+interface Settable<T, V> {
+    set(value: V): T;
+}
+
+// implement
+class Identity<V> implements Settable<Identity<V>, V> {
+    readonly item: V;
+    constructor(value: V) {
+        this.item = value;
+    }
+    public set(value: V): Identity<V> {
+        return new Identity<V>(value);
+    }
+}
+
+// generic parameter default
+interface Test1<V, T extends Settable<T, V> = Identity<V>> { };
+let test1: Test1<number>;
+
+// not generic parameter default
+interface Test2Base<V, T extends Settable<T, V>> { };
+type Test2<V> = Test2Base<V, Identity<V>>;
+let test2: Test2<number>;
+-- typePartameterConstraintInstantiatedWithDefaultWhenCheckingDefault.js.golden --
+"use strict";
+// implement
+class Identity {
+    constructor(value) {
+        this.item = value;
+    }
+    set(value) {
+        return new Identity(value);
+    }
+}
+;
+let test1;
+;
+let test2;

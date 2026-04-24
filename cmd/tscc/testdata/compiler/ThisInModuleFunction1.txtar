@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/thisInModuleFunction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisInModuleFunction1.js thisInModuleFunction1.ts
+stderr 'TS2683'
+! exists thisInModuleFunction1.js
+! exists thisInModuleFunction1.d.ts
+! exists thisInModuleFunction1.js.map
+
+-- thisInModuleFunction1.ts --
+namespace bar {
+ export function bar() {
+  return this;
+ } 
+} 
+var z = bar.bar();

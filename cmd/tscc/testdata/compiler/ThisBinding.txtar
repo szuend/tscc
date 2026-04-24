@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/thisBinding.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisBinding.js thisBinding.ts
+stderr 'TS2339'
+! exists thisBinding.js
+! exists thisBinding.d.ts
+! exists thisBinding.js.map
+
+-- thisBinding.ts --
+namespace M {
+    export interface I {
+	z;
+    }
+
+    export class C {
+	public x=0;
+	f(x:I) {
+	    x.e;  // e not found
+	    x.z;  // ok 
+	}
+    constructor() {
+	({z:10,f:this.f}).f(<I>({}));
+    }
+    }
+}
+
+class C {
+    f(x: number) {
+    }
+}

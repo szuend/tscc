@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/switchFallThroughs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js switchFallThroughs.js switchFallThroughs.ts
+! stderr .
+cmp switchFallThroughs.js switchFallThroughs.js.golden
+! exists switchFallThroughs.d.ts
+! exists switchFallThroughs.js.map
+
+-- switchFallThroughs.ts --
+function R1(index: number) {
+    switch (index) {
+        case 0:
+        case 1:
+        case 2:
+            var a = 'a';
+            return a;
+        case 3:
+        case 4: {
+            return 'b';
+        }
+		case 5:
+		default:
+			return 'c';
+    }
+}
+-- switchFallThroughs.js.golden --
+"use strict";
+function R1(index) {
+    switch (index) {
+        case 0:
+        case 1:
+        case 2:
+            var a = 'a';
+            return a;
+        case 3:
+        case 4: {
+            return 'b';
+        }
+        case 5:
+        default:
+            return 'c';
+    }
+}

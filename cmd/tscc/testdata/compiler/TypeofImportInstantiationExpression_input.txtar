@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/typeofImportInstantiationExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js input.js input.ts
+! stderr .
+cmp input.js input.js.golden
+! exists input.d.ts
+! exists input.js.map
+
+-- input.ts --
+interface Arg<T = any, Params extends Record<string, any> = Record<string, any>> {
+    "__is_argument__"?: true;
+    meta?: T;
+    params?: Params;
+}
+
+export function myFunction<T = any, U extends Record<string, any> = Record<string, any>>(arg: Arg<T, U>) { return (arg.params || {}) as U }
+-- main.ts --
+type T1 = typeof import('./input.js').myFunction;
+type T2 = typeof import('./input.js').myFunction<any, { slug: 'hello' }>;
+-- input.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.myFunction = myFunction;
+function myFunction(arg) { return (arg.params || {}); }

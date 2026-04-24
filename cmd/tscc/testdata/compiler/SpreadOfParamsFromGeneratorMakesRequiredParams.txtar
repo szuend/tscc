@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/spreadOfParamsFromGeneratorMakesRequiredParams.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js spreadOfParamsFromGeneratorMakesRequiredParams.js spreadOfParamsFromGeneratorMakesRequiredParams.ts
+stderr 'TS2554'
+! exists spreadOfParamsFromGeneratorMakesRequiredParams.js
+! exists spreadOfParamsFromGeneratorMakesRequiredParams.d.ts
+! exists spreadOfParamsFromGeneratorMakesRequiredParams.js.map
+
+-- spreadOfParamsFromGeneratorMakesRequiredParams.ts --
+declare function call<Fn extends (...args: any[]) => any>(
+    fn: Fn,
+    ...args: Parameters<Fn>
+): any;
+
+call(function* (a: 'a') { }); // error, 2nd argument required

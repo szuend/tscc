@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/typeGuardNarrowByMutableUntypedField.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es6 --target es2015 --out-js typeGuardNarrowByMutableUntypedField.js typeGuardNarrowByMutableUntypedField.ts
+! stderr .
+cmp typeGuardNarrowByMutableUntypedField.js typeGuardNarrowByMutableUntypedField.js.golden
+! exists typeGuardNarrowByMutableUntypedField.d.ts
+! exists typeGuardNarrowByMutableUntypedField.js.map
+
+-- typeGuardNarrowByMutableUntypedField.ts --
+declare function hasOwnProperty<P extends PropertyKey>(target: {}, property: P): target is { [K in P]: unknown };
+declare const arrayLikeOrIterable: ArrayLike<any> | Iterable<any>;
+if (hasOwnProperty(arrayLikeOrIterable, 'length')) {
+    let x: number = arrayLikeOrIterable.length;
+}
+-- typeGuardNarrowByMutableUntypedField.js.golden --
+"use strict";
+if (hasOwnProperty(arrayLikeOrIterable, 'length')) {
+    let x = arrayLikeOrIterable.length;
+}

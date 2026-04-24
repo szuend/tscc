@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/typeArgumentInferenceOrdering.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgumentInferenceOrdering.js typeArgumentInferenceOrdering.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists typeArgumentInferenceOrdering.js
+! exists typeArgumentInferenceOrdering.d.ts
+! exists typeArgumentInferenceOrdering.js.map
+
+-- typeArgumentInferenceOrdering.ts --
+class C {
+    y: I;
+}
+
+interface I {
+    x(): Goo;
+}
+
+interface Goo {
+    p: string;
+}
+
+function foo<T>(f: { y: T }): T { return null }
+var x = foo(new C()).x; // was Error that property x does not exist on type {}

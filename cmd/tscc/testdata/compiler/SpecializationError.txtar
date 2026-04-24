@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/specializationError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js specializationError.js specializationError.ts
+! stderr .
+cmp specializationError.js specializationError.js.golden
+! exists specializationError.d.ts
+! exists specializationError.js.map
+
+-- specializationError.ts --
+interface Promise<T> {
+    then<U>(value: T): void;
+}
+
+interface Bar {
+    bar(value: "Menu"): Promise<string>;
+    bar<T>(value: string, element: string): Promise<T>;
+    bar<T>(value: string): Promise<T>;
+}
+-- specializationError.js.golden --
+"use strict";

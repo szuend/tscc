@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/recursiveInheritance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveInheritance.js recursiveInheritance.ts
+stderr 'TS2310'
+! exists recursiveInheritance.js
+! exists recursiveInheritance.d.ts
+! exists recursiveInheritance.js.map
+
+-- recursiveInheritance.ts --
+interface I5 extends I5 { // error
+    foo():void;
+} 
+
+interface i8 extends i9 { } // error
+interface i9 extends i8 { } // error

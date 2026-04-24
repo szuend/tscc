@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/shadowPrivateMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js shadowPrivateMembers.js shadowPrivateMembers.ts
+stderr 'TS2415'
+! exists shadowPrivateMembers.js
+! exists shadowPrivateMembers.d.ts
+! exists shadowPrivateMembers.js.map
+
+-- shadowPrivateMembers.ts --
+class base { private n() {} }
+class derived extends base { private n() {} }

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/staticMustPrecedePublic.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticMustPrecedePublic.js staticMustPrecedePublic.ts
+stderr 'TS1029'
+! exists staticMustPrecedePublic.js
+! exists staticMustPrecedePublic.d.ts
+! exists staticMustPrecedePublic.js.map
+
+-- staticMustPrecedePublic.ts --
+class Outer {
+    static public intI: number;
+    static private stringF: string;
+}

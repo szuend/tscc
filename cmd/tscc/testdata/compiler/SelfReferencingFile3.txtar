@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/selfReferencingFile3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js selfReferencingFile3.js selfReferencingFile3.ts
+stderr 'TS1006'
+! exists selfReferencingFile3.js
+! exists selfReferencingFile3.d.ts
+! exists selfReferencingFile3.js.map
+
+-- selfReferencingFile3.ts --
+///<reference path='./selfReferencingFile3.ts'/>
+
+class selfReferencingFile3 {
+
+}

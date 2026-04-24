@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/recursiveTypeIdentity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveTypeIdentity.js recursiveTypeIdentity.ts
+! stderr .
+cmp recursiveTypeIdentity.js recursiveTypeIdentity.js.golden
+! exists recursiveTypeIdentity.d.ts
+! exists recursiveTypeIdentity.js.map
+
+-- recursiveTypeIdentity.ts --
+interface A {
+    <T extends A>(x: T): void;
+}
+
+interface B {
+    <T extends B>(x: T): void;
+}
+
+interface C {
+    (x: A): void;
+    (x: B): void;
+}
+-- recursiveTypeIdentity.js.golden --
+"use strict";

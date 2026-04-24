@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/typeParameterConstrainedToOuterTypeParameter2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeParameterConstrainedToOuterTypeParameter2.js typeParameterConstrainedToOuterTypeParameter2.ts
+! stderr .
+cmp typeParameterConstrainedToOuterTypeParameter2.js typeParameterConstrainedToOuterTypeParameter2.js.golden
+! exists typeParameterConstrainedToOuterTypeParameter2.d.ts
+! exists typeParameterConstrainedToOuterTypeParameter2.js.map
+
+-- typeParameterConstrainedToOuterTypeParameter2.ts --
+interface A<T> {
+    foo<U extends T>(x: A<A<U>>)
+}
+
+interface B<T> {
+    foo<U extends T>(x: B<B<U>>)
+}
+
+var a: A<string>
+var b: B<string> = a;
+-- typeParameterConstrainedToOuterTypeParameter2.js.golden --
+"use strict";
+var a;
+var b = a;

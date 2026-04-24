@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/recursiveTypeParameterReferenceError2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveTypeParameterReferenceError2.js recursiveTypeParameterReferenceError2.ts
+! stderr .
+cmp recursiveTypeParameterReferenceError2.js recursiveTypeParameterReferenceError2.js.golden
+! exists recursiveTypeParameterReferenceError2.d.ts
+! exists recursiveTypeParameterReferenceError2.js.map
+
+-- recursiveTypeParameterReferenceError2.ts --
+interface List<T> {
+    data: T;
+    next: List<T>;
+    owner: List<List<T>>;  // Error, recursive reference with wrapped T
+}
+
+interface List2<T> {
+    data: T;
+    next: List2<T>;
+    owner: List2<List2<string>>;  // Ok
+}
+-- recursiveTypeParameterReferenceError2.js.golden --
+"use strict";

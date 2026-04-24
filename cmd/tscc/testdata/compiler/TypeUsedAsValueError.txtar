@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/typeUsedAsValueError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeUsedAsValueError.js typeUsedAsValueError.ts
+stderr 'TS2693'
+stderr 'TS2304'
+! exists typeUsedAsValueError.js
+! exists typeUsedAsValueError.d.ts
+! exists typeUsedAsValueError.js.map
+
+-- typeUsedAsValueError.ts --
+interface Interface {
+
+}
+
+class SomeClass {
+
+}
+
+type TypeAliasForSomeClass = SomeClass;
+type someType = { x: number };
+
+function acceptsSomeType(a: someType) {
+
+}
+
+let one = Interface;
+let two = InterfaceNotFound;
+let three = TypeAliasForSomeClass;
+let four = new TypeAliasForSomeClass();
+let five = new TypeAliasForSomeClassNotFound();
+let six = someType;
+acceptsSomeType(someType);
+acceptsSomeType(someTypeNotFound);

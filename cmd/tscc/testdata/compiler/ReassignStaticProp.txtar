@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/reassignStaticProp.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js reassignStaticProp.js reassignStaticProp.ts
+stderr 'TS2300'
+stderr 'TS2717'
+! exists reassignStaticProp.js
+! exists reassignStaticProp.d.ts
+! exists reassignStaticProp.js.map
+
+-- reassignStaticProp.ts --
+class foo {
+ 
+    static bar = 1;
+ 
+    static bar:string; // errror - duplicate id
+ 
+}
+ 
+ 
+

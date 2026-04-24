@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/voidConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js voidConstructor.js voidConstructor.ts
+! stderr .
+cmp voidConstructor.js voidConstructor.js.golden
+! exists voidConstructor.d.ts
+! exists voidConstructor.js.map
+
+-- voidConstructor.ts --
+var foo:{ new ( ): void; }
+-- voidConstructor.js.golden --
+"use strict";
+var foo;

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/widenToAny2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js widenToAny2.js widenToAny2.ts
+stderr 'TS2322'
+! exists widenToAny2.js
+! exists widenToAny2.d.ts
+! exists widenToAny2.js.map
+
+-- widenToAny2.ts --
+function foo3<T>(x: T[]): T {
+    return undefined;
+}
+var z3:number = foo3([undefined, "def"]);  // Type is any, but should be string

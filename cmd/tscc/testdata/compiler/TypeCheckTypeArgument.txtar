@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/typeCheckTypeArgument.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeCheckTypeArgument.js typeCheckTypeArgument.ts
+stderr 'TS2304'
+! exists typeCheckTypeArgument.js
+! exists typeCheckTypeArgument.d.ts
+! exists typeCheckTypeArgument.js.map
+
+-- typeCheckTypeArgument.ts --
+var f: <T extends UNKNOWN>() => void;
+
+interface IFoo<T extends UNKNOWN> { }
+
+class Foo<T extends UNKNOWN> { }
+
+function bar<T extends UNKNOWN>() { }
+
+class Foo2 {
+    method<T extends UNKNOWN>() { }
+}
+
+(<T extends UNKNOWN>(a) => { });

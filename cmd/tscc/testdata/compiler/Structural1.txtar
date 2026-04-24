@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/structural1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js structural1.js structural1.ts
+! stderr .
+cmp structural1.js structural1.js.golden
+! exists structural1.d.ts
+! exists structural1.js.map
+
+-- structural1.ts --
+namespace M {
+    export interface I {
+        salt:number;
+        pepper:number;
+    }
+
+    export function f(i:I) {
+    }
+
+    f({salt:2,pepper:0});
+}
+-- structural1.js.golden --
+"use strict";
+var M;
+(function (M) {
+    function f(i) {
+    }
+    M.f = f;
+    f({ salt: 2, pepper: 0 });
+})(M || (M = {}));

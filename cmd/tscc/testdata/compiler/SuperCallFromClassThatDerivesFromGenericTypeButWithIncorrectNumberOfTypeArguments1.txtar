@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/superCallFromClassThatDerivesFromGenericTypeButWithIncorrectNumberOfTypeArguments1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js superCallFromClassThatDerivesFromGenericTypeButWithIncorrectNumberOfTypeArguments1.js superCallFromClassThatDerivesFromGenericTypeButWithIncorrectNumberOfTypeArguments1.ts
+stderr 'TS2314'
+! exists superCallFromClassThatDerivesFromGenericTypeButWithIncorrectNumberOfTypeArguments1.js
+! exists superCallFromClassThatDerivesFromGenericTypeButWithIncorrectNumberOfTypeArguments1.d.ts
+! exists superCallFromClassThatDerivesFromGenericTypeButWithIncorrectNumberOfTypeArguments1.js.map
+
+-- superCallFromClassThatDerivesFromGenericTypeButWithIncorrectNumberOfTypeArguments1.ts --
+class A<T1, T2> {
+    constructor(private map: (value: T1) => T2) {
+
+    }
+}
+
+class B extends A<number> {
+    constructor() { super(value => String(value)); }
+}

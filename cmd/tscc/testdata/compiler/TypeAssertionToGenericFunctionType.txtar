@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeAssertionToGenericFunctionType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeAssertionToGenericFunctionType.js typeAssertionToGenericFunctionType.ts
+stderr 'TS2345'
+stderr 'TS2554'
+! exists typeAssertionToGenericFunctionType.js
+! exists typeAssertionToGenericFunctionType.d.ts
+! exists typeAssertionToGenericFunctionType.js.map
+
+-- typeAssertionToGenericFunctionType.ts --
+var x = {
+    a: < <T>(x: T) => T > ((x: any) => 1),
+    b: <T>(x: T) => { x }
+}
+x.a<string>(1); // bug was that this caused 'Could not find symbol T' on return type T in the type assertion on x.a's definition
+x.b<string>(); // error

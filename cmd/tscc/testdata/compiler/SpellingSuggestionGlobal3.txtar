@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/spellingSuggestionGlobal3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js spellingSuggestionGlobal3.js spellingSuggestionGlobal3.ts
+stderr 'TS2552'
+! exists spellingSuggestionGlobal3.js
+! exists spellingSuggestionGlobal3.d.ts
+! exists spellingSuggestionGlobal3.js.map
+
+-- spellingSuggestionGlobal3.ts --
+const global = { x: true }
+globals.x // should suggest `global` (GH#42209)

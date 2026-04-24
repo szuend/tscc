@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/scopeCheckExtendedClassInsideStaticMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js scopeCheckExtendedClassInsideStaticMethod1.js scopeCheckExtendedClassInsideStaticMethod1.ts
+stderr 'TS2304'
+stderr 'TS2339'
+stderr 'TS2662'
+! exists scopeCheckExtendedClassInsideStaticMethod1.js
+! exists scopeCheckExtendedClassInsideStaticMethod1.d.ts
+! exists scopeCheckExtendedClassInsideStaticMethod1.js.map
+
+-- scopeCheckExtendedClassInsideStaticMethod1.ts --
+class C { private v; public p; static s; }
+class D extends C {
+   static c() {
+      v = 1;
+      this.p = 1;
+      s = 1;
+   }
+}

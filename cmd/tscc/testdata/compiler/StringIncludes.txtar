@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/stringIncludes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js stringIncludes.js stringIncludes.ts
+! stderr .
+cmp stringIncludes.js stringIncludes.js.golden
+! exists stringIncludes.d.ts
+! exists stringIncludes.js.map
+
+-- stringIncludes.ts --
+var includes: boolean;
+includes = "abcde".includes("cd");
+includes = "abcde".includes("cd", 2);
+-- stringIncludes.js.golden --
+"use strict";
+var includes;
+includes = "abcde".includes("cd");
+includes = "abcde".includes("cd", 2);

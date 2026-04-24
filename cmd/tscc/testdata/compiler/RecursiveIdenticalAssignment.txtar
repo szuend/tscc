@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/recursiveIdenticalAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveIdenticalAssignment.js recursiveIdenticalAssignment.ts
+stderr 'TS2454'
+! exists recursiveIdenticalAssignment.js
+! exists recursiveIdenticalAssignment.d.ts
+! exists recursiveIdenticalAssignment.js.map
+
+-- recursiveIdenticalAssignment.ts --
+interface A<T> {
+    x: A<T>
+}
+
+interface B<T extends B<B<T>>> { // error, constraint referencing itself
+    x: B<T>
+}
+
+var a: A<A<any>>
+var b: B<B<any>> = a // Error, any does not satisfy constraint B<B<T>>

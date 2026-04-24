@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/thisConditionalOnMethodReturnOfGenericInstance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js thisConditionalOnMethodReturnOfGenericInstance.js thisConditionalOnMethodReturnOfGenericInstance.ts
+! stderr .
+cmp thisConditionalOnMethodReturnOfGenericInstance.js thisConditionalOnMethodReturnOfGenericInstance.js.golden
+! exists thisConditionalOnMethodReturnOfGenericInstance.d.ts
+! exists thisConditionalOnMethodReturnOfGenericInstance.js.map
+
+-- thisConditionalOnMethodReturnOfGenericInstance.ts --
+class A<T> {
+    unmeasurableUsage!: {[K in keyof T]-?: T[K]};
+}
+
+class B<T> extends A<T> {
+    method(): string | (this extends C ? undefined : null) {
+        return "";
+    }
+}
+
+class C<T = any> extends B<T> {
+    marker!: string;
+}
+
+const x = new C<{}>();
+
+const y = x.method(); // usage flags `method` in `B` as circular and marks `y` as the error-any type
+-- thisConditionalOnMethodReturnOfGenericInstance.js.golden --
+"use strict";
+class A {
+}
+class B extends A {
+    method() {
+        return "";
+    }
+}
+class C extends B {
+}
+const x = new C();
+const y = x.method(); // usage flags `method` in `B` as circular and marks `y` as the error-any type

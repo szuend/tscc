@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/spuriousCircularityOnTypeImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.js index.js.golden
+! exists index.d.ts
+! exists index.js.map
+
+-- index.ts --
+export type SelectorMap<T extends Record<string, (...params: unknown[]) => unknown>> = {
+    [key in keyof T]: T[key];
+};
+
+export declare const value2: {
+    sliceSelectors: <FuncMap extends import('./types').SelectorMap<FuncMap>>(selectorsBySlice: FuncMap) => { [P in keyof FuncMap]: Parameters<FuncMap[P]> };
+};
+
+export declare const value3: {
+    sliceSelectors: <FuncMap extends SelectorMap<FuncMap>>(selectorsBySlice: FuncMap) => { [P in keyof FuncMap]: Parameters<FuncMap[P]> };
+};
+
+-- types.ts --
+export type SelectorMap<T extends Record<string, (...params: unknown[]) => unknown>> = {
+    [key in keyof T]: T[key];
+};
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

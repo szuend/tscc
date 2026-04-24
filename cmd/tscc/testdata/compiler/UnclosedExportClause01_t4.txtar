@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/unclosedExportClause01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js t4.js t4.ts
+stderr 'TS1005'
+! exists t4.js
+! exists t4.d.ts
+! exists t4.js.map
+
+-- t1.ts --
+export var x = "x";
+-- t2.ts --
+export { x, from "./t1"
+-- t3.ts --
+export { from "./t1"
+-- t4.ts --
+export { x as a from "./t1"
+-- t5.ts --
+export { x as a, from "./t1"

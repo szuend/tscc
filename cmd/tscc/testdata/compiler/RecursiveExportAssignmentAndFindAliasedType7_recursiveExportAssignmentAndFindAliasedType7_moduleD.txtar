@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js recursiveExportAssignmentAndFindAliasedType7_moduleD.js recursiveExportAssignmentAndFindAliasedType7_moduleD.ts
+! stderr .
+cmp recursiveExportAssignmentAndFindAliasedType7_moduleD.js recursiveExportAssignmentAndFindAliasedType7_moduleD.js.golden
+! exists recursiveExportAssignmentAndFindAliasedType7_moduleD.d.ts
+! exists recursiveExportAssignmentAndFindAliasedType7_moduleD.js.map
+
+-- recursiveExportAssignmentAndFindAliasedType7_moduleA.ts --
+import moduleC = require("./recursiveExportAssignmentAndFindAliasedType7_moduleC");
+import ClassB = require("./recursiveExportAssignmentAndFindAliasedType7_moduleB");
+export var b: ClassB; // This should result in type ClassB
+-- recursiveExportAssignmentAndFindAliasedType7_moduleB.ts --
+class ClassB { }
+export = ClassB;
+-- recursiveExportAssignmentAndFindAliasedType7_moduleC.ts --
+import self = require("./recursiveExportAssignmentAndFindAliasedType7_moduleD");
+var selfVar = self;
+export = selfVar;
+-- recursiveExportAssignmentAndFindAliasedType7_moduleD.ts --
+import self = require("./recursiveExportAssignmentAndFindAliasedType7_moduleE");
+export = self;
+-- recursiveExportAssignmentAndFindAliasedType7_moduleE.ts --
+import self = require("./recursiveExportAssignmentAndFindAliasedType7_moduleC");
+export = self;
+-- recursiveExportAssignmentAndFindAliasedType7_moduleD.js.golden --
+"use strict";
+const self = require("./recursiveExportAssignmentAndFindAliasedType7_moduleE");
+module.exports = self;

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/shebang.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js shebang.js shebang.ts
+! stderr .
+cmp shebang.js shebang.js.golden
+! exists shebang.d.ts
+! exists shebang.js.map
+
+-- shebang.ts --
+#!/usr/bin/env node
+var foo = 'I wish the generated JS to be executed in node';
+-- shebang.js.golden --
+#!/usr/bin/env node
+"use strict";
+var foo = 'I wish the generated JS to be executed in node';

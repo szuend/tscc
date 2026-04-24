@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/taggedTemplateStringsWithMultilineTemplateES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js taggedTemplateStringsWithMultilineTemplateES6.js taggedTemplateStringsWithMultilineTemplateES6.ts
+! stderr .
+cmp taggedTemplateStringsWithMultilineTemplateES6.js taggedTemplateStringsWithMultilineTemplateES6.js.golden
+! exists taggedTemplateStringsWithMultilineTemplateES6.d.ts
+! exists taggedTemplateStringsWithMultilineTemplateES6.js.map
+
+-- taggedTemplateStringsWithMultilineTemplateES6.ts --
+function f(...args: any[]): void {
+}
+
+f `
+\
+
+`;
+-- taggedTemplateStringsWithMultilineTemplateES6.js.golden --
+"use strict";
+function f(...args) {
+}
+f `
+\
+
+`;

@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/superCallOutsideConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallOutsideConstructor.js superCallOutsideConstructor.ts
+stderr 'TS2337'
+! exists superCallOutsideConstructor.js
+! exists superCallOutsideConstructor.d.ts
+! exists superCallOutsideConstructor.js.map
+
+-- superCallOutsideConstructor.ts --
+class C {
+    foo() { }
+}
+ 
+class D extends C {
+    x = super(); 
+ 
+    constructor() {
+        super();
+ 
+        var y = () => {
+            super(); 
+        }
+
+        var y2 = function() {
+            super();
+        }
+    }
+}
+ 
+var d = new D();

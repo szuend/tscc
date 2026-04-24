@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/reverseMappedTypeContextualTypeNotCircular.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js reverseMappedTypeContextualTypeNotCircular.js reverseMappedTypeContextualTypeNotCircular.ts
+stderr 'TS2322'
+! exists reverseMappedTypeContextualTypeNotCircular.js
+! exists reverseMappedTypeContextualTypeNotCircular.d.ts
+! exists reverseMappedTypeContextualTypeNotCircular.js.map
+
+-- reverseMappedTypeContextualTypeNotCircular.ts --
+type Selector<S, R> = (state: S) => R;
+
+declare function createStructuredSelector<S, T>(
+  selectors: {[K in keyof T]: Selector<S, T[K]>},
+): Selector<S, T>;
+
+const editable = () => ({});
+
+const mapStateToProps = createStructuredSelector({
+  editable: (state: any, props: any) => editable(), // expect "Type '(state: any, props: any) => {}' is not assignable to type 'Selector<unknown, {}>'", _not_ a circularity error
+});

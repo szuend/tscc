@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/unionTypeWithLeadingOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts unionTypeWithLeadingOperator.d.ts --target es2015 --lib es2015,dom --out-js unionTypeWithLeadingOperator.js unionTypeWithLeadingOperator.ts
+! stderr .
+cmp unionTypeWithLeadingOperator.d.ts unionTypeWithLeadingOperator.d.ts.golden
+cmp unionTypeWithLeadingOperator.js unionTypeWithLeadingOperator.js.golden
+! exists unionTypeWithLeadingOperator.js.map
+
+-- unionTypeWithLeadingOperator.ts --
+type A = | string;
+type B =
+  | { type: "INCREMENT" }
+  | { type: "DECREMENT" };
+
+type C = [| 0 | 1, | "foo" | "bar"];
+
+export type D = 
+  /*leading0*/
+  | /*leading1*/ 1 /*trailing1*/ 
+  | /*leading2*/ 2 /*trailing2*/;
+-- unionTypeWithLeadingOperator.d.ts.golden --
+export type D = /*leading1*/ 1 | /*leading2*/ 2;
+-- unionTypeWithLeadingOperator.js.golden --
+export {};

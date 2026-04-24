@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/visibilityOfTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts visibilityOfTypeParameters.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js visibilityOfTypeParameters.js visibilityOfTypeParameters.ts
+! stderr .
+cmp visibilityOfTypeParameters.d.ts visibilityOfTypeParameters.d.ts.golden
+cmp visibilityOfTypeParameters.js visibilityOfTypeParameters.js.golden
+! exists visibilityOfTypeParameters.js.map
+
+-- visibilityOfTypeParameters.ts --
+export class MyClass {
+    protected myMethod<T>(val: T): T {
+        return val;
+    }
+}
+-- visibilityOfTypeParameters.d.ts.golden --
+export declare class MyClass {
+    protected myMethod<T>(val: T): T;
+}
+-- visibilityOfTypeParameters.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MyClass = void 0;
+class MyClass {
+    myMethod(val) {
+        return val;
+    }
+}
+exports.MyClass = MyClass;

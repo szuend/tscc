@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/voidOperator1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js voidOperator1.js voidOperator1.ts
+! stderr .
+cmp voidOperator1.js voidOperator1.js.golden
+! exists voidOperator1.d.ts
+! exists voidOperator1.js.map
+
+-- voidOperator1.ts --
+var x: any = void 1;
+var y: void = void 1;
+var z = void 1;
+-- voidOperator1.js.golden --
+"use strict";
+var x = void 1;
+var y = void 1;
+var z = void 1;

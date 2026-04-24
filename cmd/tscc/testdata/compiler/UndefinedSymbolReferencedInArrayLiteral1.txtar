@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/undefinedSymbolReferencedInArrayLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedSymbolReferencedInArrayLiteral1.js undefinedSymbolReferencedInArrayLiteral1.ts
+stderr 'TS2304'
+stderr 'TS2339'
+! exists undefinedSymbolReferencedInArrayLiteral1.js
+! exists undefinedSymbolReferencedInArrayLiteral1.d.ts
+! exists undefinedSymbolReferencedInArrayLiteral1.js.map
+
+-- undefinedSymbolReferencedInArrayLiteral1.ts --
+var tokens = [{ startIndex: deltaOffset }];
+
+var functions = [function() {
+    [1, 2, 3].NonexistantMethod();
+    anotherNonExistingMethod();
+}];
+

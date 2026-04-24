@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/restParameterNotLast.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restParameterNotLast.js restParameterNotLast.ts
+stderr 'TS1014'
+! exists restParameterNotLast.js
+! exists restParameterNotLast.d.ts
+! exists restParameterNotLast.js.map
+
+-- restParameterNotLast.ts --
+function f(...x, y) { }

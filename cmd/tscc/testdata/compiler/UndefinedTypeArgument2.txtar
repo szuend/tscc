@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/undefinedTypeArgument2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedTypeArgument2.js undefinedTypeArgument2.ts
+stderr 'TS2304'
+! exists undefinedTypeArgument2.js
+! exists undefinedTypeArgument2.d.ts
+! exists undefinedTypeArgument2.js.map
+
+-- undefinedTypeArgument2.ts --
+// once caused stack overflow
+interface Query<T> {
+    selectMany<U>(selector: (item: T) => U[]): Query<U>;
+    selectMany<U>(arraySelector: (item: T) => U[], resultSelector: (outer: T, inner: U) => R): Query<R>;
+}

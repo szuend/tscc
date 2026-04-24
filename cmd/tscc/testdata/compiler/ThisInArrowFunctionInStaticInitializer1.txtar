@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/thisInArrowFunctionInStaticInitializer1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisInArrowFunctionInStaticInitializer1.js thisInArrowFunctionInStaticInitializer1.ts
+! stderr .
+cmp thisInArrowFunctionInStaticInitializer1.js thisInArrowFunctionInStaticInitializer1.js.golden
+! exists thisInArrowFunctionInStaticInitializer1.d.ts
+! exists thisInArrowFunctionInStaticInitializer1.js.map
+
+-- thisInArrowFunctionInStaticInitializer1.ts --
+function log(a) { }
+
+class Vector {
+ static foo = () => {
+  // 'this' should be allowed in a static initializer.
+  log(this);
+ }
+}
+-- thisInArrowFunctionInStaticInitializer1.js.golden --
+"use strict";
+var _a;
+function log(a) { }
+class Vector {
+}
+_a = Vector;
+Vector.foo = () => {
+    // 'this' should be allowed in a static initializer.
+    log(_a);
+};

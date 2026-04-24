@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/typeArgumentInferenceApparentType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js typeArgumentInferenceApparentType1.js typeArgumentInferenceApparentType1.ts
+stderr 'TS2322'
+! exists typeArgumentInferenceApparentType1.js
+! exists typeArgumentInferenceApparentType1.d.ts
+! exists typeArgumentInferenceApparentType1.js.map
+
+-- typeArgumentInferenceApparentType1.ts --
+function method<T>(iterable: Iterable<T>): T {
+    return;
+}
+
+var res: string = method("test");

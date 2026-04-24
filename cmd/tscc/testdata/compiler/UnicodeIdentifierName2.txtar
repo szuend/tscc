@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/unicodeIdentifierName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unicodeIdentifierName2.js unicodeIdentifierName2.ts
+stderr 'TS1127'
+stderr 'TS1134'
+! exists unicodeIdentifierName2.js
+! exists unicodeIdentifierName2.d.ts
+! exists unicodeIdentifierName2.js.map
+
+-- unicodeIdentifierName2.ts --
+var a₁ = "hello"; alert(a₁)

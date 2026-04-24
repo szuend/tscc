@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/staticsNotInScopeInClodule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticsNotInScopeInClodule.js staticsNotInScopeInClodule.ts
+stderr 'TS2304'
+! exists staticsNotInScopeInClodule.js
+! exists staticsNotInScopeInClodule.d.ts
+! exists staticsNotInScopeInClodule.js.map
+
+-- staticsNotInScopeInClodule.ts --
+class Clod {
+    static x = 10;
+}
+
+namespace Clod {
+    var p = x; // x isn't in scope here
+}

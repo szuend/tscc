@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/staticMemberAccessOffDerivedType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js staticMemberAccessOffDerivedType1.js staticMemberAccessOffDerivedType1.ts
+! stderr .
+cmp staticMemberAccessOffDerivedType1.js staticMemberAccessOffDerivedType1.js.golden
+! exists staticMemberAccessOffDerivedType1.d.ts
+! exists staticMemberAccessOffDerivedType1.js.map
+
+-- staticMemberAccessOffDerivedType1.ts --
+class SomeBase {
+    static GetNumber() {
+        return 2;
+    }
+}
+class P extends SomeBase {
+    static SomeNumber = P.GetNumber();
+}
+-- staticMemberAccessOffDerivedType1.js.golden --
+"use strict";
+class SomeBase {
+    static GetNumber() {
+        return 2;
+    }
+}
+class P extends SomeBase {
+}
+P.SomeNumber = P.GetNumber();

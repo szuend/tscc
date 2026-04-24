@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/randomSemicolons1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js randomSemicolons1.js randomSemicolons1.ts
+! stderr .
+cmp randomSemicolons1.js randomSemicolons1.js.golden
+! exists randomSemicolons1.d.ts
+! exists randomSemicolons1.js.map
+
+-- randomSemicolons1.ts --
+; ;
+var a = 1;
+; 
+-- randomSemicolons1.js.golden --
+"use strict";
+;
+;
+var a = 1;
+;

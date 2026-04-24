@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/returnInfiniteIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js returnInfiniteIntersection.js returnInfiniteIntersection.ts
+! stderr .
+cmp returnInfiniteIntersection.js returnInfiniteIntersection.js.golden
+! exists returnInfiniteIntersection.d.ts
+! exists returnInfiniteIntersection.js.map
+
+-- returnInfiniteIntersection.ts --
+function recursive() {
+    let x = <T>(subkey: T) => recursive();
+    return x as typeof x & { p };
+}
+
+let result = recursive()(1)
+-- returnInfiniteIntersection.js.golden --
+"use strict";
+function recursive() {
+    let x = (subkey) => recursive();
+    return x;
+}
+let result = recursive()(1);

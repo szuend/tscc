@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/thisPredicateInObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js thisPredicateInObjectLiteral.js thisPredicateInObjectLiteral.ts
+stderr 'TS2526'
+! exists thisPredicateInObjectLiteral.js
+! exists thisPredicateInObjectLiteral.d.ts
+! exists thisPredicateInObjectLiteral.js.map
+
+-- thisPredicateInObjectLiteral.ts --
+// Should be OK
+const foo2 = {
+    isNumber(): this is { b: string } {
+        return true;
+    },
+};
+
+// Still an error
+const foo3 = {
+    isNumber(x: any): x is this {
+        return true;
+    },
+};

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/typeParameterAndArgumentOfSameName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterAndArgumentOfSameName1.js typeParameterAndArgumentOfSameName1.ts
+stderr 'TS2322'
+! exists typeParameterAndArgumentOfSameName1.js
+! exists typeParameterAndArgumentOfSameName1.d.ts
+! exists typeParameterAndArgumentOfSameName1.js.map
+
+-- typeParameterAndArgumentOfSameName1.ts --
+function f<A extends Number>(A: A): A {
+    var r = A.toExponential(123);
+    return null;
+}

@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/sourceMapValidationFor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-map sourceMapValidationFor.js.map --target es2015 --lib es2015,dom --out-js sourceMapValidationFor.js sourceMapValidationFor.ts
+stderr 'TS2695'
+! exists sourceMapValidationFor.js
+! exists sourceMapValidationFor.d.ts
+
+-- sourceMapValidationFor.ts --
+for (var i = 0; i < 10; i++) {
+    WScript.Echo("i: " + i);
+}
+for (i = 0; i < 10; i++)
+{
+    WScript.Echo("i: " + i);
+}
+for (var j = 0; j < 10; ) {
+    j++;
+    if (j == 1) {
+        continue;
+    }
+}
+for (j = 0; j < 10;)
+{
+    j++;
+}
+for (var k = 0;; k++) {
+}
+for (k = 0;; k++)
+{
+}
+for (; k < 10; k++) {
+}
+for (;;) {
+    i++;
+}
+for (;;)
+{
+    i++;
+}
+for (i = 0, j = 20; j < 20, i < 20; j++) {
+}

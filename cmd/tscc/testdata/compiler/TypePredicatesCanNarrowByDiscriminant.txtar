@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/typePredicatesCanNarrowByDiscriminant.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js typePredicatesCanNarrowByDiscriminant.js typePredicatesCanNarrowByDiscriminant.ts
+! stderr .
+cmp typePredicatesCanNarrowByDiscriminant.js typePredicatesCanNarrowByDiscriminant.js.golden
+! exists typePredicatesCanNarrowByDiscriminant.d.ts
+! exists typePredicatesCanNarrowByDiscriminant.js.map
+
+-- typePredicatesCanNarrowByDiscriminant.ts --
+// #45770
+declare const fruit: { kind: 'apple'} | { kind: 'banana' } | { kind: 'cherry' }
+
+declare function isOneOf<T, U extends T>(item: T, array: readonly U[]): item is U
+if (isOneOf(fruit.kind, ['apple', 'banana'] as const)) {
+    fruit.kind
+    fruit
+}
+
+declare const fruit2: { kind: 'apple'} | { kind: 'banana' } | { kind: 'cherry' }
+const kind = fruit2.kind;
+if (isOneOf(kind, ['apple', 'banana'] as const)) {
+    fruit2.kind
+    fruit2
+}
+-- typePredicatesCanNarrowByDiscriminant.js.golden --
+"use strict";
+if (isOneOf(fruit.kind, ['apple', 'banana'])) {
+    fruit.kind;
+    fruit;
+}
+const kind = fruit2.kind;
+if (isOneOf(kind, ['apple', 'banana'])) {
+    fruit2.kind;
+    fruit2;
+}

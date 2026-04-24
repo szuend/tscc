@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/specializedInheritedConstructors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js specializedInheritedConstructors1.js specializedInheritedConstructors1.ts
+stderr 'TS2564'
+! exists specializedInheritedConstructors1.js
+! exists specializedInheritedConstructors1.d.ts
+! exists specializedInheritedConstructors1.js.map
+
+-- specializedInheritedConstructors1.ts --
+interface ViewOptions<TModel> {
+    model: TModel;
+}
+
+class View<TModel> {
+    constructor(options: ViewOptions<TModel>) { }
+    model: TModel;
+}
+
+class Model { }
+class MyView extends View<Model> { }
+
+var m: ViewOptions<Model> = { model: new Model() };
+var aView = new View({ model: new Model() }); 
+var aView2 = new View(m); 
+var myView = new MyView(m); // was error

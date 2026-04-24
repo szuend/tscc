@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/staticMethodReferencingTypeArgument1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticMethodReferencingTypeArgument1.js staticMethodReferencingTypeArgument1.ts
+stderr 'TS2564'
+stderr 'TS2302'
+! exists staticMethodReferencingTypeArgument1.js
+! exists staticMethodReferencingTypeArgument1.d.ts
+! exists staticMethodReferencingTypeArgument1.js.map
+
+-- staticMethodReferencingTypeArgument1.ts --
+namespace Editor {
+    export class List<T> {
+        next: List<T>;
+        prev: List<T>;
+
+        constructor(public isHead: boolean, public data: T) {
+        }
+
+        static MakeHead(): List<T> {
+            var entry: List<T> = new List<T>(true, null); // can't access T here
+            entry.prev = entry;
+            entry.next = entry;
+            return entry;
+        }
+    }
+}

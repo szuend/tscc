@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/subclassWithPolymorphicThisIsAssignable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js subclassWithPolymorphicThisIsAssignable.js subclassWithPolymorphicThisIsAssignable.ts
+! stderr .
+cmp subclassWithPolymorphicThisIsAssignable.js subclassWithPolymorphicThisIsAssignable.js.golden
+! exists subclassWithPolymorphicThisIsAssignable.d.ts
+! exists subclassWithPolymorphicThisIsAssignable.js.map
+
+-- subclassWithPolymorphicThisIsAssignable.ts --
+/* taken from mongoose.Document */
+interface Document {
+    increment(): this;
+}
+
+/* our custom model extends the mongoose document */
+interface CustomDocument extends Document { }
+
+export class Example<Z extends CustomDocument> {
+    constructor() {
+        // types of increment not compatible??
+        this.test<Z>();
+    }
+
+    public test<Z extends Document>() { }
+}
+-- subclassWithPolymorphicThisIsAssignable.js.golden --
+export class Example {
+    constructor() {
+        // types of increment not compatible??
+        this.test();
+    }
+    test() { }
+}

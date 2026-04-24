@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/tripleSlashInCommentNotParsed.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js tripleSlashInCommentNotParsed.js tripleSlashInCommentNotParsed.ts
+! stderr .
+cmp tripleSlashInCommentNotParsed.js tripleSlashInCommentNotParsed.js.golden
+! exists tripleSlashInCommentNotParsed.d.ts
+! exists tripleSlashInCommentNotParsed.js.map
+
+-- tripleSlashInCommentNotParsed.ts --
+/*
+/// <reference path="non-existing-file.d.ts" />
+*/
+void 0;
+-- tripleSlashInCommentNotParsed.js.golden --
+"use strict";
+/*
+/// <reference path="non-existing-file.d.ts" />
+*/
+void 0;

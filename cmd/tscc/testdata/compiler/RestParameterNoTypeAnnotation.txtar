@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/restParameterNoTypeAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js restParameterNoTypeAnnotation.js restParameterNoTypeAnnotation.ts
+! stderr .
+cmp restParameterNoTypeAnnotation.js restParameterNoTypeAnnotation.js.golden
+! exists restParameterNoTypeAnnotation.d.ts
+! exists restParameterNoTypeAnnotation.js.map
+
+-- restParameterNoTypeAnnotation.ts --
+function foo(...rest) {   
+     var x: number = rest[0];
+     return x;   
+}  
+-- restParameterNoTypeAnnotation.js.golden --
+"use strict";
+function foo(...rest) {
+    var x = rest[0];
+    return x;
+}

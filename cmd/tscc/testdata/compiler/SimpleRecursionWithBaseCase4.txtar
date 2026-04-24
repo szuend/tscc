@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/simpleRecursionWithBaseCase4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --no-strict --target es2015 --lib es2015,dom simpleRecursionWithBaseCase4.ts
+! stderr .
+! exists simpleRecursionWithBaseCase4.d.ts
+! exists simpleRecursionWithBaseCase4.js.map
+
+-- simpleRecursionWithBaseCase4.ts --
+var fn2 = function(name) {
+  fn2 = compose(this, 0, 1)
+  return fn2(name)
+
+  function compose(child, level, find) {
+    if (child === find) {
+      return level
+    }
+    return compose(child, level + 1, find)
+  }
+}
+
+var d = fn2(1); // d: any
+d.redefined();

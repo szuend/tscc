@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/recursiveTypeParameterReferenceError1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveTypeParameterReferenceError1.js recursiveTypeParameterReferenceError1.ts
+stderr 'TS2454'
+stderr 'TS2564'
+! exists recursiveTypeParameterReferenceError1.js
+! exists recursiveTypeParameterReferenceError1.d.ts
+! exists recursiveTypeParameterReferenceError1.js.map
+
+-- recursiveTypeParameterReferenceError1.ts --
+class X<T> { }
+interface Foo<T> {
+    z: Foo<X<T>>; // error
+}
+var f: Foo<number>;
+var r = f.z; 
+
+
+class C2<T> {
+    x: T;
+}
+interface Foo2<T> {
+    ofC4: C2<{ x: T }> // ok
+}
+var f2: Foo2<number>;
+var r2 = f2.ofC4;

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/staticVisibility2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js staticVisibility2.js staticVisibility2.ts
+stderr 'TS7008'
+stderr 'TS2576'
+! exists staticVisibility2.js
+! exists staticVisibility2.d.ts
+! exists staticVisibility2.js.map
+
+-- staticVisibility2.ts --
+class Square {
+    static sideLength;
+    constructor(sideLength: number) {
+        this.sideLength = sideLength;
+    }
+}

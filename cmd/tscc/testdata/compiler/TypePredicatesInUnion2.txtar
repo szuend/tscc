@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/typePredicatesInUnion2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typePredicatesInUnion2.js typePredicatesInUnion2.ts
+! stderr .
+cmp typePredicatesInUnion2.js typePredicatesInUnion2.js.golden
+! exists typePredicatesInUnion2.d.ts
+! exists typePredicatesInUnion2.js.map
+
+-- typePredicatesInUnion2.ts --
+declare function isString(x: any): x is string;
+declare function isNumber(x: any): x is number;
+declare function f(p: typeof isString | typeof isNumber): void;
+f(isString);
+f(isNumber);
+-- typePredicatesInUnion2.js.golden --
+"use strict";
+f(isString);
+f(isNumber);

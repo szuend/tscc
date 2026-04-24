@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/subclassUint8Array.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --target esnext subclassUint8Array.ts
+! stderr .
+! exists subclassUint8Array.d.ts
+! exists subclassUint8Array.js.map
+
+-- subclassUint8Array.ts --
+class CustomBuffer extends Uint8Array {
+}

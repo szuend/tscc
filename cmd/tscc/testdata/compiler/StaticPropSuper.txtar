@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/staticPropSuper.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticPropSuper.js staticPropSuper.ts
+stderr 'TS2377'
+! exists staticPropSuper.js
+! exists staticPropSuper.d.ts
+! exists staticPropSuper.js.map
+
+-- staticPropSuper.ts --
+class A {
+}
+
+class B extends A {
+    public static s: number = 9;
+
+    constructor() {
+        var x = 1; // should not error
+        super();
+    }
+}
+
+class C extends A {
+    public p: number = 10;
+
+    constructor() {
+        var x = 1; // should error
+    }
+}
+
+class D extends A {
+    private p: number = 11;
+
+    constructor() {
+        var x = 1; // should error
+    }
+}
+
+class E extends A {
+    p: number = 12;
+
+    constructor() {
+        var x = 1; // should error
+    }
+}

@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/reexportWrittenCorrectlyInDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts Things.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js Things.js Things.ts
+! stderr .
+cmp Things.d.ts Things.d.ts.golden
+cmp Things.js Things.js.golden
+! exists Things.js.map
+
+-- Test.ts --
+import * as things from "./Things";
+
+export class Test {
+    public method = (input: things.ThingA)  => { };
+}
+-- ThingA.ts --
+export class ThingA { } 
+-- ThingB.ts --
+export class ThingB { }
+-- Things.ts --
+export {ThingA} from "./ThingA";
+export {ThingB} from "./ThingB";
+-- Things.d.ts.golden --
+export { ThingA } from "./ThingA";
+export { ThingB } from "./ThingB";
+-- Things.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ThingB = exports.ThingA = void 0;
+var ThingA_1 = require("./ThingA");
+Object.defineProperty(exports, "ThingA", { enumerable: true, get: function () { return ThingA_1.ThingA; } });
+var ThingB_1 = require("./ThingB");
+Object.defineProperty(exports, "ThingB", { enumerable: true, get: function () { return ThingB_1.ThingB; } });

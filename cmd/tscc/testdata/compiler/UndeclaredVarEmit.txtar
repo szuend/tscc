@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/undeclaredVarEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undeclaredVarEmit.js undeclaredVarEmit.ts
+stderr 'TS2693'
+! exists undeclaredVarEmit.js
+! exists undeclaredVarEmit.d.ts
+! exists undeclaredVarEmit.js.map
+
+-- undeclaredVarEmit.ts --
+f: number;

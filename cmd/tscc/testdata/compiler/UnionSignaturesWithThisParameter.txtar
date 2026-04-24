@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/unionSignaturesWithThisParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js unionSignaturesWithThisParameter.js unionSignaturesWithThisParameter.ts
+! stderr .
+cmp unionSignaturesWithThisParameter.js unionSignaturesWithThisParameter.js.golden
+! exists unionSignaturesWithThisParameter.d.ts
+! exists unionSignaturesWithThisParameter.js.map
+
+-- unionSignaturesWithThisParameter.ts --
+// Repro from #20802
+
+function x<T>(ctor: {
+    (this: {}, v: T): void;
+    new(v: T): void;
+} | {
+    (v: T): void;
+    new(v: T): void;
+}, t: T) {
+    new ctor(t);
+}
+-- unionSignaturesWithThisParameter.js.golden --
+"use strict";
+// Repro from #20802
+function x(ctor, t) {
+    new ctor(t);
+}

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/thisTypeAsConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisTypeAsConstraint.js thisTypeAsConstraint.ts
+! stderr .
+cmp thisTypeAsConstraint.js thisTypeAsConstraint.js.golden
+! exists thisTypeAsConstraint.d.ts
+! exists thisTypeAsConstraint.js.map
+
+-- thisTypeAsConstraint.ts --
+class C {
+  public m<T extends this>() {
+  }
+}
+-- thisTypeAsConstraint.js.golden --
+"use strict";
+class C {
+    m() {
+    }
+}

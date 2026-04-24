@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/returnValueInSetter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js returnValueInSetter.js returnValueInSetter.ts
+stderr 'TS2408'
+! exists returnValueInSetter.js
+! exists returnValueInSetter.d.ts
+! exists returnValueInSetter.js.map
+
+-- returnValueInSetter.ts --
+class f {
+    set x(value) {
+        return null; // Should be an error
+    }
+}
+

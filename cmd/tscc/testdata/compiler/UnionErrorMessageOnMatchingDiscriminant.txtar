@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/unionErrorMessageOnMatchingDiscriminant.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js unionErrorMessageOnMatchingDiscriminant.js unionErrorMessageOnMatchingDiscriminant.ts
+stderr 'TS2322'
+! exists unionErrorMessageOnMatchingDiscriminant.js
+! exists unionErrorMessageOnMatchingDiscriminant.d.ts
+! exists unionErrorMessageOnMatchingDiscriminant.js.map
+
+-- unionErrorMessageOnMatchingDiscriminant.ts --
+type A = {
+    type: 'a',
+    data: { a: string }
+};
+
+type B = {
+    type: 'b',
+    data: null
+};
+
+type C = {
+    type: 'c',
+    payload: string
+};
+
+type Union = A | B | C;
+
+// error
+const foo: Union = {
+    type: 'a',
+    data: null
+};

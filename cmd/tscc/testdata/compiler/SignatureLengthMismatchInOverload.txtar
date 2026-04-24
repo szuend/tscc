@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/signatureLengthMismatchInOverload.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js signatureLengthMismatchInOverload.js signatureLengthMismatchInOverload.ts
+stderr 'TS2769'
+! exists signatureLengthMismatchInOverload.js
+! exists signatureLengthMismatchInOverload.d.ts
+! exists signatureLengthMismatchInOverload.js.map
+
+-- signatureLengthMismatchInOverload.ts --
+function f(callback: (arg: string, arg2: string) => void): void;
+function f(callback: (arg: number) => void): void;
+function f(callback: unknown) { }
+
+f((arg: number, arg2: number) => {});

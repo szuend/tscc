@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/staticsInConstructorBodies.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticsInConstructorBodies.js staticsInConstructorBodies.ts
+stderr 'TS1128'
+! exists staticsInConstructorBodies.js
+! exists staticsInConstructorBodies.d.ts
+! exists staticsInConstructorBodies.js.map
+
+-- staticsInConstructorBodies.ts --
+class C {
+	constructor() {
+		static p1 = 0; // ERROR
+		static m1() {} // ERROR
+	}
+}

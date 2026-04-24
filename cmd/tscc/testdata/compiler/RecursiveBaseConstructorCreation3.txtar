@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/recursiveBaseConstructorCreation3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveBaseConstructorCreation3.js recursiveBaseConstructorCreation3.ts
+stderr 'TS2314'
+stderr 'TS2351'
+! exists recursiveBaseConstructorCreation3.js
+! exists recursiveBaseConstructorCreation3.d.ts
+! exists recursiveBaseConstructorCreation3.js.map
+
+-- recursiveBaseConstructorCreation3.ts --
+declare class base<T> {
+}
+declare class abc<T> extends base<T> {
+    foo: xyz;
+}
+declare class xyz extends abc {
+}
+
+var bar = new xyz(); // Error: Invalid 'new' expression.
+var r: xyz = bar.foo;

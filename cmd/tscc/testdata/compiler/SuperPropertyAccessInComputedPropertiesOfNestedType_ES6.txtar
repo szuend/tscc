@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/superPropertyAccessInComputedPropertiesOfNestedType_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js superPropertyAccessInComputedPropertiesOfNestedType_ES6.js superPropertyAccessInComputedPropertiesOfNestedType_ES6.ts
+! stderr .
+cmp superPropertyAccessInComputedPropertiesOfNestedType_ES6.js superPropertyAccessInComputedPropertiesOfNestedType_ES6.js.golden
+! exists superPropertyAccessInComputedPropertiesOfNestedType_ES6.d.ts
+! exists superPropertyAccessInComputedPropertiesOfNestedType_ES6.js.map
+
+-- superPropertyAccessInComputedPropertiesOfNestedType_ES6.ts --
+class A {
+    foo() { return 1; }
+}
+
+class B extends A {
+    foo() { return 2; }
+    bar() {
+        return class {
+            [super.foo()]() {
+                return 100;
+            }
+        }
+    }
+}
+-- superPropertyAccessInComputedPropertiesOfNestedType_ES6.js.golden --
+"use strict";
+class A {
+    foo() { return 1; }
+}
+class B extends A {
+    foo() { return 2; }
+    bar() {
+        return class {
+            [super.foo()]() {
+                return 100;
+            }
+        };
+    }
+}

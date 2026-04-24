@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/recursiveGenericTypeHierarchy.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveGenericTypeHierarchy.js recursiveGenericTypeHierarchy.ts
+! stderr .
+cmp recursiveGenericTypeHierarchy.js recursiveGenericTypeHierarchy.js.golden
+! exists recursiveGenericTypeHierarchy.d.ts
+! exists recursiveGenericTypeHierarchy.js.map
+
+-- recursiveGenericTypeHierarchy.ts --
+// used to ICE
+interface A<T extends A<T, S>, S extends A<T, S>> { }
+interface B<T extends B<T, S>, S extends B<T, S>> extends A<B<T, S>, B<T, S>> { }
+-- recursiveGenericTypeHierarchy.js.golden --
+"use strict";

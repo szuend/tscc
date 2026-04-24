@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/redeclareParameterInCatchBlock.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es6 --lib es6,dom --out-js redeclareParameterInCatchBlock.js redeclareParameterInCatchBlock.ts
+stderr 'TS2492'
+stderr 'TS2451'
+! exists redeclareParameterInCatchBlock.js
+! exists redeclareParameterInCatchBlock.d.ts
+! exists redeclareParameterInCatchBlock.js.map
+
+-- redeclareParameterInCatchBlock.ts --
+try {
+
+} catch(e) {
+    const e = null;
+}
+
+try {
+
+} catch(e) {
+    let e;
+}
+
+try {
+
+} catch ([a, b]) {
+    const [c, b] = [0, 1];
+}
+
+try {
+
+} catch ({ a: x, b: x }) {
+
+}
+
+try {
+
+} catch(e) {
+    function test() {
+        let e;
+    }
+}

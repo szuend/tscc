@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/switchStatementsWithMultipleDefaults1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js switchStatementsWithMultipleDefaults1.js switchStatementsWithMultipleDefaults1.ts
+stderr 'TS1113'
+! exists switchStatementsWithMultipleDefaults1.js
+! exists switchStatementsWithMultipleDefaults1.d.ts
+! exists switchStatementsWithMultipleDefaults1.js.map
+
+-- switchStatementsWithMultipleDefaults1.ts --
+    var x = 10;
+    
+    switch (x) {
+        case 1:
+        case 2:
+        default:    // No issues.
+            break;
+        default:    // Error; second 'default' clause.
+        default:    // Error; third 'default' clause.
+        case 3:
+            x *= x;
+    }

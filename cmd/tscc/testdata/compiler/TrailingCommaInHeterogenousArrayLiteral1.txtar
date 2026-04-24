@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/trailingCommaInHeterogenousArrayLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js trailingCommaInHeterogenousArrayLiteral1.js trailingCommaInHeterogenousArrayLiteral1.ts
+stderr 'TS2322'
+! exists trailingCommaInHeterogenousArrayLiteral1.js
+! exists trailingCommaInHeterogenousArrayLiteral1.d.ts
+! exists trailingCommaInHeterogenousArrayLiteral1.js.map
+
+-- trailingCommaInHeterogenousArrayLiteral1.ts --
+class arrTest {
+    test(arg1: number[]) {    }
+    callTest() {
+        // these two should give the same error
+        this.test([1, 2, "hi", 5, ]);
+        this.test([1, 2, "hi", 5]); 
+    }
+}

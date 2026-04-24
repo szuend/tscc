@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/typeArgumentConstraintResolution1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js typeArgumentConstraintResolution1.js typeArgumentConstraintResolution1.ts
+stderr 'TS2345'
+! exists typeArgumentConstraintResolution1.js
+! exists typeArgumentConstraintResolution1.d.ts
+! exists typeArgumentConstraintResolution1.js.map
+
+-- typeArgumentConstraintResolution1.ts --
+function foo1<T extends Date>(test: T);
+function foo1<T extends Number>(test: string);
+function foo1<T extends String>(test: any) { }
+foo1<Date>(""); // should error
+
+
+
+function foo2<T extends Date>(test: T): T;
+function foo2<T extends Number>(test: string): T; 
+function foo2<T extends String>(test: any): any { return null; }
+foo2<Date>(""); // Type Date does not satisfy the constraint 'Number' for type parameter 'T extends Number'

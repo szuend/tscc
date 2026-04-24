@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/scopeCheckStaticInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js scopeCheckStaticInitializer.js scopeCheckStaticInitializer.ts
+stderr 'TS2729'
+stderr 'TS2449'
+! exists scopeCheckStaticInitializer.js
+! exists scopeCheckStaticInitializer.d.ts
+! exists scopeCheckStaticInitializer.js.map
+
+-- scopeCheckStaticInitializer.ts --
+class X {
+    static illegalBeforeProperty = X.data;
+    static okBeforeMethod = X.method;
+
+    static illegal2 = After.data;
+    static illegal3 = After.method;
+    static data = 13;
+    static method() { }
+}
+class After {
+    static data = 12;
+    static method() { };
+}
+

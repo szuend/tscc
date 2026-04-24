@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/typeofExternalModules.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js typeofExternalModules_exportAssign.js typeofExternalModules_exportAssign.ts
+! stderr .
+cmp typeofExternalModules_exportAssign.js typeofExternalModules_exportAssign.js.golden
+! exists typeofExternalModules_exportAssign.d.ts
+! exists typeofExternalModules_exportAssign.js.map
+
+-- typeofExternalModules_core.ts --
+import ext = require('./typeofExternalModules_external');
+import exp = require('./typeofExternalModules_exportAssign');
+
+var y1: typeof ext = ext;
+y1 = exp;
+var y2: typeof exp = exp;
+y2 = ext;
+-- typeofExternalModules_exportAssign.ts --
+class D { }
+export = D;
+-- typeofExternalModules_external.ts --
+export class C { }
+-- typeofExternalModules_exportAssign.js.golden --
+"use strict";
+class D {
+}
+module.exports = D;

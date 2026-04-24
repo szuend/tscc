@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/reboundIdentifierOnImportAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js reboundIdentifierOnImportAlias.js reboundIdentifierOnImportAlias.ts
+stderr 'TS2437'
+! exists reboundIdentifierOnImportAlias.js
+! exists reboundIdentifierOnImportAlias.d.ts
+! exists reboundIdentifierOnImportAlias.js.map
+
+-- reboundIdentifierOnImportAlias.ts --
+namespace Foo {
+    export var x = "hello";
+}
+namespace Bar {
+    var Foo = 1;
+    import F = Foo;
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/typeAliasInstantiationNoLeak1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom typeAliasInstantiationNoLeak1.ts
+! stderr .
+! exists typeAliasInstantiationNoLeak1.d.ts
+! exists typeAliasInstantiationNoLeak1.js.map
+
+-- typeAliasInstantiationNoLeak1.ts --
+type Foo<T> = T | string | number;
+type Bar<T> = Foo<T> | undefined;
+
+declare let x1: Bar<"a">;
+declare let x2: Bar<"b">;

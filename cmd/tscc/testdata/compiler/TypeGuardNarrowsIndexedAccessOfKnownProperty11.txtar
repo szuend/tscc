@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/typeGuardNarrowsIndexedAccessOfKnownProperty11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js typeGuardNarrowsIndexedAccessOfKnownProperty11.js typeGuardNarrowsIndexedAccessOfKnownProperty11.ts
+! stderr .
+cmp typeGuardNarrowsIndexedAccessOfKnownProperty11.js typeGuardNarrowsIndexedAccessOfKnownProperty11.js.golden
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty11.d.ts
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty11.js.map
+
+-- typeGuardNarrowsIndexedAccessOfKnownProperty11.ts --
+enum E { A, B }
+
+declare const m: { [K in E]: string | null };
+
+if (m[E.A] !== null) {
+    m[E.A].toString(); // string
+}
+-- typeGuardNarrowsIndexedAccessOfKnownProperty11.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["A"] = 0] = "A";
+    E[E["B"] = 1] = "B";
+})(E || (E = {}));
+if (m[E.A] !== null) {
+    m[E.A].toString(); // string
+}

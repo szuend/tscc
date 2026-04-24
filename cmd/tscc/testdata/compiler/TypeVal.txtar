@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/typeVal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeVal.js typeVal.ts
+! stderr .
+cmp typeVal.js typeVal.js.golden
+! exists typeVal.d.ts
+! exists typeVal.js.map
+
+-- typeVal.ts --
+interface I {
+    I:number;
+}
+
+var I:I = { I: 3};
+I.I=4;
+
+-- typeVal.js.golden --
+"use strict";
+var I = { I: 3 };
+I.I = 4;

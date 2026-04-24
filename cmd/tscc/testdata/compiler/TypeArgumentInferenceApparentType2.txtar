@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/typeArgumentInferenceApparentType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js typeArgumentInferenceApparentType2.js typeArgumentInferenceApparentType2.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists typeArgumentInferenceApparentType2.js
+! exists typeArgumentInferenceApparentType2.d.ts
+! exists typeArgumentInferenceApparentType2.js.map
+
+-- typeArgumentInferenceApparentType2.ts --
+function method<T>(iterable: Iterable<T>): T {
+    function inner<U extends Iterable<T>>() {
+        var u: U;
+        var res: T = method(u);
+    }
+    return;
+}

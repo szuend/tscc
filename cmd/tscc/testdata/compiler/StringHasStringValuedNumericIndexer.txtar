@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/stringHasStringValuedNumericIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js stringHasStringValuedNumericIndexer.js stringHasStringValuedNumericIndexer.ts
+! stderr .
+cmp stringHasStringValuedNumericIndexer.js stringHasStringValuedNumericIndexer.js.golden
+! exists stringHasStringValuedNumericIndexer.d.ts
+! exists stringHasStringValuedNumericIndexer.js.map
+
+-- stringHasStringValuedNumericIndexer.ts --
+var str: string = ""[0];
+-- stringHasStringValuedNumericIndexer.js.golden --
+"use strict";
+var str = ""[0];

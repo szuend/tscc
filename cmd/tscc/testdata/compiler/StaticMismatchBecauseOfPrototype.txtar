@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/staticMismatchBecauseOfPrototype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticMismatchBecauseOfPrototype.js staticMismatchBecauseOfPrototype.ts
+stderr 'TS2416'
+! exists staticMismatchBecauseOfPrototype.js
+! exists staticMismatchBecauseOfPrototype.d.ts
+! exists staticMismatchBecauseOfPrototype.js.map
+
+-- staticMismatchBecauseOfPrototype.ts --
+interface A {
+    n: number;
+}
+declare var A: {
+    prototype: A;
+    new(): A;
+};
+
+class B extends A {
+    n = "";
+}

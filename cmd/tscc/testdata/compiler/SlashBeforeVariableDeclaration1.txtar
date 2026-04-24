@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/slashBeforeVariableDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js slashBeforeVariableDeclaration1.js slashBeforeVariableDeclaration1.ts
+stderr 'TS1127'
+! exists slashBeforeVariableDeclaration1.js
+! exists slashBeforeVariableDeclaration1.d.ts
+! exists slashBeforeVariableDeclaration1.js.map
+
+-- slashBeforeVariableDeclaration1.ts --
+\ declare var v;

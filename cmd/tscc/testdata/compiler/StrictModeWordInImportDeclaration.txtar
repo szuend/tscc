@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/strictModeWordInImportDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js strictModeWordInImportDeclaration.js strictModeWordInImportDeclaration.ts
+stderr 'TS1214'
+! exists strictModeWordInImportDeclaration.js
+! exists strictModeWordInImportDeclaration.d.ts
+! exists strictModeWordInImportDeclaration.js.map
+
+-- strictModeWordInImportDeclaration.ts --
+"use strict"
+import * as package from "./1"
+import {foo as private} from "./1"
+import public from "./1"

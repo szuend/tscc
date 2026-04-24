@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/switchCaseCircularRefeference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js switchCaseCircularRefeference.js switchCaseCircularRefeference.ts
+stderr 'TS2678'
+! exists switchCaseCircularRefeference.js
+! exists switchCaseCircularRefeference.d.ts
+! exists switchCaseCircularRefeference.js.map
+
+-- switchCaseCircularRefeference.ts --
+// Repro from #9507
+
+function f(x: {a: "A", b} | {a: "C", e}) {
+    switch (x.a) {
+    case x:
+        break;
+    }
+}

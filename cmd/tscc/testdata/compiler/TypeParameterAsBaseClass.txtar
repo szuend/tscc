@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/typeParameterAsBaseClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterAsBaseClass.js typeParameterAsBaseClass.ts
+stderr 'TS2304'
+stderr 'TS2422'
+! exists typeParameterAsBaseClass.js
+! exists typeParameterAsBaseClass.d.ts
+! exists typeParameterAsBaseClass.js.map
+
+-- typeParameterAsBaseClass.ts --
+class C<T> extends T {}
+class C2<T> implements T {}

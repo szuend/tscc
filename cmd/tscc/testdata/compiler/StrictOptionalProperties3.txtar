@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/strictOptionalProperties3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --exact-optional-property-types --strict-null-checks --target es2015 --lib es2015,dom a.js
+stderr 'TS2375'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @typedef {object} A
+ * @property {number} [value]
+ */
+
+/** @type {A} */
+const a = { value: undefined }; // error
+
+/**
+ * @typedef {{ value?: number }} B
+ */
+
+/** @type {B} */
+const b = { value: undefined }; // error

@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/typeInterfaceDeclarationsInBlockStatements1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts typeInterfaceDeclarationsInBlockStatements1.d.ts --strict --target es2015 --lib es2015,dom --out-js typeInterfaceDeclarationsInBlockStatements1.js typeInterfaceDeclarationsInBlockStatements1.ts
+stderr 'TS1156'
+! exists typeInterfaceDeclarationsInBlockStatements1.d.ts
+! exists typeInterfaceDeclarationsInBlockStatements1.js
+! exists typeInterfaceDeclarationsInBlockStatements1.js.map
+
+-- typeInterfaceDeclarationsInBlockStatements1.ts --
+// https://github.com/microsoft/TypeScript/issues/60175
+
+function f1() {
+  if (true) type s = string;
+  console.log("" as s);
+}
+
+function f2() {
+  if (true) {
+    type s = string;
+  }
+  console.log("" as s);
+}
+
+function f3() {
+  if (true)
+    interface s {
+      length: number;
+    }
+  console.log("" as s);
+}
+
+function f4() {
+  if (true) {
+    interface s {
+      length: number;
+    }
+  }
+  console.log("" as s);
+}

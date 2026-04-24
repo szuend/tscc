@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/taggedTemplateStringsWithMultilineTemplate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js taggedTemplateStringsWithMultilineTemplate.js taggedTemplateStringsWithMultilineTemplate.ts
+! stderr .
+cmp taggedTemplateStringsWithMultilineTemplate.js taggedTemplateStringsWithMultilineTemplate.js.golden
+! exists taggedTemplateStringsWithMultilineTemplate.d.ts
+! exists taggedTemplateStringsWithMultilineTemplate.js.map
+
+-- taggedTemplateStringsWithMultilineTemplate.ts --
+function f(...args: any[]): void {
+}
+
+f `
+\
+
+`;
+-- taggedTemplateStringsWithMultilineTemplate.js.golden --
+"use strict";
+function f(...args) {
+}
+f `
+\
+
+`;

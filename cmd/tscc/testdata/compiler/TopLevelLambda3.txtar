@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/topLevelLambda3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js topLevelLambda3.js topLevelLambda3.ts
+stderr 'TS7041'
+! exists topLevelLambda3.js
+! exists topLevelLambda3.d.ts
+! exists topLevelLambda3.js.map
+
+-- topLevelLambda3.ts --
+var f = () => {this.window;}

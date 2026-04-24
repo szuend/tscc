@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/superWithTypeArgument.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superWithTypeArgument.js superWithTypeArgument.ts
+stderr 'TS2754'
+! exists superWithTypeArgument.js
+! exists superWithTypeArgument.d.ts
+! exists superWithTypeArgument.js.map
+
+-- superWithTypeArgument.ts --
+class C {
+    
+}
+
+class D<T> extends C {
+    constructor() {
+        super<T>();
+    }
+}

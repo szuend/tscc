@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeGuardNarrowsIndexedAccessOfKnownProperty10.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js typeGuardNarrowsIndexedAccessOfKnownProperty10.js typeGuardNarrowsIndexedAccessOfKnownProperty10.ts
+stderr 'TS2448'
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty10.js
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty10.d.ts
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty10.js.map
+
+-- typeGuardNarrowsIndexedAccessOfKnownProperty10.ts --
+interface Foo { bar: any; }
+const bar: { [id: string]: number } = {};
+
+(foo: Foo) => {
+	bar[id]++;
+	const id = foo.bar;
+}

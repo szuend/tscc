@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/recursiveSpecializationOfExtendedTypeWithError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --target es2015 --out-js recursiveSpecializationOfExtendedTypeWithError.js recursiveSpecializationOfExtendedTypeWithError.ts
+! stderr .
+cmp recursiveSpecializationOfExtendedTypeWithError.js recursiveSpecializationOfExtendedTypeWithError.js.golden
+! exists recursiveSpecializationOfExtendedTypeWithError.d.ts
+! exists recursiveSpecializationOfExtendedTypeWithError.js.map
+
+-- recursiveSpecializationOfExtendedTypeWithError.ts --
+interface HTMLSelectElement {
+    options: HTMLSelectElement;
+    <A>(name: A): any;
+}
+ 
+-- recursiveSpecializationOfExtendedTypeWithError.js.golden --
+"use strict";

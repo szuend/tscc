@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/restIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js restIntersection.js restIntersection.ts
+stderr 'TS2454'
+! exists restIntersection.js
+! exists restIntersection.d.ts
+! exists restIntersection.js.map
+
+-- restIntersection.ts --
+var intersection: { x: number, y: number } & { w: string, z: string };
+
+var rest1: { y: number, w: string, z: string };
+var {x, ...rest1 } = intersection;

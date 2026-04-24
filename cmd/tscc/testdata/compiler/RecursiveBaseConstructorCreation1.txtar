@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/recursiveBaseConstructorCreation1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveBaseConstructorCreation1.js recursiveBaseConstructorCreation1.ts
+! stderr .
+cmp recursiveBaseConstructorCreation1.js recursiveBaseConstructorCreation1.js.golden
+! exists recursiveBaseConstructorCreation1.d.ts
+! exists recursiveBaseConstructorCreation1.js.map
+
+-- recursiveBaseConstructorCreation1.ts --
+class C1 {
+public func(param: C2): any { }
+}
+class C2 extends C1 { }
+var x = new C2(); // Valid
+-- recursiveBaseConstructorCreation1.js.golden --
+"use strict";
+class C1 {
+    func(param) { }
+}
+class C2 extends C1 {
+}
+var x = new C2(); // Valid

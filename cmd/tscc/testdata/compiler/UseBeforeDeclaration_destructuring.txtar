@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/useBeforeDeclaration_destructuring.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js useBeforeDeclaration_destructuring.js useBeforeDeclaration_destructuring.ts
+stderr 'TS2448'
+stderr 'TS2454'
+! exists useBeforeDeclaration_destructuring.js
+! exists useBeforeDeclaration_destructuring.d.ts
+! exists useBeforeDeclaration_destructuring.js.map
+
+-- useBeforeDeclaration_destructuring.ts --
+a;
+let {a, b = a} = {a: '', b: 1};
+b;
+
+function test({c, d = c}: Record<string, number>) {}

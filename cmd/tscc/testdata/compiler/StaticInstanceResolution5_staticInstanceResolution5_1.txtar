@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/staticInstanceResolution5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js staticInstanceResolution5_1.js staticInstanceResolution5_1.ts
+stderr 'TS2709'
+! exists staticInstanceResolution5_1.js
+! exists staticInstanceResolution5_1.d.ts
+! exists staticInstanceResolution5_1.js.map
+
+-- staticInstanceResolution5_0.ts --
+export class Promise {
+    static timeout(delay: number): Promise {
+        return null;
+    }
+}
+-- staticInstanceResolution5_1.ts --
+import WinJS = require('./staticInstanceResolution5_0');
+
+// these 3 should be errors
+var x = (w1: WinJS) => { };
+var y = function (w2: WinJS) { }
+function z(w3: WinJS) { }

@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/recursiveInheritance2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveInheritance2.js recursiveInheritance2.ts
+! stderr .
+cmp recursiveInheritance2.js recursiveInheritance2.js.golden
+! exists recursiveInheritance2.d.ts
+! exists recursiveInheritance2.js.map
+
+-- recursiveInheritance2.ts --
+interface A { (): B; };
+declare var a: A;
+var x = a();
+
+interface B { (): C; };
+declare var b: B;
+var y = b();
+
+interface C { (): A; };
+declare var c: C;
+var z = c();
+
+x = y;
+-- recursiveInheritance2.js.golden --
+"use strict";
+;
+var x = a();
+;
+var y = b();
+;
+var z = c();
+x = y;

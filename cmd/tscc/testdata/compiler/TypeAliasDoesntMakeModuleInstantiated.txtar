@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/typeAliasDoesntMakeModuleInstantiated.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeAliasDoesntMakeModuleInstantiated.js typeAliasDoesntMakeModuleInstantiated.ts
+! stderr .
+cmp typeAliasDoesntMakeModuleInstantiated.js typeAliasDoesntMakeModuleInstantiated.js.golden
+! exists typeAliasDoesntMakeModuleInstantiated.d.ts
+! exists typeAliasDoesntMakeModuleInstantiated.js.map
+
+-- typeAliasDoesntMakeModuleInstantiated.ts --
+declare namespace m {
+    // type alias declaration here shouldnt make the module declaration instantiated
+    type Selector = string| string[] |Function;
+
+    export interface IStatic {
+        (selector: any /* Selector */): IInstance;
+    }
+    export interface IInstance { }
+}
+declare var m: m.IStatic; // Should be ok to have var 'm' as module is non instantiated
+-- typeAliasDoesntMakeModuleInstantiated.js.golden --
+"use strict";

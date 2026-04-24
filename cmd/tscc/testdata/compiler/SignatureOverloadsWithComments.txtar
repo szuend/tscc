@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/signatureOverloadsWithComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts signatureOverloadsWithComments.d.ts --target es2015 --lib es2015,dom signatureOverloadsWithComments.ts
+! stderr .
+cmp signatureOverloadsWithComments.d.ts signatureOverloadsWithComments.d.ts.golden
+! exists signatureOverloadsWithComments.js.map
+
+-- signatureOverloadsWithComments.ts --
+/**
+ * Docs
+ */
+function Foo() {
+    return class Bar {
+        /**
+         * comment 1
+         */
+        foo(bar: string): void;
+        /**
+         * @deprecated This signature is deprecated
+         *
+         * comment 2
+         */
+        foo(): string;
+        foo(bar?: string): string | void {
+            return 'hi'
+        }
+    }
+}
+-- signatureOverloadsWithComments.d.ts.golden --
+/**
+ * Docs
+ */
+declare function Foo(): {
+    new (): {
+        /**
+         * comment 1
+         */
+        foo(bar: string): void;
+        /**
+         * @deprecated This signature is deprecated
+         *
+         * comment 2
+         */
+        foo(): string;
+    };
+};

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/typeOfPrototype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeOfPrototype.js typeOfPrototype.ts
+stderr 'TS2322'
+! exists typeOfPrototype.js
+! exists typeOfPrototype.d.ts
+! exists typeOfPrototype.js.map
+
+-- typeOfPrototype.ts --
+class Foo {
+    bar = 3;
+    static bar = '';
+}
+Foo.prototype.bar = undefined; // Should be OK

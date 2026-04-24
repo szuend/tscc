@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/shorthand-property-es6-es6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts test.d.ts --module ES6 --target ES6 --lib ES6,dom --out-js test.js test.ts
+stderr 'TS2307'
+! exists test.d.ts
+! exists test.js
+! exists test.js.map
+
+-- test.ts --
+import {foo} from './foo';
+const baz = 42;
+const bar = { foo, baz };

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/styleOptions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js styleOptions.js styleOptions.ts
+! stderr .
+cmp styleOptions.js styleOptions.js.golden
+! exists styleOptions.d.ts
+! exists styleOptions.js.map
+
+-- styleOptions.ts --
+///<style eqeqeq="on" strict="on" /> 
+
+var x = 1;
+var y = 1;
+var t = x == y;
+
+-- styleOptions.js.golden --
+"use strict";
+///<style eqeqeq="on" strict="on" /> 
+var x = 1;
+var y = 1;
+var t = x == y;

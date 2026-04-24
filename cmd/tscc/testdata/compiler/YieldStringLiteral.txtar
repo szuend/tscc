@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/yieldStringLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js yieldStringLiteral.js yieldStringLiteral.ts
+stderr 'TS1163'
+! exists yieldStringLiteral.js
+! exists yieldStringLiteral.d.ts
+! exists yieldStringLiteral.js.map
+
+-- yieldStringLiteral.ts --
+function yieldString() {
+    yield 'literal';
+}

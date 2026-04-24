@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/thisReferencedInFunctionInsideArrowFunction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisReferencedInFunctionInsideArrowFunction1.js thisReferencedInFunctionInsideArrowFunction1.ts
+! stderr .
+cmp thisReferencedInFunctionInsideArrowFunction1.js thisReferencedInFunctionInsideArrowFunction1.js.golden
+! exists thisReferencedInFunctionInsideArrowFunction1.d.ts
+! exists thisReferencedInFunctionInsideArrowFunction1.js.map
+
+-- thisReferencedInFunctionInsideArrowFunction1.ts --
+var foo = (dummy) => { };
+function test()
+{
+    foo(() =>
+        function () { return this; }
+    );
+}
+-- thisReferencedInFunctionInsideArrowFunction1.js.golden --
+"use strict";
+var foo = (dummy) => { };
+function test() {
+    foo(() => function () { return this; });
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/requireOfAnEmptyFile1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js requireOfAnEmptyFile1_a.js requireOfAnEmptyFile1_a.ts
+stderr 'TS2306'
+! exists requireOfAnEmptyFile1_a.js
+! exists requireOfAnEmptyFile1_a.d.ts
+! exists requireOfAnEmptyFile1_a.js.map
+
+-- requireOfAnEmptyFile1_a.ts --
+import fs = require('./requireOfAnEmptyFile1_b');
+-- requireOfAnEmptyFile1_b.ts --
+

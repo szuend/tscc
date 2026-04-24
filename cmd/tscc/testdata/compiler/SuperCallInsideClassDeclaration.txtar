@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/superCallInsideClassDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js superCallInsideClassDeclaration.js superCallInsideClassDeclaration.ts
+stderr 'TS2377'
+! exists superCallInsideClassDeclaration.js
+! exists superCallInsideClassDeclaration.d.ts
+! exists superCallInsideClassDeclaration.js.map
+
+-- superCallInsideClassDeclaration.ts --
+class A {
+}
+
+class C {
+}
+
+class B extends A {
+    constructor() {
+
+        class D extends C {
+            constructor() {
+                super();
+            }
+        }
+    }
+}

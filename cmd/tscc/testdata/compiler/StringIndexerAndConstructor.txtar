@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/stringIndexerAndConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js stringIndexerAndConstructor.js stringIndexerAndConstructor.ts
+stderr 'TS2411'
+! exists stringIndexerAndConstructor.js
+! exists stringIndexerAndConstructor.d.ts
+! exists stringIndexerAndConstructor.js.map
+
+-- stringIndexerAndConstructor.ts --
+class C {
+    [s: string]: number;
+    constructor() { }
+    static v() { }
+}
+
+interface I {
+    [s: string]: number;
+    (): boolean;
+    new (): boolean;
+    "": string;
+    d: string;
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/resolveTypeAliasWithSameLetDeclarationName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js resolveTypeAliasWithSameLetDeclarationName1.js resolveTypeAliasWithSameLetDeclarationName1.ts
+! stderr .
+cmp resolveTypeAliasWithSameLetDeclarationName1.js resolveTypeAliasWithSameLetDeclarationName1.js.golden
+! exists resolveTypeAliasWithSameLetDeclarationName1.d.ts
+! exists resolveTypeAliasWithSameLetDeclarationName1.js.map
+
+-- resolveTypeAliasWithSameLetDeclarationName1.ts --
+class C { }
+type baz = C;
+let baz: baz;
+-- resolveTypeAliasWithSameLetDeclarationName1.js.golden --
+"use strict";
+class C {
+}
+let baz;

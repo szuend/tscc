@@ -1,0 +1,100 @@
+# Ported from tests/cases/compiler/superCallInNonStaticMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superCallInNonStaticMethod.js superCallInNonStaticMethod.ts
+! stderr .
+cmp superCallInNonStaticMethod.js superCallInNonStaticMethod.js.golden
+! exists superCallInNonStaticMethod.d.ts
+! exists superCallInNonStaticMethod.js.map
+
+-- superCallInNonStaticMethod.ts --
+class Doing {
+    public instanceMethod() {
+    }
+}
+
+class Other extends Doing {
+    // in instance method
+    public instanceMethod() {
+        super.instanceMethod();
+    }
+
+    // in a lambda inside a instance method
+    public lambdaInsideAnInstanceMethod() {
+        () => {
+            super.instanceMethod();
+        }
+    }
+
+    // in an object literal inside a instance method
+    public objectLiteralInsideAnInstanceMethod() {
+        return {
+            a: () => {
+                super.instanceMethod();
+            },
+            b: super.instanceMethod()
+        };
+    }
+
+    // in a getter
+    public get accessor() {
+        super.instanceMethod();
+
+        return 0;
+    }
+
+    // in a setter
+    public set accessor(value: number) {
+        super.instanceMethod();
+    }
+    
+    constructor() {
+        super();
+        super.instanceMethod();
+    }
+    
+    public propertyInitializer = super.instanceMethod();
+    
+    public functionProperty = () => {super.instanceMethod(); };
+}
+-- superCallInNonStaticMethod.js.golden --
+"use strict";
+class Doing {
+    instanceMethod() {
+    }
+}
+class Other extends Doing {
+    // in instance method
+    instanceMethod() {
+        super.instanceMethod();
+    }
+    // in a lambda inside a instance method
+    lambdaInsideAnInstanceMethod() {
+        () => {
+            super.instanceMethod();
+        };
+    }
+    // in an object literal inside a instance method
+    objectLiteralInsideAnInstanceMethod() {
+        return {
+            a: () => {
+                super.instanceMethod();
+            },
+            b: super.instanceMethod()
+        };
+    }
+    // in a getter
+    get accessor() {
+        super.instanceMethod();
+        return 0;
+    }
+    // in a setter
+    set accessor(value) {
+        super.instanceMethod();
+    }
+    constructor() {
+        super();
+        this.propertyInitializer = super.instanceMethod();
+        this.functionProperty = () => { super.instanceMethod(); };
+        super.instanceMethod();
+    }
+}

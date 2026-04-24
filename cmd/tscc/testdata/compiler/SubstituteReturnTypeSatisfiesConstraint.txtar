@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/substituteReturnTypeSatisfiesConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js substituteReturnTypeSatisfiesConstraint.js substituteReturnTypeSatisfiesConstraint.ts
+! stderr .
+cmp substituteReturnTypeSatisfiesConstraint.js substituteReturnTypeSatisfiesConstraint.js.golden
+! exists substituteReturnTypeSatisfiesConstraint.d.ts
+! exists substituteReturnTypeSatisfiesConstraint.js.map
+
+-- substituteReturnTypeSatisfiesConstraint.ts --
+type M = { p: string };
+type O = { m: () => M };
+type X<T extends M> = T;
+type FFG<T> = T extends O ? X<ReturnType<T['m']>> : never; // error!
+-- substituteReturnTypeSatisfiesConstraint.js.golden --
+"use strict";

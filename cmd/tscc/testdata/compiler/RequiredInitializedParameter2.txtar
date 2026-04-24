@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/requiredInitializedParameter2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js requiredInitializedParameter2.js requiredInitializedParameter2.ts
+stderr 'TS2416'
+! exists requiredInitializedParameter2.js
+! exists requiredInitializedParameter2.d.ts
+! exists requiredInitializedParameter2.js.map
+
+-- requiredInitializedParameter2.ts --
+interface I1 {
+    method();
+}
+
+class C1 implements I1 {
+    method(a = 0, b) { }
+}

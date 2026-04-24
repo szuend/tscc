@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/taggedTemplateStringsHexadecimalEscapesES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js taggedTemplateStringsHexadecimalEscapesES6.js taggedTemplateStringsHexadecimalEscapesES6.ts
+! stderr .
+cmp taggedTemplateStringsHexadecimalEscapesES6.js taggedTemplateStringsHexadecimalEscapesES6.js.golden
+! exists taggedTemplateStringsHexadecimalEscapesES6.d.ts
+! exists taggedTemplateStringsHexadecimalEscapesES6.js.map
+
+-- taggedTemplateStringsHexadecimalEscapesES6.ts --
+function f(...args: any[]) {
+}
+
+f `\x0D${ "Interrupted CRLF" }\x0A`;
+-- taggedTemplateStringsHexadecimalEscapesES6.js.golden --
+"use strict";
+function f(...args) {
+}
+f `\x0D${"Interrupted CRLF"}\x0A`;

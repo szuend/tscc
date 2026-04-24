@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/uniqueSymbolAllowsIndexInObjectWithIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --target es2015 --out-js uniqueSymbolAllowsIndexInObjectWithIndexSignature.js uniqueSymbolAllowsIndexInObjectWithIndexSignature.ts
+stderr 'TS2418'
+! exists uniqueSymbolAllowsIndexInObjectWithIndexSignature.js
+! exists uniqueSymbolAllowsIndexInObjectWithIndexSignature.d.ts
+! exists uniqueSymbolAllowsIndexInObjectWithIndexSignature.js.map
+
+-- uniqueSymbolAllowsIndexInObjectWithIndexSignature.ts --
+// https://github.com/Microsoft/TypeScript/issues/21962
+export const SYM = Symbol('a unique symbol');
+
+export interface I {
+  [SYM]: 'sym';
+  [x: string]: 'str';
+}
+
+let a: I = {[SYM]: 'sym'}; // Expect ok
+let b: I = {[SYM]: 'str'}; // Expect error

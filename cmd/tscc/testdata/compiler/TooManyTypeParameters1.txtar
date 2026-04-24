@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/tooManyTypeParameters1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js tooManyTypeParameters1.js tooManyTypeParameters1.ts
+stderr 'TS2558'
+stderr 'TS2314'
+! exists tooManyTypeParameters1.js
+! exists tooManyTypeParameters1.d.ts
+! exists tooManyTypeParameters1.js.map
+
+-- tooManyTypeParameters1.ts --
+function f<T>() { }
+f<string, string>();
+
+var x = <T>() => {};
+x<number,number>();
+
+class C<T> {}
+var c = new C<Date,Date>();
+
+interface I<T> {}
+var i: I<number,number>;

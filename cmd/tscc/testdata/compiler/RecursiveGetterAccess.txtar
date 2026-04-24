@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/recursiveGetterAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js recursiveGetterAccess.js recursiveGetterAccess.ts
+! stderr .
+cmp recursiveGetterAccess.js recursiveGetterAccess.js.golden
+! exists recursiveGetterAccess.d.ts
+! exists recursiveGetterAccess.js.map
+
+-- recursiveGetterAccess.ts --
+class MyClass {
+get testProp() { return this.testProp; }
+}
+ 
+-- recursiveGetterAccess.js.golden --
+"use strict";
+class MyClass {
+    get testProp() { return this.testProp; }
+}

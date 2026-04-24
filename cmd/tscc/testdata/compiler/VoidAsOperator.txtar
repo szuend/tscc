@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/voidAsOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js voidAsOperator.js voidAsOperator.ts
+stderr 'TS2873'
+! exists voidAsOperator.js
+! exists voidAsOperator.d.ts
+! exists voidAsOperator.js.map
+
+-- voidAsOperator.ts --
+if (!void 0 !== true) {
+ 
+}
+
+//CHECK#2
+if (!null !== true) {
+ 
+}

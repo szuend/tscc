@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/typeUsedAsValueError2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js helloInterface.js helloInterface.ts
+! stderr .
+cmp helloInterface.js helloInterface.js.golden
+! exists helloInterface.d.ts
+! exists helloInterface.js.map
+
+-- helloInterface.ts --
+interface HelloInterface {
+    world: any;
+}
+
+export = HelloInterface;
+-- helloNamespace.ts --
+namespace HelloNamespace {
+    export type world = any;
+}
+
+export = HelloNamespace;
+-- world.ts --
+import HelloInterface = require("./helloInterface");
+import HelloNamespace = require("./helloNamespace");
+
+HelloInterface.world;
+HelloNamespace.world;
+-- helloInterface.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

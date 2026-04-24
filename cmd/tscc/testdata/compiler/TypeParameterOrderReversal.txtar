@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/typeParameterOrderReversal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterOrderReversal.js typeParameterOrderReversal.ts
+stderr 'TS2322'
+! exists typeParameterOrderReversal.js
+! exists typeParameterOrderReversal.d.ts
+! exists typeParameterOrderReversal.js.map
+
+-- typeParameterOrderReversal.ts --
+interface X<T> {
+    n: T;
+}
+
+// Only difference here is order of type parameters
+function uFirst<U extends X<T>, T>(x: U) { }
+function tFirst<T, U extends X<T>>(x: U) { }
+var z: X<number> = null;
+
+// Both of these should be allowed
+uFirst(z);
+tFirst(z);

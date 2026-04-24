@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/taggedTemplateStringsWithUnicodeEscapesES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js taggedTemplateStringsWithUnicodeEscapesES6.js taggedTemplateStringsWithUnicodeEscapesES6.ts
+! stderr .
+cmp taggedTemplateStringsWithUnicodeEscapesES6.js taggedTemplateStringsWithUnicodeEscapesES6.js.golden
+! exists taggedTemplateStringsWithUnicodeEscapesES6.d.ts
+! exists taggedTemplateStringsWithUnicodeEscapesES6.js.map
+
+-- taggedTemplateStringsWithUnicodeEscapesES6.ts --
+function f(...args: any[]) {
+}
+
+f `'\u{1f4a9}'${ " should be converted to " }'\uD83D\uDCA9'`;
+-- taggedTemplateStringsWithUnicodeEscapesES6.js.golden --
+"use strict";
+function f(...args) {
+}
+f `'\u{1f4a9}'${" should be converted to "}'\uD83D\uDCA9'`;

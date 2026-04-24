@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/simpleRecursionWithBaseCase3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --no-implicit-any --strict --target es2015 simpleRecursionWithBaseCase3.ts
+! stderr .
+! exists simpleRecursionWithBaseCase3.d.ts
+! exists simpleRecursionWithBaseCase3.js.map
+
+-- simpleRecursionWithBaseCase3.ts --
+const fn1 = () => {
+  if (Math.random() > 0.5) {
+    return fn1()
+  }
+  return 0
+}

@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/spellingSuggestionLeadingUnderscores01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js spellingSuggestionLeadingUnderscores01.js spellingSuggestionLeadingUnderscores01.ts
+stderr 'TS2551'
+stderr 'TS2561'
+! exists spellingSuggestionLeadingUnderscores01.js
+! exists spellingSuggestionLeadingUnderscores01.d.ts
+! exists spellingSuggestionLeadingUnderscores01.js.map
+
+-- spellingSuggestionLeadingUnderscores01.ts --
+// @filename abc.ts
+export declare let a: {
+    __foo: 10,
+}
+
+a.___foo
+
+// @filename def.ts
+export let b: {
+    __foo: number
+}
+
+b = {
+    ___foo: 100,
+}
+

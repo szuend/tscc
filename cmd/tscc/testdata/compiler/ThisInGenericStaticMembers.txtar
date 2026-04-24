@@ -1,0 +1,53 @@
+# Ported from tests/cases/compiler/thisInGenericStaticMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisInGenericStaticMembers.js thisInGenericStaticMembers.ts
+! stderr .
+cmp thisInGenericStaticMembers.js thisInGenericStaticMembers.js.golden
+! exists thisInGenericStaticMembers.d.ts
+! exists thisInGenericStaticMembers.js.map
+
+-- thisInGenericStaticMembers.ts --
+// this.call in static generic method not resolved correctly
+
+class A {
+
+    static one<T>(source:T, value: number): T {
+        return source;
+    }
+
+    static two<T>(source: T): T {
+        return this.one<T>(source, 42);
+    }
+}
+
+class B {
+
+    static one(source: B, value: number): B {
+        return source;
+    }
+
+    static two(source: B): B {
+        return this.one(source, 42);
+    }
+}
+
+
+-- thisInGenericStaticMembers.js.golden --
+"use strict";
+// this.call in static generic method not resolved correctly
+class A {
+    static one(source, value) {
+        return source;
+    }
+    static two(source) {
+        return this.one(source, 42);
+    }
+}
+class B {
+    static one(source, value) {
+        return source;
+    }
+    static two(source) {
+        return this.one(source, 42);
+    }
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/quotedPropertyName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js quotedPropertyName2.js quotedPropertyName2.ts
+! stderr .
+cmp quotedPropertyName2.js quotedPropertyName2.js.golden
+! exists quotedPropertyName2.d.ts
+! exists quotedPropertyName2.js.map
+
+-- quotedPropertyName2.ts --
+class Test1 {
+  static "prop1" = 0;
+}
+-- quotedPropertyName2.js.golden --
+"use strict";
+class Test1 {
+}
+Test1["prop1"] = 0;

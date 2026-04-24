@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeArgumentInferenceWithRecursivelyReferencedTypeAliasToTypeLiteral01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgumentInferenceWithRecursivelyReferencedTypeAliasToTypeLiteral01.js typeArgumentInferenceWithRecursivelyReferencedTypeAliasToTypeLiteral01.ts
+stderr 'TS2454'
+! exists typeArgumentInferenceWithRecursivelyReferencedTypeAliasToTypeLiteral01.js
+! exists typeArgumentInferenceWithRecursivelyReferencedTypeAliasToTypeLiteral01.d.ts
+! exists typeArgumentInferenceWithRecursivelyReferencedTypeAliasToTypeLiteral01.js.map
+
+-- typeArgumentInferenceWithRecursivelyReferencedTypeAliasToTypeLiteral01.ts --
+type TreeNode = {
+    name: string;
+    parent: TreeNode;
+}
+
+var nodes: TreeNode[];
+nodes.map(n => n.name);

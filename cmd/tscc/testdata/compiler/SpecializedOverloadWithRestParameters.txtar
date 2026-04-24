@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/specializedOverloadWithRestParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js specializedOverloadWithRestParameters.js specializedOverloadWithRestParameters.ts
+! stderr .
+cmp specializedOverloadWithRestParameters.js specializedOverloadWithRestParameters.js.golden
+! exists specializedOverloadWithRestParameters.d.ts
+! exists specializedOverloadWithRestParameters.js.map
+
+-- specializedOverloadWithRestParameters.ts --
+class Base { foo() { } }
+class Derived1 extends Base { bar() { } }
+function f(tagName: 'span', ...args): Derived1;   // error
+function f(tagName: number, ...args): Base;
+function f(tagName: any): Base {
+    return null;
+}
+function g(tagName: 'span', arg): Derived1;    // error
+function g(tagName: number, arg): Base;
+function g(tagName: any): Base {
+    return null;
+}
+-- specializedOverloadWithRestParameters.js.golden --
+"use strict";
+class Base {
+    foo() { }
+}
+class Derived1 extends Base {
+    bar() { }
+}
+function f(tagName) {
+    return null;
+}
+function g(tagName) {
+    return null;
+}

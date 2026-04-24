@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/varInFunctionInVarInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js varInFunctionInVarInitializer.js varInFunctionInVarInitializer.ts
+! stderr .
+cmp varInFunctionInVarInitializer.js varInFunctionInVarInitializer.js.golden
+! exists varInFunctionInVarInitializer.d.ts
+! exists varInFunctionInVarInitializer.js.map
+
+-- varInFunctionInVarInitializer.ts --
+var a = function () {
+    var c = 1;
+    return c;
+},
+    b = 1;
+-- varInFunctionInVarInitializer.js.golden --
+"use strict";
+var a = function () {
+    var c = 1;
+    return c;
+}, b = 1;

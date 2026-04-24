@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/reexportMissingDefault4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export { b } from "./b";
+export { default } from "./b";
+-- b.d.ts --
+declare var b: number;
+export { b };
+-- a.js.golden --
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = exports.b = void 0;
+var b_1 = require("./b");
+Object.defineProperty(exports, "b", { enumerable: true, get: function () { return b_1.b; } });
+var b_2 = require("./b");
+Object.defineProperty(exports, "default", { enumerable: true, get: function () { return __importDefault(b_2).default; } });

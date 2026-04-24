@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/typeAliasExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --path a=typeAliasExport.ts --out-js typeAliasExport.js typeAliasExport.ts
+! stderr .
+cmp typeAliasExport.js typeAliasExport.js.golden
+! exists typeAliasExport.d.ts
+! exists typeAliasExport.js.map
+
+-- typeAliasExport.ts --
+declare module "a" {
+  export default undefined
+  export var a;
+  export type a = typeof a;
+}
+-- typeAliasExport.js.golden --
+"use strict";

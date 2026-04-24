@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/recursiveBaseConstructorCreation2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveBaseConstructorCreation2.js recursiveBaseConstructorCreation2.ts
+! stderr .
+cmp recursiveBaseConstructorCreation2.js recursiveBaseConstructorCreation2.js.golden
+! exists recursiveBaseConstructorCreation2.d.ts
+! exists recursiveBaseConstructorCreation2.js.map
+
+-- recursiveBaseConstructorCreation2.ts --
+declare class base
+{
+}
+declare class abc extends base
+{
+   foo: xyz;
+}
+declare class xyz extends abc
+{
+}
+ 
+var bar = new xyz(); // Error: Invalid 'new' expression.
+ 
+-- recursiveBaseConstructorCreation2.js.golden --
+"use strict";
+var bar = new xyz(); // Error: Invalid 'new' expression.

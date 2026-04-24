@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/recursiveReverseMappedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js recursiveReverseMappedType.js recursiveReverseMappedType.ts
+! stderr .
+cmp recursiveReverseMappedType.js recursiveReverseMappedType.js.golden
+! exists recursiveReverseMappedType.d.ts
+! exists recursiveReverseMappedType.js.map
+
+-- recursiveReverseMappedType.ts --
+// Repro from #38198
+
+type Recur<T> = (
+    T extends (unknown[]) ? {} : { [K in keyof T]?: Recur<T[K]> }
+) | ['marker', ...Recur<T>[]];
+
+function join<T>(l: Recur<T>[]): Recur<T> {
+    return ['marker', ...l];
+}
+
+function a<T>(l: Recur<T>[]): void {
+    const x: Recur<T> | undefined = join(l);
+}
+-- recursiveReverseMappedType.js.golden --
+"use strict";
+// Repro from #38198
+function join(l) {
+    return ['marker', ...l];
+}
+function a(l) {
+    const x = join(l);
+}

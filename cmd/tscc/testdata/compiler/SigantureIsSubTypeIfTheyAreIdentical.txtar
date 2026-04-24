@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/sigantureIsSubTypeIfTheyAreIdentical.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js sigantureIsSubTypeIfTheyAreIdentical.js sigantureIsSubTypeIfTheyAreIdentical.ts
+stderr 'TS2322'
+! exists sigantureIsSubTypeIfTheyAreIdentical.js
+! exists sigantureIsSubTypeIfTheyAreIdentical.d.ts
+! exists sigantureIsSubTypeIfTheyAreIdentical.js.map
+
+-- sigantureIsSubTypeIfTheyAreIdentical.ts --
+interface ICache {
+    get<T>(key: string): T;
+}
+class CacheService implements ICache { // Should not error that property type of get are incomaptible
+    get<T>(key: string): T {
+        return undefined;
+    }
+}

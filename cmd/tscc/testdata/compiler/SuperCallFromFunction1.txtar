@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/superCallFromFunction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js superCallFromFunction1.js superCallFromFunction1.ts
+stderr 'TS2337'
+! exists superCallFromFunction1.js
+! exists superCallFromFunction1.d.ts
+! exists superCallFromFunction1.js.map
+
+-- superCallFromFunction1.ts --
+function foo() {
+    super(value => String(value));
+}

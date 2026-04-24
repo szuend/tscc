@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/stringPropCodeGen.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js stringPropCodeGen.js stringPropCodeGen.ts
+! stderr .
+cmp stringPropCodeGen.js stringPropCodeGen.js.golden
+! exists stringPropCodeGen.d.ts
+! exists stringPropCodeGen.js.map
+
+-- stringPropCodeGen.ts --
+var a = {
+
+  "foo" : function() { },
+  "bar" : 5
+
+};
+
+
+
+a.foo();
+
+a.bar.toString();
+-- stringPropCodeGen.js.golden --
+"use strict";
+var a = {
+    "foo": function () { },
+    "bar": 5
+};
+a.foo();
+a.bar.toString();

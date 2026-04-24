@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/resolveModuleNameWithSameLetDeclarationName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --path punycode=resolveModuleNameWithSameLetDeclarationName2.ts --out-js resolveModuleNameWithSameLetDeclarationName2.js resolveModuleNameWithSameLetDeclarationName2.ts
+! stderr .
+cmp resolveModuleNameWithSameLetDeclarationName2.js resolveModuleNameWithSameLetDeclarationName2.js.golden
+! exists resolveModuleNameWithSameLetDeclarationName2.d.ts
+! exists resolveModuleNameWithSameLetDeclarationName2.js.map
+
+-- resolveModuleNameWithSameLetDeclarationName2.ts --
+declare module "punycode" {
+    interface ucs2 {
+        decode(string: string): string;
+        encode(codePoints: number[]): string;
+    }
+
+    export let ucs2: ucs2;
+}
+-- resolveModuleNameWithSameLetDeclarationName2.js.golden --
+"use strict";

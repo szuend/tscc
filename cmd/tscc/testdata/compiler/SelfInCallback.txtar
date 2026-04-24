@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/selfInCallback.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js selfInCallback.js selfInCallback.ts
+! stderr .
+cmp selfInCallback.js selfInCallback.js.golden
+! exists selfInCallback.d.ts
+! exists selfInCallback.js.map
+
+-- selfInCallback.ts --
+class C {
+	public p1 = 0;
+	public callback(cb:()=>void) {cb();}
+	public doit() {
+		this.callback(()=>{this.p1+1});
+	}
+}
+-- selfInCallback.js.golden --
+"use strict";
+class C {
+    constructor() {
+        this.p1 = 0;
+    }
+    callback(cb) { cb(); }
+    doit() {
+        this.callback(() => { this.p1 + 1; });
+    }
+}

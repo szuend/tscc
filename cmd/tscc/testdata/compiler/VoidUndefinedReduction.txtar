@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/voidUndefinedReduction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js voidUndefinedReduction.js voidUndefinedReduction.ts
+! stderr .
+cmp voidUndefinedReduction.js voidUndefinedReduction.js.golden
+! exists voidUndefinedReduction.d.ts
+! exists voidUndefinedReduction.js.map
+
+-- voidUndefinedReduction.ts --
+// Repro from #42786
+
+function isDefined<T>(value: T | undefined | null | void): value is T {
+  return value !== undefined && value !== null;
+}
+
+declare const foo: string | undefined;
+
+if (isDefined(foo)) {
+  console.log(foo.toUpperCase()); 
+}
+-- voidUndefinedReduction.js.golden --
+"use strict";
+// Repro from #42786
+function isDefined(value) {
+    return value !== undefined && value !== null;
+}
+if (isDefined(foo)) {
+    console.log(foo.toUpperCase());
+}

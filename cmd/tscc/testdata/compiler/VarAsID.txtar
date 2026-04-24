@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/varAsID.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js varAsID.js varAsID.ts
+! stderr .
+cmp varAsID.js varAsID.js.golden
+! exists varAsID.d.ts
+! exists varAsID.js.map
+
+-- varAsID.ts --
+class Foo {
+    var; // ok
+    x=1;
+}
+
+var f = new Foo();
+
+
+class Foo2 {
+    var // not an error, because of ASI.
+    x=1;
+}
+
+var f2 = new Foo2();
+
+
+
+-- varAsID.js.golden --
+"use strict";
+class Foo {
+    constructor() {
+        this.x = 1;
+    }
+}
+var f = new Foo();
+class Foo2 {
+    constructor() {
+        this.x = 1;
+    }
+}
+var f2 = new Foo2();

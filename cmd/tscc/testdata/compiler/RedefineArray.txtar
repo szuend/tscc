@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/redefineArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js redefineArray.js redefineArray.ts
+stderr 'TS2739'
+! exists redefineArray.js
+! exists redefineArray.d.ts
+! exists redefineArray.js.map
+
+-- redefineArray.ts --
+Array = function (n:number, s:string) {return n;};

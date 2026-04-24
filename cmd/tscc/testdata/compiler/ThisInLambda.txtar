@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/thisInLambda.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js thisInLambda.js thisInLambda.ts
+! stderr .
+cmp thisInLambda.js thisInLambda.js.golden
+! exists thisInLambda.d.ts
+! exists thisInLambda.js.map
+
+-- thisInLambda.ts --
+class Foo {
+    x = "hello";
+    bar() {
+        this.x; // 'this' is type 'Foo'
+        var f = () => this.x; // 'this' should be type 'Foo' as well
+    }
+}
+
+function myFn(a:any) { }
+class myCls {
+    constructor () {
+        myFn(() => {
+            myFn(() => {
+                var x = this;
+            });
+        });
+    }
+}
+-- thisInLambda.js.golden --
+"use strict";
+class Foo {
+    constructor() {
+        this.x = "hello";
+    }
+    bar() {
+        this.x; // 'this' is type 'Foo'
+        var f = () => this.x; // 'this' should be type 'Foo' as well
+    }
+}
+function myFn(a) { }
+class myCls {
+    constructor() {
+        myFn(() => {
+            myFn(() => {
+                var x = this;
+            });
+        });
+    }
+}

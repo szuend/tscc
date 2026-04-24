@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/typeGuardNarrowsIndexedAccessOfKnownProperty8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom --out-js b.js ./b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists ./b.d.ts
+! exists ./b.js.map
+
+-- ./a.ts --
+export const key = "a";
+-- ./b.ts --
+import * as a from "./a";
+export class C {
+    [a.key]: string;
+
+    constructor() {
+        this[a.key] = "foo";
+    }
+}
+-- b.js.golden --
+import * as a from "./a";
+export class C {
+    [a.key];
+    constructor() {
+        this[a.key] = "foo";
+    }
+}

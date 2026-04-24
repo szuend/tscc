@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/spreadIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js spreadIntersection.js spreadIntersection.ts
+stderr 'TS2454'
+! exists spreadIntersection.js
+! exists spreadIntersection.d.ts
+! exists spreadIntersection.js.map
+
+-- spreadIntersection.ts --
+var intersection: { a: number } & { b: string };
+
+var o1: { a: number, b: string };
+var o1 = { ...intersection };
+
+var o2: { a: number, b: string, c: boolean };
+var o2 = { ...intersection, c: false };

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/requiredInitializedParameter3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts requiredInitializedParameter3.d.ts --no-strict --target es2015 --lib es2015,dom --out-js requiredInitializedParameter3.js requiredInitializedParameter3.ts
+! stderr .
+cmp requiredInitializedParameter3.d.ts requiredInitializedParameter3.d.ts.golden
+cmp requiredInitializedParameter3.js requiredInitializedParameter3.js.golden
+! exists requiredInitializedParameter3.js.map
+
+-- requiredInitializedParameter3.ts --
+interface I1 {
+    method();
+}
+
+class C1 implements I1 {
+    method(a = 0, b?) { }
+}
+-- requiredInitializedParameter3.d.ts.golden --
+interface I1 {
+    method(): any;
+}
+declare class C1 implements I1 {
+    method(a?: number, b?: any): void;
+}
+-- requiredInitializedParameter3.js.golden --
+"use strict";
+class C1 {
+    method(a = 0, b) { }
+}

@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/typeArgumentsInFunctionExpressions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeArgumentsInFunctionExpressions.js typeArgumentsInFunctionExpressions.ts
+! stderr .
+cmp typeArgumentsInFunctionExpressions.js typeArgumentsInFunctionExpressions.js.golden
+! exists typeArgumentsInFunctionExpressions.d.ts
+! exists typeArgumentsInFunctionExpressions.js.map
+
+-- typeArgumentsInFunctionExpressions.ts --
+var obj = function f<T>(a: T) { // should not error
+    var x: T;
+    return a;
+};
+ 
+var obj2 = function f<T>(a: T): T { // should not error
+    var x: T;
+    return a;
+};
+
+-- typeArgumentsInFunctionExpressions.js.golden --
+"use strict";
+var obj = function f(a) {
+    var x;
+    return a;
+};
+var obj2 = function f(a) {
+    var x;
+    return a;
+};

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/typeInferenceWithTypeAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeInferenceWithTypeAnnotation.js typeInferenceWithTypeAnnotation.ts
+! stderr .
+cmp typeInferenceWithTypeAnnotation.js typeInferenceWithTypeAnnotation.js.golden
+! exists typeInferenceWithTypeAnnotation.d.ts
+! exists typeInferenceWithTypeAnnotation.js.map
+
+-- typeInferenceWithTypeAnnotation.ts --
+declare function f<T>(p: (t: T) => T): T;
+
+f((n: number) => n); 
+-- typeInferenceWithTypeAnnotation.js.golden --
+"use strict";
+f((n) => n);

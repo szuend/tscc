@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/taggedPrimitiveNarrowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts taggedPrimitiveNarrowing.d.ts --strict --target es2015 --lib es2015,dom --out-js taggedPrimitiveNarrowing.js taggedPrimitiveNarrowing.ts
+! stderr .
+cmp taggedPrimitiveNarrowing.d.ts taggedPrimitiveNarrowing.d.ts.golden
+cmp taggedPrimitiveNarrowing.js taggedPrimitiveNarrowing.js.golden
+! exists taggedPrimitiveNarrowing.js.map
+
+-- taggedPrimitiveNarrowing.ts --
+type Hash = string & { __hash: true };
+
+function getHashLength(hash: Hash): number {
+    if (typeof hash !== "string") {
+        throw new Error("This doesn't look like a hash");
+    }
+    return hash.length;
+}
+
+function getHashLength2<T extends { __tag__: unknown}>(hash: string & T): number {
+    if (typeof hash !== "string") {
+        throw new Error("This doesn't look like a hash");
+    }
+    return hash.length;
+}
+-- taggedPrimitiveNarrowing.d.ts.golden --
+type Hash = string & {
+    __hash: true;
+};
+declare function getHashLength(hash: Hash): number;
+declare function getHashLength2<T extends {
+    __tag__: unknown;
+}>(hash: string & T): number;
+-- taggedPrimitiveNarrowing.js.golden --
+"use strict";
+function getHashLength(hash) {
+    if (typeof hash !== "string") {
+        throw new Error("This doesn't look like a hash");
+    }
+    return hash.length;
+}
+function getHashLength2(hash) {
+    if (typeof hash !== "string") {
+        throw new Error("This doesn't look like a hash");
+    }
+    return hash.length;
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/switchCases.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js switchCases.js switchCases.ts
+stderr 'TS2678'
+! exists switchCases.js
+! exists switchCases.d.ts
+! exists switchCases.js.map
+
+-- switchCases.ts --
+switch(0) {
+ case 1:
+ break;
+}

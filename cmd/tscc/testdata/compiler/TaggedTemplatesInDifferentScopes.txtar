@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/taggedTemplatesInDifferentScopes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js taggedTemplatesInDifferentScopes.js taggedTemplatesInDifferentScopes.ts
+! stderr .
+cmp taggedTemplatesInDifferentScopes.js taggedTemplatesInDifferentScopes.js.golden
+! exists taggedTemplatesInDifferentScopes.d.ts
+! exists taggedTemplatesInDifferentScopes.js.map
+
+-- taggedTemplatesInDifferentScopes.ts --
+export function tag(parts: TemplateStringsArray, ...values: any[]) {
+    return parts[0];
+}
+function foo() {
+    tag `foo`;
+    tag `foo2`;
+}
+
+function bar() {
+    tag `bar`;
+    tag `bar2`;
+}
+
+foo();
+bar();
+-- taggedTemplatesInDifferentScopes.js.golden --
+export function tag(parts, ...values) {
+    return parts[0];
+}
+function foo() {
+    tag `foo`;
+    tag `foo2`;
+}
+function bar() {
+    tag `bar`;
+    tag `bar2`;
+}
+foo();
+bar();

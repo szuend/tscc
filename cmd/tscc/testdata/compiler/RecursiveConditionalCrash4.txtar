@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/recursiveConditionalCrash4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom recursiveConditionalCrash4.ts
+stderr 'TS2503'
+stderr 'TS2304'
+stderr 'TS2589'
+! exists recursiveConditionalCrash4.d.ts
+! exists recursiveConditionalCrash4.js.map
+
+-- recursiveConditionalCrash4.ts --
+// Repros from #53783
+
+type LengthDown<
+  Str extends string,
+  Length extends number | bigint,
+  It
+> = It extends StrIter.Iterator
+  ? StrIter.CutAt<Str, It> extends `${infer $Rest}`
+    ? LengthDown<$Rest, Add<Length, StrIter.Value<It>>, It>
+    : LengthDown<Str, Length, StrIter.Prev<It>>
+  : Length;
+
+type Foo<T> = T extends unknown
+  ? unknown extends `${infer $Rest}`
+    ? Foo<T>
+    : Foo<unknown>
+  : unknown;

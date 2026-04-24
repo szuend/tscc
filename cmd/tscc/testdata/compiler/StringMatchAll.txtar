@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/stringMatchAll.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2020 --lib es2020,dom --out-js stringMatchAll.js stringMatchAll.ts
+! stderr .
+cmp stringMatchAll.js stringMatchAll.js.golden
+! exists stringMatchAll.d.ts
+! exists stringMatchAll.js.map
+
+-- stringMatchAll.ts --
+const matches = "matchAll".matchAll(/\w/g);
+const array = [...matches];
+const { index, input } = array[0];
+-- stringMatchAll.js.golden --
+"use strict";
+const matches = "matchAll".matchAll(/\w/g);
+const array = [...matches];
+const { index, input } = array[0];

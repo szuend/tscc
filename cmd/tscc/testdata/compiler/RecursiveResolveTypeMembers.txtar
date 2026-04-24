@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/recursiveResolveTypeMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveResolveTypeMembers.js recursiveResolveTypeMembers.ts
+stderr 'TS2577'
+stderr 'TS2304'
+! exists recursiveResolveTypeMembers.js
+! exists recursiveResolveTypeMembers.d.ts
+! exists recursiveResolveTypeMembers.js.map
+
+-- recursiveResolveTypeMembers.ts --
+// Repro from #25291
+
+type PromisedTuple<L extends any[], U = (...args: L) => void> =
+    U extends (h: infer H, ...args: infer R) => [Promise<H>, ...PromisedTuple<R>] ? [] : []
+
+type Promised = PromisedTuple<[1, 2, 3]> 

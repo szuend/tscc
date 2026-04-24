@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/redeclarationOfVarWithGenericType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js redeclarationOfVarWithGenericType.js redeclarationOfVarWithGenericType.ts
+! stderr .
+cmp redeclarationOfVarWithGenericType.js redeclarationOfVarWithGenericType.js.golden
+! exists redeclarationOfVarWithGenericType.d.ts
+! exists redeclarationOfVarWithGenericType.js.map
+
+-- redeclarationOfVarWithGenericType.ts --
+var a1: { fn<T>(x: T): T };
+var a1: { fn<T>(x: T): T };
+-- redeclarationOfVarWithGenericType.js.golden --
+"use strict";
+var a1;
+var a1;

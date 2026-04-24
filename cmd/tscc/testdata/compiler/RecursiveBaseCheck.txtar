@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/recursiveBaseCheck.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js recursiveBaseCheck.js recursiveBaseCheck.ts
+stderr 'TS2506'
+! exists recursiveBaseCheck.js
+! exists recursiveBaseCheck.d.ts
+! exists recursiveBaseCheck.js.map
+
+-- recursiveBaseCheck.ts --
+declare namespace Module {
+    class C extends D {
+    }
+    export class B extends Module.C {
+    }
+    export class A extends Module.B {
+    }
+    export class AmChart extends Module.A {
+    }
+    export class D extends AmChart {
+    }
+    export class E extends Module.D {
+    }
+    export class F extends Module.E {
+    }
+}

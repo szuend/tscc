@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/typeNamedUndefined1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --strict --target esnext --out-js typeNamedUndefined1.js typeNamedUndefined1.ts
+stderr 'TS2457'
+! exists typeNamedUndefined1.js
+! exists typeNamedUndefined1.d.ts
+! exists typeNamedUndefined1.js.map
+
+-- typeNamedUndefined1.ts --
+export namespace ns {
+    const s = Symbol();
+    export type undefined = typeof s;
+    export function x(p: undefined): undefined { // global undefined
+        return p;
+    }
+}
+
+export function x(p: ns.undefined) { // undefined from the namespace
+    return p;
+}
+
+export type undefined = "";

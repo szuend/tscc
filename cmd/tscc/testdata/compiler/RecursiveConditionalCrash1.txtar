@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/recursiveConditionalCrash1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js recursiveConditionalCrash1.js recursiveConditionalCrash1.ts
+! stderr .
+cmp recursiveConditionalCrash1.js recursiveConditionalCrash1.js.golden
+! exists recursiveConditionalCrash1.d.ts
+! exists recursiveConditionalCrash1.js.map
+
+-- recursiveConditionalCrash1.ts --
+type C1<T> = [T extends string ? C1<T> : never][0];
+type C2<T> = [T extends string ? [C2<T>] : never][0];
+-- recursiveConditionalCrash1.js.golden --
+"use strict";

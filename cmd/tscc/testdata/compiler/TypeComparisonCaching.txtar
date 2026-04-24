@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/typeComparisonCaching.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeComparisonCaching.js typeComparisonCaching.ts
+stderr 'TS2322'
+! exists typeComparisonCaching.js
+! exists typeComparisonCaching.d.ts
+! exists typeComparisonCaching.js.map
+
+-- typeComparisonCaching.ts --
+// Check that we only cache results of type comparisons that are free of assumptions
+
+interface A {
+    p: C;
+    s: string;
+}
+
+interface B {
+    p: D;
+    s: number;
+}
+
+interface C {
+    q: A;
+}
+
+interface D {
+    q: B;
+}
+
+var a: A;
+declare var b: B;
+var c: C;
+declare var d: D;
+
+a = b;
+c = d; // Should not be allowed

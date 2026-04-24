@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/scopeCheckExtendedClassInsidePublicMethod2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js scopeCheckExtendedClassInsidePublicMethod2.js scopeCheckExtendedClassInsidePublicMethod2.ts
+stderr 'TS2663'
+stderr 'TS2662'
+! exists scopeCheckExtendedClassInsidePublicMethod2.js
+! exists scopeCheckExtendedClassInsidePublicMethod2.d.ts
+! exists scopeCheckExtendedClassInsidePublicMethod2.js.map
+
+-- scopeCheckExtendedClassInsidePublicMethod2.ts --
+class C { private v; public p; static s; }
+class D extends C {
+   public c() {
+      v = 1;
+      this.p = 1;
+      s = 1;
+   }
+}

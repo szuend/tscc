@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/typeArgumentsShouldDisallowNonGenericOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeArgumentsShouldDisallowNonGenericOverloads.js typeArgumentsShouldDisallowNonGenericOverloads.ts
+stderr 'TS2322'
+! exists typeArgumentsShouldDisallowNonGenericOverloads.js
+! exists typeArgumentsShouldDisallowNonGenericOverloads.d.ts
+! exists typeArgumentsShouldDisallowNonGenericOverloads.js.map
+
+-- typeArgumentsShouldDisallowNonGenericOverloads.ts --
+function foo(a: string): string;
+function foo<T>(a: T): number;
+function foo(a: any): any {
+    return "hi";
+}
+
+var x: number = foo<string>("hi"); // return type should be 'number'
+var y: string = foo("hi"); // return type should be 'string'
+
+var w: string = foo<string>("hi"); // should error
+var z: number = foo("hi"); // should error

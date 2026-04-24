@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/templateLiteralsInTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts templateLiteralsInTypes.d.ts --strict --target es2015 --lib es2015,dom --out-js templateLiteralsInTypes.js templateLiteralsInTypes.ts
+stderr 'TS2554'
+stderr 'TS2339'
+! exists templateLiteralsInTypes.d.ts
+! exists templateLiteralsInTypes.js
+! exists templateLiteralsInTypes.js.map
+
+-- templateLiteralsInTypes.ts --
+const f = (hdr: string, val: number) => `${hdr}:\t${val}\r\n` as `${string}:\t${number}\r\n`;
+
+f("x").foo;

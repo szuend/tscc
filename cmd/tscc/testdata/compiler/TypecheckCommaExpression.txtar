@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/typecheckCommaExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typecheckCommaExpression.js typecheckCommaExpression.ts
+stderr 'TS2304'
+stderr 'TS2695'
+! exists typecheckCommaExpression.js
+! exists typecheckCommaExpression.d.ts
+! exists typecheckCommaExpression.js.map
+
+-- typecheckCommaExpression.ts --
+(a, b)

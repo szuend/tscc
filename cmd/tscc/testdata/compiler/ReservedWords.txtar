@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/reservedWords.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js reservedWords.js reservedWords.ts
+! stderr .
+cmp reservedWords.js reservedWords.js.golden
+! exists reservedWords.d.ts
+! exists reservedWords.js.map
+
+-- reservedWords.ts --
+var obj = {
+    if: 0,
+    debugger: 2,
+    break: 3,
+    function: 4
+}
+
+//This compiles.
+
+var obj2 = {
+    if: 0,
+    while: 1,
+    debugger: 2,
+    break: 3,
+    function: 4
+}
+-- reservedWords.js.golden --
+"use strict";
+var obj = {
+    if: 0,
+    debugger: 2,
+    break: 3,
+    function: 4
+};
+//This compiles.
+var obj2 = {
+    if: 0,
+    while: 1,
+    debugger: 2,
+    break: 3,
+    function: 4
+};

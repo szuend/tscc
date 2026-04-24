@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/staticGetter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js staticGetter1.js staticGetter1.ts
+! stderr .
+cmp staticGetter1.js staticGetter1.js.golden
+! exists staticGetter1.d.ts
+! exists staticGetter1.js.map
+
+-- staticGetter1.ts --
+// once caused stack overflow
+class C {
+    static get x() {
+        return this;
+    }
+}
+-- staticGetter1.js.golden --
+"use strict";
+// once caused stack overflow
+class C {
+    static get x() {
+        return this;
+    }
+}

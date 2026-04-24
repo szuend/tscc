@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/typeParameterHasSelfAsConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeParameterHasSelfAsConstraint.js typeParameterHasSelfAsConstraint.ts
+stderr 'TS2313'
+stderr 'TS2322'
+! exists typeParameterHasSelfAsConstraint.js
+! exists typeParameterHasSelfAsConstraint.d.ts
+! exists typeParameterHasSelfAsConstraint.js.map
+
+-- typeParameterHasSelfAsConstraint.ts --
+function foo<T extends T>(x: T): number {
+    return x;
+}
+ 

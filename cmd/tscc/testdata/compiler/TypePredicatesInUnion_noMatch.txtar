@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/typePredicatesInUnion_noMatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typePredicatesInUnion_noMatch.js typePredicatesInUnion_noMatch.ts
+! stderr .
+cmp typePredicatesInUnion_noMatch.js typePredicatesInUnion_noMatch.js.golden
+! exists typePredicatesInUnion_noMatch.d.ts
+! exists typePredicatesInUnion_noMatch.js.map
+
+-- typePredicatesInUnion_noMatch.ts --
+interface A {
+    pred(x: {}, y: {}): x is boolean;
+}
+interface B {
+    pred(x: {}, y: {}): y is string;
+}
+
+type Or = A | B;
+
+function f(o: Or, x: {}, y: {}) {
+    if (o.pred(x, y)) {
+        x;
+        y;
+    }
+}
+-- typePredicatesInUnion_noMatch.js.golden --
+"use strict";
+function f(o, x, y) {
+    if (o.pred(x, y)) {
+        x;
+        y;
+    }
+}

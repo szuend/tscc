@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/wrappedIncovations2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js wrappedIncovations2.js wrappedIncovations2.ts
+! stderr .
+cmp wrappedIncovations2.js wrappedIncovations2.js.golden
+! exists wrappedIncovations2.d.ts
+! exists wrappedIncovations2.js.map
+
+-- wrappedIncovations2.ts --
+var v = this.
+  foo().
+  bar().
+  baz();
+-- wrappedIncovations2.js.golden --
+"use strict";
+var v = this.
+    foo().
+    bar().
+    baz();

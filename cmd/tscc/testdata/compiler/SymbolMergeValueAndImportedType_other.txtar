@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/symbolMergeValueAndImportedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2015,dom --module commonjs --skip-lib-check --target es2015 --out-js other.js other.ts
+! stderr .
+cmp other.js other.js.golden
+! exists other.d.ts
+! exists other.js.map
+
+-- main.ts --
+import { X } from "./other";
+const X = 42;
+console.log('X is ' + X);
+-- other.ts --
+export type X = {};
+-- other.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

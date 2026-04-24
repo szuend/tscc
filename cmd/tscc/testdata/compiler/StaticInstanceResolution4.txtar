@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/staticInstanceResolution4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticInstanceResolution4.js staticInstanceResolution4.ts
+stderr 'TS2339'
+! exists staticInstanceResolution4.js
+! exists staticInstanceResolution4.d.ts
+! exists staticInstanceResolution4.js.map
+
+-- staticInstanceResolution4.ts --
+class A {
+   public foo() {}
+}
+
+A.foo();

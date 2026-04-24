@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/transitiveTypeArgumentInference1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js transitiveTypeArgumentInference1.js transitiveTypeArgumentInference1.ts
+stderr 'TS2322'
+! exists transitiveTypeArgumentInference1.js
+! exists transitiveTypeArgumentInference1.d.ts
+! exists transitiveTypeArgumentInference1.js.map
+
+-- transitiveTypeArgumentInference1.ts --
+interface I1<T, U> {
+	m(value: T): U;
+}
+
+var i: I1<boolean, string> = null;
+
+class C<T> {
+	constructor(p: I1<boolean, T>) {
+	}
+}
+
+var c = new C(i);

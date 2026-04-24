@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.js unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.ts
+! stderr .
+cmp unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.js unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.js.golden
+! exists unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.d.ts
+! exists unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.js.map
+
+-- unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.ts --
+interface IStringDictionary<V> {
+	[name: string]: V;
+}
+interface INumberDictionary<V> {
+	[idx: number]: V;
+}
+
+declare function forEach<T>(from: IStringDictionary<T> | INumberDictionary<T>, callback: (entry: { key: any; value: T; }, remove: () => void) => any);
+
+let count = 0;
+forEach({ toString: 123 }, () => count++);
+-- unionExcessPropertyCheckNoApparentPropTypeMismatchErrors.js.golden --
+"use strict";
+let count = 0;
+forEach({ toString: 123 }, () => count++);

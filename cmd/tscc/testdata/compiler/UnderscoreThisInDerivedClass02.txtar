@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/underscoreThisInDerivedClass02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2025,dom --out-js underscoreThisInDerivedClass02.js underscoreThisInDerivedClass02.ts
+! stderr .
+cmp underscoreThisInDerivedClass02.js underscoreThisInDerivedClass02.js.golden
+! exists underscoreThisInDerivedClass02.d.ts
+! exists underscoreThisInDerivedClass02.js.map
+
+-- underscoreThisInDerivedClass02.ts --
+// @target es5
+
+// Original test intent:
+// Errors on '_this' should be reported in derived constructors,
+// even if 'super()' is not called.
+
+class C {
+    constructor() {
+        return {};
+    }
+}
+
+class D extends C {
+    constructor() {
+        super();
+        var _this = "uh-oh?";
+    }
+}
+-- underscoreThisInDerivedClass02.js.golden --
+"use strict";
+// @target es5
+// Original test intent:
+// Errors on '_this' should be reported in derived constructors,
+// even if 'super()' is not called.
+class C {
+    constructor() {
+        return {};
+    }
+}
+class D extends C {
+    constructor() {
+        super();
+        var _this = "uh-oh?";
+    }
+}

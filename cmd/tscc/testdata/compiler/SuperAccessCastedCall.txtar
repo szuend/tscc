@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/superAccessCastedCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js superAccessCastedCall.js superAccessCastedCall.ts
+! stderr .
+cmp superAccessCastedCall.js superAccessCastedCall.js.golden
+! exists superAccessCastedCall.d.ts
+! exists superAccessCastedCall.js.map
+
+-- superAccessCastedCall.ts --
+class Foo {
+    bar(): void {}
+}
+
+class Bar extends Foo {
+    x: Number;
+
+    constructor() {
+        super();
+        this.x = 2;
+    }
+
+    bar() {
+        super.bar();
+        (super.bar as any)();
+    }
+} 
+
+let b = new Bar();
+b.bar()
+-- superAccessCastedCall.js.golden --
+"use strict";
+class Foo {
+    bar() { }
+}
+class Bar extends Foo {
+    constructor() {
+        super();
+        this.x = 2;
+    }
+    bar() {
+        super.bar();
+        super.bar();
+    }
+}
+let b = new Bar();
+b.bar();

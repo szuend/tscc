@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/thisExpressionOfGenericObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js thisExpressionOfGenericObject.js thisExpressionOfGenericObject.ts
+stderr 'TS2564'
+! exists thisExpressionOfGenericObject.js
+! exists thisExpressionOfGenericObject.d.ts
+! exists thisExpressionOfGenericObject.js.map
+
+-- thisExpressionOfGenericObject.ts --
+class MyClass1<T> {
+    private obj: MyClass1<string>;
+    constructor() {
+        () => this;
+    }
+}

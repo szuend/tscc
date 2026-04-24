@@ -1,0 +1,56 @@
+# Ported from tests/cases/compiler/weakTypeAndPrimitiveNarrowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js weakTypeAndPrimitiveNarrowing.js weakTypeAndPrimitiveNarrowing.ts
+! stderr .
+cmp weakTypeAndPrimitiveNarrowing.js weakTypeAndPrimitiveNarrowing.js.golden
+! exists weakTypeAndPrimitiveNarrowing.d.ts
+! exists weakTypeAndPrimitiveNarrowing.js.map
+
+-- weakTypeAndPrimitiveNarrowing.ts --
+type LiteralsAndWeakTypes = 
+  | 'A'
+  | 'B'
+  | { optional?: true }
+  | { toLowerCase?(): string }
+  | { toUpperCase?(): string, otherOptionalProp?: number };
+
+const g = (arg: LiteralsAndWeakTypes) => {
+    if (arg === 'A') {
+      arg;
+    } else {
+      arg;
+    }
+}
+
+type PrimitivesAndWeakTypes =
+  | string
+  | number
+  | { optional?: true }
+  | { toLowerCase?(): string }
+  | { toUpperCase?(): string, otherOptionalProp?: number };
+
+const h = (arg: PrimitivesAndWeakTypes) => {
+    if (arg === 'A') {
+      arg;
+    } else {
+      arg;
+    }
+}
+-- weakTypeAndPrimitiveNarrowing.js.golden --
+"use strict";
+const g = (arg) => {
+    if (arg === 'A') {
+        arg;
+    }
+    else {
+        arg;
+    }
+};
+const h = (arg) => {
+    if (arg === 'A') {
+        arg;
+    }
+    else {
+        arg;
+    }
+};

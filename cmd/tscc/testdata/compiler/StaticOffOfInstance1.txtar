@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/staticOffOfInstance1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticOffOfInstance1.js staticOffOfInstance1.ts
+stderr 'TS2576'
+! exists staticOffOfInstance1.js
+! exists staticOffOfInstance1.d.ts
+! exists staticOffOfInstance1.js.map
+
+-- staticOffOfInstance1.ts --
+class List {
+  public Blah() {
+    this.Foo();
+  }
+  public static Foo() {}
+}

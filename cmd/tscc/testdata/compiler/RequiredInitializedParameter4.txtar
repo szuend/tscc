@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/requiredInitializedParameter4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts requiredInitializedParameter4.d.ts --no-strict --target es2015 --lib es2015,dom --out-js requiredInitializedParameter4.js requiredInitializedParameter4.ts
+! stderr .
+cmp requiredInitializedParameter4.d.ts requiredInitializedParameter4.d.ts.golden
+cmp requiredInitializedParameter4.js requiredInitializedParameter4.js.golden
+! exists requiredInitializedParameter4.js.map
+
+-- requiredInitializedParameter4.ts --
+class C1 {
+    method(a = 0, b) { }
+}
+-- requiredInitializedParameter4.d.ts.golden --
+declare class C1 {
+    method(a: number, b: any): void;
+}
+-- requiredInitializedParameter4.js.golden --
+"use strict";
+class C1 {
+    method(a = 0, b) { }
+}

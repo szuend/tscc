@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/typeParameterInConstraint1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeParameterInConstraint1.js typeParameterInConstraint1.ts
+! stderr .
+cmp typeParameterInConstraint1.js typeParameterInConstraint1.js.golden
+! exists typeParameterInConstraint1.d.ts
+! exists typeParameterInConstraint1.js.map
+
+-- typeParameterInConstraint1.ts --
+class C<T, U extends T> {
+}
+-- typeParameterInConstraint1.js.golden --
+"use strict";
+class C {
+}

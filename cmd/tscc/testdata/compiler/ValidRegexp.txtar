@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/validRegexp.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js validRegexp.js validRegexp.ts
+stderr 'TS1005'
+! exists validRegexp.js
+! exists validRegexp.d.ts
+! exists validRegexp.js.map
+
+-- validRegexp.ts --
+var x = / [a - z /]$ / i;
+var x1 = /[a-z/]$/i;
+var x2 = /[a-z/]$ /i;

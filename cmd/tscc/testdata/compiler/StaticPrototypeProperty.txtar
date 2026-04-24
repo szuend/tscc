@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/staticPrototypeProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js staticPrototypeProperty.js staticPrototypeProperty.ts
+stderr 'TS2300'
+stderr 'TS2699'
+! exists staticPrototypeProperty.js
+! exists staticPrototypeProperty.d.ts
+! exists staticPrototypeProperty.js.map
+
+-- staticPrototypeProperty.ts --
+class C {
+   static prototype() { }
+}
+ 
+class C2 {
+   static prototype;
+}

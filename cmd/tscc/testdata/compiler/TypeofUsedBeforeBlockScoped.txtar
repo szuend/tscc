@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/typeofUsedBeforeBlockScoped.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typeofUsedBeforeBlockScoped.js typeofUsedBeforeBlockScoped.ts
+! stderr .
+cmp typeofUsedBeforeBlockScoped.js typeofUsedBeforeBlockScoped.js.golden
+! exists typeofUsedBeforeBlockScoped.d.ts
+! exists typeofUsedBeforeBlockScoped.js.map
+
+-- typeofUsedBeforeBlockScoped.ts --
+type T = typeof C & typeof C.s & typeof o & typeof o.n;
+class C {
+    static s = 2;
+}
+type W = typeof o.n;
+let o2: typeof o;
+let o = { n: 12 };
+-- typeofUsedBeforeBlockScoped.js.golden --
+"use strict";
+class C {
+}
+C.s = 2;
+let o2;
+let o = { n: 12 };

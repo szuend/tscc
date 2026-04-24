@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/useBeforeDeclaration_propertyAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js useBeforeDeclaration_propertyAssignment.js useBeforeDeclaration_propertyAssignment.ts
+stderr 'TS2729'
+! exists useBeforeDeclaration_propertyAssignment.js
+! exists useBeforeDeclaration_propertyAssignment.d.ts
+! exists useBeforeDeclaration_propertyAssignment.js.map
+
+-- useBeforeDeclaration_propertyAssignment.ts --
+export class C {
+    public a =  { b: this.b, ...this.c, [this.b]: `${this.c}`};
+    private b = 0;
+    public c = { c: this.b };
+}
+
+class D {
+    static A = class extends D.B {
+        [D.D]() {} // should be an error
+    }
+    static B = class {}
+    static C = {
+        [D.D]: 1,
+        ...{get [D.D]() {return 0;}} // should be an error
+    };
+    static D = '';
+}

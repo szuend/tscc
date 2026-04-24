@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/staticPrototypePropertyOnClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js staticPrototypePropertyOnClass.js staticPrototypePropertyOnClass.ts
+! stderr .
+cmp staticPrototypePropertyOnClass.js staticPrototypePropertyOnClass.js.golden
+! exists staticPrototypePropertyOnClass.d.ts
+! exists staticPrototypePropertyOnClass.js.map
+
+-- staticPrototypePropertyOnClass.ts --
+class c1 {
+}
+class c2<T> {
+}
+class c3 {
+    constructor() {
+    }
+}
+class c4 {
+    constructor(param: string);
+    constructor(param: number);
+    constructor(param: any) {
+    }
+}
+var a = c1;
+var b = c2;
+var c = c3;
+var d = c4;
+-- staticPrototypePropertyOnClass.js.golden --
+"use strict";
+class c1 {
+}
+class c2 {
+}
+class c3 {
+    constructor() {
+    }
+}
+class c4 {
+    constructor(param) {
+    }
+}
+var a = c1;
+var b = c2;
+var c = c3;
+var d = c4;

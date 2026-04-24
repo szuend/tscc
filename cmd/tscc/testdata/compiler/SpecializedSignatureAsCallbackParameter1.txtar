@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/specializedSignatureAsCallbackParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js specializedSignatureAsCallbackParameter1.js specializedSignatureAsCallbackParameter1.ts
+stderr 'TS2769'
+! exists specializedSignatureAsCallbackParameter1.js
+! exists specializedSignatureAsCallbackParameter1.d.ts
+! exists specializedSignatureAsCallbackParameter1.js.map
+
+-- specializedSignatureAsCallbackParameter1.ts --
+function x3(a: number, cb: (x: number) => number);
+function x3(a: string, cb: (x: number) => number);
+function x3(a: any, cb: (x: number) => number) {
+   cb(a);
+}
+// both are errors
+x3(1, (x: string) => 1); 
+x3(1, (x: 'hm') => 1); 

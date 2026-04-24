@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/substitutionTypeForNonGenericIndexedAccessType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom substitutionTypeForNonGenericIndexedAccessType.ts
+! stderr .
+! exists substitutionTypeForNonGenericIndexedAccessType.d.ts
+! exists substitutionTypeForNonGenericIndexedAccessType.js.map
+
+-- substitutionTypeForNonGenericIndexedAccessType.ts --
+interface A {}
+
+type B = A extends Record<'foo', string> ? A['foo'] : string; // no error

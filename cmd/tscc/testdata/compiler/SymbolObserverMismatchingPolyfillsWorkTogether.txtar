@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/symbolObserverMismatchingPolyfillsWorkTogether.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts symbolObserverMismatchingPolyfillsWorkTogether.d.ts --target es6 --lib es6,dom --out-js symbolObserverMismatchingPolyfillsWorkTogether.js symbolObserverMismatchingPolyfillsWorkTogether.ts
+! stderr .
+cmp symbolObserverMismatchingPolyfillsWorkTogether.d.ts symbolObserverMismatchingPolyfillsWorkTogether.d.ts.golden
+cmp symbolObserverMismatchingPolyfillsWorkTogether.js symbolObserverMismatchingPolyfillsWorkTogether.js.golden
+! exists symbolObserverMismatchingPolyfillsWorkTogether.js.map
+
+-- symbolObserverMismatchingPolyfillsWorkTogether.ts --
+interface SymbolConstructor {
+    readonly observer: symbol;
+}
+interface SymbolConstructor {
+    readonly observer: unique symbol;
+}
+
+const obj = {
+    [Symbol.observer]: 0
+};
+-- symbolObserverMismatchingPolyfillsWorkTogether.d.ts.golden --
+interface SymbolConstructor {
+    readonly observer: symbol;
+}
+interface SymbolConstructor {
+    readonly observer: unique symbol;
+}
+declare const obj: {
+    [Symbol.observer]: number;
+};
+-- symbolObserverMismatchingPolyfillsWorkTogether.js.golden --
+"use strict";
+const obj = {
+    [Symbol.observer]: 0
+};

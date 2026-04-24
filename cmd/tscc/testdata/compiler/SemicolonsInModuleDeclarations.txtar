@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/semicolonsInModuleDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js semicolonsInModuleDeclarations.js semicolonsInModuleDeclarations.ts
+stderr 'TS1036'
+! exists semicolonsInModuleDeclarations.js
+! exists semicolonsInModuleDeclarations.d.ts
+! exists semicolonsInModuleDeclarations.js.map
+
+-- semicolonsInModuleDeclarations.ts --
+declare namespace ambiModule {
+   export interface i1 { };
+   export interface i2 { }
+}
+
+var n1: ambiModule.i1;
+var n2: ambiModule.i2;

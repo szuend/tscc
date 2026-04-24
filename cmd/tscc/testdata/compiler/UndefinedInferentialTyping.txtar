@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/undefinedInferentialTyping.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedInferentialTyping.js undefinedInferentialTyping.ts
+stderr 'TS2322'
+! exists undefinedInferentialTyping.js
+! exists undefinedInferentialTyping.d.ts
+! exists undefinedInferentialTyping.js.map
+
+-- undefinedInferentialTyping.ts --
+function f<T>(arr: T[], elemnt: T): T {
+    return null;
+}
+
+var a = f([], 3); // should be number

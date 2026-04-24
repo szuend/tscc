@@ -1,0 +1,68 @@
+# Ported from tests/cases/compiler/superInObjectLiterals_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js superInObjectLiterals_ES6.js superInObjectLiterals_ES6.ts
+stderr 'TS2660'
+! exists superInObjectLiterals_ES6.js
+! exists superInObjectLiterals_ES6.d.ts
+! exists superInObjectLiterals_ES6.js.map
+
+-- superInObjectLiterals_ES6.ts --
+var obj = {
+    __proto__: {
+        method() {
+        }
+    },
+    method() {
+        super.method();
+    },
+    get prop() {
+        super.method();
+        return 10;
+    },
+    set prop(value) {
+        super.method();
+    },
+    p1: function () {
+        super.method();
+    },
+    p2: function f() {
+        super.method();
+    },
+    p3: () => {
+        super.method();
+    }
+};
+
+class A {
+    method() { }
+}
+
+class B extends A {
+    f() {
+        var obj = {
+            __proto__: {
+                method() {
+                }
+            },
+            method() {
+                super.method();
+            },
+            get prop() {
+                super.method();
+                return 10;
+            },
+            set prop(value) {
+                super.method();
+            },
+            p1: function () {
+                super.method();
+            },
+            p2: function f() {
+                super.method();
+            },
+            p3: () => {
+                super.method();
+            }
+        };
+    }
+}

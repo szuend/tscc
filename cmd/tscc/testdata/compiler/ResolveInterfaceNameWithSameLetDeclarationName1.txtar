@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/resolveInterfaceNameWithSameLetDeclarationName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js resolveInterfaceNameWithSameLetDeclarationName1.js resolveInterfaceNameWithSameLetDeclarationName1.ts
+! stderr .
+cmp resolveInterfaceNameWithSameLetDeclarationName1.js resolveInterfaceNameWithSameLetDeclarationName1.js.golden
+! exists resolveInterfaceNameWithSameLetDeclarationName1.d.ts
+! exists resolveInterfaceNameWithSameLetDeclarationName1.js.map
+
+-- resolveInterfaceNameWithSameLetDeclarationName1.ts --
+interface bar { }
+let bar: bar;
+-- resolveInterfaceNameWithSameLetDeclarationName1.js.golden --
+"use strict";
+let bar;

@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/subtypeReductionWithAnyFunctionType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target esnext --lib esnext,dom subtypeReductionWithAnyFunctionType.ts
+stderr 'TS7006'
+! exists subtypeReductionWithAnyFunctionType.d.ts
+! exists subtypeReductionWithAnyFunctionType.js.map
+
+-- subtypeReductionWithAnyFunctionType.ts --
+// https://github.com/microsoft/typescript-go/issues/849
+
+declare function useMemo<T>(func: () => T): T;
+
+function getPredicate(alwaysTrue: boolean) {
+    const predicate: (input: string) => boolean = useMemo(() => {
+        if (alwaysTrue) {
+            return () => true;
+        }
+        return x => x.length > 0;
+    });
+    return predicate;
+}
+
+// https://github.com/microsoft/typescript-go/issues/1016
+
+declare function compact<T>(array: T[]): T[];
+declare function makeFooer(): Fooer;
+interface Fooer {
+    foo: (v: string) => string;
+}
+function f() {
+    const _ = compact([makeFooer(), { foo: (v) => v }]);
+}

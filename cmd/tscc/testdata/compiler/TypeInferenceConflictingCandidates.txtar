@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/typeInferenceConflictingCandidates.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeInferenceConflictingCandidates.js typeInferenceConflictingCandidates.ts
+stderr 'TS2345'
+! exists typeInferenceConflictingCandidates.js
+! exists typeInferenceConflictingCandidates.d.ts
+! exists typeInferenceConflictingCandidates.js.map
+
+-- typeInferenceConflictingCandidates.ts --
+declare function g<T>(a: T, b: T, c: (t: T) => T): T;
+
+g("", 3, a => a);

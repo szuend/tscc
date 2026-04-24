@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/sourceMapValidationEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-map sourceMapValidationEnums.js.map --target es2015 --lib es2015,dom --out-js sourceMapValidationEnums.js sourceMapValidationEnums.ts
+stderr 'TS2300'
+! exists sourceMapValidationEnums.js
+! exists sourceMapValidationEnums.d.ts
+
+-- sourceMapValidationEnums.ts --
+enum e {
+    x,
+    y,
+    x
+}
+enum e2 {
+    x = 10,
+    y = 10,
+    z,
+    x2
+}
+enum e3 {
+}

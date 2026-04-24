@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/stringMappingAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js stringMappingAssignability.js stringMappingAssignability.ts
+stderr 'TS2322'
+! exists stringMappingAssignability.js
+! exists stringMappingAssignability.d.ts
+! exists stringMappingAssignability.js.map
+
+-- stringMappingAssignability.ts --
+const x: Uppercase<string> = 42;
+const y: Uppercase<string> = { foo: "bar" };

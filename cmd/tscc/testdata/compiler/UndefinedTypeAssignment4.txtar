@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/undefinedTypeAssignment4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js undefinedTypeAssignment4.js undefinedTypeAssignment4.ts
+stderr 'TS2414'
+stderr 'TS2564'
+stderr 'TS2427'
+stderr 'TS2397'
+! exists undefinedTypeAssignment4.js
+! exists undefinedTypeAssignment4.d.ts
+! exists undefinedTypeAssignment4.js.map
+
+-- undefinedTypeAssignment4.ts --
+class undefined {
+	foo: string;
+}
+interface undefined {
+	member: number;
+}
+namespace undefined {
+	export var x = 42;
+}
+var x: undefined;
+var y: typeof undefined;

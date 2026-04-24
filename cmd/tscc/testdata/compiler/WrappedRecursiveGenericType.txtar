@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/wrappedRecursiveGenericType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js wrappedRecursiveGenericType.js wrappedRecursiveGenericType.ts
+stderr 'TS2322'
+! exists wrappedRecursiveGenericType.js
+! exists wrappedRecursiveGenericType.d.ts
+! exists wrappedRecursiveGenericType.js.map
+
+-- wrappedRecursiveGenericType.ts --
+interface X<T> { e: T; }
+interface A<T> {
+    a: B<T>;
+    val: T;
+}
+interface B<T> {
+    b: A<X<T>>;
+    val: T;
+}
+declare var x: A<number>;
+x.val = 5;         // val -> number
+x.a.val = 5;       // val -> number
+x.a.b.val = 5;     // val -> X<number> (This should be an error)
+x.a.b.a.val = 5;   // val -> X<number> (This should be an error)

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/setterBeforeGetter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js setterBeforeGetter.js setterBeforeGetter.ts
+stderr 'TS2564'
+! exists setterBeforeGetter.js
+! exists setterBeforeGetter.d.ts
+! exists setterBeforeGetter.js.map
+
+-- setterBeforeGetter.ts --
+class Foo {
+
+    private _bar: { a: string; };
+    // should not be an error to order them this way
+    set bar(thing: { a: string; }) {
+        this._bar = thing;
+    }
+    get bar(): { a: string; } {
+        return this._bar;
+    }
+}

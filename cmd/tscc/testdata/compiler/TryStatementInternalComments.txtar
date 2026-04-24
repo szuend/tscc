@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/tryStatementInternalComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js tryStatementInternalComments.js tryStatementInternalComments.ts
+! stderr .
+cmp tryStatementInternalComments.js tryStatementInternalComments.js.golden
+! exists tryStatementInternalComments.d.ts
+! exists tryStatementInternalComments.js.map
+
+-- tryStatementInternalComments.ts --
+/*1*/ try /*2*/ { /*3*/
+    /*4*/ throw /*5*/ "no" /*6*/;
+/*7*/} /*8*/ catch /*9*/ ( /*10*/ e /*11*/ ) /*12*/ { /*13*/
+
+/*14*/} /*15*/ finally /*16*/ { /*17*/
+
+/*18*/} /*19*/
+-- tryStatementInternalComments.js.golden --
+"use strict";
+/*1*/ try /*2*/ { /*3*/
+    /*4*/ throw /*5*/ "no" /*6*/;
+    /*7*/ } /*8*/
+catch /*9*/ ( /*10*/e /*11*/) /*12*/ { /*13*/
+    /*14*/ } /*15*/
+finally /*16*/ { /*17*/
+    /*18*/ } /*19*/

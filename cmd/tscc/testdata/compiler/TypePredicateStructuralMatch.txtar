@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/typePredicateStructuralMatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typePredicateStructuralMatch.js typePredicateStructuralMatch.ts
+stderr 'TS2339'
+! exists typePredicateStructuralMatch.js
+! exists typePredicateStructuralMatch.d.ts
+! exists typePredicateStructuralMatch.js.map
+
+-- typePredicateStructuralMatch.ts --
+// Repro from #12235
+
+getResults1([]);
+getResults1({data: []});
+
+getResults2([]);
+getResults2({data: []});
+
+type Result = { value: string };
+type Results = Result[];
+
+function isResponseInData<T>(value: T | { data: T}): value is { data: T } {
+    return value.hasOwnProperty('data');
+}
+
+function getResults1(value: Results | { data: Results }): Results {
+    return isResponseInData(value) ? value.data : value;
+}
+
+function isPlainResponse<T>(value: T | { data: T}): value is T {
+    return !value.hasOwnProperty('data');
+}
+
+function getResults2(value: Results | { data: Results }): Results {
+    return isPlainResponse(value) ? value : value.data;
+}

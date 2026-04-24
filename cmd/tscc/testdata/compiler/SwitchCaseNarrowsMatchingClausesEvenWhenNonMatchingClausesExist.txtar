@@ -1,0 +1,88 @@
+# Ported from tests/cases/compiler/switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.js switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.ts
+! stderr .
+cmp switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.js switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.js.golden
+! exists switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.d.ts
+! exists switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.js.map
+
+-- switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.ts --
+export const narrowToLiterals = (str: string) => {
+    switch (str) {
+      case 'abc': {
+        // inferred type as `abc`
+        return str;
+      }
+      default:
+        return 'defaultValue';
+    }
+  };
+  
+  export const narrowToString = (str: string, someOtherStr: string) => {
+    switch (str) {
+      case 'abc': {
+        // inferred type should be `abc`
+        return str;
+      }
+      case someOtherStr: {
+        // `string`
+        return str;
+      }
+      default:
+        return 'defaultValue';
+    }
+  };
+  
+  export const narrowToStringOrNumber = (str: string | number, someNumber: number) => {
+    switch (str) {
+      case 'abc': {
+        // inferred type should be `abc`
+        return str;
+      }
+      case someNumber: {
+        // inferred type should be `number`
+        return str;
+      }
+      default:
+        return 'defaultValue';
+    }
+  };
+-- switchCaseNarrowsMatchingClausesEvenWhenNonMatchingClausesExist.js.golden --
+export const narrowToLiterals = (str) => {
+    switch (str) {
+        case 'abc': {
+            // inferred type as `abc`
+            return str;
+        }
+        default:
+            return 'defaultValue';
+    }
+};
+export const narrowToString = (str, someOtherStr) => {
+    switch (str) {
+        case 'abc': {
+            // inferred type should be `abc`
+            return str;
+        }
+        case someOtherStr: {
+            // `string`
+            return str;
+        }
+        default:
+            return 'defaultValue';
+    }
+};
+export const narrowToStringOrNumber = (str, someNumber) => {
+    switch (str) {
+        case 'abc': {
+            // inferred type should be `abc`
+            return str;
+        }
+        case someNumber: {
+            // inferred type should be `number`
+            return str;
+        }
+        default:
+            return 'defaultValue';
+    }
+};

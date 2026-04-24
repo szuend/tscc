@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/signatureCombiningRestParameters1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --strict --target es2015 signatureCombiningRestParameters1.ts
+stderr 'TS2345'
+! exists signatureCombiningRestParameters1.d.ts
+! exists signatureCombiningRestParameters1.js.map
+
+-- signatureCombiningRestParameters1.ts --
+// https://github.com/microsoft/TypeScript/issues/58371
+
+type T1 = "A" | "B";
+
+type T2 = {
+  C: [string];
+  D: [number];
+};
+
+declare const map: {
+  [K in T1 | keyof T2]: (...args: K extends keyof T2 ? T2[K] : []) => unknown;
+};
+
+declare const args: any;
+
+for (const [key, fn] of Object.entries(map)) {
+  fn(...args);
+}
+
+const test2: ((a: number, ...args: []) => void) &
+  ((b: string) => void) &
+  ((c: boolean) => void) = (arg) => {};

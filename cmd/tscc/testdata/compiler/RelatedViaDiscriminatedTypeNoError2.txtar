@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/relatedViaDiscriminatedTypeNoError2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js relatedViaDiscriminatedTypeNoError2.js relatedViaDiscriminatedTypeNoError2.ts
+! stderr .
+cmp relatedViaDiscriminatedTypeNoError2.js relatedViaDiscriminatedTypeNoError2.js.golden
+! exists relatedViaDiscriminatedTypeNoError2.d.ts
+! exists relatedViaDiscriminatedTypeNoError2.js.map
+
+-- relatedViaDiscriminatedTypeNoError2.ts --
+type AObjOrBObj = { name: "A" } | { name: "B" };
+type AOrBObj = { name: "A" | "B" };
+type Generic<T extends AObjOrBObj> = T;
+
+type T = Generic<AOrBObj>;
+
+declare let x: AObjOrBObj;
+declare let y: AOrBObj;
+x = y;
+y = x;
+-- relatedViaDiscriminatedTypeNoError2.js.golden --
+"use strict";
+x = y;
+y = x;

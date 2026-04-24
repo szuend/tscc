@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/thisExpressionInIndexExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js thisExpressionInIndexExpression.js thisExpressionInIndexExpression.ts
+! stderr .
+cmp thisExpressionInIndexExpression.js thisExpressionInIndexExpression.js.golden
+! exists thisExpressionInIndexExpression.d.ts
+! exists thisExpressionInIndexExpression.js.map
+
+-- thisExpressionInIndexExpression.ts --
+function f() {
+    return r => r[this];
+}
+-- thisExpressionInIndexExpression.js.golden --
+"use strict";
+function f() {
+    return r => r[this];
+}

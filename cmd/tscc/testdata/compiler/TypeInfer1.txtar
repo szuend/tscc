@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/typeInfer1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeInfer1.js typeInfer1.ts
+stderr 'TS2353'
+! exists typeInfer1.js
+! exists typeInfer1.d.ts
+! exists typeInfer1.js.map
+
+-- typeInfer1.ts --
+interface ITextWriter2 {
+    Write(s:string):void;
+    WriteLine(s:string):void;
+}
+
+var x: ITextWriter2 = {
+    Write: function (s:string):void {},
+    WriteLine: function(s:string):void {}
+}
+
+var yyyyyyyy: ITextWriter2 = {
+    Moo: function() { return "cow"; }
+}

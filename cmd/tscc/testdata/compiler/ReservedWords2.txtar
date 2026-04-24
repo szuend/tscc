@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/reservedWords2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js reservedWords2.js reservedWords2.ts
+stderr 'TS1109'
+stderr 'TS1005'
+stderr 'TS1359'
+stderr 'TS1389'
+stderr 'TS1181'
+stderr 'TS1128'
+stderr 'TS1138'
+! exists reservedWords2.js
+! exists reservedWords2.d.ts
+! exists reservedWords2.js.map
+
+-- reservedWords2.ts --
+import while = require("dfdf");
+import * as  while from "foo"
+
+var typeof = 10;
+function throw() {}
+namespace void {}
+var {while, return} = { while: 1, return: 2 };
+var {this, switch: { continue} } = { this: 1, switch: { continue: 2 }};
+var [debugger, if] = [1, 2];
+enum void {}
+function f(default: number) {}
+class C { m(null: string) {} }

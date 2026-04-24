@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/shorthandPropertyAssignmentInES6Module.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target ES6 --lib ES6,dom --out-js test.js test.ts
+stderr 'TS2307'
+! exists test.js
+! exists test.d.ts
+! exists test.js.map
+
+-- existingModule.ts --
+export var x = 1;
+-- test.ts --
+import {x} from './existingModule';
+import {foo} from './missingModule';
+
+declare function use(a: any): void;
+
+const test = { x, foo };
+
+use(x);
+use(foo);

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/unionTypeWithIndexedLiteralType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js unionTypeWithIndexedLiteralType.js unionTypeWithIndexedLiteralType.ts
+! stderr .
+cmp unionTypeWithIndexedLiteralType.js unionTypeWithIndexedLiteralType.js.golden
+! exists unionTypeWithIndexedLiteralType.d.ts
+! exists unionTypeWithIndexedLiteralType.js.map
+
+-- unionTypeWithIndexedLiteralType.ts --
+interface I { x: number; }
+interface Idx { [index: string]: U; }
+type U = Idx | I | "lit";
+const u: U = { x: "lit" };
+-- unionTypeWithIndexedLiteralType.js.golden --
+"use strict";
+const u = { x: "lit" };

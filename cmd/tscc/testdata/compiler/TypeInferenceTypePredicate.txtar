@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/typeInferenceTypePredicate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js typeInferenceTypePredicate.js typeInferenceTypePredicate.ts
+stderr 'TS2677'
+! exists typeInferenceTypePredicate.js
+! exists typeInferenceTypePredicate.d.ts
+! exists typeInferenceTypePredicate.js.map
+
+-- typeInferenceTypePredicate.ts --
+declare function f<T>(predicate: (x: {}) => x is T): T;
+// 'res' should be of type 'number'.
+const res = f((n): n is number => true);

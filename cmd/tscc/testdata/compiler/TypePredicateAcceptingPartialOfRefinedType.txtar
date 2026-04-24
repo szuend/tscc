@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/typePredicateAcceptingPartialOfRefinedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --exact-optional-property-types --strict --target es2015 --lib es2015,dom typePredicateAcceptingPartialOfRefinedType.ts
+! stderr .
+! exists typePredicateAcceptingPartialOfRefinedType.d.ts
+! exists typePredicateAcceptingPartialOfRefinedType.js.map
+
+-- typePredicateAcceptingPartialOfRefinedType.ts --
+// repro #51953
+
+interface Test {
+  testy?: string;
+}
+
+interface Options {
+  test: Test['testy'];
+}
+
+declare function includesAllRequiredOptions(options: Partial<Options>): options is Options;

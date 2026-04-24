@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/unexpectedStatementBlockTerminator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js unexpectedStatementBlockTerminator.js unexpectedStatementBlockTerminator.ts
+stderr 'TS1128'
+! exists unexpectedStatementBlockTerminator.js
+! exists unexpectedStatementBlockTerminator.d.ts
+! exists unexpectedStatementBlockTerminator.js.map
+
+-- unexpectedStatementBlockTerminator.ts --
+class Foo {}
+
+class Bar {}
+case
+
+function Goo() {return {a:1,b:2};}

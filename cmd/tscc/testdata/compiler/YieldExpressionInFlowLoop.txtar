@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/yieldExpressionInFlowLoop.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es6 --lib es6,dom --out-js yieldExpressionInFlowLoop.js yieldExpressionInFlowLoop.ts
+stderr 'TS7057'
+! exists yieldExpressionInFlowLoop.js
+! exists yieldExpressionInFlowLoop.d.ts
+! exists yieldExpressionInFlowLoop.js.map
+
+-- yieldExpressionInFlowLoop.ts --
+function* f() {
+    let result;
+    while (1) {
+        result = yield result;
+    }
+}

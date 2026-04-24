@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/strictNullLogicalAndOr.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js strictNullLogicalAndOr.js strictNullLogicalAndOr.ts
+! stderr .
+cmp strictNullLogicalAndOr.js strictNullLogicalAndOr.js.golden
+! exists strictNullLogicalAndOr.d.ts
+! exists strictNullLogicalAndOr.js.map
+
+-- strictNullLogicalAndOr.ts --
+// Repro from #9113
+
+let sinOrCos = Math.random() < .5;
+let choice = sinOrCos && Math.sin || Math.cos;
+
+choice(Math.PI);
+
+function sq(n?: number): number {
+  const r = n !== undefined && n*n || 0;
+  return r;
+}
+
+sq(3);
+-- strictNullLogicalAndOr.js.golden --
+"use strict";
+// Repro from #9113
+let sinOrCos = Math.random() < .5;
+let choice = sinOrCos && Math.sin || Math.cos;
+choice(Math.PI);
+function sq(n) {
+    const r = n !== undefined && n * n || 0;
+    return r;
+}
+sq(3);

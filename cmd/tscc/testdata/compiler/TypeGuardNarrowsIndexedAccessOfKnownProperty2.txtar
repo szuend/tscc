@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/typeGuardNarrowsIndexedAccessOfKnownProperty2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js typeGuardNarrowsIndexedAccessOfKnownProperty2.js typeGuardNarrowsIndexedAccessOfKnownProperty2.ts
+! stderr .
+cmp typeGuardNarrowsIndexedAccessOfKnownProperty2.js typeGuardNarrowsIndexedAccessOfKnownProperty2.js.golden
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty2.d.ts
+! exists typeGuardNarrowsIndexedAccessOfKnownProperty2.js.map
+
+-- typeGuardNarrowsIndexedAccessOfKnownProperty2.ts --
+const foo: { key?: number } = {};
+const key = 'key' as const;
+
+if (foo[key]) {
+    foo[key]; // number
+    foo.key;  // number
+}
+-- typeGuardNarrowsIndexedAccessOfKnownProperty2.js.golden --
+"use strict";
+const foo = {};
+const key = 'key';
+if (foo[key]) {
+    foo[key]; // number
+    foo.key; // number
+}

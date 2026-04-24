@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/typeParameterEquality.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js typeParameterEquality.js typeParameterEquality.ts
+stderr 'TS2322'
+! exists typeParameterEquality.js
+! exists typeParameterEquality.d.ts
+! exists typeParameterEquality.js.map
+
+-- typeParameterEquality.ts --
+class C {
+    get x(): <T>(a: T) => T { return null; }
+    set x(p: <U>(a: U) => U) {}
+}

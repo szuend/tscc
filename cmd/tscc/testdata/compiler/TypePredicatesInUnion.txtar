@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/typePredicatesInUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js typePredicatesInUnion.js typePredicatesInUnion.ts
+! stderr .
+cmp typePredicatesInUnion.js typePredicatesInUnion.js.golden
+! exists typePredicatesInUnion.d.ts
+! exists typePredicatesInUnion.js.map
+
+-- typePredicatesInUnion.ts --
+interface A {
+    pred(x: {}): x is boolean;
+}
+interface B {
+    pred(x: {}): x is string;
+}
+
+type Or = A | B;
+
+function f(o: Or, x: {}) {
+    if (o.pred(x)) {
+        x;
+    }
+}
+-- typePredicatesInUnion.js.golden --
+"use strict";
+function f(o, x) {
+    if (o.pred(x)) {
+        x;
+    }
+}

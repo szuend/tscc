@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/unexportedInstanceClassVariables.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js unexportedInstanceClassVariables.js unexportedInstanceClassVariables.ts
+! stderr .
+cmp unexportedInstanceClassVariables.js unexportedInstanceClassVariables.js.golden
+! exists unexportedInstanceClassVariables.d.ts
+! exists unexportedInstanceClassVariables.js.map
+
+-- unexportedInstanceClassVariables.ts --
+namespace M{
+	class A{
+		constructor(val:string){}
+	}
+}
+
+namespace M{
+	class A {}  
+ 
+ 	var a = new A();
+}
+-- unexportedInstanceClassVariables.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class A {
+        constructor(val) { }
+    }
+})(M || (M = {}));
+(function (M) {
+    class A {
+    }
+    var a = new A();
+})(M || (M = {}));
