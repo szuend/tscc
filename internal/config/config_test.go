@@ -227,6 +227,34 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "skip-lib-check true",
+			args: []string{"--skip-lib-check", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				StrictNullChecks:   true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+				SkipLibCheck:       true,
+			},
+		},
+		{
+			name: "skip-lib-check negated",
+			args: []string{"--no-skip-lib-check", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				StrictNullChecks:   true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+				SkipLibCheck:       false,
+			},
+		},
+		{
 			name:        "missing input",
 			args:        []string{"--target", "es2022"},
 			wantErrText: "no input file specified",
@@ -280,6 +308,9 @@ func TestParse(t *testing.T) {
 			}
 			if got.CaseSensitivePaths != tt.wantConfig.CaseSensitivePaths {
 				t.Errorf("CaseSensitivePaths: got %v, want %v", got.CaseSensitivePaths, tt.wantConfig.CaseSensitivePaths)
+			}
+			if got.SkipLibCheck != tt.wantConfig.SkipLibCheck {
+				t.Errorf("SkipLibCheck: got %v, want %v", got.SkipLibCheck, tt.wantConfig.SkipLibCheck)
 			}
 			if !slices.Equal(got.Lib, tt.wantConfig.Lib) {
 				t.Errorf("Lib: got %v, want %v", got.Lib, tt.wantConfig.Lib)

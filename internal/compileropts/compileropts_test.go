@@ -101,6 +101,25 @@ func TestFromConfigNoImplicitAny(t *testing.T) {
 	}
 }
 
+func TestFromConfigSkipLibCheck(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", SkipLibCheck: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.SkipLibCheck != tc.want {
+			t.Errorf("SkipLibCheck(%v) = %v, want %v", tc.in, got.SkipLibCheck, tc.want)
+		}
+	}
+}
+
 func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	got, err := FromConfig(&config.Config{Target: "es2022"})
 	if err != nil {

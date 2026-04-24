@@ -60,6 +60,9 @@ type Config struct {
 
 	// StrictNullChecks enables strict null checks.
 	StrictNullChecks bool
+
+	// SkipLibCheck skips type checking of declaration files.
+	SkipLibCheck bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -232,8 +235,15 @@ func buildGroups(cfg *Config) []flagGroup {
 		languageGroup(cfg),
 		typeCheckingGroup(cfg),
 		resolutionGroup(cfg),
+		completenessGroup(cfg),
 		outputGroup(cfg),
 	}
+}
+
+func completenessGroup(cfg *Config) flagGroup {
+	g := pflag.NewFlagSet("completeness", pflag.ContinueOnError)
+	g.BoolVar(&cfg.SkipLibCheck, "skip-lib-check", false, "Skip type checking all .d.ts files.")
+	return flagGroup{Name: "Completeness", Set: g}
 }
 
 func languageGroup(cfg *Config) flagGroup {
