@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/DeclarationErrorsNoEmitOnError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts DeclarationErrorsNoEmitOnError.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js DeclarationErrorsNoEmitOnError.js DeclarationErrorsNoEmitOnError.ts
+! stderr .
+cmp DeclarationErrorsNoEmitOnError.d.ts DeclarationErrorsNoEmitOnError.d.ts.golden
+cmp DeclarationErrorsNoEmitOnError.js DeclarationErrorsNoEmitOnError.js.golden
+! exists DeclarationErrorsNoEmitOnError.js.map
+
+-- DeclarationErrorsNoEmitOnError.ts --
+type T = { x : number }
+export interface I {
+    f: T;   
+}
+-- DeclarationErrorsNoEmitOnError.d.ts.golden --
+type T = {
+    x: number;
+};
+export interface I {
+    f: T;
+}
+export {};
+-- DeclarationErrorsNoEmitOnError.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

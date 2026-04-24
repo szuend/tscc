@@ -85,7 +85,7 @@ func main() {
 				}
 				mu.Unlock()
 
-				if cat != "Success" && stopOnFailure {
+				if cat != "Success" && !strings.HasPrefix(cat, "Ignored") && stopOnFailure {
 					fmt.Printf("\nFailure on %s:\n%s\n", c, errDetail)
 					cancel()
 				}
@@ -255,6 +255,9 @@ func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath,
 		if ctx.Err() != nil {
 			return "Cancelled", ""
 		}
+		if exitErr, ok := err.(*exec.ExitError); ok && exitErr.ExitCode() == 3 {
+			return "Ignored", string(out)
+		}
 		return parseFailureCategory(string(out)), string(out)
 	}
 
@@ -279,6 +282,7 @@ func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath,
 
 // parseFailureCategory extracts the failure reason from portcase stderr.
 func parseFailureCategory(stderrStr string) string {
+
 	if strings.Contains(stderrStr, "unsupported directive") {
 		parts := strings.Split(stderrStr, "unsupported directive @")
 		if len(parts) > 1 {

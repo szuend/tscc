@@ -33,6 +33,19 @@ func (e *SkipError) Error() string {
 	return fmt.Sprintf("unsupported directive @%s", e.Directive)
 }
 
+// IgnoreError is returned when a directive is permanently ignored.
+type IgnoreError struct {
+	Directive string
+	Reason    string
+}
+
+func (e *IgnoreError) Error() string {
+	if e.Reason != "" {
+		return fmt.Sprintf("ignored directive @%s: %s", e.Directive, e.Reason)
+	}
+	return fmt.Sprintf("ignored directive @%s", e.Directive)
+}
+
 // knownUnsupportedDirectives lists directives we explicitly know we don't support.
 var knownUnsupportedDirectives = map[string]bool{
 	"jsx":                 true,
@@ -85,7 +98,7 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 				return nil, &SkipError{Directive: key, Reason: "multiple values"}
 			}
 			if strings.ToLower(value) == "es5" {
-				return nil, &SkipError{Directive: key, Reason: "es5 is not supported by tscc"}
+				return nil, &IgnoreError{Directive: key, Reason: "es5 is not supported by tscc"}
 			}
 			flags = append(flags, "--target", value)
 		case "strict":
@@ -99,7 +112,7 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 				return nil, &SkipError{Directive: key, Reason: "multiple values"}
 			}
 			if strings.ToLower(value) == "system" {
-				return nil, &SkipError{Directive: key, Reason: "system module is not supported by typescript-go"}
+				return nil, &IgnoreError{Directive: key, Reason: "system module is not supported by typescript-go"}
 			}
 			flags = append(flags, "--module", value)
 		case "declaration":

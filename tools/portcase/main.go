@@ -79,6 +79,10 @@ func main() {
 
 	results, err := porter.Port()
 	if err != nil {
+		if ignoreErr, ok := err.(*IgnoreError); ok {
+			fmt.Printf("%s: ignored directive @%s\n", caseName, ignoreErr.Directive)
+			os.Exit(3)
+		}
 		if skipErr, ok := err.(*SkipError); ok {
 			fmt.Printf("%s: unsupported directive @%s\n", caseName, skipErr.Directive)
 			os.Exit(2)

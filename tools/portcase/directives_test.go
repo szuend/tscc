@@ -211,8 +211,12 @@ func TestTranslateDirectives(t *testing.T) {
 			if tt.wantSkip {
 				if err == nil {
 					t.Errorf("TranslateDirectives() expected skip error, got nil")
-				} else if _, ok := err.(*SkipError); !ok {
-					t.Errorf("TranslateDirectives() error = %v, want SkipError", err)
+				} else {
+					_, okSkip := err.(*SkipError)
+					_, okIgnore := err.(*IgnoreError)
+					if !okSkip && !okIgnore {
+						t.Errorf("TranslateDirectives() error = %v, want SkipError or IgnoreError", err)
+					}
 				}
 				return
 			}
