@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/indexWithoutParamType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexWithoutParamType2.js indexWithoutParamType2.ts
+stderr 'TS2564'
+stderr 'TS2304'
+! exists indexWithoutParamType2.js
+! exists indexWithoutParamType2.d.ts
+! exists indexWithoutParamType2.js.map
+
+-- indexWithoutParamType2.ts --
+class C {
+    // Used to be indexer, now it is a computed property
+    [x]: string
+}

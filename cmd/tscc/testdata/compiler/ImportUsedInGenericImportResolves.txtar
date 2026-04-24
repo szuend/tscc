@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/importUsedInGenericImportResolves.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js test3.js test3.ts
+! stderr .
+cmp test3.js test3.js.golden
+! exists test3.d.ts
+! exists test3.js.map
+
+-- test1.d.ts --
+export interface T<P> {
+    a: P;
+}
+-- test2.d.ts --
+export declare const theme: { a: string }
+-- test3.ts --
+export const a: import("./test1").T<typeof import("./test2").theme> = null as any;
+-- test3.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.a = void 0;
+exports.a = null;

@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/incompleteDottedExpressionAtEOF.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js incompleteDottedExpressionAtEOF.js incompleteDottedExpressionAtEOF.ts
+stderr 'TS1003'
+! exists incompleteDottedExpressionAtEOF.js
+! exists incompleteDottedExpressionAtEOF.d.ts
+! exists incompleteDottedExpressionAtEOF.js.map
+
+-- incompleteDottedExpressionAtEOF.ts --
+// used to leak __missing into error message
+var p2 = window. 

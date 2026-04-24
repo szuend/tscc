@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/inferObjectTypeFromStringLiteralToKeyof.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inferObjectTypeFromStringLiteralToKeyof.js inferObjectTypeFromStringLiteralToKeyof.ts
+! stderr .
+cmp inferObjectTypeFromStringLiteralToKeyof.js inferObjectTypeFromStringLiteralToKeyof.js.golden
+! exists inferObjectTypeFromStringLiteralToKeyof.d.ts
+! exists inferObjectTypeFromStringLiteralToKeyof.js.map
+
+-- inferObjectTypeFromStringLiteralToKeyof.ts --
+declare function inference1<T>(name: keyof T): T;
+declare function inference2<T>(target: T, name: keyof T): T;
+declare var two: "a" | "d";
+const x = inference1(two);
+const y = inference2({ a: 1, b: 2, c: 3, d(n) { return n } }, two);
+-- inferObjectTypeFromStringLiteralToKeyof.js.golden --
+"use strict";
+const x = inference1(two);
+const y = inference2({ a: 1, b: 2, c: 3, d(n) { return n; } }, two);

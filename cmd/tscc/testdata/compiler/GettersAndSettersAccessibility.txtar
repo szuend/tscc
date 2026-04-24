@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/gettersAndSettersAccessibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js gettersAndSettersAccessibility.js gettersAndSettersAccessibility.ts
+stderr 'TS2808'
+! exists gettersAndSettersAccessibility.js
+! exists gettersAndSettersAccessibility.d.ts
+! exists gettersAndSettersAccessibility.js.map
+
+-- gettersAndSettersAccessibility.ts --
+class C99 {
+	private get Baz():number { return 0; }
+	public set Baz(n:number) {} // error - accessors do not agree in visibility
+}

@@ -1,0 +1,47 @@
+# Ported from tests/cases/compiler/homomorphicMappedTypeWithNonHomomorphicInstantiationSpreadable1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom homomorphicMappedTypeWithNonHomomorphicInstantiationSpreadable1.ts
+! stderr .
+! exists homomorphicMappedTypeWithNonHomomorphicInstantiationSpreadable1.d.ts
+! exists homomorphicMappedTypeWithNonHomomorphicInstantiationSpreadable1.js.map
+
+-- homomorphicMappedTypeWithNonHomomorphicInstantiationSpreadable1.ts --
+type HandleOptions<O> = {
+    [I in keyof O]: {
+        value: O[I];
+    };
+};
+
+declare function func1<
+    T extends Record<PropertyKey, readonly any[]>,
+>(fields: {
+    [K in keyof T]: {
+        label: string;
+        options: [...HandleOptions<T[K]>];
+    };
+}): T;
+
+const result = func1({
+    prop: {
+        label: "first",
+        options: [
+            {
+                value: 123,
+            },
+            {
+                value: "foo",
+            },
+        ],
+    },
+    other: {
+        label: "second",
+        options: [
+            {
+                value: "bar",
+            },
+            {
+                value: true,
+            },
+        ],
+    },
+});

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/hidingIndexSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js hidingIndexSignatures.js hidingIndexSignatures.ts
+stderr 'TS2454'
+! exists hidingIndexSignatures.js
+! exists hidingIndexSignatures.d.ts
+! exists hidingIndexSignatures.js.map
+
+-- hidingIndexSignatures.ts --
+interface A {
+    [a: string]: {};
+}
+
+interface B extends A {
+    [a: string]: number; // Number is not a subtype of string.  Should error.
+}
+
+var b: B;
+b[""]; // Should be number
+var a: A;
+a[""]; // Should be {}

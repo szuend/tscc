@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/importAliasInModuleAugmentation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importAliasInModuleAugmentation.js importAliasInModuleAugmentation.ts
+stderr 'TS2667'
+stderr 'TS2591'
+! exists importAliasInModuleAugmentation.js
+! exists importAliasInModuleAugmentation.d.ts
+! exists importAliasInModuleAugmentation.js.map
+
+-- importAliasInModuleAugmentation.ts --
+export { }
+
+namespace A {
+    export const y = 34;
+    export interface y { s: string }
+}
+
+declare global {
+    export import x = A.y;
+
+    // Should still error
+    import f = require("fs");
+}
+
+const m: number = x;
+let s: x = { s: "" };
+void s.s;

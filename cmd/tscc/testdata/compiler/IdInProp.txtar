@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/idInProp.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js idInProp.js idInProp.ts
+! stderr .
+cmp idInProp.js idInProp.js.golden
+! exists idInProp.d.ts
+! exists idInProp.js.map
+
+-- idInProp.ts --
+function f() {
+
+var t: { (f: any) : any; };
+
+}
+-- idInProp.js.golden --
+"use strict";
+function f() {
+    var t;
+}

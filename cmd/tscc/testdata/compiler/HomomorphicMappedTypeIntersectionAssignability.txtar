@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/homomorphicMappedTypeIntersectionAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js homomorphicMappedTypeIntersectionAssignability.js homomorphicMappedTypeIntersectionAssignability.ts
+! stderr .
+cmp homomorphicMappedTypeIntersectionAssignability.js homomorphicMappedTypeIntersectionAssignability.js.golden
+! exists homomorphicMappedTypeIntersectionAssignability.d.ts
+! exists homomorphicMappedTypeIntersectionAssignability.js.map
+
+-- homomorphicMappedTypeIntersectionAssignability.ts --
+function f<TType>(
+    a: { weak?: string } & Readonly<TType> & { name: "ok" },
+    b: Readonly<TType & { name: string }>,
+    c: Readonly<TType> & { name: string }) {
+    c = a; // Works
+    b = a; // Should also work
+}
+-- homomorphicMappedTypeIntersectionAssignability.js.golden --
+"use strict";
+function f(a, b, c) {
+    c = a; // Works
+    b = a; // Should also work
+}

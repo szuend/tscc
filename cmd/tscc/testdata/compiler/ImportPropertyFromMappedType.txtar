@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/importPropertyFromMappedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js main.js main.ts
+! stderr .
+cmp main.js main.js.golden
+! exists main.d.ts
+! exists main.js.map
+
+-- errors.d.ts --
+export = createHttpError;
+declare const createHttpError: createHttpError.NamedConstructors;
+declare namespace createHttpError {
+    type NamedConstructors =  { [P in 'NotFound']: unknown;}
+}
+-- main.ts --
+import { NotFound } from './errors'
+-- main.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

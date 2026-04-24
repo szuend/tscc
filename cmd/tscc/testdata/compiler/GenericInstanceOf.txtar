@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/genericInstanceOf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericInstanceOf.js genericInstanceOf.ts
+! stderr .
+cmp genericInstanceOf.js genericInstanceOf.js.golden
+! exists genericInstanceOf.d.ts
+! exists genericInstanceOf.js.map
+
+-- genericInstanceOf.ts --
+interface F {
+    (): number;
+}
+
+class C<T> {
+    constructor(public a: T, public b: F) {}
+    foo() {
+        if (this.a instanceof this.b) {
+        }
+    }
+}
+-- genericInstanceOf.js.golden --
+"use strict";
+class C {
+    constructor(a, b) {
+        this.a = a;
+        this.b = b;
+    }
+    foo() {
+        if (this.a instanceof this.b) {
+        }
+    }
+}

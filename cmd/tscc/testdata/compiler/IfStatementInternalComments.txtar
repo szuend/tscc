@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/ifStatementInternalComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js ifStatementInternalComments.js ifStatementInternalComments.ts
+! stderr .
+cmp ifStatementInternalComments.js ifStatementInternalComments.js.golden
+! exists ifStatementInternalComments.d.ts
+! exists ifStatementInternalComments.js.map
+
+-- ifStatementInternalComments.ts --
+/*1*/ if /*2*/ ( /*3*/ true /*4*/ ) /*5*/ {}
+
+/*1*/ if /*2*/ ( /*3*/ true /*4*/ ) /*5*/ {} /*6*/ else /*7*/  {}
+-- ifStatementInternalComments.js.golden --
+"use strict";
+/*1*/ if /*2*/ ( /*3*/true /*4*/) /*5*/ { }
+/*1*/ if /*2*/ ( /*3*/true /*4*/) /*5*/ { } /*6*/
+else /*7*/ { }

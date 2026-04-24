@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/genericFunctionTypedArgumentsAreFixed.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericFunctionTypedArgumentsAreFixed.js genericFunctionTypedArgumentsAreFixed.ts
+stderr 'TS2339'
+! exists genericFunctionTypedArgumentsAreFixed.js
+! exists genericFunctionTypedArgumentsAreFixed.d.ts
+! exists genericFunctionTypedArgumentsAreFixed.js.map
+
+-- genericFunctionTypedArgumentsAreFixed.ts --
+declare function map<T, U>(f: (x: T) => U, xs: T[]): U[];
+map((a) => a.length, [1]);

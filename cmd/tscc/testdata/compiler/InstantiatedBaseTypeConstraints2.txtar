@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/instantiatedBaseTypeConstraints2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js instantiatedBaseTypeConstraints2.js instantiatedBaseTypeConstraints2.ts
+! stderr .
+cmp instantiatedBaseTypeConstraints2.js instantiatedBaseTypeConstraints2.js.golden
+! exists instantiatedBaseTypeConstraints2.d.ts
+! exists instantiatedBaseTypeConstraints2.js.map
+
+-- instantiatedBaseTypeConstraints2.ts --
+interface A<T extends A<T, S>, S extends A<T, S>> { }
+interface B<U> extends A<B<U>, B<U>> { }
+-- instantiatedBaseTypeConstraints2.js.golden --
+"use strict";

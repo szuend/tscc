@@ -1,0 +1,62 @@
+# Ported from tests/cases/compiler/indexedAccessWithFreshObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js indexedAccessWithFreshObjectLiteral.js indexedAccessWithFreshObjectLiteral.ts
+stderr 'TS2339'
+! exists indexedAccessWithFreshObjectLiteral.js
+! exists indexedAccessWithFreshObjectLiteral.d.ts
+! exists indexedAccessWithFreshObjectLiteral.js.map
+
+-- indexedAccessWithFreshObjectLiteral.ts --
+function foo (id: string) {
+  return {
+      a: 1,
+      b: "",
+      c: true
+  }[id]
+}
+
+function bar (id: 'a' | 'b') {
+  return {
+      a: 1,
+      b: "",
+      c: false
+  }[id]
+}
+
+function baz (id: '1' | '2') {
+  return {
+      1: 1,
+      2: "",
+      3: false
+  }[id]
+}
+
+function qux (id: 1 | 2) {
+  return {
+      1: 1,
+      2: "",
+      3: false
+  }[id]
+}
+
+function quux (id: 'a' | 'b' | 'z') {
+  return {
+      a: 1,
+      b: "",
+      c: false
+  }[id]
+}
+
+function corge(id: string) {
+  return ({
+      a: 123,
+      b: ""
+  } as Record<string, number | string>)[id]
+}
+
+function grault(id: string) {
+  return ({
+      a: 123,
+      b: ""
+  } as { [k: string]: string | number})[id]
+}

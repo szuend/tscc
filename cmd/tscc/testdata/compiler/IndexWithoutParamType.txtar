@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/indexWithoutParamType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexWithoutParamType.js indexWithoutParamType.ts
+stderr 'TS1096'
+! exists indexWithoutParamType.js
+! exists indexWithoutParamType.d.ts
+! exists indexWithoutParamType.js.map
+
+-- indexWithoutParamType.ts --
+var y: { []; } // Error

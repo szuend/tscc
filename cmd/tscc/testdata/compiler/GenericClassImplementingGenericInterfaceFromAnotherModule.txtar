@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/genericClassImplementingGenericInterfaceFromAnotherModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts genericClassImplementingGenericInterfaceFromAnotherModule.d.ts --target es2015 --lib es2015,dom --out-js genericClassImplementingGenericInterfaceFromAnotherModule.js genericClassImplementingGenericInterfaceFromAnotherModule.ts
+! stderr .
+cmp genericClassImplementingGenericInterfaceFromAnotherModule.d.ts genericClassImplementingGenericInterfaceFromAnotherModule.d.ts.golden
+cmp genericClassImplementingGenericInterfaceFromAnotherModule.js genericClassImplementingGenericInterfaceFromAnotherModule.js.golden
+! exists genericClassImplementingGenericInterfaceFromAnotherModule.js.map
+
+-- genericClassImplementingGenericInterfaceFromAnotherModule.ts --
+namespace foo {
+    export interface IFoo<T> { }
+}
+namespace bar {
+    export class Foo<T> implements foo.IFoo<T> { }
+}
+-- genericClassImplementingGenericInterfaceFromAnotherModule.d.ts.golden --
+declare namespace foo {
+    interface IFoo<T> {
+    }
+}
+declare namespace bar {
+    class Foo<T> implements foo.IFoo<T> {
+    }
+}
+-- genericClassImplementingGenericInterfaceFromAnotherModule.js.golden --
+"use strict";
+var bar;
+(function (bar) {
+    class Foo {
+    }
+    bar.Foo = Foo;
+})(bar || (bar = {}));

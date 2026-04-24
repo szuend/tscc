@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/genericIndexedAccessMethodIntersectionCanBeAccessed.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js genericIndexedAccessMethodIntersectionCanBeAccessed.js genericIndexedAccessMethodIntersectionCanBeAccessed.ts
+! stderr .
+cmp genericIndexedAccessMethodIntersectionCanBeAccessed.js genericIndexedAccessMethodIntersectionCanBeAccessed.js.golden
+! exists genericIndexedAccessMethodIntersectionCanBeAccessed.d.ts
+! exists genericIndexedAccessMethodIntersectionCanBeAccessed.js.map
+
+-- genericIndexedAccessMethodIntersectionCanBeAccessed.ts --
+type ExtendedService<T> = {
+    [K in keyof T]: T[K] & {
+        __$daemonMode?: string;
+        __$action?: string;
+    };
+};
+
+type Service<T> = {
+    [K in keyof T]: T[K] & {id?: string};
+};
+
+export const createService = <T>(
+    ServiceCtr: ExtendedService<T> & Service<T>
+) => {
+    Object.keys(ServiceCtr).forEach(key => {
+        const method = (ServiceCtr)[key as keyof T];
+        const {__$daemonMode, __$action, id} = method;
+    })
+}
+-- genericIndexedAccessMethodIntersectionCanBeAccessed.js.golden --
+export const createService = (ServiceCtr) => {
+    Object.keys(ServiceCtr).forEach(key => {
+        const method = (ServiceCtr)[key];
+        const { __$daemonMode, __$action, id } = method;
+    });
+};

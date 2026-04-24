@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/indexerAsOptional.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexerAsOptional.js indexerAsOptional.ts
+stderr 'TS1019'
+! exists indexerAsOptional.js
+! exists indexerAsOptional.d.ts
+! exists indexerAsOptional.js.map
+
+-- indexerAsOptional.ts --
+interface indexSig {
+    //Index signatures can't be optional
+    [idx?: number]: any; //err
+}
+
+class indexSig2 {
+    //Index signatures can't be optional
+    [idx?: number]: any //err
+}

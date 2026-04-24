@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/inferenceUnionOfObjectsMappedContextualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js inferenceUnionOfObjectsMappedContextualType.js inferenceUnionOfObjectsMappedContextualType.ts
+! stderr .
+cmp inferenceUnionOfObjectsMappedContextualType.js inferenceUnionOfObjectsMappedContextualType.js.golden
+! exists inferenceUnionOfObjectsMappedContextualType.d.ts
+! exists inferenceUnionOfObjectsMappedContextualType.js.map
+
+-- inferenceUnionOfObjectsMappedContextualType.ts --
+type Entity = {
+    someDate: Date | null;
+} & ({ id: string; } | { id: number; })
+
+type RowRendererMeta<TInput extends {}> = {
+    [key in keyof TInput]: { key: key; caption: string; formatter?: (value: TInput[key]) => string; };
+}
+
+type RowRenderer<TInput extends {}> = RowRendererMeta<TInput>[keyof RowRendererMeta<TInput>];
+
+const test: RowRenderer<Entity> = {
+    key: 'someDate',
+    caption: 'My Date',
+    formatter: (value) => value ? value.toString() : '-' // value: any
+}
+-- inferenceUnionOfObjectsMappedContextualType.js.golden --
+"use strict";
+const test = {
+    key: 'someDate',
+    caption: 'My Date',
+    formatter: (value) => value ? value.toString() : '-' // value: any
+};

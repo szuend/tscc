@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/generics4NoError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts generics4NoError.d.ts --target es2015 --lib es2015,dom --out-js generics4NoError.js generics4NoError.ts
+stderr 'TS2564'
+! exists generics4NoError.d.ts
+! exists generics4NoError.js
+! exists generics4NoError.js.map
+
+-- generics4NoError.ts --
+class C<T> { private x: T; }
+interface X { f(): string; }
+interface Y { f(): boolean; }
+var a: C<X>;
+var b: C<Y>;

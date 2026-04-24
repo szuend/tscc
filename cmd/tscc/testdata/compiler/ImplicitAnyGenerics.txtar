@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/implicitAnyGenerics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js implicitAnyGenerics.js implicitAnyGenerics.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists implicitAnyGenerics.js
+! exists implicitAnyGenerics.d.ts
+! exists implicitAnyGenerics.js.map
+
+-- implicitAnyGenerics.ts --
+class C<T> {
+    x: T;
+}
+
+var c = new C();
+var c2 = new C<any>();
+var c3 = new C<number>();
+var c4: C<any> = new C();
+
+class D<T> {
+    constructor(x: T) { }
+}
+
+var d = new D(null);
+var d2 = new D(1);
+var d3 = new D<any>(1);
+var d4 = new D(<any>1);
+var d5: D<any> = new D(null);
+
+function foo<T>(): T { return null; };
+foo() 
+foo<any>();
+
+
+    

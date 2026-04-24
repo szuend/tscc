@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/genericClassStaticMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericClassStaticMethod.js genericClassStaticMethod.ts
+! stderr .
+cmp genericClassStaticMethod.js genericClassStaticMethod.js.golden
+! exists genericClassStaticMethod.d.ts
+! exists genericClassStaticMethod.js.map
+
+-- genericClassStaticMethod.ts --
+class Foo<T> {
+    static getFoo() {
+    }
+}
+
+class Bar<T> extends Foo<T> {
+    static getFoo() {
+    }
+}
+-- genericClassStaticMethod.js.golden --
+"use strict";
+class Foo {
+    static getFoo() {
+    }
+}
+class Bar extends Foo {
+    static getFoo() {
+    }
+}

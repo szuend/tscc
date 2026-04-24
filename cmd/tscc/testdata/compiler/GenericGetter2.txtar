@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/genericGetter2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericGetter2.js genericGetter2.ts
+stderr 'TS2564'
+stderr 'TS2314'
+! exists genericGetter2.js
+! exists genericGetter2.d.ts
+! exists genericGetter2.js.map
+
+-- genericGetter2.ts --
+class A<T> { }
+
+class C<T> {
+    data: A<T>;
+    get x(): A {
+        return this.data;
+    }
+}

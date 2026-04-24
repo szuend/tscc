@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/inheritanceStaticAccessorOverridingAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceStaticAccessorOverridingAccessor.js inheritanceStaticAccessorOverridingAccessor.ts
+! stderr .
+cmp inheritanceStaticAccessorOverridingAccessor.js inheritanceStaticAccessorOverridingAccessor.js.golden
+! exists inheritanceStaticAccessorOverridingAccessor.d.ts
+! exists inheritanceStaticAccessorOverridingAccessor.js.map
+
+-- inheritanceStaticAccessorOverridingAccessor.ts --
+class a {
+    static get x() {
+        return "20";
+    }
+    static set x(aValue: string) {
+
+    }
+}
+
+class b extends a {
+    static get x() {
+        return "20";
+    }
+    static set x(aValue: string) {
+
+    }
+}
+-- inheritanceStaticAccessorOverridingAccessor.js.golden --
+"use strict";
+class a {
+    static get x() {
+        return "20";
+    }
+    static set x(aValue) {
+    }
+}
+class b extends a {
+    static get x() {
+        return "20";
+    }
+    static set x(aValue) {
+    }
+}

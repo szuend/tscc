@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/inferenceContextualReturnTypeUnion4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --strict --target es2015 inferenceContextualReturnTypeUnion4.ts
+! stderr .
+! exists inferenceContextualReturnTypeUnion4.d.ts
+! exists inferenceContextualReturnTypeUnion4.js.map
+
+-- inferenceContextualReturnTypeUnion4.ts --
+// https://github.com/microsoft/TypeScript/issues/57905
+
+export abstract class Storage {
+    abstract get<T extends string>(): T | Promise<T>;
+}
+
+export abstract class SyncStorage extends Storage {
+    abstract override get<T extends string>(): T;
+}
+
+export abstract class ASyncStorage extends Storage {
+    abstract override get<T extends string>(): Promise<T>;
+}

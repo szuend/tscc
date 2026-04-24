@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/genericContextualTypingSpecialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericContextualTypingSpecialization.js genericContextualTypingSpecialization.ts
+stderr 'TS2454'
+! exists genericContextualTypingSpecialization.js
+! exists genericContextualTypingSpecialization.d.ts
+! exists genericContextualTypingSpecialization.js.map
+
+-- genericContextualTypingSpecialization.ts --
+var b: number[];
+b.reduce<number>((c, d) => c + d, 0); // should not error on '+'

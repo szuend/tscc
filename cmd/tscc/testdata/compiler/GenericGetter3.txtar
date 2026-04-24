@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/genericGetter3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericGetter3.js genericGetter3.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists genericGetter3.js
+! exists genericGetter3.d.ts
+! exists genericGetter3.js.map
+
+-- genericGetter3.ts --
+class A<T> { }
+
+class C<T> {
+    data: A<T>;
+    get x(): A<T> {
+        return this.data;
+    }
+}
+
+var c = new C<number>();
+var r: string = c.x;

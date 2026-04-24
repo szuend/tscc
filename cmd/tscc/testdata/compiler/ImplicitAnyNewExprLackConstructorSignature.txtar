@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/implicitAnyNewExprLackConstructorSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js implicitAnyNewExprLackConstructorSignature.js implicitAnyNewExprLackConstructorSignature.ts
+stderr 'TS2683'
+stderr 'TS7009'
+! exists implicitAnyNewExprLackConstructorSignature.js
+! exists implicitAnyNewExprLackConstructorSignature.d.ts
+! exists implicitAnyNewExprLackConstructorSignature.js.map
+
+-- implicitAnyNewExprLackConstructorSignature.ts --
+function Point() { this.x = 3; }
+var x: any = new Point();  // error at "new"

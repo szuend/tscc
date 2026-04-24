@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/interfaceClassMerging2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceClassMerging2.js interfaceClassMerging2.ts
+stderr 'TS2564'
+! exists interfaceClassMerging2.js
+! exists interfaceClassMerging2.d.ts
+! exists interfaceClassMerging2.js.map
+
+-- interfaceClassMerging2.ts --
+interface Foo {
+    interfaceFooMethod(): this;
+    interfaceFooProperty: this;
+}
+
+class Foo {
+    classFooProperty: this;
+
+    classFooMethod(): this {
+        return this;
+    }
+}
+
+
+interface Bar {
+    interfaceBarMethod(): this;
+    interfaceBarProperty: this;
+}
+
+class Bar extends Foo {
+    classBarProperty: this;
+
+    classBarMethod(): this {
+        return this;
+    }
+}
+
+
+var bar = new Bar();
+bar.interfaceBarMethod().interfaceFooMethod().classBarMethod().classFooMethod();
+
+
+var foo = new Foo();
+
+foo = bar;

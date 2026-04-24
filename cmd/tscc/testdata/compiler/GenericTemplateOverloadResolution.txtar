@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/genericTemplateOverloadResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericTemplateOverloadResolution.js genericTemplateOverloadResolution.ts
+! stderr .
+cmp genericTemplateOverloadResolution.js genericTemplateOverloadResolution.js.golden
+! exists genericTemplateOverloadResolution.d.ts
+! exists genericTemplateOverloadResolution.js.map
+
+-- genericTemplateOverloadResolution.ts --
+interface IFooFn {
+    (strings: TemplateStringsArray): Promise<{}>;
+    <T>(strings: TemplateStringsArray): Promise<T>;
+}
+
+declare const fooFn: IFooFn;
+
+declare function expect(x: Promise<number>): void;
+
+expect(fooFn<number>``);
+-- genericTemplateOverloadResolution.js.golden --
+"use strict";
+expect(fooFn ``);

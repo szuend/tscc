@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/importUsedAsTypeWithErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js main.js main.ts
+stderr 'TS1340'
+! exists main.js
+! exists main.d.ts
+! exists main.js.map
+
+-- main.ts --
+export const a: import("./test") = null;
+-- test.ts --
+export interface T {
+    value: string
+}

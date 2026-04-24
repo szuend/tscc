@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/inOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inOperator.js inOperator.ts
+stderr 'TS2322'
+! exists inOperator.js
+! exists inOperator.d.ts
+! exists inOperator.js.map
+
+-- inOperator.ts --
+var a=[];
+
+for (var x in a) {}
+
+if (3 in a) {}
+
+var b = '' in 0;
+
+declare var c: any;
+declare var y: number;
+if (y in c) { }

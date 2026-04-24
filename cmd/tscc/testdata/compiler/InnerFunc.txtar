@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/innerFunc.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js innerFunc.js innerFunc.ts
+! stderr .
+cmp innerFunc.js innerFunc.js.golden
+! exists innerFunc.d.ts
+! exists innerFunc.js.map
+
+-- innerFunc.ts --
+function salt() {
+  function pepper() { return 5;}
+  return pepper();  
+}
+
+namespace M {
+    export function tungsten() {
+        function oxygen() { return 6; };
+        return oxygen();
+    }
+}
+-- innerFunc.js.golden --
+"use strict";
+function salt() {
+    function pepper() { return 5; }
+    return pepper();
+}
+var M;
+(function (M) {
+    function tungsten() {
+        function oxygen() { return 6; }
+        ;
+        return oxygen();
+    }
+    M.tungsten = tungsten;
+})(M || (M = {}));

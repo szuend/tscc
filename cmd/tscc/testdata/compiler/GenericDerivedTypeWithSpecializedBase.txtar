@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/genericDerivedTypeWithSpecializedBase.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericDerivedTypeWithSpecializedBase.js genericDerivedTypeWithSpecializedBase.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists genericDerivedTypeWithSpecializedBase.js
+! exists genericDerivedTypeWithSpecializedBase.d.ts
+! exists genericDerivedTypeWithSpecializedBase.js.map
+
+-- genericDerivedTypeWithSpecializedBase.ts --
+class A<T> {
+    x: T;
+}
+
+class B<U> extends A<string> {
+    y: U;
+}
+
+declare var x: A<number>;
+declare var y: B<number>;
+x = y;  // error

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/genericConstraintSatisfaction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericConstraintSatisfaction1.js genericConstraintSatisfaction1.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists genericConstraintSatisfaction1.js
+! exists genericConstraintSatisfaction1.d.ts
+! exists genericConstraintSatisfaction1.js.map
+
+-- genericConstraintSatisfaction1.ts --
+interface I<S> {
+   f: <T extends S>(x: T) => void
+}
+ 
+var x: I<{s: string}>
+declare var x: I<{s: string}>
+x.f({s: 1})

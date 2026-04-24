@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/genericTypeWithNonGenericBaseMisMatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericTypeWithNonGenericBaseMisMatch.js genericTypeWithNonGenericBaseMisMatch.ts
+stderr 'TS2416'
+stderr 'TS2322'
+! exists genericTypeWithNonGenericBaseMisMatch.js
+! exists genericTypeWithNonGenericBaseMisMatch.d.ts
+! exists genericTypeWithNonGenericBaseMisMatch.js.map
+
+-- genericTypeWithNonGenericBaseMisMatch.ts --
+interface I {
+	f: (a: { a: number }) => void
+}
+class X<T extends { a: string }> implements I {
+	f(a: T): void { }
+}
+var x = new X<{ a: string }>();
+var i: I = x; // Should not be allowed -- type of 'f' is incompatible with 'I'

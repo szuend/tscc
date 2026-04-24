@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/inferenceFromGenericClassNoCrash1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom inferenceFromGenericClassNoCrash1.ts
+stderr 'TS2564'
+! exists inferenceFromGenericClassNoCrash1.d.ts
+! exists inferenceFromGenericClassNoCrash1.js.map
+
+-- inferenceFromGenericClassNoCrash1.ts --
+// https://github.com/microsoft/TypeScript/issues/61633#issuecomment-2841778576
+
+function RenderFlagsMixin<T extends new (...args: any[]) => object>(Base?: T) {}
+class Container<T> {
+  t: T;
+}
+RenderFlagsMixin(Container);

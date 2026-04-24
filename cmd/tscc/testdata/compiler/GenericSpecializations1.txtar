@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/genericSpecializations1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericSpecializations1.js genericSpecializations1.ts
+stderr 'TS2416'
+stderr 'TS2322'
+! exists genericSpecializations1.js
+! exists genericSpecializations1.d.ts
+! exists genericSpecializations1.js.map
+
+-- genericSpecializations1.ts --
+interface IFoo<T> {
+    foo<T>(x: T): T; // no error on implementors because IFoo's T is different from foo's T
+}
+
+class IntFooBad implements IFoo<number> {
+    foo(x: string): string { return null; }
+}
+
+class StringFoo2 implements IFoo<string> {
+    foo(x: string): string { return null; }
+}
+
+class StringFoo3 implements IFoo<string> {
+    foo<T>(x: T): T { return null; }
+}

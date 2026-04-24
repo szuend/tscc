@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/inferredIndexerOnNamespaceImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo.js foo.ts
+! stderr .
+cmp foo.js foo.js.golden
+! exists foo.d.ts
+! exists foo.js.map
+
+-- bar.ts --
+import * as foo from "./foo";
+
+function f(map: { [k: string]: number }) {
+  // ...
+}
+
+f(foo);
+-- foo.ts --
+export const x = 3;
+export const y = 5;
+-- foo.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.y = exports.x = void 0;
+exports.x = 3;
+exports.y = 5;

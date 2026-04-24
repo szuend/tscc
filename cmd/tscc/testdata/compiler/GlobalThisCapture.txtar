@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/globalThisCapture.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js globalThisCapture.js globalThisCapture.ts
+! stderr .
+cmp globalThisCapture.js globalThisCapture.js.golden
+! exists globalThisCapture.d.ts
+! exists globalThisCapture.js.map
+
+-- globalThisCapture.ts --
+// Add a lambda to ensure global 'this' capture is triggered
+(()=>this.window);
+
+var parts = [];
+
+// Ensure that the generated code is correct
+parts[0];
+-- globalThisCapture.js.golden --
+"use strict";
+// Add a lambda to ensure global 'this' capture is triggered
+(() => this.window);
+var parts = [];
+// Ensure that the generated code is correct
+parts[0];

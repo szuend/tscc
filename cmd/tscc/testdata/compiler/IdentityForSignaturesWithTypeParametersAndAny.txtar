@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/identityForSignaturesWithTypeParametersAndAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js identityForSignaturesWithTypeParametersAndAny.js identityForSignaturesWithTypeParametersAndAny.ts
+stderr 'TS2403'
+! exists identityForSignaturesWithTypeParametersAndAny.js
+! exists identityForSignaturesWithTypeParametersAndAny.d.ts
+! exists identityForSignaturesWithTypeParametersAndAny.js.map
+
+-- identityForSignaturesWithTypeParametersAndAny.ts --
+var f: <T, U>(x: T, y: U) => T;
+var f: <T, U>(x: any, y: any) => any;
+
+var g: <T, U>(x: T, y: U) => T;
+var g: <T>(x: any, y: any) => any;
+
+var h: <T, U>(x: T, y: U) => T;
+var h: (x: any, y: any) => any;
+
+var i: <T, U>(x: T, y: U) => T;
+var i: <T, U>(x: any, y: string) => any;
+
+var j: <T, U>(x: T, y: U) => T;
+var j: <T, U>(x: any, y: any) => string;

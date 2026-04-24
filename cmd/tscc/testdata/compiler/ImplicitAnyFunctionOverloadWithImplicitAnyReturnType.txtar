@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/implicitAnyFunctionOverloadWithImplicitAnyReturnType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js implicitAnyFunctionOverloadWithImplicitAnyReturnType.js implicitAnyFunctionOverloadWithImplicitAnyReturnType.ts
+stderr 'TS7010'
+! exists implicitAnyFunctionOverloadWithImplicitAnyReturnType.js
+! exists implicitAnyFunctionOverloadWithImplicitAnyReturnType.d.ts
+! exists implicitAnyFunctionOverloadWithImplicitAnyReturnType.js.map
+
+-- implicitAnyFunctionOverloadWithImplicitAnyReturnType.ts --
+// this should be an error
+interface IFace {
+    funcOfIFace();  // error at "f"
+}
+
+// this should not be an error
+interface IFace1{
+    f1(): any;
+}
+

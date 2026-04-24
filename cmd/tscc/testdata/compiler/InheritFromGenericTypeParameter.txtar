@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/inheritFromGenericTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inheritFromGenericTypeParameter.js inheritFromGenericTypeParameter.ts
+stderr 'TS2304'
+stderr 'TS2312'
+! exists inheritFromGenericTypeParameter.js
+! exists inheritFromGenericTypeParameter.d.ts
+! exists inheritFromGenericTypeParameter.js.map
+
+-- inheritFromGenericTypeParameter.ts --
+class C<T> extends T { }
+interface I<T> extends T { }

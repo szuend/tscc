@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/inferentialTypingObjectLiteralMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inferentialTypingObjectLiteralMethod1.js inferentialTypingObjectLiteralMethod1.ts
+! stderr .
+cmp inferentialTypingObjectLiteralMethod1.js inferentialTypingObjectLiteralMethod1.js.golden
+! exists inferentialTypingObjectLiteralMethod1.d.ts
+! exists inferentialTypingObjectLiteralMethod1.js.map
+
+-- inferentialTypingObjectLiteralMethod1.ts --
+interface Int<T, U> {
+    method(x: T): U;
+}
+declare function foo<T, U>(x: T, y: Int<T, U>, z: Int<U, T>): T;
+foo("", { method(p1) { return p1.length } }, { method(p2) { return undefined } });
+-- inferentialTypingObjectLiteralMethod1.js.golden --
+"use strict";
+foo("", { method(p1) { return p1.length; } }, { method(p2) { return undefined; } });

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/inheritedFunctionAssignmentCompatibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritedFunctionAssignmentCompatibility.js inheritedFunctionAssignmentCompatibility.ts
+! stderr .
+cmp inheritedFunctionAssignmentCompatibility.js inheritedFunctionAssignmentCompatibility.js.golden
+! exists inheritedFunctionAssignmentCompatibility.d.ts
+! exists inheritedFunctionAssignmentCompatibility.js.map
+
+-- inheritedFunctionAssignmentCompatibility.ts --
+interface IResultCallback extends Function { }
+
+function fn(cb: IResultCallback) { }
+
+fn((a, b) => true);
+fn(function (a, b) { return true; })
+
+-- inheritedFunctionAssignmentCompatibility.js.golden --
+"use strict";
+function fn(cb) { }
+fn((a, b) => true);
+fn(function (a, b) { return true; });

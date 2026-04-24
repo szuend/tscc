@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/importTypeResolutionJSDocEOF.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom usage.js
+! stderr .
+! exists usage.d.ts
+! exists usage.js.map
+
+-- interfaces.d.ts --
+export interface Bar {
+    prop: string
+}
+-- usage.js --
+/** @type {Bar} */
+export let bar;
+
+/** @typedef {import('./interfaces').Bar} Bar */

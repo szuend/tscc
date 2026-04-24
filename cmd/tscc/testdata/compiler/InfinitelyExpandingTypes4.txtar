@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/infinitelyExpandingTypes4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingTypes4.js infinitelyExpandingTypes4.ts
+stderr 'TS2454'
+! exists infinitelyExpandingTypes4.js
+! exists infinitelyExpandingTypes4.d.ts
+! exists infinitelyExpandingTypes4.js.map
+
+-- infinitelyExpandingTypes4.ts --
+interface Query<T> {
+    // ...
+    groupBy<K>(keySelector: (item: T) => K): Query<Grouping<K, T>>;
+    // ...
+}
+
+interface QueryEnumerator<T> {
+    // ...
+    groupBy<K>(keySelector: (item: T) => K): QueryEnumerator<Grouping<K, T>>;
+    // ...
+}
+
+interface Grouping<K, T> extends Query<T> {
+    key(): K;
+}
+
+var q1: Query<number>;
+var q2: QueryEnumerator<number>;
+var q3: Query<number>;
+
+q1 = q2; // should error
+q1 = q3; // should not error

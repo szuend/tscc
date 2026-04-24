@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/genericInterfacesWithoutTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericInterfacesWithoutTypeArguments.js genericInterfacesWithoutTypeArguments.ts
+stderr 'TS2314'
+! exists genericInterfacesWithoutTypeArguments.js
+! exists genericInterfacesWithoutTypeArguments.d.ts
+! exists genericInterfacesWithoutTypeArguments.js.map
+
+-- genericInterfacesWithoutTypeArguments.ts --
+interface I<T> { }
+class C<T> { }
+var i: I;
+var c: C<I>;

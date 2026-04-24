@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/i3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js i3.js i3.ts
+stderr 'TS2322'
+! exists i3.js
+! exists i3.d.ts
+! exists i3.js.map
+
+-- i3.ts --
+interface I3 { one?: number; }; 
+declare var x: {one: number};
+declare var i: I3;
+
+i = x;
+x = i;

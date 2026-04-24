@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/icomparable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js icomparable.js icomparable.ts
+! stderr .
+cmp icomparable.js icomparable.js.golden
+! exists icomparable.d.ts
+! exists icomparable.js.map
+
+-- icomparable.ts --
+    interface IComparable<T> {
+       compareTo(other: T);
+    }
+
+    declare function sort<U extends IComparable<any>>(items: U[]): U[];
+
+    interface StringComparable extends IComparable<string> {
+    }
+
+    var sc: StringComparable[];
+
+    var x = sort(sc);
+-- icomparable.js.golden --
+"use strict";
+var sc;
+var x = sort(sc);

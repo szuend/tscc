@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/infinitelyExpandingTypesNonGenericBase.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingTypesNonGenericBase.js infinitelyExpandingTypesNonGenericBase.ts
+stderr 'TS2564'
+! exists infinitelyExpandingTypesNonGenericBase.js
+! exists infinitelyExpandingTypesNonGenericBase.d.ts
+! exists infinitelyExpandingTypesNonGenericBase.js.map
+
+-- infinitelyExpandingTypesNonGenericBase.ts --
+class Functionality<V> {
+    property: Options<V>;
+}
+
+class Base {
+}
+
+class A<T> extends Base {
+    options: Options<Functionality<T>[]>;
+}
+
+interface OptionsBase<T> {
+    Options: Options<T>;
+}
+
+interface Options<T> extends OptionsBase<T> {
+}
+
+
+function o(type: new () => Base) {
+}
+
+o(A);

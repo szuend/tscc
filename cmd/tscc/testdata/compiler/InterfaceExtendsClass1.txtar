@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/interfaceExtendsClass1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --target es2015 --out-js interfaceExtendsClass1.js interfaceExtendsClass1.ts
+! stderr .
+cmp interfaceExtendsClass1.js interfaceExtendsClass1.js.golden
+! exists interfaceExtendsClass1.d.ts
+! exists interfaceExtendsClass1.js.map
+
+-- interfaceExtendsClass1.ts --
+class Control {
+    private state: any;
+}
+interface SelectableControl extends Control {
+    select(): void;
+}
+class Button extends Control {
+    select() { }
+}
+class TextBox extends Control {
+    select() { }
+}
+class Image extends Control {
+}
+class Location {
+    select() { }
+}
+-- interfaceExtendsClass1.js.golden --
+"use strict";
+class Control {
+}
+class Button extends Control {
+    select() { }
+}
+class TextBox extends Control {
+    select() { }
+}
+class Image extends Control {
+}
+class Location {
+    select() { }
+}

@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/indirectDiscriminantAndExcessProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indirectDiscriminantAndExcessProperty.js indirectDiscriminantAndExcessProperty.ts
+stderr 'TS2322'
+! exists indirectDiscriminantAndExcessProperty.js
+! exists indirectDiscriminantAndExcessProperty.d.ts
+! exists indirectDiscriminantAndExcessProperty.js.map
+
+-- indirectDiscriminantAndExcessProperty.ts --
+export type Blah =
+    | { type: "foo", abc: string }
+    | { type: "bar", xyz: number, extra: any };
+
+declare function thing(blah: Blah): void;
+
+let foo1 = "foo";
+thing({
+    type: foo1,
+    abc: "hello!"
+});
+
+let foo2 = "foo";
+thing({
+    type: foo2,
+    abc: "hello!",
+    extra: 123,
+});
+
+let bar = "bar";
+thing({
+    type: bar,
+    xyz: 123,
+    extra: 123,
+});

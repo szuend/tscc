@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/innerOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js innerOverloads.js innerOverloads.ts
+! stderr .
+cmp innerOverloads.js innerOverloads.js.golden
+! exists innerOverloads.d.ts
+! exists innerOverloads.js.map
+
+-- innerOverloads.ts --
+function outer() {
+    function inner(x:number); // should work
+    function inner(x:string);
+    function inner(a:any) { return a; }
+
+    return inner(0);
+}
+
+var x = outer(); // should work
+
+-- innerOverloads.js.golden --
+"use strict";
+function outer() {
+    function inner(a) { return a; }
+    return inner(0);
+}
+var x = outer(); // should work

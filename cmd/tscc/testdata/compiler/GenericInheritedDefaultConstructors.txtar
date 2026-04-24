@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/genericInheritedDefaultConstructors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericInheritedDefaultConstructors.js genericInheritedDefaultConstructors.ts
+stderr 'TS2564'
+! exists genericInheritedDefaultConstructors.js
+! exists genericInheritedDefaultConstructors.d.ts
+! exists genericInheritedDefaultConstructors.js.map
+
+-- genericInheritedDefaultConstructors.ts --
+// repro from #8166
+interface Constructor<T> {
+    new(...args: any[]): T;
+    prototype: T;
+}
+
+class A<U> { a: U; }
+class B<V> extends A<V> { b: V; }
+var c:Constructor<B<boolean>> = B; // shouldn't error here

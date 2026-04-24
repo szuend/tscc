@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/innerAliases2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js innerAliases2.js innerAliases2.ts
+stderr 'TS2322'
+! exists innerAliases2.js
+! exists innerAliases2.d.ts
+! exists innerAliases2.js.map
+
+-- innerAliases2.ts --
+namespace _provider {
+                export class UsefulClass {
+                                public foo() {
+                                }
+                }
+}
+
+namespace consumer {
+                import provider = _provider;
+                
+                var g:provider.UsefulClass= null;
+                
+                function use():provider.UsefulClass { 
+                                var p2:provider.UsefulClass= new provider.UsefulClass();
+                                return p2; 
+                }
+}
+

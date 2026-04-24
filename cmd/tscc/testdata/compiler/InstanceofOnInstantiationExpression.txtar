@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/instanceofOnInstantiationExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instanceofOnInstantiationExpression.js instanceofOnInstantiationExpression.ts
+stderr 'TS2848'
+! exists instanceofOnInstantiationExpression.js
+! exists instanceofOnInstantiationExpression.d.ts
+! exists instanceofOnInstantiationExpression.js.map
+
+-- instanceofOnInstantiationExpression.ts --
+declare class Box<T> {
+    value: T;
+}
+
+
+declare const maybeBox: unknown;
+
+maybeBox instanceof Box; // OK
+
+maybeBox instanceof Box<number>; // error
+maybeBox instanceof (Box<number>); // error
+maybeBox instanceof ((Box<number>)); // error
+
+Box<number> instanceof Object; // OK
+(Box<number>) instanceof Object; // OK
+((Box<number>)) instanceof Object; // OK

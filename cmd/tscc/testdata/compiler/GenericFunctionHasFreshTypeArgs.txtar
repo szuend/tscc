@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/genericFunctionHasFreshTypeArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericFunctionHasFreshTypeArgs.js genericFunctionHasFreshTypeArgs.ts
+! stderr .
+cmp genericFunctionHasFreshTypeArgs.js genericFunctionHasFreshTypeArgs.js.golden
+! exists genericFunctionHasFreshTypeArgs.d.ts
+! exists genericFunctionHasFreshTypeArgs.js.map
+
+-- genericFunctionHasFreshTypeArgs.ts --
+function f(p: <T>(x: T) => void) { };
+f(x => f(y => x = y));
+-- genericFunctionHasFreshTypeArgs.js.golden --
+"use strict";
+function f(p) { }
+;
+f(x => f(y => x = y));

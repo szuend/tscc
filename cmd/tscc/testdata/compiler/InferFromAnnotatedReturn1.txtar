@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/inferFromAnnotatedReturn1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom inferFromAnnotatedReturn1.ts
+stderr 'TS2322'
+! exists inferFromAnnotatedReturn1.d.ts
+! exists inferFromAnnotatedReturn1.js.map
+
+-- inferFromAnnotatedReturn1.ts --
+declare function test<T>(cb: (arg: T) => T): T;
+
+const res1 = test((arg): number => 1); // ok
+const res2 = test((arg): number => 'foo'); // error
+
+export declare function linkedSignal<S, D>(options: {
+  source: () => S;
+  computation: (source: NoInfer<D>) => D;
+}): D;
+
+const signal = linkedSignal({
+  source: () => 3,
+  computation: (s): number => 3,
+});
+
+class Foo<T, R> {
+  constructor(readonly cb: (t: T, _: { x: number; other: NoInfer<R> }) => R) {}
+}
+
+const _1 = new Foo((name: string, { x }): { name: string; x: number } => ({
+  name,
+  x,
+}));

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/importNonExportedMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+declare function foo(): any
+declare function bar(): any;
+export { foo, bar as baz };
+-- b.ts --
+import { foo, bar } from "./a";
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.foo = foo;
+exports.baz = bar;

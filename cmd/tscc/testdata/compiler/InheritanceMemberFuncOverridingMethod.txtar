@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/inheritanceMemberFuncOverridingMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceMemberFuncOverridingMethod.js inheritanceMemberFuncOverridingMethod.ts
+! stderr .
+cmp inheritanceMemberFuncOverridingMethod.js inheritanceMemberFuncOverridingMethod.js.golden
+! exists inheritanceMemberFuncOverridingMethod.d.ts
+! exists inheritanceMemberFuncOverridingMethod.js.map
+
+-- inheritanceMemberFuncOverridingMethod.ts --
+class a {
+    x() {
+        return "10";
+    }
+}
+
+class b extends a {
+    x() {
+        return "20";
+    }
+}
+-- inheritanceMemberFuncOverridingMethod.js.golden --
+"use strict";
+class a {
+    x() {
+        return "10";
+    }
+}
+class b extends a {
+    x() {
+        return "20";
+    }
+}

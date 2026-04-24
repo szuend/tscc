@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/getsetReturnTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js getsetReturnTypes.js getsetReturnTypes.ts
+! stderr .
+cmp getsetReturnTypes.js getsetReturnTypes.js.golden
+! exists getsetReturnTypes.d.ts
+! exists getsetReturnTypes.js.map
+
+-- getsetReturnTypes.ts --
+function makePoint(x: number) { 
+ return { 
+  get x() { return x; } 
+ } 
+}; 
+var x = makePoint(2).x;
+var y: number = makePoint(2).x;
+-- getsetReturnTypes.js.golden --
+"use strict";
+function makePoint(x) {
+    return {
+        get x() { return x; }
+    };
+}
+;
+var x = makePoint(2).x;
+var y = makePoint(2).x;

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/infiniteExpandingTypeThroughInheritanceInstantiation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js infiniteExpandingTypeThroughInheritanceInstantiation.js infiniteExpandingTypeThroughInheritanceInstantiation.ts
+! stderr .
+cmp infiniteExpandingTypeThroughInheritanceInstantiation.js infiniteExpandingTypeThroughInheritanceInstantiation.js.golden
+! exists infiniteExpandingTypeThroughInheritanceInstantiation.d.ts
+! exists infiniteExpandingTypeThroughInheritanceInstantiation.js.map
+
+-- infiniteExpandingTypeThroughInheritanceInstantiation.ts --
+interface A<T>
+{
+   x: A<B<T>>
+}
+
+interface B<T> extends A<T> // error
+{
+   x: B<A<T>>
+}
+-- infiniteExpandingTypeThroughInheritanceInstantiation.js.golden --
+"use strict";

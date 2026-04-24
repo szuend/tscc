@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/genericWithNoConstraintComparableWithCurlyCurly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js genericWithNoConstraintComparableWithCurlyCurly.js genericWithNoConstraintComparableWithCurlyCurly.ts
+stderr 'TS2352'
+! exists genericWithNoConstraintComparableWithCurlyCurly.js
+! exists genericWithNoConstraintComparableWithCurlyCurly.d.ts
+! exists genericWithNoConstraintComparableWithCurlyCurly.js.map
+
+-- genericWithNoConstraintComparableWithCurlyCurly.ts --
+function foo<T>() {
+    let x = {};
+    x as T;
+}
+
+function bar<T extends unknown>() {
+    let x = {};
+    x as T;
+}
+
+function baz<T extends {}>() {
+    let x = {};
+    x as T;
+}
+
+function bat<T extends object>() {
+    let x = {};
+    x as T;
+}
+
+function no<T extends null | undefined>() {
+    let x = {};
+    x as T; // should error
+}
+
+function yes<T extends object | null | undefined>() {
+    let x = {};
+    x as T;
+}

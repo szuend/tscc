@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/infinitelyExpandingBaseTypes1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingBaseTypes1.js infinitelyExpandingBaseTypes1.ts
+! stderr .
+cmp infinitelyExpandingBaseTypes1.js infinitelyExpandingBaseTypes1.js.golden
+! exists infinitelyExpandingBaseTypes1.d.ts
+! exists infinitelyExpandingBaseTypes1.js.map
+
+-- infinitelyExpandingBaseTypes1.ts --
+interface A<T>
+{
+    x : A<A<T>>
+}
+ 
+interface B<T>
+{
+    x : B<T>
+}
+ 
+interface C<T> extends A<T>, B<T> { }
+
+ 
+-- infinitelyExpandingBaseTypes1.js.golden --
+"use strict";

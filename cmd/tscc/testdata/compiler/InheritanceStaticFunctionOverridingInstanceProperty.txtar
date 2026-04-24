@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/inheritanceStaticFunctionOverridingInstanceProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceStaticFunctionOverridingInstanceProperty.js inheritanceStaticFunctionOverridingInstanceProperty.ts
+! stderr .
+cmp inheritanceStaticFunctionOverridingInstanceProperty.js inheritanceStaticFunctionOverridingInstanceProperty.js.golden
+! exists inheritanceStaticFunctionOverridingInstanceProperty.d.ts
+! exists inheritanceStaticFunctionOverridingInstanceProperty.js.map
+
+-- inheritanceStaticFunctionOverridingInstanceProperty.ts --
+class a {
+    x: string;
+}
+
+class b extends a {
+    static x() {
+        return new b().x;
+    }
+}
+-- inheritanceStaticFunctionOverridingInstanceProperty.js.golden --
+"use strict";
+class a {
+}
+class b extends a {
+    static x() {
+        return new b().x;
+    }
+}

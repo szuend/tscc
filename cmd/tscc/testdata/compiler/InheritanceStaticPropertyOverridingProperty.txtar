@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/inheritanceStaticPropertyOverridingProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceStaticPropertyOverridingProperty.js inheritanceStaticPropertyOverridingProperty.ts
+! stderr .
+cmp inheritanceStaticPropertyOverridingProperty.js inheritanceStaticPropertyOverridingProperty.js.golden
+! exists inheritanceStaticPropertyOverridingProperty.d.ts
+! exists inheritanceStaticPropertyOverridingProperty.js.map
+
+-- inheritanceStaticPropertyOverridingProperty.ts --
+class a {
+    static x: () => string;
+}
+
+class b extends a {
+    static x: () => string;
+}
+-- inheritanceStaticPropertyOverridingProperty.js.golden --
+"use strict";
+class a {
+}
+class b extends a {
+}

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/importElisionExportNonExportAndDefault.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module esnext --target esnext --lib esnext,dom --out-js MyComponent.js MyComponent.ts
+! stderr .
+cmp MyComponent.js MyComponent.js.golden
+! exists MyComponent.d.ts
+! exists MyComponent.js.map
+
+-- MyComponent.ts --
+interface MyFunction { msg: string; }
+
+export const MyFunction = ({ msg }: MyFunction) => console.log(`Got message "${msg}"`);
+export default MyFunction;
+-- main.ts --
+import MyFunction from "./MyComponent";
+
+MyFunction({msg: "Hello World"});
+
+-- MyComponent.js.golden --
+export const MyFunction = ({ msg }) => console.log(`Got message "${msg}"`);
+export default MyFunction;

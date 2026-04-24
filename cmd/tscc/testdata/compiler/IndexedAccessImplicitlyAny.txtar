@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/indexedAccessImplicitlyAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target esnext --lib esnext,dom --out-js indexedAccessImplicitlyAny.js indexedAccessImplicitlyAny.ts
+stderr 'TS2551'
+! exists indexedAccessImplicitlyAny.js
+! exists indexedAccessImplicitlyAny.d.ts
+! exists indexedAccessImplicitlyAny.js.map
+
+-- indexedAccessImplicitlyAny.ts --
+interface I { foof: number };
+declare const i: I;
+i.foo;
+i["foo"];

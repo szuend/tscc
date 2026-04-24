@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/inheritanceMemberPropertyOverridingMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceMemberPropertyOverridingMethod.js inheritanceMemberPropertyOverridingMethod.ts
+! stderr .
+cmp inheritanceMemberPropertyOverridingMethod.js inheritanceMemberPropertyOverridingMethod.js.golden
+! exists inheritanceMemberPropertyOverridingMethod.d.ts
+! exists inheritanceMemberPropertyOverridingMethod.js.map
+
+-- inheritanceMemberPropertyOverridingMethod.ts --
+class a {
+    x() {
+        return "20";
+    }
+}
+
+class b extends a {
+    x: () => string;
+}
+-- inheritanceMemberPropertyOverridingMethod.js.golden --
+"use strict";
+class a {
+    x() {
+        return "20";
+    }
+}
+class b extends a {
+}

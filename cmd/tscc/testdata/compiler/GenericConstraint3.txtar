@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/genericConstraint3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericConstraint3.js genericConstraint3.ts
+! stderr .
+cmp genericConstraint3.js genericConstraint3.js.golden
+! exists genericConstraint3.d.ts
+! exists genericConstraint3.js.map
+
+-- genericConstraint3.ts --
+interface C<P> { x: P; }
+interface A<T, U extends C<T>> { x: U; }
+interface B extends A<{}, { x: {} }> { } // Should not produce an error
+-- genericConstraint3.js.golden --
+"use strict";

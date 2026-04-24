@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/genericTypeAssertions3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js genericTypeAssertions3.js genericTypeAssertions3.ts
+! stderr .
+cmp genericTypeAssertions3.js genericTypeAssertions3.js.golden
+! exists genericTypeAssertions3.d.ts
+! exists genericTypeAssertions3.js.map
+
+-- genericTypeAssertions3.ts --
+var r = < <T>(x: T) => T > ((x) => { return null; }); // bug was 'could not find dotted symbol T' on x's annotation in the type assertion instead of no error
+var s = < <T>(x: T) => T > ((x: any) => { return null; }); // no error
+-- genericTypeAssertions3.js.golden --
+"use strict";
+var r = ((x) => { return null; }); // bug was 'could not find dotted symbol T' on x's annotation in the type assertion instead of no error
+var s = ((x) => { return null; }); // no error

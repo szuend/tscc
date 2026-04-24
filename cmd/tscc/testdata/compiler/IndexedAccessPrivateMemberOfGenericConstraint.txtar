@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/indexedAccessPrivateMemberOfGenericConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexedAccessPrivateMemberOfGenericConstraint.js indexedAccessPrivateMemberOfGenericConstraint.ts
+stderr 'TS2564'
+stderr 'TS4105'
+! exists indexedAccessPrivateMemberOfGenericConstraint.js
+! exists indexedAccessPrivateMemberOfGenericConstraint.d.ts
+! exists indexedAccessPrivateMemberOfGenericConstraint.js.map
+
+-- indexedAccessPrivateMemberOfGenericConstraint.ts --
+class A {
+  private a: number;
+}
+
+class B {
+  private a: string;
+}
+
+type X<T extends A> = [T["a"], (T | B)["a"]];
+type Y<T extends A | B> = T["a"];
+type Z<T extends A & B> = T["a"];

@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/instantiationExpressionErrorNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instantiationExpressionErrorNoCrash.js instantiationExpressionErrorNoCrash.ts
+stderr 'TS2344'
+stderr 'TS2635'
+! exists instantiationExpressionErrorNoCrash.js
+! exists instantiationExpressionErrorNoCrash.d.ts
+! exists instantiationExpressionErrorNoCrash.js.map
+
+-- instantiationExpressionErrorNoCrash.ts --
+const createCacheReducer = <N extends string, QR>(
+    queries: Cache<N, QR>["queries"],
+) => {
+    const queriesMap = {} as QR;
+
+    const initialState = {
+        queries: queriesMap,
+    };
+
+    return (state = initialState) => state;
+};
+
+export type Cache<N extends string, QR> = {
+    queries: {
+        [QK in keyof QR]: ReturnType<typeof createCacheReducer<QR>>;
+    };
+};

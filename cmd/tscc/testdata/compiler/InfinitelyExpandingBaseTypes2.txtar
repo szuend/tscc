@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/infinitelyExpandingBaseTypes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingBaseTypes2.js infinitelyExpandingBaseTypes2.ts
+stderr 'TS2454'
+! exists infinitelyExpandingBaseTypes2.js
+! exists infinitelyExpandingBaseTypes2.d.ts
+! exists infinitelyExpandingBaseTypes2.js.map
+
+-- infinitelyExpandingBaseTypes2.ts --
+interface A<T>
+{
+   x : A<()=>T>
+}
+ 
+interface B<T>
+{
+   x : B<()=>T>
+}
+ 
+var a: A<string>
+var b: B<string> = a

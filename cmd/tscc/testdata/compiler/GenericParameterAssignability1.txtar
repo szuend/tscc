@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/genericParameterAssignability1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericParameterAssignability1.js genericParameterAssignability1.ts
+stderr 'TS2322'
+! exists genericParameterAssignability1.js
+! exists genericParameterAssignability1.d.ts
+! exists genericParameterAssignability1.js.map
+
+-- genericParameterAssignability1.ts --
+function f<T>(x: T): T { return null; }
+var r = <T>(x: T) => x;
+r = f; // should be allowed

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/grammarAmbiguities1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js grammarAmbiguities1.js grammarAmbiguities1.ts
+stderr 'TS2365'
+stderr 'TS2554'
+! exists grammarAmbiguities1.js
+! exists grammarAmbiguities1.d.ts
+! exists grammarAmbiguities1.js.map
+
+-- grammarAmbiguities1.ts --
+class A { foo() { } }
+class B { bar() { }}
+function f(x) { return x; }
+function g<T, U>(x) { return f(x); }
+g<A, B>(7)
+
+f(g<A, B>(7));
+f(g < A, B > 7);
+f(g < A, B > +(7));

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/inferentialTypingWithFunctionType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js inferentialTypingWithFunctionType2.js inferentialTypingWithFunctionType2.ts
+! stderr .
+cmp inferentialTypingWithFunctionType2.js inferentialTypingWithFunctionType2.js.golden
+! exists inferentialTypingWithFunctionType2.d.ts
+! exists inferentialTypingWithFunctionType2.js.map
+
+-- inferentialTypingWithFunctionType2.ts --
+function identity<A>(a: A): A {
+    return a;
+}
+var x = [1, 2, 3].map(identity)[0];
+-- inferentialTypingWithFunctionType2.js.golden --
+"use strict";
+function identity(a) {
+    return a;
+}
+var x = [1, 2, 3].map(identity)[0];

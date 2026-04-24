@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/genericFunctions0.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts genericFunctions0.d.ts --target es2015 --lib es2015,dom --out-js genericFunctions0.js genericFunctions0.ts
+! stderr .
+cmp genericFunctions0.d.ts genericFunctions0.d.ts.golden
+cmp genericFunctions0.js genericFunctions0.js.golden
+! exists genericFunctions0.js.map
+
+-- genericFunctions0.ts --
+function foo<T > (x: T) { return x; }
+
+var x = foo<number>(5); // 'x' should be number
+-- genericFunctions0.d.ts.golden --
+declare function foo<T>(x: T): T;
+declare var x: number;
+-- genericFunctions0.js.golden --
+"use strict";
+function foo(x) { return x; }
+var x = foo(5); // 'x' should be number

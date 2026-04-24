@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/genericCloneReturnTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCloneReturnTypes.js genericCloneReturnTypes.ts
+stderr 'TS2564'
+stderr 'TS2454'
+stderr 'TS2322'
+! exists genericCloneReturnTypes.js
+! exists genericCloneReturnTypes.d.ts
+! exists genericCloneReturnTypes.js.map
+
+-- genericCloneReturnTypes.ts --
+class Bar<T> {
+
+    public size: number;
+    public t: T;
+
+    constructor(x: number) {
+
+        this.size = x;
+
+    }
+
+    public clone() {
+
+        return new Bar<T>(this.size);
+
+    }
+
+}
+
+var b: Bar<number>;
+
+var b2 = b.clone();
+var b3: Bar<string>;
+b = b2;
+b = b3;

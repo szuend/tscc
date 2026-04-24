@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/instantiatedReturnTypeContravariance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instantiatedReturnTypeContravariance.js instantiatedReturnTypeContravariance.ts
+stderr 'TS2322'
+! exists instantiatedReturnTypeContravariance.js
+! exists instantiatedReturnTypeContravariance.d.ts
+! exists instantiatedReturnTypeContravariance.js.map
+
+-- instantiatedReturnTypeContravariance.ts --
+interface B<T> {
+
+name: string;
+
+x(): T;
+
+}
+ 
+class c {
+
+foo(): B<void> {
+
+return null;
+
+}
+
+}
+ 
+class d extends c {
+
+foo(): B<number> {
+
+return null;
+
+}
+
+}
+
+ 

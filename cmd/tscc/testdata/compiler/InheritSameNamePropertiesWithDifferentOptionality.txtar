@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/inheritSameNamePropertiesWithDifferentOptionality.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inheritSameNamePropertiesWithDifferentOptionality.js inheritSameNamePropertiesWithDifferentOptionality.ts
+stderr 'TS2320'
+! exists inheritSameNamePropertiesWithDifferentOptionality.js
+! exists inheritSameNamePropertiesWithDifferentOptionality.d.ts
+! exists inheritSameNamePropertiesWithDifferentOptionality.js.map
+
+-- inheritSameNamePropertiesWithDifferentOptionality.ts --
+interface C {
+    x?: number;
+}
+
+interface C2 {
+    x: number;
+}
+
+interface A extends C, C2 { // error
+    y: string;
+}

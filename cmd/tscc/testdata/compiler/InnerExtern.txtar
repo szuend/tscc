@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/innerExtern.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js innerExtern.js innerExtern.ts
+! stderr .
+cmp innerExtern.js innerExtern.js.golden
+! exists innerExtern.d.ts
+! exists innerExtern.js.map
+
+-- innerExtern.ts --
+namespace A {
+    export declare namespace BB {
+        export var Elephant;
+    }
+    export namespace B {
+        export class C {
+            x = BB.Elephant.X;
+        }
+    }
+}
+
+
+-- innerExtern.js.golden --
+"use strict";
+var A;
+(function (A) {
+    let B;
+    (function (B) {
+        class C {
+            constructor() {
+                this.x = BB.Elephant.X;
+            }
+        }
+        B.C = C;
+    })(B = A.B || (A.B = {}));
+})(A || (A = {}));

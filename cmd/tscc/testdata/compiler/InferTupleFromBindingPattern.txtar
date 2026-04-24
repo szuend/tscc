@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/inferTupleFromBindingPattern.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js inferTupleFromBindingPattern.js inferTupleFromBindingPattern.ts
+! stderr .
+cmp inferTupleFromBindingPattern.js inferTupleFromBindingPattern.js.golden
+! exists inferTupleFromBindingPattern.d.ts
+! exists inferTupleFromBindingPattern.js.map
+
+-- inferTupleFromBindingPattern.ts --
+declare function f<T>(cb: () => T): T;
+const [e1, e2, e3] = f(() => [1, "hi", true]);
+-- inferTupleFromBindingPattern.js.golden --
+"use strict";
+const [e1, e2, e3] = f(() => [1, "hi", true]);

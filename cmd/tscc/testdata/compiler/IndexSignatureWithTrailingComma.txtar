@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/indexSignatureWithTrailingComma.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexSignatureWithTrailingComma.js indexSignatureWithTrailingComma.ts
+stderr 'TS1025'
+! exists indexSignatureWithTrailingComma.js
+! exists indexSignatureWithTrailingComma.d.ts
+! exists indexSignatureWithTrailingComma.js.map
+
+-- indexSignatureWithTrailingComma.ts --
+type A = {
+    [key: string,]: string;
+};
+
+interface B {
+    [key: string,]: string;
+}
+
+class C {
+    [key: string,]: null;
+}

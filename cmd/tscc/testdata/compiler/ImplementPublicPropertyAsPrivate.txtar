@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/implementPublicPropertyAsPrivate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js implementPublicPropertyAsPrivate.js implementPublicPropertyAsPrivate.ts
+stderr 'TS2420'
+! exists implementPublicPropertyAsPrivate.js
+! exists implementPublicPropertyAsPrivate.d.ts
+! exists implementPublicPropertyAsPrivate.js.map
+
+-- implementPublicPropertyAsPrivate.ts --
+interface I {
+    x: number;
+}
+class C implements I {
+    private x = 0; // should raise error at class decl
+}

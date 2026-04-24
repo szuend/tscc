@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/globalIsContextualKeyword.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js globalIsContextualKeyword.js globalIsContextualKeyword.ts
+! stderr .
+cmp globalIsContextualKeyword.js globalIsContextualKeyword.js.golden
+! exists globalIsContextualKeyword.d.ts
+! exists globalIsContextualKeyword.js.map
+
+-- globalIsContextualKeyword.ts --
+function a() {
+    let global = 1;
+}
+function b() {
+    class global {}
+}
+
+namespace global {
+}
+
+function foo(global: number) {
+}
+
+let obj = {
+    global: "123"
+}
+-- globalIsContextualKeyword.js.golden --
+"use strict";
+function a() {
+    let global = 1;
+}
+function b() {
+    class global {
+    }
+}
+function foo(global) {
+}
+let obj = {
+    global: "123"
+};

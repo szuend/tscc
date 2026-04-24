@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/genericInference1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericInference1.js genericInference1.ts
+! stderr .
+cmp genericInference1.js genericInference1.js.golden
+! exists genericInference1.d.ts
+! exists genericInference1.js.map
+
+-- genericInference1.ts --
+['a', 'b', 'c'].map(x => x.length);
+-- genericInference1.js.golden --
+"use strict";
+['a', 'b', 'c'].map(x => x.length);

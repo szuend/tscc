@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/implementsClauseAlreadySeen.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js implementsClauseAlreadySeen.js implementsClauseAlreadySeen.ts
+stderr 'TS1175'
+! exists implementsClauseAlreadySeen.js
+! exists implementsClauseAlreadySeen.d.ts
+! exists implementsClauseAlreadySeen.js.map
+
+-- implementsClauseAlreadySeen.ts --
+class C {
+    
+}
+class D implements C implements C {
+    baz() { }
+}

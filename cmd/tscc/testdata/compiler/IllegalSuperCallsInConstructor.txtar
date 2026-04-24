@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/illegalSuperCallsInConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js illegalSuperCallsInConstructor.js illegalSuperCallsInConstructor.ts
+stderr 'TS2564'
+stderr 'TS2377'
+stderr 'TS2337'
+! exists illegalSuperCallsInConstructor.js
+! exists illegalSuperCallsInConstructor.d.ts
+! exists illegalSuperCallsInConstructor.js.map
+
+-- illegalSuperCallsInConstructor.ts --
+class Base {
+    x: string;
+}
+ 
+class Derived extends Base {
+    constructor() {
+        var r2 = () => super();
+        var r3 = () => { super(); }
+        var r4 = function () { super(); }
+        var r5 = {
+            get foo() {
+                super();
+                return 1;
+            },
+            set foo(v: number) {
+                super();
+            }
+        }
+    }
+}

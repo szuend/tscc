@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/getterSetterNonAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js getterSetterNonAccessor.js getterSetterNonAccessor.ts
+! stderr .
+cmp getterSetterNonAccessor.js getterSetterNonAccessor.js.golden
+! exists getterSetterNonAccessor.d.ts
+! exists getterSetterNonAccessor.js.map
+
+-- getterSetterNonAccessor.ts --
+function getFunc():any{return 0;}
+function setFunc(v){}          
+
+Object.defineProperty({}, "0", <PropertyDescriptor>({
+          get: getFunc,
+          set: setFunc,
+          configurable: true
+      }));
+-- getterSetterNonAccessor.js.golden --
+"use strict";
+function getFunc() { return 0; }
+function setFunc(v) { }
+Object.defineProperty({}, "0", ({
+    get: getFunc,
+    set: setFunc,
+    configurable: true
+}));

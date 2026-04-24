@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/inheritedStringIndexersFromDifferentBaseTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inheritedStringIndexersFromDifferentBaseTypes.js inheritedStringIndexersFromDifferentBaseTypes.ts
+stderr 'TS2430'
+! exists inheritedStringIndexersFromDifferentBaseTypes.js
+! exists inheritedStringIndexersFromDifferentBaseTypes.d.ts
+! exists inheritedStringIndexersFromDifferentBaseTypes.js.map
+
+-- inheritedStringIndexersFromDifferentBaseTypes.ts --
+// string indexer tests
+interface A {
+    [s: string]: number;
+}
+interface B {
+    [s: string]: number;
+}
+interface C extends A, B { } // ok
+
+interface D {
+    [s: string]: string;
+}
+interface E extends A, D { } // error
+
+
+// Same tests for number indexer
+interface A2 {
+    [s: number]: number;
+}
+interface B2 {
+    [s: number]: number;
+}
+interface C2 extends A2, B2 { } // ok
+
+interface D2 {
+    [s: number]: string;
+}
+interface E2 extends A2, D2 { } // error

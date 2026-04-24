@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/importAliasFromNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts usage.d.ts --target es2015 --lib es2015,dom --out-js usage.js usage.ts
+stderr 'TS2564'
+stderr 'TS2845'
+! exists usage.d.ts
+! exists usage.js
+! exists usage.js.map
+
+-- internal.ts --
+namespace My.Internal {
+    export function getThing(): void {}
+    export const enum WhichThing {
+        A, B, C
+    }
+}
+-- usage.ts --
+/// <reference path="./internal.ts" preserve="true" />
+namespace SomeOther.Thing {
+    import Internal = My.Internal;
+    export class Foo {
+        private _which: Internal.WhichThing;
+        constructor() {
+            Internal.getThing();
+            Internal.WhichThing.A ? "foo" : "bar";
+        }
+    }
+}

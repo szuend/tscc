@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/indexTypeNoSubstitutionTemplateLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js indexTypeNoSubstitutionTemplateLiteral.js indexTypeNoSubstitutionTemplateLiteral.ts
+! stderr .
+cmp indexTypeNoSubstitutionTemplateLiteral.js indexTypeNoSubstitutionTemplateLiteral.js.golden
+! exists indexTypeNoSubstitutionTemplateLiteral.d.ts
+! exists indexTypeNoSubstitutionTemplateLiteral.js.map
+
+-- indexTypeNoSubstitutionTemplateLiteral.ts --
+function Foo() {}
+Foo[`b`] = function () {};
+
+type Test = keyof typeof Foo;
+
+-- indexTypeNoSubstitutionTemplateLiteral.js.golden --
+"use strict";
+function Foo() { }
+Foo[`b`] = function () { };

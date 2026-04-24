@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/generics1NoError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts generics1NoError.d.ts --target es2015 --lib es2015,dom --out-js generics1NoError.js generics1NoError.ts
+! stderr .
+cmp generics1NoError.d.ts generics1NoError.d.ts.golden
+cmp generics1NoError.js generics1NoError.js.golden
+! exists generics1NoError.js.map
+
+-- generics1NoError.ts --
+interface A { a: string; }
+interface B extends A { b: string; }
+interface C extends B { c: string; }
+interface G<T, U extends B> {
+    x: T;
+    y: U;
+}
+var v1: G<A, C>;               // Ok
+var v2: G<{ a: string }, C>;   // Ok, equivalent to G<A, C>
+var v4: G<G<A, B>, C>;         // Ok
+-- generics1NoError.d.ts.golden --
+interface A {
+    a: string;
+}
+interface B extends A {
+    b: string;
+}
+interface C extends B {
+    c: string;
+}
+interface G<T, U extends B> {
+    x: T;
+    y: U;
+}
+declare var v1: G<A, C>;
+declare var v2: G<{
+    a: string;
+}, C>;
+declare var v4: G<G<A, B>, C>;
+-- generics1NoError.js.golden --
+"use strict";
+var v1; // Ok
+var v2; // Ok, equivalent to G<A, C>
+var v4; // Ok

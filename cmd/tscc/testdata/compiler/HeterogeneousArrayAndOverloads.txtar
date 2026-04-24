@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/heterogeneousArrayAndOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js heterogeneousArrayAndOverloads.js heterogeneousArrayAndOverloads.ts
+stderr 'TS2769'
+! exists heterogeneousArrayAndOverloads.js
+! exists heterogeneousArrayAndOverloads.d.ts
+! exists heterogeneousArrayAndOverloads.js.map
+
+-- heterogeneousArrayAndOverloads.ts --
+class arrTest {
+    test(arg1: number[]);
+    test(arg1: string[]);
+    test(arg1: any[]) { }
+    callTest() {
+        this.test([1, 2, 3, 5]);
+        this.test(["hi"]);
+        this.test([]);
+        this.test([1, 2, "hi", 5]); // Error
+    }
+}

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/inheritanceStaticMembersIncompatible.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceStaticMembersIncompatible.js inheritanceStaticMembersIncompatible.ts
+stderr 'TS2417'
+! exists inheritanceStaticMembersIncompatible.js
+! exists inheritanceStaticMembersIncompatible.d.ts
+! exists inheritanceStaticMembersIncompatible.js.map
+
+-- inheritanceStaticMembersIncompatible.ts --
+class a {
+    static x: string;
+}
+
+class b extends a {
+    static x: number;
+}

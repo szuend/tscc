@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/indirectSelfReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indirectSelfReference.js indirectSelfReference.ts
+stderr 'TS2506'
+stderr 'TS2449'
+! exists indirectSelfReference.js
+! exists indirectSelfReference.d.ts
+! exists indirectSelfReference.js.map
+
+-- indirectSelfReference.ts --
+class a extends b{ }
+class b extends a{ }

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/genericReversingTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericReversingTypeParameters.js genericReversingTypeParameters.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists genericReversingTypeParameters.js
+! exists genericReversingTypeParameters.d.ts
+! exists genericReversingTypeParameters.js.map
+
+-- genericReversingTypeParameters.ts --
+class BiMap<K, V> {
+    private inverseBiMap: BiMap<V, K>;
+    public get(key: K): V { return null; }
+    public inverse(): BiMap<V, K> { return null; }
+}
+
+var b = new BiMap<string, number>();
+var r1 = b.get(''); 
+var i = b.inverse(); // used to get the type wrong here.
+var r2b = i.get(1); 

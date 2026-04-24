@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/importAnImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js importAnImport.js importAnImport.ts
+stderr 'TS2694'
+! exists importAnImport.js
+! exists importAnImport.d.ts
+! exists importAnImport.js.map
+
+-- importAnImport.ts --
+namespace c.a.b {
+    import ma = a;
+}
+
+namespace m0 {
+    import m8 = c.a.b.ma;
+}

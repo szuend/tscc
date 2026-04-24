@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/inOperatorWithFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inOperatorWithFunction.js inOperatorWithFunction.ts
+! stderr .
+cmp inOperatorWithFunction.js inOperatorWithFunction.js.golden
+! exists inOperatorWithFunction.d.ts
+! exists inOperatorWithFunction.js.map
+
+-- inOperatorWithFunction.ts --
+var fn = function (val: boolean) { return val; }
+fn("a" in { "a": true });
+-- inOperatorWithFunction.js.golden --
+"use strict";
+var fn = function (val) { return val; };
+fn("a" in { "a": true });

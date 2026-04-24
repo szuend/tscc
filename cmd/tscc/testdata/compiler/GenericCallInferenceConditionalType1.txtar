@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/genericCallInferenceConditionalType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom genericCallInferenceConditionalType1.ts
+! stderr .
+! exists genericCallInferenceConditionalType1.d.ts
+! exists genericCallInferenceConditionalType1.js.map
+
+-- genericCallInferenceConditionalType1.ts --
+// https://github.com/microsoft/TypeScript/issues/59108
+
+declare const f: <T>(f: (x: T) => unknown) => (x: T) => unknown;
+declare const g: <T extends unknown>(x: { foo: T }) => unknown;
+
+const h = f(g);
+
+type FirstParameter<T> = T extends (x: infer P) => unknown ? P : unknown;
+
+type X = FirstParameter<typeof h>["foo"];

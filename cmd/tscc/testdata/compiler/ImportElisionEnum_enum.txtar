@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/importElisionEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js enum.js enum.ts
+! stderr .
+cmp enum.js enum.js.golden
+! exists enum.d.ts
+! exists enum.js.map
+
+-- enum.ts --
+export enum MyEnum {
+  a = 0,
+  b,
+  c,
+  d
+}
+-- index.ts --
+import { MyEnum as MyEnumFromModule } from "./enum";
+
+enum MyEnum {
+  a = MyEnumFromModule.a
+}
+-- enum.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MyEnum = void 0;
+var MyEnum;
+(function (MyEnum) {
+    MyEnum[MyEnum["a"] = 0] = "a";
+    MyEnum[MyEnum["b"] = 1] = "b";
+    MyEnum[MyEnum["c"] = 2] = "c";
+    MyEnum[MyEnum["d"] = 3] = "d";
+})(MyEnum || (exports.MyEnum = MyEnum = {}));

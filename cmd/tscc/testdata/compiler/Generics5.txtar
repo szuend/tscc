@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/generics5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js generics5.js generics5.ts
+stderr 'TS2741'
+! exists generics5.js
+! exists generics5.d.ts
+! exists generics5.js.map
+
+-- generics5.ts --
+interface A { a: string; }
+interface B extends A { b: string; }
+
+interface C extends B { c: string; }
+interface G<T, U extends B> {
+
+
+}
+
+var v3: G<A, A>;               // Error, A not valid argument for U
+

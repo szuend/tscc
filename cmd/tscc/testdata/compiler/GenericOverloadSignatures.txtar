@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/genericOverloadSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js genericOverloadSignatures.js genericOverloadSignatures.ts
+! stderr .
+cmp genericOverloadSignatures.js genericOverloadSignatures.js.golden
+! exists genericOverloadSignatures.d.ts
+! exists genericOverloadSignatures.js.map
+
+-- genericOverloadSignatures.ts --
+interface A {
+    <T>(x: T): void;
+    <T>(x: T): void;
+}
+
+function f<T>(a: T);
+function f<T>(a: T);
+function f(a) { }
+
+interface I2 {
+    f<T>(x: T): number;
+    f<T>(x: T): string;
+}
+
+interface I3<T> {
+    f(x: T): number;
+    f(x: T): string;
+}
+
+class C2<T> {
+}
+var b: {
+    new <T>(x: T, y: string): C2<T>;
+    new <T>(x: T, y: string): C2<T>;
+}
+
+interface D {
+    <T>(x: T): T;
+    <T>(x: T): T;
+}
+-- genericOverloadSignatures.js.golden --
+"use strict";
+function f(a) { }
+class C2 {
+}
+var b;

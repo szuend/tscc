@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/incompatibleExports1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path foo=incompatibleExports1.ts --path baz=incompatibleExports1.ts --out-js incompatibleExports1.js incompatibleExports1.ts
+stderr 'TS2309'
+! exists incompatibleExports1.js
+! exists incompatibleExports1.d.ts
+! exists incompatibleExports1.js.map
+
+-- incompatibleExports1.ts --
+declare module "foo" { 
+    export interface x { a: string } 
+    interface y { a: Date }
+    export = y;
+}
+ 
+declare module "baz" {
+    export namespace a {
+        export var b: number;
+    }
+ 
+    namespace c {
+        export var c: string;
+    }
+ 
+    export = c;
+}

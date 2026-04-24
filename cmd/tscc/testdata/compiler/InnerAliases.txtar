@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/innerAliases.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js innerAliases.js innerAliases.ts
+stderr 'TS2694'
+stderr 'TS2339'
+! exists innerAliases.js
+! exists innerAliases.d.ts
+! exists innerAliases.js.map
+
+-- innerAliases.ts --
+namespace A {
+    export namespace B {
+        export namespace C {
+            export class Class1 {}
+        }
+    }
+}
+
+namespace D {
+    import inner = A.B.C; 
+   
+    var c1 = new inner.Class1(); 
+
+    export namespace E { 
+        export class Class2 {}
+    }
+}
+
+var c: D.inner.Class1;
+
+c = new D.inner.Class1();
+

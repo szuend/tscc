@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/inheritedStringIndexersFromDifferentBaseTypes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritedStringIndexersFromDifferentBaseTypes2.js inheritedStringIndexersFromDifferentBaseTypes2.ts
+stderr 'TS2413'
+! exists inheritedStringIndexersFromDifferentBaseTypes2.js
+! exists inheritedStringIndexersFromDifferentBaseTypes2.d.ts
+! exists inheritedStringIndexersFromDifferentBaseTypes2.js.map
+
+-- inheritedStringIndexersFromDifferentBaseTypes2.ts --
+// indexer in B is a subtype of indexer in A
+interface A {
+    [s: string]: {
+        a;
+    };
+}
+interface B {
+    [s: number]: {
+        a;
+        b;
+    };
+}
+interface C extends A, B { } // ok
+
+interface D {
+    [s: number]: {};
+}
+interface E extends A, D { } // error
+
+interface F extends A, D {
+    [s: number]: {
+        a;
+    };
+} // ok because we overrode D's number index signature

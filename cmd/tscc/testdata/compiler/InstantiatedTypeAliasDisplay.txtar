@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/instantiatedTypeAliasDisplay.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts instantiatedTypeAliasDisplay.d.ts --target es2015 --lib es2015,dom --out-js instantiatedTypeAliasDisplay.js instantiatedTypeAliasDisplay.ts
+! stderr .
+cmp instantiatedTypeAliasDisplay.d.ts instantiatedTypeAliasDisplay.d.ts.golden
+cmp instantiatedTypeAliasDisplay.js instantiatedTypeAliasDisplay.js.golden
+! exists instantiatedTypeAliasDisplay.js.map
+
+-- instantiatedTypeAliasDisplay.ts --
+// Repros from #12066
+
+interface X<A> {
+    a: A;
+}
+interface Y<B> {
+    b: B;
+}
+type Z<A, B> = X<A> | Y<B>;
+
+declare function f1<A>(): Z<A, number>;
+declare function f2<A, B, C, D, E>(a: A, b: B, c: C, d: D): Z<A, string[]>;
+
+const x1 = f1<string>();  // Z<string, number>
+const x2 = f2({}, {}, {}, {});  // Z<{}, string[]>
+-- instantiatedTypeAliasDisplay.d.ts.golden --
+interface X<A> {
+    a: A;
+}
+interface Y<B> {
+    b: B;
+}
+type Z<A, B> = X<A> | Y<B>;
+declare function f1<A>(): Z<A, number>;
+declare function f2<A, B, C, D, E>(a: A, b: B, c: C, d: D): Z<A, string[]>;
+declare const x1: Z<string, number>;
+declare const x2: Z<{}, string[]>;
+-- instantiatedTypeAliasDisplay.js.golden --
+"use strict";
+// Repros from #12066
+const x1 = f1(); // Z<string, number>
+const x2 = f2({}, {}, {}, {}); // Z<{}, string[]>

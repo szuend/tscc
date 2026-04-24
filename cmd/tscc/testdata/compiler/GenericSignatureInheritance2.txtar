@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/genericSignatureInheritance2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericSignatureInheritance2.js genericSignatureInheritance2.ts
+! stderr .
+cmp genericSignatureInheritance2.js genericSignatureInheritance2.js.golden
+! exists genericSignatureInheritance2.d.ts
+! exists genericSignatureInheritance2.js.map
+
+-- genericSignatureInheritance2.ts --
+interface I {
+    <T>(x: T): string;
+}
+
+interface I2 extends I { 
+    <T>(x: T): void;
+}
+-- genericSignatureInheritance2.js.golden --
+"use strict";

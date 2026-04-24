@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/interfaceExtendsClassWithPrivate2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceExtendsClassWithPrivate2.js interfaceExtendsClassWithPrivate2.ts
+stderr 'TS2415'
+stderr 'TS2420'
+stderr 'TS2416'
+! exists interfaceExtendsClassWithPrivate2.js
+! exists interfaceExtendsClassWithPrivate2.d.ts
+! exists interfaceExtendsClassWithPrivate2.js.map
+
+-- interfaceExtendsClassWithPrivate2.ts --
+class C {
+    public foo(x: any) { return x; }
+    private x = 1;
+}
+
+interface I extends C {
+    other(x: any): any;
+}
+
+class D extends C implements I { // error
+    public foo(x: any) { return x; }
+    private x = 2;
+    private y = 3;
+    other(x: any) { return x; }
+    bar() {}
+} 
+
+class D2 extends C implements I { // error
+    public foo(x: any) { return x; }
+    private x = "";
+    other(x: any) { return x; }
+    bar() { }
+} 

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/initializersInAmbientEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js initializersInAmbientEnums.js initializersInAmbientEnums.ts
+! stderr .
+cmp initializersInAmbientEnums.js initializersInAmbientEnums.js.golden
+! exists initializersInAmbientEnums.d.ts
+! exists initializersInAmbientEnums.js.map
+
+-- initializersInAmbientEnums.ts --
+declare enum E {
+    a = 10,
+    b = a,
+    e = 10 << 2 * 8,
+}
+-- initializersInAmbientEnums.js.golden --
+"use strict";

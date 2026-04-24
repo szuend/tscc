@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/genericTypeWithCallableMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericTypeWithCallableMembers.js genericTypeWithCallableMembers.ts
+! stderr .
+cmp genericTypeWithCallableMembers.js genericTypeWithCallableMembers.js.golden
+! exists genericTypeWithCallableMembers.d.ts
+! exists genericTypeWithCallableMembers.js.map
+
+-- genericTypeWithCallableMembers.ts --
+interface Constructable {
+    new (): Constructable;
+}
+ 
+class C<T extends Constructable> {
+    constructor(public data: T, public data2: Constructable) { }
+    create() {
+        var x = new this.data(); // no error
+        var x2 = new this.data2(); // was error, shouldn't be
+    }
+}
+-- genericTypeWithCallableMembers.js.golden --
+"use strict";
+class C {
+    constructor(data, data2) {
+        this.data = data;
+        this.data2 = data2;
+    }
+    create() {
+        var x = new this.data(); // no error
+        var x2 = new this.data2(); // was error, shouldn't be
+    }
+}

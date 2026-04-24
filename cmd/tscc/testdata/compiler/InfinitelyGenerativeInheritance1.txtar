@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/infinitelyGenerativeInheritance1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js infinitelyGenerativeInheritance1.js infinitelyGenerativeInheritance1.ts
+! stderr .
+cmp infinitelyGenerativeInheritance1.js infinitelyGenerativeInheritance1.js.golden
+! exists infinitelyGenerativeInheritance1.d.ts
+! exists infinitelyGenerativeInheritance1.js.map
+
+-- infinitelyGenerativeInheritance1.ts --
+interface Stack<T> {
+      pop(): T
+      zip<S>(a: Stack<S>): Stack<{ x: T; y: S }>
+}
+
+interface MyStack<T> extends Stack<T> {
+      zip<S>(a: Stack<S>): Stack<{ x: T; y: S }>
+}
+-- infinitelyGenerativeInheritance1.js.golden --
+"use strict";

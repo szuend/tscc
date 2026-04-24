@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/inheritSameNamePrivatePropertiesFromDifferentOrigins.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inheritSameNamePrivatePropertiesFromDifferentOrigins.js inheritSameNamePrivatePropertiesFromDifferentOrigins.ts
+stderr 'TS2564'
+stderr 'TS2320'
+! exists inheritSameNamePrivatePropertiesFromDifferentOrigins.js
+! exists inheritSameNamePrivatePropertiesFromDifferentOrigins.d.ts
+! exists inheritSameNamePrivatePropertiesFromDifferentOrigins.js.map
+
+-- inheritSameNamePrivatePropertiesFromDifferentOrigins.ts --
+class C {
+    private x: number;
+}
+
+class C2 {
+    private x: number;
+}
+
+interface A extends C, C2 { // error
+    y: string;
+}

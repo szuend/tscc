@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/interfaceMergedUnconstrainedNoErrorIrrespectiveOfOrder.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js regression.js regression.ts
+! stderr .
+cmp regression.js regression.js.golden
+! exists regression.d.ts
+! exists regression.js.map
+
+-- regression.ts --
+export namespace ns {
+    interface Function<T> {
+        unary(): Function<() => ReturnType<T>>;
+    }
+    interface Function<T extends (...args: any) => any> {
+        throttle(): Function<T>;
+    }
+}
+-- working.ts --
+// minmal samples from #33395
+export namespace ns {
+    interface Function<T extends (...args: any) => any> {
+        throttle(): Function<T>;
+    }
+    interface Function<T> {
+        unary(): Function<() => ReturnType<T>>;
+    }
+}
+-- regression.js.golden --
+export {};

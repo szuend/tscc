@@ -1,0 +1,60 @@
+# Ported from tests/cases/compiler/genericConstraintOnExtendedBuiltinTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericConstraintOnExtendedBuiltinTypes.js genericConstraintOnExtendedBuiltinTypes.ts
+! stderr .
+cmp genericConstraintOnExtendedBuiltinTypes.js genericConstraintOnExtendedBuiltinTypes.js.golden
+! exists genericConstraintOnExtendedBuiltinTypes.d.ts
+! exists genericConstraintOnExtendedBuiltinTypes.js.map
+
+-- genericConstraintOnExtendedBuiltinTypes.ts --
+declare namespace EndGate {
+    export interface ICloneable {
+        Clone(): any;
+    }
+}
+
+interface Number extends EndGate.ICloneable { }
+
+namespace EndGate.Tweening {
+    export class Tween<T extends ICloneable>{
+        private _from: T;
+
+
+        constructor(from: T) {
+            this._from = from.Clone();
+        }
+    }
+}
+
+namespace EndGate.Tweening {
+    export class NumberTween extends Tween<number>{
+        constructor(from: number) {
+            super(from);
+        }
+    }
+}
+-- genericConstraintOnExtendedBuiltinTypes.js.golden --
+"use strict";
+var EndGate;
+(function (EndGate) {
+    var Tweening;
+    (function (Tweening) {
+        class Tween {
+            constructor(from) {
+                this._from = from.Clone();
+            }
+        }
+        Tweening.Tween = Tween;
+    })(Tweening = EndGate.Tweening || (EndGate.Tweening = {}));
+})(EndGate || (EndGate = {}));
+(function (EndGate) {
+    var Tweening;
+    (function (Tweening) {
+        class NumberTween extends Tweening.Tween {
+            constructor(from) {
+                super(from);
+            }
+        }
+        Tweening.NumberTween = NumberTween;
+    })(Tweening = EndGate.Tweening || (EndGate.Tweening = {}));
+})(EndGate || (EndGate = {}));

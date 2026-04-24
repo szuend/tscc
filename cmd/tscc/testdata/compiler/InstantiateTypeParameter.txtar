@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/instantiateTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instantiateTypeParameter.js instantiateTypeParameter.ts
+stderr 'TS1131'
+stderr 'TS1128'
+! exists instantiateTypeParameter.js
+! exists instantiateTypeParameter.d.ts
+! exists instantiateTypeParameter.js.map
+
+-- instantiateTypeParameter.ts --
+interface Foo<T> {
+    var x: T<>;
+}

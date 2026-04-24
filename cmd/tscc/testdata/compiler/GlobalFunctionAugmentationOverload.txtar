@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/globalFunctionAugmentationOverload.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --path mod=mod.d.ts --out-js mine.js mine.ts
+! stderr .
+cmp mine.js mine.js.golden
+! exists mine.d.ts
+! exists mine.js.map
+
+-- mine.ts --
+import "mod";
+
+declare global {
+    function expect(element: string): void;
+}
+-- mod.d.ts --
+declare function expect(spy: Function): void;
+declare module "mod" {
+    class mod {}
+    export = mod;
+}
+-- mine.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("mod");

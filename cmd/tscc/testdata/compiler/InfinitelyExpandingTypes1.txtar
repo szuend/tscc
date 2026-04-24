@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/infinitelyExpandingTypes1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingTypes1.js infinitelyExpandingTypes1.ts
+stderr 'TS2454'
+stderr 'TS2367'
+! exists infinitelyExpandingTypes1.js
+! exists infinitelyExpandingTypes1.d.ts
+! exists infinitelyExpandingTypes1.js.map
+
+-- infinitelyExpandingTypes1.ts --
+interface List<T> {
+    data: T;
+    next: List<T>;
+    owner: List<List<T>>;
+}
+
+
+interface MyList<T> {
+    data: T;
+    next: MyList<T>;
+    owner: MyList<MyList<T>>;
+}
+
+var l: List<number>;
+var m: MyList<number>;
+
+l == m; // should error
+
+var l2: List<string>;
+
+l == l2; // should error;
+
+l == l; // should not error

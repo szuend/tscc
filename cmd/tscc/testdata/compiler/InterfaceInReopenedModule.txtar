@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/interfaceInReopenedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceInReopenedModule.js interfaceInReopenedModule.ts
+stderr 'TS2564'
+! exists interfaceInReopenedModule.js
+! exists interfaceInReopenedModule.d.ts
+! exists interfaceInReopenedModule.js.map
+
+-- interfaceInReopenedModule.ts --
+namespace m {
+}
+
+// In second instance of same module, exported interface is not visible
+namespace m {
+    interface f {}
+    export class n { 
+        private n: f;
+    }
+}

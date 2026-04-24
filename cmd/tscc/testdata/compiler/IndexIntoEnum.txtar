@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/indexIntoEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js indexIntoEnum.js indexIntoEnum.ts
+! stderr .
+cmp indexIntoEnum.js indexIntoEnum.js.golden
+! exists indexIntoEnum.d.ts
+! exists indexIntoEnum.js.map
+
+-- indexIntoEnum.ts --
+namespace M {
+
+    enum E { }
+
+    var x = E[0];
+}
+-- indexIntoEnum.js.golden --
+"use strict";
+var M;
+(function (M) {
+    let E;
+    (function (E) {
+    })(E || (E = {}));
+    var x = E[0];
+})(M || (M = {}));

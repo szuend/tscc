@@ -1,0 +1,57 @@
+# Ported from tests/cases/compiler/inferentialTypingUsingApparentType3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js inferentialTypingUsingApparentType3.js inferentialTypingUsingApparentType3.ts
+! stderr .
+cmp inferentialTypingUsingApparentType3.js inferentialTypingUsingApparentType3.js.golden
+! exists inferentialTypingUsingApparentType3.d.ts
+! exists inferentialTypingUsingApparentType3.js.map
+
+-- inferentialTypingUsingApparentType3.ts --
+interface Field<T> {
+    clean(input: T): T
+}
+
+class CharField implements Field<string> {
+    clean(input: string) {
+        return "Yup";
+    }
+}
+
+class NumberField implements Field<number> {
+    clean(input: number) {
+        return 123;
+    }
+}
+
+class ObjectField<A, T extends { [name: string]: Field<any> }> {
+    constructor(public fields: T) { }
+}
+
+var person = new ObjectField({
+    id: new NumberField(),
+    name: new CharField()
+});
+
+person.fields.id;
+-- inferentialTypingUsingApparentType3.js.golden --
+"use strict";
+class CharField {
+    clean(input) {
+        return "Yup";
+    }
+}
+class NumberField {
+    clean(input) {
+        return 123;
+    }
+}
+class ObjectField {
+    constructor(fields) {
+        this.fields = fields;
+    }
+}
+var person = new ObjectField({
+    id: new NumberField(),
+    name: new CharField()
+});
+person.fields.id;

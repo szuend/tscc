@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/inferenceFromIncompleteSource.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js inferenceFromIncompleteSource.js inferenceFromIncompleteSource.ts
+stderr 'TS2741'
+! exists inferenceFromIncompleteSource.js
+! exists inferenceFromIncompleteSource.d.ts
+! exists inferenceFromIncompleteSource.js.map
+
+-- inferenceFromIncompleteSource.ts --
+// Repro from #42030
+
+interface ListProps<T, K extends keyof T> {
+  items: T[];
+  itemKey: K;
+  prop: number;
+}
+
+declare const Component: <T, K extends keyof T>(x: ListProps<T, K>) => void;
+
+Component({items: [{name:' string'}], itemKey: 'name' });

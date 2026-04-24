@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/genericFunctionsNotContextSensitive.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js genericFunctionsNotContextSensitive.js genericFunctionsNotContextSensitive.ts
+! stderr .
+cmp genericFunctionsNotContextSensitive.js genericFunctionsNotContextSensitive.js.golden
+! exists genericFunctionsNotContextSensitive.d.ts
+! exists genericFunctionsNotContextSensitive.js.map
+
+-- genericFunctionsNotContextSensitive.ts --
+// Repro from #37110
+
+const f = <F extends (...args: any[]) => <G>(x: G) => void>(_: F): F => _;
+
+const a = f(<K extends string>(_: K) => _ => ({}));  // <K extends string>(_: K) => <G>(_: G) => {}
+-- genericFunctionsNotContextSensitive.js.golden --
+"use strict";
+// Repro from #37110
+const f = (_) => _;
+const a = f((_) => _ => ({})); // <K extends string>(_: K) => <G>(_: G) => {}

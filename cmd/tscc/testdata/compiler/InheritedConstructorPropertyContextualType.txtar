@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/inheritedConstructorPropertyContextualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js inheritedConstructorPropertyContextualType.js inheritedConstructorPropertyContextualType.ts
+! stderr .
+cmp inheritedConstructorPropertyContextualType.js inheritedConstructorPropertyContextualType.js.golden
+! exists inheritedConstructorPropertyContextualType.d.ts
+! exists inheritedConstructorPropertyContextualType.js.map
+
+-- inheritedConstructorPropertyContextualType.ts --
+interface State {
+    version: 2
+}
+declare class Base<S> {
+    state: S
+}
+class Assignment extends Base<State> {
+    constructor() {
+        super()
+        this.state = { version: 2 }
+    }
+}
+-- inheritedConstructorPropertyContextualType.js.golden --
+"use strict";
+class Assignment extends Base {
+    constructor() {
+        super();
+        this.state = { version: 2 };
+    }
+}

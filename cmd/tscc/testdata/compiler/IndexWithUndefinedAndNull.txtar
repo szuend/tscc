@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/indexWithUndefinedAndNull.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict-null-checks --target es2015 --lib es2015,dom --out-js indexWithUndefinedAndNull.js indexWithUndefinedAndNull.ts
+stderr 'TS2538'
+! exists indexWithUndefinedAndNull.js
+! exists indexWithUndefinedAndNull.d.ts
+! exists indexWithUndefinedAndNull.js.map
+
+-- indexWithUndefinedAndNull.ts --
+interface N {
+    [n: number]: string;
+}
+interface S {
+    [s: string]: number;
+}
+let n: N;
+let s: S;
+let str: string = n[undefined];
+str = n[null];
+let num: number = s[undefined];
+num = s[null];

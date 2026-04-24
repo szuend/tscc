@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/global.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js global.js global.ts
+! stderr .
+cmp global.js global.js.golden
+! exists global.d.ts
+! exists global.js.map
+
+-- global.ts --
+namespace M {
+    export function f(y:number) {
+        return x+y;
+    }
+}
+
+var x=10;
+M.f(3);
+
+-- global.js.golden --
+"use strict";
+var M;
+(function (M) {
+    function f(y) {
+        return x + y;
+    }
+    M.f = f;
+})(M || (M = {}));
+var x = 10;
+M.f(3);

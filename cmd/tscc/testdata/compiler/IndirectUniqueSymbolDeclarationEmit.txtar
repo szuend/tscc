@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/indirectUniqueSymbolDeclarationEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts indirectUniqueSymbolDeclarationEmit.d.ts --lib es6 --module commonjs --target es2015 --out-js indirectUniqueSymbolDeclarationEmit.js indirectUniqueSymbolDeclarationEmit.ts
+! stderr .
+cmp indirectUniqueSymbolDeclarationEmit.d.ts indirectUniqueSymbolDeclarationEmit.d.ts.golden
+cmp indirectUniqueSymbolDeclarationEmit.js indirectUniqueSymbolDeclarationEmit.js.golden
+! exists indirectUniqueSymbolDeclarationEmit.js.map
+
+-- indirectUniqueSymbolDeclarationEmit.ts --
+export const x = Symbol();
+export const y = Symbol();
+declare function rand(): boolean;
+export function f() {
+    return rand() ? x : y;
+}
+-- indirectUniqueSymbolDeclarationEmit.d.ts.golden --
+export declare const x: unique symbol;
+export declare const y: unique symbol;
+export declare function f(): typeof x | typeof y;
+-- indirectUniqueSymbolDeclarationEmit.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.y = exports.x = void 0;
+exports.f = f;
+exports.x = Symbol();
+exports.y = Symbol();
+function f() {
+    return rand() ? exports.x : exports.y;
+}

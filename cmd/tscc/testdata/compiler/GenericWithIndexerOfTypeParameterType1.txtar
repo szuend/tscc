@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/genericWithIndexerOfTypeParameterType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericWithIndexerOfTypeParameterType1.js genericWithIndexerOfTypeParameterType1.ts
+! stderr .
+cmp genericWithIndexerOfTypeParameterType1.js genericWithIndexerOfTypeParameterType1.js.golden
+! exists genericWithIndexerOfTypeParameterType1.d.ts
+! exists genericWithIndexerOfTypeParameterType1.js.map
+
+-- genericWithIndexerOfTypeParameterType1.ts --
+class LazyArray<T> {
+    private objects = <{ [objectId: string]: T; }>{};
+    array() {
+        return this.objects;
+    }
+}
+var lazyArray = new LazyArray<string>();
+var value: string = lazyArray.array()["test"]; // used to be an error
+-- genericWithIndexerOfTypeParameterType1.js.golden --
+"use strict";
+class LazyArray {
+    constructor() {
+        this.objects = {};
+    }
+    array() {
+        return this.objects;
+    }
+}
+var lazyArray = new LazyArray();
+var value = lazyArray.array()["test"]; // used to be an error

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/illegalModifiersOnClassElements.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js illegalModifiersOnClassElements.js illegalModifiersOnClassElements.ts
+stderr 'TS1039'
+stderr 'TS1031'
+! exists illegalModifiersOnClassElements.js
+! exists illegalModifiersOnClassElements.d.ts
+! exists illegalModifiersOnClassElements.js.map
+
+-- illegalModifiersOnClassElements.ts --
+class C {
+    declare foo = 1;
+    export bar = 1;
+}

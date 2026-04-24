@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/inheritanceMemberFuncOverridingAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceMemberFuncOverridingAccessor.js inheritanceMemberFuncOverridingAccessor.ts
+stderr 'TS2416'
+stderr 'TS2426'
+! exists inheritanceMemberFuncOverridingAccessor.js
+! exists inheritanceMemberFuncOverridingAccessor.d.ts
+! exists inheritanceMemberFuncOverridingAccessor.js.map
+
+-- inheritanceMemberFuncOverridingAccessor.ts --
+class a {
+    get x() {
+        return "20";
+    }
+    set x(aValue: string) {
+
+    }
+}
+
+class b extends a {
+    x() {
+        return "20";
+    }
+}

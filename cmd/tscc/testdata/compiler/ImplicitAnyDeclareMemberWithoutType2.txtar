@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/implicitAnyDeclareMemberWithoutType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js implicitAnyDeclareMemberWithoutType2.js implicitAnyDeclareMemberWithoutType2.ts
+stderr 'TS2564'
+stderr 'TS7006'
+! exists implicitAnyDeclareMemberWithoutType2.js
+! exists implicitAnyDeclareMemberWithoutType2.d.ts
+! exists implicitAnyDeclareMemberWithoutType2.js.map
+
+-- implicitAnyDeclareMemberWithoutType2.ts --
+// this should be an error
+class C {
+    public x = null;// error at "x"
+    public x1: string  // no error
+
+    constructor(c1, c2, c3: string) { }  // error at "c1, c2"
+    funcOfC(f1, f2, f3: number) { }     // error at "f1,f2"
+}

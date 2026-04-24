@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/indexer2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js indexer2.js indexer2.ts
+! stderr .
+cmp indexer2.js indexer2.js.golden
+! exists indexer2.d.ts
+! exists indexer2.js.map
+
+-- indexer2.ts --
+interface IHeapObjectProperty {}
+interface IDirectChildrenMap { 
+        hasOwnProperty(objectId: number) : boolean; 
+        [objectId: number] : IHeapObjectProperty[]; 
+}    
+var directChildrenMap = <IDirectChildrenMap>{}; 
+-- indexer2.js.golden --
+"use strict";
+var directChildrenMap = {};

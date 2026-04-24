@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/interfaceImplementation2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceImplementation2.js interfaceImplementation2.ts
+stderr 'TS2420'
+stderr 'TS2564'
+! exists interfaceImplementation2.js
+! exists interfaceImplementation2.d.ts
+! exists interfaceImplementation2.js.map
+
+-- interfaceImplementation2.ts --
+interface I1 {
+    iObj:{ };
+    iNum:number;
+    iAny:any;
+    iFn():void;
+}
+
+class C3 implements I1 {
+    public iObj:{ };
+    public iNum:number;
+    public iAny:any;
+}

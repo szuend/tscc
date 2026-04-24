@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/implicitAnyInAmbientDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js implicitAnyInAmbientDeclaration.js implicitAnyInAmbientDeclaration.ts
+stderr 'TS7008'
+stderr 'TS7010'
+stderr 'TS7006'
+! exists implicitAnyInAmbientDeclaration.js
+! exists implicitAnyInAmbientDeclaration.d.ts
+! exists implicitAnyInAmbientDeclaration.js.map
+
+-- implicitAnyInAmbientDeclaration.ts --
+namespace Test {
+    declare class C {
+        public publicMember;  // this should be an error
+        private privateMember;  // this should not be an error
+
+        public publicFunction(x);  // this should be an error
+        private privateFunction(privateParam);  // this should not be an error
+        private constructor(privateParam);
+    }
+}

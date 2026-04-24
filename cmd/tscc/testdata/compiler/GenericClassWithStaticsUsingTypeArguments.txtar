@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/genericClassWithStaticsUsingTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js genericClassWithStaticsUsingTypeArguments.js genericClassWithStaticsUsingTypeArguments.ts
+stderr 'TS2302'
+! exists genericClassWithStaticsUsingTypeArguments.js
+! exists genericClassWithStaticsUsingTypeArguments.d.ts
+! exists genericClassWithStaticsUsingTypeArguments.js.map
+
+-- genericClassWithStaticsUsingTypeArguments.ts --
+// Should be error to use 'T' in all declarations within Foo.
+class Foo<T> {
+    static a = (n: T) => { };
+
+    static b: T;
+
+    static c: T[] = [];
+
+    static d = false || ((x: T) => x || undefined)(null)
+
+    static e = function (x: T) { return null; }
+
+    static f(xs: T[]): T[] {
+        return xs.reverse();
+    }
+}

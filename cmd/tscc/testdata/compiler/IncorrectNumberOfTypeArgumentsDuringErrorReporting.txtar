@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/incorrectNumberOfTypeArgumentsDuringErrorReporting.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js incorrectNumberOfTypeArgumentsDuringErrorReporting.js incorrectNumberOfTypeArgumentsDuringErrorReporting.ts
+stderr 'TS2559'
+! exists incorrectNumberOfTypeArgumentsDuringErrorReporting.js
+! exists incorrectNumberOfTypeArgumentsDuringErrorReporting.d.ts
+! exists incorrectNumberOfTypeArgumentsDuringErrorReporting.js.map
+
+-- incorrectNumberOfTypeArgumentsDuringErrorReporting.ts --
+interface ObjA {
+  y?:string,
+}
+
+interface ObjB {[key:string]:any}
+
+interface Opts<A, B> {a:A, b:B}
+
+const fn = <
+  A extends ObjA,
+  B extends ObjB = ObjB
+>(opts:Opts<A, B>):string => 'Z'
+
+interface MyObjA {
+  x:string,
+}
+
+fn<MyObjA>({
+  a: {x: 'X', y: 'Y'},
+  b: {},
+})

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/interfaceMergeWithNonGenericTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceMergeWithNonGenericTypeArguments.js interfaceMergeWithNonGenericTypeArguments.ts
+stderr 'TS2315'
+! exists interfaceMergeWithNonGenericTypeArguments.js
+! exists interfaceMergeWithNonGenericTypeArguments.d.ts
+! exists interfaceMergeWithNonGenericTypeArguments.js.map
+
+-- interfaceMergeWithNonGenericTypeArguments.ts --
+export class SomeBaseClass { }
+export interface SomeInterface { }
+export interface MergedClass extends SomeInterface { }
+export class MergedClass extends SomeBaseClass<any> {
+	public constructor() {
+		super();
+	}
+}

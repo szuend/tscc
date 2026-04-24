@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/instantiateConstraintsToTypeArguments2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js instantiateConstraintsToTypeArguments2.js instantiateConstraintsToTypeArguments2.ts
+! stderr .
+cmp instantiateConstraintsToTypeArguments2.js instantiateConstraintsToTypeArguments2.js.golden
+! exists instantiateConstraintsToTypeArguments2.d.ts
+! exists instantiateConstraintsToTypeArguments2.js.map
+
+-- instantiateConstraintsToTypeArguments2.ts --
+interface A<T extends A<T, S>, S extends A<T, S>> { }
+interface B<T extends B<T, S>, S extends B<T, S>> extends A<B<T, S>, B<T, S>> { }
+-- instantiateConstraintsToTypeArguments2.js.golden --
+"use strict";

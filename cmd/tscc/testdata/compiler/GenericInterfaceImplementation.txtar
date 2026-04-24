@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/genericInterfaceImplementation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericInterfaceImplementation.js genericInterfaceImplementation.ts
+! stderr .
+cmp genericInterfaceImplementation.js genericInterfaceImplementation.js.golden
+! exists genericInterfaceImplementation.d.ts
+! exists genericInterfaceImplementation.js.map
+
+-- genericInterfaceImplementation.ts --
+interface IOption<A> {
+    get(): A;
+
+    flatten<B>(): IOption<B>;
+}
+
+class None<T> implements IOption<T>{
+    get(): T {
+        throw null;
+    }
+
+    flatten<U>() : IOption<U> {
+        return new None<U>();
+    }
+}
+-- genericInterfaceImplementation.js.golden --
+"use strict";
+class None {
+    get() {
+        throw null;
+    }
+    flatten() {
+        return new None();
+    }
+}

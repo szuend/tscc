@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/interfaceNameAsIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceNameAsIdentifier.js interfaceNameAsIdentifier.ts
+stderr 'TS2693'
+stderr 'TS2708'
+! exists interfaceNameAsIdentifier.js
+! exists interfaceNameAsIdentifier.d.ts
+! exists interfaceNameAsIdentifier.js.map
+
+-- interfaceNameAsIdentifier.ts --
+interface C {
+    (): void;
+}
+C();
+
+namespace m2 {
+    export interface C {
+        (): void;
+    }
+}
+
+m2.C();

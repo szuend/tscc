@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/interfacePropertiesWithSameName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js interfacePropertiesWithSameName1.js interfacePropertiesWithSameName1.ts
+! stderr .
+cmp interfacePropertiesWithSameName1.js interfacePropertiesWithSameName1.js.golden
+! exists interfacePropertiesWithSameName1.d.ts
+! exists interfacePropertiesWithSameName1.js.map
+
+-- interfacePropertiesWithSameName1.ts --
+interface Mover {
+    move(): void;
+    getStatus(): { speed: number; };
+}
+interface Shaker {
+    shake(): void;
+    getStatus(): { frequency: number; };
+}
+
+interface MoverShaker extends Mover, Shaker {
+    getStatus(): { speed: number; frequency: number; };
+}
+-- interfacePropertiesWithSameName1.js.golden --
+"use strict";

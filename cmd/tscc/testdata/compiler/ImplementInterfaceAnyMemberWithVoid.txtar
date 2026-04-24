@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/implementInterfaceAnyMemberWithVoid.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js implementInterfaceAnyMemberWithVoid.js implementInterfaceAnyMemberWithVoid.ts
+! stderr .
+cmp implementInterfaceAnyMemberWithVoid.js implementInterfaceAnyMemberWithVoid.js.golden
+! exists implementInterfaceAnyMemberWithVoid.d.ts
+! exists implementInterfaceAnyMemberWithVoid.js.map
+
+-- implementInterfaceAnyMemberWithVoid.ts --
+interface I {
+    foo(value: number);
+}
+
+class Bug implements I {
+    public foo(value: number) {
+    }
+}
+-- implementInterfaceAnyMemberWithVoid.js.golden --
+"use strict";
+class Bug {
+    foo(value) {
+    }
+}

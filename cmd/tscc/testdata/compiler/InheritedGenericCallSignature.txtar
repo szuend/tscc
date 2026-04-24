@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/inheritedGenericCallSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inheritedGenericCallSignature.js inheritedGenericCallSignature.ts
+stderr 'TS2454'
+stderr 'TS2345'
+! exists inheritedGenericCallSignature.js
+! exists inheritedGenericCallSignature.d.ts
+! exists inheritedGenericCallSignature.js.map
+
+-- inheritedGenericCallSignature.ts --
+interface I1<T> {
+
+    (a: T): T;
+
+}
+
+
+interface Object {}
+
+ 
+
+interface I2<T> extends I1<T[]> {
+
+    b: T;
+
+}
+
+ 
+
+var x: I2<Date>;
+
+ 
+
+var y = x(undefined);
+
+y.length;  // should not error

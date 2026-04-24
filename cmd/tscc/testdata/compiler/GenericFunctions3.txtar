@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/genericFunctions3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericFunctions3.js genericFunctions3.ts
+stderr 'TS2322'
+! exists genericFunctions3.js
+! exists genericFunctions3.d.ts
+! exists genericFunctions3.js.map
+
+-- genericFunctions3.ts --
+interface Query<T> {
+    foo(x: string): Query<T[]>;
+}
+ 
+function from<T>(arg: boolean): Query<T>; // was Error: Overload signature is not compatible with function definition.
+function from<T>(arg: any): Query<T> {
+    return undefined;
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/instanceSubtypeCheck2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js instanceSubtypeCheck2.js instanceSubtypeCheck2.ts
+stderr 'TS2564'
+stderr 'TS2416'
+! exists instanceSubtypeCheck2.js
+! exists instanceSubtypeCheck2.d.ts
+! exists instanceSubtypeCheck2.js.map
+
+-- instanceSubtypeCheck2.ts --
+class C1<T> {
+    x: C2<T>;
+}
+
+class C2<T> extends C1<T> {
+    x: string
+}

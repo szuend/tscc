@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/interMixingModulesInterfaces5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interMixingModulesInterfaces5.js interMixingModulesInterfaces5.ts
+stderr 'TS2322'
+! exists interMixingModulesInterfaces5.js
+! exists interMixingModulesInterfaces5.d.ts
+! exists interMixingModulesInterfaces5.js.map
+
+-- interMixingModulesInterfaces5.ts --
+namespace A {
+
+    interface B {
+        name: string;
+        value: number;
+    }
+
+    export namespace B {
+        export function createB(): number {
+            return null;
+        }
+    }
+}
+
+var x: number = A.B.createB();

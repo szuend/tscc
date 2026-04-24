@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/indexerSignatureWithRestParam.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js indexerSignatureWithRestParam.js indexerSignatureWithRestParam.ts
+stderr 'TS1017'
+! exists indexerSignatureWithRestParam.js
+! exists indexerSignatureWithRestParam.d.ts
+! exists indexerSignatureWithRestParam.js.map
+
+-- indexerSignatureWithRestParam.ts --
+interface I {
+    [...x]: string;
+}
+
+class C {
+    [...x]: string
+}

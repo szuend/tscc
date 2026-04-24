@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/genericWithCallSignatureReturningSpecialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericWithCallSignatureReturningSpecialization.js genericWithCallSignatureReturningSpecialization.ts
+stderr 'TS2454'
+! exists genericWithCallSignatureReturningSpecialization.js
+! exists genericWithCallSignatureReturningSpecialization.d.ts
+! exists genericWithCallSignatureReturningSpecialization.js.map
+
+-- genericWithCallSignatureReturningSpecialization.ts --
+interface B<T> {
+    f(): B<number>;
+    (value: T): void;
+}
+var x: B<boolean>;
+x(true); // was error

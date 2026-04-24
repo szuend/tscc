@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/generics3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts generics3.d.ts --target es2015 --lib es2015,dom --out-js generics3.js generics3.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists generics3.d.ts
+! exists generics3.js
+! exists generics3.js.map
+
+-- generics3.ts --
+class C<T> { private x: T; }
+interface X { f(): string; }
+interface Y { f(): string; }
+var a: C<X>;
+var b: C<Y>;
+
+a = b; // Ok - should be identical

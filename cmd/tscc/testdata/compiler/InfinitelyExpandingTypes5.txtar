@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/infinitelyExpandingTypes5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingTypes5.js infinitelyExpandingTypes5.ts
+! stderr .
+cmp infinitelyExpandingTypes5.js infinitelyExpandingTypes5.js.golden
+! exists infinitelyExpandingTypes5.d.ts
+! exists infinitelyExpandingTypes5.js.map
+
+-- infinitelyExpandingTypes5.ts --
+interface Query<T> {
+    foo(x: T): Query<T[]>;
+}
+
+interface Enumerator<T> {
+    (action: (item: T, index: number) => boolean): boolean;
+}
+
+function from<T>(array: T[]): Query<T>;
+function from<T>(enumerator: Enumerator<T>): Query<T>;
+function from(arg: any): any {
+    return undefined;
+}
+-- infinitelyExpandingTypes5.js.golden --
+"use strict";
+function from(arg) {
+    return undefined;
+}

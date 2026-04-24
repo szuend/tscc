@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/inheritedMembersAndIndexSignaturesFromDifferentBases2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritedMembersAndIndexSignaturesFromDifferentBases2.js inheritedMembersAndIndexSignaturesFromDifferentBases2.ts
+! stderr .
+cmp inheritedMembersAndIndexSignaturesFromDifferentBases2.js inheritedMembersAndIndexSignaturesFromDifferentBases2.js.golden
+! exists inheritedMembersAndIndexSignaturesFromDifferentBases2.d.ts
+! exists inheritedMembersAndIndexSignaturesFromDifferentBases2.js.map
+
+-- inheritedMembersAndIndexSignaturesFromDifferentBases2.ts --
+interface A<T> {
+    [n: number]: T;
+}
+
+interface B {
+    foo: number;
+}
+
+interface C extends B, A<string> { } // Should succeed
+-- inheritedMembersAndIndexSignaturesFromDifferentBases2.js.golden --
+"use strict";

@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/getAndSetNotIdenticalType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js getAndSetNotIdenticalType.js getAndSetNotIdenticalType.ts
+! stderr .
+cmp getAndSetNotIdenticalType.js getAndSetNotIdenticalType.js.golden
+! exists getAndSetNotIdenticalType.d.ts
+! exists getAndSetNotIdenticalType.js.map
+
+-- getAndSetNotIdenticalType.ts --
+class C {
+    get x(): number {
+        return 1;
+    }
+    set x(v: string) { }
+}
+-- getAndSetNotIdenticalType.js.golden --
+"use strict";
+class C {
+    get x() {
+        return 1;
+    }
+    set x(v) { }
+}

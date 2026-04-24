@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/importDeclWithExportModifierInAmbientContext.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --path m=importDeclWithExportModifierInAmbientContext.ts --out-js importDeclWithExportModifierInAmbientContext.js importDeclWithExportModifierInAmbientContext.ts
+! stderr .
+cmp importDeclWithExportModifierInAmbientContext.js importDeclWithExportModifierInAmbientContext.js.golden
+! exists importDeclWithExportModifierInAmbientContext.d.ts
+! exists importDeclWithExportModifierInAmbientContext.js.map
+
+-- importDeclWithExportModifierInAmbientContext.ts --
+declare module "m" {
+    namespace x {
+        interface c {
+        }
+    }
+    export import a = x.c;
+    var b: a;
+}
+-- importDeclWithExportModifierInAmbientContext.js.golden --
+"use strict";

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/genericReturnTypeFromGetter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js genericReturnTypeFromGetter1.js genericReturnTypeFromGetter1.ts
+stderr 'TS2314'
+! exists genericReturnTypeFromGetter1.js
+! exists genericReturnTypeFromGetter1.d.ts
+! exists genericReturnTypeFromGetter1.js.map
+
+-- genericReturnTypeFromGetter1.ts --
+export interface A<T> {
+   new (dbSet: DbSet<T>): T;
+}
+export class DbSet<T> {
+    _entityType: A;
+  get entityType() { return this._entityType; }  // used to ICE without return type annotation
+}

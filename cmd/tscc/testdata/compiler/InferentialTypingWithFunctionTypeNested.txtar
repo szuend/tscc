@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/inferentialTypingWithFunctionTypeNested.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js inferentialTypingWithFunctionTypeNested.js inferentialTypingWithFunctionTypeNested.ts
+! stderr .
+cmp inferentialTypingWithFunctionTypeNested.js inferentialTypingWithFunctionTypeNested.js.golden
+! exists inferentialTypingWithFunctionTypeNested.d.ts
+! exists inferentialTypingWithFunctionTypeNested.js.map
+
+-- inferentialTypingWithFunctionTypeNested.ts --
+declare function map<T, U>(x: T, f: () => { x: (s: T) => U }): U;
+declare function identity<V>(y: V): V;
+
+var s = map("", () => { return { x: identity }; });
+-- inferentialTypingWithFunctionTypeNested.js.golden --
+"use strict";
+var s = map("", () => { return { x: identity }; });

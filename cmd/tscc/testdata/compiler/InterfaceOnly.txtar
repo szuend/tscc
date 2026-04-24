@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/interfaceOnly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts interfaceOnly.d.ts --no-strict --target es2015 --lib es2015,dom --out-js interfaceOnly.js interfaceOnly.ts
+! stderr .
+cmp interfaceOnly.d.ts interfaceOnly.d.ts.golden
+cmp interfaceOnly.js interfaceOnly.js.golden
+! exists interfaceOnly.js.map
+
+-- interfaceOnly.ts --
+interface foo {
+    foo();
+    f2 (f: ()=> void);
+}
+-- interfaceOnly.d.ts.golden --
+interface foo {
+    foo(): any;
+    f2(f: () => void): any;
+}
+-- interfaceOnly.js.golden --
+"use strict";

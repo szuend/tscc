@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/inheritanceStaticMembersCompatible.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceStaticMembersCompatible.js inheritanceStaticMembersCompatible.ts
+! stderr .
+cmp inheritanceStaticMembersCompatible.js inheritanceStaticMembersCompatible.js.golden
+! exists inheritanceStaticMembersCompatible.d.ts
+! exists inheritanceStaticMembersCompatible.js.map
+
+-- inheritanceStaticMembersCompatible.ts --
+class a {
+    static x: a;
+}
+
+class b extends a {
+    static x: b;
+}
+-- inheritanceStaticMembersCompatible.js.golden --
+"use strict";
+class a {
+}
+class b extends a {
+}

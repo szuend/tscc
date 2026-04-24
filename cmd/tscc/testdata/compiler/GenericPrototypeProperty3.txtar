@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/genericPrototypeProperty3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericPrototypeProperty3.js genericPrototypeProperty3.ts
+stderr 'TS2564'
+stderr 'TS2416'
+! exists genericPrototypeProperty3.js
+! exists genericPrototypeProperty3.d.ts
+! exists genericPrototypeProperty3.js.map
+
+-- genericPrototypeProperty3.ts --
+class BaseEvent {
+    target: {};
+}
+
+class MyEvent<T> extends BaseEvent { // T is instantiated to any in the prototype, which is assignable to {}
+    target: T;
+}
+class BaseEventWrapper {
+    t: BaseEvent;
+}
+
+class MyEventWrapper extends BaseEventWrapper {
+    t: MyEvent<any>;
+}

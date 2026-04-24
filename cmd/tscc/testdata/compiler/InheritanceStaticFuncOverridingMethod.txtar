@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/inheritanceStaticFuncOverridingMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceStaticFuncOverridingMethod.js inheritanceStaticFuncOverridingMethod.ts
+! stderr .
+cmp inheritanceStaticFuncOverridingMethod.js inheritanceStaticFuncOverridingMethod.js.golden
+! exists inheritanceStaticFuncOverridingMethod.d.ts
+! exists inheritanceStaticFuncOverridingMethod.js.map
+
+-- inheritanceStaticFuncOverridingMethod.ts --
+class a {
+    static x() {
+        return "10";
+    }
+}
+
+class b extends a {
+    static x() {
+        return "20";
+    }
+}
+-- inheritanceStaticFuncOverridingMethod.js.golden --
+"use strict";
+class a {
+    static x() {
+        return "10";
+    }
+}
+class b extends a {
+    static x() {
+        return "20";
+    }
+}

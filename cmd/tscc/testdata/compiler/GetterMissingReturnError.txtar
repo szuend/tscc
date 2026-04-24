@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/getterMissingReturnError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js getterMissingReturnError.js getterMissingReturnError.ts
+stderr 'TS2378'
+! exists getterMissingReturnError.js
+! exists getterMissingReturnError.d.ts
+! exists getterMissingReturnError.js.map
+
+-- getterMissingReturnError.ts --
+class test {
+    public get p2(){
+
+    }
+}

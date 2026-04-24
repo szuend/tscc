@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/genericSignatureIdentity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericSignatureIdentity.js genericSignatureIdentity.ts
+stderr 'TS2403'
+! exists genericSignatureIdentity.js
+! exists genericSignatureIdentity.d.ts
+! exists genericSignatureIdentity.js.map
+
+-- genericSignatureIdentity.ts --
+// This test is here to remind us of our current limits of type identity checking.
+// Ideally all of the below declarations would be considered different (and thus errors)
+// but they aren't because we erase type parameters to type any and don't check that
+// constraints are identical.
+
+var x: {
+    <T extends Date>(x: T): T;
+};
+
+var x: {
+    <T extends number>(x: T): T;
+};
+
+var x: {
+    <T>(x: T): T;
+};
+
+var x: {
+    <T>(x: any): any;
+};

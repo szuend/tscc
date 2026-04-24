@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/genericCombinators2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCombinators2.js genericCombinators2.ts
+stderr 'TS2345'
+! exists genericCombinators2.js
+! exists genericCombinators2.d.ts
+! exists genericCombinators2.js.map
+
+-- genericCombinators2.ts --
+interface Collection<T, U> {
+    length: number;
+    add(x: T, y: U): void;
+    remove(x: T, y: U): boolean;
+}
+
+interface Combinators {
+    map<T, U>(c: Collection<T, U>, f: (x: T, y: U) => any): Collection<any, any>;
+    map<T, U, V>(c: Collection<T, U>, f: (x: T, y: U) => V): Collection<T, V>;
+}
+
+declare var _: Combinators;
+declare var c2: Collection<number, string>;
+var rf1 = (x: number, y: string) => { return x.toFixed() };
+var r5a = _.map<number, string, Date>(c2, (x, y) => { return x.toFixed() });
+var r5b = _.map<number, string, Date>(c2, rf1);

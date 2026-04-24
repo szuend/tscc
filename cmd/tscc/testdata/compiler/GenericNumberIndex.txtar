@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/genericNumberIndex.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericNumberIndex.js genericNumberIndex.ts
+! stderr .
+cmp genericNumberIndex.js genericNumberIndex.js.golden
+! exists genericNumberIndex.d.ts
+! exists genericNumberIndex.js.map
+
+-- genericNumberIndex.ts --
+type X<I extends number> = ['a'][I];
+-- genericNumberIndex.js.golden --
+"use strict";

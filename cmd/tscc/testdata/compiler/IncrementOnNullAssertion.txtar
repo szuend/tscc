@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/incrementOnNullAssertion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js incrementOnNullAssertion.js incrementOnNullAssertion.ts
+! stderr .
+cmp incrementOnNullAssertion.js incrementOnNullAssertion.js.golden
+! exists incrementOnNullAssertion.d.ts
+! exists incrementOnNullAssertion.js.map
+
+-- incrementOnNullAssertion.ts --
+interface Dictionary<T> {
+    [myFavouriteType: string]: T | undefined
+}
+const x = 'bar'
+let foo: Dictionary<number> = {}
+if (foo[x] === undefined) {
+    foo[x] = 1
+}
+else {
+    let nu = foo[x]
+    let n = foo[x]
+    foo[x]!++
+}
+-- incrementOnNullAssertion.js.golden --
+"use strict";
+const x = 'bar';
+let foo = {};
+if (foo[x] === undefined) {
+    foo[x] = 1;
+}
+else {
+    let nu = foo[x];
+    let n = foo[x];
+    foo[x]++;
+}

@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/inferSetterParamType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inferSetterParamType.js inferSetterParamType.ts
+stderr 'TS2322'
+! exists inferSetterParamType.js
+! exists inferSetterParamType.d.ts
+! exists inferSetterParamType.js.map
+
+-- inferSetterParamType.ts --
+class Foo {
+
+    get bar() {
+        return 0;
+    }
+    set bar(n) { // should not be an error - infer number
+    }
+}
+
+class Foo2 {
+
+    get bar() {
+        return 0; // should be an error - can't coerce infered return type to match setter annotated type
+    }
+    set bar(n:string) {
+    }
+}

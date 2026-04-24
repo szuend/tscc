@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/incrementOnTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js incrementOnTypeParameter.js incrementOnTypeParameter.ts
+stderr 'TS2356'
+! exists incrementOnTypeParameter.js
+! exists incrementOnTypeParameter.d.ts
+! exists incrementOnTypeParameter.js.map
+
+-- incrementOnTypeParameter.ts --
+class C<T> {
+    a!: T;
+    foo() {
+        this.a++; 
+        for (var i: T = this.a, j = 0; j < 10; i++) { 
+        }
+    }
+}

@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/inheritanceStaticFuncOverridingAccessorOfFuncType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceStaticFuncOverridingAccessorOfFuncType.js inheritanceStaticFuncOverridingAccessorOfFuncType.ts
+! stderr .
+cmp inheritanceStaticFuncOverridingAccessorOfFuncType.js inheritanceStaticFuncOverridingAccessorOfFuncType.js.golden
+! exists inheritanceStaticFuncOverridingAccessorOfFuncType.d.ts
+! exists inheritanceStaticFuncOverridingAccessorOfFuncType.js.map
+
+-- inheritanceStaticFuncOverridingAccessorOfFuncType.ts --
+class a {
+    static get x(): () => string {
+        return null;
+    }
+}
+
+class b extends a {
+    static x() {
+        return "20";
+    }
+}
+-- inheritanceStaticFuncOverridingAccessorOfFuncType.js.golden --
+"use strict";
+class a {
+    static get x() {
+        return null;
+    }
+}
+class b extends a {
+    static x() {
+        return "20";
+    }
+}

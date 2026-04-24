@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/initializedParameterBeforeNonoptionalNotOptional.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js index.d.js index.d.ts
+! stderr .
+! exists index.d.d.ts
+! exists index.d.js
+! exists index.d.js.map
+
+-- index.d.ts --
+export declare function foo({a}?: {
+    a?: string;
+}): void;
+export declare function foo2({a}: {
+    a?: string | undefined;
+} | undefined, b: string): void;
+export declare function foo3({a, b: {c}}: {
+    a?: string | undefined;
+    b?: {c?: string | undefined;} | undefined;
+} | undefined, b: string): void;

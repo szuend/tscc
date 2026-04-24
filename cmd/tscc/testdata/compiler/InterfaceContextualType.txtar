@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/interfaceContextualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js interfaceContextualType.js interfaceContextualType.ts
+stderr 'TS2564'
+! exists interfaceContextualType.js
+! exists interfaceContextualType.d.ts
+! exists interfaceContextualType.js.map
+
+-- interfaceContextualType.ts --
+export interface IOptions {
+    italic?: boolean;
+    bold?: boolean;
+}
+export interface IMap {
+    [s: string]: IOptions;
+}
+
+class Bug {
+    public values: IMap;
+    ok() {
+        this.values = {};
+        this.values['comments'] = { italic: true };
+    }
+    shouldBeOK() {
+        this.values = {
+            comments: { italic: true }
+        };
+    }
+}

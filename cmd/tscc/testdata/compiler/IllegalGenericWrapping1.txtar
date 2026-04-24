@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/illegalGenericWrapping1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js illegalGenericWrapping1.js illegalGenericWrapping1.ts
+! stderr .
+cmp illegalGenericWrapping1.js illegalGenericWrapping1.js.golden
+! exists illegalGenericWrapping1.d.ts
+! exists illegalGenericWrapping1.js.map
+
+-- illegalGenericWrapping1.ts --
+interface Sequence<T> {
+    each(iterator: (value: T) => void ): void;
+    map<U>(iterator: (value: T) => U): Sequence<U>;
+    filter(iterator: (value: T) => boolean): Sequence<T>;
+    groupBy<K>(keySelector: (value: T) => K): Sequence<{ key: K; items: Sequence<T>; }>;
+}
+-- illegalGenericWrapping1.js.golden --
+"use strict";

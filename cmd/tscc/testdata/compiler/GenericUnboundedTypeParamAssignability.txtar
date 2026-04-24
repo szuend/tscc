@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/genericUnboundedTypeParamAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js genericUnboundedTypeParamAssignability.js genericUnboundedTypeParamAssignability.ts
+stderr 'TS2339'
+stderr 'TS2345'
+! exists genericUnboundedTypeParamAssignability.js
+! exists genericUnboundedTypeParamAssignability.d.ts
+! exists genericUnboundedTypeParamAssignability.js.map
+
+-- genericUnboundedTypeParamAssignability.ts --
+function f1<T>(o: T) {
+  o.toString(); // error
+}
+
+function f2<T extends {}>(o: T) {
+  o.toString(); // no error
+}
+
+function f3<T extends Record<string, any>>(o: T) {
+  o.toString(); // no error
+}
+
+function user<T>(t: T) {
+  f1(t);
+  f2(t); // error in strict, unbounded T doesn't satisfy the constraint
+  f3(t); // error in strict, unbounded T doesn't satisfy the constraint
+  t.toString();  // error, for the same reason as f1()
+}

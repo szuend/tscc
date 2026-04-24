@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/globalThisDeclarationEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts index.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+stderr 'TS4025'
+! exists index.d.ts
+! exists index.js
+! exists index.js.map
+
+-- index.ts --
+import { variable } from "./variable";
+export const globalThis = variable;
+-- variable.ts --
+export const variable = globalThis;

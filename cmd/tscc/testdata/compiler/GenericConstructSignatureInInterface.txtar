@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/genericConstructSignatureInInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js genericConstructSignatureInInterface.js genericConstructSignatureInInterface.ts
+! stderr .
+cmp genericConstructSignatureInInterface.js genericConstructSignatureInInterface.js.golden
+! exists genericConstructSignatureInInterface.d.ts
+! exists genericConstructSignatureInInterface.js.map
+
+-- genericConstructSignatureInInterface.ts --
+interface C {
+    new <T>(x: T);
+}
+
+var v: C;
+var r = new v<number>(1);
+-- genericConstructSignatureInInterface.js.golden --
+"use strict";
+var v;
+var r = new v(1);

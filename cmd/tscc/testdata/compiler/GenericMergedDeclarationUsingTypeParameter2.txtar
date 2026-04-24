@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/genericMergedDeclarationUsingTypeParameter2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericMergedDeclarationUsingTypeParameter2.js genericMergedDeclarationUsingTypeParameter2.ts
+stderr 'TS2304'
+! exists genericMergedDeclarationUsingTypeParameter2.js
+! exists genericMergedDeclarationUsingTypeParameter2.d.ts
+! exists genericMergedDeclarationUsingTypeParameter2.js.map
+
+-- genericMergedDeclarationUsingTypeParameter2.ts --
+class foo<T> { constructor(x: T) { } }
+namespace foo {
+    export var x: T;
+    var y = <T>1;
+}

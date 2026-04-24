@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/importAndVariableDeclarationConflict3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js importAndVariableDeclarationConflict3.js importAndVariableDeclarationConflict3.ts
+stderr 'TS2300'
+! exists importAndVariableDeclarationConflict3.js
+! exists importAndVariableDeclarationConflict3.d.ts
+! exists importAndVariableDeclarationConflict3.js.map
+
+-- importAndVariableDeclarationConflict3.ts --
+namespace m {
+  export var m = '';
+}
+
+import x = m.m;
+import x = m.m;

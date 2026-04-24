@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/importedEnumMemberMergedWithExportedAliasIsError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js alias.js alias.ts
+stderr 'TS2440'
+stderr 'TS2395'
+! exists alias.js
+! exists alias.d.ts
+! exists alias.js.map
+
+-- alias.ts --
+import {Enum} from "./enum";
+
+import EnumA = Enum.A;
+
+export type EnumA = [string] | [string, number];
+-- enum.ts --
+export enum Enum {
+    A,
+    B
+}

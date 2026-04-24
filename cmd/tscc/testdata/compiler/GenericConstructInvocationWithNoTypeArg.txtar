@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/genericConstructInvocationWithNoTypeArg.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericConstructInvocationWithNoTypeArg.js genericConstructInvocationWithNoTypeArg.ts
+stderr 'TS2693'
+! exists genericConstructInvocationWithNoTypeArg.js
+! exists genericConstructInvocationWithNoTypeArg.d.ts
+! exists genericConstructInvocationWithNoTypeArg.js.map
+
+-- genericConstructInvocationWithNoTypeArg.ts --
+interface Foo<T> {
+   new (x: number): Foo<T>;
+}
+var f2: Foo<number> = new Foo(3);

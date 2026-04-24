@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/indexSignatureOfTypeUnknownStillRequiresIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexSignatureOfTypeUnknownStillRequiresIndexSignature.js indexSignatureOfTypeUnknownStillRequiresIndexSignature.ts
+stderr 'TS2345'
+! exists indexSignatureOfTypeUnknownStillRequiresIndexSignature.js
+! exists indexSignatureOfTypeUnknownStillRequiresIndexSignature.d.ts
+! exists indexSignatureOfTypeUnknownStillRequiresIndexSignature.js.map
+
+-- indexSignatureOfTypeUnknownStillRequiresIndexSignature.ts --
+declare function f<T extends unknown = unknown>(x: { [x: string]: T }): T;
+
+var stooges = [
+  { name: "moe", age: 40 },
+  { name: "larry", age: 50 },
+  { name: "curly", age: 60 }
+];
+
+f(stooges); // Should throw

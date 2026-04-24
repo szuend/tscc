@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/indexerReturningTypeParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexerReturningTypeParameter1.js indexerReturningTypeParameter1.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists indexerReturningTypeParameter1.js
+! exists indexerReturningTypeParameter1.d.ts
+! exists indexerReturningTypeParameter1.js.map
+
+-- indexerReturningTypeParameter1.ts --
+interface f {
+    groupBy<T>(): { [key: string]: T[]; };
+}
+var a: f;
+var r = a.groupBy();
+
+class c {
+    groupBy<T>(): { [key: string]: T[]; } {
+        return null;
+    }
+}
+var a2: c;
+var r2 = a2.groupBy();

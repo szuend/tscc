@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/globalThis.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js globalThis.js globalThis.ts
+! stderr .
+cmp globalThis.js globalThis.js.golden
+! exists globalThis.d.ts
+! exists globalThis.js.map
+
+-- globalThis.ts --
+var __e = Math.E;  // should not generate 'this.Math.E'
+-- globalThis.js.golden --
+"use strict";
+var __e = Math.E; // should not generate 'this.Math.E'

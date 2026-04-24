@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/genericCallOnMemberReturningClosedOverObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom genericCallOnMemberReturningClosedOverObject.ts
+! stderr .
+! exists genericCallOnMemberReturningClosedOverObject.d.ts
+! exists genericCallOnMemberReturningClosedOverObject.js.map
+
+-- genericCallOnMemberReturningClosedOverObject.ts --
+// https://github.com/microsoft/TypeScript/issues/11584
+
+function example<T1>() {
+  let x = {
+    foo: <T2>(t2: T2) => x,
+    bar: (t1: T1) => x,
+  };
+  return x;
+}
+
+example<number>().foo("hello").bar(1);

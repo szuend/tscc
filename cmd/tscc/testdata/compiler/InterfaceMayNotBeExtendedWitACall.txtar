@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/interfaceMayNotBeExtendedWitACall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceMayNotBeExtendedWitACall.js interfaceMayNotBeExtendedWitACall.ts
+stderr 'TS2499'
+! exists interfaceMayNotBeExtendedWitACall.js
+! exists interfaceMayNotBeExtendedWitACall.d.ts
+! exists interfaceMayNotBeExtendedWitACall.js.map
+
+-- interfaceMayNotBeExtendedWitACall.ts --
+interface color {}
+
+interface blue extends color() { // error
+
+}

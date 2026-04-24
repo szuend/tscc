@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/importDeclarationNotCheckedAsValueWhenTargetNonValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --path dojox/charting/axis2d/common.createText=file.d.ts --out-js file.d.js file.d.ts
+! stderr .
+! exists file.d.d.ts
+! exists file.d.js
+! exists file.d.js.map
+
+-- file.d.ts --
+declare namespace dojox {
+    namespace charting {
+        namespace axis2d {
+            export class Val { }
+            interface common {
+                createText: object;
+            }
+            namespace common {
+                interface createText {
+                    gfx(): string
+                }
+            }
+        }
+    }
+}
+declare module "dojox/charting/axis2d/common.createText" {
+    import exp = dojox.charting.axis2d.common
+    export = exp;
+}

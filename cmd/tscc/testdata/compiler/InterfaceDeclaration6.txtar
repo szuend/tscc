@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/interfaceDeclaration6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceDeclaration6.js interfaceDeclaration6.ts
+stderr 'TS2430'
+! exists interfaceDeclaration6.js
+! exists interfaceDeclaration6.d.ts
+! exists interfaceDeclaration6.js.map
+
+-- interfaceDeclaration6.ts --
+interface i1 { foo: number; };
+interface i2 extends i1 { foo: number; };
+interface i3 extends i1 { foo: string; };
+interface i4 {
+ bar():any;
+ bar():any;
+}

@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/importInTypePosition.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js importInTypePosition.js importInTypePosition.ts
+! stderr .
+cmp importInTypePosition.js importInTypePosition.js.golden
+! exists importInTypePosition.d.ts
+! exists importInTypePosition.js.map
+
+-- importInTypePosition.ts --
+namespace A {
+    export class Point {
+        constructor(public x: number, public y: number) { }
+    }
+    export var Origin = new Point(0, 0);
+}
+
+// no code gen expected
+namespace B {
+
+    import a = A; //Error generates 'var <Alias> = <EntityName>;'
+}
+// no code gen expected
+namespace C {
+
+    import a = A; //Error generates 'var <Alias> = <EntityName>;'
+    var m: typeof a;
+    var p: a.Point;
+    var p = { x: 0, y: 0 };
+}
+-- importInTypePosition.js.golden --
+"use strict";
+var A;
+(function (A) {
+    class Point {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    A.Point = Point;
+    A.Origin = new Point(0, 0);
+})(A || (A = {}));
+// no code gen expected
+var C;
+(function (C) {
+    var m;
+    var p;
+    var p = { x: 0, y: 0 };
+})(C || (C = {}));

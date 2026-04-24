@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/importOnAliasedIdentifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js importOnAliasedIdentifiers.js importOnAliasedIdentifiers.ts
+! stderr .
+cmp importOnAliasedIdentifiers.js importOnAliasedIdentifiers.js.golden
+! exists importOnAliasedIdentifiers.d.ts
+! exists importOnAliasedIdentifiers.js.map
+
+-- importOnAliasedIdentifiers.ts --
+namespace A {
+    export interface X { s: string }
+    export var X: X;
+}
+namespace B {
+    interface A { n: number }
+    import Y = A; // Alias only for module A
+    import Z = A.X; // Alias for both type and member A.X
+    var v: Z = Z;
+}
+-- importOnAliasedIdentifiers.js.golden --
+"use strict";
+var A;
+(function (A) {
+})(A || (A = {}));
+var B;
+(function (B) {
+    var Z = A.X; // Alias for both type and member A.X
+    var v = Z;
+})(B || (B = {}));

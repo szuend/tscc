@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/indexSignatureWithoutTypeAnnotation1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexSignatureWithoutTypeAnnotation1.js indexSignatureWithoutTypeAnnotation1.ts
+stderr 'TS1021'
+! exists indexSignatureWithoutTypeAnnotation1.js
+! exists indexSignatureWithoutTypeAnnotation1.d.ts
+! exists indexSignatureWithoutTypeAnnotation1.js.map
+
+-- indexSignatureWithoutTypeAnnotation1.ts --
+class C {
+  [a: number];
+}

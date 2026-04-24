@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/generics4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js generics4.js generics4.ts
+stderr 'TS2564'
+stderr 'TS2322'
+! exists generics4.js
+! exists generics4.d.ts
+! exists generics4.js.map
+
+-- generics4.ts --
+class C<T> { private x: T; }
+interface X { f(): string; }
+interface Y { f(): boolean; }
+declare var a: C<X>;
+declare var b: C<Y>;
+
+a = b; // Not ok - return types of "f" are different

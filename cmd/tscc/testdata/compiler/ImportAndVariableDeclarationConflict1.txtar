@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/importAndVariableDeclarationConflict1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js importAndVariableDeclarationConflict1.js importAndVariableDeclarationConflict1.ts
+stderr 'TS2440'
+! exists importAndVariableDeclarationConflict1.js
+! exists importAndVariableDeclarationConflict1.d.ts
+! exists importAndVariableDeclarationConflict1.js.map
+
+-- importAndVariableDeclarationConflict1.ts --
+namespace m {
+  export var m = '';
+}
+
+import x = m.m;
+var x = '';

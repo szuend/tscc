@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/globalThisDeclarationEmit3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts variable.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js variable.js variable.ts
+! stderr .
+cmp variable.d.ts variable.d.ts.golden
+cmp variable.js variable.js.golden
+! exists variable.js.map
+
+-- index.ts --
+import { variable } from "./variable";
+export { variable as globalThis };
+-- variable.ts --
+import mod = globalThis;
+export { mod as variable };
+-- variable.d.ts.golden --
+import mod = globalThis;
+export { mod as variable };
+-- variable.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.variable = void 0;
+var mod = globalThis;
+exports.variable = mod;

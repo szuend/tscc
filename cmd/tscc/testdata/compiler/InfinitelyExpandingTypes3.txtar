@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/infinitelyExpandingTypes3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingTypes3.js infinitelyExpandingTypes3.ts
+stderr 'TS2454'
+! exists infinitelyExpandingTypes3.js
+! exists infinitelyExpandingTypes3.d.ts
+! exists infinitelyExpandingTypes3.js.map
+
+-- infinitelyExpandingTypes3.ts --
+interface List<T> {
+    data: T;
+    next: List<T>; // will be recursive reference when OwnerList is expanded
+    owner: OwnerList<T>;
+}
+
+interface OwnerList<U> extends List<List<U>> {
+    name: string;
+}
+
+interface OwnerList2<U> extends List<List<U>> {
+    name: string;
+}
+
+var o1: OwnerList<number>;
+var o2: OwnerList2<number>;
+
+o1 = o2; // should not error

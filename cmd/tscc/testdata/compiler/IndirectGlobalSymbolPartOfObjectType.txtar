@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/indirectGlobalSymbolPartOfObjectType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js indirectGlobalSymbolPartOfObjectType.js indirectGlobalSymbolPartOfObjectType.ts
+! stderr .
+cmp indirectGlobalSymbolPartOfObjectType.js indirectGlobalSymbolPartOfObjectType.js.golden
+! exists indirectGlobalSymbolPartOfObjectType.d.ts
+! exists indirectGlobalSymbolPartOfObjectType.js.map
+
+-- indirectGlobalSymbolPartOfObjectType.ts --
+export { }
+const Symbol = globalThis.Symbol;
+[][Symbol.iterator];
+-- indirectGlobalSymbolPartOfObjectType.js.golden --
+const Symbol = globalThis.Symbol;
+[][Symbol.iterator];
+export {};

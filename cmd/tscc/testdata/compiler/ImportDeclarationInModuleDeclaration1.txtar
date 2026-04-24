@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/importDeclarationInModuleDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js importDeclarationInModuleDeclaration1.js importDeclarationInModuleDeclaration1.ts
+stderr 'TS1147'
+! exists importDeclarationInModuleDeclaration1.js
+! exists importDeclarationInModuleDeclaration1.d.ts
+! exists importDeclarationInModuleDeclaration1.js.map
+
+-- importDeclarationInModuleDeclaration1.ts --
+namespace m2 {
+    import m3 = require("use_glo_M1_public");
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/hugeDeclarationOutputGetsTruncatedWithError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts hugeDeclarationOutputGetsTruncatedWithError.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js hugeDeclarationOutputGetsTruncatedWithError.js hugeDeclarationOutputGetsTruncatedWithError.ts
+stderr 'TS7056'
+! exists hugeDeclarationOutputGetsTruncatedWithError.d.ts
+! exists hugeDeclarationOutputGetsTruncatedWithError.js
+! exists hugeDeclarationOutputGetsTruncatedWithError.js.map
+
+-- hugeDeclarationOutputGetsTruncatedWithError.ts --
+type props = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z";
+
+type manyprops = `${props}${props}`;
+
+export const c = [null as any as {[K in manyprops]: {[K2 in manyprops]: `${K}.${K2}`}}][0];

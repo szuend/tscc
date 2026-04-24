@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/importNotElidedWhenNotFound.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importNotElidedWhenNotFound.js importNotElidedWhenNotFound.ts
+stderr 'TS2307'
+! exists importNotElidedWhenNotFound.js
+! exists importNotElidedWhenNotFound.d.ts
+! exists importNotElidedWhenNotFound.js.map
+
+-- importNotElidedWhenNotFound.ts --
+import X from 'file';
+import Z from 'other_file';
+
+class Y extends Z {
+  constructor() {
+    super(X);
+  }
+}
+
+import X2 from 'file2';
+import X3 from 'file3';
+class Q extends Z {
+  constructor() {
+    super(X2, X3);
+  }
+}

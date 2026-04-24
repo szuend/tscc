@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/getterErrorMessageNotDuplicated.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js getterErrorMessageNotDuplicated.js getterErrorMessageNotDuplicated.ts
+! stderr .
+cmp getterErrorMessageNotDuplicated.js getterErrorMessageNotDuplicated.js.golden
+! exists getterErrorMessageNotDuplicated.d.ts
+! exists getterErrorMessageNotDuplicated.js.map
+
+-- getterErrorMessageNotDuplicated.ts --
+interface Thing {
+    get style(): Foo;
+    set style(cssText: string | Bar);
+}
+
+interface Foo {
+    hello: string;
+    world: number;
+}
+
+interface Bar extends Foo {
+    extra: any;
+}
+-- getterErrorMessageNotDuplicated.js.golden --
+"use strict";

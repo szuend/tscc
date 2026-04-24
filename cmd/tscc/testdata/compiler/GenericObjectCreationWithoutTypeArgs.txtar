@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/genericObjectCreationWithoutTypeArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericObjectCreationWithoutTypeArgs.js genericObjectCreationWithoutTypeArgs.ts
+! stderr .
+cmp genericObjectCreationWithoutTypeArgs.js genericObjectCreationWithoutTypeArgs.js.golden
+! exists genericObjectCreationWithoutTypeArgs.d.ts
+! exists genericObjectCreationWithoutTypeArgs.js.map
+
+-- genericObjectCreationWithoutTypeArgs.ts --
+class SS<T>{
+
+}
+
+var x1 = new SS<number>(); // OK
+var x2 = new SS<number>;   // OK 
+var x3 = new SS();         // OK
+var x4 = new SS;           // OK
+-- genericObjectCreationWithoutTypeArgs.js.golden --
+"use strict";
+class SS {
+}
+var x1 = new SS(); // OK
+var x2 = new SS; // OK 
+var x3 = new SS(); // OK
+var x4 = new SS; // OK

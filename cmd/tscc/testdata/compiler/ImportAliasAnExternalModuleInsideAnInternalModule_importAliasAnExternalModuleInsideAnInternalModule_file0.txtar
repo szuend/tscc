@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/importAliasAnExternalModuleInsideAnInternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importAliasAnExternalModuleInsideAnInternalModule_file0.js importAliasAnExternalModuleInsideAnInternalModule_file0.ts
+! stderr .
+cmp importAliasAnExternalModuleInsideAnInternalModule_file0.js importAliasAnExternalModuleInsideAnInternalModule_file0.js.golden
+! exists importAliasAnExternalModuleInsideAnInternalModule_file0.d.ts
+! exists importAliasAnExternalModuleInsideAnInternalModule_file0.js.map
+
+-- importAliasAnExternalModuleInsideAnInternalModule_file0.ts --
+export namespace m {
+    export function foo() { }
+}
+-- importAliasAnExternalModuleInsideAnInternalModule_file1.ts --
+import r = require('./importAliasAnExternalModuleInsideAnInternalModule_file0');
+namespace m_private {
+    //import r2 = require('m'); // would be error
+    export import C = r; // no error
+    C.m.foo();
+}
+-- importAliasAnExternalModuleInsideAnInternalModule_file0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.m = void 0;
+var m;
+(function (m) {
+    function foo() { }
+    m.foo = foo;
+})(m || (exports.m = m = {}));

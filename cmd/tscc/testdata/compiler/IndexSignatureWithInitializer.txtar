@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/indexSignatureWithInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexSignatureWithInitializer.js indexSignatureWithInitializer.ts
+stderr 'TS1169'
+stderr 'TS1166'
+! exists indexSignatureWithInitializer.js
+! exists indexSignatureWithInitializer.d.ts
+! exists indexSignatureWithInitializer.js.map
+
+-- indexSignatureWithInitializer.ts --
+// These used to be indexers, now they are computed properties
+interface I {
+    [x = '']: string;
+}
+
+class C {
+    [x = 0]: string
+}

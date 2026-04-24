@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/infinitelyExpandingTypes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js infinitelyExpandingTypes2.js infinitelyExpandingTypes2.ts
+stderr 'TS2322'
+! exists infinitelyExpandingTypes2.js
+! exists infinitelyExpandingTypes2.d.ts
+! exists infinitelyExpandingTypes2.js.map
+
+-- infinitelyExpandingTypes2.ts --
+interface Foo<T> {
+    x: Foo<Foo<T>>;
+} 
+
+interface Bar<T> extends Foo<T> {
+    y: string;
+}
+
+function f(p: Foo<number>) {
+    console.log(p);
+}
+
+var v: Bar<number> = null;
+
+f(v); // should not error

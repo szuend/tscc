@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/importDeclWithDeclareModifierInAmbientContext.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path m=importDeclWithDeclareModifierInAmbientContext.ts --out-js importDeclWithDeclareModifierInAmbientContext.js importDeclWithDeclareModifierInAmbientContext.ts
+stderr 'TS1038'
+! exists importDeclWithDeclareModifierInAmbientContext.js
+! exists importDeclWithDeclareModifierInAmbientContext.d.ts
+! exists importDeclWithDeclareModifierInAmbientContext.js.map
+
+-- importDeclWithDeclareModifierInAmbientContext.ts --
+declare module "m" {
+    namespace x {
+        interface c {
+        }
+    }
+    declare export import a = x.c;
+    var b: a;
+}

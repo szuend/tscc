@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/indexedAccessKeyofNestedSimplifiedSubstituteUnwrapped.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js indexedAccessKeyofNestedSimplifiedSubstituteUnwrapped.js indexedAccessKeyofNestedSimplifiedSubstituteUnwrapped.ts
+stderr 'TS2564'
+! exists indexedAccessKeyofNestedSimplifiedSubstituteUnwrapped.js
+! exists indexedAccessKeyofNestedSimplifiedSubstituteUnwrapped.d.ts
+! exists indexedAccessKeyofNestedSimplifiedSubstituteUnwrapped.js.map
+
+-- indexedAccessKeyofNestedSimplifiedSubstituteUnwrapped.ts --
+type AnyFunction = (...args: any[]) => any;
+type Params<T> = Parameters<Extract<T, AnyFunction>>;
+
+interface Wrapper<T> {
+	call<K extends keyof T>(event: K, ...args: Params<T[K]>): void;
+}
+
+interface AWrapped {
+	foo(): void;
+}
+
+class A {
+	foo: Wrapper<AWrapped>;
+}
+
+interface BWrapped extends AWrapped {
+	bar(): void;
+}
+
+class B extends A {
+	foo: Wrapper<BWrapped>;
+}

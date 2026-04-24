@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/genericCloduleInModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCloduleInModule.js genericCloduleInModule.ts
+stderr 'TS2454'
+! exists genericCloduleInModule.js
+! exists genericCloduleInModule.d.ts
+! exists genericCloduleInModule.js.map
+
+-- genericCloduleInModule.ts --
+namespace A {
+    export class B<T> {
+        foo() { }
+        static bar() { }
+    }
+    export namespace B {
+        export var x = 1;
+    }
+}
+
+var b: A.B<number>;
+b.foo();

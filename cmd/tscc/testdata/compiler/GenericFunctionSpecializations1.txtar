@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/genericFunctionSpecializations1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js genericFunctionSpecializations1.js genericFunctionSpecializations1.ts
+! stderr .
+cmp genericFunctionSpecializations1.js genericFunctionSpecializations1.js.golden
+! exists genericFunctionSpecializations1.d.ts
+! exists genericFunctionSpecializations1.js.map
+
+-- genericFunctionSpecializations1.ts --
+function foo3<T>(test: string); // error
+function foo3<T>(test: T) { }
+
+function foo4<T>(test: string); // valid
+function foo4<T extends String>(test: T) { }
+-- genericFunctionSpecializations1.js.golden --
+"use strict";
+function foo3(test) { }
+function foo4(test) { }

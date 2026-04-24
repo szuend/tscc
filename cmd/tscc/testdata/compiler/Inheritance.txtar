@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/inheritance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritance.js inheritance.ts
+stderr 'TS2425'
+stderr 'TS2416'
+! exists inheritance.js
+! exists inheritance.d.ts
+! exists inheritance.js.map
+
+-- inheritance.ts --
+class B1 {
+    public x;
+}
+
+class B2 {
+    public x;
+}
+
+
+class D1 extends B1 {
+}
+
+class D2 extends B2 {
+}
+
+
+class N {
+    public y:number;
+}
+
+class ND extends N { // any is assignable to number
+    public y;
+}
+
+class Good {
+    public f: () => number = function () { return 0; }
+    public g() { return 0; }
+}
+
+class Baad extends Good {
+    public f(): number { return 0; }
+    public g(n: number) { return 0; }
+}

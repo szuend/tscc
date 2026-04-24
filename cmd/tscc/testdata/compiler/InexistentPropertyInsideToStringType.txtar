@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/inexistentPropertyInsideToStringType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --target es2015 --lib es2015,dom index.js
+stderr 'TS2683'
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+function toString() {
+    this.yadda
+    this.someValue = "";
+}

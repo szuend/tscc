@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/genericsAndHigherOrderFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericsAndHigherOrderFunctions.js genericsAndHigherOrderFunctions.ts
+! stderr .
+cmp genericsAndHigherOrderFunctions.js genericsAndHigherOrderFunctions.js.golden
+! exists genericsAndHigherOrderFunctions.d.ts
+! exists genericsAndHigherOrderFunctions.js.map
+
+-- genericsAndHigherOrderFunctions.ts --
+// no errors expected
+
+var combine: <T, S>(f: (_: T) => S) =>
+    <U>(g: (_: U) => T) =>
+    (x: U) => S
+
+    = <T, S>(f: (_: T) => S) =>
+        <U>(g: (_: U) => T) =>
+            (x: U) => f(g(x))
+
+var foo: <K, N>(g: (x: K) => N) =>
+    (h: <M>(_: (_: K) => (_: M) => M) => (_: M) => M) =>
+    <R>(f: (_: N) => (_: R) => R) => (_: R) => R
+
+    = <K, N>(g: (x: K) => N) =>
+        (h: <M>(_: (_: K) => (_: M) => M) => (_: M) => M) =>
+            <R>(f: (_: N) => (_: R) => R) => h(combine(f)(g))
+-- genericsAndHigherOrderFunctions.js.golden --
+"use strict";
+// no errors expected
+var combine = (f) => (g) => (x) => f(g(x));
+var foo = (g) => (h) => (f) => h(combine(f)(g));

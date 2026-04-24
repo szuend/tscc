@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/interfaceMemberValidation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceMemberValidation.js interfaceMemberValidation.ts
+stderr 'TS2430'
+stderr 'TS2411'
+stderr 'TS2374'
+! exists interfaceMemberValidation.js
+! exists interfaceMemberValidation.d.ts
+! exists interfaceMemberValidation.js.map
+
+-- interfaceMemberValidation.ts --
+interface i1 { name: string; }
+interface i2 extends i1 { name: number; yo: string; }
+
+interface foo {
+ bar():any;
+ bar():any;
+ new():void;
+ new():void;
+ [s:string]:number;
+ [s:string]:number;
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/inheritanceGrandParentPrivateMemberCollisionWithPublicMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceGrandParentPrivateMemberCollisionWithPublicMember.js inheritanceGrandParentPrivateMemberCollisionWithPublicMember.ts
+stderr 'TS2415'
+! exists inheritanceGrandParentPrivateMemberCollisionWithPublicMember.js
+! exists inheritanceGrandParentPrivateMemberCollisionWithPublicMember.d.ts
+! exists inheritanceGrandParentPrivateMemberCollisionWithPublicMember.js.map
+
+-- inheritanceGrandParentPrivateMemberCollisionWithPublicMember.ts --
+class A {
+    private myMethod() { }
+}
+
+class B extends A { }
+
+class C extends B {
+    public myMethod() { }
+}

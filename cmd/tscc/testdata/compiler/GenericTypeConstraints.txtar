@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/genericTypeConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericTypeConstraints.js genericTypeConstraints.ts
+stderr 'TS2741'
+! exists genericTypeConstraints.js
+! exists genericTypeConstraints.d.ts
+! exists genericTypeConstraints.js.map
+
+-- genericTypeConstraints.ts --
+class Foo {
+    fooMethod() {}
+}
+
+class FooExtended { }
+
+class Bar<T extends Foo> { }
+
+class BarExtended extends Bar<FooExtended> {
+    constructor() {
+        super();
+    }
+}

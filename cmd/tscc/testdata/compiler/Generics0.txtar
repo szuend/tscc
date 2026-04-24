@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/generics0.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts generics0.d.ts --target es2015 --lib es2015,dom --out-js generics0.js generics0.ts
+stderr 'TS2454'
+! exists generics0.d.ts
+! exists generics0.js
+! exists generics0.js.map
+
+-- generics0.ts --
+interface G<T> {
+    x: T;
+}
+
+var v2: G<string>;
+
+var z = v2.x; // 'y' should be of type 'string'

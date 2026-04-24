@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/genericConstraintDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts genericConstraintDeclaration.d.ts --target es2015 --lib es2015,dom --out-js genericConstraintDeclaration.js genericConstraintDeclaration.ts
+stderr 'TS2322'
+! exists genericConstraintDeclaration.d.ts
+! exists genericConstraintDeclaration.js
+! exists genericConstraintDeclaration.js.map
+
+-- genericConstraintDeclaration.ts --
+class List<T extends {}>{
+    static empty<T extends {}>(): List<T>{return null;}
+}
+
+
+
+

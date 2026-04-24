@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/incorrectRecursiveMappedTypeConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js incorrectRecursiveMappedTypeConstraint.js incorrectRecursiveMappedTypeConstraint.ts
+stderr 'TS2313'
+stderr 'TS2365'
+! exists incorrectRecursiveMappedTypeConstraint.js
+! exists incorrectRecursiveMappedTypeConstraint.d.ts
+! exists incorrectRecursiveMappedTypeConstraint.js.map
+
+-- incorrectRecursiveMappedTypeConstraint.ts --
+// #17847
+function sum<T extends { [P in T]: number }, K extends keyof T>(n: number, v: T, k: K) {
+    n += v[k];
+}

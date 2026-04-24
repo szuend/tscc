@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/genericConstraint1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericConstraint1.js genericConstraint1.ts
+stderr 'TS2322'
+stderr 'TS2344'
+! exists genericConstraint1.js
+! exists genericConstraint1.d.ts
+! exists genericConstraint1.js.map
+
+-- genericConstraint1.ts --
+class C<T> {
+    public bar2<U extends T>(x: T, y: U): T {
+        return null;
+    }
+}
+
+var x = new C<number>();
+x.bar2<string>(2, "");

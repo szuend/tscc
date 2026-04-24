@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/genericCallWithNonGenericArgs1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericCallWithNonGenericArgs1.js genericCallWithNonGenericArgs1.ts
+! stderr .
+cmp genericCallWithNonGenericArgs1.js genericCallWithNonGenericArgs1.js.golden
+! exists genericCallWithNonGenericArgs1.d.ts
+! exists genericCallWithNonGenericArgs1.js.map
+
+-- genericCallWithNonGenericArgs1.ts --
+function f<T>(x: any) { }
+f<any>(null)
+-- genericCallWithNonGenericArgs1.js.golden --
+"use strict";
+function f(x) { }
+f(null);

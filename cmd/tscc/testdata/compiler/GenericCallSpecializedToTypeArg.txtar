@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/genericCallSpecializedToTypeArg.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCallSpecializedToTypeArg.js genericCallSpecializedToTypeArg.ts
+stderr 'TS2339'
+! exists genericCallSpecializedToTypeArg.js
+! exists genericCallSpecializedToTypeArg.d.ts
+! exists genericCallSpecializedToTypeArg.js.map
+
+-- genericCallSpecializedToTypeArg.ts --
+function dupe<T>(x: T): T {
+  return x;
+}
+function dupeAndGetDist<U>(x: U): U {
+  var y = dupe(x); //<-- dupe has incorrect type here
+  y.getDist();     //<-- this requires a missing constraint, but it's not caught
+  return y;
+}

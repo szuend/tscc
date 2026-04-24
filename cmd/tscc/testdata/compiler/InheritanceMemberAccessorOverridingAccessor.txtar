@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/inheritanceMemberAccessorOverridingAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceMemberAccessorOverridingAccessor.js inheritanceMemberAccessorOverridingAccessor.ts
+! stderr .
+cmp inheritanceMemberAccessorOverridingAccessor.js inheritanceMemberAccessorOverridingAccessor.js.golden
+! exists inheritanceMemberAccessorOverridingAccessor.d.ts
+! exists inheritanceMemberAccessorOverridingAccessor.js.map
+
+-- inheritanceMemberAccessorOverridingAccessor.ts --
+class a {
+    get x() {
+        return "20";
+    }
+    set x(aValue: string) {
+
+    }
+}
+
+class b extends a {
+    get x() {
+        return "20";
+    }
+    set x(aValue: string) {
+
+    }
+}
+-- inheritanceMemberAccessorOverridingAccessor.js.golden --
+"use strict";
+class a {
+    get x() {
+        return "20";
+    }
+    set x(aValue) {
+    }
+}
+class b extends a {
+    get x() {
+        return "20";
+    }
+    set x(aValue) {
+    }
+}

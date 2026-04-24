@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/interfacePropertiesWithSameName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfacePropertiesWithSameName2.js interfacePropertiesWithSameName2.ts
+stderr 'TS2320'
+! exists interfacePropertiesWithSameName2.js
+! exists interfacePropertiesWithSameName2.d.ts
+! exists interfacePropertiesWithSameName2.js.map
+
+-- interfacePropertiesWithSameName2.ts --
+interface Mover {
+    move(): void;
+    getStatus(): { speed: number; };
+}
+interface Shaker {
+    shake(): void;
+    getStatus(): { frequency: number; };
+}
+
+interface MoverShaker extends Mover, Shaker {
+
+}
+
+// Inside a module
+declare namespace MoversAndShakers {
+    export class Mover {
+        move(): void;
+        getStatus(): { speed: number; };
+    }
+    export interface Shaker {
+        shake(): void;
+        getStatus(): { frequency: number; };
+    }
+}
+
+interface MoverShaker2 extends MoversAndShakers.Mover, MoversAndShakers.Shaker { } // error
+
+interface MoverShaker3 extends MoversAndShakers.Mover, MoversAndShakers.Shaker {
+    getStatus(): { speed: number; frequency: number; }; // ok because this getStatus overrides the conflicting ones above
+}

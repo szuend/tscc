@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/interfaceImplementation6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js interfaceImplementation6.js interfaceImplementation6.ts
+stderr 'TS2564'
+stderr 'TS2420'
+! exists interfaceImplementation6.js
+! exists interfaceImplementation6.d.ts
+! exists interfaceImplementation6.js.map
+
+-- interfaceImplementation6.ts --
+interface I1 {
+    item:number;
+}
+
+class C1 implements I1 {
+    public item:number;
+}
+
+class C2 implements I1 {
+    private item:number;
+}
+
+class C3 implements I1 {
+    constructor() {
+       var item: number;
+    }
+}
+ 
+export class Test {
+    private pt: I1 = { item: 1 };
+}
+
+

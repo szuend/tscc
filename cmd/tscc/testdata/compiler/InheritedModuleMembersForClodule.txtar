@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/inheritedModuleMembersForClodule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inheritedModuleMembersForClodule.js inheritedModuleMembersForClodule.ts
+stderr 'TS2417'
+! exists inheritedModuleMembersForClodule.js
+! exists inheritedModuleMembersForClodule.d.ts
+! exists inheritedModuleMembersForClodule.js.map
+
+-- inheritedModuleMembersForClodule.ts --
+class C {
+    static foo(): string {
+        return "123";
+    }
+}
+
+class D extends C {
+}
+
+namespace D {
+    export function foo(): number {
+        return 0;
+    };
+}
+
+class E extends D {
+    static bar() {
+        return this.foo();
+    }
+}

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/importAsBaseClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importAsBaseClass_1.js importAsBaseClass_1.ts
+stderr 'TS2507'
+! exists importAsBaseClass_1.js
+! exists importAsBaseClass_1.d.ts
+! exists importAsBaseClass_1.js.map
+
+-- importAsBaseClass_0.ts --
+export class Greeter {
+   greet() { return 'greet' }
+}
+-- importAsBaseClass_1.ts --
+import Greeter = require("./importAsBaseClass_0");
+class Hello extends Greeter { }

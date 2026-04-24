@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/interfaceNaming1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceNaming1.js interfaceNaming1.ts
+stderr 'TS1438'
+! exists interfaceNaming1.js
+! exists interfaceNaming1.d.ts
+! exists interfaceNaming1.js.map
+
+-- interfaceNaming1.ts --
+interface { }
+interface interface{ }
+interface & { }

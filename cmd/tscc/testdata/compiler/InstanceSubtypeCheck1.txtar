@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/instanceSubtypeCheck1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js instanceSubtypeCheck1.js instanceSubtypeCheck1.ts
+! stderr .
+cmp instanceSubtypeCheck1.js instanceSubtypeCheck1.js.golden
+! exists instanceSubtypeCheck1.d.ts
+! exists instanceSubtypeCheck1.js.map
+
+-- instanceSubtypeCheck1.ts --
+interface A<T>
+{
+   x: A<B<T>>
+}
+ 
+interface B<T> extends A<T>
+{
+   x: B<A<T>>
+}
+-- instanceSubtypeCheck1.js.golden --
+"use strict";

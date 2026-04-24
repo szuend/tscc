@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/genericFunctions2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts genericFunctions2.d.ts --target es2015 --lib es2015,dom --out-js genericFunctions2.js genericFunctions2.ts
+stderr 'TS2454'
+! exists genericFunctions2.d.ts
+! exists genericFunctions2.js
+! exists genericFunctions2.js.map
+
+-- genericFunctions2.ts --
+declare function map <T, U > (items: T[], f: (x: T) => U): U[];
+
+var myItems: string[];
+var lengths = map(myItems, x => x.length);
+

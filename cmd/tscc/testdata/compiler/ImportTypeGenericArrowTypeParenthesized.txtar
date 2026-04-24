@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/importTypeGenericArrowTypeParenthesized.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --target es2015 --lib es2015,dom --path module=module.d.ts --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- index.ts --
+import { fn } from "module";
+
+export const fail1 = fn(<T>(x: T): T => x);
+export const fail2 = fn(function<T>(x: T): T {
+  return x;
+});
+
+export const works1 = fn((x: number) => x);
+type MakeItWork = <T>(x: T) => T;
+export const works2 = fn<MakeItWork>(x => x);
+-- module.d.ts --
+declare module "module" {
+    export interface Modifier<T> { }
+
+    export function fn<T>(x: T): Modifier<T>;
+}
+-- index.d.ts.golden --
+export declare const fail1: import("module").Modifier<<T>(x: T) => T>;
+export declare const fail2: import("module").Modifier<<T>(x: T) => T>;
+export declare const works1: import("module").Modifier<(x: number) => number>;
+type MakeItWork = <T>(x: T) => T;
+export declare const works2: import("module").Modifier<MakeItWork>;
+export {};
+-- index.js.golden --
+import { fn } from "module";
+export const fail1 = fn((x) => x);
+export const fail2 = fn(function (x) {
+    return x;
+});
+export const works1 = fn((x) => x);
+export const works2 = fn(x => x);

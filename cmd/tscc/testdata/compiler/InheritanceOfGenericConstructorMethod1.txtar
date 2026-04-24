@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/inheritanceOfGenericConstructorMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inheritanceOfGenericConstructorMethod1.js inheritanceOfGenericConstructorMethod1.ts
+! stderr .
+cmp inheritanceOfGenericConstructorMethod1.js inheritanceOfGenericConstructorMethod1.js.golden
+! exists inheritanceOfGenericConstructorMethod1.d.ts
+! exists inheritanceOfGenericConstructorMethod1.js.map
+
+-- inheritanceOfGenericConstructorMethod1.ts --
+class A<T> { }
+class B<T> extends A<T> {}
+var a = new A<Date>();
+var b1 = new B(); // no error
+var b2: B<Date> = new B<Date>(); // no error
+var b3 = new B<Date>(); // error, could not select overload for 'new' expression
+-- inheritanceOfGenericConstructorMethod1.js.golden --
+"use strict";
+class A {
+}
+class B extends A {
+}
+var a = new A();
+var b1 = new B(); // no error
+var b2 = new B(); // no error
+var b3 = new B(); // error, could not select overload for 'new' expression

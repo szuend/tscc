@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/genericWithCallSignatures1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js genericWithCallSignatures_0.js genericWithCallSignatures_0.ts
+! stderr .
+cmp genericWithCallSignatures_0.js genericWithCallSignatures_0.js.golden
+! exists genericWithCallSignatures_0.d.ts
+! exists genericWithCallSignatures_0.js.map
+
+-- genericWithCallSignatures_0.ts --
+interface Callable<T> {
+    (): T;
+    (value: T): void;
+}
+
+interface CallableExtention<T> extends Callable<T> { }
+-- genericWithCallSignatures_1.ts --
+///<reference path="genericWithCallSignatures_0.ts"/>
+class MyClass {
+    public callableThing: CallableExtention<string>;
+
+    public myMethod() {
+        var x = <string> this.callableThing();
+    }
+}
+-- genericWithCallSignatures_0.js.golden --
+"use strict";

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/genericCloneReturnTypes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericCloneReturnTypes2.js genericCloneReturnTypes2.ts
+stderr 'TS2454'
+stderr 'TS2322'
+! exists genericCloneReturnTypes2.js
+! exists genericCloneReturnTypes2.d.ts
+! exists genericCloneReturnTypes2.js.map
+
+-- genericCloneReturnTypes2.ts --
+class MyList<T> {
+    public size: number;
+    public data: T[];
+    constructor(n: number) {
+        this.size = n;
+        this.data = new Array<T>(this.size);
+    }
+    public clone() {
+        return new MyList<T>(this.size);
+    }
+}
+var a: MyList<string>;
+var b: MyList<any> = a.clone(); // ok
+var c: MyList<string> = a.clone(); // bug was there was an error on this line
+var d: MyList<number> = a.clone(); // error

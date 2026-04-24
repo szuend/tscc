@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/genericTypeAssertions4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericTypeAssertions4.js genericTypeAssertions4.ts
+stderr 'TS2322'
+stderr 'TS2352'
+! exists genericTypeAssertions4.js
+! exists genericTypeAssertions4.d.ts
+! exists genericTypeAssertions4.js.map
+
+-- genericTypeAssertions4.ts --
+class A {
+    foo() { return ""; }
+}
+
+class B extends A {
+    bar() { return 1; }
+}
+
+class C extends A {
+    baz() { return 1; }
+}
+
+var a: A;
+var b: B;
+var c: C;
+
+function foo2<T extends A>(x: T) {
+    var y = x;
+    y = a; // error: cannot convert A to T
+    y = b; // error: cannot convert B to T
+    y = c; // error: cannot convert C to T
+    y = <T>a;
+    y = <T>b; // error: cannot convert B to T
+    y = <T>c; // error: cannot convert C to T
+}

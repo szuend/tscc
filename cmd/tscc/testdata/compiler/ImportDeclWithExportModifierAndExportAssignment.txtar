@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/importDeclWithExportModifierAndExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js importDeclWithExportModifierAndExportAssignment.js importDeclWithExportModifierAndExportAssignment.ts
+stderr 'TS2708'
+stderr 'TS2694'
+stderr 'TS2309'
+! exists importDeclWithExportModifierAndExportAssignment.js
+! exists importDeclWithExportModifierAndExportAssignment.d.ts
+! exists importDeclWithExportModifierAndExportAssignment.js.map
+
+-- importDeclWithExportModifierAndExportAssignment.ts --
+namespace x {
+    interface c {
+    }
+}
+export import a = x.c;
+export = x;

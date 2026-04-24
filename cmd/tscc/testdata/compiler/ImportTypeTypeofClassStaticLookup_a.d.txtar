@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/importTypeTypeofClassStaticLookup.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js a.d.js a.d.ts
+! stderr .
+! exists a.d.d.ts
+! exists a.d.js
+! exists a.d.js.map
+
+-- a.d.ts --
+export declare class A {
+    static foo(): void;
+}
+-- index.d.ts --
+export const foo: typeof import("./a").A.foo;

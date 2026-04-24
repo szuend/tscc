@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/interfaceImplementation7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceImplementation7.js interfaceImplementation7.ts
+stderr 'TS2320'
+stderr 'TS2416'
+! exists interfaceImplementation7.js
+! exists interfaceImplementation7.d.ts
+! exists interfaceImplementation7.js.map
+
+-- interfaceImplementation7.ts --
+interface i1{ name(): { s: string; }; }
+interface i2{ name(): { n: number; }; }
+
+interface i3 extends i1, i2 { }
+interface i4 extends i1, i2 { name(): { s: string; n: number; }; }
+
+class C1 implements i4 {
+    public name(): string { return ""; }
+}

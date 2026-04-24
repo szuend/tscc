@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/interfaceImplementation4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js interfaceImplementation4.js interfaceImplementation4.ts
+stderr 'TS2420'
+stderr 'TS2564'
+! exists interfaceImplementation4.js
+! exists interfaceImplementation4.d.ts
+! exists interfaceImplementation4.js.map
+
+-- interfaceImplementation4.ts --
+interface I1 {
+    iObj:{ };
+    iNum:number;
+    iAny:any;
+    iFn():void;
+}
+
+class C5 implements I1 {
+    public iNum:number;
+    public iAny:any;
+    public iFn() { }
+}

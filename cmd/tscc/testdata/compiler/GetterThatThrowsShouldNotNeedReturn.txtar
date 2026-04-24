@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/getterThatThrowsShouldNotNeedReturn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js getterThatThrowsShouldNotNeedReturn.js getterThatThrowsShouldNotNeedReturn.ts
+! stderr .
+cmp getterThatThrowsShouldNotNeedReturn.js getterThatThrowsShouldNotNeedReturn.js.golden
+! exists getterThatThrowsShouldNotNeedReturn.d.ts
+! exists getterThatThrowsShouldNotNeedReturn.js.map
+
+-- getterThatThrowsShouldNotNeedReturn.ts --
+class Greeter {
+ public get greet(): string {
+  throw ''; // should not raise an error
+ }
+ public greeting(): string {
+  throw ''; // should not raise an error
+ }
+}
+-- getterThatThrowsShouldNotNeedReturn.js.golden --
+"use strict";
+class Greeter {
+    get greet() {
+        throw ''; // should not raise an error
+    }
+    greeting() {
+        throw ''; // should not raise an error
+    }
+}

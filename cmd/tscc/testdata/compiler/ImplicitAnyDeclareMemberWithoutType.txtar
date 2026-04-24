@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/implicitAnyDeclareMemberWithoutType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js implicitAnyDeclareMemberWithoutType.js implicitAnyDeclareMemberWithoutType.ts
+stderr 'TS7008'
+stderr 'TS7010'
+stderr 'TS7006'
+stderr 'TS7013'
+! exists implicitAnyDeclareMemberWithoutType.js
+! exists implicitAnyDeclareMemberWithoutType.d.ts
+! exists implicitAnyDeclareMemberWithoutType.js.map
+
+-- implicitAnyDeclareMemberWithoutType.ts --
+// this should be an error
+interface IFace {
+    member1;  // error at "member1"
+    member2: string;
+    constructor(c1, c2: string, c3);  // error at "c1, c3, "constructor"
+    funcOfIFace(f1, f2, f3: number);   // error at "f1, f2, funcOfIFace"
+    new ();
+}

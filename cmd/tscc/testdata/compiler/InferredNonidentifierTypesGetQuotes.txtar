@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/inferredNonidentifierTypesGetQuotes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts inferredNonidentifierTypesGetQuotes.d.ts --target es2015 --lib es2015,dom --out-js inferredNonidentifierTypesGetQuotes.js inferredNonidentifierTypesGetQuotes.ts
+! stderr .
+cmp inferredNonidentifierTypesGetQuotes.d.ts inferredNonidentifierTypesGetQuotes.d.ts.golden
+cmp inferredNonidentifierTypesGetQuotes.js inferredNonidentifierTypesGetQuotes.js.golden
+! exists inferredNonidentifierTypesGetQuotes.js.map
+
+-- inferredNonidentifierTypesGetQuotes.ts --
+var x = [{ "a-b": "string" }, {}];
+
+var y = [{ ["a-b"]: "string" }, {}];
+-- inferredNonidentifierTypesGetQuotes.d.ts.golden --
+declare var x: ({
+    "a-b": string;
+} | {
+    "a-b"?: undefined;
+})[];
+declare var y: ({
+    "a-b": string;
+} | {
+    "a-b"?: undefined;
+})[];
+-- inferredNonidentifierTypesGetQuotes.js.golden --
+"use strict";
+var x = [{ "a-b": "string" }, {}];
+var y = [{ ["a-b"]: "string" }, {}];

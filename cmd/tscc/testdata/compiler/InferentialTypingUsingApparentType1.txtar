@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/inferentialTypingUsingApparentType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inferentialTypingUsingApparentType1.js inferentialTypingUsingApparentType1.ts
+stderr 'TS2322'
+! exists inferentialTypingUsingApparentType1.js
+! exists inferentialTypingUsingApparentType1.d.ts
+! exists inferentialTypingUsingApparentType1.js.map
+
+-- inferentialTypingUsingApparentType1.ts --
+function foo<T extends (p: string) => number>(x: T): T {
+    return undefined;
+}
+
+foo(x => x.length);

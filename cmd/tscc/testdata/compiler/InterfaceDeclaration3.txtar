@@ -1,0 +1,65 @@
+# Ported from tests/cases/compiler/interfaceDeclaration3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js interfaceDeclaration3.js interfaceDeclaration3.ts
+stderr 'TS2416'
+stderr 'TS2564'
+stderr 'TS2430'
+! exists interfaceDeclaration3.js
+! exists interfaceDeclaration3.d.ts
+! exists interfaceDeclaration3.js.map
+
+-- interfaceDeclaration3.ts --
+interface I1 { item:number; }
+
+namespace M1 {
+    interface I1 { item:string; }  
+    interface I2 { item:number; }   
+    class C1 implements I1 {
+        public item:number;
+    }
+    class C2 implements I1 {
+        public item:string;
+    }
+    class C3 implements I2 {
+        public item:number;
+    }
+    
+    class C4 implements M2.I1 { 
+        public item:string;
+    }
+
+    class C5 implements M2.M3.I1 {
+        public item:string;
+    }
+}
+
+export namespace M2 {
+    export interface I1 { item:string; }
+    export interface I2 { item:string; }
+    export namespace M3 {
+        export interface I1 { item:string; }
+    }
+    class C1 implements I1 {
+        public item:number;    
+    }
+    class C2 implements I1 {
+        public item:string;    
+    }
+    class C3 implements I2 {
+        public item:string;    
+    }
+}
+
+class C1 implements I1 {
+    public item:number;
+}
+
+class C2 implements M2.I1 { 
+    public item:string;
+}
+
+class C3 implements M2.M3.I1 {
+    public item:string;
+}
+
+interface I2 extends I1 { item:string; }

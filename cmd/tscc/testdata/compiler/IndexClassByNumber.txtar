@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/indexClassByNumber.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js indexClassByNumber.js indexClassByNumber.ts
+! stderr .
+cmp indexClassByNumber.js indexClassByNumber.js.golden
+! exists indexClassByNumber.d.ts
+! exists indexClassByNumber.js.map
+
+-- indexClassByNumber.ts --
+// Shouldn't be able to index a class instance by a number (unless it has declared a number index signature)
+
+class foo { }
+
+var f = new foo();
+
+f[0] = 4; // Shouldn't be allowed
+-- indexClassByNumber.js.golden --
+"use strict";
+// Shouldn't be able to index a class instance by a number (unless it has declared a number index signature)
+class foo {
+}
+var f = new foo();
+f[0] = 4; // Shouldn't be allowed

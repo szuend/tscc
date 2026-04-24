@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/inOperatorWithGeneric.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js inOperatorWithGeneric.js inOperatorWithGeneric.ts
+! stderr .
+cmp inOperatorWithGeneric.js inOperatorWithGeneric.js.golden
+! exists inOperatorWithGeneric.d.ts
+! exists inOperatorWithGeneric.js.map
+
+-- inOperatorWithGeneric.ts --
+class C<T> {
+    foo(x:T) {
+        for (var p in x) {
+        }
+    }
+}
+-- inOperatorWithGeneric.js.golden --
+"use strict";
+class C {
+    foo(x) {
+        for (var p in x) {
+        }
+    }
+}

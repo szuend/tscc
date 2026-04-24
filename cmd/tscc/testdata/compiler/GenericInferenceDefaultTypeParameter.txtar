@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/genericInferenceDefaultTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js genericInferenceDefaultTypeParameter.js genericInferenceDefaultTypeParameter.ts
+! stderr .
+cmp genericInferenceDefaultTypeParameter.js genericInferenceDefaultTypeParameter.js.golden
+! exists genericInferenceDefaultTypeParameter.d.ts
+! exists genericInferenceDefaultTypeParameter.js.map
+
+-- genericInferenceDefaultTypeParameter.ts --
+// Repro from #50858
+
+type Type = {
+    a: (e: string) => void;
+    b: (e: number) => void;
+}
+
+declare function f1<T extends keyof Type = "a">(props: Type[T]): void;
+
+f1(event => { });
+f1<"a">(event => { });
+f1<"b">(event => { });
+-- genericInferenceDefaultTypeParameter.js.golden --
+"use strict";
+// Repro from #50858
+f1(event => { });
+f1(event => { });
+f1(event => { });

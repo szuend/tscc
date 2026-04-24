@@ -1,0 +1,9 @@
+# Ported from tests/cases/compiler/inferenceExactOptionalProperties1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --exact-optional-property-types --strict --target es2015 --lib es2015,dom inferenceExactOptionalProperties1.ts
+! stderr .
+! exists inferenceExactOptionalProperties1.d.ts
+! exists inferenceExactOptionalProperties1.js.map
+
+-- inferenceExactOptionalProperties1.ts --
+type Test1 = { prop?: never } extends { prop?: infer T } ? T : false; // never

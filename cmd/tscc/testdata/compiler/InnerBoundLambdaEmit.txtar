@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/innerBoundLambdaEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js innerBoundLambdaEmit.js innerBoundLambdaEmit.ts
+! stderr .
+cmp innerBoundLambdaEmit.js innerBoundLambdaEmit.js.golden
+! exists innerBoundLambdaEmit.d.ts
+! exists innerBoundLambdaEmit.js.map
+
+-- innerBoundLambdaEmit.ts --
+namespace M {
+    export class Foo {
+    }
+    var bar = () => { };
+}
+interface Array<T> {
+    toFoo(): M.Foo
+}
+-- innerBoundLambdaEmit.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class Foo {
+    }
+    M.Foo = Foo;
+    var bar = () => { };
+})(M || (M = {}));

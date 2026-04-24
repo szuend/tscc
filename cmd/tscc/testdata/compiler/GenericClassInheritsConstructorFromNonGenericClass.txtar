@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/genericClassInheritsConstructorFromNonGenericClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericClassInheritsConstructorFromNonGenericClass.js genericClassInheritsConstructorFromNonGenericClass.ts
+stderr 'TS2449'
+! exists genericClassInheritsConstructorFromNonGenericClass.js
+! exists genericClassInheritsConstructorFromNonGenericClass.d.ts
+! exists genericClassInheritsConstructorFromNonGenericClass.js.map
+
+-- genericClassInheritsConstructorFromNonGenericClass.ts --
+class A extends B<string> { }
+class B<U> extends C { }
+class C {
+    constructor(p: string) { }
+}

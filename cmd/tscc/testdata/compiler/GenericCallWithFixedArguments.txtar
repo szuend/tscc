@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/genericCallWithFixedArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js genericCallWithFixedArguments.js genericCallWithFixedArguments.ts
+! stderr .
+cmp genericCallWithFixedArguments.js genericCallWithFixedArguments.js.golden
+! exists genericCallWithFixedArguments.d.ts
+! exists genericCallWithFixedArguments.js.map
+
+-- genericCallWithFixedArguments.ts --
+class A { foo() { } }
+class B { bar() { }} 
+
+function g<T, U>(x) { }
+g<A, B>(7) // the parameter list is fixed, so this should not error
+ 
+-- genericCallWithFixedArguments.js.golden --
+"use strict";
+class A {
+    foo() { }
+}
+class B {
+    bar() { }
+}
+function g(x) { }
+g(7); // the parameter list is fixed, so this should not error

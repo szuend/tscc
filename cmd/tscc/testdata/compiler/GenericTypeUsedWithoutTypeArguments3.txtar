@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/genericTypeUsedWithoutTypeArguments3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericTypeUsedWithoutTypeArguments3.js genericTypeUsedWithoutTypeArguments3.ts
+stderr 'TS2314'
+! exists genericTypeUsedWithoutTypeArguments3.js
+! exists genericTypeUsedWithoutTypeArguments3.d.ts
+! exists genericTypeUsedWithoutTypeArguments3.js.map
+
+-- genericTypeUsedWithoutTypeArguments3.ts --
+interface Foo<T> { }
+interface Bar<T> extends Foo { }

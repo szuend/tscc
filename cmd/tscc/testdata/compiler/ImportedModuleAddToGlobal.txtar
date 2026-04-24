@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/importedModuleAddToGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js importedModuleAddToGlobal.js importedModuleAddToGlobal.ts
+stderr 'TS2833'
+! exists importedModuleAddToGlobal.js
+! exists importedModuleAddToGlobal.d.ts
+! exists importedModuleAddToGlobal.js.map
+
+-- importedModuleAddToGlobal.ts --
+// Binding for an import statement in a typeref position is being added to the global scope
+// Shouldn't compile b.B is not defined in C
+namespace A {
+    import b = B;
+    import c = C;
+}
+
+namespace B {
+    import a = A;
+    export class B { }
+}
+
+namespace C {
+    import a = A;
+    function hello(): b.B { return null; }
+}

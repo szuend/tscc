@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/genericFunctionCallSignatureReturnTypeMismatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericFunctionCallSignatureReturnTypeMismatch.js genericFunctionCallSignatureReturnTypeMismatch.ts
+stderr 'TS2322'
+! exists genericFunctionCallSignatureReturnTypeMismatch.js
+! exists genericFunctionCallSignatureReturnTypeMismatch.d.ts
+! exists genericFunctionCallSignatureReturnTypeMismatch.js.map
+
+-- genericFunctionCallSignatureReturnTypeMismatch.ts --
+interface Array<T> {}
+
+declare var f : { <T>(x:T): T; }
+
+declare var g : { <S>() : S[]; };
+f = g;
+
+var s = f("str").toUpperCase();
+
+console.log(s);

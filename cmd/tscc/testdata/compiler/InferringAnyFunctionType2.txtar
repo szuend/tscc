@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/inferringAnyFunctionType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js inferringAnyFunctionType2.js inferringAnyFunctionType2.ts
+! stderr .
+cmp inferringAnyFunctionType2.js inferringAnyFunctionType2.js.golden
+! exists inferringAnyFunctionType2.d.ts
+! exists inferringAnyFunctionType2.js.map
+
+-- inferringAnyFunctionType2.ts --
+function f<T extends [(p1: number) => number]>(p: T): T {
+    return p;
+}
+
+var v = f([x => x]);
+-- inferringAnyFunctionType2.js.golden --
+"use strict";
+function f(p) {
+    return p;
+}
+var v = f([x => x]);

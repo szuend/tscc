@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/inheritedConstructorWithRestParams2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js inheritedConstructorWithRestParams2.js inheritedConstructorWithRestParams2.ts
+stderr 'TS2345'
+stderr 'TS2769'
+! exists inheritedConstructorWithRestParams2.js
+! exists inheritedConstructorWithRestParams2.d.ts
+! exists inheritedConstructorWithRestParams2.js.map
+
+-- inheritedConstructorWithRestParams2.ts --
+class IBaseBase<T, U> {
+    constructor(x: U) { }
+}
+
+interface IBase<T, U> extends IBaseBase<T, U> { }
+
+class BaseBase2 {
+    constructor(x: number) { }
+}
+
+declare class BaseBase<T, U> extends BaseBase2 implements IBase<T, U> {
+    constructor(x: T, ...y: U[]);
+    constructor(x1: T, x2: T, ...y: U[]);
+    constructor(x1: T, x2: U, y: T);
+}
+
+class Base extends BaseBase<string, number> {
+}
+
+class Derived extends Base { }
+
+// Ok
+new Derived("", "");
+new Derived("", 3);
+new Derived("", 3, 3);
+new Derived("", 3, 3, 3);
+new Derived("", 3, "");
+new Derived("", "", 3);
+new Derived("", "", 3, 3);
+
+// Errors
+new Derived(3);
+new Derived("", 3, "", 3);
+new Derived("", 3, "", "");
