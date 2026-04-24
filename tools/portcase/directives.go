@@ -173,7 +173,7 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			}
 		case "allowsyntheticdefaultimports":
 			if strings.ToLower(value) == "false" {
-				return nil, &SkipError{Directive: key, Reason: "false is unsupported"}
+				return nil, &IgnoreError{Directive: key, Reason: "false is permanently unsupported by typescript-go"}
 			}
 			// true or empty is the default, so we can just ignore it
 		case "lib":
