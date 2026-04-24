@@ -130,6 +130,11 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 				return nil, &SkipError{Directive: key, Reason: "false is unsupported (deprecated)"}
 			}
 			// true or empty is the default, so we can just ignore it
+		case "noemitonerror":
+			if strings.ToLower(value) == "false" {
+				return nil, &SkipError{Directive: key, Reason: "false is unsupported (tscc never emits on error)"}
+			}
+			// true is the default for tscc
 		case "skiplibcheck":
 			if strings.ToLower(value) == "true" || value == "" {
 				flags = append(flags, "--skip-lib-check")

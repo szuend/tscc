@@ -161,6 +161,41 @@ func TestTranslateDirectives(t *testing.T) {
 			},
 			wantSkip: true,
 		},
+		{
+			name: "alwaysStrict false unsupported",
+			directives: map[string]string{
+				"alwaysStrict": "false",
+			},
+			wantSkip: true,
+		},
+		{
+			name: "alwaysStrict true ignored",
+			directives: map[string]string{
+				"alwaysStrict": "true",
+			},
+			wantFlags: []string{"--lib", "es2025,dom"},
+		},
+		{
+			name: "noEmitOnError false unsupported",
+			directives: map[string]string{
+				"noEmitOnError": "false",
+			},
+			wantSkip: true,
+		},
+		{
+			name: "noEmitOnError true ignored",
+			directives: map[string]string{
+				"noEmitOnError": "true",
+			},
+			wantFlags: []string{"--lib", "es2025,dom"},
+		},
+		{
+			name: "target es5 unsupported",
+			directives: map[string]string{
+				"target": "es5",
+			},
+			wantSkip: true,
+		},
 	}
 
 	for _, tt := range tests {
