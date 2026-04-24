@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/arrayCast.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayCast.js arrayCast.ts
+stderr 'TS2353'
+! exists arrayCast.js
+! exists arrayCast.d.ts
+! exists arrayCast.js.map
+
+-- arrayCast.ts --
+// Should fail. Even though the array is contextually typed with { id: number }[], it still
+// has type { foo: string }[], which is not assignable to { id: number }[].
+<{ id: number; }[]>[{ foo: "s" }];
+
+// Should succeed, as the {} element causes the type of the array to be {}[]
+<{ id: number; }[]>[{ foo: "s" }, {}]; 

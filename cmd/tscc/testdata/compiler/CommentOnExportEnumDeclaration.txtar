@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/commentOnExportEnumDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js commentOnExportEnumDeclaration.js commentOnExportEnumDeclaration.ts
+! stderr .
+cmp commentOnExportEnumDeclaration.js commentOnExportEnumDeclaration.js.golden
+! exists commentOnExportEnumDeclaration.d.ts
+! exists commentOnExportEnumDeclaration.js.map
+
+-- commentOnExportEnumDeclaration.ts --
+/**
+ * comment
+ */
+export enum Color {
+    r, g, b
+}
+-- commentOnExportEnumDeclaration.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Color = void 0;
+/**
+ * comment
+ */
+var Color;
+(function (Color) {
+    Color[Color["r"] = 0] = "r";
+    Color[Color["g"] = 1] = "g";
+    Color[Color["b"] = 2] = "b";
+})(Color || (exports.Color = Color = {}));

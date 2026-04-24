@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/argumentsObjectCreatesRestForJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom main.js
+stderr 'TS2554'
+! exists main.d.ts
+! exists main.js.map
+
+-- main.js --
+function allRest() { arguments; }
+allRest();
+allRest(1, 2, 3);
+function someRest(x, y) { arguments; }
+someRest(); // x and y are still optional because they are in a JS file
+someRest(1, 2, 3);
+
+/**
+ * @param {number} x - a thing
+ */
+function jsdocced(x) { arguments; }
+jsdocced(1);
+
+function dontDoubleRest(x, ...y) { arguments; }
+dontDoubleRest(1, 2, 3);
+

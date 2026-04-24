@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/assignmentCompatFunctionsWithOptionalArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assignmentCompatFunctionsWithOptionalArgs.js assignmentCompatFunctionsWithOptionalArgs.ts
+stderr 'TS2391'
+stderr 'TS2322'
+stderr 'TS2741'
+! exists assignmentCompatFunctionsWithOptionalArgs.js
+! exists assignmentCompatFunctionsWithOptionalArgs.d.ts
+! exists assignmentCompatFunctionsWithOptionalArgs.js.map
+
+-- assignmentCompatFunctionsWithOptionalArgs.ts --
+function foo(x: { id: number; name?: string; }): void;
+foo({ id: 1234 });                 // Ok
+foo({ id: 1234, name: "hello" });  // Ok
+foo({ id: 1234, name: false });    // Error, name of wrong type
+foo({ name: "hello" });            // Error, id required but missing

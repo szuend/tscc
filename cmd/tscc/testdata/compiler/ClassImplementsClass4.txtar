@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/classImplementsClass4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classImplementsClass4.js classImplementsClass4.ts
+stderr 'TS2720'
+stderr 'TS2322'
+! exists classImplementsClass4.js
+! exists classImplementsClass4.d.ts
+! exists classImplementsClass4.js.map
+
+-- classImplementsClass4.ts --
+class A {
+    private x = 1;
+    foo(): number { return 1; }
+}
+class C implements A {
+    foo() {
+        return 1;
+    }
+}
+
+class C2 extends A {}
+
+declare var c: C;
+declare var c2: C2;
+c = c2;
+c2 = c;

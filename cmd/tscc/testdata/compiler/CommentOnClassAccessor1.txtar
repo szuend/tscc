@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/commentOnClassAccessor1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentOnClassAccessor1.js commentOnClassAccessor1.ts
+! stderr .
+cmp commentOnClassAccessor1.js commentOnClassAccessor1.js.golden
+! exists commentOnClassAccessor1.d.ts
+! exists commentOnClassAccessor1.js.map
+
+-- commentOnClassAccessor1.ts --
+class C {
+  /**
+   * @type {number}
+   */
+  get bar(): number { return 1;}
+}
+-- commentOnClassAccessor1.js.golden --
+"use strict";
+class C {
+    /**
+     * @type {number}
+     */
+    get bar() { return 1; }
+}

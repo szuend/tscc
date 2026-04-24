@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/classAttributeInferenceTemplateJS.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --strict --target esnext --lib esnext,dom index.js
+! stderr .
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+class MyClass {
+    property;
+    property2;
+
+    constructor() {
+        const variable = 'something'
+
+        this.property = `foo`; // Correctly inferred as `string`
+        this.property2 = `foo-${variable}`; // Causes an error
+
+        const localProperty = `foo-${variable}`; // Correctly inferred as `string`
+    }
+}
+
+class MyClass2 {
+    accessor property;
+    accessor property2;
+
+    constructor() {
+        const variable = 'something'
+
+        this.property = `foo`; // Correctly inferred as `string`
+        this.property2 = `foo-${variable}`; // Causes an error
+
+        const localProperty = `foo-${variable}`; // Correctly inferred as `string`
+    }
+}

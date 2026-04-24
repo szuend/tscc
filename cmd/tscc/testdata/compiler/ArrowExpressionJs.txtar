@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/arrowExpressionJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom mytest.js
+! stderr .
+! exists mytest.d.ts
+! exists mytest.js.map
+
+-- mytest.js --
+/**
+ * @template T
+ * @param {T|undefined} value value or not
+ * @returns {T} result value
+ */
+const cloneObjectGood = value => /** @type {T} */({ ...value });

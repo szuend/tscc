@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/arrowFunctionJSDocAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom index.js
+! stderr .
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+/**
+ * @param {any} v
+ */
+function identity(v) {
+    return v;
+}
+
+const x = identity(
+    /**
+     * @param {number} param
+     * @returns {number=}
+     */
+    param => param
+);

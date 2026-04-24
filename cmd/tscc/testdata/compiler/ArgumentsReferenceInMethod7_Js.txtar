@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/argumentsReferenceInMethod7_Js.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts a.d.ts --target es2015 --lib es2015,dom a.js
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+! exists out_a.js
+
+-- a.js --
+class A {
+	m() {
+		/**
+		 * @type Function
+		 */
+		this.callee = arguments.callee;
+	}
+}
+-- a.d.ts.golden --
+declare class A {
+    m(): void;
+}

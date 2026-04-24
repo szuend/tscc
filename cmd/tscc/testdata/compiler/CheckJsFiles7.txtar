@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/checkJsFiles7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+class C {
+	constructor() {
+		/** @type {boolean} */
+		this.a = true;
+		this.a = !!this.a;
+	}
+}

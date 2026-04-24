@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/commentOnStaticMember1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentOnStaticMember1.js commentOnStaticMember1.ts
+! stderr .
+cmp commentOnStaticMember1.js commentOnStaticMember1.js.golden
+! exists commentOnStaticMember1.d.ts
+! exists commentOnStaticMember1.js.map
+
+-- commentOnStaticMember1.ts --
+class Greeter {
+    //Hello World
+    static foo(){
+    }
+}
+-- commentOnStaticMember1.js.golden --
+"use strict";
+class Greeter {
+    //Hello World
+    static foo() {
+    }
+}

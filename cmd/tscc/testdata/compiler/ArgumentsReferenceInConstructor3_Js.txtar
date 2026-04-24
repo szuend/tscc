@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/argumentsReferenceInConstructor3_Js.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts a.d.ts --target es2015 --lib es2015,dom a.js
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+! exists out_a.js
+
+-- a.js --
+class A {
+	get arguments() {
+		return { bar: {} };
+	}
+}
+
+class B extends A {
+	/**
+	 * Constructor
+	 *
+	 * @param {object} [foo={}]
+	 */
+	constructor(foo = {}) {
+		super();
+
+		/**
+		 * @type object
+		 */
+		this.foo = foo;
+
+		/**
+		 * @type object
+		 */
+		this.bar = super.arguments.foo;
+	}
+}
+-- a.d.ts.golden --
+declare class A {
+    get arguments(): {
+        bar: {};
+    };
+}
+declare class B extends A {
+    /**
+     * Constructor
+     *
+     * @param {object} [foo={}]
+     */
+    constructor(foo?: object);
+}

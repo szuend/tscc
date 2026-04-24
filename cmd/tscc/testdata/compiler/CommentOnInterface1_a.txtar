@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/commentOnInterface1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+/*!=================
+    Keep this pinned
+   =================
+*/
+
+/*! Don't keep this pinned comment */
+interface I {
+}
+
+// Don't keep this comment.
+interface I2 {
+}
+-- b.ts --
+///<reference path='a.ts'/>
+interface I3 {
+}
+-- a.js.golden --
+"use strict";
+/*!=================
+    Keep this pinned
+   =================
+*/

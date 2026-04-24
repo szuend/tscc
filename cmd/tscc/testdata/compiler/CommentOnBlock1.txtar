@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/commentOnBlock1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentOnBlock1.js commentOnBlock1.ts
+! stderr .
+cmp commentOnBlock1.js commentOnBlock1.js.golden
+! exists commentOnBlock1.d.ts
+! exists commentOnBlock1.js.map
+
+-- commentOnBlock1.ts --
+// asdf
+function f() {
+ /*asdf*/{}
+}
+-- commentOnBlock1.js.golden --
+"use strict";
+// asdf
+function f() {
+    /*asdf*/ { }
+}

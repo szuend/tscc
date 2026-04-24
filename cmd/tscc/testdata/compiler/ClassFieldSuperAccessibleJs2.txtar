@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/classFieldSuperAccessibleJs2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --check-js --strict --target esnext --lib esnext,dom index.js
+! stderr .
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+class C {
+  constructor() {
+    this.foo = () => {
+      console.log("called arrow");
+    };
+  }
+  foo() {
+    console.log("called method");
+  }
+}
+
+class D extends C {
+  foo() {
+    console.log("SUPER:");
+    super.foo();
+    console.log("THIS:");
+    this.foo();
+  }
+}
+
+const obj = new D();
+obj.foo();
+D.prototype.foo.call(obj);

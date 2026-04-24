@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/commentOnClassAccessor2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentOnClassAccessor2.js commentOnClassAccessor2.ts
+! stderr .
+cmp commentOnClassAccessor2.js commentOnClassAccessor2.js.golden
+! exists commentOnClassAccessor2.d.ts
+! exists commentOnClassAccessor2.js.map
+
+-- commentOnClassAccessor2.ts --
+class C {
+  /**
+   * Getter.
+   */
+  get bar(): number { return 1;}
+
+  /**
+   * Setter.
+   */
+  set bar(v) { }
+}
+-- commentOnClassAccessor2.js.golden --
+"use strict";
+class C {
+    /**
+     * Getter.
+     */
+    get bar() { return 1; }
+    /**
+     * Setter.
+     */
+    set bar(v) { }
+}

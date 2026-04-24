@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/classFieldSuperNotAccessibleJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --strict --target esnext --lib esnext,dom index.js
+stderr 'TS2339'
+stderr 'TS7053'
+stderr 'TS2855'
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+// https://github.com/microsoft/TypeScript/issues/55884
+
+class YaddaBase {
+    constructor() {
+        this.roots = "hi";
+        /** @type number */
+        this.justProp;
+        /** @type string */
+        this['literalElementAccess'];
+
+        this.b()
+    }
+    accessor b = () => {
+        this.foo = 10
+    }
+}
+
+class DerivedYadda extends YaddaBase {
+    get rootTests() {
+        return super.roots;
+    }
+    get fooTests() {
+        return super.foo;
+    }
+    get justPropTests() {
+        return super.justProp;
+    }
+    get literalElementAccessTests() {
+        return super.literalElementAccess;
+    }
+}

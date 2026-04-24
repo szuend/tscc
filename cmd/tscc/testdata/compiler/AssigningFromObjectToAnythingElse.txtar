@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/assigningFromObjectToAnythingElse.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js assigningFromObjectToAnythingElse.js assigningFromObjectToAnythingElse.ts
+stderr 'TS2322'
+stderr 'TS2558'
+! exists assigningFromObjectToAnythingElse.js
+! exists assigningFromObjectToAnythingElse.d.ts
+! exists assigningFromObjectToAnythingElse.js.map
+
+-- assigningFromObjectToAnythingElse.ts --
+declare var x: Object;
+var y: RegExp;
+y = x;
+
+var a: String = Object.create<Object>("");
+var c: String = Object.create<Number>(1);
+
+var w: Error = new Object();

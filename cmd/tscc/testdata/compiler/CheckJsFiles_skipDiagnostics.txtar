@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/checkJsFiles_skipDiagnostics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+stderr 'TS2349'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+var x = 0;
+
+
+/// @ts-ignore
+x();
+
+/// @ts-ignore
+x();
+
+/// @ts-ignore
+x(
+    2,
+    3);
+
+
+
+// @ts-ignore
+// come comment
+// some other comment
+
+// @another
+
+x();
+
+/* @ts-ignore */
+/*another comment
+ that could be multiline*/
+
+x();
+
+/* @ts-ignore
+continuing comment
+ that could be multiline*/
+
+x();
+
+
+
+// @ts-ignore: no call signature
+x();

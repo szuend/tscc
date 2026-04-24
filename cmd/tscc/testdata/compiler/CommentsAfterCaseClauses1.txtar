@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/commentsAfterCaseClauses1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js commentsAfterCaseClauses1.js commentsAfterCaseClauses1.ts
+! stderr .
+cmp commentsAfterCaseClauses1.js commentsAfterCaseClauses1.js.golden
+! exists commentsAfterCaseClauses1.d.ts
+! exists commentsAfterCaseClauses1.js.map
+
+-- commentsAfterCaseClauses1.ts --
+function getSecurity(level) {
+    switch(level){
+        case 0: // Zero
+        case 1: // one
+        case 2: // two
+            return "Hi";
+        case 3: // three
+        case 4   : // four
+            return "hello";
+        case 5: // five
+        default:  // default
+            return "world";
+    }
+}
+-- commentsAfterCaseClauses1.js.golden --
+"use strict";
+function getSecurity(level) {
+    switch (level) {
+        case 0: // Zero
+        case 1: // one
+        case 2: // two
+            return "Hi";
+        case 3: // three
+        case 4: // four
+            return "hello";
+        case 5: // five
+        default: // default
+            return "world";
+    }
+}

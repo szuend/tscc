@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/argumentsReferenceInConstructor5_Js.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts a.d.ts --target es2015 --lib es2015,dom a.js
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+! exists out_a.js
+
+-- a.js --
+const bar = {
+	arguments: {}
+}
+
+class A {
+	/**
+	 * Constructor
+	 *
+	 * @param {object} [foo={}]
+	 */
+	constructor(foo = {}) {
+		/**
+		 * @type object
+		 */
+		this.foo = foo;
+
+		/**
+		 * @type object
+		 */
+		this.bar = bar.arguments;
+	}
+}
+-- a.d.ts.golden --
+declare const bar: {
+    arguments: {};
+};
+declare class A {
+    /**
+     * Constructor
+     *
+     * @param {object} [foo={}]
+     */
+    constructor(foo?: object);
+}

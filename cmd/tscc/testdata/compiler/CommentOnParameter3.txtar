@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/commentOnParameter3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js commentOnParameter3.js commentOnParameter3.ts
+! stderr .
+cmp commentOnParameter3.js commentOnParameter3.js.golden
+! exists commentOnParameter3.d.ts
+! exists commentOnParameter3.js.map
+
+-- commentOnParameter3.ts --
+function commentedParameters(
+a /* parameter a */, 
+b /* parameter b */,
+/* extra comment */
+) { }
+-- commentOnParameter3.js.golden --
+"use strict";
+function commentedParameters(a /* parameter a */, b /* parameter b */) { }
