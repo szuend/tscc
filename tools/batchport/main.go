@@ -197,8 +197,11 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 
 	var candidates []string
 	ignoreList := map[string]bool{
-		"allowsyntheticdefaultimportscanpaintcrossmoduledeclaration": true,
-		"transportstream": true,
+		"transportstream": true,  // Binary input file. We need to copy the exact bytes into the .txtar for this one.
+
+		// Manually maintained tests.
+		"aliasusageinarray": true,
+		"aliasusageinfunctionexpression": true,
 	}
 
 	seenCandidates := make(map[string]bool)

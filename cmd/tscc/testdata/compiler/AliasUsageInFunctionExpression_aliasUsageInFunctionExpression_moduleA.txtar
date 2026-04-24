@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/aliasUsageInFunctionExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasUsageInFunctionExpression_moduleA.js aliasUsageInFunctionExpression_moduleA.ts
+stderr 'TS2564'
+! exists aliasUsageInFunctionExpression_moduleA.js
+! exists aliasUsageInFunctionExpression_moduleA.d.ts
+! exists aliasUsageInFunctionExpression_moduleA.js.map
+
+-- aliasUsageInFunctionExpression_backbone.ts --
+export class Model {
+    public someData: string;
+}
+-- aliasUsageInFunctionExpression_main.ts --
+import Backbone = require("./aliasUsageInFunctionExpression_backbone");
+import moduleA = require("./aliasUsageInFunctionExpression_moduleA");
+interface IHasVisualizationModel {
+    VisualizationModel: typeof Backbone.Model;
+}
+var f = (x: IHasVisualizationModel) => x;
+f = (x) => moduleA;
+-- aliasUsageInFunctionExpression_moduleA.ts --
+import Backbone = require("./aliasUsageInFunctionExpression_backbone");
+export class VisualizationModel extends Backbone.Model {
+    // interesting stuff here
+}

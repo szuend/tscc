@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/aliasUsageInArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasUsageInArray_main.js aliasUsageInArray_main.ts
+stderr 'TS2564'
+! exists aliasUsageInArray_main.js
+! exists aliasUsageInArray_main.d.ts
+! exists aliasUsageInArray_main.js.map
+
+-- aliasUsageInArray_backbone.ts --
+export class Model {
+    public someData: string;
+}
+-- aliasUsageInArray_main.ts --
+import Backbone = require("./aliasUsageInArray_backbone");
+import moduleA = require("./aliasUsageInArray_moduleA");
+interface IHasVisualizationModel {
+    VisualizationModel: typeof Backbone.Model;
+}
+
+var xs: IHasVisualizationModel[] = [moduleA];
+var xs2: typeof moduleA[] = [moduleA];
+-- aliasUsageInArray_moduleA.ts --
+import Backbone = require("./aliasUsageInArray_backbone");
+export class VisualizationModel extends Backbone.Model {
+    // interesting stuff here
+}
