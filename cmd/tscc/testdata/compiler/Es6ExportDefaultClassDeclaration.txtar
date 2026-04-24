@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/es6ExportDefaultClassDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ExportDefaultClassDeclaration.d.ts --target es6 --lib es6,dom --out-js es6ExportDefaultClassDeclaration.js es6ExportDefaultClassDeclaration.ts
+! stderr .
+cmp es6ExportDefaultClassDeclaration.d.ts es6ExportDefaultClassDeclaration.d.ts.golden
+cmp es6ExportDefaultClassDeclaration.js es6ExportDefaultClassDeclaration.js.golden
+! exists es6ExportDefaultClassDeclaration.js.map
+
+-- es6ExportDefaultClassDeclaration.ts --
+export default class C {
+    method() { }
+}
+-- es6ExportDefaultClassDeclaration.d.ts.golden --
+export default class C {
+    method(): void;
+}
+-- es6ExportDefaultClassDeclaration.js.golden --
+export default class C {
+    method() { }
+}

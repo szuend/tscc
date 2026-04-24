@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/enumCodeGenNewLines1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumCodeGenNewLines1.js enumCodeGenNewLines1.ts
+! stderr .
+cmp enumCodeGenNewLines1.js enumCodeGenNewLines1.js.golden
+! exists enumCodeGenNewLines1.d.ts
+! exists enumCodeGenNewLines1.js.map
+
+-- enumCodeGenNewLines1.ts --
+enum foo {
+  b = 1,
+  c = 2,
+  d = 3
+}
+-- enumCodeGenNewLines1.js.golden --
+"use strict";
+var foo;
+(function (foo) {
+    foo[foo["b"] = 1] = "b";
+    foo[foo["c"] = 2] = "c";
+    foo[foo["d"] = 3] = "d";
+})(foo || (foo = {}));

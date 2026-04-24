@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/generatorES6_2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js generatorES6_2.js generatorES6_2.ts
+! stderr .
+cmp generatorES6_2.js generatorES6_2.js.golden
+! exists generatorES6_2.d.ts
+! exists generatorES6_2.js.map
+
+-- generatorES6_2.ts --
+class C {
+    public * foo() {
+        yield 1
+    }
+}
+-- generatorES6_2.js.golden --
+"use strict";
+class C {
+    *foo() {
+        yield 1;
+    }
+}

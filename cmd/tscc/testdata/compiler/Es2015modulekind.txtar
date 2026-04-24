@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/es2015modulekind.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es2015 --target es2015 --lib es2015,dom --out-js es2015modulekind.js es2015modulekind.ts
+! stderr .
+cmp es2015modulekind.js es2015modulekind.js.golden
+! exists es2015modulekind.d.ts
+! exists es2015modulekind.js.map
+
+-- es2015modulekind.ts --
+export default class A
+{
+    constructor ()
+    {
+
+    }
+
+    public B()
+    {
+        return 42;
+    }
+}
+-- es2015modulekind.js.golden --
+export default class A {
+    constructor() {
+    }
+    B() {
+        return 42;
+    }
+}

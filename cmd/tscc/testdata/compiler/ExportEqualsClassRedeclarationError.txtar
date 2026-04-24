@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/exportEqualsClassRedeclarationError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es6 --lib es6,dom --out-js exportEqualsClassRedeclarationError.js exportEqualsClassRedeclarationError.ts
+stderr 'TS2300'
+! exists exportEqualsClassRedeclarationError.js
+! exists exportEqualsClassRedeclarationError.d.ts
+! exists exportEqualsClassRedeclarationError.js.map
+
+-- exportEqualsClassRedeclarationError.ts --
+class SomeClass {
+    static get someProp(): number {
+        return 0;
+    }
+
+    static set someProp(value: number) {}
+    static set someProp(value: number) {}
+}
+export = SomeClass;

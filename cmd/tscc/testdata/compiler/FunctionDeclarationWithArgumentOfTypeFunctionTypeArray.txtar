@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/functionDeclarationWithArgumentOfTypeFunctionTypeArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts functionDeclarationWithArgumentOfTypeFunctionTypeArray.d.ts --no-strict --target es2015 --lib es2015,dom --out-js functionDeclarationWithArgumentOfTypeFunctionTypeArray.js functionDeclarationWithArgumentOfTypeFunctionTypeArray.ts
+! stderr .
+cmp functionDeclarationWithArgumentOfTypeFunctionTypeArray.d.ts functionDeclarationWithArgumentOfTypeFunctionTypeArray.d.ts.golden
+cmp functionDeclarationWithArgumentOfTypeFunctionTypeArray.js functionDeclarationWithArgumentOfTypeFunctionTypeArray.js.golden
+! exists functionDeclarationWithArgumentOfTypeFunctionTypeArray.js.map
+
+-- functionDeclarationWithArgumentOfTypeFunctionTypeArray.ts --
+function foo(args: { (x): number }[]) {
+    return args.length;
+}
+-- functionDeclarationWithArgumentOfTypeFunctionTypeArray.d.ts.golden --
+declare function foo(args: {
+    (x: any): number;
+}[]): number;
+-- functionDeclarationWithArgumentOfTypeFunctionTypeArray.js.golden --
+"use strict";
+function foo(args) {
+    return args.length;
+}

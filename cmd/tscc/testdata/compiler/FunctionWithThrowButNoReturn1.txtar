@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/functionWithThrowButNoReturn1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionWithThrowButNoReturn1.js functionWithThrowButNoReturn1.ts
+! stderr .
+cmp functionWithThrowButNoReturn1.js functionWithThrowButNoReturn1.js.golden
+! exists functionWithThrowButNoReturn1.d.ts
+! exists functionWithThrowButNoReturn1.js.map
+
+-- functionWithThrowButNoReturn1.ts --
+function fn(): number {
+  throw new Error('NYI');
+  var t;
+}
+-- functionWithThrowButNoReturn1.js.golden --
+"use strict";
+function fn() {
+    throw new Error('NYI');
+    var t;
+}

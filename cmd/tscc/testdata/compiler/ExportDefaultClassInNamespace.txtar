@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/exportDefaultClassInNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js exportDefaultClassInNamespace.js exportDefaultClassInNamespace.ts
+stderr 'TS1319'
+! exists exportDefaultClassInNamespace.js
+! exists exportDefaultClassInNamespace.d.ts
+! exists exportDefaultClassInNamespace.js.map
+
+-- exportDefaultClassInNamespace.ts --
+namespace ns_class {
+    export default class {}
+}
+
+namespace ns_abstract_class {
+    export default abstract class {}
+}

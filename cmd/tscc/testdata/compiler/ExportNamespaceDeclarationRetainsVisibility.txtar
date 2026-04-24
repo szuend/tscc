@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/exportNamespaceDeclarationRetainsVisibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts exportNamespaceDeclarationRetainsVisibility.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js exportNamespaceDeclarationRetainsVisibility.js exportNamespaceDeclarationRetainsVisibility.ts
+! stderr .
+cmp exportNamespaceDeclarationRetainsVisibility.d.ts exportNamespaceDeclarationRetainsVisibility.d.ts.golden
+cmp exportNamespaceDeclarationRetainsVisibility.js exportNamespaceDeclarationRetainsVisibility.js.golden
+! exists exportNamespaceDeclarationRetainsVisibility.js.map
+
+-- exportNamespaceDeclarationRetainsVisibility.ts --
+namespace X {
+    interface A {
+        kind: 'a';
+    }
+
+    interface B {
+        kind: 'b';
+    }
+
+    export type C = A | B;
+}
+
+export = X;
+-- exportNamespaceDeclarationRetainsVisibility.d.ts.golden --
+declare namespace X {
+    interface A {
+        kind: 'a';
+    }
+    interface B {
+        kind: 'b';
+    }
+    export type C = A | B;
+    export {};
+}
+export = X;
+-- exportNamespaceDeclarationRetainsVisibility.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

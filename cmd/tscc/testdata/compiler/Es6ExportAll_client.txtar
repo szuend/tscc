@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/es6ExportAll.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts client.d.ts --target es6 --lib es6,dom --out-js client.js client.ts
+stderr 'TS2307'
+! exists client.d.ts
+! exists client.js
+! exists client.js.map
+
+-- client.ts --
+export * from "server";
+-- server.ts --
+export class c {
+}
+export interface i {
+}
+export namespace m {
+    export var x = 10;
+}
+export var x = 10;
+export namespace uninstantiated {
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/functionOverloads19.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads19.js functionOverloads19.ts
+stderr 'TS2394'
+! exists functionOverloads19.js
+! exists functionOverloads19.d.ts
+! exists functionOverloads19.js.map
+
+-- functionOverloads19.ts --
+function foo(bar:{b:string;});
+function foo(bar:{a:string;});
+function foo(bar:{a:any;}) { return {a:""} }

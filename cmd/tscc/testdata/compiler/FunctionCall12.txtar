@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/functionCall12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionCall12.js functionCall12.ts
+stderr 'TS2554'
+stderr 'TS2345'
+! exists functionCall12.js
+! exists functionCall12.d.ts
+! exists functionCall12.js.map
+
+-- functionCall12.ts --
+function foo(a:string, b?:number, c?:string){}
+foo('foo', 1); 
+foo('foo'); 
+foo();
+foo(1, 'bar');
+foo('foo', 1, 'bar');
+foo('foo', 1, 3);

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionExpressionReturningItself.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts functionExpressionReturningItself.d.ts --target es2015 --lib es2015,dom --out-js functionExpressionReturningItself.js functionExpressionReturningItself.ts
+! stderr .
+cmp functionExpressionReturningItself.d.ts functionExpressionReturningItself.d.ts.golden
+cmp functionExpressionReturningItself.js functionExpressionReturningItself.js.golden
+! exists functionExpressionReturningItself.js.map
+
+-- functionExpressionReturningItself.ts --
+var x = function somefn() { return somefn; };
+-- functionExpressionReturningItself.d.ts.golden --
+declare var x: () => () => /*elided*/ any;
+-- functionExpressionReturningItself.js.golden --
+"use strict";
+var x = function somefn() { return somefn; };

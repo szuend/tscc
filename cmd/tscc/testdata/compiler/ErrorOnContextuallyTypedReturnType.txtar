@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/errorOnContextuallyTypedReturnType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorOnContextuallyTypedReturnType.js errorOnContextuallyTypedReturnType.ts
+stderr 'TS2322'
+stderr 'TS2355'
+! exists errorOnContextuallyTypedReturnType.js
+! exists errorOnContextuallyTypedReturnType.d.ts
+! exists errorOnContextuallyTypedReturnType.js.map
+
+-- errorOnContextuallyTypedReturnType.ts --
+var n1: () => boolean = function () { }; // expect an error here
+var n2: () => boolean = function ():boolean { }; // expect an error here

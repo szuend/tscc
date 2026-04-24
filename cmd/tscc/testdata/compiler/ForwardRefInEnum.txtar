@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/forwardRefInEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js forwardRefInEnum.js forwardRefInEnum.ts
+stderr 'TS2651'
+! exists forwardRefInEnum.js
+! exists forwardRefInEnum.d.ts
+! exists forwardRefInEnum.js.map
+
+-- forwardRefInEnum.ts --
+enum E1 {
+    // illegal case
+    // forward reference to the element of the same enum
+    X = Y, 
+    X1 = E1["Y"], 
+    // forward reference to the element of the same enum
+    Y = E1.Z,
+    Y1 = E1["Z"]
+}
+
+enum E1 {
+    Z = 4    
+}

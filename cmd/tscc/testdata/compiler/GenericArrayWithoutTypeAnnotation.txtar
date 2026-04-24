@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/genericArrayWithoutTypeAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericArrayWithoutTypeAnnotation.js genericArrayWithoutTypeAnnotation.ts
+stderr 'TS2314'
+! exists genericArrayWithoutTypeAnnotation.js
+! exists genericArrayWithoutTypeAnnotation.d.ts
+! exists genericArrayWithoutTypeAnnotation.js.map
+
+-- genericArrayWithoutTypeAnnotation.ts --
+interface IFoo<T>{
+}
+class Bar {
+    public getBar(foo: IFoo[]) {
+    }
+}

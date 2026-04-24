@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/externSemantics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js externSemantics.js externSemantics.ts
+stderr 'TS1039'
+! exists externSemantics.js
+! exists externSemantics.d.ts
+! exists externSemantics.js.map
+
+-- externSemantics.ts --
+declare var x=10;
+declare var v;
+declare var y:number=3;

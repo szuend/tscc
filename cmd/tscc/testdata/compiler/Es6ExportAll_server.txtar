@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/es6ExportAll.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts server.d.ts --target es6 --lib es6,dom --out-js server.js server.ts
+! stderr .
+cmp server.d.ts server.d.ts.golden
+cmp server.js server.js.golden
+! exists server.js.map
+
+-- client.ts --
+export * from "server";
+-- server.ts --
+export class c {
+}
+export interface i {
+}
+export namespace m {
+    export var x = 10;
+}
+export var x = 10;
+export namespace uninstantiated {
+}
+-- server.d.ts.golden --
+export declare class c {
+}
+export interface i {
+}
+export declare namespace m {
+    var x: number;
+}
+export declare var x: number;
+export declare namespace uninstantiated {
+}
+-- server.js.golden --
+export class c {
+}
+export var m;
+(function (m) {
+    m.x = 10;
+})(m || (m = {}));
+export var x = 10;

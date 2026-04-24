@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/enumWithNaNProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumWithNaNProperty.js enumWithNaNProperty.ts
+! stderr .
+cmp enumWithNaNProperty.js enumWithNaNProperty.js.golden
+! exists enumWithNaNProperty.d.ts
+! exists enumWithNaNProperty.js.map
+
+-- enumWithNaNProperty.ts --
+enum A {
+    NaN = 1
+}
+-- enumWithNaNProperty.js.golden --
+"use strict";
+var A;
+(function (A) {
+    A[A["NaN"] = 1] = "NaN";
+})(A || (A = {}));

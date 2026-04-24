@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/es6ImportEqualsDeclaration2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --path other=server.d.ts --path server=server.d.ts --out-js client.js client.ts
+! stderr .
+cmp client.js client.js.golden
+! exists client.d.ts
+! exists client.js.map
+
+-- client.ts --
+import {a} from "server";
+-- server.d.ts --
+declare module "other" {
+    export class C { }
+}
+
+declare module "server" {
+    import events = require("other"); // Ambient declaration, no error expected.
+
+    namespace S {
+        export var a: number;
+    }
+
+    export = S; // Ambient declaration, no error expected.
+}
+-- client.js.golden --
+export {};

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/exportDefaultAlias_excludesEverything.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultAlias_excludesEverything.js exportDefaultAlias_excludesEverything.ts
+stderr 'TS2528'
+! exists exportDefaultAlias_excludesEverything.js
+! exists exportDefaultAlias_excludesEverything.d.ts
+! exists exportDefaultAlias_excludesEverything.js.map
+
+-- exportDefaultAlias_excludesEverything.ts --
+export default interface A {}
+interface B {}
+export default B;

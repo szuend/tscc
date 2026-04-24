@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/enumPropertyAccessBeforeInitalisation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumPropertyAccessBeforeInitalisation.js enumPropertyAccessBeforeInitalisation.ts
+stderr 'TS2565'
+! exists enumPropertyAccessBeforeInitalisation.js
+! exists enumPropertyAccessBeforeInitalisation.d.ts
+! exists enumPropertyAccessBeforeInitalisation.js.map
+
+-- enumPropertyAccessBeforeInitalisation.ts --
+enum E {
+    A = A,
+    B = E.B,
+    C = E["C"],
+    D = 1 + D
+}

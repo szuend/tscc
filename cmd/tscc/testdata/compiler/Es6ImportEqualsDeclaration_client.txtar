@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/es6ImportEqualsDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js client.js client.ts
+stderr 'TS1202'
+! exists client.js
+! exists client.d.ts
+! exists client.js.map
+
+-- client.ts --
+import a = require("./server");
+-- server.ts --
+var a = 10;
+export = a;

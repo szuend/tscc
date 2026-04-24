@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/enumWithPrimitiveName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumWithPrimitiveName.js enumWithPrimitiveName.ts
+stderr 'TS2431'
+! exists enumWithPrimitiveName.js
+! exists enumWithPrimitiveName.d.ts
+! exists enumWithPrimitiveName.js.map
+
+-- enumWithPrimitiveName.ts --
+enum string { }
+enum number { }
+enum any { }

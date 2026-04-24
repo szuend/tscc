@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/exportDefaultStripsFreshness.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js items.js items.ts
+! stderr .
+cmp items.js items.js.golden
+! exists items.d.ts
+! exists items.js.map
+
+-- index.ts --
+import B, {q} from "./items";
+
+interface IFoo {
+    foo: string;
+}
+
+function nFoo(x: IFoo) {}
+
+
+nFoo(q); // for comparison
+
+nFoo(B);
+-- items.ts --
+export default {
+    foob: "a"
+}
+
+export const q = {
+    foob: "b"
+}
+-- items.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.q = void 0;
+exports.default = {
+    foob: "a"
+};
+exports.q = {
+    foob: "b"
+};

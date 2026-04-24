@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/functionInIfStatementInModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionInIfStatementInModule.js functionInIfStatementInModule.ts
+! stderr .
+cmp functionInIfStatementInModule.js functionInIfStatementInModule.js.golden
+! exists functionInIfStatementInModule.d.ts
+! exists functionInIfStatementInModule.js.map
+
+-- functionInIfStatementInModule.ts --
+ 
+namespace Midori
+{
+    if (false) {
+        function Foo(src)
+        {
+        }
+    }
+}
+-- functionInIfStatementInModule.js.golden --
+"use strict";
+var Midori;
+(function (Midori) {
+    if (false) {
+        function Foo(src) {
+        }
+    }
+})(Midori || (Midori = {}));

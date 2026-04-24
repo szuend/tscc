@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/externFunc.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js externFunc.js externFunc.ts
+! stderr .
+cmp externFunc.js externFunc.js.golden
+! exists externFunc.d.ts
+! exists externFunc.js.map
+
+-- externFunc.ts --
+declare function parseInt(s:string):number;
+
+parseInt("2");
+-- externFunc.js.golden --
+"use strict";
+parseInt("2");

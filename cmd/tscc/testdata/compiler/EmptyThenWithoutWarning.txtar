@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/emptyThenWithoutWarning.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js emptyThenWithoutWarning.js emptyThenWithoutWarning.ts
+! stderr .
+cmp emptyThenWithoutWarning.js emptyThenWithoutWarning.js.golden
+! exists emptyThenWithoutWarning.d.ts
+! exists emptyThenWithoutWarning.js.map
+
+-- emptyThenWithoutWarning.ts --
+let a = 4;
+
+if(a === 1 || a === 2 || a === 3) {
+}
+else {
+    let message = "Ooops";
+}
+-- emptyThenWithoutWarning.js.golden --
+"use strict";
+let a = 4;
+if (a === 1 || a === 2 || a === 3) {
+}
+else {
+    let message = "Ooops";
+}

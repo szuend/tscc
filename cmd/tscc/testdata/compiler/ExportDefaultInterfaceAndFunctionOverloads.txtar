@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/exportDefaultInterfaceAndFunctionOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultInterfaceAndFunctionOverloads.js exportDefaultInterfaceAndFunctionOverloads.ts
+! stderr .
+cmp exportDefaultInterfaceAndFunctionOverloads.js exportDefaultInterfaceAndFunctionOverloads.js.golden
+! exists exportDefaultInterfaceAndFunctionOverloads.d.ts
+! exists exportDefaultInterfaceAndFunctionOverloads.js.map
+
+-- exportDefaultInterfaceAndFunctionOverloads.ts --
+export default function foo(value: number): number
+export default function foo(value: string): string
+export default function foo(value: string | number): string | number {
+    return 1
+}
+export default interface Foo {}
+-- exportDefaultInterfaceAndFunctionOverloads.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = foo;
+function foo(value) {
+    return 1;
+}

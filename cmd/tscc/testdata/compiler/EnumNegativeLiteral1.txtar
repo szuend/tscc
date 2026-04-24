@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/enumNegativeLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumNegativeLiteral1.js enumNegativeLiteral1.ts
+! stderr .
+cmp enumNegativeLiteral1.js enumNegativeLiteral1.js.golden
+! exists enumNegativeLiteral1.d.ts
+! exists enumNegativeLiteral1.js.map
+
+-- enumNegativeLiteral1.ts --
+enum E {
+    a = -5, b, c
+}
+-- enumNegativeLiteral1.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["a"] = -5] = "a";
+    E[E["b"] = -4] = "b";
+    E[E["c"] = -3] = "c";
+})(E || (E = {}));

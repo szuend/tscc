@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/exportAssignValueAndType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignValueAndType.js exportAssignValueAndType.ts
+! stderr .
+cmp exportAssignValueAndType.js exportAssignValueAndType.js.golden
+! exists exportAssignValueAndType.d.ts
+! exists exportAssignValueAndType.js.map
+
+-- exportAssignValueAndType.ts --
+declare namespace http {
+	export interface Server { openPort: number; }
+}
+
+interface server {
+    (): http.Server;
+    startTime: Date;
+}
+ 
+var x = 5;
+var server = new Date();
+export = server;
+ 
+-- exportAssignValueAndType.js.golden --
+"use strict";
+var x = 5;
+var server = new Date();
+module.exports = server;

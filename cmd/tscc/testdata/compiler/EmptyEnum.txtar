@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/emptyEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js emptyEnum.js emptyEnum.ts
+! stderr .
+cmp emptyEnum.js emptyEnum.js.golden
+! exists emptyEnum.d.ts
+! exists emptyEnum.js.map
+
+-- emptyEnum.ts --
+enum E {
+}
+-- emptyEnum.js.golden --
+"use strict";
+var E;
+(function (E) {
+})(E || (E = {}));

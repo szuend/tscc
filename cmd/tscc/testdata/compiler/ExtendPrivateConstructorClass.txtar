@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/extendPrivateConstructorClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendPrivateConstructorClass.js extendPrivateConstructorClass.ts
+stderr 'TS2675'
+! exists extendPrivateConstructorClass.js
+! exists extendPrivateConstructorClass.d.ts
+! exists extendPrivateConstructorClass.js.map
+
+-- extendPrivateConstructorClass.ts --
+declare namespace abc {
+    class XYZ {
+        private constructor();
+    }
+}
+
+class C extends abc.XYZ {
+}

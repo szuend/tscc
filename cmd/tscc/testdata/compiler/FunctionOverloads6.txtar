@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/functionOverloads6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads6.js functionOverloads6.ts
+! stderr .
+cmp functionOverloads6.js functionOverloads6.js.golden
+! exists functionOverloads6.d.ts
+! exists functionOverloads6.js.map
+
+-- functionOverloads6.ts --
+class foo { 
+   static fnOverload();
+   static fnOverload(foo:string);
+   static fnOverload(foo?: any){ }
+}
+-- functionOverloads6.js.golden --
+"use strict";
+class foo {
+    static fnOverload(foo) { }
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/forInStatement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js forInStatement2.js forInStatement2.ts
+stderr 'TS2407'
+! exists forInStatement2.js
+! exists forInStatement2.d.ts
+! exists forInStatement2.js.map
+
+-- forInStatement2.ts --
+declare var expr: number;
+for (var a in expr) {
+}

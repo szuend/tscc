@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/fixCrashAliasLookupForDefauledImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js usage.js usage.ts
+! stderr .
+cmp usage.js usage.js.golden
+! exists usage.d.ts
+! exists usage.js.map
+
+-- input.ts --
+export type Foo<T = string> = {};
+-- usage.ts --
+import {Foo} from "./input";
+
+function bar<T>(element: Foo) {
+    return 1;
+}
+
+bar(1 as Foo<number>);
+-- usage.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function bar(element) {
+    return 1;
+}
+bar(1);

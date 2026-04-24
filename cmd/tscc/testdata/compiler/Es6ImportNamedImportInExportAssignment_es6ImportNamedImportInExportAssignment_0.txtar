@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/es6ImportNamedImportInExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ImportNamedImportInExportAssignment_0.d.ts --module commonjs --target es6 --lib es6,dom --out-js es6ImportNamedImportInExportAssignment_0.js es6ImportNamedImportInExportAssignment_0.ts
+! stderr .
+cmp es6ImportNamedImportInExportAssignment_0.d.ts es6ImportNamedImportInExportAssignment_0.d.ts.golden
+cmp es6ImportNamedImportInExportAssignment_0.js es6ImportNamedImportInExportAssignment_0.js.golden
+! exists es6ImportNamedImportInExportAssignment_0.js.map
+
+-- es6ImportNamedImportInExportAssignment_0.ts --
+export var a = 10;
+-- es6ImportNamedImportInExportAssignment_1.ts --
+import { a } from "./es6ImportNamedImportInExportAssignment_0";
+export = a;
+-- es6ImportNamedImportInExportAssignment_0.d.ts.golden --
+export declare var a: number;
+-- es6ImportNamedImportInExportAssignment_0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.a = void 0;
+exports.a = 10;

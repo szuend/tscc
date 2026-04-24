@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/forOfTransformsExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js forOfTransformsExpression.js forOfTransformsExpression.ts
+! stderr .
+cmp forOfTransformsExpression.js forOfTransformsExpression.js.golden
+! exists forOfTransformsExpression.d.ts
+! exists forOfTransformsExpression.js.map
+
+-- forOfTransformsExpression.ts --
+// https://github.com/Microsoft/TypeScript/issues/11024
+let items = [{ name: "A" }, { name: "C" }, { name: "B" }];
+for (var item of items.sort((a, b) => a.name.localeCompare(b.name))) {
+
+}
+-- forOfTransformsExpression.js.golden --
+"use strict";
+// https://github.com/Microsoft/TypeScript/issues/11024
+let items = [{ name: "A" }, { name: "C" }, { name: "B" }];
+for (var item of items.sort((a, b) => a.name.localeCompare(b.name))) {
+}

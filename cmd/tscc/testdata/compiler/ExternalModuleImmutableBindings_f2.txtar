@@ -1,0 +1,56 @@
+# Ported from tests/cases/compiler/externalModuleImmutableBindings.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js f2.js f2.ts
+stderr 'TS2540'
+stderr 'TS2339'
+! exists f2.js
+! exists f2.d.ts
+! exists f2.js.map
+
+-- f1.ts --
+export var x = 1;
+-- f2.ts --
+// all mutations below are illegal and should be fixed
+import * as stuff from './f1';
+
+var n = 'baz';
+
+stuff.x = 0;
+stuff['x'] = 1;
+stuff.blah = 2;
+stuff[n] = 3;
+
+stuff.x++;
+stuff['x']++;
+stuff['blah']++;
+stuff[n]++;
+
+(stuff.x) = 0;
+(stuff['x']) = 1;
+(stuff.blah) = 2;
+(stuff[n]) = 3;
+
+(stuff.x)++;
+(stuff['x'])++;
+(stuff['blah'])++;
+(stuff[n])++;
+
+for (stuff.x in []) {}
+for (stuff.x of []) {}
+for (stuff['x'] in []) {}
+for (stuff['x'] of []) {}
+for (stuff.blah in []) {}
+for (stuff.blah of []) {}
+for (stuff[n] in []) {}
+for (stuff[n] of []) {}
+
+for ((stuff.x) in []) {}
+for ((stuff.x) of []) {}
+for ((stuff['x']) in []) {}
+for ((stuff['x']) of []) {}
+for ((stuff.blah) in []) {}
+for ((stuff.blah) of []) {}
+for ((stuff[n]) in []) {}
+for ((stuff[n]) of []) {}
+
+

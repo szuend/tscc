@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/errorForwardReferenceForwadingConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorForwardReferenceForwadingConstructor.js errorForwardReferenceForwadingConstructor.ts
+stderr 'TS2554'
+! exists errorForwardReferenceForwadingConstructor.js
+! exists errorForwardReferenceForwadingConstructor.d.ts
+! exists errorForwardReferenceForwadingConstructor.js.map
+
+-- errorForwardReferenceForwadingConstructor.ts --
+// Error forward referencing derived class with forwarding constructor
+
+function f() {
+    var d1 = new derived();
+    var d2 = new derived(4);
+}
+
+class base { constructor(public n: number) { } }
+class derived extends base { }

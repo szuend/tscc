@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/errorWithSameNameType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export interface F {
+    foo1: number
+}
+-- b.ts --
+export interface F {
+    foo2: number
+}
+-- c.ts --
+import * as A from './a'
+import * as B from './b'
+
+declare let a: A.F
+declare let b: B.F
+
+if (a === b) {
+
+}
+
+a = b
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/fatarrowfunctionsInFunctionParameterDefaults.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js fatarrowfunctionsInFunctionParameterDefaults.js fatarrowfunctionsInFunctionParameterDefaults.ts
+! stderr .
+cmp fatarrowfunctionsInFunctionParameterDefaults.js fatarrowfunctionsInFunctionParameterDefaults.js.golden
+! exists fatarrowfunctionsInFunctionParameterDefaults.d.ts
+! exists fatarrowfunctionsInFunctionParameterDefaults.js.map
+
+-- fatarrowfunctionsInFunctionParameterDefaults.ts --
+function fn(x = () => this, y = x()) {
+
+    // should be 4
+    return y;
+
+}
+
+fn.call(4); // Should be 4
+-- fatarrowfunctionsInFunctionParameterDefaults.js.golden --
+"use strict";
+function fn(x = () => this, y = x()) {
+    // should be 4
+    return y;
+}
+fn.call(4); // Should be 4

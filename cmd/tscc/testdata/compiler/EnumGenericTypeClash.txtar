@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/enumGenericTypeClash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumGenericTypeClash.js enumGenericTypeClash.ts
+stderr 'TS2567'
+! exists enumGenericTypeClash.js
+! exists enumGenericTypeClash.d.ts
+! exists enumGenericTypeClash.js.map
+
+-- enumGenericTypeClash.ts --
+class X<A,B,C> { }
+enum X { MyVal }

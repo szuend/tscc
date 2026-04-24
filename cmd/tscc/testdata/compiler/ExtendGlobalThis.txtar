@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/extendGlobalThis.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js index.js index.ts
+stderr 'TS2882'
+! exists index.js
+! exists index.d.ts
+! exists index.js.map
+
+-- extension.d.ts --
+declare global {
+    namespace globalThis  {
+        var test: string;
+    }
+}
+
+export {}
+-- index.ts --
+import "./extention";
+
+globalThis.tests = "a-b";
+console.log(globalThis.test.split("-"));

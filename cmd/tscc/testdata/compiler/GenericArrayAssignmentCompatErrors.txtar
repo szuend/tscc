@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/genericArrayAssignmentCompatErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericArrayAssignmentCompatErrors.js genericArrayAssignmentCompatErrors.ts
+stderr 'TS2351'
+stderr 'TS2314'
+! exists genericArrayAssignmentCompatErrors.js
+! exists genericArrayAssignmentCompatErrors.d.ts
+! exists genericArrayAssignmentCompatErrors.js.map
+
+-- genericArrayAssignmentCompatErrors.ts --
+var myCars=new Array(); 
+var myCars2 = new [];
+var myCars3 = new Array({});
+declare var myCars4: Array; // error
+declare var myCars5: Array<any>[];
+ 
+myCars = myCars2;
+myCars = myCars3;
+myCars = myCars4;
+myCars = myCars5;
+ 
+myCars2 = myCars;
+myCars2 = myCars3;
+myCars2 = myCars4;
+myCars2 = myCars5;
+ 
+myCars3 = myCars;
+myCars3 = myCars2;
+myCars3 = myCars4;
+myCars3 = myCars5;   

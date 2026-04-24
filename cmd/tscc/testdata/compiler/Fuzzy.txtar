@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/fuzzy.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js fuzzy.js fuzzy.ts
+stderr 'TS2420'
+stderr 'TS2322'
+stderr 'TS2352'
+! exists fuzzy.js
+! exists fuzzy.d.ts
+! exists fuzzy.js.map
+
+-- fuzzy.ts --
+namespace M {
+    export interface I {
+        works:()=>R;
+        alsoWorks:()=>R;
+        doesntWork:()=>R;
+    }
+
+    export interface R {
+        anything:number;
+        oneI:I;
+    }
+
+    export class C implements I {
+        constructor(public x:number) {
+        }
+        works():R {
+            return <R>({ anything: 1 });
+        }
+
+        doesntWork():R {
+            return { anything:1, oneI:this };
+        }
+
+        worksToo():R {
+            return <R>({ oneI: this });
+        }
+    }
+}
+

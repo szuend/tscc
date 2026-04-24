@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/functionOverloadsRecursiveGenericReturnType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionOverloadsRecursiveGenericReturnType.js functionOverloadsRecursiveGenericReturnType.ts
+stderr 'TS2564'
+! exists functionOverloadsRecursiveGenericReturnType.js
+! exists functionOverloadsRecursiveGenericReturnType.d.ts
+! exists functionOverloadsRecursiveGenericReturnType.js.map
+
+-- functionOverloadsRecursiveGenericReturnType.ts --
+class B<V>{
+    private id: V;
+}
+
+class A<U>{
+    GetEnumerator: () => B<U>;
+}
+
+function Choice<T>(args: T[]): A<T>;
+function Choice<T>(...v_args: T[]): A<T>;
+function Choice<T>(...v_args: any[]): A<T>{
+    return new A<T>();
+}

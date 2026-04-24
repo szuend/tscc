@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/es6ImportDefaultBindingFollowedWithNamedImport1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ImportDefaultBindingFollowedWithNamedImport1_0.d.ts --target es6 --lib es6,dom --out-js es6ImportDefaultBindingFollowedWithNamedImport1_0.js es6ImportDefaultBindingFollowedWithNamedImport1_0.ts
+! stderr .
+cmp es6ImportDefaultBindingFollowedWithNamedImport1_0.d.ts es6ImportDefaultBindingFollowedWithNamedImport1_0.d.ts.golden
+cmp es6ImportDefaultBindingFollowedWithNamedImport1_0.js es6ImportDefaultBindingFollowedWithNamedImport1_0.js.golden
+! exists es6ImportDefaultBindingFollowedWithNamedImport1_0.js.map
+
+-- es6ImportDefaultBindingFollowedWithNamedImport1_0.ts --
+var a = 10;
+export default a;
+-- es6ImportDefaultBindingFollowedWithNamedImport1_1.ts --
+import defaultBinding1, { } from "./es6ImportDefaultBindingFollowedWithNamedImport1_0";
+var x1: number = defaultBinding1;
+import defaultBinding2, { a } from "./es6ImportDefaultBindingFollowedWithNamedImport1_0";
+var x1: number = defaultBinding2;
+import defaultBinding3, { a as b } from "./es6ImportDefaultBindingFollowedWithNamedImport1_0";
+var x1: number = defaultBinding3;
+import defaultBinding4, { x, a as y } from "./es6ImportDefaultBindingFollowedWithNamedImport1_0";
+var x1: number = defaultBinding4;
+import defaultBinding5, { x as z,  } from "./es6ImportDefaultBindingFollowedWithNamedImport1_0";
+var x1: number = defaultBinding5;
+import defaultBinding6, { m,  } from "./es6ImportDefaultBindingFollowedWithNamedImport1_0";
+var x1: number = defaultBinding6;
+-- es6ImportDefaultBindingFollowedWithNamedImport1_0.d.ts.golden --
+declare var a: number;
+export default a;
+-- es6ImportDefaultBindingFollowedWithNamedImport1_0.js.golden --
+var a = 10;
+export default a;

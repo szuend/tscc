@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/functionCall4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionCall4.js functionCall4.ts
+! stderr .
+cmp functionCall4.js functionCall4.js.golden
+! exists functionCall4.d.ts
+! exists functionCall4.js.map
+
+-- functionCall4.ts --
+function foo():any{return ""}; 
+function bar():()=>any{return foo}; 
+var x = bar();
+-- functionCall4.js.golden --
+"use strict";
+function foo() { return ""; }
+;
+function bar() { return foo; }
+;
+var x = bar();

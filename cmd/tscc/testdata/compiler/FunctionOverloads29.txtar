@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/functionOverloads29.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads29.js functionOverloads29.ts
+stderr 'TS2554'
+! exists functionOverloads29.js
+! exists functionOverloads29.d.ts
+! exists functionOverloads29.js.map
+
+-- functionOverloads29.ts --
+function foo(bar:string):string;
+function foo(bar:number):number;
+function foo(bar:any):any{ return bar }
+var x = foo();

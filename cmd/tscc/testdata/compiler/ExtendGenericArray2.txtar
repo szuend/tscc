@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/extendGenericArray2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendGenericArray2.js extendGenericArray2.ts
+stderr 'TS2322'
+! exists extendGenericArray2.js
+! exists extendGenericArray2.d.ts
+! exists extendGenericArray2.js.map
+
+-- extendGenericArray2.ts --
+interface IFoo<T> {
+    x: T;
+}
+
+interface Array<T> extends IFoo<T> { }
+
+var arr: string[] = [];
+var y: number = arr.x;

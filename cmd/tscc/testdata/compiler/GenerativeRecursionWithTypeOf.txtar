@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/generativeRecursionWithTypeOf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js generativeRecursionWithTypeOf.js generativeRecursionWithTypeOf.ts
+stderr 'TS2564'
+! exists generativeRecursionWithTypeOf.js
+! exists generativeRecursionWithTypeOf.d.ts
+! exists generativeRecursionWithTypeOf.js.map
+
+-- generativeRecursionWithTypeOf.ts --
+class C<T> {
+    static foo(x: number) { }
+    type: T;
+}
+
+namespace M {
+    export function f(x: typeof C) {   
+        return new x<typeof x>();     
+    }
+}

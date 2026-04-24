@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/exportAsNamespace.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js exportAsNamespace.d.js exportAsNamespace.d.ts
+! stderr .
+! exists exportAsNamespace.d.d.ts
+! exists exportAsNamespace.d.js
+! exists exportAsNamespace.d.js.map
+
+-- exportAsNamespace.d.ts --
+// issue: https://github.com/Microsoft/TypeScript/issues/11545
+
+export var X;
+export as namespace N

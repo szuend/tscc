@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/emptyIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js emptyIndexer.js emptyIndexer.ts
+stderr 'TS2454'
+! exists emptyIndexer.js
+! exists emptyIndexer.d.ts
+! exists emptyIndexer.js.map
+
+-- emptyIndexer.ts --
+interface I1 {
+	m(): number;
+}
+
+interface I2 {
+	[s:string]: I1;
+}
+
+
+var x: I2;
+
+var n = x[''].m(); // should not crash compiler

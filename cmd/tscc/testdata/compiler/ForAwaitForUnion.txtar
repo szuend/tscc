@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/forAwaitForUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --target es2018 --out-js forAwaitForUnion.js forAwaitForUnion.ts
+! stderr .
+cmp forAwaitForUnion.js forAwaitForUnion.js.golden
+! exists forAwaitForUnion.d.ts
+! exists forAwaitForUnion.js.map
+
+-- forAwaitForUnion.ts --
+async function f<T>(source: Iterable<T> | AsyncIterable<T>) {
+    for await (const x of source) {
+    }
+}
+-- forAwaitForUnion.js.golden --
+"use strict";
+async function f(source) {
+    for await (const x of source) {
+    }
+}

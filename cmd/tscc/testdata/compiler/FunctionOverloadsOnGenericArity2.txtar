@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/functionOverloadsOnGenericArity2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionOverloadsOnGenericArity2.js functionOverloadsOnGenericArity2.ts
+! stderr .
+cmp functionOverloadsOnGenericArity2.js functionOverloadsOnGenericArity2.js.golden
+! exists functionOverloadsOnGenericArity2.d.ts
+! exists functionOverloadsOnGenericArity2.js.map
+
+-- functionOverloadsOnGenericArity2.ts --
+interface I {
+    then(p: string): string;
+    then<U>(p: string): string;
+    then<U, T>(p: string): Date;
+}
+-- functionOverloadsOnGenericArity2.js.golden --
+"use strict";

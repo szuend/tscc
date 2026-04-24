@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/functionsInClassExpressions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionsInClassExpressions.js functionsInClassExpressions.ts
+! stderr .
+cmp functionsInClassExpressions.js functionsInClassExpressions.js.golden
+! exists functionsInClassExpressions.d.ts
+! exists functionsInClassExpressions.js.map
+
+-- functionsInClassExpressions.ts --
+let Foo = class {
+    constructor() {
+        this.bar++;
+    }
+    bar = 0;
+    inc = () => {
+        this.bar++;
+    }
+    m() { return this.bar; }
+}
+-- functionsInClassExpressions.js.golden --
+"use strict";
+let Foo = class {
+    constructor() {
+        this.bar = 0;
+        this.inc = () => {
+            this.bar++;
+        };
+        this.bar++;
+    }
+    m() { return this.bar; }
+};

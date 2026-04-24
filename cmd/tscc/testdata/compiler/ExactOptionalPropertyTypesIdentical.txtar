@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/exactOptionalPropertyTypesIdentical.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --exact-optional-property-types --strict-null-checks --target es2015 --lib es2015,dom --out-js exactOptionalPropertyTypesIdentical.js exactOptionalPropertyTypesIdentical.ts
+stderr 'TS2322'
+! exists exactOptionalPropertyTypesIdentical.js
+! exists exactOptionalPropertyTypesIdentical.d.ts
+! exists exactOptionalPropertyTypesIdentical.js.map
+
+-- exactOptionalPropertyTypesIdentical.ts --
+export let a: <T>() => T extends {a?: string} ? 0 : 1 = null!;
+export let b: <T>() => T extends {a?: string | undefined} ? 0 : 1 = a;

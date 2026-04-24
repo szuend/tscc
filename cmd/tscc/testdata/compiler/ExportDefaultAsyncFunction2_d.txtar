@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/exportDefaultAsyncFunction2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js d.js d.ts
+stderr 'TS1262'
+! exists d.js
+! exists d.d.ts
+! exists d.js.map
+
+-- a.ts --
+import { async, await } from './asyncawait';
+export default async(() => await(Promise.resolve(1)));
+-- asyncawait.ts --
+export function async<T>(...args: any[]): any { }
+export function await(...args: any[]): any { }
+-- b.ts --
+export default async () => { return 0; };
+-- c.ts --
+import { async, await } from './asyncawait';
+export default async<number>();
+-- d.ts --
+import { async, await } from './asyncawait';
+
+export default async;
+-- e.ts --
+import { async, await } from './asyncawait';
+
+export default async
+
+export function foo() { }

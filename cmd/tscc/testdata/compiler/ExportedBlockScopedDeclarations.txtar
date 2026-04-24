@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/exportedBlockScopedDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module esnext --no-strict --target es2015 --lib es2015,dom --out-js exportedBlockScopedDeclarations.js exportedBlockScopedDeclarations.ts
+stderr 'TS2448'
+! exists exportedBlockScopedDeclarations.js
+! exists exportedBlockScopedDeclarations.d.ts
+! exists exportedBlockScopedDeclarations.js.map
+
+-- exportedBlockScopedDeclarations.ts --
+const foo = foo; // compile error
+export const bar = bar; // should be compile error
+function f() {
+  const bar = bar; // compile error
+}
+namespace NS {
+  export const bar = bar; // should be compile error
+}
+
+let foo1 = foo1; // compile error
+export let bar1 = bar1; // should be compile error
+function f1() {
+  let bar1 = bar1; // compile error
+}
+namespace NS1 {
+  export let bar1 = bar1; // should be compile error
+}

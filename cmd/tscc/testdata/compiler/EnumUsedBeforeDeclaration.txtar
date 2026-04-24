@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/enumUsedBeforeDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumUsedBeforeDeclaration.js enumUsedBeforeDeclaration.ts
+stderr 'TS2450'
+! exists enumUsedBeforeDeclaration.js
+! exists enumUsedBeforeDeclaration.d.ts
+! exists enumUsedBeforeDeclaration.js.map
+
+-- enumUsedBeforeDeclaration.ts --
+const v: Color = Color.Green;
+const v2: ConstColor = ConstColor.Green;
+enum Color { Red, Green, Blue }
+const enum ConstColor { Red, Green, Blue }
+

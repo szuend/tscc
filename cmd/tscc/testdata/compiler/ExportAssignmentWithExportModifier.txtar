@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/exportAssignmentWithExportModifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignmentWithExportModifier.js exportAssignmentWithExportModifier.ts
+stderr 'TS1120'
+! exists exportAssignmentWithExportModifier.js
+! exists exportAssignmentWithExportModifier.d.ts
+! exists exportAssignmentWithExportModifier.js.map
+
+-- exportAssignmentWithExportModifier.ts --
+var x;
+export export = x;

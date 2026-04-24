@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/functionCall5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionCall5.js functionCall5.ts
+! stderr .
+cmp functionCall5.js functionCall5.js.golden
+! exists functionCall5.d.ts
+! exists functionCall5.js.map
+
+-- functionCall5.ts --
+namespace m1 { export class c1 { public a; }} 
+function foo():m1.c1{return new m1.c1();}; 
+var x = foo();
+-- functionCall5.js.golden --
+"use strict";
+var m1;
+(function (m1) {
+    class c1 {
+    }
+    m1.c1 = c1;
+})(m1 || (m1 = {}));
+function foo() { return new m1.c1(); }
+;
+var x = foo();

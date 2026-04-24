@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/exportSpecifierReferencingOuterDeclaration3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path m=exportSpecifierReferencingOuterDeclaration3.ts --out-js exportSpecifierReferencingOuterDeclaration3.js exportSpecifierReferencingOuterDeclaration3.ts
+stderr 'TS2694'
+! exists exportSpecifierReferencingOuterDeclaration3.js
+! exists exportSpecifierReferencingOuterDeclaration3.d.ts
+! exists exportSpecifierReferencingOuterDeclaration3.js.map
+
+-- exportSpecifierReferencingOuterDeclaration3.ts --
+declare namespace X { export interface bar { } }
+declare module "m" {
+    namespace X { export interface foo { } }
+    export { X };
+    export function foo(): X.foo;
+    export function bar(): X.bar; // error
+}

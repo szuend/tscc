@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/enumWithNegativeInfinityProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumWithNegativeInfinityProperty.js enumWithNegativeInfinityProperty.ts
+! stderr .
+cmp enumWithNegativeInfinityProperty.js enumWithNegativeInfinityProperty.js.golden
+! exists enumWithNegativeInfinityProperty.d.ts
+! exists enumWithNegativeInfinityProperty.js.map
+
+-- enumWithNegativeInfinityProperty.ts --
+enum A {
+    "-Infinity" = 1
+}
+-- enumWithNegativeInfinityProperty.js.golden --
+"use strict";
+var A;
+(function (A) {
+    A[A["-Infinity"] = 1] = "-Infinity";
+})(A || (A = {}));

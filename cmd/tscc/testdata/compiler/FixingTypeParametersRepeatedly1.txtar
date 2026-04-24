@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/fixingTypeParametersRepeatedly1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js fixingTypeParametersRepeatedly1.js fixingTypeParametersRepeatedly1.ts
+! stderr .
+cmp fixingTypeParametersRepeatedly1.js fixingTypeParametersRepeatedly1.js.golden
+! exists fixingTypeParametersRepeatedly1.d.ts
+! exists fixingTypeParametersRepeatedly1.js.map
+
+-- fixingTypeParametersRepeatedly1.ts --
+declare function f<T>(x: T, y: (p: T) => T, z: (p: T) => T): T;
+f("", x => null, x => x.toLowerCase());
+
+// First overload of g should type check just like f
+declare function g<T>(x: T, y: (p: T) => T, z: (p: T) => T): T;
+declare function g();
+g("", x => null, x => x.toLowerCase());
+-- fixingTypeParametersRepeatedly1.js.golden --
+"use strict";
+f("", x => null, x => x.toLowerCase());
+g("", x => null, x => x.toLowerCase());

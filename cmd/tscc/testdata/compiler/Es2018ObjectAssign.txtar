@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/es2018ObjectAssign.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2018 --lib es2018,dom --out-js es2018ObjectAssign.js es2018ObjectAssign.ts
+! stderr .
+cmp es2018ObjectAssign.js es2018ObjectAssign.js.golden
+! exists es2018ObjectAssign.d.ts
+! exists es2018ObjectAssign.js.map
+
+-- es2018ObjectAssign.ts --
+const test = Object.assign({}, { test: true });
+
+declare const p: Promise<number>;
+p.finally();
+-- es2018ObjectAssign.js.golden --
+"use strict";
+const test = Object.assign({}, { test: true });
+p.finally();

@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/forLoopEndingMultilineComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js forLoopEndingMultilineComments.js forLoopEndingMultilineComments.ts
+! stderr .
+cmp forLoopEndingMultilineComments.js forLoopEndingMultilineComments.js.golden
+! exists forLoopEndingMultilineComments.d.ts
+! exists forLoopEndingMultilineComments.js.map
+
+-- forLoopEndingMultilineComments.ts --
+declare var a: any;
+
+export function consoleTestResultHandler(testResult: any): boolean {
+    // needed to get colors to show up when passing through Grunt
+    void a;
+
+    for (const q of a) {
+        void a;
+
+        /* eslint-disable no-console */
+        if (a) {
+        } else {
+        }
+        /* eslint-enable no-console */
+    }
+
+    return true;
+}
+-- forLoopEndingMultilineComments.js.golden --
+export function consoleTestResultHandler(testResult) {
+    // needed to get colors to show up when passing through Grunt
+    void a;
+    for (const q of a) {
+        void a;
+        /* eslint-disable no-console */
+        if (a) {
+        }
+        else {
+        }
+        /* eslint-enable no-console */
+    }
+    return true;
+}

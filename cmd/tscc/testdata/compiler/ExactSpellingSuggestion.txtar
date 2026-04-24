@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/exactSpellingSuggestion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js exactSpellingSuggestion.js exactSpellingSuggestion.ts
+stderr 'TS2551'
+! exists exactSpellingSuggestion.js
+! exists exactSpellingSuggestion.d.ts
+! exists exactSpellingSuggestion.js.map
+
+-- exactSpellingSuggestion.ts --
+// Fixes #16245 -- always suggest the exact match, even when
+// other options are very close
+enum U8 {
+    BIT_0 = 1 << 0,
+    BIT_1 = 1 << 1,
+    BIT_2 = 1 << 2
+}
+
+U8.bit_2

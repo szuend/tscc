@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/enumBasics2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js enumBasics2.js enumBasics2.ts
+stderr 'TS2339'
+! exists enumBasics2.js
+! exists enumBasics2.d.ts
+! exists enumBasics2.js.map
+
+-- enumBasics2.ts --
+enum Foo {
+  a = 2,
+  b = 3,
+  x = a.b,       // should error
+  y = b.a,       // should error
+  z = y.x * a.x, // should error
+}
+
+enum Bar {
+  a = (1).valueOf(),   // ok
+  b = Foo.a,           // ok
+  c = Foo.a.valueOf(), // ok
+  d = Foo.a.a,         // should error
+}

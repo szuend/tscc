@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/exportDefaultVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --path module=exportDefaultVariable.ts --out-js exportDefaultVariable.js exportDefaultVariable.ts
+! stderr .
+cmp exportDefaultVariable.js exportDefaultVariable.js.golden
+! exists exportDefaultVariable.d.ts
+! exists exportDefaultVariable.js.map
+
+-- exportDefaultVariable.ts --
+// Regression test for #3018
+
+declare var io: any;
+
+declare module 'module' {
+    export default io;
+}
+-- exportDefaultVariable.js.golden --
+"use strict";
+// Regression test for #3018

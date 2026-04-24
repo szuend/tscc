@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/explicitAnyAfterSpreadNoImplicitAnyError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js explicitAnyAfterSpreadNoImplicitAnyError.js explicitAnyAfterSpreadNoImplicitAnyError.ts
+! stderr .
+cmp explicitAnyAfterSpreadNoImplicitAnyError.js explicitAnyAfterSpreadNoImplicitAnyError.js.golden
+! exists explicitAnyAfterSpreadNoImplicitAnyError.d.ts
+! exists explicitAnyAfterSpreadNoImplicitAnyError.js.map
+
+-- explicitAnyAfterSpreadNoImplicitAnyError.ts --
+({ a: [], ...(null as any) });
+let x: any;
+-- explicitAnyAfterSpreadNoImplicitAnyError.js.golden --
+"use strict";
+(Object.assign({ a: [] }, null));
+let x;

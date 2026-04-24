@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/functionExpressionShadowedByParams.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionExpressionShadowedByParams.js functionExpressionShadowedByParams.ts
+stderr 'TS2349'
+stderr 'TS2339'
+! exists functionExpressionShadowedByParams.js
+! exists functionExpressionShadowedByParams.d.ts
+! exists functionExpressionShadowedByParams.js.map
+
+-- functionExpressionShadowedByParams.ts --
+function b1(b1: number) {
+   b1.toPrecision(2); // should not error
+   b1(12); // should error
+}
+
+
+var x = {
+   b: function b(b: number) {
+      b.toPrecision(2); // should not error
+      b.apply(null, null); // should error
+   }
+};

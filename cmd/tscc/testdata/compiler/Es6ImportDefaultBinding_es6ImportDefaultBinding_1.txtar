@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/es6ImportDefaultBinding.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ImportDefaultBinding_1.d.ts --target es6 --lib es6,dom --out-js es6ImportDefaultBinding_1.js es6ImportDefaultBinding_1.ts
+! stderr .
+cmp es6ImportDefaultBinding_1.d.ts es6ImportDefaultBinding_1.d.ts.golden
+cmp es6ImportDefaultBinding_1.js es6ImportDefaultBinding_1.js.golden
+! exists es6ImportDefaultBinding_1.js.map
+
+-- es6ImportDefaultBinding_0.ts --
+var a = 10;
+export default a;
+-- es6ImportDefaultBinding_1.ts --
+import defaultBinding from "./es6ImportDefaultBinding_0";
+var x = defaultBinding;
+import defaultBinding2 from "./es6ImportDefaultBinding_0"; // elide this import since defaultBinding2 is not used
+-- es6ImportDefaultBinding_1.d.ts.golden --
+export {};
+-- es6ImportDefaultBinding_1.js.golden --
+import defaultBinding from "./es6ImportDefaultBinding_0";
+var x = defaultBinding;

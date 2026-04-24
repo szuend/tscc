@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/errorsForCallAndAssignmentAreSimilar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorsForCallAndAssignmentAreSimilar.js errorsForCallAndAssignmentAreSimilar.ts
+stderr 'TS2820'
+! exists errorsForCallAndAssignmentAreSimilar.js
+! exists errorsForCallAndAssignmentAreSimilar.d.ts
+! exists errorsForCallAndAssignmentAreSimilar.js.map
+
+-- errorsForCallAndAssignmentAreSimilar.ts --
+function minimalExample1() {
+    type Disc =
+        | { kind: "hddvd" }
+        | { kind: "bluray" }
+
+    function foo(x: Disc[]) {
+    }
+
+    foo([
+        { kind: "bluray", },
+        { kind: "hdpvd", }
+    ]);
+
+    const ds: Disc[] = [
+        { kind: "bluray", },
+        { kind: "hdpvd", }
+    ];
+}

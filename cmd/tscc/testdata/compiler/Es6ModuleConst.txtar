@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/es6ModuleConst.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js es6ModuleConst.js es6ModuleConst.ts
+! stderr .
+cmp es6ModuleConst.js es6ModuleConst.js.golden
+! exists es6ModuleConst.d.ts
+! exists es6ModuleConst.js.map
+
+-- es6ModuleConst.ts --
+export const a = "hello";
+export const x: string = a, y = x;
+const b = y;
+const c: string = b, d = c;
+export namespace m1 {
+    export const k = a;
+    export const l: string = b, m = k;
+    const n = m1.k;
+    const o: string = n, p = k;
+}
+namespace m2 {
+    export const k = a;
+    export const l: string = b, m = k;
+    const n = m1.k;
+    const o: string = n, p = k;
+}
+-- es6ModuleConst.js.golden --
+export const a = "hello";
+export const x = a, y = x;
+const b = y;
+const c = b, d = c;
+export var m1;
+(function (m1) {
+    m1.k = a;
+    m1.l = b, m1.m = m1.k;
+    const n = m1.k;
+    const o = n, p = m1.k;
+})(m1 || (m1 = {}));
+var m2;
+(function (m2) {
+    m2.k = a;
+    m2.l = b, m2.m = m2.k;
+    const n = m1.k;
+    const o = n, p = m2.k;
+})(m2 || (m2 = {}));

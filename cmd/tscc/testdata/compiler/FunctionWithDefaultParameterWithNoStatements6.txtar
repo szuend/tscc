@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/functionWithDefaultParameterWithNoStatements6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionWithDefaultParameterWithNoStatements6.js functionWithDefaultParameterWithNoStatements6.ts
+! stderr .
+cmp functionWithDefaultParameterWithNoStatements6.js functionWithDefaultParameterWithNoStatements6.js.golden
+! exists functionWithDefaultParameterWithNoStatements6.d.ts
+! exists functionWithDefaultParameterWithNoStatements6.js.map
+
+-- functionWithDefaultParameterWithNoStatements6.ts --
+function foo(a = true) { }
+
+function bar(a = true) {
+}
+-- functionWithDefaultParameterWithNoStatements6.js.golden --
+"use strict";
+function foo(a = true) { }
+function bar(a = true) {
+}

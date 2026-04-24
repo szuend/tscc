@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/externalModuleWithoutCompilerFlag1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js externalModuleWithoutCompilerFlag1.js externalModuleWithoutCompilerFlag1.ts
+! stderr .
+cmp externalModuleWithoutCompilerFlag1.js externalModuleWithoutCompilerFlag1.js.golden
+! exists externalModuleWithoutCompilerFlag1.d.ts
+! exists externalModuleWithoutCompilerFlag1.js.map
+
+-- externalModuleWithoutCompilerFlag1.ts --
+// Not on line 0 because we want to verify the error is placed in the appropriate location.
+  export namespace M {
+}
+-- externalModuleWithoutCompilerFlag1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

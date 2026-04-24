@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/functionOverloads45.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads45.js functionOverloads45.ts
+! stderr .
+cmp functionOverloads45.js functionOverloads45.js.golden
+! exists functionOverloads45.d.ts
+! exists functionOverloads45.js.map
+
+-- functionOverloads45.ts --
+interface Animal { animal }
+interface Dog extends Animal { dog }
+interface Cat extends Animal { cat }
+
+function foo1(bar: { a:number }[]): Cat;
+function foo1(bar: { a:string }[]): Dog;
+function foo1([x]: { a:number | string }[]): Animal {
+    return undefined;
+}
+
+function foo2(bar: { a:number }[]): Cat;
+function foo2(bar: { a:string }[]): Dog;
+function foo2([x]: { a:number | string }[]): Cat | Dog {
+    return undefined;
+}
+
+
+var x1 = foo1([{a: "str"}]);
+var y1 = foo1([{a: 100}]);
+
+var x2 = foo2([{a: "str"}]);
+var y2 = foo2([{a: 100}]);
+-- functionOverloads45.js.golden --
+"use strict";
+function foo1([x]) {
+    return undefined;
+}
+function foo2([x]) {
+    return undefined;
+}
+var x1 = foo1([{ a: "str" }]);
+var y1 = foo1([{ a: 100 }]);
+var x2 = foo2([{ a: "str" }]);
+var y2 = foo2([{ a: 100 }]);

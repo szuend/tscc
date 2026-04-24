@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/functionSubtypingOfVarArgs2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionSubtypingOfVarArgs2.js functionSubtypingOfVarArgs2.ts
+! stderr .
+cmp functionSubtypingOfVarArgs2.js functionSubtypingOfVarArgs2.js.golden
+! exists functionSubtypingOfVarArgs2.d.ts
+! exists functionSubtypingOfVarArgs2.js.map
+
+-- functionSubtypingOfVarArgs2.ts --
+class EventBase {
+    private _listeners: { (...args: any[]): void; }[] = [];
+
+    add(listener: (...args: any[]) => void): void {
+        this._listeners.push(listener);
+    }
+}
+
+class StringEvent extends EventBase {
+    add(listener: (items: string, moreitems: number) => void ) {
+        super.add(listener);
+    }
+}
+-- functionSubtypingOfVarArgs2.js.golden --
+"use strict";
+class EventBase {
+    constructor() {
+        this._listeners = [];
+    }
+    add(listener) {
+        this._listeners.push(listener);
+    }
+}
+class StringEvent extends EventBase {
+    add(listener) {
+        super.add(listener);
+    }
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/enumWithQuotedElementName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumWithQuotedElementName1.js enumWithQuotedElementName1.ts
+! stderr .
+cmp enumWithQuotedElementName1.js enumWithQuotedElementName1.js.golden
+! exists enumWithQuotedElementName1.d.ts
+! exists enumWithQuotedElementName1.js.map
+
+-- enumWithQuotedElementName1.ts --
+enum E {
+   'fo"o',
+}
+-- enumWithQuotedElementName1.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["fo\"o"] = 0] = "fo\"o";
+})(E || (E = {}));

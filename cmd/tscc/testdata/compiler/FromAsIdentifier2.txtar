@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/fromAsIdentifier2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js fromAsIdentifier2.js fromAsIdentifier2.ts
+! stderr .
+cmp fromAsIdentifier2.js fromAsIdentifier2.js.golden
+! exists fromAsIdentifier2.d.ts
+! exists fromAsIdentifier2.js.map
+
+-- fromAsIdentifier2.ts --
+"use strict";
+var from;
+-- fromAsIdentifier2.js.golden --
+"use strict";
+var from;

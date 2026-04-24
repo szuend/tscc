@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/genericArrayMethods1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericArrayMethods1.js genericArrayMethods1.ts
+stderr 'TS2322'
+! exists genericArrayMethods1.js
+! exists genericArrayMethods1.d.ts
+! exists genericArrayMethods1.js.map
+
+-- genericArrayMethods1.ts --
+var x:string[] =  [0,1].slice(0); // this should be an error

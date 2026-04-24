@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/functionOverloadsOnGenericArity1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionOverloadsOnGenericArity1.js functionOverloadsOnGenericArity1.ts
+! stderr .
+cmp functionOverloadsOnGenericArity1.js functionOverloadsOnGenericArity1.js.golden
+! exists functionOverloadsOnGenericArity1.d.ts
+! exists functionOverloadsOnGenericArity1.js.map
+
+-- functionOverloadsOnGenericArity1.ts --
+// overloading on arity not allowed
+interface C {
+   f<T>(): string;
+   f<T, U>(): string; 
+ 
+   <T>(): string;
+   <T, U>(): string; 
+ 
+  new <T>(): string;
+  new <T, U>(): string; 
+}
+-- functionOverloadsOnGenericArity1.js.golden --
+"use strict";

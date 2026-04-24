@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/exportDefaultForNonInstantiatedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js exportDefaultForNonInstantiatedModule.js exportDefaultForNonInstantiatedModule.ts
+! stderr .
+cmp exportDefaultForNonInstantiatedModule.js exportDefaultForNonInstantiatedModule.js.golden
+! exists exportDefaultForNonInstantiatedModule.d.ts
+! exists exportDefaultForNonInstantiatedModule.js.map
+
+-- exportDefaultForNonInstantiatedModule.ts --
+namespace m {
+    export interface foo {
+    }
+}
+// Should not be emitted
+export default m;
+-- exportDefaultForNonInstantiatedModule.js.golden --
+export {};

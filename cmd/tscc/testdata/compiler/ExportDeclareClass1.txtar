@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/exportDeclareClass1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js exportDeclareClass1.js exportDeclareClass1.ts
+stderr 'TS1183'
+! exists exportDeclareClass1.js
+! exists exportDeclareClass1.d.ts
+! exists exportDeclareClass1.js.map
+
+-- exportDeclareClass1.ts --
+    export declare class eaC {
+        static tF() { };
+        static tsF(param:any) { };
+    };
+	
+	export declare class eaC2 {
+        static tF();
+        static tsF(param:any);
+    };

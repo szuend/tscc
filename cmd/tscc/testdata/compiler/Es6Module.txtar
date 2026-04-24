@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/es6Module.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js es6Module.js es6Module.ts
+! stderr .
+cmp es6Module.js es6Module.js.golden
+! exists es6Module.d.ts
+! exists es6Module.js.map
+
+-- es6Module.ts --
+export class A
+{
+    constructor ()
+    {
+    }
+
+    public B()
+    {
+        return 42;
+    }
+}
+-- es6Module.js.golden --
+export class A {
+    constructor() {
+    }
+    B() {
+        return 42;
+    }
+}

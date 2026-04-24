@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/exportImportAndClodule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js exportImportAndClodule.js exportImportAndClodule.ts
+! stderr .
+cmp exportImportAndClodule.js exportImportAndClodule.js.golden
+! exists exportImportAndClodule.d.ts
+! exists exportImportAndClodule.js.map
+
+-- exportImportAndClodule.ts --
+namespace K {
+    export class L {
+        constructor(public name: string) { }
+    }
+    export namespace L {
+        export var y = 12;
+        export interface Point {
+            x: number;
+            y: number;
+        }
+    }
+}
+namespace M {
+    export import D = K.L;
+}
+var o: { name: string };
+var o = new M.D('Hello');
+var p: { x: number; y: number; }
+var p: M.D.Point;
+-- exportImportAndClodule.js.golden --
+"use strict";
+var K;
+(function (K) {
+    class L {
+        constructor(name) {
+            this.name = name;
+        }
+    }
+    K.L = L;
+    (function (L) {
+        L.y = 12;
+    })(L = K.L || (K.L = {}));
+})(K || (K = {}));
+var M;
+(function (M) {
+    M.D = K.L;
+})(M || (M = {}));
+var o;
+var o = new M.D('Hello');
+var p;
+var p;

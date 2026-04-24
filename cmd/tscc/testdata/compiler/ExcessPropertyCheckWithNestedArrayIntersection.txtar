@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/excessPropertyCheckWithNestedArrayIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js excessPropertyCheckWithNestedArrayIntersection.js excessPropertyCheckWithNestedArrayIntersection.ts
+! stderr .
+cmp excessPropertyCheckWithNestedArrayIntersection.js excessPropertyCheckWithNestedArrayIntersection.js.golden
+! exists excessPropertyCheckWithNestedArrayIntersection.d.ts
+! exists excessPropertyCheckWithNestedArrayIntersection.js.map
+
+-- excessPropertyCheckWithNestedArrayIntersection.ts --
+interface ValueOnlyFields {
+    fields: Array<{
+        value: number | null;
+    }>;
+}
+interface ValueAndKeyFields {
+    fields: Array<{
+        key: string | null;
+        value: number | null;
+    }>;
+}
+interface BugRepro {
+  dataType: ValueAndKeyFields & ValueOnlyFields;
+}
+const repro: BugRepro = {
+  dataType: {
+    fields: [{
+      key: 'bla', // should be OK: Not excess
+      value: null,
+    }],
+  }
+}
+-- excessPropertyCheckWithNestedArrayIntersection.js.golden --
+"use strict";
+const repro = {
+    dataType: {
+        fields: [{
+                key: 'bla', // should be OK: Not excess
+                value: null,
+            }],
+    }
+};

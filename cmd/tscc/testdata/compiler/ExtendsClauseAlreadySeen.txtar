@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/extendsClauseAlreadySeen.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendsClauseAlreadySeen.js extendsClauseAlreadySeen.ts
+stderr 'TS1172'
+! exists extendsClauseAlreadySeen.js
+! exists extendsClauseAlreadySeen.d.ts
+! exists extendsClauseAlreadySeen.js.map
+
+-- extendsClauseAlreadySeen.ts --
+class C {
+
+}
+class D extends C extends C {
+    baz() { }
+}

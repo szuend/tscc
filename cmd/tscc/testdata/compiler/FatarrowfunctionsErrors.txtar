@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/fatarrowfunctionsErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js fatarrowfunctionsErrors.js fatarrowfunctionsErrors.ts
+stderr 'TS1005'
+! exists fatarrowfunctionsErrors.js
+! exists fatarrowfunctionsErrors.d.ts
+! exists fatarrowfunctionsErrors.js.map
+
+-- fatarrowfunctionsErrors.ts --
+foo((...Far:any[])=>{return 0;})
+foo((1)=>{return 0;}); 
+foo((x?)=>{return x;})
+foo((x=0)=>{return x;})
+var y = x:number => x*x;
+false? (() => null): null;
+
+// missing fatarrow
+var x1 = () :void {};
+var x2 = (a:number) :void {};
+var x3 = (a:number) {};
+var x4= (...a: any[]) { };

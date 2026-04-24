@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/es6ImportNamedImportInIndirectExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ImportNamedImportInIndirectExportAssignment_1.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js es6ImportNamedImportInIndirectExportAssignment_1.js es6ImportNamedImportInIndirectExportAssignment_1.ts
+! stderr .
+cmp es6ImportNamedImportInIndirectExportAssignment_1.d.ts es6ImportNamedImportInIndirectExportAssignment_1.d.ts.golden
+cmp es6ImportNamedImportInIndirectExportAssignment_1.js es6ImportNamedImportInIndirectExportAssignment_1.js.golden
+! exists es6ImportNamedImportInIndirectExportAssignment_1.js.map
+
+-- es6ImportNamedImportInIndirectExportAssignment_0.ts --
+export namespace a {
+    export class c {
+    }
+}
+-- es6ImportNamedImportInIndirectExportAssignment_1.ts --
+import { a } from "./es6ImportNamedImportInIndirectExportAssignment_0";
+import x = a;
+export = x;
+-- es6ImportNamedImportInIndirectExportAssignment_1.d.ts.golden --
+import { a } from "./es6ImportNamedImportInIndirectExportAssignment_0";
+import x = a;
+export = x;
+-- es6ImportNamedImportInIndirectExportAssignment_1.js.golden --
+"use strict";
+const es6ImportNamedImportInIndirectExportAssignment_0_1 = require("./es6ImportNamedImportInIndirectExportAssignment_0");
+var x = es6ImportNamedImportInIndirectExportAssignment_0_1.a;
+module.exports = x;

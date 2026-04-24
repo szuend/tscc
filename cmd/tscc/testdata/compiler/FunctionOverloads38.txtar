@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/functionOverloads38.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads38.js functionOverloads38.ts
+! stderr .
+cmp functionOverloads38.js functionOverloads38.js.golden
+! exists functionOverloads38.d.ts
+! exists functionOverloads38.js.map
+
+-- functionOverloads38.ts --
+function foo(bar:{a:number;}[]):string;
+function foo(bar:{a:boolean;}[]):number;
+function foo(bar:{a:any;}[]):any{ return bar }
+var x = foo([{a:1}]);
+-- functionOverloads38.js.golden --
+"use strict";
+function foo(bar) { return bar; }
+var x = foo([{ a: 1 }]);

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/excessPropertyCheckingIntersectionWithConditional.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js excessPropertyCheckingIntersectionWithConditional.js excessPropertyCheckingIntersectionWithConditional.ts
+! stderr .
+cmp excessPropertyCheckingIntersectionWithConditional.js excessPropertyCheckingIntersectionWithConditional.js.golden
+! exists excessPropertyCheckingIntersectionWithConditional.d.ts
+! exists excessPropertyCheckingIntersectionWithConditional.js.map
+
+-- excessPropertyCheckingIntersectionWithConditional.ts --
+type Foo<K> = K extends unknown ? { a: number } : unknown
+const createDefaultExample = <K,>(x: K): Foo<K> & { x: K; } => {
+  return { a: 1, x: x }; // okay in TS 4.7.4, error in TS 4.8.2
+}
+-- excessPropertyCheckingIntersectionWithConditional.js.golden --
+"use strict";
+const createDefaultExample = (x) => {
+    return { a: 1, x: x }; // okay in TS 4.7.4, error in TS 4.8.2
+};

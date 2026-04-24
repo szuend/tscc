@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/exportClassWithoutName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportClassWithoutName.js exportClassWithoutName.ts
+stderr 'TS1211'
+! exists exportClassWithoutName.js
+! exists exportClassWithoutName.d.ts
+! exists exportClassWithoutName.js.map
+
+-- exportClassWithoutName.ts --
+export class {
+}

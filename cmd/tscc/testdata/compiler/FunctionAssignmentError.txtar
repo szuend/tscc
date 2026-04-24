@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionAssignmentError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionAssignmentError.js functionAssignmentError.ts
+! stderr .
+cmp functionAssignmentError.js functionAssignmentError.js.golden
+! exists functionAssignmentError.d.ts
+! exists functionAssignmentError.js.map
+
+-- functionAssignmentError.ts --
+var func = function (){return "ONE";};
+func = function (){return "ONE";};
+-- functionAssignmentError.js.golden --
+"use strict";
+var func = function () { return "ONE"; };
+func = function () { return "ONE"; };

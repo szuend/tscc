@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/flowInFinally1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js flowInFinally1.js flowInFinally1.ts
+! stderr .
+cmp flowInFinally1.js flowInFinally1.js.golden
+! exists flowInFinally1.d.ts
+! exists flowInFinally1.js.map
+
+-- flowInFinally1.ts --
+class A {
+  constructor() { }
+  method() { }
+}
+
+let a: A | null = null;
+
+try {
+  a = new A();
+} finally {
+  if (a) {
+    a.method();
+  }
+}
+-- flowInFinally1.js.golden --
+"use strict";
+class A {
+    constructor() { }
+    method() { }
+}
+let a = null;
+try {
+    a = new A();
+}
+finally {
+    if (a) {
+        a.method();
+    }
+}

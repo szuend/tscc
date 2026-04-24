@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/es6ExportDefaultIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ExportDefaultIdentifier.d.ts --target es6 --lib es6,dom --out-js es6ExportDefaultIdentifier.js es6ExportDefaultIdentifier.ts
+! stderr .
+cmp es6ExportDefaultIdentifier.d.ts es6ExportDefaultIdentifier.d.ts.golden
+cmp es6ExportDefaultIdentifier.js es6ExportDefaultIdentifier.js.golden
+! exists es6ExportDefaultIdentifier.js.map
+
+-- es6ExportDefaultIdentifier.ts --
+export function f() { }
+
+export default f;
+-- es6ExportDefaultIdentifier.d.ts.golden --
+export declare function f(): void;
+export default f;
+-- es6ExportDefaultIdentifier.js.golden --
+export function f() { }
+export default f;

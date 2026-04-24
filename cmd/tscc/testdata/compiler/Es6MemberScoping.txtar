@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/es6MemberScoping.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js es6MemberScoping.js es6MemberScoping.ts
+stderr 'TS2301'
+! exists es6MemberScoping.js
+! exists es6MemberScoping.d.ts
+! exists es6MemberScoping.js.map
+
+-- es6MemberScoping.ts --
+class Foo {
+    constructor(store: string) { }
+
+    public foo() {
+        return this._store.length; 
+    }
+    public _store = store; // should be an error.
+}
+
+class Foo2 {
+ 
+  static Foo2():number { return 0; } // should not be an error
+ 
+}

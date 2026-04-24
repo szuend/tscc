@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/expandoFunctionContextualTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js expandoFunctionContextualTypes.js expandoFunctionContextualTypes.ts
+! stderr .
+cmp expandoFunctionContextualTypes.js expandoFunctionContextualTypes.js.golden
+! exists expandoFunctionContextualTypes.d.ts
+! exists expandoFunctionContextualTypes.js.map
+
+-- expandoFunctionContextualTypes.ts --
+interface MyComponentProps {
+    color: "red" | "blue"
+}
+
+interface StatelessComponent<P> {
+    (): any;
+    defaultProps?: Partial<P>;
+}
+
+const MyComponent: StatelessComponent<MyComponentProps> = () => null as any;
+
+MyComponent.defaultProps = {
+    color: "red"
+};
+-- expandoFunctionContextualTypes.js.golden --
+"use strict";
+const MyComponent = () => null;
+MyComponent.defaultProps = {
+    color: "red"
+};

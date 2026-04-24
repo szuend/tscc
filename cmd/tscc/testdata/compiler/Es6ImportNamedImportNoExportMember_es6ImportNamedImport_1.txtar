@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/es6ImportNamedImportNoExportMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js es6ImportNamedImport_1.js es6ImportNamedImport_1.ts
+stderr 'TS2305'
+! exists es6ImportNamedImport_1.js
+! exists es6ImportNamedImport_1.d.ts
+! exists es6ImportNamedImport_1.js.map
+
+-- es6ImportNamedImportNoExportMember_0.ts --
+export var a = 10;
+export var x = a;
+-- es6ImportNamedImport_1.ts --
+import { a1 } from "./es6ImportNamedImportNoExportMember_0";
+import { x1 as x } from "./es6ImportNamedImportNoExportMember_0";

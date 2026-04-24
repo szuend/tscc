@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/extendedInterfacesWithDuplicateTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendedInterfacesWithDuplicateTypeParameters.js extendedInterfacesWithDuplicateTypeParameters.ts
+stderr 'TS2300'
+stderr 'TS2428'
+! exists extendedInterfacesWithDuplicateTypeParameters.js
+! exists extendedInterfacesWithDuplicateTypeParameters.d.ts
+! exists extendedInterfacesWithDuplicateTypeParameters.js.map
+
+-- extendedInterfacesWithDuplicateTypeParameters.ts --
+interface InterfaceWithMultipleTypars<A, A> { // should error
+	bar(): void;
+}
+
+interface InterfaceWithSomeTypars<B> { // should not error
+	bar(): void;
+}
+
+interface InterfaceWithSomeTypars<C, C> { // should error
+	bar2(): void;
+}

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/es6ClassTest7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js es6ClassTest7.js es6ClassTest7.ts
+! stderr .
+cmp es6ClassTest7.js es6ClassTest7.js.golden
+! exists es6ClassTest7.d.ts
+! exists es6ClassTest7.js.map
+
+-- es6ClassTest7.ts --
+declare namespace M {
+    export class Foo {
+    }
+}
+
+class Bar extends M.Foo {
+}
+-- es6ClassTest7.js.golden --
+"use strict";
+class Bar extends M.Foo {
+}

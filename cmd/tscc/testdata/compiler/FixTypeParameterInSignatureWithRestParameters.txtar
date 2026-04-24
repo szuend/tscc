@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/fixTypeParameterInSignatureWithRestParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js fixTypeParameterInSignatureWithRestParameters.js fixTypeParameterInSignatureWithRestParameters.ts
+stderr 'TS2345'
+! exists fixTypeParameterInSignatureWithRestParameters.js
+! exists fixTypeParameterInSignatureWithRestParameters.d.ts
+! exists fixTypeParameterInSignatureWithRestParameters.js.map
+
+-- fixTypeParameterInSignatureWithRestParameters.ts --
+function bar<T>(item1: T, item2: T) { }
+bar(1, ""); // Should be ok

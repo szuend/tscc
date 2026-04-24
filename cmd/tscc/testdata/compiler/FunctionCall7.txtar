@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/functionCall7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionCall7.js functionCall7.ts
+stderr 'TS2554'
+stderr 'TS2345'
+! exists functionCall7.js
+! exists functionCall7.d.ts
+! exists functionCall7.js.map
+
+-- functionCall7.ts --
+namespace m1 { export class c1 { public a; }}
+function foo(a:m1.c1){ a.a = 1; }; 
+var myC = new m1.c1(); 
+foo(myC); 
+foo(myC, myC); 
+foo(4);
+foo();

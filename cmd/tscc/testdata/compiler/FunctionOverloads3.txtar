@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/functionOverloads3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads3.js functionOverloads3.ts
+stderr 'TS2391'
+! exists functionOverloads3.js
+! exists functionOverloads3.d.ts
+! exists functionOverloads3.js.map
+
+-- functionOverloads3.ts --
+function foo():string;

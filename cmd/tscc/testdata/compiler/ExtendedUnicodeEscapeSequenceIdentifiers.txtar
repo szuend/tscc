@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/extendedUnicodeEscapeSequenceIdentifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js extendedUnicodeEscapeSequenceIdentifiers.js extendedUnicodeEscapeSequenceIdentifiers.ts
+! stderr .
+cmp extendedUnicodeEscapeSequenceIdentifiers.js extendedUnicodeEscapeSequenceIdentifiers.js.golden
+! exists extendedUnicodeEscapeSequenceIdentifiers.d.ts
+! exists extendedUnicodeEscapeSequenceIdentifiers.js.map
+
+-- extendedUnicodeEscapeSequenceIdentifiers.ts --
+const \u{0061} = 12;
+const a\u{0061} = 12;
+
+console.log(a + aa);
+-- extendedUnicodeEscapeSequenceIdentifiers.js.golden --
+"use strict";
+const \u{0061} = 12;
+const a\u{0061} = 12;
+console.log(a + aa);

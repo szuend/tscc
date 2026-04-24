@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/funduleExportedClassIsUsedBeforeDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js funduleExportedClassIsUsedBeforeDeclaration.js funduleExportedClassIsUsedBeforeDeclaration.ts
+! stderr .
+cmp funduleExportedClassIsUsedBeforeDeclaration.js funduleExportedClassIsUsedBeforeDeclaration.js.golden
+! exists funduleExportedClassIsUsedBeforeDeclaration.d.ts
+! exists funduleExportedClassIsUsedBeforeDeclaration.js.map
+
+-- funduleExportedClassIsUsedBeforeDeclaration.ts --
+interface A {   // interface before module declaration
+    (): B.C;    // uses defined below class in module
+}
+declare function B(): B.C;  // function merged with module
+declare namespace B {
+    export class C {    // class defined in module 
+    }
+}
+new B.C(); 
+-- funduleExportedClassIsUsedBeforeDeclaration.js.golden --
+"use strict";
+new B.C();

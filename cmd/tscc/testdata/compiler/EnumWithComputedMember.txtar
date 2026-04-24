@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/enumWithComputedMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumWithComputedMember.js enumWithComputedMember.ts
+stderr 'TS1061'
+! exists enumWithComputedMember.js
+! exists enumWithComputedMember.d.ts
+! exists enumWithComputedMember.js.map
+
+-- enumWithComputedMember.ts --
+enum A { 
+    X = "".length, 
+    Y = X,
+    Z
+}

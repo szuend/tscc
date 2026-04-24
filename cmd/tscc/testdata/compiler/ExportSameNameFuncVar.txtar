@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/exportSameNameFuncVar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportSameNameFuncVar.js exportSameNameFuncVar.ts
+stderr 'TS2300'
+! exists exportSameNameFuncVar.js
+! exists exportSameNameFuncVar.d.ts
+! exists exportSameNameFuncVar.js.map
+
+-- exportSameNameFuncVar.ts --
+export var a = 10;
+export function a() {
+}

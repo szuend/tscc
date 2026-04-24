@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/esmModeDeclarationFileWithExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module nodenext --strict --target esnext --lib esnext,dom main.mts
+stderr 'TS1192'
+! exists main.mjs
+! exists out_main.mts
+! exists main.d.ts
+! exists main.js
+! exists main.js.map
+
+-- main.mts --
+import example from "./other.mjs";
+example();
+-- other.d.mts --
+declare function example(): 5;
+export = example;

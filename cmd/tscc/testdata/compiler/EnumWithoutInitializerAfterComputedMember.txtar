@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/enumWithoutInitializerAfterComputedMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumWithoutInitializerAfterComputedMember.js enumWithoutInitializerAfterComputedMember.ts
+! stderr .
+cmp enumWithoutInitializerAfterComputedMember.js enumWithoutInitializerAfterComputedMember.js.golden
+! exists enumWithoutInitializerAfterComputedMember.d.ts
+! exists enumWithoutInitializerAfterComputedMember.js.map
+
+-- enumWithoutInitializerAfterComputedMember.ts --
+enum E {
+    a,
+    b = a,
+    c
+}
+-- enumWithoutInitializerAfterComputedMember.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["a"] = 0] = "a";
+    E[E["b"] = 0] = "b";
+    E[E["c"] = 1] = "c";
+})(E || (E = {}));

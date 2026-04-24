@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/excessPropertiesInOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js excessPropertiesInOverloads.js excessPropertiesInOverloads.ts
+stderr 'TS2769'
+! exists excessPropertiesInOverloads.js
+! exists excessPropertiesInOverloads.d.ts
+! exists excessPropertiesInOverloads.js.map
+
+-- excessPropertiesInOverloads.ts --
+declare function fn(a: { x: string }): void;
+declare function fn(a: { y: string }): void;
+fn({ z: 3, a: 3 });

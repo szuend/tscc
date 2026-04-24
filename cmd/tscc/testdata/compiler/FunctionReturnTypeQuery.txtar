@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionReturnTypeQuery.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionReturnTypeQuery.js functionReturnTypeQuery.ts
+! stderr .
+cmp functionReturnTypeQuery.js functionReturnTypeQuery.js.golden
+! exists functionReturnTypeQuery.d.ts
+! exists functionReturnTypeQuery.js.map
+
+-- functionReturnTypeQuery.ts --
+declare let foo: number;
+
+declare function test1(foo: string, bar: typeof foo): typeof foo;
+declare function test2({foo}: {foo: string}, bar: typeof foo): typeof foo;
+-- functionReturnTypeQuery.js.golden --
+"use strict";

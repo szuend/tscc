@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/expandoFunctionExpressionsWithDynamicNames2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --strict --target es2015 expandoFunctionExpressionsWithDynamicNames2.ts
+! stderr .
+! exists expandoFunctionExpressionsWithDynamicNames2.d.ts
+! exists expandoFunctionExpressionsWithDynamicNames2.js.map
+
+-- expandoFunctionExpressionsWithDynamicNames2.ts --
+const mySymbol = Symbol();
+interface Foo {
+  (): void;
+  [mySymbol]: true;
+}
+const foo: Foo = () => {};
+foo[mySymbol] = true;
+
+interface Bar {
+  (): void;
+  test: true;
+}
+const t = "test" as const;
+const bar: Bar = () => {};
+bar[t] = true;

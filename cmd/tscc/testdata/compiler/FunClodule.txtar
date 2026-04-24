@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/funClodule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js funClodule.js funClodule.ts
+stderr 'TS2814'
+stderr 'TS2813'
+! exists funClodule.js
+! exists funClodule.d.ts
+! exists funClodule.js.map
+
+-- funClodule.ts --
+declare function foo();
+declare namespace foo {
+    export function x(): any;
+}
+declare class foo { } // Should error
+
+
+declare class foo2 { }
+declare namespace foo2 {
+    export function x(): any;
+}
+declare function foo2(); // Should error
+
+
+function foo3() { }
+namespace foo3 {
+     export function x(): any { }
+}
+class foo3 { } // Should error

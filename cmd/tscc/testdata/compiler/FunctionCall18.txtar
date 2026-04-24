@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/functionCall18.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionCall18.js functionCall18.ts
+stderr 'TS2554'
+! exists functionCall18.js
+! exists functionCall18.d.ts
+! exists functionCall18.js.map
+
+-- functionCall18.ts --
+// Repro from #26835
+declare function foo<T>(a: T, b: T);
+declare function foo(a: {});
+foo<string>("hello");

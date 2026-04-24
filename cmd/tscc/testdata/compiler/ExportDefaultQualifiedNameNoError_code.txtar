@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/exportDefaultQualifiedNameNoError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js code.js code.ts
+! stderr .
+cmp code.js code.js.golden
+! exists code.d.ts
+! exists code.js.map
+
+-- code.ts --
+class C { static x = 0; };
+export default C.x;
+-- usage.ts --
+import def from "./code";
+void def;
+-- code.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class C {
+}
+C.x = 0;
+;
+exports.default = C.x;

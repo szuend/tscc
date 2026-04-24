@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/generatorES6_5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js generatorES6_5.js generatorES6_5.ts
+stderr 'TS2304'
+! exists generatorES6_5.js
+! exists generatorES6_5.d.ts
+! exists generatorES6_5.js.map
+
+-- generatorES6_5.ts --
+function* foo() {
+    yield a ? b : c;
+}

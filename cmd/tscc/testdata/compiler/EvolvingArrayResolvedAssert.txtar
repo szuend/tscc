@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/evolvingArrayResolvedAssert.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js evolvingArrayResolvedAssert.js evolvingArrayResolvedAssert.ts
+stderr 'TS7034'
+stderr 'TS7005'
+! exists evolvingArrayResolvedAssert.js
+! exists evolvingArrayResolvedAssert.d.ts
+! exists evolvingArrayResolvedAssert.js.map
+
+-- evolvingArrayResolvedAssert.ts --
+var C = [];
+for (var a in C) {
+    if (C.hasOwnProperty(a)) {
+    }
+}

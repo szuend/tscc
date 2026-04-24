@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/extendNonClassSymbol1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js extendNonClassSymbol1.js extendNonClassSymbol1.ts
+! stderr .
+cmp extendNonClassSymbol1.js extendNonClassSymbol1.js.golden
+! exists extendNonClassSymbol1.d.ts
+! exists extendNonClassSymbol1.js.map
+
+-- extendNonClassSymbol1.ts --
+class A { foo() { } }
+var x = A;
+class C extends x { } // error, could not find symbol xs
+-- extendNonClassSymbol1.js.golden --
+"use strict";
+class A {
+    foo() { }
+}
+var x = A;
+class C extends x {
+} // error, could not find symbol xs

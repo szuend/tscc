@@ -1,0 +1,52 @@
+# Ported from tests/cases/compiler/extBaseClass1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js extBaseClass1.js extBaseClass1.ts
+! stderr .
+cmp extBaseClass1.js extBaseClass1.js.golden
+! exists extBaseClass1.d.ts
+! exists extBaseClass1.js.map
+
+-- extBaseClass1.ts --
+namespace M {
+    export class B {
+	    public x=10;
+    }
+
+    export class C extends B {
+    }
+}
+
+namespace M {
+    export class C2 extends B {
+    }
+}
+
+namespace N {
+    export class C3 extends M.B {
+    }
+}
+-- extBaseClass1.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class B {
+        constructor() {
+            this.x = 10;
+        }
+    }
+    M.B = B;
+    class C extends B {
+    }
+    M.C = C;
+})(M || (M = {}));
+(function (M) {
+    class C2 extends M.B {
+    }
+    M.C2 = C2;
+})(M || (M = {}));
+var N;
+(function (N) {
+    class C3 extends M.B {
+    }
+    N.C3 = C3;
+})(N || (N = {}));

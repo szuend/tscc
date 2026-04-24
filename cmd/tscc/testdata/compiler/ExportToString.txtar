@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/exportToString.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportToString.js exportToString.ts
+! stderr .
+cmp exportToString.js exportToString.js.golden
+! exists exportToString.d.ts
+! exists exportToString.js.map
+
+-- exportToString.ts --
+const toString = 0;
+export { toString };
+-- exportToString.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.toString = void 0;
+const toString = 0;
+exports.toString = toString;

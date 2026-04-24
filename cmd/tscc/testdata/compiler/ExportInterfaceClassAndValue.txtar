@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/exportInterfaceClassAndValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportInterfaceClassAndValue.js exportInterfaceClassAndValue.ts
+stderr 'TS2451'
+! exists exportInterfaceClassAndValue.js
+! exists exportInterfaceClassAndValue.d.ts
+! exists exportInterfaceClassAndValue.js.map
+
+-- exportInterfaceClassAndValue.ts --
+export const foo = 1
+export declare class foo {}
+export interface foo {}

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/functionOverloadsOutOfOrder.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionOverloadsOutOfOrder.js functionOverloadsOutOfOrder.ts
+stderr 'TS2391'
+! exists functionOverloadsOutOfOrder.js
+! exists functionOverloadsOutOfOrder.d.ts
+! exists functionOverloadsOutOfOrder.js.map
+
+-- functionOverloadsOutOfOrder.ts --
+class d {
+    private foo(n: number): string;
+    private foo(ns: any) {
+        return ns.toString();
+    }
+    private foo(s: string): string;
+}
+
+class e {
+    private foo(ns: any) {
+        return ns.toString();
+    }
+    private foo(s: string): string;
+    private foo(n: number): string;
+}

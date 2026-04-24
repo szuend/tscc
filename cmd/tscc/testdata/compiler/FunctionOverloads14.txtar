@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionOverloads14.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads14.js functionOverloads14.ts
+! stderr .
+cmp functionOverloads14.js functionOverloads14.js.golden
+! exists functionOverloads14.d.ts
+! exists functionOverloads14.js.map
+
+-- functionOverloads14.ts --
+function foo():{a:number;}
+function foo():{a:string;}
+function foo():{a:any;} { return {a:1} }
+-- functionOverloads14.js.golden --
+"use strict";
+function foo() { return { a: 1 }; }

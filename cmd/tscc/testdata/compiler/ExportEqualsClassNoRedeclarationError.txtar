@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/exportEqualsClassNoRedeclarationError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es6 --lib es6,dom --out-js exportEqualsClassNoRedeclarationError.js exportEqualsClassNoRedeclarationError.ts
+! stderr .
+cmp exportEqualsClassNoRedeclarationError.js exportEqualsClassNoRedeclarationError.js.golden
+! exists exportEqualsClassNoRedeclarationError.d.ts
+! exists exportEqualsClassNoRedeclarationError.js.map
+
+-- exportEqualsClassNoRedeclarationError.ts --
+class SomeClass {
+    static get someProp(): number {
+        return 0;
+    }
+
+    static set someProp(value: number) {}
+}
+export = SomeClass;
+-- exportEqualsClassNoRedeclarationError.js.golden --
+"use strict";
+class SomeClass {
+    static get someProp() {
+        return 0;
+    }
+    static set someProp(value) { }
+}
+module.exports = SomeClass;

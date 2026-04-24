@@ -1,0 +1,51 @@
+# Ported from tests/cases/compiler/expressionTypeNodeShouldError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js string.js string.ts
+stderr 'TS1005'
+stderr 'TS1389'
+! exists string.js
+! exists string.d.ts
+! exists string.js.map
+
+-- base.d.ts --
+declare const x: "foo".charCodeAt(0);
+-- boolean.ts --
+interface Boolean {
+    typeof<T>(x: T): T;
+}
+
+class C3 {
+    foo() {
+        const x: false.typeof(this.foo);
+    }
+}
+
+const nodes3 = document.getElementsByTagName("li");
+type ItemType3 = true.typeof(nodes.item(0));
+
+-- number.ts --
+interface Number {
+    typeof<T>(x: T): T;
+}
+
+class C2 {
+    foo() {
+        const x: 3.141592.typeof(this.foo);
+    }
+}
+
+const nodes2 = document.getElementsByTagName("li");
+type ItemType2 = 4..typeof(nodes.item(0));
+-- string.ts --
+interface String {
+    typeof<T>(x: T): T;
+}
+
+class C {
+    foo() {
+        const x: "".typeof(this.foo);
+    }
+}
+
+const nodes = document.getElementsByTagName("li");
+type ItemType = "".typeof(nodes.item(0));

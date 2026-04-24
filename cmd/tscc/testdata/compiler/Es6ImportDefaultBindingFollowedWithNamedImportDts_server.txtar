@@ -1,0 +1,63 @@
+# Ported from tests/cases/compiler/es6ImportDefaultBindingFollowedWithNamedImportDts.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts server.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js server.js server.ts
+! stderr .
+cmp server.d.ts server.d.ts.golden
+cmp server.js server.js.golden
+! exists server.js.map
+
+-- client.ts --
+import defaultBinding1, { } from "./server";
+import defaultBinding2, { a } from "./server";
+export var x1 = new a();
+import defaultBinding3, { a11 as b } from "./server";
+export var x2 = new b();
+import defaultBinding4, { x, a12 as y } from "./server";
+export var x4 = new x();
+export var x5 = new y();
+import defaultBinding5, { x11 as z,  } from "./server";
+export var x3 = new z();
+import defaultBinding6, { m,  } from "./server";
+export var x6 = new m();
+-- server.ts --
+export class a { }
+export class x { }
+export class m { }
+export class a11 { }
+export class a12 { }
+export class x11 { }
+-- server.d.ts.golden --
+export declare class a {
+}
+export declare class x {
+}
+export declare class m {
+}
+export declare class a11 {
+}
+export declare class a12 {
+}
+export declare class x11 {
+}
+-- server.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x11 = exports.a12 = exports.a11 = exports.m = exports.x = exports.a = void 0;
+class a {
+}
+exports.a = a;
+class x {
+}
+exports.x = x;
+class m {
+}
+exports.m = m;
+class a11 {
+}
+exports.a11 = a11;
+class a12 {
+}
+exports.a12 = a12;
+class x11 {
+}
+exports.x11 = x11;

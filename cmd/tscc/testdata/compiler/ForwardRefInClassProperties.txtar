@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/forwardRefInClassProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js forwardRefInClassProperties.js forwardRefInClassProperties.ts
+stderr 'TS2729'
+stderr 'TS2448'
+stderr 'TS2454'
+! exists forwardRefInClassProperties.js
+! exists forwardRefInClassProperties.d.ts
+! exists forwardRefInClassProperties.js.map
+
+-- forwardRefInClassProperties.ts --
+class Test
+{
+    _b = this._a; // undefined, no error/warning
+    _a = 3;
+
+    static _B = Test._A; // undefined, no error/warning
+    static _A = 3;
+
+    method()
+    {
+        let a = b; // Property 'b' is used before its initialization.
+        let b = 3;
+    }
+}

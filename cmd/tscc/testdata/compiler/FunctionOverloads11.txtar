@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/functionOverloads11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads11.js functionOverloads11.ts
+stderr 'TS2394'
+! exists functionOverloads11.js
+! exists functionOverloads11.d.ts
+! exists functionOverloads11.js.map
+
+-- functionOverloads11.ts --
+function foo():number;
+function foo():string { return "" }

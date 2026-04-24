@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/es6ExportDefaultFunctionDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ExportDefaultFunctionDeclaration.d.ts --target es6 --lib es6,dom --out-js es6ExportDefaultFunctionDeclaration.js es6ExportDefaultFunctionDeclaration.ts
+! stderr .
+cmp es6ExportDefaultFunctionDeclaration.d.ts es6ExportDefaultFunctionDeclaration.d.ts.golden
+cmp es6ExportDefaultFunctionDeclaration.js es6ExportDefaultFunctionDeclaration.js.golden
+! exists es6ExportDefaultFunctionDeclaration.js.map
+
+-- es6ExportDefaultFunctionDeclaration.ts --
+export default function f() { }
+-- es6ExportDefaultFunctionDeclaration.d.ts.golden --
+export default function f(): void;
+-- es6ExportDefaultFunctionDeclaration.js.golden --
+export default function f() { }

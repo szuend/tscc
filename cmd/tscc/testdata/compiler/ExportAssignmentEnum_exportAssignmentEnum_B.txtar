@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/exportAssignmentEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignmentEnum_B.js exportAssignmentEnum_B.ts
+! stderr .
+cmp exportAssignmentEnum_B.js exportAssignmentEnum_B.js.golden
+! exists exportAssignmentEnum_B.d.ts
+! exists exportAssignmentEnum_B.js.map
+
+-- exportAssignmentEnum_A.ts --
+enum E {
+	A,
+	B,
+	C,
+}
+
+export = E;
+-- exportAssignmentEnum_B.ts --
+import EnumE = require("./exportAssignmentEnum_A");
+
+var a = EnumE.A;
+var b = EnumE.B;
+var c = EnumE.C;
+-- exportAssignmentEnum_B.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const EnumE = require("./exportAssignmentEnum_A");
+var a = EnumE.A;
+var b = EnumE.B;
+var c = EnumE.C;

@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/exportAssignmentImportMergeNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js assignment.js assignment.ts
+! stderr .
+cmp assignment.js assignment.js.golden
+! exists assignment.d.ts
+! exists assignment.js.map
+
+-- assignment.ts --
+export default {
+    foo: 12
+};
+-- user.ts --
+import Obj from "./assignment";
+
+export const Obj = void Obj;
+-- assignment.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
+    foo: 12
+};

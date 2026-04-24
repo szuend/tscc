@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/es6ModuleWithModuleGenTargetCommonjs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target ES6 --lib ES6,dom --out-js es6ModuleWithModuleGenTargetCommonjs.js es6ModuleWithModuleGenTargetCommonjs.ts
+! stderr .
+cmp es6ModuleWithModuleGenTargetCommonjs.js es6ModuleWithModuleGenTargetCommonjs.js.golden
+! exists es6ModuleWithModuleGenTargetCommonjs.d.ts
+! exists es6ModuleWithModuleGenTargetCommonjs.js.map
+
+-- es6ModuleWithModuleGenTargetCommonjs.ts --
+export class A
+{
+    constructor ()
+    {
+    }
+
+    public B()
+    {
+        return 42;
+    }
+}
+-- es6ModuleWithModuleGenTargetCommonjs.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.A = void 0;
+class A {
+    constructor() {
+    }
+    B() {
+        return 42;
+    }
+}
+exports.A = A;

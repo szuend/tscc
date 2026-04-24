@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/emptyExpr.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js emptyExpr.js emptyExpr.ts
+! stderr .
+cmp emptyExpr.js emptyExpr.js.golden
+! exists emptyExpr.d.ts
+! exists emptyExpr.js.map
+
+-- emptyExpr.ts --
+[{},]
+-- emptyExpr.js.golden --
+"use strict";
+[{},];

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/externalModuleExportingGenericClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js externalModuleExportingGenericClass_file0.js externalModuleExportingGenericClass_file0.ts
+stderr 'TS2564'
+! exists externalModuleExportingGenericClass_file0.js
+! exists externalModuleExportingGenericClass_file0.d.ts
+! exists externalModuleExportingGenericClass_file0.js.map
+
+-- externalModuleExportingGenericClass_file0.ts --
+class C<T> {
+    foo: T;
+}
+export = C;
+
+-- externalModuleExportingGenericClass_file1.ts --
+import a = require('./externalModuleExportingGenericClass_file0');
+var v: a; // this should report error
+var v2: any = (new a()).foo;
+var v3: number = (new a<number>()).foo;

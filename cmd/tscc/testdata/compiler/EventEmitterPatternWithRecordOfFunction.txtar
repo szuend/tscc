@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/eventEmitterPatternWithRecordOfFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js eventEmitterPatternWithRecordOfFunction.js eventEmitterPatternWithRecordOfFunction.ts
+! stderr .
+cmp eventEmitterPatternWithRecordOfFunction.js eventEmitterPatternWithRecordOfFunction.js.golden
+! exists eventEmitterPatternWithRecordOfFunction.d.ts
+! exists eventEmitterPatternWithRecordOfFunction.js.map
+
+-- eventEmitterPatternWithRecordOfFunction.ts --
+interface A {
+    emit(event: string, ...args: any[]): boolean;
+}
+
+type Args<F> = F extends (...args: infer A) => void ? A : never;
+
+type EventMap = Record<string, Function>;
+
+interface B<M extends EventMap> extends A {
+    emit<Event extends keyof M>(event: Event, ...args: Args<M[Event]>): boolean;
+}
+-- eventEmitterPatternWithRecordOfFunction.js.golden --
+"use strict";

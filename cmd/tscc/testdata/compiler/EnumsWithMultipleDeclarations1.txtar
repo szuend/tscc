@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/enumsWithMultipleDeclarations1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumsWithMultipleDeclarations1.js enumsWithMultipleDeclarations1.ts
+stderr 'TS2432'
+! exists enumsWithMultipleDeclarations1.js
+! exists enumsWithMultipleDeclarations1.d.ts
+! exists enumsWithMultipleDeclarations1.js.map
+
+-- enumsWithMultipleDeclarations1.ts --
+enum E {
+  A
+}
+
+enum E {
+  B
+}
+
+enum E {
+  C
+}

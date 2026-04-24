@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/extBaseClass2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extBaseClass2.js extBaseClass2.ts
+stderr 'TS2339'
+stderr 'TS2304'
+! exists extBaseClass2.js
+! exists extBaseClass2.d.ts
+! exists extBaseClass2.js.map
+
+-- extBaseClass2.ts --
+namespace N {
+    export class C4 extends M.B {
+    }
+}
+
+namespace M {
+    export class C5 extends B {
+    }
+}

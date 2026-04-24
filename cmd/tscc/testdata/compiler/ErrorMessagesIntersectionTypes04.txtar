@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/errorMessagesIntersectionTypes04.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js errorMessagesIntersectionTypes04.js errorMessagesIntersectionTypes04.ts
+stderr 'TS2322'
+! exists errorMessagesIntersectionTypes04.js
+! exists errorMessagesIntersectionTypes04.d.ts
+! exists errorMessagesIntersectionTypes04.js.map
+
+-- errorMessagesIntersectionTypes04.ts --
+interface A {
+    a;
+}
+
+interface B {
+    b;
+}
+
+function f<T, U extends A, V extends U>(): void {
+    let num: number;
+    let bool: boolean;
+    let str: string;
+
+    let a_and_b: A & B;
+    let num_and_bool: number & boolean;
+
+    num = a_and_b;
+    bool = a_and_b;
+    str = a_and_b;
+
+    str = num_and_bool;
+}

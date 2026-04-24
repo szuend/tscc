@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/evolvingArrayTypeInAssert.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js evolvingArrayTypeInAssert.js evolvingArrayTypeInAssert.ts
+! stderr .
+cmp evolvingArrayTypeInAssert.js evolvingArrayTypeInAssert.js.golden
+! exists evolvingArrayTypeInAssert.d.ts
+! exists evolvingArrayTypeInAssert.js.map
+
+-- evolvingArrayTypeInAssert.ts --
+export function unsafeCast<T>(_value: unknown): asserts _value is T { }
+
+function yadda() {
+    let out = [];
+    out.push(100)
+    unsafeCast<any>(out);
+    return out;
+}
+-- evolvingArrayTypeInAssert.js.golden --
+export function unsafeCast(_value) { }
+function yadda() {
+    let out = [];
+    out.push(100);
+    unsafeCast(out);
+    return out;
+}

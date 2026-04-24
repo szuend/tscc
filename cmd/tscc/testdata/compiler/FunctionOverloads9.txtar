@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/functionOverloads9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads9.js functionOverloads9.ts
+! stderr .
+cmp functionOverloads9.js functionOverloads9.js.golden
+! exists functionOverloads9.d.ts
+! exists functionOverloads9.js.map
+
+-- functionOverloads9.ts --
+function foo(foo:string);
+function foo(foo?:string){ return '' };
+var x = foo('foo');
+-- functionOverloads9.js.golden --
+"use strict";
+function foo(foo) { return ''; }
+;
+var x = foo('foo');

@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/es6ImportParseErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js es6ImportParseErrors.js es6ImportParseErrors.ts
+stderr 'TS1128'
+! exists es6ImportParseErrors.js
+! exists es6ImportParseErrors.d.ts
+! exists es6ImportParseErrors.js.map
+
+-- es6ImportParseErrors.ts --
+import 10;

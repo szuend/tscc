@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/enumWithExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumWithExport.js enumWithExport.ts
+stderr 'TS2304'
+! exists enumWithExport.js
+! exists enumWithExport.d.ts
+! exists enumWithExport.js.map
+
+-- enumWithExport.ts --
+namespace x {
+  export let y = 123
+}
+enum x {
+  z = y
+}

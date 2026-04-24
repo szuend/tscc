@@ -1,0 +1,60 @@
+# Ported from tests/cases/compiler/expandoFunctionContextualTypesJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom input.js
+! stderr .
+! exists input.d.ts
+! exists input.js.map
+
+-- input.js --
+/** @typedef {{ color: "red" | "blue" }} MyComponentProps */
+
+/**
+ * @template P 
+ * @typedef {{ (): any; defaultProps?: Partial<P> }} StatelessComponent */
+
+ /**
+  * @type {StatelessComponent<MyComponentProps>}
+  */
+const MyComponent = () => /* @type {any} */(null);
+
+MyComponent.defaultProps = {
+    color: "red"
+};
+
+const MyComponent2 = () => null;
+
+/**
+ * @type {MyComponentProps}
+ */
+MyComponent2.defaultProps = {
+    color: "red"
+}
+
+/**
+  * @type {StatelessComponent<MyComponentProps>}
+ */
+const check = MyComponent2;
+
+/**
+ * 
+ * @param {{ props: MyComponentProps }} p 
+ */
+function expectLiteral(p) {}
+
+function foo() {
+    /**
+     * @type {MyComponentProps}
+     */
+    this.props = { color: "red" };
+
+    expectLiteral(this);
+}
+
+/**
+ * @type {MyComponentProps}
+ */
+module.exports = {
+    color: "red"
+}
+
+expectLiteral({ props: module.exports });

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/exportAssignmentOfDeclaredExternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignmentOfDeclaredExternalModule_0.js exportAssignmentOfDeclaredExternalModule_0.ts
+! stderr .
+cmp exportAssignmentOfDeclaredExternalModule_0.js exportAssignmentOfDeclaredExternalModule_0.js.golden
+! exists exportAssignmentOfDeclaredExternalModule_0.d.ts
+! exists exportAssignmentOfDeclaredExternalModule_0.js.map
+
+-- exportAssignmentOfDeclaredExternalModule_0.ts --
+interface Sammy {
+    new (): any; // a constructor signature
+        (): number; // a 0 arg call signature
+    }
+export = Sammy;
+-- exportAssignmentOfDeclaredExternalModule_1.ts --
+///<reference path='exportAssignmentOfDeclaredExternalModule_0.ts'/>
+import Sammy = require('./exportAssignmentOfDeclaredExternalModule_0');
+var x = new Sammy(); // error to use as constructor as there is not constructor symbol
+var y = Sammy(); // error to use interface name as call target
+declare var z: Sammy; // no error - z is of type interface Sammy from module 'M'
+var a = new z(); // constructor - no error
+var b = z(); // call signature - no error
+-- exportAssignmentOfDeclaredExternalModule_0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

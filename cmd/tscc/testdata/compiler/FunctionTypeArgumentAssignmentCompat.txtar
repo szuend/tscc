@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/functionTypeArgumentAssignmentCompat.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionTypeArgumentAssignmentCompat.js functionTypeArgumentAssignmentCompat.ts
+stderr 'TS2322'
+! exists functionTypeArgumentAssignmentCompat.js
+! exists functionTypeArgumentAssignmentCompat.d.ts
+! exists functionTypeArgumentAssignmentCompat.js.map
+
+-- functionTypeArgumentAssignmentCompat.ts --
+var f : {
+ <T>(x:T): T;
+}
+
+var g : {
+ <S>() : S[];
+} = () => [];
+
+f = g;
+var s = f("str").toUpperCase();
+
+console.log(s);

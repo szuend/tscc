@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/emitMemberAccessExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js emitMemberAccessExpression_file1.js emitMemberAccessExpression_file1.ts
+! stderr .
+cmp emitMemberAccessExpression_file1.js emitMemberAccessExpression_file1.js.golden
+! exists emitMemberAccessExpression_file1.d.ts
+! exists emitMemberAccessExpression_file1.js.map
+
+-- emitMemberAccessExpression_file1.ts --
+/// <reference path="emitMemberAccessExpression_file3.ts" />
+"use strict";
+-- emitMemberAccessExpression_file2.ts --
+/// <reference path="emitMemberAccessExpression_file3.ts" />
+"use strict";
+namespace Microsoft.PeopleAtWork.Model {
+    export class _Person {
+        public populate(raw: any) {
+            var res = Model.KnockoutExtentions;
+        }
+    }
+}
+-- emitMemberAccessExpression_file3.ts --
+/// <reference path="emitMemberAccessExpression_file2.ts" />
+/// <reference path="emitMemberAccessExpression_file1.ts" />
+declare var OData: any;
+namespace Microsoft.PeopleAtWork.Model {
+    export class KnockoutExtentions {
+    }
+}
+-- emitMemberAccessExpression_file1.js.golden --
+/// <reference path="emitMemberAccessExpression_file3.ts" />
+"use strict";

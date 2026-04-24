@@ -1,0 +1,54 @@
+# Ported from tests/cases/compiler/es6ImportNamedImportWithTypesAndValues.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts server.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js server.js server.ts
+! stderr .
+cmp server.d.ts server.d.ts.golden
+cmp server.js server.js.golden
+! exists server.js.map
+
+-- client.ts --
+import { C, I, C2 } from "./server"; // Shouldnt emit I and C2 into the js file and emit C and I in .d.ts file
+export type cValInterface = I;
+export var cVal = new C();
+-- server.ts --
+export interface I {
+    prop: string;
+}
+export interface I2 {
+    prop2: string;
+}
+export class C implements I {
+    prop = "hello";
+}
+export class C2 implements I2 {
+    prop2 = "world";
+}
+-- server.d.ts.golden --
+export interface I {
+    prop: string;
+}
+export interface I2 {
+    prop2: string;
+}
+export declare class C implements I {
+    prop: string;
+}
+export declare class C2 implements I2 {
+    prop2: string;
+}
+-- server.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.C2 = exports.C = void 0;
+class C {
+    constructor() {
+        this.prop = "hello";
+    }
+}
+exports.C = C;
+class C2 {
+    constructor() {
+        this.prop2 = "world";
+    }
+}
+exports.C2 = C2;

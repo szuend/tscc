@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/exportDefaultInterfaceAndValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultInterfaceAndValue.js exportDefaultInterfaceAndValue.ts
+! stderr .
+cmp exportDefaultInterfaceAndValue.js exportDefaultInterfaceAndValue.js.golden
+! exists exportDefaultInterfaceAndValue.d.ts
+! exists exportDefaultInterfaceAndValue.js.map
+
+-- exportDefaultInterfaceAndValue.ts --
+export default interface A { a: string; }
+export default function() { return 1; }
+declare var x: A;
+-- exportDefaultInterfaceAndValue.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
+function default_1() { return 1; }

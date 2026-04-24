@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/forInModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js forInModule.js forInModule.ts
+! stderr .
+cmp forInModule.js forInModule.js.golden
+! exists forInModule.d.ts
+! exists forInModule.js.map
+
+-- forInModule.ts --
+namespace Foo {
+	for (var i = 0; i < 1; i++) {
+		i+i;
+	}
+}
+-- forInModule.js.golden --
+"use strict";
+var Foo;
+(function (Foo) {
+    for (var i = 0; i < 1; i++) {
+        i + i;
+    }
+})(Foo || (Foo = {}));

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/functionReturningItself.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts functionReturningItself.d.ts --target es2015 --lib es2015,dom --out-js functionReturningItself.js functionReturningItself.ts
+! stderr .
+cmp functionReturningItself.d.ts functionReturningItself.d.ts.golden
+cmp functionReturningItself.js functionReturningItself.js.golden
+! exists functionReturningItself.js.map
+
+-- functionReturningItself.ts --
+function somefn() {
+    return somefn;
+}
+-- functionReturningItself.d.ts.golden --
+declare function somefn(): typeof somefn;
+-- functionReturningItself.js.golden --
+"use strict";
+function somefn() {
+    return somefn;
+}

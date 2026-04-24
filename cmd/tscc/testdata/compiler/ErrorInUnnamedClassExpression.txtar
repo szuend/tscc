@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/errorInUnnamedClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom errorInUnnamedClassExpression.ts
+stderr 'TS1253'
+! exists errorInUnnamedClassExpression.d.ts
+! exists errorInUnnamedClassExpression.js.map
+
+-- errorInUnnamedClassExpression.ts --
+// https://github.com/microsoft/TypeScript/issues/62920
+
+let Foo = class {
+    constructor() {
+        this.bar++;
+    }
+    abstract bar;
+};

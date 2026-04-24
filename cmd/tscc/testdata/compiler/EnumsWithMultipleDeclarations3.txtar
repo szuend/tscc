@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/enumsWithMultipleDeclarations3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumsWithMultipleDeclarations3.js enumsWithMultipleDeclarations3.ts
+! stderr .
+cmp enumsWithMultipleDeclarations3.js enumsWithMultipleDeclarations3.js.golden
+! exists enumsWithMultipleDeclarations3.d.ts
+! exists enumsWithMultipleDeclarations3.js.map
+
+-- enumsWithMultipleDeclarations3.ts --
+namespace E {
+}
+
+enum E {
+  A
+}
+-- enumsWithMultipleDeclarations3.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["A"] = 0] = "A";
+})(E || (E = {}));

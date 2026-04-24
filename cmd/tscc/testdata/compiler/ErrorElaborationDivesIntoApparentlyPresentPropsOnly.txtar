@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/errorElaborationDivesIntoApparentlyPresentPropsOnly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js errorElaborationDivesIntoApparentlyPresentPropsOnly.js errorElaborationDivesIntoApparentlyPresentPropsOnly.ts
+stderr 'TS2322'
+! exists errorElaborationDivesIntoApparentlyPresentPropsOnly.js
+! exists errorElaborationDivesIntoApparentlyPresentPropsOnly.d.ts
+! exists errorElaborationDivesIntoApparentlyPresentPropsOnly.js.map
+
+-- errorElaborationDivesIntoApparentlyPresentPropsOnly.ts --
+function foo<T extends { a: string }>(x: T) {
+    x = { a: "abc", b: 20, c: 30 };
+}
+
+function bar<T extends { a: string }>(x: T) {
+    x = { a: 20 };
+}
+
+function baz<T extends { a: string }>(x: T) {
+    x = { a: "not ok" };
+}

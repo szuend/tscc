@@ -1,0 +1,77 @@
+# Ported from tests/cases/compiler/expandoFunctionNullishProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts expandoFunctionNullishProperty.d.ts --strict --target esnext --lib esnext,dom --out-js expandoFunctionNullishProperty.js expandoFunctionNullishProperty.ts
+! stderr .
+cmp expandoFunctionNullishProperty.d.ts expandoFunctionNullishProperty.d.ts.golden
+cmp expandoFunctionNullishProperty.js expandoFunctionNullishProperty.js.golden
+! exists expandoFunctionNullishProperty.js.map
+
+-- expandoFunctionNullishProperty.ts --
+// mentioned in https://github.com/microsoft/TypeScript/issues/54220
+
+interface TestNull {
+  (): void;
+  readonly prop: null;
+}
+
+export function testNull(): TestNull {
+  function inner() {}
+  inner.prop = null;
+  return inner;
+}
+
+interface TestNull2 {
+  (): void;
+  prop: string | null;
+}
+
+export function testNull2(): TestNull2 {
+  function inner() {}
+  inner.prop = null;
+  return inner;
+}
+
+interface TestUndefined {
+  (): void;
+  readonly prop: undefined;
+}
+
+export function testUndefined(): TestUndefined {
+  function inner() {}
+  inner.prop = undefined;
+  return inner;
+}
+-- expandoFunctionNullishProperty.d.ts.golden --
+interface TestNull {
+    (): void;
+    readonly prop: null;
+}
+export declare function testNull(): TestNull;
+interface TestNull2 {
+    (): void;
+    prop: string | null;
+}
+export declare function testNull2(): TestNull2;
+interface TestUndefined {
+    (): void;
+    readonly prop: undefined;
+}
+export declare function testUndefined(): TestUndefined;
+export {};
+-- expandoFunctionNullishProperty.js.golden --
+// mentioned in https://github.com/microsoft/TypeScript/issues/54220
+export function testNull() {
+    function inner() { }
+    inner.prop = null;
+    return inner;
+}
+export function testNull2() {
+    function inner() { }
+    inner.prop = null;
+    return inner;
+}
+export function testUndefined() {
+    function inner() { }
+    inner.prop = undefined;
+    return inner;
+}

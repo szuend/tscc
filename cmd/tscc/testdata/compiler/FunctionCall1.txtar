@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/functionCall1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionCall1.js functionCall1.ts
+! stderr .
+cmp functionCall1.js functionCall1.js.golden
+! exists functionCall1.d.ts
+! exists functionCall1.js.map
+
+-- functionCall1.ts --
+function foo():any{return ""};
+var x = foo();
+-- functionCall1.js.golden --
+"use strict";
+function foo() { return ""; }
+;
+var x = foo();

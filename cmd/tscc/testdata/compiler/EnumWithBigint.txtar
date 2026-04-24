@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/enumWithBigint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumWithBigint.js enumWithBigint.ts
+stderr 'TS2452'
+! exists enumWithBigint.js
+! exists enumWithBigint.d.ts
+! exists enumWithBigint.js.map
+
+-- enumWithBigint.ts --
+enum E {
+  0n = 0,
+}

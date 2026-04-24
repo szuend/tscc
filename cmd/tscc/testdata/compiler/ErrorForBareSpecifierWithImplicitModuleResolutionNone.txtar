@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/errorForBareSpecifierWithImplicitModuleResolutionNone.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module es2015 --target es2015 --lib es2015,dom --out-js errorForBareSpecifierWithImplicitModuleResolutionNone.js errorForBareSpecifierWithImplicitModuleResolutionNone.ts
+stderr 'TS2307'
+! exists errorForBareSpecifierWithImplicitModuleResolutionNone.js
+! exists errorForBareSpecifierWithImplicitModuleResolutionNone.d.ts
+! exists errorForBareSpecifierWithImplicitModuleResolutionNone.js.map
+
+-- errorForBareSpecifierWithImplicitModuleResolutionNone.ts --
+// This would be classed as moduleResolutionKind: Classic
+
+import { thing } from "non-existent-module";
+thing()

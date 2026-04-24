@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/es6ImportDefaultBindingFollowedWithNamespaceBindingDts.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts client.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js client.js client.ts
+stderr 'TS1192'
+! exists client.d.ts
+! exists client.js
+! exists client.js.map
+
+-- client.ts --
+import defaultBinding, * as nameSpaceBinding  from "./server";
+export var x = new nameSpaceBinding.a();
+-- server.ts --
+export class a { }

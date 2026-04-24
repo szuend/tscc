@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/fixingTypeParametersRepeatedly3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js fixingTypeParametersRepeatedly3.js fixingTypeParametersRepeatedly3.ts
+! stderr .
+cmp fixingTypeParametersRepeatedly3.js fixingTypeParametersRepeatedly3.js.golden
+! exists fixingTypeParametersRepeatedly3.d.ts
+! exists fixingTypeParametersRepeatedly3.js.map
+
+-- fixingTypeParametersRepeatedly3.ts --
+interface Base {
+    baseProp;
+}
+interface Derived extends Base {
+    toBase?(): Base;
+}
+
+var derived: Derived;
+
+declare function foo<T>(x: T, func: (p: T) => T): T;
+var result = foo(derived, d => d.toBase());
+
+// bar should type check just like foo.
+// result2 should have the same type as result
+declare function bar<T>(x: T, func: (p: T) => T): T;
+declare function bar<T>(x: T, func: (p: T) => T): T;
+var result2 = bar(derived, d => d.toBase());
+-- fixingTypeParametersRepeatedly3.js.golden --
+"use strict";
+var derived;
+var result = foo(derived, d => d.toBase());
+var result2 = bar(derived, d => d.toBase());

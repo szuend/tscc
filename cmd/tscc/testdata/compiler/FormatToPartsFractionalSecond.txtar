@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/formatToPartsFractionalSecond.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js formatToPartsFractionalSecond.js formatToPartsFractionalSecond.ts
+! stderr .
+cmp formatToPartsFractionalSecond.js formatToPartsFractionalSecond.js.golden
+! exists formatToPartsFractionalSecond.d.ts
+! exists formatToPartsFractionalSecond.js.map
+
+-- formatToPartsFractionalSecond.ts --
+new Intl.DateTimeFormat().formatToParts().find((val) => val.type === 'fractionalSecond')
+-- formatToPartsFractionalSecond.js.golden --
+"use strict";
+new Intl.DateTimeFormat().formatToParts().find((val) => val.type === 'fractionalSecond');

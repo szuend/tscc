@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/exportAssignmentVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignmentVariable_A.js exportAssignmentVariable_A.ts
+! stderr .
+cmp exportAssignmentVariable_A.js exportAssignmentVariable_A.js.golden
+! exists exportAssignmentVariable_A.d.ts
+! exists exportAssignmentVariable_A.js.map
+
+-- exportAssignmentVariable_A.ts --
+var x = 0;
+
+export = x;
+-- exportAssignmentVariable_B.ts --
+import y = require("./exportAssignmentVariable_A");
+
+var n: number = y;
+-- exportAssignmentVariable_A.js.golden --
+"use strict";
+var x = 0;
+module.exports = x;

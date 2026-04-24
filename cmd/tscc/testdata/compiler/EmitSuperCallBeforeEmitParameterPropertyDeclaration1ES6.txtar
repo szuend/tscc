@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.js emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.ts
+! stderr .
+cmp emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.js emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.js.golden
+! exists emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.d.ts
+! exists emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.js.map
+
+-- emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.ts --
+class A {
+    blub = 6;
+}
+
+
+class B extends A {
+    constructor(public x: number) {
+        "use strict";
+        'someStringForEgngInject';
+        super()
+    }
+}
+-- emitSuperCallBeforeEmitParameterPropertyDeclaration1ES6.js.golden --
+"use strict";
+class A {
+    constructor() {
+        this.blub = 6;
+    }
+}
+class B extends A {
+    constructor(x) {
+        "use strict";
+        'someStringForEgngInject';
+        super();
+        this.x = x;
+    }
+}

@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/enumLiteralAssignableToEnumInsideUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumLiteralAssignableToEnumInsideUnion.js enumLiteralAssignableToEnumInsideUnion.ts
+stderr 'TS2322'
+! exists enumLiteralAssignableToEnumInsideUnion.js
+! exists enumLiteralAssignableToEnumInsideUnion.d.ts
+! exists enumLiteralAssignableToEnumInsideUnion.js.map
+
+-- enumLiteralAssignableToEnumInsideUnion.ts --
+namespace X {
+    export enum Foo {
+        A, B
+    }
+}
+namespace Y {
+    export enum Foo {
+        A, B
+    }
+}
+namespace Z {
+    export enum Foo {
+        A = 1 << 1,
+        B = 1 << 2,
+    }
+}
+namespace Ka {
+    export enum Foo {
+        A = 1 << 10,
+        B = 1 << 11,
+    }
+}
+const e0: X.Foo | boolean = Y.Foo.A; // ok
+const e1: X.Foo | boolean = Z.Foo.A; // not legal, Z is computed
+const e2: X.Foo.A | X.Foo.B | boolean = Z.Foo.A; // still not legal
+const e3: X.Foo.B | boolean = Z.Foo.A; // not legal
+const e4: X.Foo.A | boolean = Z.Foo.A; // not legal either because Z.Foo is computed and Z.Foo.A is not necessarily assignable to X.Foo.A
+const e5: Ka.Foo | boolean = Z.Foo.A; // ok

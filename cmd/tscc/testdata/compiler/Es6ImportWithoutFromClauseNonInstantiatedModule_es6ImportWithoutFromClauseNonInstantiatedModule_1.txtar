@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/es6ImportWithoutFromClauseNonInstantiatedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts es6ImportWithoutFromClauseNonInstantiatedModule_1.d.ts --target es6 --lib es6,dom --out-js es6ImportWithoutFromClauseNonInstantiatedModule_1.js es6ImportWithoutFromClauseNonInstantiatedModule_1.ts
+stderr 'TS2882'
+! exists es6ImportWithoutFromClauseNonInstantiatedModule_1.d.ts
+! exists es6ImportWithoutFromClauseNonInstantiatedModule_1.js
+! exists es6ImportWithoutFromClauseNonInstantiatedModule_1.js.map
+
+-- es6ImportWithoutFromClauseNonInstantiatedModule_0.ts --
+export interface i {
+}
+-- es6ImportWithoutFromClauseNonInstantiatedModule_1.ts --
+import "es6ImportWithoutFromClauseNonInstantiatedModule_0";

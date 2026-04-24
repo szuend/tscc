@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/functionOverloads34.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads34.js functionOverloads34.ts
+stderr 'TS2554'
+! exists functionOverloads34.js
+! exists functionOverloads34.d.ts
+! exists functionOverloads34.js.map
+
+-- functionOverloads34.ts --
+function foo(bar:{a:number;}):string;
+function foo(bar:{a:boolean;}):number;
+function foo(bar:{a:any;}):any{ return bar }
+var x = foo();

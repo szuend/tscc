@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/functionWithDefaultParameterWithNoStatements8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionWithDefaultParameterWithNoStatements8.js functionWithDefaultParameterWithNoStatements8.ts
+! stderr .
+cmp functionWithDefaultParameterWithNoStatements8.js functionWithDefaultParameterWithNoStatements8.js.golden
+! exists functionWithDefaultParameterWithNoStatements8.d.ts
+! exists functionWithDefaultParameterWithNoStatements8.js.map
+
+-- functionWithDefaultParameterWithNoStatements8.ts --
+function foo(a = undefined) { }
+
+function bar(a = undefined) {
+}
+-- functionWithDefaultParameterWithNoStatements8.js.golden --
+"use strict";
+function foo(a = undefined) { }
+function bar(a = undefined) {
+}

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/errorOnInitializerInInterfaceProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorOnInitializerInInterfaceProperty.js errorOnInitializerInInterfaceProperty.ts
+stderr 'TS1246'
+! exists errorOnInitializerInInterfaceProperty.js
+! exists errorOnInitializerInInterfaceProperty.d.ts
+! exists errorOnInitializerInInterfaceProperty.js.map
+
+-- errorOnInitializerInInterfaceProperty.ts --
+interface Foo {
+    bar: number = 5;
+}

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/exportDefaultDuplicateCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultDuplicateCrash.js exportDefaultDuplicateCrash.ts
+stderr 'TS2323'
+stderr 'TS2528'
+stderr 'TS2307'
+! exists exportDefaultDuplicateCrash.js
+! exists exportDefaultDuplicateCrash.d.ts
+! exists exportDefaultDuplicateCrash.js.map
+
+-- exportDefaultDuplicateCrash.ts --
+// #38214
+
+export default function () { }
+export { default } from './hi'
+export { aa as default } from './hi'

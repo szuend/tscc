@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/functionOverloads37.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads37.js functionOverloads37.ts
+stderr 'TS2554'
+! exists functionOverloads37.js
+! exists functionOverloads37.d.ts
+! exists functionOverloads37.js.map
+
+-- functionOverloads37.ts --
+function foo(bar:{a:number;}[]):string;
+function foo(bar:{a:boolean;}[]):number;
+function foo(bar:{a:any;}[]):any{ return bar }
+var x = foo();

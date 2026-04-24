@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/expressionsForbiddenInParameterInitializers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --module commonjs --no-strict --target es2015 --out-js bar.js bar.ts
+stderr 'TS2524'
+stderr 'TS2523'
+! exists bar.js
+! exists bar.d.ts
+! exists bar.js.map
+
+-- bar.ts --
+export async function foo({ foo = await import("./bar") }) {
+}
+
+export function* foo2({ foo = yield "a" }) {
+}

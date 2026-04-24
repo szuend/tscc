@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/es6ClassTest4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js es6ClassTest4.js es6ClassTest4.ts
+! stderr .
+cmp es6ClassTest4.js es6ClassTest4.js.golden
+! exists es6ClassTest4.d.ts
+! exists es6ClassTest4.js.map
+
+-- es6ClassTest4.ts --
+declare class Point
+{
+    x: number;
+    y: number;
+    add(dx: number, dy: number): Point;
+    mult(p: Point): Point;
+    static origin: Point;
+    constructor(x: number, y: number);
+}
+-- es6ClassTest4.js.golden --
+"use strict";

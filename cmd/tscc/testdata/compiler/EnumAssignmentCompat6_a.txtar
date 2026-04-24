@@ -1,0 +1,84 @@
+# Ported from tests/cases/compiler/enumAssignmentCompat6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+stderr 'TS2322'
+! exists a.js
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+namespace numerics {
+    export enum DiagnosticCategory {
+        Warning,
+        Error,
+        Suggestion,
+        Message,
+    }
+
+    export enum DiagnosticCategory2 {
+        Warning,
+        Error,
+        Suggestion,
+        Message,
+    }
+}
+
+namespace strings {
+    export enum DiagnosticCategory {
+        Warning = "Warning",
+        Error = "Error",
+        Suggestion = "Suggestion",
+        Message = "Message",
+    }
+}
+
+declare namespace ambients {
+    export enum DiagnosticCategory {
+        Warning,
+        Error,
+        Suggestion,
+        Message,
+    }
+}
+
+function f(x: numerics.DiagnosticCategory, y: strings.DiagnosticCategory) {
+    x = y;
+    y = x;
+}
+
+function g(x: numerics.DiagnosticCategory2, y: strings.DiagnosticCategory) {
+    x = y;
+    y = x;
+}
+
+function h(x: numerics.DiagnosticCategory, y: ambients.DiagnosticCategory) {
+    x = y;
+    y = x;
+}
+
+function i(x: strings.DiagnosticCategory, y: ambients.DiagnosticCategory) {
+    x = y;
+    y = x;
+}
+-- f.ts --
+export enum DiagnosticCategory {
+    Warning,
+    Error,
+    Suggestion,
+    Message,
+}
+
+export let x: DiagnosticCategory;
+
+(() => {
+    enum DiagnosticCategory {
+        Warning = "Warning",
+        Error = "Error",
+        Suggestion = "Suggestion",
+        Message = "Message",
+    }
+    function f(y: DiagnosticCategory) {
+        x = y;
+        y = x;
+    }
+})()

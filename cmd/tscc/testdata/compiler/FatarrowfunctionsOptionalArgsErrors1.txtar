@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/fatarrowfunctionsOptionalArgsErrors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js fatarrowfunctionsOptionalArgsErrors1.js fatarrowfunctionsOptionalArgsErrors1.ts
+stderr 'TS1016'
+stderr 'TS1047'
+stderr 'TS1048'
+! exists fatarrowfunctionsOptionalArgsErrors1.js
+! exists fatarrowfunctionsOptionalArgsErrors1.d.ts
+! exists fatarrowfunctionsOptionalArgsErrors1.js.map
+
+-- fatarrowfunctionsOptionalArgsErrors1.ts --
+(arg1?, arg2) => 101;
+(...arg?) => 102;
+(...arg) => 103;
+(...arg:number [] = []) => 104;
+
+// Uninitialized parameter makes the initialized one required
+(arg1 = 1, arg2) => 1; 

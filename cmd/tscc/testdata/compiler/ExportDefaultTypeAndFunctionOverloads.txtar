@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/exportDefaultTypeAndFunctionOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultTypeAndFunctionOverloads.js exportDefaultTypeAndFunctionOverloads.ts
+stderr 'TS2528'
+! exists exportDefaultTypeAndFunctionOverloads.js
+! exists exportDefaultTypeAndFunctionOverloads.d.ts
+! exists exportDefaultTypeAndFunctionOverloads.js.map
+
+-- exportDefaultTypeAndFunctionOverloads.ts --
+export default function foo(value: number): number
+export default function foo(value: string): string
+export default function foo(value: string | number): string | number {
+    return 1
+}
+type Foo = {}
+export default Foo

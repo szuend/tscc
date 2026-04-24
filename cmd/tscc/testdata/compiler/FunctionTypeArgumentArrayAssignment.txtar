@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/functionTypeArgumentArrayAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionTypeArgumentArrayAssignment.js functionTypeArgumentArrayAssignment.ts
+! stderr .
+cmp functionTypeArgumentArrayAssignment.js functionTypeArgumentArrayAssignment.js.golden
+! exists functionTypeArgumentArrayAssignment.d.ts
+! exists functionTypeArgumentArrayAssignment.js.map
+
+-- functionTypeArgumentArrayAssignment.ts --
+namespace test {
+    interface Array<T> {
+        foo: T;
+        length: number;
+    }
+
+    function map<U>() {
+        var ys: U[] = [];
+    }
+}
+-- functionTypeArgumentArrayAssignment.js.golden --
+"use strict";
+var test;
+(function (test) {
+    function map() {
+        var ys = [];
+    }
+})(test || (test = {}));

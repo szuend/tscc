@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/exportRedeclarationTypeAliases.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportRedeclarationTypeAliases.js exportRedeclarationTypeAliases.ts
+! stderr .
+cmp exportRedeclarationTypeAliases.js exportRedeclarationTypeAliases.js.golden
+! exists exportRedeclarationTypeAliases.d.ts
+! exists exportRedeclarationTypeAliases.js.map
+
+-- exportRedeclarationTypeAliases.ts --
+export type Foo = number;
+export function Foo(): number;
+export function Foo(): any {}
+-- exportRedeclarationTypeAliases.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = Foo;
+function Foo() { }

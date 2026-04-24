@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/extendConstructSignatureInInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendConstructSignatureInInterface.js extendConstructSignatureInInterface.ts
+stderr 'TS2454'
+! exists extendConstructSignatureInInterface.js
+! exists extendConstructSignatureInInterface.d.ts
+! exists extendConstructSignatureInInterface.js.map
+
+-- extendConstructSignatureInInterface.ts --
+interface C {
+    new(x: number): C;
+}
+
+var CStatic: C;
+class E extends CStatic {
+}
+
+var e: E = new E(1);

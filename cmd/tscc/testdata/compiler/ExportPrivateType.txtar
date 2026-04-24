@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/exportPrivateType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js exportPrivateType.js exportPrivateType.ts
+stderr 'TS2564'
+! exists exportPrivateType.js
+! exists exportPrivateType.d.ts
+! exists exportPrivateType.js.map
+
+-- exportPrivateType.ts --
+namespace foo {
+    class C1 {
+        x: string;
+        y: C1;
+    }
+ 
+    class C2 {
+        test() { return true; }
+    }
+ 
+    interface I1 {
+        (a: string, b: string): string;
+        (x: number, y: number): I1;
+    }
+ 
+    interface I2 {
+        x: string;
+        y: number;
+    }
+ 
+    // None of the types are exported, so per section 10.3, should all be errors
+    export var e: C1;
+    export var f: I1;
+    export var g: C2;
+    export var h: I2;
+}
+ 
+var y = foo.g; // Exported variable 'y' has or is using private type 'foo.C2'.
+

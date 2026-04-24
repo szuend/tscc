@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/enumConflictsWithGlobalIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js enumConflictsWithGlobalIdentifier.js enumConflictsWithGlobalIdentifier.ts
+stderr 'TS1003'
+! exists enumConflictsWithGlobalIdentifier.js
+! exists enumConflictsWithGlobalIdentifier.d.ts
+! exists enumConflictsWithGlobalIdentifier.js.map
+
+-- enumConflictsWithGlobalIdentifier.ts --
+enum Position { 
+    IgnoreRulesSpecific = 0,
+}
+var x = IgnoreRulesSpecific.
+var y = Position.IgnoreRulesSpecific;

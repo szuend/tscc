@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionOverloads24.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads24.js functionOverloads24.ts
+! stderr .
+cmp functionOverloads24.js functionOverloads24.js.golden
+! exists functionOverloads24.d.ts
+! exists functionOverloads24.js.map
+
+-- functionOverloads24.ts --
+function foo(bar:number):(b:string)=>void;
+function foo(bar:string):(a:number)=>void;
+function foo(bar:any):(a)=>void { return function(){} }
+-- functionOverloads24.js.golden --
+"use strict";
+function foo(bar) { return function () { }; }

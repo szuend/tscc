@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/forInStatement3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js forInStatement3.js forInStatement3.ts
+! stderr .
+cmp forInStatement3.js forInStatement3.js.golden
+! exists forInStatement3.d.ts
+! exists forInStatement3.js.map
+
+-- forInStatement3.ts --
+function F<T>() {
+  var expr: T;
+  for (var a in expr) {
+  }
+}
+-- forInStatement3.js.golden --
+"use strict";
+function F() {
+    var expr;
+    for (var a in expr) {
+    }
+}

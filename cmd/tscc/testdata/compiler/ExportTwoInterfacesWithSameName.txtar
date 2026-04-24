@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/exportTwoInterfacesWithSameName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportTwoInterfacesWithSameName.js exportTwoInterfacesWithSameName.ts
+! stderr .
+cmp exportTwoInterfacesWithSameName.js exportTwoInterfacesWithSameName.js.golden
+! exists exportTwoInterfacesWithSameName.d.ts
+! exists exportTwoInterfacesWithSameName.js.map
+
+-- exportTwoInterfacesWithSameName.ts --
+export interface I {}
+export interface I {}
+-- exportTwoInterfacesWithSameName.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

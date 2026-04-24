@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/exhaustiveSwitchCheckCircularity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js exhaustiveSwitchCheckCircularity.js exhaustiveSwitchCheckCircularity.ts
+stderr 'TS2345'
+! exists exhaustiveSwitchCheckCircularity.js
+! exists exhaustiveSwitchCheckCircularity.d.ts
+! exists exhaustiveSwitchCheckCircularity.js.map
+
+-- exhaustiveSwitchCheckCircularity.ts --
+// Repro from #47539
+
+declare function isNever(n: never): boolean;
+
+function f() {
+    let foo: "aaa" | "bbb" = "aaa";
+    while (true) {
+        switch (foo) {
+            case "aaa":
+        }
+        if (foo === "aaa") {
+            foo = "bbb";
+        }
+        else if (isNever(foo)) {  // Error expected
+            break;
+        }
+    }
+}
+
+// Repro from #51688
+
+declare function functionB(key: string): string;
+
+function functionC(): void {
+    let unionVal: "A" | "B" = "A";
+    while (true) {
+        let key: string;
+        switch (unionVal) {
+            case "A": {
+                key = "AA";
+                break;
+            }
+        }
+        functionB(key);
+    }
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/genericAndNonGenericInheritedSignature1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericAndNonGenericInheritedSignature1.js genericAndNonGenericInheritedSignature1.ts
+stderr 'TS2320'
+! exists genericAndNonGenericInheritedSignature1.js
+! exists genericAndNonGenericInheritedSignature1.d.ts
+! exists genericAndNonGenericInheritedSignature1.js.map
+
+-- genericAndNonGenericInheritedSignature1.ts --
+interface Foo {
+    f(x: any): any;
+}
+interface Bar {
+    f<T>(x: T): T;
+}
+interface Hello extends Foo, Bar {
+}

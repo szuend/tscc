@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/extendedInterfaceGenericType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendedInterfaceGenericType.js extendedInterfaceGenericType.ts
+stderr 'TS2454'
+! exists extendedInterfaceGenericType.js
+! exists extendedInterfaceGenericType.d.ts
+! exists extendedInterfaceGenericType.js.map
+
+-- extendedInterfaceGenericType.ts --
+interface Alpha<T> {
+    takesArgOfT(arg: T): Alpha<T>;
+    makeBetaOfNumber(): Beta<number>;
+}
+interface Beta<T> extends Alpha<T> {
+}
+
+var alpha: Alpha<number>;
+var betaOfNumber = alpha.makeBetaOfNumber();
+betaOfNumber.takesArgOfT(5);

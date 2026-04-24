@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/functionOverloads5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads5.js functionOverloads5.ts
+stderr 'TS2385'
+! exists functionOverloads5.js
+! exists functionOverloads5.d.ts
+! exists functionOverloads5.js.map
+
+-- functionOverloads5.ts --
+class baz { 
+  public foo();
+  private foo(bar?:any){ }
+}

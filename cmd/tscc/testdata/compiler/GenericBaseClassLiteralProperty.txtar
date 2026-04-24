@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/genericBaseClassLiteralProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericBaseClassLiteralProperty.js genericBaseClassLiteralProperty.ts
+stderr 'TS2564'
+! exists genericBaseClassLiteralProperty.js
+! exists genericBaseClassLiteralProperty.d.ts
+! exists genericBaseClassLiteralProperty.js.map
+
+-- genericBaseClassLiteralProperty.ts --
+class BaseClass<T> {
+    public _getValue1: { (): T; };
+    public _getValue2: () => T;
+}
+
+class SubClass extends BaseClass<number> {
+    public Error(): void {
+
+        var x : number = this._getValue1();
+        var y : number = this._getValue2();
+    }
+}

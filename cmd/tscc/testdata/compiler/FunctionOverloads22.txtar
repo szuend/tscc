@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionOverloads22.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads22.js functionOverloads22.ts
+! stderr .
+cmp functionOverloads22.js functionOverloads22.js.golden
+! exists functionOverloads22.d.ts
+! exists functionOverloads22.js.map
+
+-- functionOverloads22.ts --
+function foo(bar:number):{a:number;}[];
+function foo(bar:string):{a:number; b:string;}[];
+function foo(bar:any):{a:any;b?:any;}[] { return [{a:""}] }
+-- functionOverloads22.js.golden --
+"use strict";
+function foo(bar) { return [{ a: "" }]; }

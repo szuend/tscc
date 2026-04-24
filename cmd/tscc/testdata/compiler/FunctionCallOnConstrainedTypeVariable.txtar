@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/functionCallOnConstrainedTypeVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js functionCallOnConstrainedTypeVariable.js functionCallOnConstrainedTypeVariable.ts
+stderr 'TS2345'
+stderr 'TS2554'
+! exists functionCallOnConstrainedTypeVariable.js
+! exists functionCallOnConstrainedTypeVariable.d.ts
+! exists functionCallOnConstrainedTypeVariable.js.map
+
+-- functionCallOnConstrainedTypeVariable.ts --
+// Repro from #20196
+
+type A = {
+  a: (x: number) => string
+};
+type B = {
+  a: (x: boolean) => string
+};
+
+function call0(p: A | B) { 
+  p.a("s"); // Error
+}
+
+function callN<T extends A | B>(p: T) {
+  p.a("s"); // Error
+  
+  var a: T["a"] = p.a;
+  a(""); // Error
+  a("", "", "", ""); // Error
+}

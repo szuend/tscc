@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/functionOverloads20.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads20.js functionOverloads20.ts
+stderr 'TS2394'
+! exists functionOverloads20.js
+! exists functionOverloads20.d.ts
+! exists functionOverloads20.js.map
+
+-- functionOverloads20.ts --
+function foo(bar:{a:number;}): number;
+function foo(bar:{a:string;}): string;
+function foo(bar:{a:any;}): string {return ""}

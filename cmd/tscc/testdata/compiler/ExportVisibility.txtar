@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/exportVisibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportVisibility.js exportVisibility.ts
+! stderr .
+cmp exportVisibility.js exportVisibility.js.golden
+! exists exportVisibility.d.ts
+! exists exportVisibility.js.map
+
+-- exportVisibility.ts --
+export class Foo {
+}
+
+export var foo = new Foo();
+
+export function test(foo: Foo) {
+    return true;
+}
+-- exportVisibility.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.foo = exports.Foo = void 0;
+exports.test = test;
+class Foo {
+}
+exports.Foo = Foo;
+exports.foo = new Foo();
+function test(foo) {
+    return true;
+}

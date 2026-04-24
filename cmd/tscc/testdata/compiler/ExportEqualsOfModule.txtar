@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/exportEqualsOfModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --path ~popsicle/dist/request=exportEqualsOfModule.ts --path ~popsicle/dist/common=exportEqualsOfModule.ts --path popsicle=exportEqualsOfModule.ts --path popsicle-proxy-agent=exportEqualsOfModule.ts --out-js exportEqualsOfModule.js exportEqualsOfModule.ts
+! stderr .
+cmp exportEqualsOfModule.js exportEqualsOfModule.js.golden
+! exists exportEqualsOfModule.d.ts
+! exists exportEqualsOfModule.js.map
+
+-- exportEqualsOfModule.ts --
+declare module '~popsicle/dist/request' {
+    export class Request {}
+}
+
+declare module '~popsicle/dist/common' {
+    import { Request } from '~popsicle/dist/request';
+    export { Request };
+}
+
+declare module 'popsicle' {
+    import alias = require('~popsicle/dist/common');
+    export = alias;
+}
+
+declare module 'popsicle-proxy-agent' {
+    import { Request } from 'popsicle';
+    function proxy(): (request: Request) => any;
+    export = proxy;
+}
+-- exportEqualsOfModule.js.golden --
+"use strict";

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/errorTypesAsTypeArguments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorTypesAsTypeArguments.js errorTypesAsTypeArguments.ts
+stderr 'TS2304'
+! exists errorTypesAsTypeArguments.js
+! exists errorTypesAsTypeArguments.d.ts
+! exists errorTypesAsTypeArguments.js.map
+
+-- errorTypesAsTypeArguments.ts --
+interface Foo<A> {
+  bar(baz: Foo<B>): Foo<C>;
+}

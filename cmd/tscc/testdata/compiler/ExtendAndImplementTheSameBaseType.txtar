@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/extendAndImplementTheSameBaseType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendAndImplementTheSameBaseType.js extendAndImplementTheSameBaseType.ts
+stderr 'TS2564'
+! exists extendAndImplementTheSameBaseType.js
+! exists extendAndImplementTheSameBaseType.d.ts
+! exists extendAndImplementTheSameBaseType.js.map
+
+-- extendAndImplementTheSameBaseType.ts --
+class C {
+    foo: number
+    bar() {}
+}
+class D extends C implements C {
+    baz() { }
+}
+
+var c: C;
+var d: D = new D();
+d.bar();
+d.baz();
+d.foo;

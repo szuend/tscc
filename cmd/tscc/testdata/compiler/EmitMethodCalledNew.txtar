@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/emitMethodCalledNew.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts emitMethodCalledNew.d.ts --target es2015 --lib es2015,dom --out-js emitMethodCalledNew.js emitMethodCalledNew.ts
+! stderr .
+cmp emitMethodCalledNew.d.ts emitMethodCalledNew.d.ts.golden
+cmp emitMethodCalledNew.js emitMethodCalledNew.js.golden
+! exists emitMethodCalledNew.js.map
+
+-- emitMethodCalledNew.ts --
+// https://github.com/microsoft/TypeScript/issues/55075
+
+export const a = {
+  new(x: number) { return x + 1 }
+}
+export const b = {
+  "new"(x: number) { return x + 1 }
+}
+export const c = {
+  ["new"](x: number) { return x + 1 }
+}
+-- emitMethodCalledNew.d.ts.golden --
+export declare const a: {
+    "new"(x: number): number;
+};
+export declare const b: {
+    "new"(x: number): number;
+};
+export declare const c: {
+    ["new"](x: number): number;
+};
+-- emitMethodCalledNew.js.golden --
+// https://github.com/microsoft/TypeScript/issues/55075
+export const a = {
+    new(x) { return x + 1; }
+};
+export const b = {
+    "new"(x) { return x + 1; }
+};
+export const c = {
+    ["new"](x) { return x + 1; }
+};

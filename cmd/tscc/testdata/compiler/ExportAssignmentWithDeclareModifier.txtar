@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/exportAssignmentWithDeclareModifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignmentWithDeclareModifier.js exportAssignmentWithDeclareModifier.ts
+stderr 'TS1120'
+! exists exportAssignmentWithDeclareModifier.js
+! exists exportAssignmentWithDeclareModifier.d.ts
+! exists exportAssignmentWithDeclareModifier.js.map
+
+-- exportAssignmentWithDeclareModifier.ts --
+var x;
+declare export = x;

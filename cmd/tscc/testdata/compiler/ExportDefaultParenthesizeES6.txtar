@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/exportDefaultParenthesizeES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module esnext --target es6 --lib es6,dom --out-js classexpr.js classexpr.ts
+! stderr .
+cmp classexpr.js classexpr.js.golden
+! exists classexpr.d.ts
+! exists classexpr.js.map
+
+-- classexpr.ts --
+export default (class Foo {} as any);
+-- classexpr.js.golden --
+export default (class Foo {
+});

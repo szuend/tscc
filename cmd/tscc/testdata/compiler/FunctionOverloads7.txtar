@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/functionOverloads7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloads7.js functionOverloads7.ts
+! stderr .
+cmp functionOverloads7.js functionOverloads7.js.golden
+! exists functionOverloads7.d.ts
+! exists functionOverloads7.js.map
+
+-- functionOverloads7.ts --
+class foo { 
+   private bar();
+   private bar(foo: string);
+   private bar(foo?: any){ return "foo" }
+   public n() {
+     var foo = this.bar();
+     foo = this.bar("test");
+   }
+}
+-- functionOverloads7.js.golden --
+"use strict";
+class foo {
+    bar(foo) { return "foo"; }
+    n() {
+        var foo = this.bar();
+        foo = this.bar("test");
+    }
+}

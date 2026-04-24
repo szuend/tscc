@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/es6ModuleInternalNamedImports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js es6ModuleInternalNamedImports.js es6ModuleInternalNamedImports.ts
+stderr 'TS1194'
+! exists es6ModuleInternalNamedImports.js
+! exists es6ModuleInternalNamedImports.d.ts
+! exists es6ModuleInternalNamedImports.js.map
+
+-- es6ModuleInternalNamedImports.ts --
+export namespace M {
+    // variable
+    export var M_V = 0;
+    // interface
+    export interface M_I { }
+    //calss
+    export class M_C { }
+    // instantiated module
+    export namespace M_M { var x; }
+    // uninstantiated module
+    export namespace M_MU { }
+    // function
+    export function M_F() { }
+    // enum
+    export enum M_E { }
+    // type
+    export type M_T = number;
+    // alias
+    export import M_A = M_M;
+
+    // Reexports
+    export {M_V as v};
+    export {M_I as i};
+    export {M_C as c};
+    export {M_M as m};
+    export {M_MU as mu};
+    export {M_F as f};
+    export {M_E as e};
+    export {M_A as a};
+}

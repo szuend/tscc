@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/fileWithNextLine1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js fileWithNextLine1.js fileWithNextLine1.ts
+! stderr .
+cmp fileWithNextLine1.js fileWithNextLine1.js.golden
+! exists fileWithNextLine1.d.ts
+! exists fileWithNextLine1.js.map
+
+-- fileWithNextLine1.ts --
+// Note: there is a nextline (0x85) in the string
+// 0.  It should be counted as a space and should not cause an error.
+var v = '';
+-- fileWithNextLine1.js.golden --
+"use strict";
+// Note: there is a nextline (0x85) in the string
+// 0.  It should be counted as a space and should not cause an error.
+var v = '';

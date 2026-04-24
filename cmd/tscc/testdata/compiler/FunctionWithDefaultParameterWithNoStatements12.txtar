@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/functionWithDefaultParameterWithNoStatements12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionWithDefaultParameterWithNoStatements12.js functionWithDefaultParameterWithNoStatements12.ts
+! stderr .
+cmp functionWithDefaultParameterWithNoStatements12.js functionWithDefaultParameterWithNoStatements12.js.golden
+! exists functionWithDefaultParameterWithNoStatements12.d.ts
+! exists functionWithDefaultParameterWithNoStatements12.js.map
+
+-- functionWithDefaultParameterWithNoStatements12.ts --
+var v: any[];
+
+function foo(a = (v)) { }
+
+function bar(a = (v)) {
+}
+-- functionWithDefaultParameterWithNoStatements12.js.golden --
+"use strict";
+var v;
+function foo(a = (v)) { }
+function bar(a = (v)) {
+}

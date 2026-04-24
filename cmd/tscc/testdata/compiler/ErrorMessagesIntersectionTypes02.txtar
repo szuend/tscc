@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/errorMessagesIntersectionTypes02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorMessagesIntersectionTypes02.js errorMessagesIntersectionTypes02.ts
+stderr 'TS2322'
+! exists errorMessagesIntersectionTypes02.js
+! exists errorMessagesIntersectionTypes02.d.ts
+! exists errorMessagesIntersectionTypes02.js.map
+
+-- errorMessagesIntersectionTypes02.ts --
+interface Foo {
+    fooProp: "hello" | "world";
+}
+
+interface Bar {
+    barProp: string;
+}
+
+interface FooBar extends Foo, Bar {
+}
+
+declare function mixBar<T>(obj: T): T & Bar;
+
+let fooBar: FooBar = mixBar({
+    fooProp: "frizzlebizzle"
+});

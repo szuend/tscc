@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/genericArrayExtenstions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericArrayExtenstions.js genericArrayExtenstions.ts
+stderr 'TS2420'
+! exists genericArrayExtenstions.js
+! exists genericArrayExtenstions.d.ts
+! exists genericArrayExtenstions.js.map
+
+-- genericArrayExtenstions.ts --
+export declare class ObservableArray<T> implements Array<T> { // MS.Entertainment.ObservableArray
+concat<U extends T[]>(...items: U[]): T[];
+concat(...items: T[]): T[];
+}

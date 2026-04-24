@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/es6ExportEquals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts es6ExportEquals.d.ts --target es6 --lib es6,dom --out-js es6ExportEquals.js es6ExportEquals.ts
+stderr 'TS1203'
+! exists es6ExportEquals.d.ts
+! exists es6ExportEquals.js
+! exists es6ExportEquals.js.map
+
+-- es6ExportEquals.ts --
+export function f() { }
+
+export = f;

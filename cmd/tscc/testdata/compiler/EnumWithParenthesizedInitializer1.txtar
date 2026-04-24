@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/enumWithParenthesizedInitializer1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumWithParenthesizedInitializer1.js enumWithParenthesizedInitializer1.ts
+stderr 'TS1005'
+! exists enumWithParenthesizedInitializer1.js
+! exists enumWithParenthesizedInitializer1.d.ts
+! exists enumWithParenthesizedInitializer1.js.map
+
+-- enumWithParenthesizedInitializer1.ts --
+enum E {
+ e = -(3
+}

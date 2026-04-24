@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/extendFromAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js extendFromAny.js extendFromAny.ts
+stderr 'TS2339'
+! exists extendFromAny.js
+! exists extendFromAny.d.ts
+! exists extendFromAny.js.map
+
+-- extendFromAny.ts --
+declare var Base: any;
+class C extends Base {
+    known = 1;
+    static sknown = 2;
+}
+
+let c = new C();
+c.known.length; // error, 'known' has no 'length' property
+C.sknown.length; // error, 'sknown' has no 'length' property
+c.unknown.length; // ok, unknown: any
+C.sunknown.length; // ok: sunknown: any

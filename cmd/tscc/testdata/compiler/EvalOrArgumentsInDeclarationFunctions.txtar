@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/evalOrArgumentsInDeclarationFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js a.d.js a.d.ts
+! stderr .
+! exists a.d.d.ts
+! exists a.d.js
+! exists a.d.js.map
+
+-- a.d.ts --
+declare global {
+    export namespace ns {
+        export function eval(): void;
+        export function arguments(): void;
+    }
+}
+
+declare function eval(): void;
+declare function arguments(): void;
+
+export {}

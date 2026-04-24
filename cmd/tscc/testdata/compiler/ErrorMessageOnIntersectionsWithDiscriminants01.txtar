@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/errorMessageOnIntersectionsWithDiscriminants01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom errorMessageOnIntersectionsWithDiscriminants01.ts
+stderr 'TS2322'
+! exists errorMessageOnIntersectionsWithDiscriminants01.d.ts
+! exists errorMessageOnIntersectionsWithDiscriminants01.js.map
+
+-- errorMessageOnIntersectionsWithDiscriminants01.ts --
+export type Common = { test: true } | { test: false };
+export type A = Common & { foo: 1 };
+export type B = Common & { bar: 1 };
+
+declare const a: A;
+declare let b: B;
+
+b = a;

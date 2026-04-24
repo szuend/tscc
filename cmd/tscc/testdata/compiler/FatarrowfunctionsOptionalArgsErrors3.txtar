@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/fatarrowfunctionsOptionalArgsErrors3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js fatarrowfunctionsOptionalArgsErrors3.js fatarrowfunctionsOptionalArgsErrors3.ts
+stderr 'TS1003'
+! exists fatarrowfunctionsOptionalArgsErrors3.js
+! exists fatarrowfunctionsOptionalArgsErrors3.d.ts
+! exists fatarrowfunctionsOptionalArgsErrors3.js.map
+
+-- fatarrowfunctionsOptionalArgsErrors3.ts --
+(...) => 105;

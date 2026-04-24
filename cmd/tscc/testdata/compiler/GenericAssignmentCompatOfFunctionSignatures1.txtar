@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/genericAssignmentCompatOfFunctionSignatures1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericAssignmentCompatOfFunctionSignatures1.js genericAssignmentCompatOfFunctionSignatures1.ts
+stderr 'TS2322'
+! exists genericAssignmentCompatOfFunctionSignatures1.js
+! exists genericAssignmentCompatOfFunctionSignatures1.d.ts
+! exists genericAssignmentCompatOfFunctionSignatures1.js.map
+
+-- genericAssignmentCompatOfFunctionSignatures1.ts --
+var x1 = function foo3<T, U extends { a: T; b: string }>(x: T, z: U) { }
+var x2 = function foo3<T, U extends { a: T; b: number }>(x: T, z: U) { }
+
+x1 = x2;
+x2 = x1;

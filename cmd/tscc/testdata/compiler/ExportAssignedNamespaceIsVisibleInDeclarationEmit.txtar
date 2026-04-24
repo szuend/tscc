@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/exportAssignedNamespaceIsVisibleInDeclarationEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- index.ts --
+import { f } from "./thing";
+export const thing = f();
+-- thing.d.ts --
+declare namespace Foo {
+    export interface Bar {}
+    export function f(): Bar;
+}
+export = Foo;
+-- index.d.ts.golden --
+export declare const thing: import("./thing").Bar;
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.thing = void 0;
+const thing_1 = require("./thing");
+exports.thing = (0, thing_1.f)();

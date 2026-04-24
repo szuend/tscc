@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/extendNonClassSymbol2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js extendNonClassSymbol2.js extendNonClassSymbol2.ts
+stderr 'TS2507'
+! exists extendNonClassSymbol2.js
+! exists extendNonClassSymbol2.d.ts
+! exists extendNonClassSymbol2.js.map
+
+-- extendNonClassSymbol2.ts --
+function Foo() {
+   this.x = 1;
+}
+var x = new Foo(); // legal, considered a constructor function
+class C extends Foo {} // error, could not find symbol Foo

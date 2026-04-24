@@ -1,0 +1,58 @@
+# Ported from tests/cases/compiler/fatArrowSelf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js fatArrowSelf.js fatArrowSelf.ts
+! stderr .
+cmp fatArrowSelf.js fatArrowSelf.js.golden
+! exists fatArrowSelf.d.ts
+! exists fatArrowSelf.js.map
+
+-- fatArrowSelf.ts --
+namespace Events {
+    export interface ListenerCallback {
+        (value:any):void;
+    }
+    export class EventEmitter {
+         public addListener(type:string, listener:ListenerCallback) {
+         }
+    }
+}
+
+namespace Consumer {
+    class EventEmitterConsummer {
+        constructor (private emitter: Events.EventEmitter) { }
+
+        private register() {
+            this.emitter.addListener('change', (e) => {
+                this.changed();
+            });
+        }      
+
+        private changed() {
+        }
+    }
+}
+-- fatArrowSelf.js.golden --
+"use strict";
+var Events;
+(function (Events) {
+    class EventEmitter {
+        addListener(type, listener) {
+        }
+    }
+    Events.EventEmitter = EventEmitter;
+})(Events || (Events = {}));
+var Consumer;
+(function (Consumer) {
+    class EventEmitterConsummer {
+        constructor(emitter) {
+            this.emitter = emitter;
+        }
+        register() {
+            this.emitter.addListener('change', (e) => {
+                this.changed();
+            });
+        }
+        changed() {
+        }
+    }
+})(Consumer || (Consumer = {}));

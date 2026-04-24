@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/forInStatement4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js forInStatement4.js forInStatement4.ts
+stderr 'TS2404'
+! exists forInStatement4.js
+! exists forInStatement4.d.ts
+! exists forInStatement4.js.map
+
+-- forInStatement4.ts --
+var expr: any;
+for (var a: number in expr) {
+}

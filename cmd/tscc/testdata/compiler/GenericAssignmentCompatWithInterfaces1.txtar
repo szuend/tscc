@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/genericAssignmentCompatWithInterfaces1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericAssignmentCompatWithInterfaces1.js genericAssignmentCompatWithInterfaces1.ts
+stderr 'TS2322'
+! exists genericAssignmentCompatWithInterfaces1.js
+! exists genericAssignmentCompatWithInterfaces1.d.ts
+! exists genericAssignmentCompatWithInterfaces1.js.map
+
+-- genericAssignmentCompatWithInterfaces1.ts --
+interface Comparable<T> {
+   compareTo(other: T): number;
+}
+interface I<T> {
+    x: Comparable<T>;
+}
+interface K<T> {
+   x: A<T>;
+}
+class A<T> implements Comparable<T> { compareTo(other: T) { return 1; } }
+var z = { x: new A<number>() };
+var a1: I<string> = { x: new A<number>() };
+var a2: I<string> = function (): { x: A<number> } {
+   var z = { x: new A<number>() }; return z;
+} ();
+var a3: I<string> = z;
+var a4: I<string> = <K<number>>z;
+ 

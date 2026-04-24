@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/forInStatement7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js forInStatement7.js forInStatement7.ts
+stderr 'TS2405'
+! exists forInStatement7.js
+! exists forInStatement7.d.ts
+! exists forInStatement7.js.map
+
+-- forInStatement7.ts --
+var a: number;
+var expr: any;
+for (a in expr) {
+}

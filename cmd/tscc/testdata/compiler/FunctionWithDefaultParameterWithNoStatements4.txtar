@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/functionWithDefaultParameterWithNoStatements4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionWithDefaultParameterWithNoStatements4.js functionWithDefaultParameterWithNoStatements4.ts
+! stderr .
+cmp functionWithDefaultParameterWithNoStatements4.js functionWithDefaultParameterWithNoStatements4.js.golden
+! exists functionWithDefaultParameterWithNoStatements4.d.ts
+! exists functionWithDefaultParameterWithNoStatements4.js.map
+
+-- functionWithDefaultParameterWithNoStatements4.ts --
+function foo(a = ``) { }
+
+function bar(a = ``) {
+}
+-- functionWithDefaultParameterWithNoStatements4.js.golden --
+"use strict";
+function foo(a = ``) { }
+function bar(a = ``) {
+}

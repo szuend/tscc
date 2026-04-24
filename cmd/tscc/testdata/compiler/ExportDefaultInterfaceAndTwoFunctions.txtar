@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/exportDefaultInterfaceAndTwoFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultInterfaceAndTwoFunctions.js exportDefaultInterfaceAndTwoFunctions.ts
+stderr 'TS2323'
+stderr 'TS2393'
+! exists exportDefaultInterfaceAndTwoFunctions.js
+! exists exportDefaultInterfaceAndTwoFunctions.d.ts
+! exists exportDefaultInterfaceAndTwoFunctions.js.map
+
+-- exportDefaultInterfaceAndTwoFunctions.ts --
+export default interface A { a: string; }
+export default function() { return 1; }
+export default function() { return 2; }

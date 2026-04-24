@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/es6ClassTest3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js es6ClassTest3.js es6ClassTest3.ts
+! stderr .
+cmp es6ClassTest3.js es6ClassTest3.js.golden
+! exists es6ClassTest3.d.ts
+! exists es6ClassTest3.js.map
+
+-- es6ClassTest3.ts --
+namespace M {	
+	class Visibility {
+	    public foo() { };
+	    private bar() { };
+        private x: number;
+	    public y: number;
+	    public z: number;
+
+	    constructor() {
+	        this.x = 1;
+	        this.y = 2;
+	    }
+	}
+}
+-- es6ClassTest3.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class Visibility {
+        foo() { }
+        ;
+        bar() { }
+        ;
+        constructor() {
+            this.x = 1;
+            this.y = 2;
+        }
+    }
+})(M || (M = {}));

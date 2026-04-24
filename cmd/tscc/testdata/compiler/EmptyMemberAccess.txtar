@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/emptyMemberAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js emptyMemberAccess.js emptyMemberAccess.ts
+stderr 'TS1109'
+! exists emptyMemberAccess.js
+! exists emptyMemberAccess.d.ts
+! exists emptyMemberAccess.js.map
+
+-- emptyMemberAccess.ts --
+function getObj() {
+
+   ().toString();
+
+}
+ 

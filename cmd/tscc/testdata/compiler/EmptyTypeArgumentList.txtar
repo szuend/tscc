@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/emptyTypeArgumentList.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js emptyTypeArgumentList.js emptyTypeArgumentList.ts
+stderr 'TS1099'
+! exists emptyTypeArgumentList.js
+! exists emptyTypeArgumentList.d.ts
+! exists emptyTypeArgumentList.js.map
+
+-- emptyTypeArgumentList.ts --
+function foo<T>() { }
+foo<>();
+
+// https://github.com/microsoft/TypeScript/issues/33041
+function noParams() {}
+noParams<>();

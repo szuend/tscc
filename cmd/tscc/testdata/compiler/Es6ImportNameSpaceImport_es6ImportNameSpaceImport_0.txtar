@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/es6ImportNameSpaceImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ImportNameSpaceImport_0.d.ts --module commonjs --target es6 --lib es6,dom --out-js es6ImportNameSpaceImport_0.js es6ImportNameSpaceImport_0.ts
+! stderr .
+cmp es6ImportNameSpaceImport_0.d.ts es6ImportNameSpaceImport_0.d.ts.golden
+cmp es6ImportNameSpaceImport_0.js es6ImportNameSpaceImport_0.js.golden
+! exists es6ImportNameSpaceImport_0.js.map
+
+-- es6ImportNameSpaceImport_0.ts --
+export var a = 10;
+-- es6ImportNameSpaceImport_1.ts --
+import * as nameSpaceBinding from "./es6ImportNameSpaceImport_0";
+var x = nameSpaceBinding.a;
+import * as nameSpaceBinding2 from "./es6ImportNameSpaceImport_0"; // elide this
+-- es6ImportNameSpaceImport_0.d.ts.golden --
+export declare var a: number;
+-- es6ImportNameSpaceImport_0.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.a = void 0;
+exports.a = 10;

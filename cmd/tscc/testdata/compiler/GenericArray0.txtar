@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/genericArray0.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts genericArray0.d.ts --target es2015 --lib es2015,dom --out-js genericArray0.js genericArray0.ts
+stderr 'TS2454'
+! exists genericArray0.d.ts
+! exists genericArray0.js
+! exists genericArray0.js.map
+
+-- genericArray0.ts --
+var x:number[];
+
+
+var y = x; 
+
+function map<U>() {
+    var ys: U[] = [];
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/genericArrayAssignment1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js genericArrayAssignment1.js genericArrayAssignment1.ts
+stderr 'TS2322'
+! exists genericArrayAssignment1.js
+! exists genericArrayAssignment1.d.ts
+! exists genericArrayAssignment1.js.map
+
+-- genericArrayAssignment1.ts --
+declare var s: string[];
+declare var n: number[];
+
+s = n;

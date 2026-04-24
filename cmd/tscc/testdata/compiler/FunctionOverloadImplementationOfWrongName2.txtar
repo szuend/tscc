@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/functionOverloadImplementationOfWrongName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloadImplementationOfWrongName2.js functionOverloadImplementationOfWrongName2.ts
+stderr 'TS2389'
+stderr 'TS2391'
+! exists functionOverloadImplementationOfWrongName2.js
+! exists functionOverloadImplementationOfWrongName2.d.ts
+! exists functionOverloadImplementationOfWrongName2.js.map
+
+-- functionOverloadImplementationOfWrongName2.ts --
+function foo(x);
+function bar() { }
+function foo(x, y);

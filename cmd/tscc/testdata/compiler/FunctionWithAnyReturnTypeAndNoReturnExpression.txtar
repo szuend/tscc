@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/functionWithAnyReturnTypeAndNoReturnExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionWithAnyReturnTypeAndNoReturnExpression.js functionWithAnyReturnTypeAndNoReturnExpression.ts
+! stderr .
+cmp functionWithAnyReturnTypeAndNoReturnExpression.js functionWithAnyReturnTypeAndNoReturnExpression.js.golden
+! exists functionWithAnyReturnTypeAndNoReturnExpression.d.ts
+! exists functionWithAnyReturnTypeAndNoReturnExpression.js.map
+
+-- functionWithAnyReturnTypeAndNoReturnExpression.ts --
+// All should be allowed
+function f(): any { }
+var f2: () => any = () => { };
+var f3 = (): any => { };
+-- functionWithAnyReturnTypeAndNoReturnExpression.js.golden --
+"use strict";
+// All should be allowed
+function f() { }
+var f2 = () => { };
+var f3 = () => { };

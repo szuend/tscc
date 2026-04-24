@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/functionDeclarationWithResolutionOfTypeOfSameName01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionDeclarationWithResolutionOfTypeOfSameName01.js functionDeclarationWithResolutionOfTypeOfSameName01.ts
+! stderr .
+cmp functionDeclarationWithResolutionOfTypeOfSameName01.js functionDeclarationWithResolutionOfTypeOfSameName01.js.golden
+! exists functionDeclarationWithResolutionOfTypeOfSameName01.d.ts
+! exists functionDeclarationWithResolutionOfTypeOfSameName01.js.map
+
+-- functionDeclarationWithResolutionOfTypeOfSameName01.ts --
+interface f {
+}
+
+function f() {
+    <f>f;
+}
+-- functionDeclarationWithResolutionOfTypeOfSameName01.js.golden --
+"use strict";
+function f() {
+    f;
+}

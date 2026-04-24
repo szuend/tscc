@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionCall3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionCall3.js functionCall3.ts
+! stderr .
+cmp functionCall3.js functionCall3.js.golden
+! exists functionCall3.d.ts
+! exists functionCall3.js.map
+
+-- functionCall3.ts --
+function foo():any[]{return [1];} 
+var x = foo();
+-- functionCall3.js.golden --
+"use strict";
+function foo() { return [1]; }
+var x = foo();

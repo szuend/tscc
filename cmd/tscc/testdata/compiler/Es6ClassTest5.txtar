@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/es6ClassTest5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js es6ClassTest5.js es6ClassTest5.ts
+! stderr .
+cmp es6ClassTest5.js es6ClassTest5.js.golden
+! exists es6ClassTest5.d.ts
+! exists es6ClassTest5.js.map
+
+-- es6ClassTest5.ts --
+class C1T5 {
+    foo: (i: number, s: string) => number = 
+	   	(i) => {
+	        return i;
+	    }
+}
+namespace C2T5 {}
+
+class  bigClass {
+     public break = 1;
+}
+-- es6ClassTest5.js.golden --
+"use strict";
+class C1T5 {
+    constructor() {
+        this.foo = (i) => {
+            return i;
+        };
+    }
+}
+class bigClass {
+    constructor() {
+        this.break = 1;
+    }
+}

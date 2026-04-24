@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/generatorES6_3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js generatorES6_3.js generatorES6_3.ts
+! stderr .
+cmp generatorES6_3.js generatorES6_3.js.golden
+! exists generatorES6_3.d.ts
+! exists generatorES6_3.js.map
+
+-- generatorES6_3.ts --
+var v = function*() {
+    yield 0
+}
+-- generatorES6_3.js.golden --
+"use strict";
+var v = function* () {
+    yield 0;
+};

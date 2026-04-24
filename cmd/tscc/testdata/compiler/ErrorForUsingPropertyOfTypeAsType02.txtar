@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/errorForUsingPropertyOfTypeAsType02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorForUsingPropertyOfTypeAsType02.js errorForUsingPropertyOfTypeAsType02.ts
+stderr 'TS2713'
+! exists errorForUsingPropertyOfTypeAsType02.js
+! exists errorForUsingPropertyOfTypeAsType02.d.ts
+! exists errorForUsingPropertyOfTypeAsType02.js.map
+
+-- errorForUsingPropertyOfTypeAsType02.ts --
+namespace Test1 {
+    function foo<T extends { abc: number }>(x: T) {
+        let a: T.abc = x.abc;
+    }
+}

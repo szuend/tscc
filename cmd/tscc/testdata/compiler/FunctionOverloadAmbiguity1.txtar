@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/functionOverloadAmbiguity1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js functionOverloadAmbiguity1.js functionOverloadAmbiguity1.ts
+stderr 'TS2339'
+! exists functionOverloadAmbiguity1.js
+! exists functionOverloadAmbiguity1.d.ts
+! exists functionOverloadAmbiguity1.js.map
+
+-- functionOverloadAmbiguity1.ts --
+function callb(lam: (l: number) => void );
+function callb(lam: (n: string) => void );
+function callb(a) { }
+callb((a) => { a.length; } ); // error, chose first overload
+
+function callb2(lam: (n: string) => void );
+function callb2(lam: (l: number) => void );
+function callb2(a) { }
+callb2((a) => { a.length; } ); // ok, chose first overload

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/errorOnInitializerInObjectTypeLiteralProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorOnInitializerInObjectTypeLiteralProperty.js errorOnInitializerInObjectTypeLiteralProperty.ts
+stderr 'TS1247'
+! exists errorOnInitializerInObjectTypeLiteralProperty.js
+! exists errorOnInitializerInObjectTypeLiteralProperty.d.ts
+! exists errorOnInitializerInObjectTypeLiteralProperty.js.map
+
+-- errorOnInitializerInObjectTypeLiteralProperty.ts --
+var Foo: {
+    bar: number = 5;
+};
+
+let Bar: {
+    bar: number = 5;
+};

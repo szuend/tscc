@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/emptyFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js emptyFile.js emptyFile.ts
+! stderr .
+cmp emptyFile.js emptyFile.js.golden
+! exists emptyFile.d.ts
+! exists emptyFile.js.map
+
+-- emptyFile.ts --
+
+-- emptyFile.js.golden --
+"use strict";

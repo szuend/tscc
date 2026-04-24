@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/enumWithInfinityProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumWithInfinityProperty.js enumWithInfinityProperty.ts
+! stderr .
+cmp enumWithInfinityProperty.js enumWithInfinityProperty.js.golden
+! exists enumWithInfinityProperty.d.ts
+! exists enumWithInfinityProperty.js.map
+
+-- enumWithInfinityProperty.ts --
+enum A {
+    Infinity = 1
+}
+-- enumWithInfinityProperty.js.golden --
+"use strict";
+var A;
+(function (A) {
+    A[A["Infinity"] = 1] = "Infinity";
+})(A || (A = {}));

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/functionWithDefaultParameterWithNoStatements5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionWithDefaultParameterWithNoStatements5.js functionWithDefaultParameterWithNoStatements5.ts
+! stderr .
+cmp functionWithDefaultParameterWithNoStatements5.js functionWithDefaultParameterWithNoStatements5.js.golden
+! exists functionWithDefaultParameterWithNoStatements5.d.ts
+! exists functionWithDefaultParameterWithNoStatements5.js.map
+
+-- functionWithDefaultParameterWithNoStatements5.ts --
+function foo(a = 0) { }
+
+function bar(a = 0) {
+}
+-- functionWithDefaultParameterWithNoStatements5.js.golden --
+"use strict";
+function foo(a = 0) { }
+function bar(a = 0) {
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/functionAndInterfaceWithSeparateErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionAndInterfaceWithSeparateErrors.js functionAndInterfaceWithSeparateErrors.ts
+stderr 'TS2394'
+stderr 'TS7010'
+stderr 'TS2411'
+! exists functionAndInterfaceWithSeparateErrors.js
+! exists functionAndInterfaceWithSeparateErrors.d.ts
+! exists functionAndInterfaceWithSeparateErrors.js.map
+
+-- functionAndInterfaceWithSeparateErrors.ts --
+function Foo(s: string);
+function Foo(n: number) { }
+
+interface Foo {
+    [s: string]: string;
+    prop: number;
+}

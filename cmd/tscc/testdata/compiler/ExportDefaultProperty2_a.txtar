@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/exportDefaultProperty2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+class C {
+    static B: number;
+}
+namespace C {
+    export interface B { c: number }
+}
+
+export default C.B;
+-- b.ts --
+import B from "./a";
+const x: B = { c: B };
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class C {
+}
+exports.default = C.B;

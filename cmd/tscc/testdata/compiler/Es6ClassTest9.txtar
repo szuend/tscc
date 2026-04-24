@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/es6ClassTest9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js es6ClassTest9.js es6ClassTest9.ts
+stderr 'TS1005'
+stderr 'TS1109'
+! exists es6ClassTest9.js
+! exists es6ClassTest9.d.ts
+! exists es6ClassTest9.js.map
+
+-- es6ClassTest9.ts --
+declare class foo();
+function foo() {}

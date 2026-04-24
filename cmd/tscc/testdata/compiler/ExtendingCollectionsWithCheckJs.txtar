@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/extendingCollectionsWithCheckJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --lib es2017 --target es2015 extendingCollectionsWithCheckJs.js
+! stderr .
+! exists extendingCollectionsWithCheckJs.d.ts
+! exists extendingCollectionsWithCheckJs.js.map
+
+-- extendingCollectionsWithCheckJs.js --
+class MySet extends Set {
+    constructor() {
+        super();
+    }
+}
+
+class MyWeakSet extends WeakSet {
+    constructor() {
+        super();
+    }
+}
+
+class MyMap extends Map {
+    constructor() {
+        super();
+    }
+}
+
+class MyWeakMap extends WeakMap {
+    constructor() {
+        super();
+    }
+}

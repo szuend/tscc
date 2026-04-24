@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/enumDeclarationEmitInitializerHasImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts consumer.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js consumer.js consumer.ts
+! stderr .
+cmp consumer.d.ts consumer.d.ts.golden
+cmp consumer.js consumer.js.golden
+! exists consumer.js.map
+
+-- consumer.ts --
+import provider = require('./provider');
+
+export const value = provider.Enum.Value1;
+-- provider.ts --
+export enum Enum {
+    Value1,
+    Value2,
+}
+-- consumer.d.ts.golden --
+import provider = require('./provider');
+export declare const value = provider.Enum.Value1;
+-- consumer.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.value = void 0;
+const provider = require("./provider");
+exports.value = provider.Enum.Value1;

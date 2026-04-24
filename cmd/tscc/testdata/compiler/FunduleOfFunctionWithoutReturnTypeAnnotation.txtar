@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/funduleOfFunctionWithoutReturnTypeAnnotation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js funduleOfFunctionWithoutReturnTypeAnnotation.js funduleOfFunctionWithoutReturnTypeAnnotation.ts
+! stderr .
+cmp funduleOfFunctionWithoutReturnTypeAnnotation.js funduleOfFunctionWithoutReturnTypeAnnotation.js.golden
+! exists funduleOfFunctionWithoutReturnTypeAnnotation.d.ts
+! exists funduleOfFunctionWithoutReturnTypeAnnotation.js.map
+
+-- funduleOfFunctionWithoutReturnTypeAnnotation.ts --
+function fn() {
+    return fn.n;
+}
+namespace fn {
+    export var n = 1;
+}
+-- funduleOfFunctionWithoutReturnTypeAnnotation.js.golden --
+"use strict";
+function fn() {
+    return fn.n;
+}
+(function (fn) {
+    fn.n = 1;
+})(fn || (fn = {}));

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/excessPropertyErrorForFunctionTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js excessPropertyErrorForFunctionTypes.js excessPropertyErrorForFunctionTypes.ts
+stderr 'TS2353'
+! exists excessPropertyErrorForFunctionTypes.js
+! exists excessPropertyErrorForFunctionTypes.d.ts
+! exists excessPropertyErrorForFunctionTypes.js.map
+
+-- excessPropertyErrorForFunctionTypes.ts --
+type FunctionType = () => any;
+type DoesntWork = { a: number, c: number } | FunctionType;
+
+let doesntWork: DoesntWork = { a: 1, c: 2, d: 3 }

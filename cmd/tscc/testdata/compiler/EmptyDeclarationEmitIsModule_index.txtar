@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/emptyDeclarationEmitIsModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- index.ts --
+import {} from "./module";
+export interface Bar {
+    x: string
+}
+-- module.ts --
+import * as i from "./index";
+class Foo {}
+-- index.d.ts.golden --
+export interface Bar {
+    x: string;
+}
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

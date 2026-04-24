@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/es6DeclOrdering.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js es6DeclOrdering.js es6DeclOrdering.ts
+stderr 'TS2339'
+! exists es6DeclOrdering.js
+! exists es6DeclOrdering.d.ts
+! exists es6DeclOrdering.js.map
+
+-- es6DeclOrdering.ts --
+class Bar {
+
+   //public bar() { }
+
+   public foo() {
+       return this._store.length;
+ 
+   }
+
+   constructor(store: string) {
+       this._store = store; // this is an error for some reason? Unresolved symbol store
+ 
+   } 
+}
+

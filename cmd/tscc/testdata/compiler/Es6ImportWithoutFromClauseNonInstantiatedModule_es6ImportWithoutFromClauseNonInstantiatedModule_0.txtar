@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/es6ImportWithoutFromClauseNonInstantiatedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ImportWithoutFromClauseNonInstantiatedModule_0.d.ts --target es6 --lib es6,dom --out-js es6ImportWithoutFromClauseNonInstantiatedModule_0.js es6ImportWithoutFromClauseNonInstantiatedModule_0.ts
+! stderr .
+cmp es6ImportWithoutFromClauseNonInstantiatedModule_0.d.ts es6ImportWithoutFromClauseNonInstantiatedModule_0.d.ts.golden
+cmp es6ImportWithoutFromClauseNonInstantiatedModule_0.js es6ImportWithoutFromClauseNonInstantiatedModule_0.js.golden
+! exists es6ImportWithoutFromClauseNonInstantiatedModule_0.js.map
+
+-- es6ImportWithoutFromClauseNonInstantiatedModule_0.ts --
+export interface i {
+}
+-- es6ImportWithoutFromClauseNonInstantiatedModule_1.ts --
+import "es6ImportWithoutFromClauseNonInstantiatedModule_0";
+-- es6ImportWithoutFromClauseNonInstantiatedModule_0.d.ts.golden --
+export interface i {
+}
+-- es6ImportWithoutFromClauseNonInstantiatedModule_0.js.golden --
+export {};

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/functionSignatureAssignmentCompat1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionSignatureAssignmentCompat1.js functionSignatureAssignmentCompat1.ts
+stderr 'TS2322'
+! exists functionSignatureAssignmentCompat1.js
+! exists functionSignatureAssignmentCompat1.d.ts
+! exists functionSignatureAssignmentCompat1.js.map
+
+-- functionSignatureAssignmentCompat1.ts --
+interface ParserFunc {
+    (eventEmitter: number, buffer: string): void;
+}
+interface Parsers {
+    raw: ParserFunc;
+    readline(delimiter?: string): ParserFunc;
+}
+declare var parsers: Parsers;
+var c: ParserFunc = parsers.raw; // ok!
+var d: ParserFunc = parsers.readline; // not ok
+var e: ParserFunc = parsers.readline(); // ok

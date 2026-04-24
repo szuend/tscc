@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/es6ExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js es6ExportAssignment.js es6ExportAssignment.ts
+stderr 'TS1203'
+! exists es6ExportAssignment.js
+! exists es6ExportAssignment.d.ts
+! exists es6ExportAssignment.js.map
+
+-- es6ExportAssignment.ts --
+var a = 10;
+export = a;

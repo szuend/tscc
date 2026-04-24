@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/exportDefaultInterfaceClassAndFunctionOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultInterfaceClassAndFunctionOverloads.js exportDefaultInterfaceClassAndFunctionOverloads.ts
+stderr 'TS2528'
+! exists exportDefaultInterfaceClassAndFunctionOverloads.js
+! exists exportDefaultInterfaceClassAndFunctionOverloads.d.ts
+! exists exportDefaultInterfaceClassAndFunctionOverloads.js.map
+
+-- exportDefaultInterfaceClassAndFunctionOverloads.ts --
+export default function foo(value: number): number
+export default function foo(value: string): string
+export default function foo(value: string | number): string | number {
+    return 1
+}
+declare class Foo {}
+export default Foo
+export default interface Bar {}

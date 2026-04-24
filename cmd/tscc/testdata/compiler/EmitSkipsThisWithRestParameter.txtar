@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/emitSkipsThisWithRestParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js emitSkipsThisWithRestParameter.js emitSkipsThisWithRestParameter.ts
+stderr 'TS2345'
+! exists emitSkipsThisWithRestParameter.js
+! exists emitSkipsThisWithRestParameter.d.ts
+! exists emitSkipsThisWithRestParameter.js.map
+
+-- emitSkipsThisWithRestParameter.ts --
+function rebase(fn: (base: any, ...args: any[]) => any): (...args: any[]) => any {
+    return function(this: any, ...args: any[]) {
+        return fn.apply(this, [ this ].concat(args));
+    };
+}

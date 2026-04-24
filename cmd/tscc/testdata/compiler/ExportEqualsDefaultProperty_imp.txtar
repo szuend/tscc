@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/exportEqualsDefaultProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js imp.js imp.ts
+stderr 'TS2339'
+! exists imp.js
+! exists imp.d.ts
+! exists imp.js.map
+
+-- exp.ts --
+var x = {
+    "greeting": "hello, world",
+    "default": 42
+};
+
+export = x
+-- imp.ts --
+import foo from "./exp";
+foo.toExponential(2);

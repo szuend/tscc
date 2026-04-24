@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/enumDecl1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts enumDecl1.d.ts --target es2015 --lib es2015,dom --out-js enumDecl1.js enumDecl1.ts
+! stderr .
+cmp enumDecl1.d.ts enumDecl1.d.ts.golden
+cmp enumDecl1.js enumDecl1.js.golden
+! exists enumDecl1.js.map
+
+-- enumDecl1.ts --
+declare namespace mAmbient {
+    enum e {
+        x,
+        y,
+        z
+    }
+}
+-- enumDecl1.d.ts.golden --
+declare namespace mAmbient {
+    enum e {
+        x,
+        y,
+        z
+    }
+}
+-- enumDecl1.js.golden --
+"use strict";

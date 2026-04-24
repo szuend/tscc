@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/exportAssignClassAndModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignClassAndModule_0.js exportAssignClassAndModule_0.ts
+stderr 'TS2564'
+! exists exportAssignClassAndModule_0.js
+! exists exportAssignClassAndModule_0.d.ts
+! exists exportAssignClassAndModule_0.js.map
+
+-- exportAssignClassAndModule_0.ts --
+class Foo {
+    x: Foo.Bar;
+}
+namespace Foo {
+    export interface Bar {
+    }
+}
+export = Foo;
+-- exportAssignClassAndModule_1.ts --
+///<reference path='exportAssignClassAndModule_0.ts'/>
+import Foo = require('./exportAssignClassAndModule_0');
+
+var z: Foo.Bar;
+var zz: Foo;
+zz.x;

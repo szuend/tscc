@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/exportDefaultClassAndValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportDefaultClassAndValue.js exportDefaultClassAndValue.ts
+stderr 'TS2323'
+! exists exportDefaultClassAndValue.js
+! exists exportDefaultClassAndValue.d.ts
+! exists exportDefaultClassAndValue.js.map
+
+-- exportDefaultClassAndValue.ts --
+const foo = 1
+export default foo
+export default class Foo {}

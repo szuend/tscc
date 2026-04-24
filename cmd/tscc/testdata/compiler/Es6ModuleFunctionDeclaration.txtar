@@ -1,0 +1,69 @@
+# Ported from tests/cases/compiler/es6ModuleFunctionDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js es6ModuleFunctionDeclaration.js es6ModuleFunctionDeclaration.ts
+! stderr .
+cmp es6ModuleFunctionDeclaration.js es6ModuleFunctionDeclaration.js.golden
+! exists es6ModuleFunctionDeclaration.d.ts
+! exists es6ModuleFunctionDeclaration.js.map
+
+-- es6ModuleFunctionDeclaration.ts --
+export function foo() {
+}
+function foo2() {
+}
+foo();
+foo2();
+
+export namespace m1 {
+    export function foo3() {
+    }
+    function foo4() {
+    }
+    foo();
+    foo2();
+    foo3();
+    foo4();
+}
+namespace m2 {
+    export function foo3() {
+    }
+    function foo4() {
+    }
+    foo();
+    foo2();
+    foo3();
+    foo4();
+    m1.foo3();
+}
+-- es6ModuleFunctionDeclaration.js.golden --
+export function foo() {
+}
+function foo2() {
+}
+foo();
+foo2();
+export var m1;
+(function (m1) {
+    function foo3() {
+    }
+    m1.foo3 = foo3;
+    function foo4() {
+    }
+    foo();
+    foo2();
+    foo3();
+    foo4();
+})(m1 || (m1 = {}));
+var m2;
+(function (m2) {
+    function foo3() {
+    }
+    m2.foo3 = foo3;
+    function foo4() {
+    }
+    foo();
+    foo2();
+    foo3();
+    foo4();
+    m1.foo3();
+})(m2 || (m2 = {}));

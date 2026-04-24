@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/functionExpressionWithResolutionOfTypeOfSameName02.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionExpressionWithResolutionOfTypeOfSameName02.js functionExpressionWithResolutionOfTypeOfSameName02.ts
+! stderr .
+cmp functionExpressionWithResolutionOfTypeOfSameName02.js functionExpressionWithResolutionOfTypeOfSameName02.js.golden
+! exists functionExpressionWithResolutionOfTypeOfSameName02.d.ts
+! exists functionExpressionWithResolutionOfTypeOfSameName02.js.map
+
+-- functionExpressionWithResolutionOfTypeOfSameName02.ts --
+interface Foo {
+}
+
+var x = function Foo() {
+    var x: Foo;
+}
+-- functionExpressionWithResolutionOfTypeOfSameName02.js.golden --
+"use strict";
+var x = function Foo() {
+    var x;
+};

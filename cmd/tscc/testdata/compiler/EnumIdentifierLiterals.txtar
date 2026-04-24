@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/enumIdentifierLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js enumIdentifierLiterals.js enumIdentifierLiterals.ts
+stderr 'TS2452'
+! exists enumIdentifierLiterals.js
+! exists enumIdentifierLiterals.d.ts
+! exists enumIdentifierLiterals.js.map
+
+-- enumIdentifierLiterals.ts --
+enum Nums {
+    1.0,
+    11e-1,
+    0.12e1,
+    "13e-1",
+    0xF00D
+}

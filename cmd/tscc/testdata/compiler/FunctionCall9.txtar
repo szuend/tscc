@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/functionCall9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionCall9.js functionCall9.ts
+stderr 'TS2345'
+stderr 'TS2554'
+! exists functionCall9.js
+! exists functionCall9.d.ts
+! exists functionCall9.js.map
+
+-- functionCall9.ts --
+function foo(a?:string, b?:number){};
+foo('foo', 1); 
+foo('foo'); 
+foo('foo','bar');
+foo('foo', 1, 'bar');
+foo();

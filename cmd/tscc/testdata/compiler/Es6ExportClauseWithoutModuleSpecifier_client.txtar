@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/es6ExportClauseWithoutModuleSpecifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts client.d.ts --target es6 --lib es6,dom --out-js client.js client.ts
+! stderr .
+cmp client.d.ts client.d.ts.golden
+cmp client.js client.js.golden
+! exists client.js.map
+
+-- client.ts --
+export { c } from "./server";
+export { c as c2 } from "./server";
+export { i, m as instantiatedModule } from "./server";
+export { uninstantiated } from "./server";
+export { x } from "./server";
+-- server.ts --
+export class c {
+}
+export interface i {
+}
+export namespace m {
+    export var x = 10;
+}
+export var x = 10;
+export namespace uninstantiated {
+}
+-- client.d.ts.golden --
+export { c } from "./server";
+export { c as c2 } from "./server";
+export { i, m as instantiatedModule } from "./server";
+export { uninstantiated } from "./server";
+export { x } from "./server";
+-- client.js.golden --
+export { c } from "./server";
+export { c as c2 } from "./server";
+export { m as instantiatedModule } from "./server";
+export { x } from "./server";

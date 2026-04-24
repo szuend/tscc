@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/functionExpressionInWithBlock.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionExpressionInWithBlock.js functionExpressionInWithBlock.ts
+stderr 'TS1101'
+! exists functionExpressionInWithBlock.js
+! exists functionExpressionInWithBlock.d.ts
+! exists functionExpressionInWithBlock.js.map
+
+-- functionExpressionInWithBlock.ts --
+function x() {
+ with({}) {
+  function f() {
+   () => this;
+  }
+ }
+}

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/functionExpressionWithResolutionOfTypeNamedArguments01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionExpressionWithResolutionOfTypeNamedArguments01.js functionExpressionWithResolutionOfTypeNamedArguments01.ts
+! stderr .
+cmp functionExpressionWithResolutionOfTypeNamedArguments01.js functionExpressionWithResolutionOfTypeNamedArguments01.js.golden
+! exists functionExpressionWithResolutionOfTypeNamedArguments01.d.ts
+! exists functionExpressionWithResolutionOfTypeNamedArguments01.js.map
+
+-- functionExpressionWithResolutionOfTypeNamedArguments01.ts --
+interface arguments {
+}
+
+var x = function f() {
+    <arguments>arguments;
+}
+-- functionExpressionWithResolutionOfTypeNamedArguments01.js.golden --
+"use strict";
+var x = function f() {
+    arguments;
+};

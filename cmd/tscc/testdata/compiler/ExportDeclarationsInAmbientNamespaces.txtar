@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/exportDeclarationsInAmbientNamespaces.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js exportDeclarationsInAmbientNamespaces.js exportDeclarationsInAmbientNamespaces.ts
+! stderr .
+cmp exportDeclarationsInAmbientNamespaces.js exportDeclarationsInAmbientNamespaces.js.golden
+! exists exportDeclarationsInAmbientNamespaces.d.ts
+! exists exportDeclarationsInAmbientNamespaces.js.map
+
+-- exportDeclarationsInAmbientNamespaces.ts --
+declare namespace Q {
+    function _try(method: Function, ...args: any[]): any;
+    export { _try as try };
+}
+
+Q.try(() => { });
+
+-- exportDeclarationsInAmbientNamespaces.js.golden --
+"use strict";
+Q.try(() => { });

@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/externModuleClobber.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js externModuleClobber.js externModuleClobber.ts
+! stderr .
+cmp externModuleClobber.js externModuleClobber.js.golden
+! exists externModuleClobber.d.ts
+! exists externModuleClobber.js.map
+
+-- externModuleClobber.ts --
+declare namespace EM {
+	export class Position { }
+
+	export class EC {
+		public getPosition() : EM.Position;
+	}
+}
+
+var x:EM.Position;
+var ec:EM.EC = new EM.EC();
+
+x = ec.getPosition();
+-- externModuleClobber.js.golden --
+"use strict";
+var x;
+var ec = new EM.EC();
+x = ec.getPosition();

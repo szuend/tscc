@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/forInStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js forInStatement1.js forInStatement1.ts
+! stderr .
+cmp forInStatement1.js forInStatement1.js.golden
+! exists forInStatement1.d.ts
+! exists forInStatement1.js.map
+
+-- forInStatement1.ts --
+var expr: any;
+for (var a in expr) {
+}
+-- forInStatement1.js.golden --
+"use strict";
+var expr;
+for (var a in expr) {
+}

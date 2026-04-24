@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/enumNumbering1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js enumNumbering1.js enumNumbering1.ts
+! stderr .
+cmp enumNumbering1.js enumNumbering1.js.golden
+! exists enumNumbering1.d.ts
+! exists enumNumbering1.js.map
+
+-- enumNumbering1.ts --
+enum Test {
+    A,
+    B,
+    C = Math.floor(Math.random() * 1000),
+    D = 10,
+    E // Error but shouldn't be
+}
+-- enumNumbering1.js.golden --
+"use strict";
+var Test;
+(function (Test) {
+    Test[Test["A"] = 0] = "A";
+    Test[Test["B"] = 1] = "B";
+    Test[Test["C"] = Math.floor(Math.random() * 1000)] = "C";
+    Test[Test["D"] = 10] = "D";
+    Test[Test["E"] = 11] = "E"; // Error but shouldn't be
+})(Test || (Test = {}));

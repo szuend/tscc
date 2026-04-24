@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/errorSupression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorSupression1.js errorSupression1.ts
+stderr 'TS2339'
+! exists errorSupression1.js
+! exists errorSupression1.d.ts
+! exists errorSupression1.js.map
+
+-- errorSupression1.ts --
+class Foo { static bar() { return "x"; } }
+
+var baz = Foo.b;
+  // Foo.b won't bind. 
+baz.concat("y");
+
+  // So we don't want an error on 'concat'.

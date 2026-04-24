@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/es6ImportNamedImportIdentifiersParsing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js es6ImportNamedImportIdentifiersParsing.js es6ImportNamedImportIdentifiersParsing.ts
+stderr 'TS1003'
+! exists es6ImportNamedImportIdentifiersParsing.js
+! exists es6ImportNamedImportIdentifiersParsing.d.ts
+! exists es6ImportNamedImportIdentifiersParsing.js.map
+
+-- es6ImportNamedImportIdentifiersParsing.ts --
+import { yield } from "somemodule"; // Allowed
+import { default } from "somemodule"; // Error - as this is keyword that is not allowed as identifier
+import { yield as default } from "somemodule"; // error to use default as binding name
+import { default as yield } from "somemodule"; // no error 
+import { default as default } from "somemodule"; // default as is ok, error of default binding name

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/fatarrowfunctionsOptionalArgsErrors2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js fatarrowfunctionsOptionalArgsErrors2.js fatarrowfunctionsOptionalArgsErrors2.ts
+stderr 'TS1005'
+! exists fatarrowfunctionsOptionalArgsErrors2.js
+! exists fatarrowfunctionsOptionalArgsErrors2.d.ts
+! exists fatarrowfunctionsOptionalArgsErrors2.js.map
+
+-- fatarrowfunctionsOptionalArgsErrors2.ts --
+var tt1 = (a, (b, c)) => a+b+c;
+var tt2 = ((a), b, c) => a+b+c;
+
+var tt3 = ((a)) => a;

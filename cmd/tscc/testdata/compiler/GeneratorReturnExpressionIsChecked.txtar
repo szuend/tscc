@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/generatorReturnExpressionIsChecked.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --target esnext --out-js generatorReturnExpressionIsChecked.js generatorReturnExpressionIsChecked.ts
+stderr 'TS2304'
+! exists generatorReturnExpressionIsChecked.js
+! exists generatorReturnExpressionIsChecked.d.ts
+! exists generatorReturnExpressionIsChecked.js.map
+
+-- generatorReturnExpressionIsChecked.ts --
+function* f(): Iterator<number> {
+    return invalid;
+}

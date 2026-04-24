@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/es6ExportAssignment4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --path a=modules.d.ts --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- b.ts --
+import * as a from "a";
+-- modules.d.ts --
+declare module "a" {
+    var a: number;
+    export = a;  // OK, in ambient context
+}
+-- b.js.golden --
+export {};

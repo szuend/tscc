@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/emptyModuleName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js emptyModuleName.js emptyModuleName.ts
+stderr 'TS2307'
+! exists emptyModuleName.js
+! exists emptyModuleName.d.ts
+! exists emptyModuleName.js.map
+
+-- emptyModuleName.ts --
+import * as A from "";
+class B extends A {
+}

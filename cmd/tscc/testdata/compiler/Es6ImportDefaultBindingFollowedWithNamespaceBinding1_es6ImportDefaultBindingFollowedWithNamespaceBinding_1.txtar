@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/es6ImportDefaultBindingFollowedWithNamespaceBinding1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts es6ImportDefaultBindingFollowedWithNamespaceBinding_1.d.ts --target es6 --lib es6,dom --out-js es6ImportDefaultBindingFollowedWithNamespaceBinding_1.js es6ImportDefaultBindingFollowedWithNamespaceBinding_1.ts
+! stderr .
+cmp es6ImportDefaultBindingFollowedWithNamespaceBinding_1.d.ts es6ImportDefaultBindingFollowedWithNamespaceBinding_1.d.ts.golden
+cmp es6ImportDefaultBindingFollowedWithNamespaceBinding_1.js es6ImportDefaultBindingFollowedWithNamespaceBinding_1.js.golden
+! exists es6ImportDefaultBindingFollowedWithNamespaceBinding_1.js.map
+
+-- es6ImportDefaultBindingFollowedWithNamespaceBinding_0.ts --
+var a = 10;
+export default a;
+-- es6ImportDefaultBindingFollowedWithNamespaceBinding_1.ts --
+import defaultBinding, * as nameSpaceBinding  from "./es6ImportDefaultBindingFollowedWithNamespaceBinding_0";
+var x: number = defaultBinding;
+-- es6ImportDefaultBindingFollowedWithNamespaceBinding_1.d.ts.golden --
+export {};
+-- es6ImportDefaultBindingFollowedWithNamespaceBinding_1.js.golden --
+import defaultBinding from "./es6ImportDefaultBindingFollowedWithNamespaceBinding_0";
+var x = defaultBinding;

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/functionOverloads25.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js functionOverloads25.js functionOverloads25.ts
+! stderr .
+cmp functionOverloads25.js functionOverloads25.js.golden
+! exists functionOverloads25.d.ts
+! exists functionOverloads25.js.map
+
+-- functionOverloads25.ts --
+function foo():string;
+function foo(bar:string):number;
+function foo(bar?:any):any{ return '' };
+var x = foo();
+-- functionOverloads25.js.golden --
+"use strict";
+function foo(bar) { return ''; }
+;
+var x = foo();

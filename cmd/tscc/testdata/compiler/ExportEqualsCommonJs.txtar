@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/exportEqualsCommonJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportEqualsCommonJs.js exportEqualsCommonJs.ts
+! stderr .
+cmp exportEqualsCommonJs.js exportEqualsCommonJs.js.golden
+! exists exportEqualsCommonJs.d.ts
+! exists exportEqualsCommonJs.js.map
+
+-- exportEqualsCommonJs.ts --
+export = { ["hi"]: "there" };
+-- exportEqualsCommonJs.js.golden --
+"use strict";
+module.exports = { ["hi"]: "there" };

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/functionCall6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js functionCall6.js functionCall6.ts
+stderr 'TS2345'
+stderr 'TS2554'
+! exists functionCall6.js
+! exists functionCall6.d.ts
+! exists functionCall6.js.map
+
+-- functionCall6.ts --
+function foo(a:string){}; 
+foo('bar');
+foo(2);
+foo('foo', 'bar');
+foo();

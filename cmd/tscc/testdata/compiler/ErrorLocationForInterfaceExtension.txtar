@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/errorLocationForInterfaceExtension.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js errorLocationForInterfaceExtension.js errorLocationForInterfaceExtension.ts
+stderr 'TS2840'
+! exists errorLocationForInterfaceExtension.js
+! exists errorLocationForInterfaceExtension.d.ts
+! exists errorLocationForInterfaceExtension.js.map
+
+-- errorLocationForInterfaceExtension.ts --
+var n = '';
+
+interface x extends string { }

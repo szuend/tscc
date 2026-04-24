@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/emitThisInSuperMethodCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js emitThisInSuperMethodCall.js emitThisInSuperMethodCall.ts
+stderr 'TS2660'
+! exists emitThisInSuperMethodCall.js
+! exists emitThisInSuperMethodCall.d.ts
+! exists emitThisInSuperMethodCall.js.map
+
+-- emitThisInSuperMethodCall.ts --
+class User {
+    sayHello() {
+    }
+}
+
+class RegisteredUser extends User {
+    f() {
+        () => {
+            function inner() {
+                super.sayHello();
+            }
+        };
+    }
+    g() {
+        function inner() {
+            () => {
+                super.sayHello();
+            }
+        }
+    }
+    h() {
+        function inner() {
+            super.sayHello();
+        }
+    }
+}

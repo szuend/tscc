@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/es6UseOfTopLevelRequire.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js c.js c.ts
+! stderr .
+cmp c.js c.js.golden
+! exists c.d.ts
+! exists c.js.map
+
+-- a.ts --
+import require from "./b"
+require("arg");
+
+import exports from "./c"
+var x = exports + 2;
+-- b.ts --
+export default function require(s: string): void {
+}
+-- c.ts --
+export const exports = 0;
+export default exports;
+-- c.js.golden --
+export const exports = 0;
+export default exports;

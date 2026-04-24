@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/expandoFunctionContextualTypesJSDocInTs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js expandoFunctionContextualTypesJSDocInTs.js expandoFunctionContextualTypesJSDocInTs.ts
+! stderr .
+cmp expandoFunctionContextualTypesJSDocInTs.js expandoFunctionContextualTypesJSDocInTs.js.golden
+! exists expandoFunctionContextualTypesJSDocInTs.d.ts
+! exists expandoFunctionContextualTypesJSDocInTs.js.map
+
+-- expandoFunctionContextualTypesJSDocInTs.ts --
+export function Foo() { }
+
+// This comment should have no effect; this is a TS file.
+/** @type {never} */
+Foo.bar = () => { };
+-- expandoFunctionContextualTypesJSDocInTs.js.golden --
+export function Foo() { }
+// This comment should have no effect; this is a TS file.
+/** @type {never} */
+Foo.bar = () => { };

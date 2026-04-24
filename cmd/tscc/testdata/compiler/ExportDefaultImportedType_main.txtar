@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/exportDefaultImportedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es2015 --target es2015 --lib es2015,dom --out-js main.js main.ts
+! stderr .
+cmp main.js main.js.golden
+! exists main.d.ts
+! exists main.js.map
+
+-- exported.ts --
+type Foo = number;
+export { Foo };
+-- main.ts --
+import { Foo } from "./exported";
+export default Foo;
+-- main.js.golden --
+export {};
