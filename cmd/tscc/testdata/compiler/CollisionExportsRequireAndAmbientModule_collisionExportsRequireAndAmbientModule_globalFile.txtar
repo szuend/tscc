@@ -3,7 +3,6 @@
 exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js collisionExportsRequireAndAmbientModule_globalFile.js collisionExportsRequireAndAmbientModule_globalFile.ts
 ! stderr .
 cmp collisionExportsRequireAndAmbientModule_globalFile.js collisionExportsRequireAndAmbientModule_globalFile.js.golden
-! exists collisionExportsRequireAndAmbientModule_externalmodule.js
 ! exists collisionExportsRequireAndAmbientModule_globalFile.d.ts
 ! exists collisionExportsRequireAndAmbientModule_globalFile.js.map
 

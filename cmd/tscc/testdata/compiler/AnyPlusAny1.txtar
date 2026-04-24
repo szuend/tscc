@@ -9,7 +9,8 @@ cmp anyPlusAny1.js anyPlusAny1.js.golden
 -- anyPlusAny1.ts --
 var x: any;
 x.name = "hello";
-var z = x + x;-- anyPlusAny1.js.golden --
+var z = x + x;
+-- anyPlusAny1.js.golden --
 "use strict";
 var x;
 x.name = "hello";

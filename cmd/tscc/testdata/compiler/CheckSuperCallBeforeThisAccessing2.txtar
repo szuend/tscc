@@ -1,13 +1,12 @@
 # Ported from tests/cases/compiler/checkSuperCallBeforeThisAccessing2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --lib es2025,dom --out-js checkSuperCallBeforeThisAccessing2.js checkSuperCallBeforeThisAccessing2.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js checkSuperCallBeforeThisAccessing2.js checkSuperCallBeforeThisAccessing2.ts
 stderr 'TS17009'
 ! exists checkSuperCallBeforeThisAccessing2.js
 ! exists checkSuperCallBeforeThisAccessing2.d.ts
 ! exists checkSuperCallBeforeThisAccessing2.js.map
 
 -- checkSuperCallBeforeThisAccessing2.ts --
-﻿// @target: es2015
 class Based { }
 class Derived extends Based {
     public x: number;

@@ -15,7 +15,8 @@ namespace M {
     }
     import R = N;
     export import X = R;
-}-- aliasInaccessibleModule2.d.ts.golden --
+}
+-- aliasInaccessibleModule2.d.ts.golden --
 declare namespace M {
     namespace N {
     }

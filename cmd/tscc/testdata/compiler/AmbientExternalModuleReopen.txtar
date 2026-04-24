@@ -12,5 +12,6 @@ declare module "fs" {
 }
 declare module 'fs' {
     var y: number;
-}-- ambientExternalModuleReopen.js.golden --
+}
+-- ambientExternalModuleReopen.js.golden --
 "use strict";

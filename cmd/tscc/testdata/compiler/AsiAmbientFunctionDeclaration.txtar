@@ -1,11 +1,10 @@
 # Ported from tests/cases/compiler/asiAmbientFunctionDeclaration.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --lib es2025,dom --out-js asiAmbientFunctionDeclaration.js asiAmbientFunctionDeclaration.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js asiAmbientFunctionDeclaration.js asiAmbientFunctionDeclaration.ts
 stderr 'TS7010'
 ! exists asiAmbientFunctionDeclaration.js
 ! exists asiAmbientFunctionDeclaration.d.ts
 ! exists asiAmbientFunctionDeclaration.js.map
 
 -- asiAmbientFunctionDeclaration.ts --
-﻿// @target: es2015
 declare function foo()

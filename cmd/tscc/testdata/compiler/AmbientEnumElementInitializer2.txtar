@@ -9,5 +9,6 @@ cmp ambientEnumElementInitializer2.js ambientEnumElementInitializer2.js.golden
 -- ambientEnumElementInitializer2.ts --
 declare enum E {
  e = -3 // Negative
-}-- ambientEnumElementInitializer2.js.golden --
+}
+-- ambientEnumElementInitializer2.js.golden --
 "use strict";

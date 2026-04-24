@@ -3,9 +3,6 @@
 exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js ts.js src/core/_namespaces/ts.ts
 ! stderr .
 cmp ts.js ts.js.golden
-! exists bar.js
-! exists debug.js
-! exists foo.js
 ! exists src/core/_namespaces/ts.d.ts
 ! exists src/core/_namespaces/ts.js.map
 

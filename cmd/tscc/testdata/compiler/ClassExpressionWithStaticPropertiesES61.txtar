@@ -11,7 +11,8 @@ var v = class C {
     static a = 1;
     static b = 2;
     static c = C.a + 3;
-};-- classExpressionWithStaticPropertiesES61.js.golden --
+};
+-- classExpressionWithStaticPropertiesES61.js.golden --
 "use strict";
 var _a;
 var v = (_a = class C {

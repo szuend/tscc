@@ -5,7 +5,6 @@ stderr 'TS2564'
 ! exists arrayOfExportedClass_0.js
 ! exists arrayOfExportedClass_0.d.ts
 ! exists arrayOfExportedClass_0.js.map
-! exists arrayOfExportedClass_1.js
 
 -- arrayOfExportedClass_0.ts --
 class Car {

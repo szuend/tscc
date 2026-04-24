@@ -8,7 +8,8 @@ cmp classImplementsClass1.js classImplementsClass1.js.golden
 
 -- classImplementsClass1.ts --
 class A { }
-class C implements A { }-- classImplementsClass1.js.golden --
+class C implements A { }
+-- classImplementsClass1.js.golden --
 "use strict";
 class A {
 }

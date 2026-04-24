@@ -1,13 +1,12 @@
 # Ported from tests/cases/compiler/classExtendsNull.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --lib es2025,dom --out-js classExtendsNull.js classExtendsNull.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js classExtendsNull.js classExtendsNull.ts
 stderr 'TS17005'
 ! exists classExtendsNull.js
 ! exists classExtendsNull.d.ts
 ! exists classExtendsNull.js.map
 
 -- classExtendsNull.ts --
-﻿// @target: es2015
 class C extends null {
     constructor() {
         super();

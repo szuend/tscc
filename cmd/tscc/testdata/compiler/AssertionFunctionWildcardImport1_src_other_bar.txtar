@@ -3,11 +3,8 @@
 exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js bar.js src/other/bar.ts
 ! stderr .
 cmp bar.js bar.js.golden
-! exists debug.js
-! exists foo.js
 ! exists src/other/bar.d.ts
 ! exists src/other/bar.js.map
-! exists ts.js
 
 -- src/core/_namespaces/ts.ts --
 import * as Debug from "../debug";

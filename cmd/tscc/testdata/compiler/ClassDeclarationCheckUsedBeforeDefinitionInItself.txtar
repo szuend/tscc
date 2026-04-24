@@ -9,7 +9,8 @@ cmp classDeclarationCheckUsedBeforeDefinitionInItself.js classDeclarationCheckUs
 -- classDeclarationCheckUsedBeforeDefinitionInItself.ts --
 class C3 { 
     static intance = new C3();  // ok
-}-- classDeclarationCheckUsedBeforeDefinitionInItself.js.golden --
+}
+-- classDeclarationCheckUsedBeforeDefinitionInItself.js.golden --
 "use strict";
 class C3 {
 }

@@ -11,5 +11,6 @@ declare namespace M {
     enum E {
         e = 3
     }
-}-- ambientEnumElementInitializer6.js.golden --
+}
+-- ambientEnumElementInitializer6.js.golden --
 "use strict";

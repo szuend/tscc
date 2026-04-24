@@ -25,7 +25,8 @@ declare namespace Foo2 {
 
 Foo2.a();
 Foo2.b;
-var c2 = new Foo2.C();-- ambientModuleExports.js.golden --
+var c2 = new Foo2.C();
+-- ambientModuleExports.js.golden --
 "use strict";
 Foo.a();
 Foo.b;

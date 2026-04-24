@@ -13,7 +13,8 @@ namespace M {
     export import X = N;
 }
 
-import r = M.X;-- acceptableAlias1.js.golden --
+import r = M.X;
+-- acceptableAlias1.js.golden --
 "use strict";
 var M;
 (function (M) {

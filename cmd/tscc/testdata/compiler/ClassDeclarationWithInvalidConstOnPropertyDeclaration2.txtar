@@ -10,7 +10,8 @@ cmp ClassDeclarationWithInvalidConstOnPropertyDeclaration2.js ClassDeclarationWi
 class C {
     const
     x = 10;
-}-- ClassDeclarationWithInvalidConstOnPropertyDeclaration2.js.golden --
+}
+-- ClassDeclarationWithInvalidConstOnPropertyDeclaration2.js.golden --
 "use strict";
 class C {
     constructor() {

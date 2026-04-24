@@ -24,7 +24,8 @@ class Foo<T> {
     constructor(bar: Bar<T>) {
         this.bar = bar;
     }
-}-- classVarianceResolveCircularity2.js.golden --
+}
+-- classVarianceResolveCircularity2.js.golden --
 // Issue #52813
 class Bar {
     constructor() {

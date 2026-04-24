@@ -39,7 +39,8 @@ function f(b: boolean) {
 
     new Foo();
   }
-}-- classBlockScoping.js.golden --
+}
+-- classBlockScoping.js.golden --
 "use strict";
 function f(b) {
     var _a;

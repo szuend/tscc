@@ -14,7 +14,8 @@ declare function f(p: A, q: B): number;
 declare function f(p: B, q: A): string;
 
 var x: B;
-var t: number = f(x, x); // Not an error-- ambiguousOverloadResolution.js.golden --
+var t: number = f(x, x); // Not an error
+-- ambiguousOverloadResolution.js.golden --
 "use strict";
 class A {
 }

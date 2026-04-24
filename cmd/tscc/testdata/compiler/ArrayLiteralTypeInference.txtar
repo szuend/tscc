@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayLiteralTypeInference.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --lib es2025,dom --out-js arrayLiteralTypeInference.js arrayLiteralTypeInference.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayLiteralTypeInference.js arrayLiteralTypeInference.ts
 stderr 'TS2564'
 stderr 'TS2353'
 ! exists arrayLiteralTypeInference.js
@@ -8,7 +8,6 @@ stderr 'TS2353'
 ! exists arrayLiteralTypeInference.js.map
 
 -- arrayLiteralTypeInference.ts --
-﻿// @target: es2015
 class Action {
     id: number;
 }

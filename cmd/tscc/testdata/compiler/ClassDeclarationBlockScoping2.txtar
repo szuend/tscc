@@ -15,7 +15,8 @@ function f() {
         var c2 = C;
     }
     return C === c1;
-}-- classDeclarationBlockScoping2.js.golden --
+}
+-- classDeclarationBlockScoping2.js.golden --
 "use strict";
 function f() {
     class C {

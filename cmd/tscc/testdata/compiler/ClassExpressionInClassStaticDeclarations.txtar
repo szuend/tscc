@@ -9,7 +9,8 @@ cmp classExpressionInClassStaticDeclarations.js classExpressionInClassStaticDecl
 -- classExpressionInClassStaticDeclarations.ts --
 class C {
     static D = class extends C {};
-}-- classExpressionInClassStaticDeclarations.d.ts.golden --
+}
+-- classExpressionInClassStaticDeclarations.d.ts.golden --
 declare class C {
     static D: {
         new (): {};

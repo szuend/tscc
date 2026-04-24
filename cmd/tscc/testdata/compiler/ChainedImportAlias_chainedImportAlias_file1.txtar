@@ -3,7 +3,6 @@
 exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js chainedImportAlias_file1.js chainedImportAlias_file1.ts
 ! stderr .
 cmp chainedImportAlias_file1.js chainedImportAlias_file1.js.golden
-! exists chainedImportAlias_file0.js
 ! exists chainedImportAlias_file1.d.ts
 ! exists chainedImportAlias_file1.js.map
 

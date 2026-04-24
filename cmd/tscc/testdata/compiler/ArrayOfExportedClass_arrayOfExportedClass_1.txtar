@@ -3,7 +3,6 @@
 ! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js arrayOfExportedClass_1.js arrayOfExportedClass_1.ts
 stderr 'TS2564'
 ! exists arrayOfExportedClass_1.js
-! exists arrayOfExportedClass_0.js
 ! exists arrayOfExportedClass_1.d.ts
 ! exists arrayOfExportedClass_1.js.map
 

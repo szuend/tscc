@@ -1,14 +1,12 @@
 # Ported from tests/cases/compiler/constIndexedAccess.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --lib es2025,dom --out-js constIndexedAccess.js constIndexedAccess.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js constIndexedAccess.js constIndexedAccess.ts
 stderr 'TS2454'
 ! exists constIndexedAccess.js
 ! exists constIndexedAccess.d.ts
 ! exists constIndexedAccess.js.map
 
 -- constIndexedAccess.ts --
-﻿// @target: es2015
-
 const enum numbers {
     zero,
     one

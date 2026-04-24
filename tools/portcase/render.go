@@ -130,7 +130,11 @@ func RenderTxtar(args RenderArgs) string {
 
 	for _, f := range inFiles {
 		fmt.Fprintf(&buf, "-- %s --\n", f)
-		buf.WriteString(args.Files[f])
+		content := args.Files[f]
+		buf.WriteString(content)
+		if !strings.HasSuffix(content, "\n") {
+			buf.WriteString("\n")
+		}
 	}
 
 	// Render output goldens
@@ -143,7 +147,11 @@ func RenderTxtar(args RenderArgs) string {
 
 		for _, f := range outFiles {
 			fmt.Fprintf(&buf, "-- %s.golden --\n", f)
-			buf.WriteString(args.Outputs[f])
+			content := args.Outputs[f]
+			buf.WriteString(content)
+			if !strings.HasSuffix(content, "\n") {
+				buf.WriteString("\n")
+			}
 		}
 	}
 

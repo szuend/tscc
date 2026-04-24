@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/APISample_linter.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --no-implicit-any --skip-lib-check --strict-null-checks --lib es2025,dom --path typescript=$TSCC_TS_DIR/typescript.d.ts --out-js APISample_linter.js APISample_linter.ts
+exec tscc --module commonjs --no-implicit-any --skip-lib-check --strict-null-checks --target es2015 --lib es2015,dom --path typescript=$TSCC_TS_DIR/typescript.d.ts --out-js APISample_linter.js APISample_linter.ts
 ! stderr .
 cmp APISample_linter.js APISample_linter.js.golden
 ! exists APISample_linter.d.ts

@@ -10,7 +10,8 @@ cmp classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js classDecla
 function f() {
     new C2(); // OK
 }    
-class C2 { }-- classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js.golden --
+class C2 { }
+-- classDeclarationCheckUsedBeforeDefinitionInFunctionDeclaration.js.golden --
 "use strict";
 function f() {
     new C2(); // OK

@@ -5,8 +5,6 @@ exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasUsedA
 cmp aliasUsedAsNameValue_0.js aliasUsedAsNameValue_0.js.golden
 ! exists aliasUsedAsNameValue_0.d.ts
 ! exists aliasUsedAsNameValue_0.js.map
-! exists aliasUsedAsNameValue_1.js
-! exists aliasUsedAsNameValue_2.js
 
 -- aliasUsedAsNameValue_0.ts --
 export var id: number;

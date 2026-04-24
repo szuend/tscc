@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/APISample_WatchWithOwnWatchHost.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --no-implicit-any --skip-lib-check --strict-null-checks --lib es2025,dom --path typescript=$TSCC_TS_DIR/typescript.d.ts --out-js APISample_WatchWithOwnWatchHost.js APISample_WatchWithOwnWatchHost.ts
+exec tscc --module commonjs --no-implicit-any --skip-lib-check --strict-null-checks --target es2015 --lib es2015,dom --path typescript=$TSCC_TS_DIR/typescript.d.ts --out-js APISample_WatchWithOwnWatchHost.js APISample_WatchWithOwnWatchHost.ts
 ! stderr .
 cmp APISample_WatchWithOwnWatchHost.js APISample_WatchWithOwnWatchHost.js.golden
 ! exists APISample_WatchWithOwnWatchHost.d.ts

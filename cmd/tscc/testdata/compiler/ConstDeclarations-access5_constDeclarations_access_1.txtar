@@ -5,7 +5,6 @@ exec tscc --module commonjs --no-strict --target ES6 --lib ES6,dom --out-js cons
 cmp constDeclarations_access_1.js constDeclarations_access_1.js.golden
 ! exists constDeclarations_access_1.d.ts
 ! exists constDeclarations_access_1.js.map
-! exists constDeclarations_access_2.js
 
 -- constDeclarations_access_1.ts --
 export const x = 0;

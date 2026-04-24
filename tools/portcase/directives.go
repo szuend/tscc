@@ -84,6 +84,9 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			if strings.Contains(value, ",") {
 				return nil, &SkipError{Directive: key, Reason: "multiple values"}
 			}
+			if strings.ToLower(value) == "es5" {
+				return nil, &SkipError{Directive: key, Reason: "es5 is not supported by tscc"}
+			}
 			flags = append(flags, "--target", value)
 		case "strict":
 			if strings.ToLower(value) == "true" {
@@ -122,6 +125,11 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-strict-null-checks")
 			}
+		case "alwaysstrict":
+			if strings.ToLower(value) == "false" {
+				return nil, &SkipError{Directive: key, Reason: "false is unsupported (deprecated)"}
+			}
+			// true or empty is the default, so we can just ignore it
 		case "skiplibcheck":
 			if strings.ToLower(value) == "true" || value == "" {
 				flags = append(flags, "--skip-lib-check")

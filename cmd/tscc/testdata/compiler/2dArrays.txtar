@@ -21,7 +21,8 @@ class Board {
     private allShipsSunk() {
         return this.ships.every(function (val) { return val.isSunk; });
     }    
-}-- 2dArrays.js.golden --
+}
+-- 2dArrays.js.golden --
 "use strict";
 class Cell {
 }

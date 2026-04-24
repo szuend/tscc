@@ -3,7 +3,6 @@
 exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js test.js test.ts
 ! stderr .
 cmp test.js test.js.golden
-! exists asserts.js
 ! exists test.d.ts
 ! exists test.js.map
 

@@ -59,6 +59,7 @@ func main() {
 		os.Exit(1)
 	}
 	tsContent := string(tsData)
+	tsContent = strings.TrimPrefix(tsContent, "\xef\xbb\xbf")
 
 	// 2. Read the baseline .js if present
 	baselinePath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", caseName+".js")

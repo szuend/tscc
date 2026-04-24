@@ -13,7 +13,8 @@ class A {
             selectedValue: arguments.length
         };
     }
-}-- argumentsUsedInObjectLiteralProperty.js.golden --
+}
+-- argumentsUsedInObjectLiteralProperty.js.golden --
 "use strict";
 class A {
     static createSelectableViewModel(initialState, selectedValue) {

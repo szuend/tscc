@@ -7,7 +7,7 @@ cmp bom-utf8.js bom-utf8.js.golden
 ! exists bom-utf8.js.map
 
 -- bom-utf8.ts --
-﻿var x=10;
+var x=10;
 -- bom-utf8.js.golden --
 "use strict";
 var x = 10;

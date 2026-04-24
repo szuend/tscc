@@ -9,7 +9,8 @@ cmp anonymousClassExpression1.js anonymousClassExpression1.js.golden
 -- anonymousClassExpression1.ts --
 function f() {
     return typeof class {} === "function";
-}-- anonymousClassExpression1.js.golden --
+}
+-- anonymousClassExpression1.js.golden --
 "use strict";
 function f() {
     return typeof class {

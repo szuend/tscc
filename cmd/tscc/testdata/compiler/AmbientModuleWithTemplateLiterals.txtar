@@ -26,7 +26,8 @@ Foo.a;
 Foo.b;
 Foo.c;
 Foo.d;
-Foo.e;-- ambientModuleWithTemplateLiterals.js.golden --
+Foo.e;
+-- ambientModuleWithTemplateLiterals.js.golden --
 "use strict";
 Foo.a;
 Foo.b;

@@ -21,7 +21,8 @@ function myFunction(myType: MyType) {
         const x = 5;
         [1, 2, 3].forEach(function(j) { use(x); })
     }
-}-- argumentsAsPropertyName.js.golden --
+}
+-- argumentsAsPropertyName.js.golden --
 "use strict";
 function myFunction(myType) {
     for (let i = 0; i < 10; i++) {

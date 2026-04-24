@@ -12,7 +12,8 @@ var abstract = true;
 function foo() {
     "use strict";
     var abstract = true;
-}-- abstractIdentifierNameStrict.js.golden --
+}
+-- abstractIdentifierNameStrict.js.golden --
 "use strict";
 var abstract = true;
 function foo() {

@@ -15,5 +15,6 @@ declare namespace D3 {
             darker: Color;
         }
     }
-}-- moduleAndInterfaceSharingName4.js.golden --
+}
+-- moduleAndInterfaceSharingName4.js.golden --
 "use strict";

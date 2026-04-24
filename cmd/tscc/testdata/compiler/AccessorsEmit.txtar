@@ -21,7 +21,8 @@ class Test2 {
         var x = 1;
         return null;
     }
-}-- accessorsEmit.js.golden --
+}
+-- accessorsEmit.js.golden --
 "use strict";
 class Result {
 }

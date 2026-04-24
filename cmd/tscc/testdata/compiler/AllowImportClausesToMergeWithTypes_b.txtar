@@ -3,10 +3,8 @@
 exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
 ! stderr .
 cmp b.js b.js.golden
-! exists a.js
 ! exists b.d.ts
 ! exists b.js.map
-! exists index.js
 
 -- a.ts --
 export default interface zzz {
@@ -31,7 +29,8 @@ zzz;
 import originalZZZ from "./b";
 originalZZZ;
 
-const y: originalZZZ = x;-- b.js.golden --
+const y: originalZZZ = x;
+-- b.js.golden --
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.zzz = void 0;

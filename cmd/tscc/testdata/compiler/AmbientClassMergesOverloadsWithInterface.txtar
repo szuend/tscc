@@ -1,13 +1,12 @@
 # Ported from tests/cases/compiler/ambientClassMergesOverloadsWithInterface.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --lib es2025,dom --out-js ambientClassMergesOverloadsWithInterface.js ambientClassMergesOverloadsWithInterface.ts
+exec tscc --target es2015 --lib es2015,dom --out-js ambientClassMergesOverloadsWithInterface.js ambientClassMergesOverloadsWithInterface.ts
 ! stderr .
 cmp ambientClassMergesOverloadsWithInterface.js ambientClassMergesOverloadsWithInterface.js.golden
 ! exists ambientClassMergesOverloadsWithInterface.d.ts
 ! exists ambientClassMergesOverloadsWithInterface.js.map
 
 -- ambientClassMergesOverloadsWithInterface.ts --
-﻿// @target: es2015
 declare class C {
     baz(): any;
     foo(n: number): any;

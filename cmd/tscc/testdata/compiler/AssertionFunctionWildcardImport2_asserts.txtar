@@ -5,7 +5,6 @@ exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js a
 cmp asserts.js asserts.js.golden
 ! exists asserts.d.ts
 ! exists asserts.js.map
-! exists test.js
 
 -- asserts.ts --
 function isNonNullable<T>(obj: T): asserts obj is NonNullable<T> {

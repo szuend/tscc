@@ -5,7 +5,6 @@ stderr 'TS2322'
 ! exists collisionExportsRequireAndAmbientModule_externalmodule.js
 ! exists collisionExportsRequireAndAmbientModule_externalmodule.d.ts
 ! exists collisionExportsRequireAndAmbientModule_externalmodule.js.map
-! exists collisionExportsRequireAndAmbientModule_globalFile.js
 
 -- collisionExportsRequireAndAmbientModule_externalmodule.ts --
 export declare namespace require {

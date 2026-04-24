@@ -9,5 +9,6 @@ cmp ambientFundule.js ambientFundule.js.golden
 -- ambientFundule.ts --
 declare function f();
 declare namespace f { var x }
-declare function f(x);-- ambientFundule.js.golden --
+declare function f(x);
+-- ambientFundule.js.golden --
 "use strict";

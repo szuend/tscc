@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"maps"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strings"
 	"time"
@@ -140,7 +141,16 @@ func (p *Porter) Port() ([]PortedFile, error) {
 	}
 
 	if len(inputs) == 0 {
-		inputs[p.CaseName+".ts"] = p.TsContent
+		var stripped []string
+		lines := strings.Split(p.TsContent, "\n")
+		optionRegex := regexp.MustCompile(`^\/{2}\s*@(\w+)\s*:\s*([^\r\n]*)`)
+		for _, line := range lines {
+			if optionRegex.MatchString(line) {
+				continue
+			}
+			stripped = append(stripped, line)
+		}
+		inputs[p.CaseName+".ts"] = strings.Join(stripped, "\n")
 		inputList = append(inputList, p.CaseName+".ts")
 	}
 

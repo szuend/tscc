@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/arrayBestCommonTypes.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --lib es2025,dom --out-js arrayBestCommonTypes.js arrayBestCommonTypes.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js arrayBestCommonTypes.js arrayBestCommonTypes.ts
 stderr 'TS2769'
 stderr 'TS2322'
 stderr 'TS2564'
@@ -9,7 +9,6 @@ stderr 'TS2564'
 ! exists arrayBestCommonTypes.js.map
 
 -- arrayBestCommonTypes.ts --
-﻿// @target: es2015
 namespace EmptyTypes {
     interface iface { }
     class base implements iface { }

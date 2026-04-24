@@ -5,7 +5,6 @@ exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js mod1.js mo
 cmp mod1.js mod1.js.golden
 ! exists mod1.d.ts
 ! exists mod1.js.map
-! exists use.js
 
 -- mod1.ts --
 export = class {

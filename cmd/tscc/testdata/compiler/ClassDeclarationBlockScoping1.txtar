@@ -13,7 +13,8 @@ class C {
 {
     class C {
     }
-}-- classDeclarationBlockScoping1.js.golden --
+}
+-- classDeclarationBlockScoping1.js.golden --
 "use strict";
 class C {
 }
