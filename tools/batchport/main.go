@@ -32,18 +32,20 @@ func main() {
 	var verbose bool
 	var concurrency int
 	var stopOnFailure bool
+	var updateExisting bool
 
 	pflag.IntVarP(&targetCount, "count", "n", 10, "Target number of successful migrations")
 	pflag.BoolVar(&verbose, "verbose", false, "Output detailed line items")
 	pflag.IntVarP(&concurrency, "concurrency", "j", 4, "Number of concurrent workers")
 	pflag.BoolVarP(&stopOnFailure, "stop-on-failure", "x", false, "Stop on the first failure and print detailed error")
+	pflag.BoolVarP(&updateExisting, "update-existing", "u", false, "Re-import existing automatically ported tests instead of finding new ones")
 	pflag.Parse()
 
 	upstreamDir := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "cases", "compiler")
 	testdataDir := filepath.Join("cmd", "tscc", "testdata")
 
 	// 1. Discovery & Deduplication
-	candidates, err := discoverCandidates(upstreamDir, testdataDir)
+	candidates, err := discoverCandidates(upstreamDir, testdataDir, updateExisting)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
@@ -74,7 +76,7 @@ func main() {
 		go func() {
 			defer wg.Done()
 			for c := range tasks {
-				cat, errDetail := processCandidate(ctx, c, portcasePath, testBinPath, testdataDir)
+				cat, errDetail := processCandidate(ctx, c, portcasePath, testBinPath, testdataDir, updateExisting)
 
 				mu.Lock()
 				results[cat] = append(results[cat], c)
@@ -119,7 +121,7 @@ loop:
 }
 
 // discoverCandidates scans upstream tests and filters out already ported ones.
-func discoverCandidates(upstreamDir, testdataDir string) ([]string, error) {
+func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([]string, error) {
 	files, err := os.ReadDir(upstreamDir)
 	if err != nil {
 		return nil, fmt.Errorf("reading upstream dir: %w", err)
@@ -139,6 +141,7 @@ func discoverCandidates(upstreamDir, testdataDir string) ([]string, error) {
 	}
 
 	existingCases := make(map[string]bool)
+	var existingCaseNames []string
 	for _, f := range existingFiles {
 		if !f.IsDir() && strings.HasSuffix(f.Name(), ".txtar") {
 			path := filepath.Join(testdataDir, f.Name())
@@ -151,11 +154,37 @@ func discoverCandidates(upstreamDir, testdataDir string) ([]string, error) {
 				if strings.HasPrefix(line, "# Ported from tests/cases/compiler/") {
 					caseName := strings.TrimPrefix(line, "# Ported from tests/cases/compiler/")
 					caseName = strings.TrimSuffix(caseName, ".ts by tools/portcase.")
-					existingCases[strings.ToLower(caseName)] = true
+					
+					// Resolve true upstream casing
+					lowerCaseName := strings.ToLower(caseName)
+					trueCaseName := caseName
+					for _, u := range allCases {
+						if strings.ToLower(u) == lowerCaseName {
+							trueCaseName = u
+							break
+						}
+					}
+					
+					existingCases[lowerCaseName] = true
+					existingCaseNames = append(existingCaseNames, trueCaseName)
 					break
 				}
 			}
 		}
+	}
+
+	if updateExisting {
+		unique := make(map[string]bool)
+		var candidates []string
+		for _, name := range existingCaseNames {
+			if !unique[name] {
+				unique[name] = true
+				candidates = append(candidates, name)
+			}
+		}
+		sort.Strings(candidates)
+		fmt.Printf("Found %d already ported cases to update.\n", len(candidates))
+		return candidates, nil
 	}
 
 	var candidates []string
@@ -206,8 +235,13 @@ func buildTools() (string, string, func(), error) {
 }
 
 // processCandidate handles the trial migration and test execution for a single candidate.
-func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath, testdataDir string) (string, string) {
-	cmd := exec.CommandContext(ctx, portcasePath, "--case", candidate)
+func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath, testdataDir string, force bool) (string, string) {
+	var cmd *exec.Cmd
+	if force {
+		cmd = exec.CommandContext(ctx, portcasePath, "--case", candidate, "--force")
+	} else {
+		cmd = exec.CommandContext(ctx, portcasePath, "--case", candidate)
+	}
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		if ctx.Err() != nil {
@@ -218,7 +252,9 @@ func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath,
 
 	capitalized := strings.ToUpper(candidate[:1]) + candidate[1:]
 	// Run the pre-compiled test binary directly.
-	testCmd := exec.CommandContext(ctx, testBinPath, "-test.run", "^TestScript/"+capitalized+"(_.*)?$")
+	absTestBinPath, _ := filepath.Abs(testBinPath)
+	testCmd := exec.CommandContext(ctx, absTestBinPath, "-test.run", "^TestScript/"+capitalized+"(_.*)?$")
+	testCmd.Dir = filepath.Join("cmd", "tscc")
 
 	out, err = testCmd.CombinedOutput()
 	if err != nil {
