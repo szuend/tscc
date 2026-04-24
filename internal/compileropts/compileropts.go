@@ -101,6 +101,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		ExactOptionalPropertyTypes: boolToTristate(cfg.ExactOptionalPropertyTypes),
 		SkipLibCheck:               boolToTristate(cfg.SkipLibCheck),
 		AllowJs:                    boolToTristate(cfg.AllowJs),
+		CheckJs:                    boolToTristate(cfg.CheckJs),
 		Module:                     mod,
 		Declaration:                decl,
 		SourceMap:                  srcMap,

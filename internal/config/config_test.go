@@ -255,6 +255,36 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "allow-js default follows check-js",
+			args: []string{"--check-js", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				StrictNullChecks:   true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+				CheckJs:            true,
+				AllowJs:            true,
+			},
+		},
+		{
+			name: "allow-js override check-js default",
+			args: []string{"--check-js", "--allow-js=false", "in.ts"},
+			wantConfig: &Config{
+				Strict:             true,
+				NoImplicitAny:      true,
+				StrictNullChecks:   true,
+				Target:             "es2025",
+				InputPath:          "in.ts",
+				CaseSensitivePaths: true,
+				Lib:                []string{"es2025"},
+				CheckJs:            true,
+				AllowJs:            false,
+			},
+		},
+		{
 			name:        "missing input",
 			args:        []string{"--target", "es2022"},
 			wantErrText: "no input file specified",
@@ -311,6 +341,12 @@ func TestParse(t *testing.T) {
 			}
 			if got.SkipLibCheck != tt.wantConfig.SkipLibCheck {
 				t.Errorf("SkipLibCheck: got %v, want %v", got.SkipLibCheck, tt.wantConfig.SkipLibCheck)
+			}
+			if got.AllowJs != tt.wantConfig.AllowJs {
+				t.Errorf("AllowJs: got %v, want %v", got.AllowJs, tt.wantConfig.AllowJs)
+			}
+			if got.CheckJs != tt.wantConfig.CheckJs {
+				t.Errorf("CheckJs: got %v, want %v", got.CheckJs, tt.wantConfig.CheckJs)
 			}
 			if !slices.Equal(got.Lib, tt.wantConfig.Lib) {
 				t.Errorf("Lib: got %v, want %v", got.Lib, tt.wantConfig.Lib)

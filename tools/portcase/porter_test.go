@@ -39,8 +39,8 @@ func TestPorter_Port_Simple(t *testing.T) {
 		t.Errorf("Expected name Simple.txtar, got %s", res.Name)
 	}
 
-	if !strings.Contains(res.Content, "exec tscc --lib es2025,dom simple.ts") {
-		t.Errorf("Expected content to contain exec tscc --lib es2025,dom, got:\n%s", res.Content)
+	if !strings.Contains(res.Content, "exec tscc --lib es2025,dom --out-js simple.js simple.ts") {
+		t.Errorf("Expected content to contain exec tscc --lib es2025,dom --out-js simple.js, got:\n%s", res.Content)
 	}
 }
 

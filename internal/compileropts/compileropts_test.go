@@ -139,6 +139,25 @@ func TestFromConfigAllowJs(t *testing.T) {
 	}
 }
 
+func TestFromConfigCheckJs(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", CheckJs: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.CheckJs != tc.want {
+			t.Errorf("CheckJs(%v) = %v, want %v", tc.in, got.CheckJs, tc.want)
+		}
+	}
+}
+
 func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	got, err := FromConfig(&config.Config{Target: "es2022"})
 	if err != nil {

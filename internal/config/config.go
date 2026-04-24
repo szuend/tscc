@@ -66,6 +66,9 @@ type Config struct {
 
 	// AllowJs allows JavaScript files to be a part of your program.
 	AllowJs bool
+
+	// CheckJs enables error reporting in type-checked JavaScript files.
+	CheckJs bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -117,6 +120,10 @@ func Parse(args []string) (*Config, error) {
 
 	if !flags.Changed("lib") {
 		cfg.Lib = []string{cfg.Target}
+	}
+
+	if !flags.Changed("allow-js") {
+		cfg.AllowJs = cfg.CheckJs
 	}
 
 	if err := cfg.Validate(flags.Args()); err != nil {
@@ -263,6 +270,7 @@ func javascriptSupportGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("javascript-support", pflag.ContinueOnError)
 	g.BoolVar(&cfg.AllowJs, "allow-js", false, "Allow JavaScript files to be a part of your program. Use the 'checkJs' option to get errors from these files.")
 	g.Lookup("allow-js").DefValue = "false; true if --check-js is passed"
+	g.BoolVar(&cfg.CheckJs, "check-js", false, "Enable error reporting in type-checked JavaScript files.")
 	return flagGroup{Name: "JavaScript Support", Set: g}
 }
 

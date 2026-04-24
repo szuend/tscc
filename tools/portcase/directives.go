@@ -52,7 +52,6 @@ var knownUnsupportedDirectives = map[string]bool{
 	"jsxfactory":          true,
 	"jsxfragmentfactory":  true,
 	"jsximportsource":     true,
-	"checkjs":             true,
 	"outdir":              true,
 	"outfile":             true,
 	"rootdir":             true,
@@ -161,6 +160,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 				flags = append(flags, "--allow-js")
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-allow-js")
+			}
+		case "checkjs":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--check-js")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-check-js")
 			}
 		case "lib":
 			flags = append(flags, "--lib", value)

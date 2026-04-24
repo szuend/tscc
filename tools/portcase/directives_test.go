@@ -130,6 +130,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-allow-js", "--lib", "es2025,dom"},
 		},
 		{
+			name: "checkJs true with injected lib",
+			directives: map[string]string{
+				"checkJs": "true",
+			},
+			wantFlags: []string{"--check-js", "--lib", "es2025,dom"},
+		},
+		{
+			name: "checkJs false with injected lib",
+			directives: map[string]string{
+				"checkJs": "false",
+			},
+			wantFlags: []string{"--no-check-js", "--lib", "es2025,dom"},
+		},
+		{
 			name: "lib directive present",
 			directives: map[string]string{
 				"lib":    "esnext",

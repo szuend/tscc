@@ -243,21 +243,27 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			}
 			currentNotExpectedOutputs = renamedNotExpected
 
+			noEmit := false
+			if val, ok := variant.Options["noemit"]; ok && strings.ToLower(val) == "true" {
+				noEmit = true
+			}
 
 			// Calculate flags for out outputs
-			if len(currentOutputs) > 0 {
-				for outName := range currentOutputs {
-					if strings.HasSuffix(outName, ".js") {
-						flags = append(flags, "--out-js", outName)
+			if !noEmit {
+				if len(currentOutputs) > 0 {
+					for outName := range currentOutputs {
+						if strings.HasSuffix(outName, ".js") {
+							flags = append(flags, "--out-js", outName)
+						}
 					}
-				}
-			} else {
-				outJs := renameIfCollision(inputStem + ".js")
-				flags = append(flags, "--out-js", outJs)
-				if len(currentErrorCodes) > 0 {
-					currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
 				} else {
-					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
+					outJs := renameIfCollision(inputStem + ".js")
+					flags = append(flags, "--out-js", outJs)
+					if len(currentErrorCodes) > 0 {
+						currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
+					} else {
+						currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
+					}
 				}
 			}
 
