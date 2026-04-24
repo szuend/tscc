@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/contextuallyTypedParametersWithQuestionToken.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom contextuallyTypedParametersWithQuestionToken.ts
+stderr 'TS2345'
+! exists contextuallyTypedParametersWithQuestionToken.d.ts
+! exists contextuallyTypedParametersWithQuestionToken.js.map
+
+-- contextuallyTypedParametersWithQuestionToken.ts --
+// https://github.com/microsoft/TypeScript/issues/54948
+
+function acceptNum(num: number) {}
+
+const f1: (a: string, b: number) => void = function self(a, b?) {
+  acceptNum(b); // error
+  self("");
+  self("", undefined);
+};
+
+const f2: (a: string, b: number) => void = function self(a, b?: number) {
+  acceptNum(b); // error
+  self("");
+  self("", undefined);
+};

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/contextualTyping28.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping28.js contextualTyping28.ts
+! stderr .
+cmp contextualTyping28.js contextualTyping28.js.golden
+! exists contextualTyping28.d.ts
+! exists contextualTyping28.js.map
+
+-- contextualTyping28.ts --
+function foo(param:number[]){}; foo([1]);
+-- contextualTyping28.js.golden --
+"use strict";
+function foo(param) { }
+;
+foo([1]);

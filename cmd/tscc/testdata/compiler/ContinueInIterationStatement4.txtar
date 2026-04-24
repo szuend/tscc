@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/continueInIterationStatement4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js continueInIterationStatement4.js continueInIterationStatement4.ts
+stderr 'TS2304'
+! exists continueInIterationStatement4.js
+! exists continueInIterationStatement4.d.ts
+! exists continueInIterationStatement4.js.map
+
+-- continueInIterationStatement4.ts --
+for (var i in something) {
+  continue;
+}

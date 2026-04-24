@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/contextualTypingTwoInstancesOfSameTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js contextualTypingTwoInstancesOfSameTypeParameter.js contextualTypingTwoInstancesOfSameTypeParameter.ts
+! stderr .
+cmp contextualTypingTwoInstancesOfSameTypeParameter.js contextualTypingTwoInstancesOfSameTypeParameter.js.golden
+! exists contextualTypingTwoInstancesOfSameTypeParameter.d.ts
+! exists contextualTypingTwoInstancesOfSameTypeParameter.js.map
+
+-- contextualTypingTwoInstancesOfSameTypeParameter.ts --
+function f6<T>(x: (a: T) => T) {
+    return null;
+} 
+f6(x => f6(y => x = y));
+-- contextualTypingTwoInstancesOfSameTypeParameter.js.golden --
+"use strict";
+function f6(x) {
+    return null;
+}
+f6(x => f6(y => x = y));

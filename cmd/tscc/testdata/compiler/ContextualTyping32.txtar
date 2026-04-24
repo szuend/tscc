@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/contextualTyping32.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping32.js contextualTyping32.ts
+! stderr .
+cmp contextualTyping32.js contextualTyping32.js.golden
+! exists contextualTyping32.d.ts
+! exists contextualTyping32.js.map
+
+-- contextualTyping32.ts --
+function foo(param: {():number; (i:number):number; }[]) { }; foo([function(){return 1;}, function(){return 4}]);
+-- contextualTyping32.js.golden --
+"use strict";
+function foo(param) { }
+;
+foo([function () { return 1; }, function () { return 4; }]);

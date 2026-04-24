@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/contextualTyping19.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping19.js contextualTyping19.ts
+! stderr .
+cmp contextualTyping19.js contextualTyping19.js.golden
+! exists contextualTyping19.d.ts
+! exists contextualTyping19.js.map
+
+-- contextualTyping19.ts --
+var foo:{id:number;}[] = [{id:1}]; foo = [{id:1}, {id:2}];
+-- contextualTyping19.js.golden --
+"use strict";
+var foo = [{ id: 1 }];
+foo = [{ id: 1 }, { id: 2 }];

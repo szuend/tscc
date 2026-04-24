@@ -1,0 +1,76 @@
+# Ported from tests/cases/compiler/arrowFunctionsMissingTokens.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js arrowFunctionsMissingTokens.js arrowFunctionsMissingTokens.ts
+stderr 'TS1005'
+stderr 'TS1109'
+stderr 'TS1128'
+! exists arrowFunctionsMissingTokens.js
+! exists arrowFunctionsMissingTokens.d.ts
+! exists arrowFunctionsMissingTokens.js.map
+
+-- arrowFunctionsMissingTokens.ts --
+namespace missingArrowsWithCurly {
+    var a = () { };
+
+    var b = (): void { }
+
+    var c = (x) { };
+
+    var d = (x: number, y: string) { };
+
+    var e = (x: number, y: string): void { };
+}
+
+namespace missingCurliesWithArrow {
+    namespace withStatement {
+        var a = () => var k = 10;};
+
+        var b = (): void => var k = 10;}
+
+        var c = (x) => var k = 10;};
+
+        var d = (x: number, y: string) => var k = 10;};
+
+        var e = (x: number, y: string): void => var k = 10;};
+
+        var f = () => var k = 10;}
+    }
+
+    namespace withoutStatement {
+        var a = () => };
+
+        var b = (): void => }
+
+        var c = (x) => };
+
+        var d = (x: number, y: string) => };
+
+        var e = (x: number, y: string): void => };
+
+        var f = () => }
+    }
+}
+
+namespace ce_nEst_pas_une_arrow_function {
+    var a = ();
+
+    var b = (): void;
+
+    var c = (x);
+
+    var d = (x: number, y: string);
+
+    var e = (x: number, y: string): void;
+}
+
+namespace okay {
+    var a = () => { };
+
+    var b = (): void => { }
+
+    var c = (x) => { };
+
+    var d = (x: number, y: string) => { };
+
+    var e = (x: number, y: string): void => { };
+}

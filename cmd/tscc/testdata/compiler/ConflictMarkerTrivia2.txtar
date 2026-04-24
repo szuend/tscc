@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/conflictMarkerTrivia2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js conflictMarkerTrivia2.js conflictMarkerTrivia2.ts
+stderr 'TS1185'
+! exists conflictMarkerTrivia2.js
+! exists conflictMarkerTrivia2.d.ts
+! exists conflictMarkerTrivia2.js.map
+
+-- conflictMarkerTrivia2.ts --
+class C {
+  foo() {
+<<<<<<< B
+     a();
+  }
+=======
+     b();
+  }
+>>>>>>> A
+
+  public bar() { }
+}

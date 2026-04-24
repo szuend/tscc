@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/contextuallyTypedParametersOptionalInJSDoc.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --strict --target es2015 --lib es2015,dom index.js
+stderr 'TS2345'
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+/**
+ * 
+ * @param {number} num 
+ */
+function acceptNum(num) {}
+
+/**
+ * @typedef {(a: string, b: number) => void} Fn
+ */
+
+/** @type {Fn} */
+const fn1 =
+  /**
+   * @param [b]
+   */
+  function self(a, b) {
+    acceptNum(b); // error
+    self("");
+    self("", undefined);
+  };
+
+/** @type {Fn} */
+const fn2 =
+  /**
+   * @param {number} [b]
+   */
+  function self(a, b) {
+    acceptNum(b); // error
+    self("");
+    self("", undefined);
+  };

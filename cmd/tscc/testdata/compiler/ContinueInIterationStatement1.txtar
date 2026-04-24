@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/continueInIterationStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js continueInIterationStatement1.js continueInIterationStatement1.ts
+! stderr .
+cmp continueInIterationStatement1.js continueInIterationStatement1.js.golden
+! exists continueInIterationStatement1.d.ts
+! exists continueInIterationStatement1.js.map
+
+-- continueInIterationStatement1.ts --
+while (true) {
+  continue;
+}
+-- continueInIterationStatement1.js.golden --
+"use strict";
+while (true) {
+    continue;
+}

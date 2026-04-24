@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/contextualTyping4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping4.js contextualTyping4.ts
+stderr 'TS2353'
+! exists contextualTyping4.js
+! exists contextualTyping4.d.ts
+! exists contextualTyping4.js.map
+
+-- contextualTyping4.ts --
+class foo { public bar:{id:number;} = {id:5, name:"foo"}; }

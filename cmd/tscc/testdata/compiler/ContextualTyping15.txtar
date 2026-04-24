@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/contextualTyping15.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping15.js contextualTyping15.ts
+! stderr .
+cmp contextualTyping15.js contextualTyping15.js.golden
+! exists contextualTyping15.d.ts
+! exists contextualTyping15.js.map
+
+-- contextualTyping15.ts --
+class foo { public bar: { (): number; (i: number): number; } = function() { return 1 }; }
+-- contextualTyping15.js.golden --
+"use strict";
+class foo {
+    constructor() {
+        this.bar = function () { return 1; };
+    }
+}

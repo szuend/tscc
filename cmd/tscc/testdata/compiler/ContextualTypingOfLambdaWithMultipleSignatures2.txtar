@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/contextualTypingOfLambdaWithMultipleSignatures2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js contextualTypingOfLambdaWithMultipleSignatures2.js contextualTypingOfLambdaWithMultipleSignatures2.ts
+! stderr .
+cmp contextualTypingOfLambdaWithMultipleSignatures2.js contextualTypingOfLambdaWithMultipleSignatures2.js.golden
+! exists contextualTypingOfLambdaWithMultipleSignatures2.d.ts
+! exists contextualTypingOfLambdaWithMultipleSignatures2.js.map
+
+-- contextualTypingOfLambdaWithMultipleSignatures2.ts --
+var f: {
+    (x: string): string;
+    (x: number): string
+};
+
+f = (a) => { return a.asdf }
+-- contextualTypingOfLambdaWithMultipleSignatures2.js.golden --
+"use strict";
+var f;
+f = (a) => { return a.asdf; };

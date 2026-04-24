@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/contextualTyping40.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping40.js contextualTyping40.ts
+! stderr .
+cmp contextualTyping40.js contextualTyping40.js.golden
+! exists contextualTyping40.d.ts
+! exists contextualTyping40.js.map
+
+-- contextualTyping40.ts --
+var foo = <{():number; (i:number):number; }> function(){return 1;};
+-- contextualTyping40.js.golden --
+"use strict";
+var foo = function () { return 1; };

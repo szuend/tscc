@@ -1,0 +1,93 @@
+# Ported from tests/cases/compiler/commonMissingSemicolons.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom commonMissingSemicolons.ts
+stderr 'TS1435'
+stderr 'TS1005'
+stderr 'TS1434'
+stderr 'TS1359'
+stderr 'TS1003'
+stderr 'TS1438'
+stderr 'TS1068'
+stderr 'TS1128'
+! exists commonMissingSemicolons.d.ts
+! exists commonMissingSemicolons.js.map
+
+-- commonMissingSemicolons.ts --
+async function myAsyncFunction1() {}
+asynd function myAsyncFunction2() {}
+sasync function myAsyncFunction3() {}
+
+// Arrow functions don't (yet?) parse as nicely as standalone functions.
+// Eventually it would be good to get them the same "did you mean" for typos such as "asyncd".
+const myAsyncArrow1 = async () => 3;
+const myAsyncArrow2 = asyncd () => 3;
+
+class MyClass1 {}
+clasd MyClass2 {}
+classs MyClass3 {}
+
+const myConst1 = 1;
+consd myConst2 = 1;
+constd myConst3 = 1;
+
+declare const myDeclareConst1: 1;
+declared const myDeclareConst2: 1;
+declare constd myDeclareConst3: 1;
+declared constd myDeclareConst4: 1;
+declareconst myDeclareConst5;
+
+function myFunction1() { }
+functiond myFunction2() { }
+function function() { }
+functionMyFunction;
+
+interface myInterface1 { }
+interfaced myInterface2 { }
+interface interface { }
+interface { }
+interface void { }
+interfaceMyInterface { }
+
+let let = 1;
+let let1 = 1;
+letd let2 = 1;
+letMyLet;
+
+type type;
+type type1 = {};
+type type2 = type;
+type type3 = {};
+typed type4 = {}
+typed type5 = type;
+typeMyType;
+
+var myVar1 = 1;
+vard myVar2 = 1;
+varMyVar;
+
+class NoSemicolonClassA {
+  ['a'] = 0
+  {}
+}
+
+class NoSemicolonClassB {
+  ['a'] = 0
+  {}
+}
+
+class NoSemicolonClassC {
+  ['a'] = 0;
+  {}
+}
+
+class NoSemicolonClassD {
+  ['a'] = 0
+  ['b']() {}
+}
+ 
+class NoSemicolonClassE {
+  ['a'] = 0
+  ['b']() {
+    c: true
+  }
+}

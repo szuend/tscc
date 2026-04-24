@@ -1,0 +1,57 @@
+# Ported from tests/cases/compiler/contextuallyTypedSymbolNamedProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts contextuallyTypedSymbolNamedProperties.d.ts --strict --target esnext --lib esnext,dom --out-js contextuallyTypedSymbolNamedProperties.js contextuallyTypedSymbolNamedProperties.ts
+! stderr .
+cmp contextuallyTypedSymbolNamedProperties.d.ts contextuallyTypedSymbolNamedProperties.d.ts.golden
+cmp contextuallyTypedSymbolNamedProperties.js contextuallyTypedSymbolNamedProperties.js.golden
+! exists contextuallyTypedSymbolNamedProperties.js.map
+
+-- contextuallyTypedSymbolNamedProperties.ts --
+// Repros from #43628
+
+const A = Symbol("A");
+const B = Symbol("B");
+
+type Action =
+    | {type: typeof A, data: string}
+    | {type: typeof B, data: number}
+
+declare const ab: Action;
+
+declare function f<T extends { type: string | symbol }>(action: T, blah: { [K in T['type']]: (p: K) => void }): any;
+
+f(ab, {
+    [A]: ap => { ap.description },
+    [B]: bp => { bp.description },
+})
+
+const x: { [sym: symbol]: (p: string) => void } = { [A]: s => s.length };
+-- contextuallyTypedSymbolNamedProperties.d.ts.golden --
+declare const A: unique symbol;
+declare const B: unique symbol;
+type Action = {
+    type: typeof A;
+    data: string;
+} | {
+    type: typeof B;
+    data: number;
+};
+declare const ab: Action;
+declare function f<T extends {
+    type: string | symbol;
+}>(action: T, blah: {
+    [K in T['type']]: (p: K) => void;
+}): any;
+declare const x: {
+    [sym: symbol]: (p: string) => void;
+};
+-- contextuallyTypedSymbolNamedProperties.js.golden --
+"use strict";
+// Repros from #43628
+const A = Symbol("A");
+const B = Symbol("B");
+f(ab, {
+    [A]: ap => { ap.description; },
+    [B]: bp => { bp.description; },
+});
+const x = { [A]: s => s.length };

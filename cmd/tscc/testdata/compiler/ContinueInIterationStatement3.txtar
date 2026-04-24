@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/continueInIterationStatement3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js continueInIterationStatement3.js continueInIterationStatement3.ts
+! stderr .
+cmp continueInIterationStatement3.js continueInIterationStatement3.js.golden
+! exists continueInIterationStatement3.d.ts
+! exists continueInIterationStatement3.js.map
+
+-- continueInIterationStatement3.ts --
+for (;;) {
+  continue;
+}
+-- continueInIterationStatement3.js.golden --
+"use strict";
+for (;;) {
+    continue;
+}

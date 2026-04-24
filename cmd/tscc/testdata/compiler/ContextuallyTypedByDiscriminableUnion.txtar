@@ -1,0 +1,64 @@
+# Ported from tests/cases/compiler/contextuallyTypedByDiscriminableUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js contextuallyTypedByDiscriminableUnion.js contextuallyTypedByDiscriminableUnion.ts
+! stderr .
+cmp contextuallyTypedByDiscriminableUnion.js contextuallyTypedByDiscriminableUnion.js.golden
+! exists contextuallyTypedByDiscriminableUnion.d.ts
+! exists contextuallyTypedByDiscriminableUnion.js.map
+
+-- contextuallyTypedByDiscriminableUnion.ts --
+type ADT = {
+    kind: "a",
+    method(x: string): number;
+} | {
+    kind: "b",
+    method(x: number): string;
+};
+
+
+function invoke(item: ADT) {
+    if (item.kind === "a") {
+        item.method("");
+    }
+    else {
+        item.method(42);
+    }
+}
+
+invoke({
+    kind: "a",
+    method(a) {
+        return +a;
+    }
+});
+
+const kind = "a"
+invoke({
+    kind,
+    method(a) {
+        return +a;
+    }
+})
+-- contextuallyTypedByDiscriminableUnion.js.golden --
+"use strict";
+function invoke(item) {
+    if (item.kind === "a") {
+        item.method("");
+    }
+    else {
+        item.method(42);
+    }
+}
+invoke({
+    kind: "a",
+    method(a) {
+        return +a;
+    }
+});
+const kind = "a";
+invoke({
+    kind,
+    method(a) {
+        return +a;
+    }
+});

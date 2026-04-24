@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/contextualTyping37.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualTyping37.js contextualTyping37.ts
+! stderr .
+cmp contextualTyping37.js contextualTyping37.js.golden
+! exists contextualTyping37.d.ts
+! exists contextualTyping37.js.map
+
+-- contextualTyping37.ts --
+var foo = <{ id: number; }[]>[{ foo: "s" }, {  }];
+-- contextualTyping37.js.golden --
+"use strict";
+var foo = [{ foo: "s" }, {}];

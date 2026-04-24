@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/contextualTypingOfObjectLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js contextualTypingOfObjectLiterals.js contextualTypingOfObjectLiterals.ts
+! stderr .
+cmp contextualTypingOfObjectLiterals.js contextualTypingOfObjectLiterals.js.golden
+! exists contextualTypingOfObjectLiterals.d.ts
+! exists contextualTypingOfObjectLiterals.js.map
+
+-- contextualTypingOfObjectLiterals.ts --
+var obj1: { [x: string]: string; };
+var obj2 = {x: ""};
+obj1 = {}; // Ok
+obj1 = obj2; // Error - indexer doesn't match
+
+function f(x: { [s: string]: string }) { }
+
+f({}); // Ok
+f(obj1); // Ok
+f(obj2); // Error - indexer doesn't match
+-- contextualTypingOfObjectLiterals.js.golden --
+"use strict";
+var obj1;
+var obj2 = { x: "" };
+obj1 = {}; // Ok
+obj1 = obj2; // Error - indexer doesn't match
+function f(x) { }
+f({}); // Ok
+f(obj1); // Ok
+f(obj2); // Error - indexer doesn't match

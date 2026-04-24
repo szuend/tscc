@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/contextualTypeOnYield2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target ES6 --lib ES6,dom --out-js contextualTypeOnYield2.js contextualTypeOnYield2.ts
+! stderr .
+cmp contextualTypeOnYield2.js contextualTypeOnYield2.js.golden
+! exists contextualTypeOnYield2.d.ts
+! exists contextualTypeOnYield2.js.map
+
+-- contextualTypeOnYield2.ts --
+type OrGen = () => (number | Generator<string, (arg: number) => void, undefined>);
+const g: OrGen = function* () {
+    return (num) => console.log(num);
+}
+-- contextualTypeOnYield2.js.golden --
+"use strict";
+const g = function* () {
+    return (num) => console.log(num);
+};

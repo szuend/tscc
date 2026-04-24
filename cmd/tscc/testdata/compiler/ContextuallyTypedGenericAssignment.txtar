@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/contextuallyTypedGenericAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextuallyTypedGenericAssignment.js contextuallyTypedGenericAssignment.ts
+! stderr .
+cmp contextuallyTypedGenericAssignment.js contextuallyTypedGenericAssignment.js.golden
+! exists contextuallyTypedGenericAssignment.d.ts
+! exists contextuallyTypedGenericAssignment.js.map
+
+-- contextuallyTypedGenericAssignment.ts --
+function foo<A extends any[]>(
+    arg: <T extends { a: number }>(t: T, ...rest: A) => number
+) { }
+
+foo((t, u: number) => t.a)
+-- contextuallyTypedGenericAssignment.js.golden --
+"use strict";
+function foo(arg) { }
+foo((t, u) => t.a);

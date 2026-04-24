@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/ambiguousGenericAssertion1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ambiguousGenericAssertion1.js ambiguousGenericAssertion1.ts
+stderr 'TS1109'
+stderr 'TS1005'
+! exists ambiguousGenericAssertion1.js
+! exists ambiguousGenericAssertion1.d.ts
+! exists ambiguousGenericAssertion1.js.map
+
+-- ambiguousGenericAssertion1.ts --
+function f<T>(x: T): T { return null; }
+var r = <T>(x: T) => x;
+var r2 = < <T>(x: T) => T>f; // valid
+var r3 = <<T>(x: T) => T>f; // ambiguous, appears to the parser as a << operation

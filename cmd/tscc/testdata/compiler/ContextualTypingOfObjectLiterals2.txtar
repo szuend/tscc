@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/contextualTypingOfObjectLiterals2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js contextualTypingOfObjectLiterals2.js contextualTypingOfObjectLiterals2.ts
+stderr 'TS2339'
+! exists contextualTypingOfObjectLiterals2.js
+! exists contextualTypingOfObjectLiterals2.d.ts
+! exists contextualTypingOfObjectLiterals2.js.map
+
+-- contextualTypingOfObjectLiterals2.ts --
+interface Foo {
+    foo: (t: string) => string;
+}
+function f2(args: Foo) { }
+f2({ foo: s => s.hmm }) // 's' should be 'string', so this should be an error

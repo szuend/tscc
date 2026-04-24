@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/contextuallyTypedParametersWithInitializers4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom contextuallyTypedParametersWithInitializers4.ts
+! stderr .
+! exists contextuallyTypedParametersWithInitializers4.d.ts
+! exists contextuallyTypedParametersWithInitializers4.js.map
+
+-- contextuallyTypedParametersWithInitializers4.ts --
+declare function test<
+  TContext,
+  TMethods extends Record<string, (ctx: TContext, ...args: (1 | 2)[]) => unknown>,
+>(context: TContext, methods: TMethods): void;
+
+test(
+  {
+    count: 0,
+  },
+  {
+    checkLimit: (ctx, max = 3) => {},
+  },
+);

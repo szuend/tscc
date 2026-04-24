@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/callExpressionWithMissingTypeArgument1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js callExpressionWithMissingTypeArgument1.js callExpressionWithMissingTypeArgument1.ts
+stderr 'TS1110'
+! exists callExpressionWithMissingTypeArgument1.js
+! exists callExpressionWithMissingTypeArgument1.d.ts
+! exists callExpressionWithMissingTypeArgument1.js.map
+
+-- callExpressionWithMissingTypeArgument1.ts --
+Foo<a,,b>();

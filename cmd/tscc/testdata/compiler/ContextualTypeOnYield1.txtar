@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/contextualTypeOnYield1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target ES6 --lib ES6,dom --out-js contextualTypeOnYield1.js contextualTypeOnYield1.ts
+! stderr .
+cmp contextualTypeOnYield1.js contextualTypeOnYield1.js.golden
+! exists contextualTypeOnYield1.d.ts
+! exists contextualTypeOnYield1.js.map
+
+-- contextualTypeOnYield1.ts --
+type FuncOrGeneratorFunc = () => (number | Generator<(arg: number) => void, any, void>)
+
+const f: FuncOrGeneratorFunc = function*() {
+  yield (num) => console.log(num); // `num` should be inferred to have type `number`.
+}
+-- contextualTypeOnYield1.js.golden --
+"use strict";
+const f = function* () {
+    yield (num) => console.log(num); // `num` should be inferred to have type `number`.
+};
