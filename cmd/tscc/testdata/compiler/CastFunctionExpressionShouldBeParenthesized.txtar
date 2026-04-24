@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/castFunctionExpressionShouldBeParenthesized.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js castFunctionExpressionShouldBeParenthesized.js castFunctionExpressionShouldBeParenthesized.ts
+! stderr .
+cmp castFunctionExpressionShouldBeParenthesized.js castFunctionExpressionShouldBeParenthesized.js.golden
+! exists castFunctionExpressionShouldBeParenthesized.d.ts
+! exists castFunctionExpressionShouldBeParenthesized.js.map
+
+-- castFunctionExpressionShouldBeParenthesized.ts --
+(function a() { } as any)().foo()
+-- castFunctionExpressionShouldBeParenthesized.js.golden --
+"use strict";
+(function a() { }().foo());

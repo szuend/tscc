@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/capturedLetConstInLoop12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js capturedLetConstInLoop12.js capturedLetConstInLoop12.ts
+! stderr .
+cmp capturedLetConstInLoop12.js capturedLetConstInLoop12.js.golden
+! exists capturedLetConstInLoop12.d.ts
+! exists capturedLetConstInLoop12.js.map
+
+-- capturedLetConstInLoop12.ts --
+(function() {
+    "use strict";
+
+    for (let i = 0; i < 4; i++) {
+        (() => [i] = [i + 1])();
+    }
+})();
+
+(function() {
+    "use strict";
+
+    for (let i = 0; i < 4; i++) {
+        (() => ({a:i} = {a:i + 1}))();
+    }
+})();
+-- capturedLetConstInLoop12.js.golden --
+"use strict";
+(function () {
+    "use strict";
+    for (let i = 0; i < 4; i++) {
+        (() => [i] = [i + 1])();
+    }
+})();
+(function () {
+    "use strict";
+    for (let i = 0; i < 4; i++) {
+        (() => ({ a: i } = { a: i + 1 }))();
+    }
+})();

@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/collisionCodeGenModuleWithPrivateMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionCodeGenModuleWithPrivateMember.js collisionCodeGenModuleWithPrivateMember.ts
+! stderr .
+cmp collisionCodeGenModuleWithPrivateMember.js collisionCodeGenModuleWithPrivateMember.js.golden
+! exists collisionCodeGenModuleWithPrivateMember.d.ts
+! exists collisionCodeGenModuleWithPrivateMember.js.map
+
+-- collisionCodeGenModuleWithPrivateMember.ts --
+namespace m1 {
+    class m1 {
+    }
+    var x = new m1();
+    export class c1 {
+    }
+}
+var foo = new m1.c1();
+-- collisionCodeGenModuleWithPrivateMember.js.golden --
+"use strict";
+var m1;
+(function (m1_1) {
+    class m1 {
+    }
+    var x = new m1();
+    class c1 {
+    }
+    m1_1.c1 = c1;
+})(m1 || (m1 = {}));
+var foo = new m1.c1();

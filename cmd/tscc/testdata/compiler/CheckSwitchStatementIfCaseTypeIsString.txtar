@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/checkSwitchStatementIfCaseTypeIsString.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js checkSwitchStatementIfCaseTypeIsString.js checkSwitchStatementIfCaseTypeIsString.ts
+! stderr .
+cmp checkSwitchStatementIfCaseTypeIsString.js checkSwitchStatementIfCaseTypeIsString.js.golden
+! exists checkSwitchStatementIfCaseTypeIsString.d.ts
+! exists checkSwitchStatementIfCaseTypeIsString.js.map
+
+-- checkSwitchStatementIfCaseTypeIsString.ts --
+declare function use(a: any): void;
+
+class A {
+    doIt(x: Array<string>): void {
+        x.forEach((v) => {
+            switch(v) {
+                case "test": use(this);
+            }
+        });
+    }
+}
+-- checkSwitchStatementIfCaseTypeIsString.js.golden --
+"use strict";
+class A {
+    doIt(x) {
+        x.forEach((v) => {
+            switch (v) {
+                case "test": use(this);
+            }
+        });
+    }
+}

@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/cloduleWithRecursiveReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js cloduleWithRecursiveReference.js cloduleWithRecursiveReference.ts
+! stderr .
+cmp cloduleWithRecursiveReference.js cloduleWithRecursiveReference.js.golden
+! exists cloduleWithRecursiveReference.d.ts
+! exists cloduleWithRecursiveReference.js.map
+
+-- cloduleWithRecursiveReference.ts --
+namespace M
+{
+  export class C {  }
+  export namespace C {
+    export var C = M.C
+  }
+}
+-- cloduleWithRecursiveReference.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class C {
+    }
+    M.C = C;
+    (function (C_1) {
+        C_1.C = M.C;
+    })(C = M.C || (M.C = {}));
+})(M || (M = {}));

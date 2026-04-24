@@ -1,0 +1,73 @@
+# Ported from tests/cases/compiler/collisionCodeGenModuleWithMethodChildren.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionCodeGenModuleWithMethodChildren.js collisionCodeGenModuleWithMethodChildren.ts
+! stderr .
+cmp collisionCodeGenModuleWithMethodChildren.js collisionCodeGenModuleWithMethodChildren.js.golden
+! exists collisionCodeGenModuleWithMethodChildren.d.ts
+! exists collisionCodeGenModuleWithMethodChildren.js.map
+
+-- collisionCodeGenModuleWithMethodChildren.ts --
+namespace M {
+    export var x = 3;
+    class c {
+        fn(M, p = x) { }
+    }
+}
+
+namespace M {
+    class d {
+        fn2() {
+            var M;
+            var p = x;
+        }
+    }
+}
+
+namespace M {
+    class e {
+        fn3() {
+            function M() {
+                var p = x;
+            }
+        }
+    }
+}
+
+namespace M { // Shouldnt bn _M
+    class f {
+        M() {
+        }
+    }
+}
+-- collisionCodeGenModuleWithMethodChildren.js.golden --
+"use strict";
+var M;
+(function (M_1) {
+    M_1.x = 3;
+    class c {
+        fn(M, p = M_1.x) { }
+    }
+})(M || (M = {}));
+(function (M_2) {
+    class d {
+        fn2() {
+            var M;
+            var p = M_2.x;
+        }
+    }
+})(M || (M = {}));
+(function (M_3) {
+    class e {
+        fn3() {
+            function M() {
+                var p = M_3.x;
+            }
+        }
+    }
+})(M || (M = {}));
+(function (M) {
+    class f {
+        M() {
+        }
+    }
+})(M || (M = {}));

@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/classExpressionWithStaticProperties1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExpressionWithStaticProperties1.js classExpressionWithStaticProperties1.ts
+! stderr .
+cmp classExpressionWithStaticProperties1.js classExpressionWithStaticProperties1.js.golden
+! exists classExpressionWithStaticProperties1.d.ts
+! exists classExpressionWithStaticProperties1.js.map
+
+-- classExpressionWithStaticProperties1.ts --
+var v = class C {
+    static a = 1;
+    static b = 2;
+    static c = C.a + C.b;
+};
+-- classExpressionWithStaticProperties1.js.golden --
+"use strict";
+var _a;
+var v = (_a = class C {
+    },
+    _a.a = 1,
+    _a.b = 2,
+    _a.c = _a.a + _a.b,
+    _a);

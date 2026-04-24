@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/captureSuperPropertyAccessInSuperCall01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js captureSuperPropertyAccessInSuperCall01.js captureSuperPropertyAccessInSuperCall01.ts
+! stderr .
+cmp captureSuperPropertyAccessInSuperCall01.js captureSuperPropertyAccessInSuperCall01.js.golden
+! exists captureSuperPropertyAccessInSuperCall01.d.ts
+! exists captureSuperPropertyAccessInSuperCall01.js.map
+
+-- captureSuperPropertyAccessInSuperCall01.ts --
+class A {
+	constructor(f: () => string) {
+	}
+	public blah(): string { return ""; }
+}
+
+class B extends A {
+	constructor() {
+		super(() => { return super.blah(); })
+	}
+}
+-- captureSuperPropertyAccessInSuperCall01.js.golden --
+"use strict";
+class A {
+    constructor(f) {
+    }
+    blah() { return ""; }
+}
+class B extends A {
+    constructor() {
+        super(() => { return super.blah(); });
+    }
+}

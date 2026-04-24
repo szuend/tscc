@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/checkInterfaceBases.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js app.js app.ts
+! stderr .
+cmp app.js app.js.golden
+! exists app.d.ts
+! exists app.js.map
+
+-- app.ts --
+///<reference path='jquery.d.ts' />
+interface SecondEvent {
+    data: any;
+}
+interface Third extends JQueryEventObjectTest, SecondEvent {}
+-- jquery.d.ts --
+interface JQueryEventObjectTest {
+    data: any;
+    which: number;
+    metaKey: any;
+}
+-- app.js.golden --
+"use strict";
+///<reference path='jquery.d.ts' />

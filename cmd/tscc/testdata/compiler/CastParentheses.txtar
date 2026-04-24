@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/castParentheses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js castParentheses.js castParentheses.ts
+! stderr .
+cmp castParentheses.js castParentheses.js.golden
+! exists castParentheses.d.ts
+! exists castParentheses.js.map
+
+-- castParentheses.ts --
+class a {
+    static b: any;
+}
+
+var b = (<any>a);
+var b = (<any>a).b;
+var b = (<any>a.b).c;
+var b = (<any>a.b()).c;
+var b = (<any>new a);
+var b = (<any>new a.b);
+var b = (<any>new a).b 
+-- castParentheses.js.golden --
+"use strict";
+class a {
+}
+var b = a;
+var b = a.b;
+var b = a.b.c;
+var b = a.b().c;
+var b = new a;
+var b = new a.b;
+var b = (new a).b;

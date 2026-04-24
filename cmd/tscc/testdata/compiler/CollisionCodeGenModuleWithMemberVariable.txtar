@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/collisionCodeGenModuleWithMemberVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionCodeGenModuleWithMemberVariable.js collisionCodeGenModuleWithMemberVariable.ts
+! stderr .
+cmp collisionCodeGenModuleWithMemberVariable.js collisionCodeGenModuleWithMemberVariable.js.golden
+! exists collisionCodeGenModuleWithMemberVariable.d.ts
+! exists collisionCodeGenModuleWithMemberVariable.js.map
+
+-- collisionCodeGenModuleWithMemberVariable.ts --
+namespace m1 {
+    export var m1 = 10;
+    var b = m1;
+}
+var foo = m1.m1;
+-- collisionCodeGenModuleWithMemberVariable.js.golden --
+"use strict";
+var m1;
+(function (m1_1) {
+    m1_1.m1 = 10;
+    var b = m1_1.m1;
+})(m1 || (m1 = {}));
+var foo = m1.m1;

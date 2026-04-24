@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/classVarianceResolveCircularity1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js classVarianceResolveCircularity1.js classVarianceResolveCircularity1.ts
+! stderr .
+cmp classVarianceResolveCircularity1.js classVarianceResolveCircularity1.js.golden
+! exists classVarianceResolveCircularity1.d.ts
+! exists classVarianceResolveCircularity1.js.map
+
+-- classVarianceResolveCircularity1.ts --
+// Issue #52813
+
+class Bar<T> {
+    num!: number;
+    Value = callme(this).num;
+    Field: number = callme(this).num;
+}
+declare function callme(x: Bar<any>): Bar<any>;
+declare function callme(x: object): string;
+-- classVarianceResolveCircularity1.js.golden --
+"use strict";
+// Issue #52813
+class Bar {
+    constructor() {
+        this.Value = callme(this).num;
+        this.Field = callme(this).num;
+    }
+}

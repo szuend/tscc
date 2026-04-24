@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/breakInIterationOrSwitchStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js breakInIterationOrSwitchStatement1.js breakInIterationOrSwitchStatement1.ts
+! stderr .
+cmp breakInIterationOrSwitchStatement1.js breakInIterationOrSwitchStatement1.js.golden
+! exists breakInIterationOrSwitchStatement1.d.ts
+! exists breakInIterationOrSwitchStatement1.js.map
+
+-- breakInIterationOrSwitchStatement1.ts --
+while (true) {
+  break;
+}
+-- breakInIterationOrSwitchStatement1.js.golden --
+"use strict";
+while (true) {
+    break;
+}

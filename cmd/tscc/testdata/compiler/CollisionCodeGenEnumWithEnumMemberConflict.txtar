@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/collisionCodeGenEnumWithEnumMemberConflict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionCodeGenEnumWithEnumMemberConflict.js collisionCodeGenEnumWithEnumMemberConflict.ts
+! stderr .
+cmp collisionCodeGenEnumWithEnumMemberConflict.js collisionCodeGenEnumWithEnumMemberConflict.js.golden
+! exists collisionCodeGenEnumWithEnumMemberConflict.d.ts
+! exists collisionCodeGenEnumWithEnumMemberConflict.js.map
+
+-- collisionCodeGenEnumWithEnumMemberConflict.ts --
+enum Color {
+    Color,
+    Thing = Color
+}
+-- collisionCodeGenEnumWithEnumMemberConflict.js.golden --
+"use strict";
+var Color;
+(function (Color) {
+    Color[Color["Color"] = 0] = "Color";
+    Color[Color["Thing"] = 0] = "Thing";
+})(Color || (Color = {}));

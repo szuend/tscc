@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/breakTarget2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js breakTarget2.js breakTarget2.ts
+! stderr .
+cmp breakTarget2.js breakTarget2.js.golden
+! exists breakTarget2.d.ts
+! exists breakTarget2.js.map
+
+-- breakTarget2.ts --
+target:
+while (true) {
+  break target;
+}
+-- breakTarget2.js.golden --
+"use strict";
+target: while (true) {
+    break target;
+}

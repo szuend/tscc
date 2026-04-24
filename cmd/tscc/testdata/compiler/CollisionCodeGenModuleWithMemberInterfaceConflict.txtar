@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/collisionCodeGenModuleWithMemberInterfaceConflict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionCodeGenModuleWithMemberInterfaceConflict.js collisionCodeGenModuleWithMemberInterfaceConflict.ts
+! stderr .
+cmp collisionCodeGenModuleWithMemberInterfaceConflict.js collisionCodeGenModuleWithMemberInterfaceConflict.js.golden
+! exists collisionCodeGenModuleWithMemberInterfaceConflict.d.ts
+! exists collisionCodeGenModuleWithMemberInterfaceConflict.js.map
+
+-- collisionCodeGenModuleWithMemberInterfaceConflict.ts --
+namespace m1 {
+    export interface m1 {
+    }
+    export class m2 implements m1 {
+    }
+}
+var foo = new m1.m2();
+-- collisionCodeGenModuleWithMemberInterfaceConflict.js.golden --
+"use strict";
+var m1;
+(function (m1) {
+    class m2 {
+    }
+    m1.m2 = m2;
+})(m1 || (m1 = {}));
+var foo = new m1.m2();

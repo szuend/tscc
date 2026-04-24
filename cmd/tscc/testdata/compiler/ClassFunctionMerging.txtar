@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/classFunctionMerging.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classFunctionMerging.js classFunctionMerging.ts
+! stderr .
+cmp classFunctionMerging.js classFunctionMerging.js.golden
+! exists classFunctionMerging.d.ts
+! exists classFunctionMerging.js.map
+
+-- classFunctionMerging.ts --
+// We allow ambient classes and functions to merge, this way callable classes
+// which are also namespaces can be represented in declaration files
+declare function Foo (x: number): Foo.Inst;
+declare class Foo {
+    constructor(x: string);
+}
+declare namespace Foo {
+    export type Inst = number;
+}
+
+const a = new Foo("");
+const b = Foo(12);
+-- classFunctionMerging.js.golden --
+"use strict";
+const a = new Foo("");
+const b = Foo(12);

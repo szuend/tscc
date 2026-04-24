@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/checkSuperCallBeforeThisAccessing6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js checkSuperCallBeforeThisAccessing6.js checkSuperCallBeforeThisAccessing6.ts
+! stderr .
+cmp checkSuperCallBeforeThisAccessing6.js checkSuperCallBeforeThisAccessing6.js.golden
+! exists checkSuperCallBeforeThisAccessing6.d.ts
+! exists checkSuperCallBeforeThisAccessing6.js.map
+
+-- checkSuperCallBeforeThisAccessing6.ts --
+class Base {
+    constructor(...arg) {
+    }
+}
+class Super extends Base {
+    constructor() {
+        (() => this);  // No Error
+        super();
+    }
+}
+-- checkSuperCallBeforeThisAccessing6.js.golden --
+"use strict";
+class Base {
+    constructor(...arg) {
+    }
+}
+class Super extends Base {
+    constructor() {
+        (() => this); // No Error
+        super();
+    }
+}

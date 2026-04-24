@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/blockScopedBindingCaptureThisInFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js blockScopedBindingCaptureThisInFunction.js blockScopedBindingCaptureThisInFunction.ts
+! stderr .
+cmp blockScopedBindingCaptureThisInFunction.js blockScopedBindingCaptureThisInFunction.js.golden
+! exists blockScopedBindingCaptureThisInFunction.d.ts
+! exists blockScopedBindingCaptureThisInFunction.js.map
+
+-- blockScopedBindingCaptureThisInFunction.ts --
+// https://github.com/Microsoft/TypeScript/issues/11038
+() => function () {
+    for (let someKey in {}) {
+        this.helloWorld();
+        () => someKey;
+    }
+};
+-- blockScopedBindingCaptureThisInFunction.js.golden --
+"use strict";
+// https://github.com/Microsoft/TypeScript/issues/11038
+() => function () {
+    for (let someKey in {}) {
+        this.helloWorld();
+        () => someKey;
+    }
+};

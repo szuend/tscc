@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/collisionCodeGenModuleWithEnumMemberConflict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionCodeGenModuleWithEnumMemberConflict.js collisionCodeGenModuleWithEnumMemberConflict.ts
+! stderr .
+cmp collisionCodeGenModuleWithEnumMemberConflict.js collisionCodeGenModuleWithEnumMemberConflict.js.golden
+! exists collisionCodeGenModuleWithEnumMemberConflict.d.ts
+! exists collisionCodeGenModuleWithEnumMemberConflict.js.map
+
+-- collisionCodeGenModuleWithEnumMemberConflict.ts --
+namespace m1 {
+    enum e {
+        m1, 
+        m2 = m1
+    }
+}
+-- collisionCodeGenModuleWithEnumMemberConflict.js.golden --
+"use strict";
+var m1;
+(function (m1) {
+    let e;
+    (function (e) {
+        e[e["m1"] = 0] = "m1";
+        e[e["m2"] = 0] = "m2";
+    })(e || (e = {}));
+})(m1 || (m1 = {}));

@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/classMemberInitializerWithLamdaScoping5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --target es2015 --out-js classMemberInitializerWithLamdaScoping5.js classMemberInitializerWithLamdaScoping5.ts
+! stderr .
+cmp classMemberInitializerWithLamdaScoping5.js classMemberInitializerWithLamdaScoping5.js.golden
+! exists classMemberInitializerWithLamdaScoping5.d.ts
+! exists classMemberInitializerWithLamdaScoping5.js.map
+
+-- classMemberInitializerWithLamdaScoping5.ts --
+declare var console: {
+    log(message?: any, ...optionalParams: any[]): void;
+};
+class Greeter {
+    constructor(message: string) {
+    }
+
+    messageHandler = (message: string) => {
+        console.log(message); // This shouldnt be error
+    }
+}
+-- classMemberInitializerWithLamdaScoping5.js.golden --
+"use strict";
+class Greeter {
+    constructor(message) {
+        this.messageHandler = (message) => {
+            console.log(message); // This shouldnt be error
+        };
+    }
+}

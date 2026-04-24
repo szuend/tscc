@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/classIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classIndexer.js classIndexer.ts
+! stderr .
+cmp classIndexer.js classIndexer.js.golden
+! exists classIndexer.d.ts
+! exists classIndexer.js.map
+
+-- classIndexer.ts --
+class C123 {
+    [s: string]: number;
+    constructor() {
+    }
+}
+-- classIndexer.js.golden --
+"use strict";
+class C123 {
+    constructor() {
+    }
+}

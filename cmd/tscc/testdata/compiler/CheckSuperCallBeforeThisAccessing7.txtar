@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/checkSuperCallBeforeThisAccessing7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js checkSuperCallBeforeThisAccessing7.js checkSuperCallBeforeThisAccessing7.ts
+! stderr .
+cmp checkSuperCallBeforeThisAccessing7.js checkSuperCallBeforeThisAccessing7.js.golden
+! exists checkSuperCallBeforeThisAccessing7.d.ts
+! exists checkSuperCallBeforeThisAccessing7.js.map
+
+-- checkSuperCallBeforeThisAccessing7.ts --
+class Base {
+    constructor(func: ()=>Base) {
+    }
+}
+class Super extends Base {
+    constructor() {
+        super((() => this)); // No error
+    }
+}
+-- checkSuperCallBeforeThisAccessing7.js.golden --
+"use strict";
+class Base {
+    constructor(func) {
+    }
+}
+class Super extends Base {
+    constructor() {
+        super((() => this)); // No error
+    }
+}

@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/classDeclarationMergedInModuleWithContinuation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classDeclarationMergedInModuleWithContinuation.js classDeclarationMergedInModuleWithContinuation.ts
+! stderr .
+cmp classDeclarationMergedInModuleWithContinuation.js classDeclarationMergedInModuleWithContinuation.js.golden
+! exists classDeclarationMergedInModuleWithContinuation.d.ts
+! exists classDeclarationMergedInModuleWithContinuation.js.map
+
+-- classDeclarationMergedInModuleWithContinuation.ts --
+namespace M {
+    export class N { }
+    export namespace N {
+        export var v = 0;
+    }
+}
+
+namespace M {
+    export class O extends M.N {
+    }
+}
+-- classDeclarationMergedInModuleWithContinuation.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class N {
+    }
+    M.N = N;
+    (function (N) {
+        N.v = 0;
+    })(N = M.N || (M.N = {}));
+})(M || (M = {}));
+(function (M) {
+    class O extends M.N {
+    }
+    M.O = O;
+})(M || (M = {}));

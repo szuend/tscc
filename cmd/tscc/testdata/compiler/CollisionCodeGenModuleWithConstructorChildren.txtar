@@ -1,0 +1,57 @@
+# Ported from tests/cases/compiler/collisionCodeGenModuleWithConstructorChildren.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionCodeGenModuleWithConstructorChildren.js collisionCodeGenModuleWithConstructorChildren.ts
+! stderr .
+cmp collisionCodeGenModuleWithConstructorChildren.js collisionCodeGenModuleWithConstructorChildren.js.golden
+! exists collisionCodeGenModuleWithConstructorChildren.d.ts
+! exists collisionCodeGenModuleWithConstructorChildren.js.map
+
+-- collisionCodeGenModuleWithConstructorChildren.ts --
+namespace M {
+    export var x = 3;
+    class c {
+        constructor(M, p = x) {
+        }
+    }
+}
+
+namespace M {
+    class d {
+        constructor(private M, p = x) {
+        }
+    }
+}
+
+namespace M {
+    class d2 {
+        constructor() {
+            var M = 10;
+            var p = x;
+        }
+    }
+}
+-- collisionCodeGenModuleWithConstructorChildren.js.golden --
+"use strict";
+var M;
+(function (M_1) {
+    M_1.x = 3;
+    class c {
+        constructor(M, p = M_1.x) {
+        }
+    }
+})(M || (M = {}));
+(function (M_2) {
+    class d {
+        constructor(M, p = M_2.x) {
+            this.M = M;
+        }
+    }
+})(M || (M = {}));
+(function (M_3) {
+    class d2 {
+        constructor() {
+            var M = 10;
+            var p = M_3.x;
+        }
+    }
+})(M || (M = {}));

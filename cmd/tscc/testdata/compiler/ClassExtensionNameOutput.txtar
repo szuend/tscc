@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/classExtensionNameOutput.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classExtensionNameOutput.js classExtensionNameOutput.ts
+! stderr .
+cmp classExtensionNameOutput.js classExtensionNameOutput.js.golden
+! exists classExtensionNameOutput.d.ts
+! exists classExtensionNameOutput.js.map
+
+-- classExtensionNameOutput.ts --
+class A {}
+if (true) {
+  class B extends A {}
+
+  const foo = function () {
+    new B();
+  }
+}
+-- classExtensionNameOutput.js.golden --
+"use strict";
+class A {
+}
+if (true) {
+    class B extends A {
+    }
+    const foo = function () {
+        new B();
+    };
+}

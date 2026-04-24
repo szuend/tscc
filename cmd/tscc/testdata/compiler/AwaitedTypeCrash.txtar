@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/awaitedTypeCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target esnext --lib esnext,dom --out-js awaitedTypeCrash.js awaitedTypeCrash.ts
+! stderr .
+cmp awaitedTypeCrash.js awaitedTypeCrash.js.golden
+! exists awaitedTypeCrash.d.ts
+! exists awaitedTypeCrash.js.map
+
+-- awaitedTypeCrash.ts --
+// https://github.com/microsoft/TypeScript/issues/51984
+async function* f<T extends Promise<never>>(): AsyncGenerator<T, void, void> { }
+-- awaitedTypeCrash.js.golden --
+"use strict";
+// https://github.com/microsoft/TypeScript/issues/51984
+async function* f() { }

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/breakTarget1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js breakTarget1.js breakTarget1.ts
+! stderr .
+cmp breakTarget1.js breakTarget1.js.golden
+! exists breakTarget1.d.ts
+! exists breakTarget1.js.map
+
+-- breakTarget1.ts --
+target:
+  break target;
+-- breakTarget1.js.golden --
+"use strict";
+target: break target;

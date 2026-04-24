@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/castNewObjectBug.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js castNewObjectBug.js castNewObjectBug.ts
+! stderr .
+cmp castNewObjectBug.js castNewObjectBug.js.golden
+! exists castNewObjectBug.d.ts
+! exists castNewObjectBug.js.map
+
+-- castNewObjectBug.ts --
+interface Foo { }
+var xx = <Foo> new Object();
+-- castNewObjectBug.js.golden --
+"use strict";
+var xx = new Object();

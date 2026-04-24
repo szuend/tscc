@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/blockScopedBindingsReassignedInLoop4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js blockScopedBindingsReassignedInLoop4.js blockScopedBindingsReassignedInLoop4.ts
+! stderr .
+cmp blockScopedBindingsReassignedInLoop4.js blockScopedBindingsReassignedInLoop4.js.golden
+! exists blockScopedBindingsReassignedInLoop4.d.ts
+! exists blockScopedBindingsReassignedInLoop4.js.map
+
+-- blockScopedBindingsReassignedInLoop4.ts --
+function f1() {
+    for (let x = 1, y = 2; x < y; ++x, --y) {
+        let a = () => x++ + y++;
+        if (x == 1) {
+            return 1;
+        }
+        else {
+            y = 5;
+        }
+    }
+}
+-- blockScopedBindingsReassignedInLoop4.js.golden --
+"use strict";
+function f1() {
+    for (let x = 1, y = 2; x < y; ++x, --y) {
+        let a = () => x++ + y++;
+        if (x == 1) {
+            return 1;
+        }
+        else {
+            y = 5;
+        }
+    }
+}

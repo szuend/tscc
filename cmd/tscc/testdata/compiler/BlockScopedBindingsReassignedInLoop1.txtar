@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/blockScopedBindingsReassignedInLoop1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js blockScopedBindingsReassignedInLoop1.js blockScopedBindingsReassignedInLoop1.ts
+! stderr .
+cmp blockScopedBindingsReassignedInLoop1.js blockScopedBindingsReassignedInLoop1.js.golden
+! exists blockScopedBindingsReassignedInLoop1.d.ts
+! exists blockScopedBindingsReassignedInLoop1.js.map
+
+-- blockScopedBindingsReassignedInLoop1.ts --
+declare function use(n: number): void;
+(function () {
+  'use strict'
+  for (let i = 0; i < 9; ++i) {
+    (() => use(++i))();
+  }
+})();
+-- blockScopedBindingsReassignedInLoop1.js.golden --
+"use strict";
+(function () {
+    'use strict';
+    for (let i = 0; i < 9; ++i) {
+        (() => use(++i))();
+    }
+})();

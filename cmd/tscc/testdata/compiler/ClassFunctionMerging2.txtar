@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/classFunctionMerging2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js classFunctionMerging2.js classFunctionMerging2.ts
+! stderr .
+cmp classFunctionMerging2.js classFunctionMerging2.js.golden
+! exists classFunctionMerging2.d.ts
+! exists classFunctionMerging2.js.map
+
+-- classFunctionMerging2.ts --
+declare abstract class A {
+    constructor(p: number);
+    a: number;
+}
+
+declare function B(p: string): B;
+declare class B extends A {
+    constructor(p: string);
+    b: number;
+}
+
+let b = new B("Hey")
+console.log(b.a)
+-- classFunctionMerging2.js.golden --
+"use strict";
+let b = new B("Hey");
+console.log(b.a);

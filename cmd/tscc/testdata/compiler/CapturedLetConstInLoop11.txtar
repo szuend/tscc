@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/capturedLetConstInLoop11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js capturedLetConstInLoop11.js capturedLetConstInLoop11.ts
+! stderr .
+cmp capturedLetConstInLoop11.js capturedLetConstInLoop11.js.golden
+! exists capturedLetConstInLoop11.d.ts
+! exists capturedLetConstInLoop11.js.map
+
+-- capturedLetConstInLoop11.ts --
+for (;;) {
+    let x = 1;
+    () => x;
+}
+
+function foo() {
+    for (;;) {
+        const a = 0;
+        switch(a) {
+            case 0: return () => a;
+        }
+    }
+}
+-- capturedLetConstInLoop11.js.golden --
+"use strict";
+for (;;) {
+    let x = 1;
+    () => x;
+}
+function foo() {
+    for (;;) {
+        const a = 0;
+        switch (a) {
+            case 0: return () => a;
+        }
+    }
+}

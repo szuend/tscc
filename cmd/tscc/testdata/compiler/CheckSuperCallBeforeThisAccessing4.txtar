@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/checkSuperCallBeforeThisAccessing4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js checkSuperCallBeforeThisAccessing4.js checkSuperCallBeforeThisAccessing4.ts
+! stderr .
+cmp checkSuperCallBeforeThisAccessing4.js checkSuperCallBeforeThisAccessing4.js.golden
+! exists checkSuperCallBeforeThisAccessing4.d.ts
+! exists checkSuperCallBeforeThisAccessing4.js.map
+
+-- checkSuperCallBeforeThisAccessing4.ts --
+class Based { }
+class Derived extends Based {
+    public x: number;
+    constructor() {
+        (() => {
+            this;  // No error
+        });
+        () => {
+            this;  // No error
+        };
+        (() => {
+            this;  // No error
+        })();
+        super();
+        super();
+        this.x = 10;
+        var that = this;
+    }
+}
+-- checkSuperCallBeforeThisAccessing4.js.golden --
+"use strict";
+class Based {
+}
+class Derived extends Based {
+    constructor() {
+        (() => {
+            this; // No error
+        });
+        () => {
+            this; // No error
+        };
+        (() => {
+            this; // No error
+        })();
+        super();
+        super();
+        this.x = 10;
+        var that = this;
+    }
+}
