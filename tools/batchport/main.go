@@ -293,7 +293,7 @@ func processCandidate(ctx context.Context, candidate, portcasePath, testBinPath,
 	capitalized := flattenName(candidate)
 	// Run the pre-compiled test binary directly.
 	absTestBinPath, _ := filepath.Abs(testBinPath)
-	testRegex := fmt.Sprintf("^TestScript/%s(_.*)?$", capitalized)
+	testRegex := fmt.Sprintf("^TestScript/%s/%s(_.*)?$", suiteName, capitalized)
 	testCmd := exec.CommandContext(ctx, absTestBinPath, "-test.run", testRegex)
 	testCmd.Dir = filepath.Join("cmd", "tscc")
 

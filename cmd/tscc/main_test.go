@@ -60,13 +60,21 @@ func TestScript(t *testing.T) {
 	sort.Strings(dirs)
 
 	for _, dir := range dirs {
-		testscript.Run(t, testscript.Params{
-			Dir:           dir,
-			UpdateScripts: os.Getenv("TSCC_UPDATE_TESTDATA") == "1",
-			Setup: func(env *testscript.Env) error {
-				env.Vars = append(env.Vars, "TSCC_TS_DIR="+tsDir)
-				return nil
-			},
+		name, _ := filepath.Rel("testdata", dir)
+		if name == "." {
+			name = "root"
+		}
+		name = filepath.ToSlash(name)
+
+		t.Run(name, func(t *testing.T) {
+			testscript.Run(t, testscript.Params{
+				Dir:           dir,
+				UpdateScripts: os.Getenv("TSCC_UPDATE_TESTDATA") == "1",
+				Setup: func(env *testscript.Env) error {
+					env.Vars = append(env.Vars, "TSCC_TS_DIR="+tsDir)
+					return nil
+				},
+			})
 		})
 	}
 }
