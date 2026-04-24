@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/aliasUsageInTypeArgumentOfExtendsClause.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasUsageInTypeArgumentOfExtendsClause_main.js aliasUsageInTypeArgumentOfExtendsClause_main.ts
+stderr 'TS2564'
+! exists aliasUsageInTypeArgumentOfExtendsClause_main.js
+! exists aliasUsageInTypeArgumentOfExtendsClause_main.d.ts
+! exists aliasUsageInTypeArgumentOfExtendsClause_main.js.map
+
+-- aliasUsageInTypeArgumentOfExtendsClause_backbone.ts --
+export class Model {
+    public someData: string;
+}
+-- aliasUsageInTypeArgumentOfExtendsClause_main.ts --
+import Backbone = require("./aliasUsageInTypeArgumentOfExtendsClause_backbone");
+import moduleA = require("./aliasUsageInTypeArgumentOfExtendsClause_moduleA");
+interface IHasVisualizationModel {
+    VisualizationModel: typeof Backbone.Model;
+}
+class C<T extends IHasVisualizationModel> {
+    x: T;
+}
+class D extends C<IHasVisualizationModel> {
+    x = moduleA;
+}
+-- aliasUsageInTypeArgumentOfExtendsClause_moduleA.ts --
+import Backbone = require("./aliasUsageInTypeArgumentOfExtendsClause_backbone");
+export class VisualizationModel extends Backbone.Model {
+    // interesting stuff here
+}

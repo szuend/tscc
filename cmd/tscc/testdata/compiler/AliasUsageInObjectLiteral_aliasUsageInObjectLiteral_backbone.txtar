@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/aliasUsageInObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasUsageInObjectLiteral_backbone.js aliasUsageInObjectLiteral_backbone.ts
+stderr 'TS2564'
+! exists aliasUsageInObjectLiteral_backbone.js
+! exists aliasUsageInObjectLiteral_backbone.d.ts
+! exists aliasUsageInObjectLiteral_backbone.js.map
+
+-- aliasUsageInObjectLiteral_backbone.ts --
+export class Model {
+    public someData: string;
+}
+-- aliasUsageInObjectLiteral_main.ts --
+import Backbone = require("./aliasUsageInObjectLiteral_backbone");
+import moduleA = require("./aliasUsageInObjectLiteral_moduleA");
+interface IHasVisualizationModel {
+    VisualizationModel: typeof Backbone.Model;
+}
+var a: { x: typeof moduleA } = { x: moduleA };
+var b: { x: IHasVisualizationModel } = { x: moduleA };
+var c: { y: { z: IHasVisualizationModel } } = { y: { z: moduleA } };
+-- aliasUsageInObjectLiteral_moduleA.ts --
+import Backbone = require("./aliasUsageInObjectLiteral_backbone");
+export class VisualizationModel extends Backbone.Model {
+    // interesting stuff here
+}
