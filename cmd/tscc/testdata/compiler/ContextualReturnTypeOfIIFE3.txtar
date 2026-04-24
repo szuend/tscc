@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/contextualReturnTypeOfIIFE3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --no-implicit-any --target es2015 --out-js contextualReturnTypeOfIIFE3.js contextualReturnTypeOfIIFE3.ts
+! stderr .
+cmp contextualReturnTypeOfIIFE3.js contextualReturnTypeOfIIFE3.js.golden
+! exists contextualReturnTypeOfIIFE3.d.ts
+! exists contextualReturnTypeOfIIFE3.js.map
+
+-- contextualReturnTypeOfIIFE3.ts --
+declare namespace app {
+  var foo: {
+    bar: {
+      someFun: (arg: number) => void;
+    };
+  };
+}
+
+app.foo.bar = (function () {
+  return { someFun(arg) {} };
+})();
+
+app.foo.bar.someFun(1);
+-- contextualReturnTypeOfIIFE3.js.golden --
+"use strict";
+app.foo.bar = (function () {
+    return { someFun(arg) { } };
+})();
+app.foo.bar.someFun(1);

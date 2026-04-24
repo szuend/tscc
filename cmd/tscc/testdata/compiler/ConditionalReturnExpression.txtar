@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/conditionalReturnExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom conditionalReturnExpression.ts
+stderr 'TS2322'
+! exists conditionalReturnExpression.d.ts
+! exists conditionalReturnExpression.js.map
+
+-- conditionalReturnExpression.ts --
+function return1(x: boolean): 3 {
+    return (x ? (1) : 2);
+}
+
+declare function getAny(): any;
+
+function return2(x: string): string {
+    return x.startsWith("a") ? getAny() : 1;
+}
+
+function return3(x: string): string {
+    return x.startsWith("a") ? "a" : x;
+}
+
+function return4(x: string): string {
+    return (x.startsWith("a") ? getAny() : 1) as string;
+}
+
+const return5 = (x: string): string => x.startsWith("a") ? getAny() : 1;
+
+const return6 = (x: string): string => (x.startsWith("a") ? getAny() : 1) as string;

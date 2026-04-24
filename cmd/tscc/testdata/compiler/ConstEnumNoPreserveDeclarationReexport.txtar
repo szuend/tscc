@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/constEnumNoPreserveDeclarationReexport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js usages.js usages.ts
+! stderr .
+cmp usages.js usages.js.golden
+! exists usages.d.ts
+! exists usages.js.map
+
+-- ConstEnum.d.ts --
+export const enum MyConstEnum {
+    Foo,
+    Bar
+}
+-- ImportExport.d.ts --
+import { MyConstEnum } from './ConstEnum';
+export default MyConstEnum;
+-- ReExport.d.ts --
+export { MyConstEnum as default } from './ConstEnum';
+-- usages.ts --
+import {MyConstEnum} from "./ConstEnum";
+import AlsoEnum from "./ImportExport";
+import StillEnum from "./ReExport";
+
+MyConstEnum.Foo;
+AlsoEnum.Foo;
+StillEnum.Foo;
+-- usages.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+0 /* MyConstEnum.Foo */;
+0 /* AlsoEnum.Foo */;
+0 /* StillEnum.Foo */;

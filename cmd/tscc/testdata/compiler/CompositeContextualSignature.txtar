@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/compositeContextualSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom compositeContextualSignature.ts
+! stderr .
+! exists compositeContextualSignature.d.ts
+! exists compositeContextualSignature.js.map
+
+-- compositeContextualSignature.ts --
+// Repro from #55145
+
+function f<T extends any[]>(v: ReadonlyArray<T>) { }
+
+f([
+    [
+        undefined,
+        () => { },
+    ],
+    [
+        1,
+        () => {
+            console.log('Hello')
+        },
+    ],
+]);

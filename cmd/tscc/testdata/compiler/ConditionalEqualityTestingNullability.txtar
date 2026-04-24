@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/conditionalEqualityTestingNullability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js conditionalEqualityTestingNullability.js conditionalEqualityTestingNullability.ts
+! stderr .
+cmp conditionalEqualityTestingNullability.js conditionalEqualityTestingNullability.js.golden
+! exists conditionalEqualityTestingNullability.d.ts
+! exists conditionalEqualityTestingNullability.js.map
+
+-- conditionalEqualityTestingNullability.ts --
+export type Equals<A1 extends any, A2 extends any> =
+    (<A>() => A extends A1 ? 1 : 0) extends (<A>() => A extends A2 ? 1 : 0)
+    ? 1
+    : 0
+
+interface Foo<T> {
+    x : () => T
+}
+
+declare const a: Foo<Date>;
+declare const b: Foo<Date | null>;
+
+//Expected 0, Actual 1
+type ShouldBe0 = Equals<typeof a, typeof b>;
+-- conditionalEqualityTestingNullability.js.golden --
+export {};

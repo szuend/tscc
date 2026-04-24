@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/constDeclarationShadowedByVarDeclaration3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js constDeclarationShadowedByVarDeclaration3.js constDeclarationShadowedByVarDeclaration3.ts
+! stderr .
+cmp constDeclarationShadowedByVarDeclaration3.js constDeclarationShadowedByVarDeclaration3.js.golden
+! exists constDeclarationShadowedByVarDeclaration3.d.ts
+! exists constDeclarationShadowedByVarDeclaration3.js.map
+
+-- constDeclarationShadowedByVarDeclaration3.ts --
+// Ensure only checking for const declarations shadowed by vars
+class Rule {
+    public regex: RegExp = new RegExp('');
+    public name: string = '';
+
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+-- constDeclarationShadowedByVarDeclaration3.js.golden --
+"use strict";
+// Ensure only checking for const declarations shadowed by vars
+class Rule {
+    constructor(name) {
+        this.regex = new RegExp('');
+        this.name = '';
+        this.name = name;
+    }
+}

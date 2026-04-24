@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/contextualSignatureInstatiationCovariance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js contextualSignatureInstatiationCovariance.js contextualSignatureInstatiationCovariance.ts
+! stderr .
+cmp contextualSignatureInstatiationCovariance.js contextualSignatureInstatiationCovariance.js.golden
+! exists contextualSignatureInstatiationCovariance.d.ts
+! exists contextualSignatureInstatiationCovariance.js.map
+
+-- contextualSignatureInstatiationCovariance.ts --
+interface Animal { x }
+interface TallThing { x2 }
+interface Giraffe extends Animal, TallThing { y }
+
+var f2: <T extends Giraffe>(x: T, y: T) => void;
+
+var g2: (a: Animal, t: TallThing) => void;
+g2 = f2; // While neither Animal nor TallThing satisfy the constraint, T is at worst a Giraffe and compatible with both via covariance.
+
+var h2: (a1: Animal, a2: Animal) => void;
+h2 = f2; // Animal does not satisfy the constraint, but T is at worst a Giraffe and compatible with Animal via covariance.
+-- contextualSignatureInstatiationCovariance.js.golden --
+"use strict";
+var f2;
+var g2;
+g2 = f2; // While neither Animal nor TallThing satisfy the constraint, T is at worst a Giraffe and compatible with both via covariance.
+var h2;
+h2 = f2; // Animal does not satisfy the constraint, but T is at worst a Giraffe and compatible with Animal via covariance.

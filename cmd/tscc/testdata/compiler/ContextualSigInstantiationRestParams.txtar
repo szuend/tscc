@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/contextualSigInstantiationRestParams.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js contextualSigInstantiationRestParams.js contextualSigInstantiationRestParams.ts
+! stderr .
+cmp contextualSigInstantiationRestParams.js contextualSigInstantiationRestParams.js.golden
+! exists contextualSigInstantiationRestParams.d.ts
+! exists contextualSigInstantiationRestParams.js.map
+
+-- contextualSigInstantiationRestParams.ts --
+declare function toInstantiate<A, B>(a?: A, b?: B): B;
+declare function contextual(...s: string[]): string
+
+var sig: typeof contextual = toInstantiate;
+-- contextualSigInstantiationRestParams.js.golden --
+"use strict";
+var sig = toInstantiate;

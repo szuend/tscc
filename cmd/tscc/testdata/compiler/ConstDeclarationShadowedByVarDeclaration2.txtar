@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/constDeclarationShadowedByVarDeclaration2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target ES6 --lib ES6,dom --out-js constDeclarationShadowedByVarDeclaration2.js constDeclarationShadowedByVarDeclaration2.ts
+! stderr .
+cmp constDeclarationShadowedByVarDeclaration2.js constDeclarationShadowedByVarDeclaration2.js.golden
+! exists constDeclarationShadowedByVarDeclaration2.d.ts
+! exists constDeclarationShadowedByVarDeclaration2.js.map
+
+-- constDeclarationShadowedByVarDeclaration2.ts --
+// No errors, const declaration is not shadowed
+function outer() {
+    const x = 0;
+    function inner() {
+        var x = "inner";
+    }
+}
+-- constDeclarationShadowedByVarDeclaration2.js.golden --
+"use strict";
+// No errors, const declaration is not shadowed
+function outer() {
+    const x = 0;
+    function inner() {
+        var x = "inner";
+    }
+}

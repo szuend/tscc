@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/conditionalTypeAnyUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js conditionalTypeAnyUnion.js conditionalTypeAnyUnion.ts
+! stderr .
+cmp conditionalTypeAnyUnion.js conditionalTypeAnyUnion.js.golden
+! exists conditionalTypeAnyUnion.d.ts
+! exists conditionalTypeAnyUnion.js.map
+
+-- conditionalTypeAnyUnion.ts --
+// repro from #52568
+
+type Spec = any extends object ? any : string;
+
+type WithSpec<T extends number> = T
+
+type R = WithSpec<Spec> // should not error
+-- conditionalTypeAnyUnion.js.golden --
+"use strict";
+// repro from #52568

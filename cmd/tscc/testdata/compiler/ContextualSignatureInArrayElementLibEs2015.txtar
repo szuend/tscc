@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/contextualSignatureInArrayElementLibEs2015.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es2015 --strict --target es2015 contextualSignatureInArrayElementLibEs2015.ts
+stderr 'TS7006'
+! exists contextualSignatureInArrayElementLibEs2015.d.ts
+! exists contextualSignatureInArrayElementLibEs2015.js.map
+
+-- contextualSignatureInArrayElementLibEs2015.ts --
+// See: https://github.com/microsoft/TypeScript/pull/53280#discussion_r1138684984
+
+declare function test(
+  arg: Record<string, (arg: string) => void> | Array<(arg: number) => void>
+): void;
+
+test([
+  (arg) => {
+    arg; // number
+  },
+]);

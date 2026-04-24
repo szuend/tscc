@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/constructorTypeWithTypeParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts constructorTypeWithTypeParameters.d.ts --target es2015 --lib es2015,dom --out-js constructorTypeWithTypeParameters.js constructorTypeWithTypeParameters.ts
+! stderr .
+cmp constructorTypeWithTypeParameters.d.ts constructorTypeWithTypeParameters.d.ts.golden
+cmp constructorTypeWithTypeParameters.js constructorTypeWithTypeParameters.js.golden
+! exists constructorTypeWithTypeParameters.js.map
+
+-- constructorTypeWithTypeParameters.ts --
+declare var X: {
+    new <T>(): number;
+}
+declare var Y: {
+    new (): number;
+}
+var anotherVar: new <T>() => number;
+-- constructorTypeWithTypeParameters.d.ts.golden --
+declare var X: {
+    new <T>(): number;
+};
+declare var Y: {
+    new (): number;
+};
+declare var anotherVar: new <T>() => number;
+-- constructorTypeWithTypeParameters.js.golden --
+"use strict";
+var anotherVar;

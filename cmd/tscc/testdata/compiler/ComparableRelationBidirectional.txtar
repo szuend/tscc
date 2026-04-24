@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/comparableRelationBidirectional.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom comparableRelationBidirectional.ts
+! stderr .
+! exists comparableRelationBidirectional.d.ts
+! exists comparableRelationBidirectional.js.map
+
+-- comparableRelationBidirectional.ts --
+enum AutomationMode {
+    NONE = "",
+    TIME = "time",
+    SYSTEM = "system",
+    LOCATION = "location",
+}
+
+interface ThemePreset {
+    id: string;
+}
+
+interface Automation {
+    mode: AutomationMode;
+}
+
+interface UserSettings {
+    presets: ThemePreset[];
+    automation: Automation;
+}
+
+interface ExtensionData {
+    settings: UserSettings;
+}
+
+export function getMockData(): ExtensionData {
+    return {
+        settings: {
+            presets: [],
+            automation: {
+                mode: "",
+            },
+        } as UserSettings,
+    }
+}

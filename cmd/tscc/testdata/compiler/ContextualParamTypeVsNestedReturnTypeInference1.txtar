@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/contextualParamTypeVsNestedReturnTypeInference1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target esnext --lib esnext,dom contextualParamTypeVsNestedReturnTypeInference1.ts
+! stderr .
+! exists contextualParamTypeVsNestedReturnTypeInference1.d.ts
+! exists contextualParamTypeVsNestedReturnTypeInference1.js.map
+
+-- contextualParamTypeVsNestedReturnTypeInference1.ts --
+interface Effect<A> {
+  _A: A;
+}
+  
+declare function effectGen<AEff>(f: () => AEff): Effect<AEff>;
+
+declare function effectFn<AEff, Args extends Array<any>>(
+  body: (...args: Args) => unknown,
+): (...args: Args) => Effect<AEff>;
+  
+declare function layerEffect<S>(tag: Tag<S>, effect: Effect<S>): unknown;
+  
+interface Tag<Type> {
+  _Type: Type;
+}
+  
+declare const Foo: Tag<{
+  fn: (a: string) => unknown;
+}>;
+  
+layerEffect(
+  Foo,
+  effectGen(function () {
+    return {
+      fn: effectFn(function (a) {
+        a; // string
+      }),
+    };
+  }),
+);

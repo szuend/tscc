@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/computedPropertiesTransformedInOtherwiseNonTSClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --target es2015 --out-js computedPropertiesTransformedInOtherwiseNonTSClasses.js computedPropertiesTransformedInOtherwiseNonTSClasses.ts
+stderr 'TS2564'
+! exists computedPropertiesTransformedInOtherwiseNonTSClasses.js
+! exists computedPropertiesTransformedInOtherwiseNonTSClasses.d.ts
+! exists computedPropertiesTransformedInOtherwiseNonTSClasses.js.map
+
+-- computedPropertiesTransformedInOtherwiseNonTSClasses.ts --
+namespace NS { 
+    export const x = Symbol();
+
+    class NotTransformed { 
+        [NS.x]: number;
+    }
+}

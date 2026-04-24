@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/constraintCheckInGenericBaseTypeReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js constraintCheckInGenericBaseTypeReference.js constraintCheckInGenericBaseTypeReference.ts
+! stderr .
+cmp constraintCheckInGenericBaseTypeReference.js constraintCheckInGenericBaseTypeReference.js.golden
+! exists constraintCheckInGenericBaseTypeReference.d.ts
+! exists constraintCheckInGenericBaseTypeReference.js.map
+
+-- constraintCheckInGenericBaseTypeReference.ts --
+// No errors
+class Constraint {
+    public method() { }
+}
+class GenericBase<T extends Constraint> {
+    public items: any;
+}
+class Derived extends GenericBase<TypeArg> {
+
+}
+class TypeArg {
+    public method() {
+        Container.People.items;
+    }
+}
+
+class Container {
+    public static People: Derived
+}
+-- constraintCheckInGenericBaseTypeReference.js.golden --
+"use strict";
+// No errors
+class Constraint {
+    method() { }
+}
+class GenericBase {
+}
+class Derived extends GenericBase {
+}
+class TypeArg {
+    method() {
+        Container.People.items;
+    }
+}
+class Container {
+}

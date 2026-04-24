@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/compoundVarDecl1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js compoundVarDecl1.js compoundVarDecl1.ts
+! stderr .
+cmp compoundVarDecl1.js compoundVarDecl1.js.golden
+! exists compoundVarDecl1.d.ts
+! exists compoundVarDecl1.js.map
+
+-- compoundVarDecl1.ts --
+namespace Foo { var a = 1, b = 1; a = b + 2; }
+
+var foo = 4, bar = 5;
+-- compoundVarDecl1.js.golden --
+"use strict";
+var Foo;
+(function (Foo) {
+    var a = 1, b = 1;
+    a = b + 2;
+})(Foo || (Foo = {}));
+var foo = 4, bar = 5;

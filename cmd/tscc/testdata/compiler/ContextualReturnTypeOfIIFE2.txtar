@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/contextualReturnTypeOfIIFE2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --no-implicit-any --target es2015 --out-js contextualReturnTypeOfIIFE2.js contextualReturnTypeOfIIFE2.ts
+stderr 'TS2339'
+! exists contextualReturnTypeOfIIFE2.js
+! exists contextualReturnTypeOfIIFE2.d.ts
+! exists contextualReturnTypeOfIIFE2.js.map
+
+-- contextualReturnTypeOfIIFE2.ts --
+declare namespace app {
+  function foo(): void;
+}
+
+app.foo.bar = (function () {
+  const someFun = (arg: number) => {};
+  return { someFun };
+})();
+
+app.foo.bar.someFun(1);

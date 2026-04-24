@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/constEnumNoEmitReexport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js ConstEnum.js ConstEnum.ts
+! stderr .
+cmp ConstEnum.js ConstEnum.js.golden
+! exists ConstEnum.d.ts
+! exists ConstEnum.js.map
+
+-- ConstEnum.ts --
+export const enum MyConstEnum {
+    Foo,
+    Bar
+};
+-- ImportExport.ts --
+import { MyConstEnum } from './ConstEnum';
+export { MyConstEnum };
+-- ImportExportDefault.ts --
+import { MyConstEnum } from './ConstEnum';
+export default MyConstEnum;
+-- ReExport.ts --
+export { MyConstEnum } from './ConstEnum';
+-- ReExportDefault.ts --
+export { MyConstEnum as default } from './ConstEnum';
+-- Usage1.ts --
+import MyConstEnum1 from './ImportExportDefault';
+import MyConstEnum2 from './ReExportDefault';
+MyConstEnum1.Foo;
+MyConstEnum2.Foo;
+-- Usage2.ts --
+import { MyConstEnum } from './ImportExport';
+MyConstEnum.Foo;
+-- Usage3.ts --
+import { MyConstEnum } from './ReExport';
+MyConstEnum.Foo;
+-- ConstEnum.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+;

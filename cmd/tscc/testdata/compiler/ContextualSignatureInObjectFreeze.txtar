@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/contextualSignatureInObjectFreeze.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2019 --target es2020 --out-js contextualSignatureInObjectFreeze.js contextualSignatureInObjectFreeze.ts
+! stderr .
+cmp contextualSignatureInObjectFreeze.js contextualSignatureInObjectFreeze.js.golden
+! exists contextualSignatureInObjectFreeze.d.ts
+! exists contextualSignatureInObjectFreeze.js.map
+
+-- contextualSignatureInObjectFreeze.ts --
+// #49101
+
+Object.freeze({
+    f: function () { }
+})
+-- contextualSignatureInObjectFreeze.js.golden --
+"use strict";
+// #49101
+Object.freeze({
+    f: function () { }
+});

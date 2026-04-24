@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/commentsArgumentsOfCallExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentsArgumentsOfCallExpression1.js commentsArgumentsOfCallExpression1.ts
+! stderr .
+cmp commentsArgumentsOfCallExpression1.js commentsArgumentsOfCallExpression1.js.golden
+! exists commentsArgumentsOfCallExpression1.d.ts
+! exists commentsArgumentsOfCallExpression1.js.map
+
+-- commentsArgumentsOfCallExpression1.ts --
+function foo(/*c1*/ x: any) { }
+foo(/*c2*/ 1);
+foo(/*c3*/ function () { });
+foo(
+    /*c4*/
+    () => { });
+foo(
+    /*c5*/
+    /*c6*/
+    () => { });
+foo(/*c7*/
+    () => { });
+foo(
+    /*c7*/
+    /*c8*/() => { });
+-- commentsArgumentsOfCallExpression1.js.golden --
+"use strict";
+function foo(/*c1*/ x) { }
+foo(/*c2*/ 1);
+foo(/*c3*/ function () { });
+foo(
+/*c4*/
+() => { });
+foo(
+/*c5*/
+/*c6*/
+() => { });
+foo(/*c7*/ () => { });
+foo(
+/*c7*/
+/*c8*/ () => { });

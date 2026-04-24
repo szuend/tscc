@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/computedPropertyBindingElementDeclarationNoCrash1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib esnext --strict --target esnext computedPropertyBindingElementDeclarationNoCrash1.ts
+stderr 'TS2739'
+! exists computedPropertyBindingElementDeclarationNoCrash1.d.ts
+! exists computedPropertyBindingElementDeclarationNoCrash1.js.map
+
+-- computedPropertyBindingElementDeclarationNoCrash1.ts --
+// https://github.com/microsoft/TypeScript/issues/61351
+
+export type State = {
+  a: number;
+  b: string;
+};
+
+export class Test {
+  setState(state: State) {}
+  test = (e: any) => {
+    for (const [key, value] of Object.entries(e)) {
+      this.setState({
+        [key]: value,
+      });
+    }
+  };
+}

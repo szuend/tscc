@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/commentsArgumentsOfCallExpression2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentsArgumentsOfCallExpression2.js commentsArgumentsOfCallExpression2.ts
+! stderr .
+cmp commentsArgumentsOfCallExpression2.js commentsArgumentsOfCallExpression2.js.golden
+! exists commentsArgumentsOfCallExpression2.d.ts
+! exists commentsArgumentsOfCallExpression2.js.map
+
+-- commentsArgumentsOfCallExpression2.ts --
+function foo(/*c1*/ x: any, /*d1*/ y: any,/*e1*/w?: any) { }
+var a, b: any;
+foo(/*c2*/ 1, /*d2*/ 1 + 2, /*e1*/ a + b);
+foo(/*c3*/ function () { }, /*d2*/() => { }, /*e2*/ a + /*e3*/ b);
+foo(/*c3*/ function () { }, /*d3*/() => { }, /*e3*/(a + b));
+foo(
+    /*c4*/ function () { },
+    /*d4*/() => { },
+    /*e4*/
+    /*e5*/ "hello");
+-- commentsArgumentsOfCallExpression2.js.golden --
+"use strict";
+function foo(/*c1*/ x, /*d1*/ y, /*e1*/ w) { }
+var a, b;
+foo(/*c2*/ 1, /*d2*/ 1 + 2, /*e1*/ a + b);
+foo(/*c3*/ function () { }, /*d2*/ () => { }, /*e2*/ a + /*e3*/ b);
+foo(/*c3*/ function () { }, /*d3*/ () => { }, /*e3*/ (a + b));
+foo(
+/*c4*/ function () { }, 
+/*d4*/ () => { }, 
+/*e4*/
+/*e5*/ "hello");

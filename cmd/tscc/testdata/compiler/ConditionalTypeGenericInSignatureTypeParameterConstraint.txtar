@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/conditionalTypeGenericInSignatureTypeParameterConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js conditionalTypeGenericInSignatureTypeParameterConstraint.js conditionalTypeGenericInSignatureTypeParameterConstraint.ts
+! stderr .
+cmp conditionalTypeGenericInSignatureTypeParameterConstraint.js conditionalTypeGenericInSignatureTypeParameterConstraint.js.golden
+! exists conditionalTypeGenericInSignatureTypeParameterConstraint.d.ts
+! exists conditionalTypeGenericInSignatureTypeParameterConstraint.js.map
+
+-- conditionalTypeGenericInSignatureTypeParameterConstraint.ts --
+// should be x
+type H_inline1<x> = (<o extends x>() => o) extends (() => infer o) ? o : never;
+
+type Result = H_inline1<string>; // should be `string`
+-- conditionalTypeGenericInSignatureTypeParameterConstraint.js.golden --
+"use strict";

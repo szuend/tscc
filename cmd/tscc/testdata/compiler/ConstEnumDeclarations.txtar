@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/constEnumDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts constEnumDeclarations.d.ts --target es2015 --lib es2015,dom --out-js constEnumDeclarations.js constEnumDeclarations.ts
+! stderr .
+cmp constEnumDeclarations.d.ts constEnumDeclarations.d.ts.golden
+cmp constEnumDeclarations.js constEnumDeclarations.js.golden
+! exists constEnumDeclarations.js.map
+
+-- constEnumDeclarations.ts --
+const enum E {
+    A = 1,
+    B = 2,
+    C = A | B
+}
+
+const enum E2 {
+    A = 1,
+    B,
+    C
+}
+-- constEnumDeclarations.d.ts.golden --
+declare const enum E {
+    A = 1,
+    B = 2,
+    C = 3
+}
+declare const enum E2 {
+    A = 1,
+    B = 2,
+    C = 3
+}
+-- constEnumDeclarations.js.golden --
+"use strict";

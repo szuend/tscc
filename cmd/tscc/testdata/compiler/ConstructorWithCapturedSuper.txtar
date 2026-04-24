@@ -1,0 +1,111 @@
+# Ported from tests/cases/compiler/constructorWithCapturedSuper.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js constructorWithCapturedSuper.js constructorWithCapturedSuper.ts
+! stderr .
+cmp constructorWithCapturedSuper.js constructorWithCapturedSuper.js.golden
+! exists constructorWithCapturedSuper.d.ts
+! exists constructorWithCapturedSuper.js.map
+
+-- constructorWithCapturedSuper.ts --
+let oneA: A;
+
+class A {
+    constructor() {
+        return oneA;
+    }
+}
+
+class B extends A {
+    constructor(x: number) {
+        super();
+        if (x === 1) {
+            return;
+        }
+        while (x < 2) {
+            return;
+        }
+        try {
+            return
+        }
+        catch (e) {
+            return;
+        }
+        finally {
+            return;
+        }
+    }
+}
+
+class C extends A {
+    constructor(x: number) {
+        super();
+        for (let i = 0; i < 10; ++i) {
+            () => i + x;
+            if (x === 1) {
+                return;
+            } 
+        }
+    }
+}
+
+class D extends A {
+    constructor(x: number) {
+        super();
+        () => {
+            return;
+        }
+        function foo() {
+            return;
+        }
+    }
+}
+-- constructorWithCapturedSuper.js.golden --
+"use strict";
+let oneA;
+class A {
+    constructor() {
+        return oneA;
+    }
+}
+class B extends A {
+    constructor(x) {
+        super();
+        if (x === 1) {
+            return;
+        }
+        while (x < 2) {
+            return;
+        }
+        try {
+            return;
+        }
+        catch (e) {
+            return;
+        }
+        finally {
+            return;
+        }
+    }
+}
+class C extends A {
+    constructor(x) {
+        super();
+        for (let i = 0; i < 10; ++i) {
+            () => i + x;
+            if (x === 1) {
+                return;
+            }
+        }
+    }
+}
+class D extends A {
+    constructor(x) {
+        super();
+        () => {
+            return;
+        };
+        function foo() {
+            return;
+        }
+    }
+}

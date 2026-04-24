@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/constraintsUsedInPrototypeProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js constraintsUsedInPrototypeProperty.js constraintsUsedInPrototypeProperty.ts
+! stderr .
+cmp constraintsUsedInPrototypeProperty.js constraintsUsedInPrototypeProperty.js.golden
+! exists constraintsUsedInPrototypeProperty.d.ts
+! exists constraintsUsedInPrototypeProperty.js.map
+
+-- constraintsUsedInPrototypeProperty.ts --
+class Foo<T extends number, U, V extends string> { }
+Foo.prototype; // Foo<any, any, any>
+-- constraintsUsedInPrototypeProperty.js.golden --
+"use strict";
+class Foo {
+}
+Foo.prototype; // Foo<any, any, any>
