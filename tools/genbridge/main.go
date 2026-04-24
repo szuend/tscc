@@ -37,6 +37,7 @@ import (
 
 	"github.com/microsoft/typescript-go/internal/ast"
 	"github.com/microsoft/typescript-go/internal/bundled"
+	"github.com/microsoft/typescript-go/internal/collections"
 	"github.com/microsoft/typescript-go/internal/compiler"
 	"github.com/microsoft/typescript-go/internal/core"
 	"github.com/microsoft/typescript-go/internal/diagnostics"
@@ -246,6 +247,11 @@ func ParseTestFilesAndSymlinks[T any](
 	parseFile func(filename string, content string, fileOptions map[string]string) (T, error),
 ) (units []T, symlinks map[string]string, currentDir string, globalOptions map[string]string, e error) {
 	return testrunner.ParseTestFilesAndSymlinks(code, fileName, parseFile)
+}
+
+// NewPathsMap creates a new ordered map for paths.
+func NewPathsMap() *collections.OrderedMap[string, []string] {
+	return collections.NewOrderedMapWithSizeHint[string, []string](0)
 }
 `
 

@@ -88,6 +88,11 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		srcMap = tsccbridge.TSTrue
 	}
 
+	pathsMap := tsccbridge.NewPathsMap()
+	for name, target := range cfg.Paths {
+		pathsMap.Set(name, []string{target})
+	}
+
 	return &tsccbridge.CompilerOptions{
 		Target:                     target,
 		Strict:                     boolToTristate(cfg.Strict),
@@ -98,6 +103,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		Declaration:                decl,
 		SourceMap:                  srcMap,
 		Lib:                        cfg.Lib,
+		Paths:                      pathsMap,
 	}, nil
 }
 

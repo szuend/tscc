@@ -16,6 +16,7 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/rogpeppe/go-internal/testscript"
@@ -28,8 +29,19 @@ func TestMain(m *testing.M) {
 }
 
 func TestScript(t *testing.T) {
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	repoRoot := filepath.Dir(filepath.Dir(wd))
+	tsDir := filepath.Join(repoRoot, "third_party", "generated", "ts")
+
 	testscript.Run(t, testscript.Params{
 		Dir:           "testdata",
 		UpdateScripts: os.Getenv("TSCC_UPDATE_TESTDATA") == "1",
+		Setup: func(env *testscript.Env) error {
+			env.Vars = append(env.Vars, "TSCC_TS_DIR="+tsDir)
+			return nil
+		},
 	})
 }

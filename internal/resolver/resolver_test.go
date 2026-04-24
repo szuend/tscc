@@ -145,6 +145,16 @@ func TestBareSpecifierResolvesViaPathMap(t *testing.T) {
 	}
 }
 
+func TestBareSpecifierWithComplexPath(t *testing.T) {
+	r, _ := newResolver(
+		map[string]bool{"/vendor/typescript/lib/typescript.d.ts": true},
+		map[string]string{"typescript": "/vendor/typescript/lib/typescript.d.ts"},
+	)
+	res, _ := r.ResolveModuleName("typescript", "/app/a.ts", 0, nil)
+	if res == nil || res.ResolvedFileName != "/vendor/typescript/lib/typescript.d.ts" {
+		t.Fatalf("expected /vendor/typescript/lib/typescript.d.ts, got %+v", res)
+	}
+}
 func TestNeverCallsRealpath(t *testing.T) {
 	r, spy := newResolver(
 		map[string]bool{

@@ -318,7 +318,7 @@ import ts = require("typescript");
 	}
 
 	res := results[0]
-	if !strings.Contains(res.Content, "--path typescript=/.ts/typescript.d.ts") {
+	if !strings.Contains(res.Content, "--path typescript=$TSCC_TS_DIR/typescript.d.ts") {
 		t.Errorf("Expected content to contain --path flag, got:\n%s", res.Content)
 	}
 }

@@ -208,3 +208,42 @@ func TestFromConfigUnknownModule(t *testing.T) {
 		t.Fatal("expected error for unknown module, got nil")
 	}
 }
+
+func TestFromConfigPaths(t *testing.T) {
+	cfg := &config.Config{
+		Target: "es2022",
+		Paths: map[string]string{
+			"typescript": "/.ts/typescript.d.ts",
+			"react":      "/.ts/react.d.ts",
+		},
+	}
+
+	got, err := FromConfig(cfg)
+	if err != nil {
+		t.Fatalf("FromConfig returned error: %v", err)
+	}
+
+	if got.Paths == nil {
+		t.Fatal("Paths should not be nil")
+	}
+
+	if got.Paths.Size() != 2 {
+		t.Errorf("Paths.Size() = %d, want 2", got.Paths.Size())
+	}
+
+	val, ok := got.Paths.Get("typescript")
+	if !ok {
+		t.Error("Paths should contain 'typescript'")
+	}
+	if len(val) != 1 || val[0] != "/.ts/typescript.d.ts" {
+		t.Errorf("Paths['typescript'] = %v, want [/.ts/typescript.d.ts]", val)
+	}
+
+	val, ok = got.Paths.Get("react")
+	if !ok {
+		t.Error("Paths should contain 'react'")
+	}
+	if len(val) != 1 || val[0] != "/.ts/react.d.ts" {
+		t.Errorf("Paths['react'] = %v, want [/.ts/react.d.ts]", val)
+	}
+}

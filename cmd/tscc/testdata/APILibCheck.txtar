@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/APILibCheck.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --exact-optional-property-types --lib es2018 --module commonjs --no-implicit-any --strict-null-checks --target es2015 --path typescript=$TSCC_TS_DIR/typescript.d.ts --path typescript-internal=$TSCC_TS_DIR/typescript.internal.d.ts --path tsserverlibrary=$TSCC_TS_DIR/tsserverlibrary.d.ts --path tsserverlibrary-internal=$TSCC_TS_DIR/tsserverlibrary.internal.d.ts index.ts
+! stderr .
+! exists index.d.ts
+! exists index.js.map
+
+-- index.ts --
+import ts = require("typescript");
+import tsInternal = require("typescript-internal");
+import tsserverlibrary = require("tsserverlibrary");
+import tsserverlibraryInternal = require("tsserverlibrary-internal");

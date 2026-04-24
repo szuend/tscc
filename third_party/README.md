@@ -45,14 +45,24 @@ go generate ./...
 #    have shifted and tscc's replace directive resolves against the new tree.
 go mod tidy
 
-# 5. Run the full test suite. Any failure here must be understood before landing
+# 5. Rebuild and copy the vendored TypeScript declaration files required by tests 
+#    like APILibCheck.ts. These must be kept in sync with the submodule.
+(cd third_party/typescript-go/_submodules/TypeScript && npm install && npm run build:compiler)
+mkdir -p third_party/generated/ts
+cp third_party/typescript-go/_submodules/TypeScript/built/local/typescript.d.ts \
+   third_party/typescript-go/_submodules/TypeScript/built/local/typescript.internal.d.ts \
+   third_party/typescript-go/_submodules/TypeScript/built/local/tsserverlibrary.d.ts \
+   third_party/typescript-go/_submodules/TypeScript/built/local/tsserverlibrary.internal.d.ts \
+   third_party/generated/ts/
+
+# 6. Run the full test suite. Any failure here must be understood before landing
 #    the bump — a silent baseline shift is exactly what pinning exists to prevent.
 go test ./...
 go vet ./...
 
-# 6. Stage and commit. The submodule pin appears in the diff as a one-line change
+# 7. Stage and commit. The submodule pin appears in the diff as a one-line change
 #    to the superproject's tree entry.
-git add third_party/typescript-go go.sum
+git add third_party/typescript-go third_party/generated/ts go.sum
 git commit -m "deps: bump typescript-go to <commit-sha-prefix>"
 ```
 

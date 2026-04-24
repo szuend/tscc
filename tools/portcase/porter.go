@@ -52,7 +52,6 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		p.TsContent,
 		p.CaseName+".ts",
 		func(filename string, content string, fileOptions map[string]string) (string, error) {
-			inputs[filename] = content
 			inputList = append(inputList, filename)
 
 			if strings.HasSuffix(filename, "package.json") {
@@ -68,9 +67,14 @@ func (p *Porter) Port() ([]PortedFile, error) {
 				if !ok1 || !ok2 {
 					return "", fmt.Errorf("unrecognized package.json: missing or invalid 'name' or 'types'")
 				}
+				if strings.HasPrefix(types, "/.ts/") {
+					types = strings.Replace(types, "/.ts/", "$TSCC_TS_DIR/", 1)
+				}
 				pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", name, types))
+				return "", nil
 			}
 
+			inputs[filename] = content
 			return "", nil
 		},
 	)
@@ -94,7 +98,9 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 	for name, content := range files {
 		if !((strings.HasSuffix(name, ".ts") && !strings.HasSuffix(name, ".d.ts")) || strings.HasSuffix(name, ".tsx")) {
-			outputs[name] = content
+			if !strings.HasSuffix(name, "package.json") {
+				outputs[name] = content
+			}
 		}
 	}
 
