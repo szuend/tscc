@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/collisionRestParameterUnderscoreIUsage.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --target es2015 --out-js collisionRestParameterUnderscoreIUsage.js collisionRestParameterUnderscoreIUsage.ts
+! stderr .
+cmp collisionRestParameterUnderscoreIUsage.js collisionRestParameterUnderscoreIUsage.js.golden
+! exists collisionRestParameterUnderscoreIUsage.d.ts
+! exists collisionRestParameterUnderscoreIUsage.js.map
+
+-- collisionRestParameterUnderscoreIUsage.ts --
+declare var console: { log(msg?: string): void; };
+var _i = "This is what I'd expect to see";
+class Foo {
+    constructor(...args: any[]) {
+        console.log(_i); // This should result in error
+    }
+}
+new Foo();
+-- collisionRestParameterUnderscoreIUsage.js.golden --
+"use strict";
+var _i = "This is what I'd expect to see";
+class Foo {
+    constructor(...args) {
+        console.log(_i); // This should result in error
+    }
+}
+new Foo();

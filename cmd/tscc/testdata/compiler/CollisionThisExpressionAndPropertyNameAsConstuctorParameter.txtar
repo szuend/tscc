@@ -1,0 +1,76 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndPropertyNameAsConstuctorParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndPropertyNameAsConstuctorParameter.js collisionThisExpressionAndPropertyNameAsConstuctorParameter.ts
+! stderr .
+cmp collisionThisExpressionAndPropertyNameAsConstuctorParameter.js collisionThisExpressionAndPropertyNameAsConstuctorParameter.js.golden
+! exists collisionThisExpressionAndPropertyNameAsConstuctorParameter.d.ts
+! exists collisionThisExpressionAndPropertyNameAsConstuctorParameter.js.map
+
+-- collisionThisExpressionAndPropertyNameAsConstuctorParameter.ts --
+class Foo2 {
+    constructor(_this: number) { //Error
+        var lambda = () => {
+            return x => this;   // New scope.  So should inject new _this capture
+        }
+    }
+}
+
+class Foo3 {
+    constructor(private _this: number) { // Error
+        var lambda = () => {
+            return x => this;   // New scope.  So should inject new _this capture
+        }
+    }
+}   
+
+class Foo4 {
+    constructor(_this: number); // No code gen - no error
+    constructor(_this: string); // No code gen - no error
+    constructor(_this: any) { // Error
+        var lambda = () => {
+            return x => this;   // New scope.  So should inject new _this capture
+        }
+    }
+}  
+
+class Foo5 {
+    constructor(_this: number); // No code gen - no error
+    constructor(_this: string); // No code gen - no error
+    constructor(private _this: any) { // Error
+        var lambda = () => {
+            return x => this;   // New scope.  So should inject new _this capture
+        }
+    }
+}  
+-- collisionThisExpressionAndPropertyNameAsConstuctorParameter.js.golden --
+"use strict";
+class Foo2 {
+    constructor(_this) {
+        var lambda = () => {
+            return x => this; // New scope.  So should inject new _this capture
+        };
+    }
+}
+class Foo3 {
+    constructor(_this) {
+        this._this = _this;
+        var lambda = () => {
+            return x => this; // New scope.  So should inject new _this capture
+        };
+    }
+}
+class Foo4 {
+    constructor(_this) {
+        var lambda = () => {
+            return x => this; // New scope.  So should inject new _this capture
+        };
+    }
+}
+class Foo5 {
+    constructor(_this) {
+        this._this = _this;
+        var lambda = () => {
+            return x => this; // New scope.  So should inject new _this capture
+        };
+    }
+}

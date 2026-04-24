@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/collisionExportsRequireAndAmbientFunctionInGlobalFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionExportsRequireAndAmbientFunctionInGlobalFile.js collisionExportsRequireAndAmbientFunctionInGlobalFile.ts
+! stderr .
+cmp collisionExportsRequireAndAmbientFunctionInGlobalFile.js collisionExportsRequireAndAmbientFunctionInGlobalFile.js.golden
+! exists collisionExportsRequireAndAmbientFunctionInGlobalFile.d.ts
+! exists collisionExportsRequireAndAmbientFunctionInGlobalFile.js.map
+
+-- collisionExportsRequireAndAmbientFunctionInGlobalFile.ts --
+declare function exports(): number;
+declare function require(): string;
+declare namespace m3 {
+    function exports(): string[];
+    function require(): number[];
+}
+namespace m4 {
+    export declare function exports(): string;
+    export declare function require(): string;
+    var a = 10;
+}
+-- collisionExportsRequireAndAmbientFunctionInGlobalFile.js.golden --
+"use strict";
+var m4;
+(function (m4) {
+    var a = 10;
+})(m4 || (m4 = {}));

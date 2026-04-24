@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/commentOnAmbientClass1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare class C {
+}
+
+// Don't keep this comment.
+declare class D {
+}
+-- b.ts --
+///<reference path="a.ts"/>
+declare class E extends C {
+}
+-- a.js.golden --
+"use strict";
+/*!=========
+    Keep this pinned comment
+   =========
+*/

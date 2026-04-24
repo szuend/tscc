@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndEnumInGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndEnumInGlobal.js collisionThisExpressionAndEnumInGlobal.ts
+! stderr .
+cmp collisionThisExpressionAndEnumInGlobal.js collisionThisExpressionAndEnumInGlobal.js.golden
+! exists collisionThisExpressionAndEnumInGlobal.d.ts
+! exists collisionThisExpressionAndEnumInGlobal.js.map
+
+-- collisionThisExpressionAndEnumInGlobal.ts --
+enum _this { // Error
+    _thisVal1,
+    _thisVal2,
+}
+var f = () => this;
+-- collisionThisExpressionAndEnumInGlobal.js.golden --
+"use strict";
+var _this;
+(function (_this) {
+    _this[_this["_thisVal1"] = 0] = "_thisVal1";
+    _this[_this["_thisVal2"] = 1] = "_thisVal2";
+})(_this || (_this = {}));
+var f = () => this;

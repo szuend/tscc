@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndLocalVarInProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndLocalVarInProperty.js collisionThisExpressionAndLocalVarInProperty.ts
+! stderr .
+cmp collisionThisExpressionAndLocalVarInProperty.js collisionThisExpressionAndLocalVarInProperty.js.golden
+! exists collisionThisExpressionAndLocalVarInProperty.d.ts
+! exists collisionThisExpressionAndLocalVarInProperty.js.map
+
+-- collisionThisExpressionAndLocalVarInProperty.ts --
+class class1 {
+    public prop1 = {
+        doStuff: (callback) => () => {
+            var _this = 2;
+            return callback(this);
+        }
+    }
+}
+
+class class2 {
+    constructor() {
+        var _this = 2;
+    }
+    public prop1 = {
+        doStuff: (callback) => () => {
+            return callback(this);
+        }
+    }
+}
+-- collisionThisExpressionAndLocalVarInProperty.js.golden --
+"use strict";
+class class1 {
+    constructor() {
+        this.prop1 = {
+            doStuff: (callback) => () => {
+                var _this = 2;
+                return callback(this);
+            }
+        };
+    }
+}
+class class2 {
+    constructor() {
+        this.prop1 = {
+            doStuff: (callback) => () => {
+                return callback(this);
+            }
+        };
+        var _this = 2;
+    }
+}

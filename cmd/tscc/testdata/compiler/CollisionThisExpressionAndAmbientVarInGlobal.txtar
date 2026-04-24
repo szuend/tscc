@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndAmbientVarInGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndAmbientVarInGlobal.js collisionThisExpressionAndAmbientVarInGlobal.ts
+! stderr .
+cmp collisionThisExpressionAndAmbientVarInGlobal.js collisionThisExpressionAndAmbientVarInGlobal.js.golden
+! exists collisionThisExpressionAndAmbientVarInGlobal.d.ts
+! exists collisionThisExpressionAndAmbientVarInGlobal.js.map
+
+-- collisionThisExpressionAndAmbientVarInGlobal.ts --
+declare var _this: number; // no error as no code gen
+var f = () => this;
+_this = 10; // Error
+-- collisionThisExpressionAndAmbientVarInGlobal.js.golden --
+"use strict";
+var f = () => this;
+_this = 10; // Error

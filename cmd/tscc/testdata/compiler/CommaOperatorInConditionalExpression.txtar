@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/commaOperatorInConditionalExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commaOperatorInConditionalExpression.js commaOperatorInConditionalExpression.ts
+! stderr .
+cmp commaOperatorInConditionalExpression.js commaOperatorInConditionalExpression.js.golden
+! exists commaOperatorInConditionalExpression.d.ts
+! exists commaOperatorInConditionalExpression.js.map
+
+-- commaOperatorInConditionalExpression.ts --
+function f (m: string) {
+    [1, 2, 3].map(i => {
+        return true? { [m]: i } : { [m]: i + 1 }
+    })
+}
+-- commaOperatorInConditionalExpression.js.golden --
+"use strict";
+function f(m) {
+    [1, 2, 3].map(i => {
+        return true ? { [m]: i } : { [m]: i + 1 };
+    });
+}

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/commentInNamespaceDeclarationWithIdentifierPathName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentInNamespaceDeclarationWithIdentifierPathName.js commentInNamespaceDeclarationWithIdentifierPathName.ts
+! stderr .
+cmp commentInNamespaceDeclarationWithIdentifierPathName.js commentInNamespaceDeclarationWithIdentifierPathName.js.golden
+! exists commentInNamespaceDeclarationWithIdentifierPathName.d.ts
+! exists commentInNamespaceDeclarationWithIdentifierPathName.js.map
+
+-- commentInNamespaceDeclarationWithIdentifierPathName.ts --
+namespace hello.hi.world
+{
+    function foo() {}
+
+    // TODO, blah
+}
+-- commentInNamespaceDeclarationWithIdentifierPathName.js.golden --
+"use strict";
+var hello;
+(function (hello) {
+    var hi;
+    (function (hi) {
+        var world;
+        (function (world) {
+            function foo() { }
+            // TODO, blah
+        })(world = hi.world || (hi.world = {}));
+    })(hi = hello.hi || (hello.hi = {}));
+})(hello || (hello = {}));

@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/classExpressionNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom ts.ts
+! stderr .
+! exists ts.d.ts
+! exists ts.js.map
+
+-- ts.ts --
+var o = {
+    C: class {
+    }
+}
+var oc = new o.C()
+
+var V = class {
+}
+var v = new V()
+
+var A;
+A = class {
+}
+var a = new A()
+
+const {
+    B = class { }
+} = ({ B: undefined });
+var b = new B();

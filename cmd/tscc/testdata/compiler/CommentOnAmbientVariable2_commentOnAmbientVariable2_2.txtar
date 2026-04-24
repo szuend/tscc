@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/commentOnAmbientVariable2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentOnAmbientVariable2_2.js commentOnAmbientVariable2_2.ts
+! stderr .
+cmp commentOnAmbientVariable2_2.js commentOnAmbientVariable2_2.js.golden
+! exists commentOnAmbientVariable2_2.d.ts
+! exists commentOnAmbientVariable2_2.js.map
+
+-- commentOnAmbientVariable2_1.ts --
+var y = 1;
+-- commentOnAmbientVariable2_2.ts --
+/// <reference path='commentOnAmbientVariable2_1.ts'/>
+declare var x: number;
+x = 2;
+-- commentOnAmbientVariable2_2.js.golden --
+"use strict";
+/// <reference path='commentOnAmbientVariable2_1.ts'/>
+x = 2;

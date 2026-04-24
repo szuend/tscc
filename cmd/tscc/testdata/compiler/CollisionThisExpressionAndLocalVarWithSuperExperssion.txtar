@@ -1,0 +1,47 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndLocalVarWithSuperExperssion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndLocalVarWithSuperExperssion.js collisionThisExpressionAndLocalVarWithSuperExperssion.ts
+! stderr .
+cmp collisionThisExpressionAndLocalVarWithSuperExperssion.js collisionThisExpressionAndLocalVarWithSuperExperssion.js.golden
+! exists collisionThisExpressionAndLocalVarWithSuperExperssion.d.ts
+! exists collisionThisExpressionAndLocalVarWithSuperExperssion.js.map
+
+-- collisionThisExpressionAndLocalVarWithSuperExperssion.ts --
+class a {
+    public foo() {
+    }
+}
+class b extends a {
+    public foo() {
+        var _this = 10;
+        var f = () => super.foo();
+    }
+}
+class b2 extends a {
+    public foo() {
+        var f = () => {
+            var _this = 10;
+            return super.foo()
+        }
+    }
+}
+-- collisionThisExpressionAndLocalVarWithSuperExperssion.js.golden --
+"use strict";
+class a {
+    foo() {
+    }
+}
+class b extends a {
+    foo() {
+        var _this = 10;
+        var f = () => super.foo();
+    }
+}
+class b2 extends a {
+    foo() {
+        var f = () => {
+            var _this = 10;
+            return super.foo();
+        };
+    }
+}

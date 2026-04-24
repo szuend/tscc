@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/collisionSuperAndLocalVarInProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionSuperAndLocalVarInProperty.js collisionSuperAndLocalVarInProperty.ts
+! stderr .
+cmp collisionSuperAndLocalVarInProperty.js collisionSuperAndLocalVarInProperty.js.golden
+! exists collisionSuperAndLocalVarInProperty.d.ts
+! exists collisionSuperAndLocalVarInProperty.js.map
+
+-- collisionSuperAndLocalVarInProperty.ts --
+var _super = 10; // No Error
+class Foo {
+   public prop1 = {
+        doStuff: () => {
+            var _super = 10; // No error
+        }
+    }
+    public _super = 10; // No error
+}
+class b extends Foo {
+    public prop2 = {
+        doStuff: () => {
+            var _super = 10; // Should be error 
+        }
+    }
+    public _super = 10; // No error
+}
+-- collisionSuperAndLocalVarInProperty.js.golden --
+"use strict";
+var _super = 10; // No Error
+class Foo {
+    constructor() {
+        this.prop1 = {
+            doStuff: () => {
+                var _super = 10; // No error
+            }
+        };
+        this._super = 10; // No error
+    }
+}
+class b extends Foo {
+    constructor() {
+        super(...arguments);
+        this.prop2 = {
+            doStuff: () => {
+                var _super = 10; // Should be error 
+            }
+        };
+        this._super = 10; // No error
+    }
+}

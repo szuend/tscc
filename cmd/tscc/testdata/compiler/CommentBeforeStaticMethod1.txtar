@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/commentBeforeStaticMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentBeforeStaticMethod1.js commentBeforeStaticMethod1.ts
+! stderr .
+cmp commentBeforeStaticMethod1.js commentBeforeStaticMethod1.js.golden
+! exists commentBeforeStaticMethod1.d.ts
+! exists commentBeforeStaticMethod1.js.map
+
+-- commentBeforeStaticMethod1.ts --
+class C {
+  /**
+   * Returns bar
+   */
+  public static foo(): string {
+    return "bar";
+  }
+}
+-- commentBeforeStaticMethod1.js.golden --
+"use strict";
+class C {
+    /**
+     * Returns bar
+     */
+    static foo() {
+        return "bar";
+    }
+}

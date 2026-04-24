@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndModuleInGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndModuleInGlobal.js collisionThisExpressionAndModuleInGlobal.ts
+! stderr .
+cmp collisionThisExpressionAndModuleInGlobal.js collisionThisExpressionAndModuleInGlobal.js.golden
+! exists collisionThisExpressionAndModuleInGlobal.d.ts
+! exists collisionThisExpressionAndModuleInGlobal.js.map
+
+-- collisionThisExpressionAndModuleInGlobal.ts --
+namespace _this { //Error
+    class c {
+    }
+}
+var f = () => this;
+-- collisionThisExpressionAndModuleInGlobal.js.golden --
+"use strict";
+var _this;
+(function (_this) {
+    class c {
+    }
+})(_this || (_this = {}));
+var f = () => this;

@@ -1,0 +1,71 @@
+# Ported from tests/cases/compiler/collisionExportsRequireAndAmbientEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js collisionExportsRequireAndAmbientEnum_globalFile.js collisionExportsRequireAndAmbientEnum_globalFile.ts
+! stderr .
+cmp collisionExportsRequireAndAmbientEnum_globalFile.js collisionExportsRequireAndAmbientEnum_globalFile.js.golden
+! exists collisionExportsRequireAndAmbientEnum_globalFile.d.ts
+! exists collisionExportsRequireAndAmbientEnum_globalFile.js.map
+
+-- collisionExportsRequireAndAmbientEnum_externalmodule.ts --
+export declare enum require {
+    _thisVal1,
+    _thisVal2,
+}
+export declare enum exports {
+    _thisVal1,
+    _thisVal2,
+}
+declare namespace m1 {
+    enum require {
+        _thisVal1,
+        _thisVal2,
+    }
+    enum exports {
+        _thisVal1,
+        _thisVal2,
+    }
+}
+namespace m2 {
+    export declare enum require { 
+        _thisVal1,
+        _thisVal2,
+    }
+    export declare enum exports {
+        _thisVal1,
+        _thisVal2,
+    }
+}
+-- collisionExportsRequireAndAmbientEnum_globalFile.ts --
+declare enum require {
+    _thisVal1,
+    _thisVal2,
+}
+declare enum exports {
+    _thisVal1,
+    _thisVal2,
+}
+declare namespace m3 {
+    enum require {
+        _thisVal1,
+        _thisVal2,
+    }
+    enum exports {
+        _thisVal1,
+        _thisVal2,
+    }
+}
+namespace m4 {
+    export declare enum require {
+        _thisVal1,
+        _thisVal2,
+    }
+    export declare enum exports {
+        _thisVal1,
+        _thisVal2,
+    }
+}
+-- collisionExportsRequireAndAmbientEnum_globalFile.js.golden --
+"use strict";
+var m4;
+(function (m4) {
+})(m4 || (m4 = {}));

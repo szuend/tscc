@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/collisionSuperAndNameResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --no-strict --target es2015 --out-js collisionSuperAndNameResolution.js collisionSuperAndNameResolution.ts
+! stderr .
+cmp collisionSuperAndNameResolution.js collisionSuperAndNameResolution.js.golden
+! exists collisionSuperAndNameResolution.d.ts
+! exists collisionSuperAndNameResolution.js.map
+
+-- collisionSuperAndNameResolution.ts --
+var console: {
+    log(message: any);
+}
+var _super = 10; // No error
+class base {
+}
+class Foo extends base {
+    x() {
+        console.log(_super); // Error as this doesnt not resolve to user defined _super
+    }
+}
+-- collisionSuperAndNameResolution.js.golden --
+"use strict";
+var console;
+var _super = 10; // No error
+class base {
+}
+class Foo extends base {
+    x() {
+        console.log(_super); // Error as this doesnt not resolve to user defined _super
+    }
+}

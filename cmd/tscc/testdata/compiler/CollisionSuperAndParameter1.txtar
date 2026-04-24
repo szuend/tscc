@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/collisionSuperAndParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionSuperAndParameter1.js collisionSuperAndParameter1.ts
+! stderr .
+cmp collisionSuperAndParameter1.js collisionSuperAndParameter1.js.golden
+! exists collisionSuperAndParameter1.d.ts
+! exists collisionSuperAndParameter1.js.map
+
+-- collisionSuperAndParameter1.ts --
+class Foo {
+}
+
+class Foo2 extends Foo {
+    x() {
+        var lambda = (_super: number) => { // Error 
+        }
+    }
+}
+-- collisionSuperAndParameter1.js.golden --
+"use strict";
+class Foo {
+}
+class Foo2 extends Foo {
+    x() {
+        var lambda = (_super) => {
+        };
+    }
+}

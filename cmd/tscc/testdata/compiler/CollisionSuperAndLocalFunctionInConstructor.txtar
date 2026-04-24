@@ -1,0 +1,59 @@
+# Ported from tests/cases/compiler/collisionSuperAndLocalFunctionInConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js collisionSuperAndLocalFunctionInConstructor.js collisionSuperAndLocalFunctionInConstructor.ts
+! stderr .
+cmp collisionSuperAndLocalFunctionInConstructor.js collisionSuperAndLocalFunctionInConstructor.js.golden
+! exists collisionSuperAndLocalFunctionInConstructor.d.ts
+! exists collisionSuperAndLocalFunctionInConstructor.js.map
+
+-- collisionSuperAndLocalFunctionInConstructor.ts --
+function _super() { // No error
+}
+class Foo {
+    constructor() {
+        function _super() { // No error
+        }
+    }
+}
+class b extends Foo {
+    constructor() {
+        super();
+        function _super() { // Should be error
+        }
+    }
+}
+class c extends Foo {
+    constructor() {
+        super();
+        var x = () => {
+            function _super() { // Should be error
+            }
+        }
+    }
+}
+-- collisionSuperAndLocalFunctionInConstructor.js.golden --
+"use strict";
+function _super() {
+}
+class Foo {
+    constructor() {
+        function _super() {
+        }
+    }
+}
+class b extends Foo {
+    constructor() {
+        super();
+        function _super() {
+        }
+    }
+}
+class c extends Foo {
+    constructor() {
+        super();
+        var x = () => {
+            function _super() {
+            }
+        };
+    }
+}

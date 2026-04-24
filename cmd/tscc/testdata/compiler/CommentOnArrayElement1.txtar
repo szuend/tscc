@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/commentOnArrayElement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentOnArrayElement1.js commentOnArrayElement1.ts
+! stderr .
+cmp commentOnArrayElement1.js commentOnArrayElement1.js.golden
+! exists commentOnArrayElement1.d.ts
+! exists commentOnArrayElement1.js.map
+
+-- commentOnArrayElement1.ts --
+const array = [
+    /* element 1*/
+    1
+    /* end of element 1 */,
+    2
+    /* end of element 2 */
+];
+-- commentOnArrayElement1.js.golden --
+"use strict";
+const array = [
+    /* element 1*/
+    1
+    /* end of element 1 */ ,
+    2
+    /* end of element 2 */
+];

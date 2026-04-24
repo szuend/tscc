@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/collisionExportsRequireAndAmbientVar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js collisionExportsRequireAndAmbientVar_externalmodule.js collisionExportsRequireAndAmbientVar_externalmodule.ts
+! stderr .
+cmp collisionExportsRequireAndAmbientVar_externalmodule.js collisionExportsRequireAndAmbientVar_externalmodule.js.golden
+! exists collisionExportsRequireAndAmbientVar_externalmodule.d.ts
+! exists collisionExportsRequireAndAmbientVar_externalmodule.js.map
+
+-- collisionExportsRequireAndAmbientVar_externalmodule.ts --
+export declare var exports: number;
+export declare var require: string;
+declare namespace m1 {
+    var exports: string;
+    var require: number;
+}
+namespace m2 {
+    export declare var exports: number;
+    export declare var require: string;
+    var a = 10;
+}
+-- collisionExportsRequireAndAmbientVar_globalFile.ts --
+declare var exports: number;
+declare var require: string;
+declare namespace m3 {
+    var exports: string;
+    var require: number;
+}
+namespace m4 {
+    export declare var exports: string;
+    export declare var require: number;
+    var a = 10;
+}
+-- collisionExportsRequireAndAmbientVar_externalmodule.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var m2;
+(function (m2) {
+    var a = 10;
+})(m2 || (m2 = {}));

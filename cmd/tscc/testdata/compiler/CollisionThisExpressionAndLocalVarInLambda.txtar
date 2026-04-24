@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndLocalVarInLambda.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndLocalVarInLambda.js collisionThisExpressionAndLocalVarInLambda.ts
+! stderr .
+cmp collisionThisExpressionAndLocalVarInLambda.js collisionThisExpressionAndLocalVarInLambda.js.golden
+! exists collisionThisExpressionAndLocalVarInLambda.d.ts
+! exists collisionThisExpressionAndLocalVarInLambda.js.map
+
+-- collisionThisExpressionAndLocalVarInLambda.ts --
+declare function alert(message?: any): void;
+
+var x = {
+    doStuff: (callback) => () => {
+        var _this = 2;
+        return callback(this);
+    }
+}
+alert(x.doStuff(x => alert(x)));
+-- collisionThisExpressionAndLocalVarInLambda.js.golden --
+"use strict";
+var x = {
+    doStuff: (callback) => () => {
+        var _this = 2;
+        return callback(this);
+    }
+};
+alert(x.doStuff(x => alert(x)));

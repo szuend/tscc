@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/commentEmitWithCommentOnLastLine.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentEmitWithCommentOnLastLine.js commentEmitWithCommentOnLastLine.ts
+! stderr .
+cmp commentEmitWithCommentOnLastLine.js commentEmitWithCommentOnLastLine.js.golden
+! exists commentEmitWithCommentOnLastLine.d.ts
+! exists commentEmitWithCommentOnLastLine.js.map
+
+-- commentEmitWithCommentOnLastLine.ts --
+var x: any;
+/*
+var bar;
+*/
+-- commentEmitWithCommentOnLastLine.js.golden --
+"use strict";
+var x;
+/*
+var bar;
+*/

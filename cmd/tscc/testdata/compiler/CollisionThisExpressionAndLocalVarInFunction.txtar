@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndLocalVarInFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --no-strict --target es2015 --out-js collisionThisExpressionAndLocalVarInFunction.js collisionThisExpressionAndLocalVarInFunction.ts
+! stderr .
+cmp collisionThisExpressionAndLocalVarInFunction.js collisionThisExpressionAndLocalVarInFunction.js.golden
+! exists collisionThisExpressionAndLocalVarInFunction.d.ts
+! exists collisionThisExpressionAndLocalVarInFunction.js.map
+
+-- collisionThisExpressionAndLocalVarInFunction.ts --
+var console: {
+    log(val: any);
+}
+function x() {
+    var _this = 5;
+    x => { console.log(this.x); };
+}
+-- collisionThisExpressionAndLocalVarInFunction.js.golden --
+"use strict";
+var console;
+function x() {
+    var _this = 5;
+    x => { console.log(this.x); };
+}

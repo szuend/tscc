@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/collisionRestParameterInType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionRestParameterInType.js collisionRestParameterInType.ts
+! stderr .
+cmp collisionRestParameterInType.js collisionRestParameterInType.js.golden
+! exists collisionRestParameterInType.d.ts
+! exists collisionRestParameterInType.js.map
+
+-- collisionRestParameterInType.ts --
+var v1: (_i: number, ...restParameters) => void; // no error - no code gen
+var v2: {
+    (_i: number, ...restParameters); // no error - no code gen
+    new (_i: number, ...restParameters); // no error - no code gen
+    foo(_i: number, ...restParameters); // no error - no code gen
+    prop: (_i: number, ...restParameters) => void; // no error - no code gen
+}
+-- collisionRestParameterInType.js.golden --
+"use strict";
+var v1; // no error - no code gen
+var v2;

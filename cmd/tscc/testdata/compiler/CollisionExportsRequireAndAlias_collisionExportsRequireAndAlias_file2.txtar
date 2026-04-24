@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/collisionExportsRequireAndAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js collisionExportsRequireAndAlias_file2.js collisionExportsRequireAndAlias_file2.ts
+stderr 'TS2441'
+! exists collisionExportsRequireAndAlias_file2.js
+! exists collisionExportsRequireAndAlias_file2.d.ts
+! exists collisionExportsRequireAndAlias_file2.js.map
+
+-- collisionExportsRequireAndAlias_file1.ts --
+export function bar() {
+}
+-- collisionExportsRequireAndAlias_file2.ts --
+import require = require('./collisionExportsRequireAndAlias_file1'); // Error
+import exports = require('./collisionExportsRequireAndAlias_file3333'); // Error
+export function foo() {
+    require.bar();
+}
+export function foo2() {
+    exports.bar2();
+}
+-- collisionExportsRequireAndAlias_file3333.ts --
+export function bar2() {
+}

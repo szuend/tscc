@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndAliasInGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndAliasInGlobal.js collisionThisExpressionAndAliasInGlobal.ts
+! stderr .
+cmp collisionThisExpressionAndAliasInGlobal.js collisionThisExpressionAndAliasInGlobal.js.golden
+! exists collisionThisExpressionAndAliasInGlobal.d.ts
+! exists collisionThisExpressionAndAliasInGlobal.js.map
+
+-- collisionThisExpressionAndAliasInGlobal.ts --
+namespace a {
+    export var b = 10;
+}
+var f = () => this;
+import _this = a; // Error
+-- collisionThisExpressionAndAliasInGlobal.js.golden --
+"use strict";
+var a;
+(function (a) {
+    a.b = 10;
+})(a || (a = {}));
+var f = () => this;
+var _this = a; // Error

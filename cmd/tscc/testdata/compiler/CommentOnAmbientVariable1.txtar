@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/commentOnAmbientVariable1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js commentOnAmbientVariable1.js commentOnAmbientVariable1.ts
+! stderr .
+cmp commentOnAmbientVariable1.js commentOnAmbientVariable1.js.golden
+! exists commentOnAmbientVariable1.d.ts
+! exists commentOnAmbientVariable1.js.map
+
+-- commentOnAmbientVariable1.ts --
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare var v: number;
+
+// Don't keep this comment.
+declare var y: number;
+-- commentOnAmbientVariable1.js.golden --
+"use strict";
+/*!=========
+    Keep this pinned comment
+   =========
+*/

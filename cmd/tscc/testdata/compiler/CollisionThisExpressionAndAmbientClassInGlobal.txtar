@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/collisionThisExpressionAndAmbientClassInGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js collisionThisExpressionAndAmbientClassInGlobal.js collisionThisExpressionAndAmbientClassInGlobal.ts
+! stderr .
+cmp collisionThisExpressionAndAmbientClassInGlobal.js collisionThisExpressionAndAmbientClassInGlobal.js.golden
+! exists collisionThisExpressionAndAmbientClassInGlobal.d.ts
+! exists collisionThisExpressionAndAmbientClassInGlobal.js.map
+
+-- collisionThisExpressionAndAmbientClassInGlobal.ts --
+declare class _this { // no error - as no code generation
+}
+var f = () => this;
+var a = new _this(); // Error
+-- collisionThisExpressionAndAmbientClassInGlobal.js.golden --
+"use strict";
+var f = () => this;
+var a = new _this(); // Error

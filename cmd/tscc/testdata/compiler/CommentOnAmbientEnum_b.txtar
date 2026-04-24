@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/commentOnAmbientEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/*! Don't keep this pinned comment */
+declare enum C {
+    a,
+    b,
+    c
+}
+
+// Don't keep this comment.
+declare enum D {
+}
+-- b.ts --
+///<reference path="a.ts"/>
+declare enum E {
+}
+-- b.js.golden --
+"use strict";
+///<reference path="a.ts"/>
