@@ -15,6 +15,8 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
 	"reflect"
 	"testing"
 )
@@ -91,4 +93,48 @@ tests/cases/compiler/foo.ts(3,1): error TS1005: ';' expected.
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("ExtractErrorCodes() = %v, want %v", got, want)
 	}
+}
+
+func TestReadBaseline(t *testing.T) {
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	// `go test` runs in tools/portcase, so repo root is ../..
+	err = os.Chdir("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Chdir(cwd)
+
+	t.Run("SubmoduleOverridesUpstream", func(t *testing.T) {
+		content := readBaseline("compiler", "accessorDeclarationEmitJs", ".js")
+		submodulePath := filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", "submodule", "compiler", "accessorDeclarationEmitJs.js")
+		expected, err := os.ReadFile(submodulePath)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if content != string(expected) {
+			t.Errorf("expected content from submodule, got something else")
+		}
+	})
+
+	t.Run("UpstreamFallback", func(t *testing.T) {
+		content := readBaseline("compiler", "abstractPropertyInitializer", ".errors.txt")
+		upstreamPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", "abstractPropertyInitializer.errors.txt")
+		expected, err := os.ReadFile(upstreamPath)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if content != string(expected) {
+			t.Errorf("expected content from upstream, got something else")
+		}
+	})
+
+	t.Run("Missing", func(t *testing.T) {
+		content := readBaseline("compiler", "doesNotExistSomething123", ".js")
+		if content != "" {
+			t.Errorf("expected empty string for missing baseline, got %q", content)
+		}
+	})
 }

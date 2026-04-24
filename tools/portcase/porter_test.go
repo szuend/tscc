@@ -429,3 +429,61 @@ export const x = 1;
 		t.Errorf("Expected error about unrecognized package.json, got: %v", err)
 	}
 }
+
+func TestPorter_Port_EmitDeclarationOnly(t *testing.T) {
+	p := Porter{
+		CaseName: "emit_decl",
+		TsContent: `// @emitDeclarationOnly: true
+// @declaration: true
+export const x = 1;
+`,
+		BaselineJs: "//// [emit_decl.js]\nexport const x = 1;",
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if strings.Contains(res.Content, "--out-js") {
+		t.Errorf("Expected content NOT to contain --out-js, got:\n%s", res.Content)
+	}
+
+	if !strings.Contains(res.Content, "! exists emit_decl.js") {
+		t.Errorf("Expected content to assert '! exists emit_decl.js', got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_PathTrimming(t *testing.T) {
+	p := Porter{
+		CaseName: "path_trim",
+		TsContent: `// @filename: /a.ts
+export const a = 1;
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, " a.ts") {
+		t.Errorf("Expected execution to use 'a.ts', got:\n%s", res.Content)
+	}
+	if strings.Contains(res.Content, " /a.ts") {
+		t.Errorf("Expected execution NOT to use '/a.ts', got:\n%s", res.Content)
+	}
+	if !strings.Contains(res.Content, "-- a.ts --") {
+		t.Errorf("Expected file block to be '-- a.ts --', got:\n%s", res.Content)
+	}
+}

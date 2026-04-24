@@ -181,8 +181,8 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			// Safely ignore, as tscc doesn't generate type/symbol baselines
 			continue
 		case "emitdeclarationonly":
-			// Safely ignore: porter.go infers outputs from the baseline. If no JS is in the baseline,
-			// it won't add --out-js and will assert that no JS file is generated.
+			// Safely ignore: porter.go explicitly checks this option to suppress the
+			// default --out-js flag, enforcing the declaration-only behavior.
 			continue
 		default:
 			// "any directive not in the translation table or the @filename structural set -> skip"

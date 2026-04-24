@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/accessorDeclarationEmitJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts a.d.ts --no-strict --target es2015 --lib es2015,dom a.js
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+! exists out_a.js
+
+-- a.js --
+export const t1 = {
+    p: 'value',
+    get getter() {
+        return 'value';
+    },
+}
+
+export const t2 = {
+    v: 'value',
+    set setter(v) {},
+}
+
+export const t3 = {
+    p: 'value',
+    get value() {
+        return 'value';
+    },
+    set value(v) {},
+}
+-- a.d.ts.golden --
+export declare const t1: {
+    p: string;
+    readonly getter: string;
+};
+export declare const t2: {
+    v: string;
+    setter: any;
+};
+export declare const t3: {
+    p: string;
+    value: string;
+};
