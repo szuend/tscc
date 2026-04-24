@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ClassDeclaration8.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js ClassDeclaration8.js ClassDeclaration8.ts
+! exec tscc --target es2015 --lib es2015,dom --out-js ClassDeclaration8.js ClassDeclaration8.ts
 stderr 'TS2390'
 ! exists ClassDeclaration8.js
 ! exists ClassDeclaration8.d.ts

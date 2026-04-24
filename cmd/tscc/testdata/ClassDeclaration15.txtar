@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ClassDeclaration15.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js ClassDeclaration15.js ClassDeclaration15.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ClassDeclaration15.js ClassDeclaration15.ts
 stderr 'TS2391'
 ! exists ClassDeclaration15.js
 ! exists ClassDeclaration15.d.ts

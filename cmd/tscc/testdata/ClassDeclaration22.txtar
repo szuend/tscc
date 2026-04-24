@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ClassDeclaration22.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --out-js ClassDeclaration22.js ClassDeclaration22.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ClassDeclaration22.js ClassDeclaration22.ts
 stderr 'TS2389'
 ! exists ClassDeclaration22.js
 ! exists ClassDeclaration22.d.ts
