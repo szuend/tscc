@@ -21,6 +21,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
@@ -40,6 +41,45 @@ type Porter struct {
 type PortedFile struct {
 	Name    string // Filename only, e.g. "Foo.txtar"
 	Content string
+}
+
+func applyShortCircuitFilter(errorCodesMap map[string][]string) {
+	hasShortCircuit := false
+	for _, codes := range errorCodesMap {
+		for _, codeStr := range codes {
+			code, err := strconv.Atoi(strings.TrimPrefix(codeStr, "TS"))
+			if err == nil {
+				if (code >= 1000 && code < 2000) || (code >= 5000 && code < 7000) || (code >= 18000 && code < 19000) {
+					hasShortCircuit = true
+					break
+				}
+			}
+		}
+		if hasShortCircuit {
+			break
+		}
+	}
+
+	if hasShortCircuit {
+		for file, codes := range errorCodesMap {
+			var filtered []string
+			for _, codeStr := range codes {
+				code, err := strconv.Atoi(strings.TrimPrefix(codeStr, "TS"))
+				if err == nil {
+					if (code >= 1000 && code < 2000) || (code >= 5000 && code < 7000) || (code >= 18000 && code < 19000) {
+						filtered = append(filtered, codeStr)
+					}
+				} else {
+					filtered = append(filtered, codeStr)
+				}
+			}
+			if len(filtered) > 0 {
+				errorCodesMap[file] = filtered
+			} else {
+				delete(errorCodesMap, file)
+			}
+		}
+	}
 }
 
 // Port processes the case and returns the generated files.
@@ -169,6 +209,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 	var errorCodesMap map[string][]string
 	if p.BaselineErrors != "" {
 		errorCodesMap = ExtractErrorCodesPerFile(p.BaselineErrors)
+		applyShortCircuitFilter(errorCodesMap)
 	}
 
 	variants := ComputeVariants(globalOptions)

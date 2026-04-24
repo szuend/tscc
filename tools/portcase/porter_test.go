@@ -550,3 +550,106 @@ import { x } from 'my-module';
 		t.Errorf("Expected execution to contain --path my-module=a.d.ts, got:\n%s", res.Content)
 	}
 }
+
+func TestApplyShortCircuitFilter(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    map[string][]string
+		expected map[string][]string
+	}{
+		{
+			name: "no short circuit",
+			input: map[string][]string{
+				"file1.ts": {"TS2503", "TS2694"},
+				"file2.ts": {"TS4023"},
+			},
+			expected: map[string][]string{
+				"file1.ts": {"TS2503", "TS2694"},
+				"file2.ts": {"TS4023"},
+			},
+		},
+		{
+			name: "syntax error triggers short circuit",
+			input: map[string][]string{
+				"file1.ts": {"TS1003", "TS2503"},
+				"file2.ts": {"TS2694"},
+			},
+			expected: map[string][]string{
+				"file1.ts": {"TS1003"},
+			},
+		},
+		{
+			name: "program error triggers short circuit",
+			input: map[string][]string{
+				"file1.ts": {"TS5023", "TS2503"},
+			},
+			expected: map[string][]string{
+				"file1.ts": {"TS5023"},
+			},
+		},
+		{
+			name: "multiple short circuit codes",
+			input: map[string][]string{
+				"file1.ts": {"TS1003", "TS1359", "TS2503"},
+				"file2.ts": {"TS6053", "TS4023"},
+			},
+			expected: map[string][]string{
+				"file1.ts": {"TS1003", "TS1359"},
+				"file2.ts": {"TS6053"},
+			},
+		},
+		{
+			name: "TS18xxx triggers short circuit",
+			input: map[string][]string{
+				"file1.ts": {"TS18002", "TS2503"},
+			},
+			expected: map[string][]string{
+				"file1.ts": {"TS18002"},
+			},
+		},
+		{
+			name: "unparseable codes are retained if short circuit",
+			input: map[string][]string{
+				"file1.ts": {"TS1003", "TSBAD"},
+			},
+			expected: map[string][]string{
+				"file1.ts": {"TS1003", "TSBAD"},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// deep copy input map to not mutate test definition
+			inputCopy := make(map[string][]string)
+			for k, v := range tt.input {
+				inputCopy[k] = append([]string{}, v...)
+			}
+
+			applyShortCircuitFilter(inputCopy)
+
+			if len(inputCopy) != len(tt.expected) {
+				t.Errorf("Expected map of length %d, got %d. Map: %v", len(tt.expected), len(inputCopy), inputCopy)
+			}
+
+			for k, expectedVals := range tt.expected {
+				actualVals, ok := inputCopy[k]
+				if !ok {
+					t.Errorf("Expected key %q not found", k)
+					continue
+				}
+
+				if len(actualVals) != len(expectedVals) {
+					t.Errorf("For key %q: Expected %v, got %v", k, expectedVals, actualVals)
+					continue
+				}
+
+				for i, v := range expectedVals {
+					if actualVals[i] != v {
+						t.Errorf("For key %q: Expected [%d] = %q, got %q", k, i, v, actualVals[i])
+					}
+				}
+			}
+		})
+	}
+}
