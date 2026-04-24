@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/alwaysStrictModule3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es2015 --target es2015 --lib es2015,dom --out-js alwaysStrictModule3.js alwaysStrictModule3.ts
+! stderr .
+cmp alwaysStrictModule3.js alwaysStrictModule3.js.golden
+! exists alwaysStrictModule3.d.ts
+! exists alwaysStrictModule3.js.map
+
+-- alwaysStrictModule3.ts --
+// module ES2015
+export const a = 1;
+-- alwaysStrictModule3.js.golden --
+// module ES2015
+export const a = 1;

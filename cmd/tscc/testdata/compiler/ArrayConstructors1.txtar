@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/arrayConstructors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js arrayConstructors1.js arrayConstructors1.ts
+! stderr .
+cmp arrayConstructors1.js arrayConstructors1.js.golden
+! exists arrayConstructors1.d.ts
+! exists arrayConstructors1.js.map
+
+-- arrayConstructors1.ts --
+var x: string[];
+x = new Array(1);
+x = new Array('hi', 'bye'); 
+x = new Array<string>('hi', 'bye');
+
+var y: number[];
+y = new Array(1);
+y = new Array(1,2);
+y = new Array<number>(1, 2);
+-- arrayConstructors1.js.golden --
+"use strict";
+var x;
+x = new Array(1);
+x = new Array('hi', 'bye');
+x = new Array('hi', 'bye');
+var y;
+y = new Array(1);
+y = new Array(1, 2);
+y = new Array(1, 2);

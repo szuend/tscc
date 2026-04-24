@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/alwaysStrictModule4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js alwaysStrictModule4.js alwaysStrictModule4.ts
+! stderr .
+cmp alwaysStrictModule4.js alwaysStrictModule4.js.golden
+! exists alwaysStrictModule4.d.ts
+! exists alwaysStrictModule4.js.map
+
+-- alwaysStrictModule4.ts --
+// Module commonjs
+export const a = 1
+-- alwaysStrictModule4.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.a = void 0;
+// Module commonjs
+exports.a = 1;

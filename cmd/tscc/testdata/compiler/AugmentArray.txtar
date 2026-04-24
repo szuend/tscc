@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/augmentArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js augmentArray.js augmentArray.ts
+! stderr .
+cmp augmentArray.js augmentArray.js.golden
+! exists augmentArray.d.ts
+! exists augmentArray.js.map
+
+-- augmentArray.ts --
+interface Array<T> {
+    (): any[];
+}
+-- augmentArray.js.golden --
+"use strict";

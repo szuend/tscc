@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/augmentedTypeBracketNamedPropertyAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js augmentedTypeBracketNamedPropertyAccess.js augmentedTypeBracketNamedPropertyAccess.ts
+! stderr .
+cmp augmentedTypeBracketNamedPropertyAccess.js augmentedTypeBracketNamedPropertyAccess.js.golden
+! exists augmentedTypeBracketNamedPropertyAccess.d.ts
+! exists augmentedTypeBracketNamedPropertyAccess.js.map
+
+-- augmentedTypeBracketNamedPropertyAccess.ts --
+interface Object {
+    data: number;
+}
+interface Function {
+    functionData: string;
+}
+var o = {};
+var f = function () { };
+
+var r1 = o['data']; // Should be number
+var r2 = o['functionData']; // Should be any (no property found)
+var r3 = f['functionData']; // Should be string
+var r4 = f['data']; // Should be number
+-- augmentedTypeBracketNamedPropertyAccess.js.golden --
+"use strict";
+var o = {};
+var f = function () { };
+var r1 = o['data']; // Should be number
+var r2 = o['functionData']; // Should be any (no property found)
+var r3 = f['functionData']; // Should be string
+var r4 = f['data']; // Should be number

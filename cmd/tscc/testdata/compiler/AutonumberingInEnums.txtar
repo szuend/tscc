@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/autonumberingInEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js autonumberingInEnums.js autonumberingInEnums.ts
+! stderr .
+cmp autonumberingInEnums.js autonumberingInEnums.js.golden
+! exists autonumberingInEnums.d.ts
+! exists autonumberingInEnums.js.map
+
+-- autonumberingInEnums.ts --
+enum Foo {
+    a = 1
+}
+
+enum Foo {
+    b // should work fine
+}
+-- autonumberingInEnums.js.golden --
+"use strict";
+var Foo;
+(function (Foo) {
+    Foo[Foo["a"] = 1] = "a";
+})(Foo || (Foo = {}));
+(function (Foo) {
+    Foo[Foo["b"] = 0] = "b"; // should work fine
+})(Foo || (Foo = {}));

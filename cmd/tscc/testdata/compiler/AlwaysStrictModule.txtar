@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/alwaysStrictModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js alwaysStrictModule.js alwaysStrictModule.ts
+stderr 'TS1100'
+! exists alwaysStrictModule.js
+! exists alwaysStrictModule.d.ts
+! exists alwaysStrictModule.js.map
+
+-- alwaysStrictModule.ts --
+namespace M {
+    export function f() {
+        var arguments = [];
+    }
+}

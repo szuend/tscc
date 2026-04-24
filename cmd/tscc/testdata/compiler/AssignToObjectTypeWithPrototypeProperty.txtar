@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/assignToObjectTypeWithPrototypeProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js assignToObjectTypeWithPrototypeProperty.js assignToObjectTypeWithPrototypeProperty.ts
+! stderr .
+cmp assignToObjectTypeWithPrototypeProperty.js assignToObjectTypeWithPrototypeProperty.js.golden
+! exists assignToObjectTypeWithPrototypeProperty.d.ts
+! exists assignToObjectTypeWithPrototypeProperty.js.map
+
+-- assignToObjectTypeWithPrototypeProperty.ts --
+class XEvent {}
+var p: XEvent = XEvent.prototype;
+var x: {prototype: XEvent} = XEvent;
+-- assignToObjectTypeWithPrototypeProperty.js.golden --
+"use strict";
+class XEvent {
+}
+var p = XEvent.prototype;
+var x = XEvent;

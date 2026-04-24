@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/arrayFlatNoCrashInferenceDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts arrayFlatNoCrashInferenceDeclarations.d.ts --lib es2020 --strict --target es2015 --out-js arrayFlatNoCrashInferenceDeclarations.js arrayFlatNoCrashInferenceDeclarations.ts
+! stderr .
+cmp arrayFlatNoCrashInferenceDeclarations.d.ts arrayFlatNoCrashInferenceDeclarations.d.ts.golden
+cmp arrayFlatNoCrashInferenceDeclarations.js arrayFlatNoCrashInferenceDeclarations.js.golden
+! exists arrayFlatNoCrashInferenceDeclarations.js.map
+
+-- arrayFlatNoCrashInferenceDeclarations.ts --
+function foo<T>(arr: T[], depth: number) {
+    return arr.flat(depth);
+}
+-- arrayFlatNoCrashInferenceDeclarations.d.ts.golden --
+declare function foo<T>(arr: T[], depth: number): FlatArray<T, -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20>[];
+-- arrayFlatNoCrashInferenceDeclarations.js.golden --
+"use strict";
+function foo(arr, depth) {
+    return arr.flat(depth);
+}

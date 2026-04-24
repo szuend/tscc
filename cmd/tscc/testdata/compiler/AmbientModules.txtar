@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/ambientModules.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js ambientModules.js ambientModules.ts
+! stderr .
+cmp ambientModules.js ambientModules.js.golden
+! exists ambientModules.d.ts
+! exists ambientModules.js.map
+
+-- ambientModules.ts --
+declare namespace Foo.Bar { export var foo; };
+Foo.Bar.foo = 5; 
+-- ambientModules.js.golden --
+"use strict";
+;
+Foo.Bar.foo = 5;

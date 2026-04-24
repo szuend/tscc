@@ -1,0 +1,78 @@
+# Ported from tests/cases/compiler/anonClassDeclarationEmitIsAnon.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- index.ts --
+import { wrapClass, Timestamped } from "./wrapClass";
+
+export default wrapClass(0);
+
+// Simple class
+export class User {
+    name = '';
+}
+
+// User that is Timestamped
+export class TimestampedUser extends Timestamped(User) {
+    constructor() {
+        super();
+    }
+}
+-- wrapClass.ts --
+export function wrapClass(param: any) {
+    return class Wrapped {
+        foo() {
+            return param;
+        }
+    }
+}
+
+export type Constructor<T = {}> = new (...args: any[]) => T;
+
+export function Timestamped<TBase extends Constructor>(Base: TBase) {
+    return class extends Base {
+        timestamp = Date.now();
+    };
+}
+-- index.d.ts.golden --
+declare const _default: {
+    new (): {
+        foo(): any;
+    };
+};
+export default _default;
+export declare class User {
+    name: string;
+}
+declare const TimestampedUser_base: {
+    new (...args: any[]): {
+        timestamp: number;
+    };
+} & typeof User;
+export declare class TimestampedUser extends TimestampedUser_base {
+    constructor();
+}
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TimestampedUser = exports.User = void 0;
+const wrapClass_1 = require("./wrapClass");
+exports.default = (0, wrapClass_1.wrapClass)(0);
+// Simple class
+class User {
+    constructor() {
+        this.name = '';
+    }
+}
+exports.User = User;
+// User that is Timestamped
+class TimestampedUser extends (0, wrapClass_1.Timestamped)(User) {
+    constructor() {
+        super();
+    }
+}
+exports.TimestampedUser = TimestampedUser;

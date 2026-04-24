@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/asyncFunctionReturnType.2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js asyncFunctionReturnType.2.js asyncFunctionReturnType.2.ts
+! stderr .
+cmp asyncFunctionReturnType.2.js asyncFunctionReturnType.2.js.golden
+! exists asyncFunctionReturnType.2.d.ts
+! exists asyncFunctionReturnType.2.js.map
+
+-- asyncFunctionReturnType.2.ts --
+// https://github.com/microsoft/TypeScript/issues/47291
+class X {
+    f = async (): Promise<this> => this;
+}
+-- asyncFunctionReturnType.2.js.golden --
+"use strict";
+// https://github.com/microsoft/TypeScript/issues/47291
+class X {
+    f = async () => this;
+}

@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/arrayLiteralComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js arrayLiteralComments.js arrayLiteralComments.ts
+! stderr .
+cmp arrayLiteralComments.js arrayLiteralComments.js.golden
+! exists arrayLiteralComments.d.ts
+! exists arrayLiteralComments.js.map
+
+-- arrayLiteralComments.ts --
+var testArrayWithFunc = [
+    // Function comment
+    function() {
+        let x = 1;
+    },
+    // String comment
+    '1',
+    // Numeric comment
+    2,
+    // Object comment
+    { a: 1 },
+    // Array comment
+    [1, 2, 3]
+]
+-- arrayLiteralComments.js.golden --
+"use strict";
+var testArrayWithFunc = [
+    // Function comment
+    function () {
+        let x = 1;
+    },
+    // String comment
+    '1',
+    // Numeric comment
+    2,
+    // Object comment
+    { a: 1 },
+    // Array comment
+    [1, 2, 3]
+];

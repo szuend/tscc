@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/assignToPrototype1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js assignToPrototype1.js assignToPrototype1.ts
+! stderr .
+cmp assignToPrototype1.js assignToPrototype1.js.golden
+! exists assignToPrototype1.d.ts
+! exists assignToPrototype1.js.map
+
+-- assignToPrototype1.ts --
+declare class Point {
+  add(dx: number, dy: number): void;
+}
+
+Point.prototype.add = function(dx, dy) {
+};
+-- assignToPrototype1.js.golden --
+"use strict";
+Point.prototype.add = function (dx, dy) {
+};

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/asiContinue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js asiContinue.js asiContinue.ts
+! stderr .
+cmp asiContinue.js asiContinue.js.golden
+! exists asiContinue.d.ts
+! exists asiContinue.js.map
+
+-- asiContinue.ts --
+while (true) continue
+-- asiContinue.js.golden --
+"use strict";
+while (true)
+    continue;

@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/alwaysStrict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js alwaysStrict.js alwaysStrict.ts
+stderr 'TS1100'
+! exists alwaysStrict.js
+! exists alwaysStrict.d.ts
+! exists alwaysStrict.js.map
+
+-- alwaysStrict.ts --
+function f() {
+    var arguments = [];
+}

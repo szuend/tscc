@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/arrowFunctionWithObjectLiteralBody4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js arrowFunctionWithObjectLiteralBody4.js arrowFunctionWithObjectLiteralBody4.ts
+! stderr .
+cmp arrowFunctionWithObjectLiteralBody4.js arrowFunctionWithObjectLiteralBody4.js.golden
+! exists arrowFunctionWithObjectLiteralBody4.d.ts
+! exists arrowFunctionWithObjectLiteralBody4.js.map
+
+-- arrowFunctionWithObjectLiteralBody4.ts --
+var v = a => <any><any>{}
+-- arrowFunctionWithObjectLiteralBody4.js.golden --
+"use strict";
+var v = a => ({});

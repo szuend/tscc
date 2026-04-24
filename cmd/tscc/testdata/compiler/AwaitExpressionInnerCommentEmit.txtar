@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/awaitExpressionInnerCommentEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js awaitExpressionInnerCommentEmit.js awaitExpressionInnerCommentEmit.ts
+! stderr .
+cmp awaitExpressionInnerCommentEmit.js awaitExpressionInnerCommentEmit.js.golden
+! exists awaitExpressionInnerCommentEmit.d.ts
+! exists awaitExpressionInnerCommentEmit.js.map
+
+-- awaitExpressionInnerCommentEmit.ts --
+async function foo() {
+    /*comment1*/ await 1;
+    await /*comment2*/ 2;
+    await 3 /*comment3*/
+}
+-- awaitExpressionInnerCommentEmit.js.golden --
+"use strict";
+async function foo() {
+    /*comment1*/ await 1;
+    await /*comment2*/ 2;
+    await 3; /*comment3*/
+}

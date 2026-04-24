@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/arrayLiteral2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js arrayLiteral2.js arrayLiteral2.ts
+! stderr .
+cmp arrayLiteral2.js arrayLiteral2.js.golden
+! exists arrayLiteral2.d.ts
+! exists arrayLiteral2.js.map
+
+-- arrayLiteral2.ts --
+var v30 = [1, 2], v31;
+-- arrayLiteral2.js.golden --
+"use strict";
+var v30 = [1, 2], v31;

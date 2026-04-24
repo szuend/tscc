@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/arrayFlatNoCrashInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2020 --strict --target es2015 --out-js arrayFlatNoCrashInference.js arrayFlatNoCrashInference.ts
+! stderr .
+cmp arrayFlatNoCrashInference.js arrayFlatNoCrashInference.js.golden
+! exists arrayFlatNoCrashInference.d.ts
+! exists arrayFlatNoCrashInference.js.map
+
+-- arrayFlatNoCrashInference.ts --
+function foo<T>(arr: T[], depth: number) {
+    return arr.flat(depth);
+}
+-- arrayFlatNoCrashInference.js.golden --
+"use strict";
+function foo(arr, depth) {
+    return arr.flat(depth);
+}

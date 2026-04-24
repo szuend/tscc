@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/alwaysStrictES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js alwaysStrictES6.js alwaysStrictES6.ts
+stderr 'TS1100'
+! exists alwaysStrictES6.js
+! exists alwaysStrictES6.d.ts
+! exists alwaysStrictES6.js.map
+
+-- alwaysStrictES6.ts --
+function f() {
+    var arguments = [];
+}

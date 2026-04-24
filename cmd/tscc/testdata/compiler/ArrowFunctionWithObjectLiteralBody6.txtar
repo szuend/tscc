@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/arrowFunctionWithObjectLiteralBody6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js arrowFunctionWithObjectLiteralBody6.js arrowFunctionWithObjectLiteralBody6.ts
+! stderr .
+cmp arrowFunctionWithObjectLiteralBody6.js arrowFunctionWithObjectLiteralBody6.js.golden
+! exists arrowFunctionWithObjectLiteralBody6.d.ts
+! exists arrowFunctionWithObjectLiteralBody6.js.map
+
+-- arrowFunctionWithObjectLiteralBody6.ts --
+var a = () => <Error>{ name: "foo", message: "bar" };      
+
+var b = () => (<Error>{ name: "foo", message: "bar" });    
+
+var c = () => ({ name: "foo", message: "bar" });           
+
+var d = () => ((<Error>({ name: "foo", message: "bar" })));
+-- arrowFunctionWithObjectLiteralBody6.js.golden --
+"use strict";
+var a = () => ({ name: "foo", message: "bar" });
+var b = () => ({ name: "foo", message: "bar" });
+var c = () => ({ name: "foo", message: "bar" });
+var d = () => ({ name: "foo", message: "bar" });

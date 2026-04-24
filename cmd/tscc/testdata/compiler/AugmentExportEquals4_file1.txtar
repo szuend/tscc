@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/augmentExportEquals4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js file1.js file1.ts
+! stderr .
+cmp file1.js file1.js.golden
+! exists file1.d.ts
+! exists file1.js.map
+
+-- file1.ts --
+class foo {}
+namespace foo {
+    export var v = 1;
+}
+export = foo;
+-- file2.ts --
+import x = require("./file1"); 
+x.b = 1;
+
+// OK - './file1' is a namespace
+declare module "./file1" {
+    interface A { a }
+    let b: number;
+}
+-- file3.ts --
+import * as x from "./file1";
+import "./file2";
+let a: x.A;
+let b = x.b;
+-- file1.js.golden --
+"use strict";
+class foo {
+}
+(function (foo) {
+    foo.v = 1;
+})(foo || (foo = {}));
+module.exports = foo;
