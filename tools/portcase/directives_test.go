@@ -196,6 +196,13 @@ func TestTranslateDirectives(t *testing.T) {
 			},
 			wantSkip: true,
 		},
+		{
+			name: "module system unsupported",
+			directives: map[string]string{
+				"module": "system",
+			},
+			wantSkip: true,
+		},
 	}
 
 	for _, tt := range tests {

@@ -98,6 +98,9 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			if strings.Contains(value, ",") {
 				return nil, &SkipError{Directive: key, Reason: "multiple values"}
 			}
+			if strings.ToLower(value) == "system" {
+				return nil, &SkipError{Directive: key, Reason: "system module is not supported by typescript-go"}
+			}
 			flags = append(flags, "--module", value)
 		case "declaration":
 			if !noEmit && strings.ToLower(value) == "true" {
