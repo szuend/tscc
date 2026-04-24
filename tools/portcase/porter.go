@@ -54,6 +54,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		p.TsContent,
 		p.CaseName+".ts",
 		func(filename string, content string, fileOptions map[string]string) (string, error) {
+			filename = strings.TrimPrefix(filename, "/")
 			inputList = append(inputList, filename)
 
 			if strings.HasSuffix(filename, "package.json") {
@@ -248,27 +249,43 @@ func (p *Porter) Port() ([]PortedFile, error) {
 				noEmit = true
 			}
 
+			emitDeclOnly := false
+			if val, ok := variant.Options["emitdeclarationonly"]; ok && strings.ToLower(val) == "true" {
+				emitDeclOnly = true
+			}
+
 			// Calculate flags for out outputs
 			if !noEmit {
 				if len(currentOutputs) > 0 {
 					hasJs := false
+					var toRemove []string
 					for outName := range currentOutputs {
 						if strings.HasSuffix(outName, ".js") {
-							flags = append(flags, "--out-js", outName)
-							hasJs = true
+							if emitDeclOnly {
+								toRemove = append(toRemove, outName)
+								currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
+							} else {
+								flags = append(flags, "--out-js", outName)
+								hasJs = true
+							}
 						}
 					}
-					if !hasJs {
+					for _, r := range toRemove {
+						delete(currentOutputs, r)
+					}
+					if !hasJs && !emitDeclOnly {
 						outJs := renameIfCollision(inputStem + ".js")
 						currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
 					}
 				} else {
-					outJs := renameIfCollision(inputStem + ".js")
-					flags = append(flags, "--out-js", outJs)
-					if len(currentErrorCodes) > 0 {
-						currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
-					} else {
-						currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
+					if !emitDeclOnly {
+						outJs := renameIfCollision(inputStem + ".js")
+						flags = append(flags, "--out-js", outJs)
+						if len(currentErrorCodes) > 0 {
+							currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
+						} else {
+							currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
+						}
 					}
 				}
 			}
