@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/avoidNarrowingUsingConstVariableFromBindingElementWithLiteralInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom avoidNarrowingUsingConstVariableFromBindingElementWithLiteralInitializer.ts
+! stderr .
+! exists avoidNarrowingUsingConstVariableFromBindingElementWithLiteralInitializer.d.ts
+! exists avoidNarrowingUsingConstVariableFromBindingElementWithLiteralInitializer.js.map
+
+-- avoidNarrowingUsingConstVariableFromBindingElementWithLiteralInitializer.ts --
+declare const foo: ["a", string, number] | ["b", string, boolean];
+
+export function test(arg: { index?: number }) {
+  const { index = 0 } = arg;
+
+  if (foo[index] === "a") {
+    foo;
+  }
+}

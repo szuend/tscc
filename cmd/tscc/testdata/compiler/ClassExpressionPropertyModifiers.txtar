@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/classExpressionPropertyModifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --target es2015 classExpressionPropertyModifiers.ts
+stderr 'TS1039'
+stderr 'TS1031'
+! exists classExpressionPropertyModifiers.d.ts
+! exists classExpressionPropertyModifiers.js.map
+
+-- classExpressionPropertyModifiers.ts --
+const a = class Cat {
+    declare [Symbol.toStringTag] = "uh";
+    export foo = 1;
+}

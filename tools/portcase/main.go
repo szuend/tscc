@@ -29,7 +29,7 @@ func main() {
 	var force bool
 
 	pflag.StringVar(&caseName, "case", "", "The upstream test name (without path or extension)")
-	pflag.StringVar(&outPath, "out", "", "Output path (defaults to cmd/tscc/testdata/<Name>.txtar)")
+	pflag.StringVar(&outPath, "out", "", "Output path (defaults to cmd/tscc/testdata/compiler/<Name>.txtar)")
 	pflag.BoolVar(&force, "force", false, "Overwrite an existing fixture")
 	pflag.Parse()
 
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	if outPath == "" {
-		outPath = filepath.Join("cmd", "tscc", "testdata", strings.ToUpper(caseName[:1])+caseName[1:]+".txtar")
+		outPath = filepath.Join("cmd", "tscc", "testdata", "compiler", strings.ToUpper(caseName[:1])+caseName[1:]+".txtar")
 	}
 
 	if !force {

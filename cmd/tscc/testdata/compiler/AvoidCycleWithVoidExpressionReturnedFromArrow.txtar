@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/avoidCycleWithVoidExpressionReturnedFromArrow.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom avoidCycleWithVoidExpressionReturnedFromArrow.ts
+! stderr .
+! exists avoidCycleWithVoidExpressionReturnedFromArrow.d.ts
+! exists avoidCycleWithVoidExpressionReturnedFromArrow.js.map
+
+-- avoidCycleWithVoidExpressionReturnedFromArrow.ts --
+type HowlErrorCallback = (soundId: number, error: unknown) => void;
+
+interface HowlOptions {
+  onplayerror?: HowlErrorCallback | undefined;
+}
+
+class Howl {
+  constructor(public readonly options: HowlOptions) {}
+  once(name: "unlock", fn: () => void) {
+    console.log(name, fn);
+  }
+}
+
+const instance = new Howl({
+  onplayerror: () => void instance.once("unlock", () => {}),
+});

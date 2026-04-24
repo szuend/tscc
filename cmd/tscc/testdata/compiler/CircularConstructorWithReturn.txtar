@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/circularConstructorWithReturn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js circularConstructorWithReturn.js circularConstructorWithReturn.ts
+! stderr .
+cmp circularConstructorWithReturn.js circularConstructorWithReturn.js.golden
+! exists circularConstructorWithReturn.d.ts
+! exists circularConstructorWithReturn.js.map
+
+-- circularConstructorWithReturn.ts --
+// This should not be a circularity error. See
+// https://github.com/microsoft/TypeScript/pull/57465#issuecomment-1960271216
+export type Client = ReturnType<typeof getPrismaClient> extends new () => infer T ? T : never
+
+export function getPrismaClient(options?: any) {
+  class PrismaClient {
+    self: Client;
+    constructor(options?: any) {
+      return (this.self = applyModelsAndClientExtensions(this));
+    }
+  }
+
+  return PrismaClient
+}
+
+export function applyModelsAndClientExtensions(client: Client) {
+  return client;
+}
+-- circularConstructorWithReturn.js.golden --
+export function getPrismaClient(options) {
+    class PrismaClient {
+        constructor(options) {
+            return (this.self = applyModelsAndClientExtensions(this));
+        }
+    }
+    return PrismaClient;
+}
+export function applyModelsAndClientExtensions(client) {
+    return client;
+}

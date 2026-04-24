@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/classDeclarationShouldBeOutOfScopeInComputedNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --target es2015 --out-js classDeclarationShouldBeOutOfScopeInComputedNames.js classDeclarationShouldBeOutOfScopeInComputedNames.ts
+stderr 'TS2449'
+! exists classDeclarationShouldBeOutOfScopeInComputedNames.js
+! exists classDeclarationShouldBeOutOfScopeInComputedNames.d.ts
+! exists classDeclarationShouldBeOutOfScopeInComputedNames.js.map
+
+-- classDeclarationShouldBeOutOfScopeInComputedNames.ts --
+class A {
+    static readonly p1 = Symbol();
+    static readonly p2 = Symbol();
+    // All of the below should be out of scope or TDZ - `A` has not finished being constructed as they are executed
+    static readonly [A.p1] = 0;
+    static [A.p2]() { return 0 };
+    [A.p1]() { }
+    [A.p2] = 0
+}

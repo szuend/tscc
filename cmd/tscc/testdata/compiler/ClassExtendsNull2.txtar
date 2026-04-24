@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/classExtendsNull2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom classExtendsNull2.ts
+stderr 'TS2417'
+stderr 'TS17005'
+! exists classExtendsNull2.d.ts
+! exists classExtendsNull2.js.map
+
+-- classExtendsNull2.ts --
+// https://github.com/microsoft/TypeScript/issues/55499
+
+interface Base {}
+
+class C extends null {
+  constructor() {
+    super();
+  }
+}
+interface C extends Base {}

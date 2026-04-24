@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/circularBaseConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom circularBaseConstraint.ts
+stderr 'TS2304'
+! exists circularBaseConstraint.d.ts
+! exists circularBaseConstraint.js.map
+
+-- circularBaseConstraint.ts --
+// Repro from #54610
+
+type A<T> = T;
+
+type B<T> = T extends any[]
+    ? never
+    : A<T> extends infer key
+    ? key extends keyof T
+        ? B<T[key]>
+        : never
+    : never;
+
+function foo<T>() {
+    `${a}` as B<T>;
+}

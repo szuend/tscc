@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/coAndContraVariantInferences7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom coAndContraVariantInferences7.ts
+! stderr .
+! exists coAndContraVariantInferences7.d.ts
+! exists coAndContraVariantInferences7.js.map
+
+-- coAndContraVariantInferences7.ts --
+type Request<TSchema extends Schema> = {
+  query: TSchema["query"];
+};
+
+type Schema = { query?: unknown; body?: unknown };
+
+declare function route<TSchema extends Schema>(obj: {
+  pre: (a: TSchema) => void;
+  schema: TSchema;
+  handle: (req: Request<TSchema>) => void;
+}): void;
+
+const validate = (_: { query?: unknown; body?: unknown }) => {};
+
+route({
+  pre: validate,
+  schema: {
+    query: "",
+  },
+  handle: (req) => {
+    const test: string = req.query;
+  },
+});
+
+export {};

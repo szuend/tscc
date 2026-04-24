@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/asyncIteratorExtraParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom asyncIteratorExtraParameters.ts
+stderr 'TS2504'
+! exists asyncIteratorExtraParameters.d.ts
+! exists asyncIteratorExtraParameters.js.map
+
+-- asyncIteratorExtraParameters.ts --
+// https://github.com/microsoft/TypeScript/issues/57130
+const iter = {
+    async *[Symbol.asyncIterator](_: number) {
+        yield 0;
+    }
+};
+
+declare function g(...args: any): any;
+
+async function* f() {
+    for await (const _ of iter);
+
+    yield* iter;
+}

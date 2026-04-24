@@ -36,12 +36,15 @@ func TestScript(t *testing.T) {
 	repoRoot := filepath.Dir(filepath.Dir(wd))
 	tsDir := filepath.Join(repoRoot, "third_party", "generated", "ts")
 
-	testscript.Run(t, testscript.Params{
-		Dir:           "testdata",
-		UpdateScripts: os.Getenv("TSCC_UPDATE_TESTDATA") == "1",
-		Setup: func(env *testscript.Env) error {
-			env.Vars = append(env.Vars, "TSCC_TS_DIR="+tsDir)
-			return nil
-		},
-	})
+	dirs := []string{"testdata", filepath.Join("testdata", "compiler")}
+	for _, dir := range dirs {
+		testscript.Run(t, testscript.Params{
+			Dir:           dir,
+			UpdateScripts: os.Getenv("TSCC_UPDATE_TESTDATA") == "1",
+			Setup: func(env *testscript.Env) error {
+				env.Vars = append(env.Vars, "TSCC_TS_DIR="+tsDir)
+				return nil
+			},
+		})
+	}
 }

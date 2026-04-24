@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/classExtendingQualifiedName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js classExtendingQualifiedName.js classExtendingQualifiedName.ts
+stderr 'TS2339'
+! exists classExtendingQualifiedName.js
+! exists classExtendingQualifiedName.d.ts
+! exists classExtendingQualifiedName.js.map
+
+-- classExtendingQualifiedName.ts --
+namespace M {
+    class C {
+    }
+
+    class D extends M.C {
+    }
+}

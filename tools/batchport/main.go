@@ -42,7 +42,7 @@ func main() {
 	pflag.Parse()
 
 	upstreamDir := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "cases", "compiler")
-	testdataDir := filepath.Join("cmd", "tscc", "testdata")
+	testdataDir := filepath.Join("cmd", "tscc", "testdata", "compiler")
 
 	// 1. Discovery & Deduplication
 	candidates, err := discoverCandidates(upstreamDir, testdataDir, updateExisting)

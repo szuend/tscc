@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/circularInlineMappedGenericTupleTypeNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom circularInlineMappedGenericTupleTypeNoCrash.ts
+stderr 'TS2589'
+! exists circularInlineMappedGenericTupleTypeNoCrash.d.ts
+! exists circularInlineMappedGenericTupleTypeNoCrash.js.map
+
+-- circularInlineMappedGenericTupleTypeNoCrash.ts --
+class Foo<Elements extends readonly unknown[]> {
+  public readonly elements: { [P in keyof Elements]: { bar: Elements[P] } };
+
+  public constructor(
+    ...elements: { [P in keyof Elements]: { bar: Elements[P] } }
+  ) {
+    this.elements = elements;
+  }
+
+  public add(): Foo<[...Elements, "abc"]> {
+    return new Foo<[...Elements, "abc"]>(...this.elements, { bar: "abc" });
+  }
+}

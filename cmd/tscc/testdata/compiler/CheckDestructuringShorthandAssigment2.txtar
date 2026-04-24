@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/checkDestructuringShorthandAssigment2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom checkDestructuringShorthandAssigment2.ts
+stderr 'TS2353'
+! exists checkDestructuringShorthandAssigment2.d.ts
+! exists checkDestructuringShorthandAssigment2.js.map
+
+-- checkDestructuringShorthandAssigment2.ts --
+// GH #38175 -- should not crash while checking
+
+let o: any, k: any;
+let { x } = { x: 1, ...o, [k]: 1 };

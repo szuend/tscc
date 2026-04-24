@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/classExtendsNull3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom classExtendsNull3.ts
+stderr 'TS2531'
+! exists classExtendsNull3.d.ts
+! exists classExtendsNull3.js.map
+
+-- classExtendsNull3.ts --
+class C1 extends null {
+  static method() {
+    super.oops;
+  }
+}
+
+class C2 extends null {
+  method() {
+    super.oops;
+  }
+}

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/coAndContraVariantInferences8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom coAndContraVariantInferences8.ts
+! stderr .
+! exists coAndContraVariantInferences8.d.ts
+! exists coAndContraVariantInferences8.js.map
+
+-- coAndContraVariantInferences8.ts --
+// https://github.com/microsoft/TypeScript/issues/58468
+
+declare const fn: (() => void) | ((a: number) => void);
+
+declare const x: number;
+declare const y: any;
+
+fn.call(null, x);
+fn.call(null, y);
+
+export {};

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/checkInheritedProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom checkInheritedProperty.ts
+stderr 'TS2729'
+! exists checkInheritedProperty.d.ts
+! exists checkInheritedProperty.js.map
+
+-- checkInheritedProperty.ts --
+class Base {
+}
+
+declare const BaseFactory: new() => Base & { c: string }
+
+class Derived extends BaseFactory {
+    a = this.b
+    b = "abc"
+}

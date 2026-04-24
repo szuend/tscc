@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/arrayFlatMap.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2019 --target es2015 --out-js arrayFlatMap.js arrayFlatMap.ts
+! stderr .
+cmp arrayFlatMap.js arrayFlatMap.js.golden
+! exists arrayFlatMap.d.ts
+! exists arrayFlatMap.js.map
+
+-- arrayFlatMap.ts --
+const array: number[] = [];
+const readonlyArray: ReadonlyArray<number> = [];
+array.flatMap((): ReadonlyArray<number> => []); // ok
+readonlyArray.flatMap((): ReadonlyArray<number> => []); // ok
+-- arrayFlatMap.js.golden --
+"use strict";
+const array = [];
+const readonlyArray = [];
+array.flatMap(() => []); // ok
+readonlyArray.flatMap(() => []); // ok
