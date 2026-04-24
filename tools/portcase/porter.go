@@ -135,15 +135,17 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			// Determine output file name
 			var currentOutName string
 			base := strings.ToUpper(p.CaseName[:1]) + p.CaseName[1:]
+			safeInputStem := strings.ReplaceAll(inputStem, "/", "_")
+			safeInputStem = strings.ReplaceAll(safeInputStem, "\\", "_")
 
 			if len(inputList) == 1 && variant.Name == "" {
 				currentOutName = base + ".txtar"
 			} else if len(inputList) == 1 {
 				currentOutName = fmt.Sprintf("%s_%s.txtar", base, variant.Name)
 			} else if variant.Name == "" {
-				currentOutName = fmt.Sprintf("%s_%s.txtar", base, inputStem)
+				currentOutName = fmt.Sprintf("%s_%s.txtar", base, safeInputStem)
 			} else {
-				currentOutName = fmt.Sprintf("%s_%s_%s.txtar", base, inputStem, variant.Name)
+				currentOutName = fmt.Sprintf("%s_%s_%s.txtar", base, safeInputStem, variant.Name)
 			}
 
 			// Filter outputs
