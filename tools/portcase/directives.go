@@ -48,19 +48,18 @@ func (e *IgnoreError) Error() string {
 
 // knownUnsupportedDirectives lists directives we explicitly know we don't support.
 var knownUnsupportedDirectives = map[string]bool{
-	"jsx":                 true,
-	"jsxfactory":          true,
-	"jsxfragmentfactory":  true,
-	"jsximportsource":     true,
-	"outdir":              true,
-	"outfile":             true,
-	"rootdir":             true,
-	"emitdeclarationonly": true,
-	"traceresolution":     true,
-	"listfiles":           true,
-	"listemittedfiles":    true,
-	"moduleresolution":    true,
-	"paths":               true,
+	"jsx":                true,
+	"jsxfactory":         true,
+	"jsxfragmentfactory": true,
+	"jsximportsource":    true,
+	"outdir":             true,
+	"outfile":            true,
+	"rootdir":            true,
+	"traceresolution":    true,
+	"listfiles":          true,
+	"listemittedfiles":   true,
+	"moduleresolution":   true,
+	"paths":              true,
 }
 
 // TranslateDirectives translates parsed directives to tscc flags.
@@ -180,6 +179,10 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			continue
 		case "notypesandsymbols":
 			// Safely ignore, as tscc doesn't generate type/symbol baselines
+			continue
+		case "emitdeclarationonly":
+			// Safely ignore: porter.go infers outputs from the baseline. If no JS is in the baseline,
+			// it won't add --out-js and will assert that no JS file is generated.
 			continue
 		default:
 			// "any directive not in the translation table or the @filename structural set -> skip"

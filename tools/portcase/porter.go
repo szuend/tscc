@@ -251,10 +251,16 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			// Calculate flags for out outputs
 			if !noEmit {
 				if len(currentOutputs) > 0 {
+					hasJs := false
 					for outName := range currentOutputs {
 						if strings.HasSuffix(outName, ".js") {
 							flags = append(flags, "--out-js", outName)
+							hasJs = true
 						}
+					}
+					if !hasJs {
+						outJs := renameIfCollision(inputStem + ".js")
+						currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
 					}
 				} else {
 					outJs := renameIfCollision(inputStem + ".js")
