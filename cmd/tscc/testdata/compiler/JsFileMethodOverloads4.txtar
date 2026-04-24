@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/jsFileMethodOverloads4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts a.d.ts --target es2015 --lib es2015,dom a.js
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+! exists out_a.js
+
+-- a.js --
+export function Foo() { }
+
+/**
+ * @overload
+ * @param {string} a
+ * @return {void}
+ */
+
+/**
+ * @overload
+ * @param {number} a
+ * @param {string} b
+ * @return {void}
+ */
+
+/**
+ * @param {string | number} a
+ * @param {string} [b]
+ * @return {void}
+ */
+Foo.prototype.bar = function (a, b) { }
+-- a.d.ts.golden --
+export declare function Foo(): void;

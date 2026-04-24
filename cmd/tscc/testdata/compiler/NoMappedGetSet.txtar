@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/noMappedGetSet.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js noMappedGetSet.js noMappedGetSet.ts
+stderr 'TS2464'
+stderr 'TS2304'
+! exists noMappedGetSet.js
+! exists noMappedGetSet.d.ts
+! exists noMappedGetSet.js.map
+
+-- noMappedGetSet.ts --
+type OH_NO = {
+    get [K in WAT](): string
+};

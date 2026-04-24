@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/narrowByClauseExpressionInSwitchTrue8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom narrowByClauseExpressionInSwitchTrue8.ts
+! stderr .
+! exists narrowByClauseExpressionInSwitchTrue8.d.ts
+! exists narrowByClauseExpressionInSwitchTrue8.js.map
+
+-- narrowByClauseExpressionInSwitchTrue8.ts --
+function foo(cond1: boolean, cond2: boolean) {
+    switch (true) {
+        case cond1:
+            cond1; // Should be true
+            //  ^?
+            cond2; // Should be boolean
+            //  ^?
+            break;
+
+        case cond2:
+            cond1; // Should be false?
+            //  ^?
+            cond2; // Should be true
+            //  ^?
+            break;
+
+        default:
+            cond1; // Should be false?
+            //  ^?
+            cond2; // Should be false?
+            //  ^?
+            break;
+    }
+
+    cond1; // Should be boolean
+    //  ^?
+    cond2; // Should be boolean
+    //  ^?
+}

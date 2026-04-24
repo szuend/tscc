@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/pushTypeGetTypeOfAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom bar.js
+stderr 'TS2309'
+stderr 'TS2339'
+! exists bar.d.ts
+! exists bar.js.map
+
+-- bar.js --
+module.exports = function () {};
+exports.blah = exports.someProp;

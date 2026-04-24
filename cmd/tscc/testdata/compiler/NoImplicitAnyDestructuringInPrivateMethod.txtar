@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/noImplicitAnyDestructuringInPrivateMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts noImplicitAnyDestructuringInPrivateMethod.d.ts --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyDestructuringInPrivateMethod.js noImplicitAnyDestructuringInPrivateMethod.ts
+! stderr .
+cmp noImplicitAnyDestructuringInPrivateMethod.d.ts noImplicitAnyDestructuringInPrivateMethod.d.ts.golden
+cmp noImplicitAnyDestructuringInPrivateMethod.js noImplicitAnyDestructuringInPrivateMethod.js.golden
+! exists noImplicitAnyDestructuringInPrivateMethod.js.map
+
+-- noImplicitAnyDestructuringInPrivateMethod.ts --
+type Arg = {
+    a: number;
+};
+export class Bar {
+    private bar({ a, }: Arg): number {
+        return a;
+    }
+}
+export declare class Bar2 {
+    private bar({ a, });
+}
+-- noImplicitAnyDestructuringInPrivateMethod.d.ts.golden --
+export declare class Bar {
+    private bar;
+}
+export declare class Bar2 {
+    private bar;
+}
+-- noImplicitAnyDestructuringInPrivateMethod.js.golden --
+export class Bar {
+    bar({ a, }) {
+        return a;
+    }
+}

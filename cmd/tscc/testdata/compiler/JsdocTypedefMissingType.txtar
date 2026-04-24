@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/jsdocTypedefMissingType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+// Bad: missing a type
+/** @typedef T */
+
+const t = 0;
+
+// OK: missing a type, but have property tags.
+/**
+ * @typedef Person
+ * @property {string} name
+ */
+
+/** @type Person */
+const person = { name: "" };

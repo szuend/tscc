@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/objectLitPropertyScoping.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js objectLitPropertyScoping.js objectLitPropertyScoping.ts
+! stderr .
+cmp objectLitPropertyScoping.js objectLitPropertyScoping.js.golden
+! exists objectLitPropertyScoping.d.ts
+! exists objectLitPropertyScoping.js.map
+
+-- objectLitPropertyScoping.ts --
+// Should compile, x and y should not be picked up from the properties
+
+function makePoint(x: number, y: number) {
+    return {
+        get x() {
+            return x;
+        },
+        get y() {
+            return y;
+        },
+        dist: function () {
+            return Math.sqrt(x * x + y * y);
+        }
+    }
+};
+-- objectLitPropertyScoping.js.golden --
+"use strict";
+// Should compile, x and y should not be picked up from the properties
+function makePoint(x, y) {
+    return {
+        get x() {
+            return x;
+        },
+        get y() {
+            return y;
+        },
+        dist: function () {
+            return Math.sqrt(x * x + y * y);
+        }
+    };
+}
+;

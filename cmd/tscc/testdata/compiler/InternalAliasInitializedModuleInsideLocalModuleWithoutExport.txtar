@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/internalAliasInitializedModuleInsideLocalModuleWithoutExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasInitializedModuleInsideLocalModuleWithoutExport.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasInitializedModuleInsideLocalModuleWithoutExport.js internalAliasInitializedModuleInsideLocalModuleWithoutExport.ts
+! stderr .
+cmp internalAliasInitializedModuleInsideLocalModuleWithoutExport.d.ts internalAliasInitializedModuleInsideLocalModuleWithoutExport.d.ts.golden
+cmp internalAliasInitializedModuleInsideLocalModuleWithoutExport.js internalAliasInitializedModuleInsideLocalModuleWithoutExport.js.golden
+! exists internalAliasInitializedModuleInsideLocalModuleWithoutExport.js.map
+
+-- internalAliasInitializedModuleInsideLocalModuleWithoutExport.ts --
+export namespace a {
+    export namespace b {
+        export class c {
+        }
+    }
+}
+
+export namespace c {
+    import b = a.b;
+    export var x: b.c = new b.c();
+}
+-- internalAliasInitializedModuleInsideLocalModuleWithoutExport.d.ts.golden --
+export declare namespace a {
+    namespace b {
+        class c {
+        }
+    }
+}
+export declare namespace c {
+    import b = a.b;
+    var x: b.c;
+}
+-- internalAliasInitializedModuleInsideLocalModuleWithoutExport.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.c = exports.a = void 0;
+var a;
+(function (a) {
+    let b;
+    (function (b) {
+        class c {
+        }
+        b.c = c;
+    })(b = a.b || (a.b = {}));
+})(a || (exports.a = a = {}));
+var c;
+(function (c) {
+    var b = a.b;
+    c.x = new b.c();
+})(c || (exports.c = c = {}));

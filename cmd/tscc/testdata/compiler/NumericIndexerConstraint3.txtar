@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/numericIndexerConstraint3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numericIndexerConstraint3.js numericIndexerConstraint3.ts
+stderr 'TS2564'
+! exists numericIndexerConstraint3.js
+! exists numericIndexerConstraint3.d.ts
+! exists numericIndexerConstraint3.js.map
+
+-- numericIndexerConstraint3.ts --
+class A {
+    foo: number;
+}
+
+class B extends A {
+    bar: string;
+}
+
+class C {
+    0: B;
+    [x: number]: A;
+}

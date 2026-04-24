@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/memberVariableDeclarations1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js memberVariableDeclarations1.js memberVariableDeclarations1.ts
+stderr 'TS2564'
+stderr 'TS2322'
+stderr 'TS2454'
+! exists memberVariableDeclarations1.js
+! exists memberVariableDeclarations1.d.ts
+! exists memberVariableDeclarations1.js.map
+
+-- memberVariableDeclarations1.ts --
+// from spec
+
+class Employee {
+    public name: string;
+    public address: string;
+    public retired = false;
+    public manager: Employee = null;
+    public reports: Employee[] = [];
+}
+
+class Employee2 {
+    public name: string;
+    public address: string;
+    public retired: boolean;
+    public manager: Employee;
+    public reports: Employee[];
+    constructor() {
+        this.retired = false;
+        this.manager = null;
+        this.reports = [];
+    }
+}
+
+var e1: Employee;
+var e2: Employee2;
+e1 = e2;
+e2 = e1;

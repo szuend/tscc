@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/noImplicitAnyForIn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyForIn.js noImplicitAnyForIn.ts
+stderr 'TS7053'
+stderr 'TS2872'
+stderr 'TS2405'
+! exists noImplicitAnyForIn.js
+! exists noImplicitAnyForIn.d.ts
+! exists noImplicitAnyForIn.js.map
+
+-- noImplicitAnyForIn.ts --
+var x: {}[] = [[1, 2, 3], ["hello"]];
+
+for (var i in x) {
+    for (var j in x[i]) {
+
+        //Should yield an implicit 'any' error
+        var _j = x[i][j];
+    }
+
+    for (var k in x[0]) {
+        var k1 = x[0];
+
+        //Should yield an implicit 'any' error
+        var k2 = k1[k];
+    }
+}
+
+for (var a in x) {
+    // Should yield an implicit 'any' error.
+    var b;
+
+    var c = a || b;
+}
+
+var idx = 0;
+var m = [1, 2, 3, 4, 5];
+// Should yield an implicit 'any' error.
+var n = [[]] || [];
+
+for (n[idx++] in m);

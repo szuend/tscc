@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/misspelledNewMetaProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js misspelledNewMetaProperty.js misspelledNewMetaProperty.ts
+stderr 'TS17012'
+! exists misspelledNewMetaProperty.js
+! exists misspelledNewMetaProperty.d.ts
+! exists misspelledNewMetaProperty.js.map
+
+-- misspelledNewMetaProperty.ts --
+function foo(){new.targ}

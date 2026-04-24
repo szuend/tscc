@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/overloadCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadCrash.js overloadCrash.ts
+! stderr .
+cmp overloadCrash.js overloadCrash.js.golden
+! exists overloadCrash.d.ts
+! exists overloadCrash.js.map
+
+-- overloadCrash.ts --
+interface I1 {a:number; b:number;};
+interface I2 {c:number; d:number;};
+interface I3 {a:number; b:number; c:number; d:number;};
+
+declare function foo(...n:I1[]);
+declare function foo(n1:I2, n3:I2);
+
+var i3:I3;
+
+foo(i3, i3); // should not crash the compiler :)
+-- overloadCrash.js.golden --
+"use strict";
+;
+;
+;
+var i3;
+foo(i3, i3); // should not crash the compiler :)

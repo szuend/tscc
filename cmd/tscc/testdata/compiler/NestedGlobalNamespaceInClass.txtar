@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/nestedGlobalNamespaceInClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nestedGlobalNamespaceInClass.js nestedGlobalNamespaceInClass.ts
+stderr 'TS1068'
+stderr 'TS1005'
+stderr 'TS1128'
+! exists nestedGlobalNamespaceInClass.js
+! exists nestedGlobalNamespaceInClass.d.ts
+! exists nestedGlobalNamespaceInClass.js.map
+
+-- nestedGlobalNamespaceInClass.ts --
+// should not crash - from #35717
+class C {
+    global x
+}

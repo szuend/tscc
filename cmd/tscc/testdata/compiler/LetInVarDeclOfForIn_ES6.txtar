@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/letInVarDeclOfForIn_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js letInVarDeclOfForIn_ES6.js letInVarDeclOfForIn_ES6.ts
+stderr 'TS1212'
+! exists letInVarDeclOfForIn_ES6.js
+! exists letInVarDeclOfForIn_ES6.d.ts
+! exists letInVarDeclOfForIn_ES6.js.map
+
+-- letInVarDeclOfForIn_ES6.ts --
+// should not be an error
+for (var let in [1,2,3]) {}
+
+{
+	for (var let in [1,2,3]) {}
+}

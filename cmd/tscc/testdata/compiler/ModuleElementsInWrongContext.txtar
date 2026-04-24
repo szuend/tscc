@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/moduleElementsInWrongContext.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path ambient=moduleElementsInWrongContext.ts --out-js moduleElementsInWrongContext.js moduleElementsInWrongContext.ts
+stderr 'TS1235'
+stderr 'TS1234'
+stderr 'TS1231'
+stderr 'TS1233'
+stderr 'TS1258'
+stderr 'TS1184'
+stderr 'TS1232'
+! exists moduleElementsInWrongContext.js
+! exists moduleElementsInWrongContext.d.ts
+! exists moduleElementsInWrongContext.js.map
+
+-- moduleElementsInWrongContext.ts --
+{
+    namespace M { }
+    export namespace N {
+        export interface I { }
+    }
+
+    namespace Q.K { }
+
+    declare module "ambient" {
+
+    }
+
+    export = M;
+
+    var v;
+    function foo() { }
+    export * from "ambient";
+    export { foo };
+    export { baz as b } from "ambient";
+    export default v;
+    export default class C { }
+    export function bee() { }
+    import I = M;
+    import I2 = require("foo");
+    import * as Foo from "ambient";
+    import bar from "ambient";
+    import { baz } from "ambient";
+    import "ambient";
+}

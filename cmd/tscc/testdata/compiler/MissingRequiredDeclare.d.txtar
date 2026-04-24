@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/missingRequiredDeclare.d.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js missingRequiredDeclare.d.js missingRequiredDeclare.d.ts
+stderr 'TS1046'
+stderr 'TS1039'
+! exists missingRequiredDeclare.d.js
+! exists missingRequiredDeclare.d.d.ts
+! exists missingRequiredDeclare.d.js.map
+
+-- missingRequiredDeclare.d.ts --
+var x = 1;

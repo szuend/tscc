@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/moduleSharesNameWithImportDeclarationInsideIt5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleSharesNameWithImportDeclarationInsideIt5.js moduleSharesNameWithImportDeclarationInsideIt5.ts
+stderr 'TS2300'
+! exists moduleSharesNameWithImportDeclarationInsideIt5.js
+! exists moduleSharesNameWithImportDeclarationInsideIt5.d.ts
+! exists moduleSharesNameWithImportDeclarationInsideIt5.js.map
+
+-- moduleSharesNameWithImportDeclarationInsideIt5.ts --
+namespace Z {
+    export namespace M {
+        export function bar() {
+            return "";
+        }
+    }
+    export interface I { }
+}
+namespace A.M {
+    import M = Z.I;
+    import M = Z.M;
+
+    export function bar() {
+    }
+    M.bar(); // Should call Z.M.bar
+}

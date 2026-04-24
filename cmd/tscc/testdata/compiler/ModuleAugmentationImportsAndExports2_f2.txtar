@@ -1,0 +1,53 @@
+# Ported from tests/cases/compiler/moduleAugmentationImportsAndExports2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts f2.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --path ./f1=f3.ts --out-js f2.js f2.ts
+! stderr .
+cmp f2.d.ts f2.d.ts.golden
+cmp f2.js f2.js.golden
+! exists f2.js.map
+
+-- f1.ts --
+export class A {}
+-- f2.ts --
+export class B {
+    n!: number;
+}
+-- f3.ts --
+import {A} from "./f1";
+
+A.prototype.foo = function () { return undefined; }
+
+namespace N {
+    export interface Ifc { a }
+    export interface Cls { a }
+}
+
+declare module "./f1" {
+    import {B} from "./f2";
+    export {B} from "./f2";
+    import I = N.Ifc;
+    import C = N.Cls;
+    // should have explicit export
+    interface A {
+        foo(): B;
+        bar(): I;
+        baz(): C;
+    }
+}
+-- f4.ts --
+import {A} from "./f1";
+import "./f3";
+
+declare let a: A;
+let b = a.foo().n;
+-- f2.d.ts.golden --
+export declare class B {
+    n: number;
+}
+-- f2.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.B = void 0;
+class B {
+}
+exports.B = B;

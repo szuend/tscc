@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/mergedEnumDeclarationCodeGen.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mergedEnumDeclarationCodeGen.js mergedEnumDeclarationCodeGen.ts
+! stderr .
+cmp mergedEnumDeclarationCodeGen.js mergedEnumDeclarationCodeGen.js.golden
+! exists mergedEnumDeclarationCodeGen.d.ts
+! exists mergedEnumDeclarationCodeGen.js.map
+
+-- mergedEnumDeclarationCodeGen.ts --
+enum E {
+    a,
+    b = a
+}
+enum E {
+    c = a
+}
+-- mergedEnumDeclarationCodeGen.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E[E["a"] = 0] = "a";
+    E[E["b"] = 0] = "b";
+})(E || (E = {}));
+(function (E) {
+    E[E["c"] = 0] = "c";
+})(E || (E = {}));

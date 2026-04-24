@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/mergedInterfaceFromMultipleFiles1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedInterfaceFromMultipleFiles1_1.js mergedInterfaceFromMultipleFiles1_1.ts
+stderr 'TS2454'
+! exists mergedInterfaceFromMultipleFiles1_1.js
+! exists mergedInterfaceFromMultipleFiles1_1.d.ts
+! exists mergedInterfaceFromMultipleFiles1_1.js.map
+
+-- mergedInterfaceFromMultipleFiles1_0.ts --
+interface I { foo(): string; }
+
+interface C extends I {
+	a(): number;
+}
+-- mergedInterfaceFromMultipleFiles1_1.ts --
+/// <reference path='mergedInterfaceFromMultipleFiles1_0.ts'/>
+
+interface D { bar(): number; }
+
+interface C extends D {
+	b(): Date;
+}
+
+var c:C;
+var a: string = c.foo();
+var b: number = c.bar();
+var d: number = c.a();
+var e: Date = c.b();

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/invalidContinueInDownlevelAsync.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidContinueInDownlevelAsync.js invalidContinueInDownlevelAsync.ts
+stderr 'TS1107'
+! exists invalidContinueInDownlevelAsync.js
+! exists invalidContinueInDownlevelAsync.d.ts
+! exists invalidContinueInDownlevelAsync.js.map
+
+-- invalidContinueInDownlevelAsync.ts --
+async function func() {
+    if (true) {
+        continue;
+    }
+    else {
+        await 1;
+    }
+}

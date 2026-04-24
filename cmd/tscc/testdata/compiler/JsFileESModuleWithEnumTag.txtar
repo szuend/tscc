@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/jsFileESModuleWithEnumTag.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom jsFileESModuleWithEnumTag.js
+! stderr .
+! exists jsFileESModuleWithEnumTag.d.ts
+! exists jsFileESModuleWithEnumTag.js.map
+
+-- jsFileESModuleWithEnumTag.js --
+export {}; // mark as module
+/** @enum {number} */
+const ChangeDetectionStrategy = {
+  OnPush: 0,
+  Default: 1,
+};
+ChangeDetectionStrategy[ChangeDetectionStrategy.OnPush] = 'OnPush';
+ChangeDetectionStrategy[ChangeDetectionStrategy.Default] = 'Default';
+Object.defineProperty(ChangeDetectionStrategy, "aField", {value: 42});
+/** @type {number} */
+ChangeDetectionStrategy["bField"];
+

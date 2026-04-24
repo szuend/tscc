@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/protectedAccessThroughContextualThis.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js protectedAccessThroughContextualThis.js protectedAccessThroughContextualThis.ts
+stderr 'TS2341'
+! exists protectedAccessThroughContextualThis.js
+! exists protectedAccessThroughContextualThis.d.ts
+! exists protectedAccessThroughContextualThis.js.map
+
+-- protectedAccessThroughContextualThis.ts --
+class Foo {
+  protected protec = 'bar';
+  private privat = '';
+  copy!: string
+  constructor() {
+    bindCopy.call(this)
+    bindCopy2.call(this)
+  }
+}
+
+function bindCopy(this: Foo) {
+  this.copy = this.protec; // Should OK
+  console.log(this.privat); // Should error
+}
+
+type BindingFunction = (this: Foo) => void;
+
+const bindCopy2: BindingFunction = function () {
+  this.copy = this.protec; // Should OK
+  console.log(this.privat); // Should error
+}

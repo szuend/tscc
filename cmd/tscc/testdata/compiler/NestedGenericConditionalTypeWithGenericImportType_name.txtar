@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/nestedGenericConditionalTypeWithGenericImportType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js name.js name.ts
+! stderr .
+cmp name.js name.js.golden
+! exists name.d.ts
+! exists name.js.map
+
+-- index.ts --
+type T<X> = any extends ((any extends any ? any : string) extends any ? import("./name").Name<X> : any)
+  ? any
+  : any;
+-- name.ts --
+export type Name<T> = any;
+-- name.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

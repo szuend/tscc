@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/missingPropertiesOfClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js missingPropertiesOfClassExpression.js missingPropertiesOfClassExpression.ts
+stderr 'TS2339'
+! exists missingPropertiesOfClassExpression.js
+! exists missingPropertiesOfClassExpression.d.ts
+! exists missingPropertiesOfClassExpression.js.map
+
+-- missingPropertiesOfClassExpression.ts --
+class George extends class { reset() { return this.y; } } {
+    constructor() {
+        super();
+    }
+}

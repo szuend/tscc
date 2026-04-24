@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/paramterDestrcuturingDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts paramterDestrcuturingDeclaration.d.ts --no-strict --target es2015 --lib es2015,dom --out-js paramterDestrcuturingDeclaration.js paramterDestrcuturingDeclaration.ts
+stderr 'TS2842'
+! exists paramterDestrcuturingDeclaration.d.ts
+! exists paramterDestrcuturingDeclaration.js
+! exists paramterDestrcuturingDeclaration.js.map
+
+-- paramterDestrcuturingDeclaration.ts --
+interface C {
+    ({p: name}): any;
+    new ({p: boolean}): any;
+}

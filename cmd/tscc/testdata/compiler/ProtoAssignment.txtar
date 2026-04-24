@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/protoAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js protoAssignment.js protoAssignment.ts
+stderr 'TS2304'
+! exists protoAssignment.js
+! exists protoAssignment.d.ts
+! exists protoAssignment.js.map
+
+-- protoAssignment.ts --
+interface Number extends Comparable<number> {
+
+    compareTo(other: number);
+
+}
+
+Number.prototype.compareTo = function (other: number) {
+
+   return this.valueOf() == other;
+
+}
+
+ 

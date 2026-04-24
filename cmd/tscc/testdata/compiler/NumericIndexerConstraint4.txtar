@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/numericIndexerConstraint4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numericIndexerConstraint4.js numericIndexerConstraint4.ts
+stderr 'TS2564'
+! exists numericIndexerConstraint4.js
+! exists numericIndexerConstraint4.d.ts
+! exists numericIndexerConstraint4.js.map
+
+-- numericIndexerConstraint4.ts --
+class A {
+    foo: number;
+}
+
+class B extends A {
+    bar: string;
+}
+
+var x: {
+    [idx: number]: A;
+} = { 0: new B() }

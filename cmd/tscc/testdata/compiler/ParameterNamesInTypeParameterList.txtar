@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/parameterNamesInTypeParameterList.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parameterNamesInTypeParameterList.js parameterNamesInTypeParameterList.ts
+stderr 'TS2552'
+! exists parameterNamesInTypeParameterList.js
+! exists parameterNamesInTypeParameterList.d.ts
+! exists parameterNamesInTypeParameterList.js.map
+
+-- parameterNamesInTypeParameterList.ts --
+function f0<T extends typeof a>(a: T) {
+	a.b;
+}
+
+function f1<T extends typeof a>({a}: {a:T}) {
+	a.b;
+}
+
+function f2<T extends typeof a>([a]: T[]) {
+	a.b;
+}
+
+class A {
+	m0<T extends typeof a>(a: T) {
+		a.b
+	}
+	m1<T extends typeof a>({a}: {a:T}) {
+		a.b
+	}
+	m2<T extends typeof a>([a]: T[]) {
+		a.b
+	}
+}

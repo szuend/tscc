@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/moduleNoEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js moduleNoEmit.js moduleNoEmit.ts
+! stderr .
+cmp moduleNoEmit.js moduleNoEmit.js.golden
+! exists moduleNoEmit.d.ts
+! exists moduleNoEmit.js.map
+
+-- moduleNoEmit.ts --
+namespace Foo {
+	1+1;
+}
+-- moduleNoEmit.js.golden --
+"use strict";
+var Foo;
+(function (Foo) {
+    1 + 1;
+})(Foo || (Foo = {}));

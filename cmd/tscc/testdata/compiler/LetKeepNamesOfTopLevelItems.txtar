@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/letKeepNamesOfTopLevelItems.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js letKeepNamesOfTopLevelItems.js letKeepNamesOfTopLevelItems.ts
+! stderr .
+cmp letKeepNamesOfTopLevelItems.js letKeepNamesOfTopLevelItems.js.golden
+! exists letKeepNamesOfTopLevelItems.d.ts
+! exists letKeepNamesOfTopLevelItems.js.map
+
+-- letKeepNamesOfTopLevelItems.ts --
+let x;
+function foo() {
+    let x;
+}
+
+namespace A {
+    let x;
+}
+-- letKeepNamesOfTopLevelItems.js.golden --
+"use strict";
+let x;
+function foo() {
+    let x;
+}
+var A;
+(function (A) {
+    let x;
+})(A || (A = {}));

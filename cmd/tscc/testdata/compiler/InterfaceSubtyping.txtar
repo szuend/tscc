@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/interfaceSubtyping.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js interfaceSubtyping.js interfaceSubtyping.ts
+! stderr .
+cmp interfaceSubtyping.js interfaceSubtyping.js.golden
+! exists interfaceSubtyping.d.ts
+! exists interfaceSubtyping.js.map
+
+-- interfaceSubtyping.ts --
+interface iface {
+    foo(): void;
+}
+class Camera implements iface{
+    constructor (public str: string) {
+    }
+    foo() {  return "s";   }
+}
+-- interfaceSubtyping.js.golden --
+"use strict";
+class Camera {
+    constructor(str) {
+        this.str = str;
+    }
+    foo() { return "s"; }
+}

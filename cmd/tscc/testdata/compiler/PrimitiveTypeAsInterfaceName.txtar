@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/primitiveTypeAsInterfaceName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js primitiveTypeAsInterfaceName.js primitiveTypeAsInterfaceName.ts
+stderr 'TS2427'
+! exists primitiveTypeAsInterfaceName.js
+! exists primitiveTypeAsInterfaceName.d.ts
+! exists primitiveTypeAsInterfaceName.js.map
+
+-- primitiveTypeAsInterfaceName.ts --
+interface number {}

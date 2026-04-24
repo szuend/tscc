@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/propertyAccess6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccess6.js propertyAccess6.ts
+! stderr .
+cmp propertyAccess6.js propertyAccess6.js.golden
+! exists propertyAccess6.d.ts
+! exists propertyAccess6.js.map
+
+-- propertyAccess6.ts --
+var foo: any;
+foo.bar = 4;
+-- propertyAccess6.js.golden --
+"use strict";
+var foo;
+foo.bar = 4;

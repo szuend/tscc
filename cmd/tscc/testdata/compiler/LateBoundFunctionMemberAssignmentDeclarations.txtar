@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/lateBoundFunctionMemberAssignmentDeclarations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --strict --target es6 --lib es6,dom --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- index.ts --
+export function foo() {}
+foo.bar = 12;
+const _private = Symbol();
+foo[_private] = "ok";
+
+const x: string = foo[_private];
+-- index.d.ts.golden --
+export declare function foo(): void;
+export declare namespace foo {
+    var bar: number;
+}
+-- index.js.golden --
+export function foo() { }
+foo.bar = 12;
+const _private = Symbol();
+foo[_private] = "ok";
+const x = foo[_private];

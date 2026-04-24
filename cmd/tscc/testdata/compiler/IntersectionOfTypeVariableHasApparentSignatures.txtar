@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/intersectionOfTypeVariableHasApparentSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --strict-null-checks --target es2015 --lib es2015,dom --out-js intersectionOfTypeVariableHasApparentSignatures.js intersectionOfTypeVariableHasApparentSignatures.ts
+! stderr .
+cmp intersectionOfTypeVariableHasApparentSignatures.js intersectionOfTypeVariableHasApparentSignatures.js.golden
+! exists intersectionOfTypeVariableHasApparentSignatures.d.ts
+! exists intersectionOfTypeVariableHasApparentSignatures.js.map
+
+-- intersectionOfTypeVariableHasApparentSignatures.ts --
+interface Component<P> {
+    props: Readonly<P> & Readonly<{ children?: {} }>;
+}
+
+interface Props {
+    children?: (items: {x: number}) => void
+}
+
+declare function f<T extends Props>(i: Component<T>): void;
+
+f({
+    props: {
+        children: (({ x }) => { })
+    }
+});
+-- intersectionOfTypeVariableHasApparentSignatures.js.golden --
+"use strict";
+f({
+    props: {
+        children: (({ x }) => { })
+    }
+});

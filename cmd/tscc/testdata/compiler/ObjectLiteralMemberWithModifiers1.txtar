@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/objectLiteralMemberWithModifiers1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectLiteralMemberWithModifiers1.js objectLiteralMemberWithModifiers1.ts
+stderr 'TS1042'
+stderr 'TS1184'
+! exists objectLiteralMemberWithModifiers1.js
+! exists objectLiteralMemberWithModifiers1.d.ts
+! exists objectLiteralMemberWithModifiers1.js.map
+
+-- objectLiteralMemberWithModifiers1.ts --
+var v = { public foo() { } }

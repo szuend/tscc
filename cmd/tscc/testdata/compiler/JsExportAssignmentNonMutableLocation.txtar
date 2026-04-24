@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/jsExportAssignmentNonMutableLocation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts file.d.ts --module commonjs --target es6 --lib es6,dom file.js
+stderr 'TS2309'
+stderr 'TS2551'
+! exists file.d.ts
+! exists file.js.map
+! exists out_file.js
+
+-- file.js --
+const customSymbol = Symbol("custom");
+
+// This is a common pattern in Node’s built-in modules:
+module.exports = {
+    customSymbol,
+};
+
+exports.customSymbol2 = Symbol("custom");

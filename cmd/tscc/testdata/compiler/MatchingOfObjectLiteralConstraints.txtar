@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/matchingOfObjectLiteralConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js matchingOfObjectLiteralConstraints.js matchingOfObjectLiteralConstraints.ts
+! stderr .
+cmp matchingOfObjectLiteralConstraints.js matchingOfObjectLiteralConstraints.js.golden
+! exists matchingOfObjectLiteralConstraints.d.ts
+! exists matchingOfObjectLiteralConstraints.js.map
+
+-- matchingOfObjectLiteralConstraints.ts --
+function foo2<T, U extends { y: T; }>(x: U, z: T) { }
+foo2({ y: "foo" }, "foo");
+ 
+-- matchingOfObjectLiteralConstraints.js.golden --
+"use strict";
+function foo2(x, z) { }
+foo2({ y: "foo" }, "foo");

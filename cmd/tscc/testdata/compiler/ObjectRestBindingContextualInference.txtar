@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/objectRestBindingContextualInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom objectRestBindingContextualInference.ts
+! stderr .
+! exists objectRestBindingContextualInference.d.ts
+! exists objectRestBindingContextualInference.js.map
+
+-- objectRestBindingContextualInference.ts --
+// slimmed-down repro from #52629
+
+type ImageHolder<K extends string> = {
+  [P in K]: string;
+};
+
+type SetupImageRefs<K extends string> = {
+  [P in K]: File;
+};
+
+type SetupImages<K extends string> = SetupImageRefs<K> & {
+  prepare: () => { type: K };
+};
+
+interface TestInterface {
+  name: string;
+  image: string;
+}
+
+declare function setupImages<R extends ImageHolder<K>, K extends string>(
+  item: R,
+  keys: K[]
+): SetupImages<K>;
+
+declare const test: TestInterface;
+
+const { prepare, ...rest } = setupImages(test, ["image"]);

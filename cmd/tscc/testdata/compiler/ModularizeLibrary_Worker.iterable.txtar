@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/modularizeLibrary_Worker.iterable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es6,webworker,webworker.iterable --skip-lib-check --target es6 --out-js modularizeLibrary_Worker.iterable.js modularizeLibrary_Worker.iterable.ts
+! stderr .
+cmp modularizeLibrary_Worker.iterable.js modularizeLibrary_Worker.iterable.js.golden
+! exists modularizeLibrary_Worker.iterable.d.ts
+! exists modularizeLibrary_Worker.iterable.js.map
+
+-- modularizeLibrary_Worker.iterable.ts --
+for (const [key, entry] of new FormData()) {
+    entry;
+}
+-- modularizeLibrary_Worker.iterable.js.golden --
+"use strict";
+for (const [key, entry] of new FormData()) {
+    entry;
+}

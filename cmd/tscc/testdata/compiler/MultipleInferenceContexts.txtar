@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/multipleInferenceContexts.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js multipleInferenceContexts.js multipleInferenceContexts.ts
+! stderr .
+cmp multipleInferenceContexts.js multipleInferenceContexts.js.golden
+! exists multipleInferenceContexts.d.ts
+! exists multipleInferenceContexts.js.map
+
+-- multipleInferenceContexts.ts --
+type ConstructorOptions<Data> =
+    & ComponentOptionsProperties<Data>
+    & ThisType<Instance<Data>>;
+
+interface ComponentOptionsProperties<Data> {
+    data: Data;
+    render(): unknown;
+}
+
+interface Instance<Data> {
+    get<K extends keyof Data>(name: K): unknown;
+}
+
+declare var Moon: {
+    <Data>(options?: ConstructorOptions<Data>): Instance<Data>;
+};
+
+const r2 = Moon({
+    data: { msg: "" },
+    render() {
+        const h = (x: unknown) => x;
+        return h(this.get("msg"));
+    },
+});
+-- multipleInferenceContexts.js.golden --
+"use strict";
+const r2 = Moon({
+    data: { msg: "" },
+    render() {
+        const h = (x) => x;
+        return h(this.get("msg"));
+    },
+});

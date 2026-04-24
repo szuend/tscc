@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/mergedDeclarations2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedDeclarations2.js mergedDeclarations2.ts
+stderr 'TS2304'
+! exists mergedDeclarations2.js
+! exists mergedDeclarations2.d.ts
+! exists mergedDeclarations2.js.map
+
+-- mergedDeclarations2.ts --
+enum Foo {
+    b
+}
+enum Foo {
+    a = b
+}
+
+namespace Foo {
+    export var x = b
+}

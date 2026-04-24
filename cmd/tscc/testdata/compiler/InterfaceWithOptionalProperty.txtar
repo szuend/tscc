@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/interfaceWithOptionalProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts interfaceWithOptionalProperty.d.ts --target es2015 --lib es2015,dom --out-js interfaceWithOptionalProperty.js interfaceWithOptionalProperty.ts
+! stderr .
+cmp interfaceWithOptionalProperty.d.ts interfaceWithOptionalProperty.d.ts.golden
+cmp interfaceWithOptionalProperty.js interfaceWithOptionalProperty.js.golden
+! exists interfaceWithOptionalProperty.js.map
+
+-- interfaceWithOptionalProperty.ts --
+interface I {
+    x?: number;
+}
+-- interfaceWithOptionalProperty.d.ts.golden --
+interface I {
+    x?: number;
+}
+-- interfaceWithOptionalProperty.js.golden --
+"use strict";

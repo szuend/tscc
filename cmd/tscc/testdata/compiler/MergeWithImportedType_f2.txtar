@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/mergeWithImportedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js f2.js f2.ts
+stderr 'TS2440'
+! exists f2.js
+! exists f2.d.ts
+! exists f2.js.map
+
+-- f1.ts --
+export enum E {X}
+-- f2.ts --
+import {E} from "./f1";
+export type E = E;

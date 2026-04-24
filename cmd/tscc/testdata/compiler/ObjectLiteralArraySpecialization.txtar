@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/objectLiteralArraySpecialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js objectLiteralArraySpecialization.js objectLiteralArraySpecialization.ts
+! stderr .
+cmp objectLiteralArraySpecialization.js objectLiteralArraySpecialization.js.golden
+! exists objectLiteralArraySpecialization.d.ts
+! exists objectLiteralArraySpecialization.js.map
+
+-- objectLiteralArraySpecialization.ts --
+declare function create<T>(initialValues?: T[]): MyArrayWrapper<T>;
+interface MyArrayWrapper<T> {
+	constructor(initialItems?: T[]);
+	doSomething(predicate: (x: T, y: T) => boolean): void;
+}
+var thing = create([ { name: "bob", id: 24 }, { name: "doug", id: 32 } ]); // should not error
+thing.doSomething((x, y) => x.name === "bob"); // should not error
+-- objectLiteralArraySpecialization.js.golden --
+"use strict";
+var thing = create([{ name: "bob", id: 24 }, { name: "doug", id: 32 }]); // should not error
+thing.doSomething((x, y) => x.name === "bob"); // should not error

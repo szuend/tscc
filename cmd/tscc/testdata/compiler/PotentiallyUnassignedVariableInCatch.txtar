@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/potentiallyUnassignedVariableInCatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js potentiallyUnassignedVariableInCatch.js potentiallyUnassignedVariableInCatch.ts
+! stderr .
+cmp potentiallyUnassignedVariableInCatch.js potentiallyUnassignedVariableInCatch.js.golden
+! exists potentiallyUnassignedVariableInCatch.d.ts
+! exists potentiallyUnassignedVariableInCatch.js.map
+
+-- potentiallyUnassignedVariableInCatch.ts --
+let foo;
+try {
+	if (Math.random() > 0.5) {
+		foo = 1234;
+	}
+} catch {
+	foo;
+}
+-- potentiallyUnassignedVariableInCatch.js.golden --
+"use strict";
+let foo;
+try {
+    if (Math.random() > 0.5) {
+        foo = 1234;
+    }
+}
+catch (_a) {
+    foo;
+}

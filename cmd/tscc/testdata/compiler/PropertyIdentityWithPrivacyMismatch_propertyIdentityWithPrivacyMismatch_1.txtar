@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/propertyIdentityWithPrivacyMismatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --path mod1=propertyIdentityWithPrivacyMismatch_0.ts --path mod2=propertyIdentityWithPrivacyMismatch_0.ts --out-js propertyIdentityWithPrivacyMismatch_1.js propertyIdentityWithPrivacyMismatch_1.ts
+stderr 'TS2403'
+! exists propertyIdentityWithPrivacyMismatch_1.js
+! exists propertyIdentityWithPrivacyMismatch_1.d.ts
+! exists propertyIdentityWithPrivacyMismatch_1.js.map
+
+-- propertyIdentityWithPrivacyMismatch_0.ts --
+declare module 'mod1' {
+    class Foo {
+        private n;
+    }
+}
+declare module 'mod2' {
+    class Foo {
+        private n;
+    }
+}
+-- propertyIdentityWithPrivacyMismatch_1.ts --
+///<reference path='propertyIdentityWithPrivacyMismatch_0.ts'/>
+import m1 = require('mod1');
+import m2 = require('mod2');
+var x: m1.Foo;
+var x: m2.Foo; // Should be error (mod1.Foo !== mod2.Foo)
+class Foo1 {
+    private n;
+}
+class Foo2 {
+    private n;
+}
+var y: Foo1;
+var y: Foo2;

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/propertyAccess7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccess7.js propertyAccess7.ts
+! stderr .
+cmp propertyAccess7.js propertyAccess7.js.golden
+! exists propertyAccess7.d.ts
+! exists propertyAccess7.js.map
+
+-- propertyAccess7.ts --
+var foo: string;
+foo.toUpperCase();
+-- propertyAccess7.js.golden --
+"use strict";
+var foo;
+foo.toUpperCase();

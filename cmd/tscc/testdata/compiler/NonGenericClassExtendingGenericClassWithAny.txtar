@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/nonGenericClassExtendingGenericClassWithAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nonGenericClassExtendingGenericClassWithAny.js nonGenericClassExtendingGenericClassWithAny.ts
+stderr 'TS2564'
+! exists nonGenericClassExtendingGenericClassWithAny.js
+! exists nonGenericClassExtendingGenericClassWithAny.d.ts
+! exists nonGenericClassExtendingGenericClassWithAny.js.map
+
+-- nonGenericClassExtendingGenericClassWithAny.ts --
+class Foo<T> {
+    t: T;
+}
+
+class Bar extends Foo<any> { } // Valid

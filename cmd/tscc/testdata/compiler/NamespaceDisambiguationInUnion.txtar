@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/namespaceDisambiguationInUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js namespaceDisambiguationInUnion.js namespaceDisambiguationInUnion.ts
+stderr 'TS2322'
+! exists namespaceDisambiguationInUnion.js
+! exists namespaceDisambiguationInUnion.d.ts
+! exists namespaceDisambiguationInUnion.js.map
+
+-- namespaceDisambiguationInUnion.ts --
+namespace Foo {
+  export type Yep = { type: "foo.yep" };
+}
+
+namespace Bar {
+  export type Yep = { type: "bar.yep" };
+}
+
+const x = { type: "wat.nup" };
+const val1: Foo.Yep | Bar.Yep = x;
+
+const y = [{ type: "a" }, { type: "b" }];
+const val2: [Foo.Yep, Bar.Yep] = y;

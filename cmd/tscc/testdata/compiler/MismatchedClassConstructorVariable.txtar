@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/mismatchedClassConstructorVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mismatchedClassConstructorVariable.js mismatchedClassConstructorVariable.ts
+stderr 'TS2300'
+! exists mismatchedClassConstructorVariable.js
+! exists mismatchedClassConstructorVariable.d.ts
+! exists mismatchedClassConstructorVariable.js.map
+
+-- mismatchedClassConstructorVariable.ts --
+var baz: foo;
+class baz { }
+class foo { }

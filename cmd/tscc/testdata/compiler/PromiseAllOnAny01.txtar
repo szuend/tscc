@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/promiseAllOnAny01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5,es2015.promise --target es2015 promiseAllOnAny01.ts
+! stderr .
+! exists promiseAllOnAny01.d.ts
+! exists promiseAllOnAny01.js.map
+
+-- promiseAllOnAny01.ts --
+async function foo(x: any) {
+    let abc = await Promise.all(x);
+    let result: any[] = abc;
+    return result;
+}

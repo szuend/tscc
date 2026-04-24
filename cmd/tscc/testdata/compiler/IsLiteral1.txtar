@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/isLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js isLiteral1.js isLiteral1.ts
+stderr 'TS1121'
+! exists isLiteral1.js
+! exists isLiteral1.d.ts
+! exists isLiteral1.js.map
+
+-- isLiteral1.ts --
+var x: number = 02343;

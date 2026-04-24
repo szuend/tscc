@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/prototypeInstantiatedWithBaseConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js prototypeInstantiatedWithBaseConstraint.js prototypeInstantiatedWithBaseConstraint.ts
+stderr 'TS2564'
+! exists prototypeInstantiatedWithBaseConstraint.js
+! exists prototypeInstantiatedWithBaseConstraint.d.ts
+! exists prototypeInstantiatedWithBaseConstraint.js.map
+
+-- prototypeInstantiatedWithBaseConstraint.ts --
+class C<T> {
+    x: T;
+}
+
+C.prototype.x.boo; // No error, prototype is instantiated to any

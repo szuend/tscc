@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/nonExportedElementsOfMergedModules.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js nonExportedElementsOfMergedModules.js nonExportedElementsOfMergedModules.ts
+stderr 'TS2339'
+! exists nonExportedElementsOfMergedModules.js
+! exists nonExportedElementsOfMergedModules.d.ts
+! exists nonExportedElementsOfMergedModules.js.map
+
+-- nonExportedElementsOfMergedModules.ts --
+namespace One {
+    enum A { X }
+    namespace B {
+        export var x;
+    }
+}
+
+namespace One {
+    enum A { Y }
+    namespace B {
+        export var y;
+    }
+    B.x;
+    B.y;
+}

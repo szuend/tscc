@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/jsdocTypedefNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es6 --lib es6,dom --out-js out_export.js export.js
+! stderr .
+cmp out_export.js out_export.js.golden
+! exists dist/export.d.ts
+! exists dist/export.js.map
+
+-- export.js --
+/**
+ * @typedef {{
+ * }}
+ */
+export const foo = 5;
+-- out_export.js.golden --
+/**
+ * @typedef {{
+ * }}
+ */
+export const foo = 5;

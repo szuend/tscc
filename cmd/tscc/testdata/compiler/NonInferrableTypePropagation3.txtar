@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/nonInferrableTypePropagation3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom nonInferrableTypePropagation3.ts
+! stderr .
+! exists nonInferrableTypePropagation3.d.ts
+! exists nonInferrableTypePropagation3.js.map
+
+-- nonInferrableTypePropagation3.ts --
+// Repro from #53748
+
+declare type Callback<Args extends any[], Out, R> = (...args: Args) => (data: Out) => R;
+declare function factory<Out>(): <Args extends any[], R>(callback: Callback<Args, Out, R>) => (...args: Args) => R;
+
+const make = factory<{id: string, age: number}[]>();
+
+const usersOverAge = make((age: number) => data => {
+    return data.filter(user => user.age >= age);
+});

@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/parseErrorInHeritageClause1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parseErrorInHeritageClause1.js parseErrorInHeritageClause1.ts
+stderr 'TS1127'
+! exists parseErrorInHeritageClause1.js
+! exists parseErrorInHeritageClause1.d.ts
+! exists parseErrorInHeritageClause1.js.map
+
+-- parseErrorInHeritageClause1.ts --
+class C extends A ¬ {
+}

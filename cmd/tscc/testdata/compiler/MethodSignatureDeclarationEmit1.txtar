@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/methodSignatureDeclarationEmit1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts methodSignatureDeclarationEmit1.d.ts --target es2015 --lib es2015,dom --out-js methodSignatureDeclarationEmit1.js methodSignatureDeclarationEmit1.ts
+! stderr .
+cmp methodSignatureDeclarationEmit1.d.ts methodSignatureDeclarationEmit1.d.ts.golden
+cmp methodSignatureDeclarationEmit1.js methodSignatureDeclarationEmit1.js.golden
+! exists methodSignatureDeclarationEmit1.js.map
+
+-- methodSignatureDeclarationEmit1.ts --
+class C {
+  public foo(n: number): void;
+  public foo(s: string): void;
+  public foo(a: any): void {
+  }
+}
+-- methodSignatureDeclarationEmit1.d.ts.golden --
+declare class C {
+    foo(n: number): void;
+    foo(s: string): void;
+}
+-- methodSignatureDeclarationEmit1.js.golden --
+"use strict";
+class C {
+    foo(a) {
+    }
+}

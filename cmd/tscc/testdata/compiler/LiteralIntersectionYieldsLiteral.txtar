@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/literalIntersectionYieldsLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js literalIntersectionYieldsLiteral.js literalIntersectionYieldsLiteral.ts
+! stderr .
+cmp literalIntersectionYieldsLiteral.js literalIntersectionYieldsLiteral.js.golden
+! exists literalIntersectionYieldsLiteral.d.ts
+! exists literalIntersectionYieldsLiteral.js.map
+
+-- literalIntersectionYieldsLiteral.ts --
+const x: { type: string } & { type: "string" } = { type: "string" };
+-- literalIntersectionYieldsLiteral.js.golden --
+"use strict";
+const x = { type: "string" };

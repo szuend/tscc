@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/invokingNonGenericMethodWithTypeArguments1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invokingNonGenericMethodWithTypeArguments1.js invokingNonGenericMethodWithTypeArguments1.ts
+stderr 'TS2339'
+! exists invokingNonGenericMethodWithTypeArguments1.js
+! exists invokingNonGenericMethodWithTypeArguments1.d.ts
+! exists invokingNonGenericMethodWithTypeArguments1.js.map
+
+-- invokingNonGenericMethodWithTypeArguments1.ts --
+class Foo {
+    constructor() {
+        this.foo<string>();
+    }
+}

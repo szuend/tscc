@@ -1,0 +1,78 @@
+# Ported from tests/cases/compiler/nestedBlockScopedBindings16.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nestedBlockScopedBindings16.js nestedBlockScopedBindings16.ts
+! stderr .
+cmp nestedBlockScopedBindings16.js nestedBlockScopedBindings16.js.golden
+! exists nestedBlockScopedBindings16.d.ts
+! exists nestedBlockScopedBindings16.js.map
+
+-- nestedBlockScopedBindings16.ts --
+var x;
+for (; false;) {
+    {
+        let x;
+        () => x;
+    }
+}
+
+var y;
+for (; false;) {
+    {
+        let y;
+        y = 1;
+    }
+}
+
+var z0;
+for (; false;) {
+    switch (1){
+        case 1:
+            let z0;
+            () => z0;
+            break;
+    }
+}
+
+var z;
+for (; false;) {
+    switch (1){
+        case 1:
+            let z;
+            z = 1;
+            break;
+    }
+}
+-- nestedBlockScopedBindings16.js.golden --
+"use strict";
+var x;
+for (; false;) {
+    {
+        let x;
+        () => x;
+    }
+}
+var y;
+for (; false;) {
+    {
+        let y;
+        y = 1;
+    }
+}
+var z0;
+for (; false;) {
+    switch (1) {
+        case 1:
+            let z0;
+            () => z0;
+            break;
+    }
+}
+var z;
+for (; false;) {
+    switch (1) {
+        case 1:
+            let z;
+            z = 1;
+            break;
+    }
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/invalidTripleSlashReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidTripleSlashReference.js invalidTripleSlashReference.ts
+stderr 'TS6053'
+! exists invalidTripleSlashReference.js
+! exists invalidTripleSlashReference.d.ts
+! exists invalidTripleSlashReference.js.map
+
+-- invalidTripleSlashReference.ts --
+/// <reference path='filedoesnotexist.ts'/>
+/// <reference path='otherdoesnotexist.d.ts'/>
+
+// this test doesn't actually give the errors you want due to the way the compiler reports errors
+var x = 1;

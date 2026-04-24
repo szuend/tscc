@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/objectLiteral2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js objectLiteral2.js objectLiteral2.ts
+! stderr .
+cmp objectLiteral2.js objectLiteral2.js.golden
+! exists objectLiteral2.d.ts
+! exists objectLiteral2.js.map
+
+-- objectLiteral2.ts --
+var v30 = {a:1, b:2}, v31;
+-- objectLiteral2.js.golden --
+"use strict";
+var v30 = { a: 1, b: 2 }, v31;

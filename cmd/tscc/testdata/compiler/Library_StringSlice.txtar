@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/library_StringSlice.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js library_StringSlice.js library_StringSlice.ts
+! stderr .
+cmp library_StringSlice.js library_StringSlice.js.golden
+! exists library_StringSlice.d.ts
+! exists library_StringSlice.js.map
+
+-- library_StringSlice.ts --
+// String.prototype.slice can have zero, one, or two arguments
+String.prototype.slice();
+String.prototype.slice(0);
+String.prototype.slice(0,1);
+-- library_StringSlice.js.golden --
+"use strict";
+// String.prototype.slice can have zero, one, or two arguments
+String.prototype.slice();
+String.prototype.slice(0);
+String.prototype.slice(0, 1);

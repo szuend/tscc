@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/nestedFreshLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js nestedFreshLiteral.js nestedFreshLiteral.ts
+stderr 'TS2561'
+! exists nestedFreshLiteral.js
+! exists nestedFreshLiteral.d.ts
+! exists nestedFreshLiteral.js.map
+
+-- nestedFreshLiteral.ts --
+interface CSSProps  {
+  color?: string
+}
+interface NestedCSSProps {
+  nested?: NestedSelector
+}
+interface NestedSelector  {
+  prop: CSSProps;
+}
+
+let stylen: NestedCSSProps = {
+  nested: { prop: { colour: 'red' } }
+}

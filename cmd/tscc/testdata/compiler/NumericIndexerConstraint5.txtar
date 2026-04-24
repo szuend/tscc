@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/numericIndexerConstraint5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numericIndexerConstraint5.js numericIndexerConstraint5.ts
+stderr 'TS2322'
+! exists numericIndexerConstraint5.js
+! exists numericIndexerConstraint5.d.ts
+! exists numericIndexerConstraint5.js.map
+
+-- numericIndexerConstraint5.ts --
+var x = { name: "x", 0: new Date() };
+var z: { [name: number]: string } = x;

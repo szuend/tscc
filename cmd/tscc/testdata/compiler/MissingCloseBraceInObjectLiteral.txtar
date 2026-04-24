@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/missingCloseBraceInObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js missingCloseBraceInObjectLiteral.js missingCloseBraceInObjectLiteral.ts
+stderr 'TS1005'
+! exists missingCloseBraceInObjectLiteral.js
+! exists missingCloseBraceInObjectLiteral.d.ts
+! exists missingCloseBraceInObjectLiteral.js.map
+
+-- missingCloseBraceInObjectLiteral.ts --
+var foo = {
+    a: 'a',
+    b: 'b',
+    c: 'c'

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/moduleInTypePosition1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js moduleInTypePosition1_1.js moduleInTypePosition1_1.ts
+stderr 'TS2709'
+! exists moduleInTypePosition1_1.js
+! exists moduleInTypePosition1_1.d.ts
+! exists moduleInTypePosition1_1.js.map
+
+-- moduleInTypePosition1_0.ts --
+export class Promise {
+    foo: string;
+}
+-- moduleInTypePosition1_1.ts --
+///<reference path='moduleInTypePosition1_0.ts'/>
+import WinJS = require('./moduleInTypePosition1_0');
+var x = (w1: WinJS) => { };

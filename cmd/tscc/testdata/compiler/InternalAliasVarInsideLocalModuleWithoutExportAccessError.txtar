@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/internalAliasVarInsideLocalModuleWithoutExportAccessError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasVarInsideLocalModuleWithoutExportAccessError.js internalAliasVarInsideLocalModuleWithoutExportAccessError.ts
+stderr 'TS2339'
+! exists internalAliasVarInsideLocalModuleWithoutExportAccessError.js
+! exists internalAliasVarInsideLocalModuleWithoutExportAccessError.d.ts
+! exists internalAliasVarInsideLocalModuleWithoutExportAccessError.js.map
+
+-- internalAliasVarInsideLocalModuleWithoutExportAccessError.ts --
+export namespace a {
+    export var x = 10;
+}
+
+export namespace c {
+    import b = a.x;
+    export var bVal = b;
+}
+
+export var z = c.b;

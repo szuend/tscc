@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/invalidSplice.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidSplice.js invalidSplice.ts
+stderr 'TS2345'
+! exists invalidSplice.js
+! exists invalidSplice.d.ts
+! exists invalidSplice.js.map
+
+-- invalidSplice.ts --
+var arr = [].splice(0,3,4,5);

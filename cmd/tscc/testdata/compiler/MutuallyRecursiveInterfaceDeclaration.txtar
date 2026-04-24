@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/mutuallyRecursiveInterfaceDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts mutuallyRecursiveInterfaceDeclaration.d.ts --target es2015 --lib es2015,dom --out-js mutuallyRecursiveInterfaceDeclaration.js mutuallyRecursiveInterfaceDeclaration.ts
+! stderr .
+cmp mutuallyRecursiveInterfaceDeclaration.d.ts mutuallyRecursiveInterfaceDeclaration.d.ts.golden
+cmp mutuallyRecursiveInterfaceDeclaration.js mutuallyRecursiveInterfaceDeclaration.js.golden
+! exists mutuallyRecursiveInterfaceDeclaration.js.map
+
+-- mutuallyRecursiveInterfaceDeclaration.ts --
+interface A {
+    b: B
+}
+
+interface B {
+    a: A
+}
+export {A, B}
+-- mutuallyRecursiveInterfaceDeclaration.d.ts.golden --
+interface A {
+    b: B;
+}
+interface B {
+    a: A;
+}
+export { A, B };
+-- mutuallyRecursiveInterfaceDeclaration.js.golden --
+export {};

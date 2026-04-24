@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/namespacesDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts namespacesDeclaration1.d.ts --target es2015 --lib es2015,dom --out-js namespacesDeclaration1.js namespacesDeclaration1.ts
+! stderr .
+cmp namespacesDeclaration1.d.ts namespacesDeclaration1.d.ts.golden
+cmp namespacesDeclaration1.js namespacesDeclaration1.js.golden
+! exists namespacesDeclaration1.js.map
+
+-- namespacesDeclaration1.ts --
+namespace M {
+   export namespace N {
+      export namespace M2 {
+         export interface I {}
+      }
+   }
+}
+-- namespacesDeclaration1.d.ts.golden --
+declare namespace M {
+    namespace N {
+        namespace M2 {
+            interface I {
+            }
+        }
+    }
+}
+-- namespacesDeclaration1.js.golden --
+"use strict";

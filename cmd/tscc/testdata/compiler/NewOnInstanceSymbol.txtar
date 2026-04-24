@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/newOnInstanceSymbol.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js newOnInstanceSymbol.js newOnInstanceSymbol.ts
+stderr 'TS2351'
+! exists newOnInstanceSymbol.js
+! exists newOnInstanceSymbol.d.ts
+! exists newOnInstanceSymbol.js.map
+
+-- newOnInstanceSymbol.ts --
+class C {}
+var x = new C(); // should be ok
+new x(); // should error

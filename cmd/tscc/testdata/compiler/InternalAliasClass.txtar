@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/internalAliasClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasClass.d.ts --target es2015 --lib es2015,dom --out-js internalAliasClass.js internalAliasClass.ts
+! stderr .
+cmp internalAliasClass.d.ts internalAliasClass.d.ts.golden
+cmp internalAliasClass.js internalAliasClass.js.golden
+! exists internalAliasClass.js.map
+
+-- internalAliasClass.ts --
+namespace a {
+    export class c {
+    }
+}
+
+namespace c {
+    import b = a.c;
+    export var x: b = new b();
+}
+-- internalAliasClass.d.ts.golden --
+declare namespace a {
+    class c {
+    }
+}
+declare namespace c {
+    import b = a.c;
+    var x: b;
+}
+-- internalAliasClass.js.golden --
+"use strict";
+var a;
+(function (a) {
+    class c {
+    }
+    a.c = c;
+})(a || (a = {}));
+var c;
+(function (c) {
+    var b = a.c;
+    c.x = new b();
+})(c || (c = {}));

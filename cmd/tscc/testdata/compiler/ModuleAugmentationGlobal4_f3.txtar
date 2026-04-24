@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/moduleAugmentationGlobal4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts f3.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js f3.js f3.ts
+! stderr .
+cmp f3.d.ts f3.d.ts.golden
+cmp f3.js f3.js.golden
+! exists f3.js.map
+
+-- f1.ts --
+declare global {
+    interface Something {x}
+}
+export {};
+-- f2.ts --
+declare global {
+    interface Something {y}
+}
+export {};
+-- f3.ts --
+import "./f1";
+import "./f2";
+
+-- f3.d.ts.golden --
+import "./f1";
+import "./f2";
+-- f3.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./f1");
+require("./f2");

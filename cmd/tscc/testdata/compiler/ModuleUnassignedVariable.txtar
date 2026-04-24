@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/moduleUnassignedVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js moduleUnassignedVariable.js moduleUnassignedVariable.ts
+! stderr .
+cmp moduleUnassignedVariable.js moduleUnassignedVariable.js.golden
+! exists moduleUnassignedVariable.d.ts
+! exists moduleUnassignedVariable.js.map
+
+-- moduleUnassignedVariable.ts --
+namespace Bar {
+    export var a = 1;
+    function fooA() { return a; } // Correct: return Bar.a
+
+    export var b;
+    function fooB() { return b; } // Incorrect: return b
+}
+-- moduleUnassignedVariable.js.golden --
+"use strict";
+var Bar;
+(function (Bar) {
+    Bar.a = 1;
+    function fooA() { return Bar.a; } // Correct: return Bar.a
+    function fooB() { return Bar.b; } // Incorrect: return b
+})(Bar || (Bar = {}));

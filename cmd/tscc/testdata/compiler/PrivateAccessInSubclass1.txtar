@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/privateAccessInSubclass1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateAccessInSubclass1.js privateAccessInSubclass1.ts
+stderr 'TS2341'
+! exists privateAccessInSubclass1.js
+! exists privateAccessInSubclass1.d.ts
+! exists privateAccessInSubclass1.js.map
+
+-- privateAccessInSubclass1.ts --
+class Base {
+  private options: any;
+}
+
+class D extends Base {
+  myMethod() {
+    this.options;
+  }
+}

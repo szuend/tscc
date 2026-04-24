@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/partialTypeNarrowedToByTypeGuard.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js partialTypeNarrowedToByTypeGuard.js partialTypeNarrowedToByTypeGuard.ts
+! stderr .
+cmp partialTypeNarrowedToByTypeGuard.js partialTypeNarrowedToByTypeGuard.js.golden
+! exists partialTypeNarrowedToByTypeGuard.d.ts
+! exists partialTypeNarrowedToByTypeGuard.js.map
+
+-- partialTypeNarrowedToByTypeGuard.ts --
+type Obj = {} | undefined;
+
+type User = {
+    email: string;
+    name: string;
+};
+
+type PartialUser = Partial<User>;
+
+// type PartialUser = {
+//   email?: string;
+//   name?: string;
+// };
+
+function isUser(obj: Obj): obj is PartialUser {
+    return true;
+}
+
+function getUserName(obj: Obj) {
+    if (isUser(obj)) {
+        return obj.name;
+    }
+
+    return '';
+}
+-- partialTypeNarrowedToByTypeGuard.js.golden --
+"use strict";
+// type PartialUser = {
+//   email?: string;
+//   name?: string;
+// };
+function isUser(obj) {
+    return true;
+}
+function getUserName(obj) {
+    if (isUser(obj)) {
+        return obj.name;
+    }
+    return '';
+}

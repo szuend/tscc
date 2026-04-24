@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/primitiveConstraints1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js primitiveConstraints1.js primitiveConstraints1.ts
+stderr 'TS2344'
+! exists primitiveConstraints1.js
+! exists primitiveConstraints1.d.ts
+! exists primitiveConstraints1.js.map
+
+-- primitiveConstraints1.ts --
+function foo1<T extends U, U>(t: T, u: U) { }
+foo1<string, number>('hm', 1); // no error
+ 
+function foo2<T, U extends T>(t: T, u: U) { }
+foo2<number, string>(1, 'hm'); // error

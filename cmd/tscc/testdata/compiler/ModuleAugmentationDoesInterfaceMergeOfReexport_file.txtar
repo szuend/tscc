@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/moduleAugmentationDoesInterfaceMergeOfReexport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --path ./reexport=augment.ts --out-js file.js file.ts
+! stderr .
+cmp file.js file.js.golden
+! exists file.d.ts
+! exists file.js.map
+
+-- augment.ts --
+import * as ns from "./reexport";
+
+declare module "./reexport" {
+    export interface Foo {
+        self: Foo;
+    }
+}
+
+declare const f: ns.Foo;
+
+f.x;
+f.self;
+f.self.x;
+f.self.self;
+-- file.ts --
+export interface Foo {
+    x: number;
+}
+-- reexport.ts --
+export * from "./file";
+-- file.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/promiseIdentity2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js promiseIdentity2.js promiseIdentity2.ts
+stderr 'TS2403'
+! exists promiseIdentity2.js
+! exists promiseIdentity2.d.ts
+! exists promiseIdentity2.js.map
+
+-- promiseIdentity2.ts --
+export interface IPromise<T, V> {
+    then<U, W>(callback: (x: T) => IPromise<U, W>): IPromise<U, W>;
+}
+export interface Promise<T, V> {
+    then<U, W>(callback: (x: T) => Promise<T, U>): Promise<T, W>;
+}
+
+// error because T is string in the first declaration, and T is boolean in the second
+// Return type and callback return type are ok because T is any in this particular Promise
+var x: IPromise<string, number>;
+var x: Promise<any, string>;

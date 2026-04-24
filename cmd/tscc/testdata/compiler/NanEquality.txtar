@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/nanEquality.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nanEquality.js nanEquality.ts
+stderr 'TS2845'
+! exists nanEquality.js
+! exists nanEquality.d.ts
+! exists nanEquality.js.map
+
+-- nanEquality.ts --
+declare const x: number;
+
+if (x === NaN) {}
+if (NaN === x) {}
+
+if (x == NaN) {}
+if (NaN == x) {}
+
+if (x !== NaN) {}
+if (NaN !== x) {}
+
+if (x != NaN) {}
+if (NaN != x) {}
+
+if (x === ((NaN))) {}
+if (((NaN)) === x) {}
+
+if (x !== ((NaN))) {}
+if (((NaN)) !== x) {}
+
+if (NaN === NaN) {}
+if (NaN !== NaN) {}
+
+if (NaN == NaN) {}
+if (NaN != NaN) {}
+
+// ...
+declare let y: any;
+if (NaN === y[0][1]) {}
+
+function t1(value: number, NaN: number) {
+    return value === NaN; // ok
+}
+
+function t2(value: number, NaN: number) {
+    return NaN == value; // ok
+}
+
+function t3(NaN: number) {
+    return NaN === NaN; // ok
+}

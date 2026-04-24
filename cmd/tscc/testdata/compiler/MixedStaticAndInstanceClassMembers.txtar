@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/mixedStaticAndInstanceClassMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mixedStaticAndInstanceClassMembers.js mixedStaticAndInstanceClassMembers.ts
+stderr 'TS2387'
+stderr 'TS2388'
+! exists mixedStaticAndInstanceClassMembers.js
+! exists mixedStaticAndInstanceClassMembers.d.ts
+! exists mixedStaticAndInstanceClassMembers.js.map
+
+-- mixedStaticAndInstanceClassMembers.ts --
+class A {
+    f() {}
+    static m1 (a: string): void;
+    m1 (a: number): void;
+    m1 (a: any): void {
+    }
+}
+
+class B {
+    f() {}
+    m1 (a: string): void;
+    static m1 (a: number): void;
+    m1 (a: any): void {
+    }
+}

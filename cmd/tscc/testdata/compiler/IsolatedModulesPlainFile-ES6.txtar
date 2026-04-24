@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/isolatedModulesPlainFile-ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --target es6 --lib es6,dom --out-js isolatedModulesPlainFile-ES6.js isolatedModulesPlainFile-ES6.ts
+! stderr .
+cmp isolatedModulesPlainFile-ES6.js isolatedModulesPlainFile-ES6.js.golden
+! exists isolatedModulesPlainFile-ES6.d.ts
+! exists isolatedModulesPlainFile-ES6.js.map
+
+-- isolatedModulesPlainFile-ES6.ts --
+declare function run(a: number): void;
+run(1);
+-- isolatedModulesPlainFile-ES6.js.golden --
+"use strict";
+run(1);

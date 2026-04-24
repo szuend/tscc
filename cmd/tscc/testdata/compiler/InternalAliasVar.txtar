@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/internalAliasVar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasVar.d.ts --target es2015 --lib es2015,dom --out-js internalAliasVar.js internalAliasVar.ts
+! stderr .
+cmp internalAliasVar.d.ts internalAliasVar.d.ts.golden
+cmp internalAliasVar.js internalAliasVar.js.golden
+! exists internalAliasVar.js.map
+
+-- internalAliasVar.ts --
+namespace a {
+    export var x = 10;
+}
+
+namespace c {
+    import b = a.x;
+    export var bVal = b;
+}
+-- internalAliasVar.d.ts.golden --
+declare namespace a {
+    var x: number;
+}
+declare namespace c {
+    var bVal: number;
+}
+-- internalAliasVar.js.golden --
+"use strict";
+var a;
+(function (a) {
+    a.x = 10;
+})(a || (a = {}));
+var c;
+(function (c) {
+    var b = a.x;
+    c.bVal = b;
+})(c || (c = {}));

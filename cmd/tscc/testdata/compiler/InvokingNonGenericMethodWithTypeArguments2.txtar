@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/invokingNonGenericMethodWithTypeArguments2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invokingNonGenericMethodWithTypeArguments2.js invokingNonGenericMethodWithTypeArguments2.ts
+stderr 'TS2347'
+! exists invokingNonGenericMethodWithTypeArguments2.js
+! exists invokingNonGenericMethodWithTypeArguments2.d.ts
+! exists invokingNonGenericMethodWithTypeArguments2.js.map
+
+-- invokingNonGenericMethodWithTypeArguments2.ts --
+class Foo {
+    private foo: any;
+
+    constructor() {
+        this.foo<string>();
+    }
+}

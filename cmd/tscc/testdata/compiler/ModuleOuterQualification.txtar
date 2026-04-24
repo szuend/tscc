@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/moduleOuterQualification.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts moduleOuterQualification.d.ts --target es2015 --lib es2015,dom --out-js moduleOuterQualification.js moduleOuterQualification.ts
+! stderr .
+cmp moduleOuterQualification.d.ts moduleOuterQualification.d.ts.golden
+cmp moduleOuterQualification.js moduleOuterQualification.js.golden
+! exists moduleOuterQualification.js.map
+
+-- moduleOuterQualification.ts --
+declare namespace outer {
+  interface Beta { }
+  namespace inner {
+    // .d.ts emit: should be 'extends outer.Beta'
+    export interface Beta extends outer.Beta { }
+  }
+}
+-- moduleOuterQualification.d.ts.golden --
+declare namespace outer {
+    interface Beta {
+    }
+    namespace inner {
+        interface Beta extends outer.Beta {
+        }
+    }
+}
+-- moduleOuterQualification.js.golden --
+"use strict";

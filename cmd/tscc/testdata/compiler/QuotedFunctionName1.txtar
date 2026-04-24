@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/quotedFunctionName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js quotedFunctionName1.js quotedFunctionName1.ts
+! stderr .
+cmp quotedFunctionName1.js quotedFunctionName1.js.golden
+! exists quotedFunctionName1.d.ts
+! exists quotedFunctionName1.js.map
+
+-- quotedFunctionName1.ts --
+class Test1 {
+  "prop1"() { }
+}
+-- quotedFunctionName1.js.golden --
+"use strict";
+class Test1 {
+    "prop1"() { }
+}

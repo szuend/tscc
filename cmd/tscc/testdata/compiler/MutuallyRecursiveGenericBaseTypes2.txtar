@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/mutuallyRecursiveGenericBaseTypes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mutuallyRecursiveGenericBaseTypes2.js mutuallyRecursiveGenericBaseTypes2.ts
+stderr 'TS2322'
+! exists mutuallyRecursiveGenericBaseTypes2.js
+! exists mutuallyRecursiveGenericBaseTypes2.d.ts
+! exists mutuallyRecursiveGenericBaseTypes2.js.map
+
+-- mutuallyRecursiveGenericBaseTypes2.ts --
+class foo<T>
+{
+    bar(): foo2<T[]> { return null; }
+}
+ 
+class foo2<T> extends foo<T> {
+}
+ 
+var test = new foo<string>();

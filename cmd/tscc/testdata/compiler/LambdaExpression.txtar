@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/lambdaExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js lambdaExpression.js lambdaExpression.ts
+! stderr .
+cmp lambdaExpression.js lambdaExpression.js.golden
+! exists lambdaExpression.d.ts
+! exists lambdaExpression.js.map
+
+-- lambdaExpression.ts --
+() => 0; // Needs to be wrapped in parens to be a valid expression (not declaration)
+var y = 0;
+(()=>0);
+var x = 0;
+-- lambdaExpression.js.golden --
+"use strict";
+() => 0; // Needs to be wrapped in parens to be a valid expression (not declaration)
+var y = 0;
+(() => 0);
+var x = 0;

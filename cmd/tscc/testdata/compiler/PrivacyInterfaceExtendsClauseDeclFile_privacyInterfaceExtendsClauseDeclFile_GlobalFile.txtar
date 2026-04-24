@@ -1,0 +1,116 @@
+# Ported from tests/cases/compiler/privacyInterfaceExtendsClauseDeclFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts privacyInterfaceExtendsClauseDeclFile_GlobalFile.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js privacyInterfaceExtendsClauseDeclFile_GlobalFile.js privacyInterfaceExtendsClauseDeclFile_GlobalFile.ts
+! stderr .
+cmp privacyInterfaceExtendsClauseDeclFile_GlobalFile.d.ts privacyInterfaceExtendsClauseDeclFile_GlobalFile.d.ts.golden
+cmp privacyInterfaceExtendsClauseDeclFile_GlobalFile.js privacyInterfaceExtendsClauseDeclFile_GlobalFile.js.golden
+! exists privacyInterfaceExtendsClauseDeclFile_GlobalFile.js.map
+
+-- privacyInterfaceExtendsClauseDeclFile_GlobalFile.ts --
+namespace publicModuleInGlobal {
+    export interface publicInterfaceInPublicModule {
+    }
+
+    interface privateInterfaceInPublicModule {
+    }
+
+    interface privateInterfaceImplementingPublicInterfaceInModule extends publicInterfaceInPublicModule {
+    }
+    interface privateInterfaceImplementingPrivateInterfaceInModule extends privateInterfaceInPublicModule {
+    }
+    export interface publicInterfaceImplementingPublicInterfaceInModule extends publicInterfaceInPublicModule {
+    }
+    export interface publicInterfaceImplementingPrivateInterfaceInModule extends privateInterfaceInPublicModule { // Should error
+    }
+}
+interface publicInterfaceInGlobal {
+}
+interface publicInterfaceImplementingPublicInterfaceInGlobal extends publicInterfaceInGlobal {
+}
+-- privacyInterfaceExtendsClauseDeclFile_externalModule.ts --
+export namespace publicModule {
+    export interface publicInterfaceInPublicModule {
+    }
+
+    interface privateInterfaceInPublicModule {
+    }
+
+    interface privateInterfaceImplementingPublicInterfaceInModule extends publicInterfaceInPublicModule {
+    }
+    interface privateInterfaceImplementingPrivateInterfaceInModule extends privateInterfaceInPublicModule {
+    }
+    export interface publicInterfaceImplementingPublicInterfaceInModule extends publicInterfaceInPublicModule {
+    }
+    export interface publicInterfaceImplementingPrivateInterfaceInModule extends privateInterfaceInPublicModule { // Should error
+    }
+
+    interface privateInterfaceImplementingFromPrivateModuleInterface extends privateModule.publicInterfaceInPrivateModule {
+    }
+    export interface publicInterfaceImplementingFromPrivateModuleInterface extends privateModule.publicInterfaceInPrivateModule { // Should error
+    }
+
+    export interface publicInterfaceImplementingPrivateAndPublicInterface extends privateInterfaceInPublicModule, publicInterfaceInPublicModule { // Should error
+    }
+}
+
+namespace privateModule {
+    export interface publicInterfaceInPrivateModule {
+
+    }
+
+    interface privateInterfaceInPrivateModule {
+    }
+
+    interface privateInterfaceImplementingPublicInterfaceInModule extends publicInterfaceInPrivateModule {
+    }
+    interface privateInterfaceImplementingPrivateInterfaceInModule extends privateInterfaceInPrivateModule {
+    }
+    export interface publicInterfaceImplementingPublicInterfaceInModule extends publicInterfaceInPrivateModule {
+    }
+    export interface publicInterfaceImplementingPrivateInterfaceInModule extends privateInterfaceInPrivateModule {
+    }
+
+    interface privateInterfaceImplementingFromPrivateModuleInterface extends privateModule.publicInterfaceInPrivateModule {
+    }
+    export interface publicInterfaceImplementingFromPrivateModuleInterface extends privateModule.publicInterfaceInPrivateModule {
+    }
+}
+
+export interface publicInterface {
+
+}
+
+interface privateInterface {
+}
+
+interface privateInterfaceImplementingPublicInterface extends publicInterface {
+}
+interface privateInterfaceImplementingPrivateInterfaceInModule extends privateInterface {
+}
+export interface publicInterfaceImplementingPublicInterface extends publicInterface {
+}
+export interface publicInterfaceImplementingPrivateInterface extends privateInterface { // Should error
+}
+
+interface privateInterfaceImplementingFromPrivateModuleInterface extends privateModule.publicInterfaceInPrivateModule {
+}
+export interface publicInterfaceImplementingFromPrivateModuleInterface extends privateModule.publicInterfaceInPrivateModule { // Should error
+}
+-- privacyInterfaceExtendsClauseDeclFile_GlobalFile.d.ts.golden --
+declare namespace publicModuleInGlobal {
+    export interface publicInterfaceInPublicModule {
+    }
+    interface privateInterfaceInPublicModule {
+    }
+    export interface publicInterfaceImplementingPublicInterfaceInModule extends publicInterfaceInPublicModule {
+    }
+    export interface publicInterfaceImplementingPrivateInterfaceInModule extends privateInterfaceInPublicModule {
+    }
+    export {};
+}
+interface publicInterfaceInGlobal {
+}
+interface publicInterfaceImplementingPublicInterfaceInGlobal extends publicInterfaceInGlobal {
+}
+-- privacyInterfaceExtendsClauseDeclFile_GlobalFile.js.golden --
+"use strict";

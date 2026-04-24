@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/mergeWithImportedNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js f1.js f1.ts
+! stderr .
+cmp f1.js f1.js.golden
+! exists f1.d.ts
+! exists f1.js.map
+
+-- f1.ts --
+export namespace N { export var x = 1; }
+-- f2.ts --
+import {N} from "./f1";
+export namespace N {
+    export interface I {x: any}
+}
+-- f1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.N = void 0;
+var N;
+(function (N) {
+    N.x = 1;
+})(N || (exports.N = N = {}));

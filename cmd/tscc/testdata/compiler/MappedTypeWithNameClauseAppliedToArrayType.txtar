@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/mappedTypeWithNameClauseAppliedToArrayType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom mappedTypeWithNameClauseAppliedToArrayType.ts
+! stderr .
+! exists mappedTypeWithNameClauseAppliedToArrayType.d.ts
+! exists mappedTypeWithNameClauseAppliedToArrayType.js.map
+
+-- mappedTypeWithNameClauseAppliedToArrayType.ts --
+type Mappy<T extends unknown[]> = { [K in keyof T as K]: T[K] };
+type NotArray = Mappy<number[]>;
+
+declare function doArrayStuff(x: unknown[]): void;
+declare const x: NotArray;
+doArrayStuff(x);

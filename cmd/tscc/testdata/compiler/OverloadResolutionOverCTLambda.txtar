@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/overloadResolutionOverCTLambda.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadResolutionOverCTLambda.js overloadResolutionOverCTLambda.ts
+stderr 'TS2322'
+! exists overloadResolutionOverCTLambda.js
+! exists overloadResolutionOverCTLambda.d.ts
+! exists overloadResolutionOverCTLambda.js.map
+
+-- overloadResolutionOverCTLambda.ts --
+function foo(b: (item: number) => boolean) { }
+foo(a => a); // can not convert (number)=>bool to (number)=>number

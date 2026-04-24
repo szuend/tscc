@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/quotedModuleNameMustBeAmbient.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path M2=quotedModuleNameMustBeAmbient.ts --out-js quotedModuleNameMustBeAmbient.js quotedModuleNameMustBeAmbient.ts
+stderr 'TS1035'
+! exists quotedModuleNameMustBeAmbient.js
+! exists quotedModuleNameMustBeAmbient.d.ts
+! exists quotedModuleNameMustBeAmbient.js.map
+
+-- quotedModuleNameMustBeAmbient.ts --
+module 'M' {}
+
+declare module 'M2' {}

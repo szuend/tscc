@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/overloadsAndTypeArgumentArity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadsAndTypeArgumentArity.js overloadsAndTypeArgumentArity.ts
+! stderr .
+cmp overloadsAndTypeArgumentArity.js overloadsAndTypeArgumentArity.js.golden
+! exists overloadsAndTypeArgumentArity.d.ts
+! exists overloadsAndTypeArgumentArity.js.map
+
+-- overloadsAndTypeArgumentArity.ts --
+declare function Callbacks(flags?: string): void;
+declare function Callbacks<T>(flags?: string): void;
+declare function Callbacks<T1, T2>(flags?: string): void;
+declare function Callbacks<T1, T2, T3>(flags?: string): void;
+
+Callbacks<number, string, boolean>('s'); // no error
+new Callbacks<number, string, boolean>('s'); // no error
+-- overloadsAndTypeArgumentArity.js.golden --
+"use strict";
+Callbacks('s'); // no error
+new Callbacks('s'); // no error

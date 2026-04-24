@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/nestedBlockScopedBindings11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nestedBlockScopedBindings11.js nestedBlockScopedBindings11.ts
+! stderr .
+cmp nestedBlockScopedBindings11.js nestedBlockScopedBindings11.js.golden
+! exists nestedBlockScopedBindings11.d.ts
+! exists nestedBlockScopedBindings11.js.map
+
+-- nestedBlockScopedBindings11.ts --
+var x;
+{
+    let x;
+    () => x;
+}
+
+var y;
+switch (1) {
+    case 1:
+        let y;
+        () => y;
+        break;
+}
+-- nestedBlockScopedBindings11.js.golden --
+"use strict";
+var x;
+{
+    let x;
+    () => x;
+}
+var y;
+switch (1) {
+    case 1:
+        let y;
+        () => y;
+        break;
+}

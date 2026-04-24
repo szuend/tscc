@@ -1,0 +1,58 @@
+# Ported from tests/cases/compiler/internalAliasClassInsideLocalModuleWithoutExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasClassInsideLocalModuleWithoutExport.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasClassInsideLocalModuleWithoutExport.js internalAliasClassInsideLocalModuleWithoutExport.ts
+! stderr .
+cmp internalAliasClassInsideLocalModuleWithoutExport.d.ts internalAliasClassInsideLocalModuleWithoutExport.d.ts.golden
+cmp internalAliasClassInsideLocalModuleWithoutExport.js internalAliasClassInsideLocalModuleWithoutExport.js.golden
+! exists internalAliasClassInsideLocalModuleWithoutExport.js.map
+
+-- internalAliasClassInsideLocalModuleWithoutExport.ts --
+export namespace x {
+    export class c {
+        foo(a: number) {
+            return a;
+        }
+    }
+}
+
+export namespace m2 {
+    export namespace m3 {
+        import c = x.c;
+        export var cProp = new c();
+        var cReturnVal = cProp.foo(10);
+    }
+}
+-- internalAliasClassInsideLocalModuleWithoutExport.d.ts.golden --
+export declare namespace x {
+    class c {
+        foo(a: number): number;
+    }
+}
+export declare namespace m2 {
+    namespace m3 {
+        import c = x.c;
+        var cProp: c;
+    }
+}
+-- internalAliasClassInsideLocalModuleWithoutExport.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.m2 = exports.x = void 0;
+var x;
+(function (x) {
+    class c {
+        foo(a) {
+            return a;
+        }
+    }
+    x.c = c;
+})(x || (exports.x = x = {}));
+var m2;
+(function (m2) {
+    let m3;
+    (function (m3) {
+        var c = x.c;
+        m3.cProp = new c();
+        var cReturnVal = m3.cProp.foo(10);
+    })(m3 = m2.m3 || (m2.m3 = {}));
+})(m2 || (exports.m2 = m2 = {}));

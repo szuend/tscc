@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/letDeclarations-useBeforeDefinition.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js letDeclarations-useBeforeDefinition.js letDeclarations-useBeforeDefinition.ts
+stderr 'TS2448'
+stderr 'TS2454'
+! exists letDeclarations-useBeforeDefinition.js
+! exists letDeclarations-useBeforeDefinition.d.ts
+! exists letDeclarations-useBeforeDefinition.js.map
+
+-- letDeclarations-useBeforeDefinition.ts --
+{
+    l1;
+    let l1;
+}
+
+var v1;
+{
+    v1;
+    let v1 = 0;
+}

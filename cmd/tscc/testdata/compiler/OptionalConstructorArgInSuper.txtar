@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/optionalConstructorArgInSuper.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js optionalConstructorArgInSuper.js optionalConstructorArgInSuper.ts
+! stderr .
+cmp optionalConstructorArgInSuper.js optionalConstructorArgInSuper.js.golden
+! exists optionalConstructorArgInSuper.d.ts
+! exists optionalConstructorArgInSuper.js.map
+
+-- optionalConstructorArgInSuper.ts --
+class Base {
+    constructor(opt?) { }
+    foo(other?) { }
+}
+class Derived extends Base {
+}
+var d = new Derived(); // bug caused an error here, couldn't select overload
+var d2: Derived;
+d2.foo(); 
+-- optionalConstructorArgInSuper.js.golden --
+"use strict";
+class Base {
+    constructor(opt) { }
+    foo(other) { }
+}
+class Derived extends Base {
+}
+var d = new Derived(); // bug caused an error here, couldn't select overload
+var d2;
+d2.foo();

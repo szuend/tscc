@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/narrowedImports_assumeInitialized.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --strict-null-checks --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.d.ts --
+declare namespace a {
+    export const x: number;
+}
+export = a;
+-- b.ts --
+import a = require("./a");
+a.x;
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const a = require("./a");
+a.x;

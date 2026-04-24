@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/modifierOnParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js modifierOnParameter1.js modifierOnParameter1.ts
+stderr 'TS1090'
+! exists modifierOnParameter1.js
+! exists modifierOnParameter1.d.ts
+! exists modifierOnParameter1.js.map
+
+-- modifierOnParameter1.ts --
+class C {
+   constructor(declare p) { }
+}

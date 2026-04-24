@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/nonNullParameterExtendingStringAssignableToString.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nonNullParameterExtendingStringAssignableToString.js nonNullParameterExtendingStringAssignableToString.ts
+! stderr .
+cmp nonNullParameterExtendingStringAssignableToString.js nonNullParameterExtendingStringAssignableToString.js.golden
+! exists nonNullParameterExtendingStringAssignableToString.d.ts
+! exists nonNullParameterExtendingStringAssignableToString.js.map
+
+-- nonNullParameterExtendingStringAssignableToString.ts --
+declare function foo(p: string): void;
+
+function fn<T extends string | undefined, U extends string>(one: T, two: U) {
+    let three = Boolean() ? one : two;
+    foo(one!);
+    foo(two!);
+    foo(three!); // this line is the important one
+}
+-- nonNullParameterExtendingStringAssignableToString.js.golden --
+"use strict";
+function fn(one, two) {
+    let three = Boolean() ? one : two;
+    foo(one);
+    foo(two);
+    foo(three); // this line is the important one
+}

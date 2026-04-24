@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/nestedRecursiveArraysOrObjectsError01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nestedRecursiveArraysOrObjectsError01.js nestedRecursiveArraysOrObjectsError01.ts
+stderr 'TS2353'
+! exists nestedRecursiveArraysOrObjectsError01.js
+! exists nestedRecursiveArraysOrObjectsError01.d.ts
+! exists nestedRecursiveArraysOrObjectsError01.js.map
+
+-- nestedRecursiveArraysOrObjectsError01.ts --
+type Style = StyleBase | StyleArray;
+interface StyleArray extends Array<Style> {}
+interface StyleBase {
+    foo: string;
+}
+
+const blah: Style = [
+    [[{
+        foo: 'asdf',
+        jj: 1 // intentional error
+    }]]
+];
+

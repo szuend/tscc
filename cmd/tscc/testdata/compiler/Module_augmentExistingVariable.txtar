@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/module_augmentExistingVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js module_augmentExistingVariable.js module_augmentExistingVariable.ts
+stderr 'TS2300'
+! exists module_augmentExistingVariable.js
+! exists module_augmentExistingVariable.d.ts
+! exists module_augmentExistingVariable.js.map
+
+-- module_augmentExistingVariable.ts --
+var console: any;
+
+namespace console {
+    export var x = 2;
+}

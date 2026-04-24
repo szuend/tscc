@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/parameterReferencesOtherParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parameterReferencesOtherParameter1.js parameterReferencesOtherParameter1.ts
+stderr 'TS2564'
+! exists parameterReferencesOtherParameter1.js
+! exists parameterReferencesOtherParameter1.d.ts
+! exists parameterReferencesOtherParameter1.js.map
+
+-- parameterReferencesOtherParameter1.ts --
+class Model {
+    public name: string;
+}
+
+class UI {
+    constructor(model: Model, foo:string = model.name)
+    {
+    }
+}

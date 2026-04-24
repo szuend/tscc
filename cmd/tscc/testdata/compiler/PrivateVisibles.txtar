@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/privateVisibles.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js privateVisibles.js privateVisibles.ts
+! stderr .
+cmp privateVisibles.js privateVisibles.js.golden
+! exists privateVisibles.d.ts
+! exists privateVisibles.js.map
+
+-- privateVisibles.ts --
+class Foo {
+	private pvar = 0;
+	constructor() {
+	    var n = this.pvar;
+	}
+
+	public meth() { var q = this.pvar;}
+}
+-- privateVisibles.js.golden --
+"use strict";
+class Foo {
+    constructor() {
+        this.pvar = 0;
+        var n = this.pvar;
+    }
+    meth() { var q = this.pvar; }
+}

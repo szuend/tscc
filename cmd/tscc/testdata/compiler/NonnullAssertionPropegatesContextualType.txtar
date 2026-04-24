@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/nonnullAssertionPropegatesContextualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nonnullAssertionPropegatesContextualType.js nonnullAssertionPropegatesContextualType.ts
+! stderr .
+cmp nonnullAssertionPropegatesContextualType.js nonnullAssertionPropegatesContextualType.js.golden
+! exists nonnullAssertionPropegatesContextualType.d.ts
+! exists nonnullAssertionPropegatesContextualType.js.map
+
+-- nonnullAssertionPropegatesContextualType.ts --
+let rect2: SVGRectElement = document.querySelector('.svg-rectangle')!; // Error: Element
+-- nonnullAssertionPropegatesContextualType.js.golden --
+"use strict";
+let rect2 = document.querySelector('.svg-rectangle'); // Error: Element

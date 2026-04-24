@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/nestedGenerics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nestedGenerics.js nestedGenerics.ts
+! stderr .
+cmp nestedGenerics.js nestedGenerics.js.golden
+! exists nestedGenerics.d.ts
+! exists nestedGenerics.js.map
+
+-- nestedGenerics.ts --
+interface Foo<T> {
+	t: T;
+}
+
+var f: Foo<Foo<number>>;
+-- nestedGenerics.js.golden --
+"use strict";
+var f;

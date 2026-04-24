@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/noCollisionThisExpressionInFunctionAndVarInGlobal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5 --no-strict --target es2015 --out-js noCollisionThisExpressionInFunctionAndVarInGlobal.js noCollisionThisExpressionInFunctionAndVarInGlobal.ts
+! stderr .
+cmp noCollisionThisExpressionInFunctionAndVarInGlobal.js noCollisionThisExpressionInFunctionAndVarInGlobal.js.golden
+! exists noCollisionThisExpressionInFunctionAndVarInGlobal.d.ts
+! exists noCollisionThisExpressionInFunctionAndVarInGlobal.js.map
+
+-- noCollisionThisExpressionInFunctionAndVarInGlobal.ts --
+var console: {
+    log(val: any);
+}
+var _this = 5;
+function x() {
+    x => { console.log(this); };
+}
+-- noCollisionThisExpressionInFunctionAndVarInGlobal.js.golden --
+"use strict";
+var console;
+var _this = 5;
+function x() {
+    x => { console.log(this); };
+}

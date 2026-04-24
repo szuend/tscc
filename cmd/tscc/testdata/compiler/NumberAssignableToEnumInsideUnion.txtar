@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/numberAssignableToEnumInsideUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numberAssignableToEnumInsideUnion.js numberAssignableToEnumInsideUnion.ts
+stderr 'TS2454'
+! exists numberAssignableToEnumInsideUnion.js
+! exists numberAssignableToEnumInsideUnion.d.ts
+! exists numberAssignableToEnumInsideUnion.js.map
+
+-- numberAssignableToEnumInsideUnion.ts --
+enum E { A, B }
+let n: number;
+let z: E | boolean = n;

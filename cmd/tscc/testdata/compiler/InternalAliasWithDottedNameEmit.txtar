@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/internalAliasWithDottedNameEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasWithDottedNameEmit.d.ts --no-strict --target es2015 --lib es2015,dom --out-js internalAliasWithDottedNameEmit.js internalAliasWithDottedNameEmit.ts
+! stderr .
+cmp internalAliasWithDottedNameEmit.d.ts internalAliasWithDottedNameEmit.d.ts.golden
+cmp internalAliasWithDottedNameEmit.js internalAliasWithDottedNameEmit.js.golden
+! exists internalAliasWithDottedNameEmit.js.map
+
+-- internalAliasWithDottedNameEmit.ts --
+namespace a.b.c {
+      export var d;
+}
+namespace a.e.f {
+      import g = b.c;
+}
+-- internalAliasWithDottedNameEmit.d.ts.golden --
+declare namespace a.b.c {
+    var d: any;
+}
+declare namespace a.e.f {
+}
+-- internalAliasWithDottedNameEmit.js.golden --
+"use strict";
+var a;
+(function (a) {
+    var b;
+    (function (b) {
+        var c;
+        (function (c) {
+        })(c = b.c || (b.c = {}));
+    })(b = a.b || (a.b = {}));
+})(a || (a = {}));

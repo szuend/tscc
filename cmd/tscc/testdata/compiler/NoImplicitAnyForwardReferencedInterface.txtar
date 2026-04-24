@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/noImplicitAnyForwardReferencedInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyForwardReferencedInterface.js noImplicitAnyForwardReferencedInterface.ts
+stderr 'TS7013'
+! exists noImplicitAnyForwardReferencedInterface.js
+! exists noImplicitAnyForwardReferencedInterface.d.ts
+! exists noImplicitAnyForwardReferencedInterface.js.map
+
+-- noImplicitAnyForwardReferencedInterface.ts --
+declare var x: Entry;
+
+interface Entry {
+    // Should return error for implicit any.
+    new ();
+}

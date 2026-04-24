@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/moduleAugmentationGlobal7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js moduleAugmentationGlobal7.js moduleAugmentationGlobal7.ts
+stderr 'TS2669'
+! exists moduleAugmentationGlobal7.js
+! exists moduleAugmentationGlobal7.d.ts
+! exists moduleAugmentationGlobal7.js.map
+
+-- moduleAugmentationGlobal7.ts --
+namespace A {
+    declare global {
+        interface Array<T> { x }
+    }
+}

@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/mergedClassNamespaceRecordCast.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedClassNamespaceRecordCast.js mergedClassNamespaceRecordCast.ts
+stderr 'TS2352'
+stderr 'TS2339'
+! exists mergedClassNamespaceRecordCast.js
+! exists mergedClassNamespaceRecordCast.d.ts
+! exists mergedClassNamespaceRecordCast.js.map
+
+-- mergedClassNamespaceRecordCast.ts --
+class C1 { foo() {} }
+
+new C1() as Record<string, unknown>;
+
+
+class C2 { foo() {} }
+namespace C2 { export const unrelated = 3; }
+
+new C2() as Record<string, unknown>;
+
+C2.unrelated
+new C2().unrelated
+
+
+namespace C3 { export const unrelated = 3; }
+
+C3 as Record<string, unknown>;

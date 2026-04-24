@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/parameterPropertyInConstructor1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parameterPropertyInConstructor1.js parameterPropertyInConstructor1.ts
+stderr 'TS2369'
+! exists parameterPropertyInConstructor1.js
+! exists parameterPropertyInConstructor1.d.ts
+! exists parameterPropertyInConstructor1.js.map
+
+-- parameterPropertyInConstructor1.ts --
+declare namespace mod {
+  class Customers {
+    constructor(public names: string);
+  }
+}

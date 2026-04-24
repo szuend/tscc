@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/primitiveMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js primitiveMembers.js primitiveMembers.ts
+stderr 'TS2339'
+stderr 'TS2322'
+stderr 'TS2872'
+! exists primitiveMembers.js
+! exists primitiveMembers.d.ts
+! exists primitiveMembers.js.map
+
+-- primitiveMembers.ts --
+var x = 5;
+var r = /yo/;
+r.source;
+
+x.toBAZ();
+x.toString();
+
+var n = 0;
+declare var N: Number;
+
+n = N;  // should not work, as 'number' has a different brand
+N = n; // should work
+
+var o: Object = {}
+var f: Function = (x: string) => x.length;
+var r2: RegExp = /./g;
+var n2: Number = 34;
+var s: String = "yo";
+var b: Boolean = true;
+
+var n3 = 5 || {};
+
+
+class baz { public bar(): void { }; }
+class foo extends baz { public bar(){ return undefined}; }
+
+
+
+ 
+

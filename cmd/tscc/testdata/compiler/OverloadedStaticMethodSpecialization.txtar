@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/overloadedStaticMethodSpecialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadedStaticMethodSpecialization.js overloadedStaticMethodSpecialization.ts
+stderr 'TS2322'
+! exists overloadedStaticMethodSpecialization.js
+! exists overloadedStaticMethodSpecialization.d.ts
+! exists overloadedStaticMethodSpecialization.js.map
+
+-- overloadedStaticMethodSpecialization.ts --
+class A<T> {
+    static B<S>(v: A<S>): A<S>;
+    static B<S>(v: S): A<S>;
+    static B<S>(v: any): A<S> {
+        return null;
+    }
+}

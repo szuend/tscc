@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/privacyCheckExternalModuleExportAssignmentOfGenericClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts privacyCheckExternalModuleExportAssignmentOfGenericClass_0.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js privacyCheckExternalModuleExportAssignmentOfGenericClass_0.js privacyCheckExternalModuleExportAssignmentOfGenericClass_0.ts
+! stderr .
+cmp privacyCheckExternalModuleExportAssignmentOfGenericClass_0.d.ts privacyCheckExternalModuleExportAssignmentOfGenericClass_0.d.ts.golden
+cmp privacyCheckExternalModuleExportAssignmentOfGenericClass_0.js privacyCheckExternalModuleExportAssignmentOfGenericClass_0.js.golden
+! exists privacyCheckExternalModuleExportAssignmentOfGenericClass_0.js.map
+
+-- privacyCheckExternalModuleExportAssignmentOfGenericClass_0.ts --
+export = Foo;
+class Foo<A> {
+    constructor(public a: A) { }
+}
+-- privacyCheckExternalModuleExportAssignmentOfGenericClass_1.ts --
+import Foo = require("./privacyCheckExternalModuleExportAssignmentOfGenericClass_0");
+export = Bar;
+interface Bar {
+    foo: Foo<number>;
+}
+-- privacyCheckExternalModuleExportAssignmentOfGenericClass_0.d.ts.golden --
+export = Foo;
+declare class Foo<A> {
+    a: A;
+    constructor(a: A);
+}
+-- privacyCheckExternalModuleExportAssignmentOfGenericClass_0.js.golden --
+"use strict";
+class Foo {
+    constructor(a) {
+        this.a = a;
+    }
+}
+module.exports = Foo;

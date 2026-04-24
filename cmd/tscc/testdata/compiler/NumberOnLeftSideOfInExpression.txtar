@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/numberOnLeftSideOfInExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numberOnLeftSideOfInExpression.js numberOnLeftSideOfInExpression.ts
+stderr 'TS2454'
+! exists numberOnLeftSideOfInExpression.js
+! exists numberOnLeftSideOfInExpression.d.ts
+! exists numberOnLeftSideOfInExpression.js.map
+
+-- numberOnLeftSideOfInExpression.ts --
+var left: number;
+var right: any;
+left in right;

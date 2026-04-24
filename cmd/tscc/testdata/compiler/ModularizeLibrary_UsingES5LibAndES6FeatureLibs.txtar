@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/modularizeLibrary_UsingES5LibAndES6FeatureLibs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5,es2015.core,es2015.symbol,es2015.proxy,es2015.generator,es2015.iterable,es2015.reflect --target es6 --out-js modularizeLibrary_UsingES5LibAndES6FeatureLibs.js modularizeLibrary_UsingES5LibAndES6FeatureLibs.ts
+! stderr .
+cmp modularizeLibrary_UsingES5LibAndES6FeatureLibs.js modularizeLibrary_UsingES5LibAndES6FeatureLibs.js.golden
+! exists modularizeLibrary_UsingES5LibAndES6FeatureLibs.d.ts
+! exists modularizeLibrary_UsingES5LibAndES6FeatureLibs.js.map
+
+-- modularizeLibrary_UsingES5LibAndES6FeatureLibs.ts --
+var s = Symbol();
+var t = {};
+var p = new Proxy(t, {});
+
+Reflect.ownKeys({});
+
+function* idGen() {
+    let i = 10;
+    while (i < 20) {
+        yield i + 2;
+    }
+}
+-- modularizeLibrary_UsingES5LibAndES6FeatureLibs.js.golden --
+"use strict";
+var s = Symbol();
+var t = {};
+var p = new Proxy(t, {});
+Reflect.ownKeys({});
+function* idGen() {
+    let i = 10;
+    while (i < 20) {
+        yield i + 2;
+    }
+}

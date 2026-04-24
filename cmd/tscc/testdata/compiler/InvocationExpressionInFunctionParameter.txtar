@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/invocationExpressionInFunctionParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invocationExpressionInFunctionParameter.js invocationExpressionInFunctionParameter.ts
+stderr 'TS2345'
+! exists invocationExpressionInFunctionParameter.js
+! exists invocationExpressionInFunctionParameter.d.ts
+! exists invocationExpressionInFunctionParameter.js.map
+
+-- invocationExpressionInFunctionParameter.ts --
+function foo1(val: string) {
+}
+function foo3(x = foo1(123)) { //should error, 123 is not string
+}

@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/moduleSharesNameWithImportDeclarationInsideIt6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js moduleSharesNameWithImportDeclarationInsideIt6.js moduleSharesNameWithImportDeclarationInsideIt6.ts
+! stderr .
+cmp moduleSharesNameWithImportDeclarationInsideIt6.js moduleSharesNameWithImportDeclarationInsideIt6.js.golden
+! exists moduleSharesNameWithImportDeclarationInsideIt6.d.ts
+! exists moduleSharesNameWithImportDeclarationInsideIt6.js.map
+
+-- moduleSharesNameWithImportDeclarationInsideIt6.ts --
+namespace Z.M {
+    export function bar() {
+        return "";
+    }
+}
+namespace A.M {
+    import M = Z.M;
+    export function bar() {
+    }
+}
+-- moduleSharesNameWithImportDeclarationInsideIt6.js.golden --
+"use strict";
+var Z;
+(function (Z) {
+    var M;
+    (function (M) {
+        function bar() {
+            return "";
+        }
+        M.bar = bar;
+    })(M = Z.M || (Z.M = {}));
+})(Z || (Z = {}));
+var A;
+(function (A) {
+    var M;
+    (function (M_1) {
+        function bar() {
+        }
+        M_1.bar = bar;
+    })(M = A.M || (A.M = {}));
+})(A || (A = {}));

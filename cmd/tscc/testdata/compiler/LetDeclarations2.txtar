@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/letDeclarations2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts letDeclarations2.d.ts --target ES6 --lib ES6,dom --out-js letDeclarations2.js letDeclarations2.ts
+! stderr .
+cmp letDeclarations2.d.ts letDeclarations2.d.ts.golden
+cmp letDeclarations2.js letDeclarations2.js.golden
+! exists letDeclarations2.js.map
+
+-- letDeclarations2.ts --
+namespace M {
+    let l1 = "s";
+    export let l2 = 0;
+}
+-- letDeclarations2.d.ts.golden --
+declare namespace M {
+    let l2: number;
+}
+-- letDeclarations2.js.golden --
+"use strict";
+var M;
+(function (M) {
+    let l1 = "s";
+    M.l2 = 0;
+})(M || (M = {}));

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/noImplicitAnyInBareInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyInBareInterface.js noImplicitAnyInBareInterface.ts
+stderr 'TS7013'
+stderr 'TS7010'
+! exists noImplicitAnyInBareInterface.js
+! exists noImplicitAnyInBareInterface.d.ts
+! exists noImplicitAnyInBareInterface.js.map
+
+-- noImplicitAnyInBareInterface.ts --
+interface Entry {
+    // Should return error for implicit any on `new` and `foo`.
+    new ();
+    few() : any;
+    foo();
+}

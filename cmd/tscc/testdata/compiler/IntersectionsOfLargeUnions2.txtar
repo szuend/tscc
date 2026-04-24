@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/intersectionsOfLargeUnions2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js intersectionsOfLargeUnions2.js intersectionsOfLargeUnions2.ts
+stderr 'TS2300'
+stderr 'TS2536'
+! exists intersectionsOfLargeUnions2.js
+! exists intersectionsOfLargeUnions2.d.ts
+! exists intersectionsOfLargeUnions2.js.map
+
+-- intersectionsOfLargeUnions2.ts --
+// Repro from #24233
+
+declare global {
+    interface ElementTagNameMap {
+        [index: number]: HTMLElement
+    }
+
+    interface HTMLElement {
+        [index: number]: HTMLElement;
+    }
+}
+
+export function assertIsElement(node: Node | null): node is Element {
+    let nodeType = node === null ? null : node.nodeType;
+    return nodeType === 1;
+}
+  
+export function assertNodeTagName<
+    T extends keyof ElementTagNameMap,
+    U extends ElementTagNameMap[T]>(node: Node | null, tagName: T): node is U {
+    if (assertIsElement(node)) {
+        const nodeTagName = node.tagName.toLowerCase();
+         return nodeTagName === tagName;
+    }
+    return false;
+}
+  
+export function assertNodeProperty<
+    T extends keyof ElementTagNameMap,
+    P extends keyof ElementTagNameMap[T],
+    V extends HTMLElementTagNameMap[T][P]>(node: Node | null, tagName: T, prop: P, value: V) {
+    if (assertNodeTagName(node, tagName)) {
+        node[prop];
+    }
+}

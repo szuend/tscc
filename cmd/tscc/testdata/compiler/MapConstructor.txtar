@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/mapConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js mapConstructor.js mapConstructor.ts
+! stderr .
+cmp mapConstructor.js mapConstructor.js.golden
+! exists mapConstructor.d.ts
+! exists mapConstructor.js.map
+
+-- mapConstructor.ts --
+new Map();
+
+const potentiallyUndefinedIterable = [['1', 1], ['2', 2]] as Iterable<[string, number]> | undefined;
+new Map(potentiallyUndefinedIterable);
+
+const potentiallyNullIterable = [['1', 1], ['2', 2]] as Iterable<[string, number]> | null;
+new Map(potentiallyNullIterable);
+-- mapConstructor.js.golden --
+"use strict";
+new Map();
+const potentiallyUndefinedIterable = [['1', 1], ['2', 2]];
+new Map(potentiallyUndefinedIterable);
+const potentiallyNullIterable = [['1', 1], ['2', 2]];
+new Map(potentiallyNullIterable);

@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/moduleAugmentationGlobal2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts f1.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js f1.js f1.ts
+! stderr .
+cmp f1.d.ts f1.d.ts.golden
+cmp f1.js f1.js.golden
+! exists f1.js.map
+
+-- f1.ts --
+export class A {};
+-- f2.ts --
+// change the shape of Array<T>
+import {A} from "./f1";
+
+declare global {
+    interface Array<T> {
+        getCountAsString(): string;
+    }
+}
+
+let x = [1];
+let y = x.getCountAsString().toLowerCase();
+-- f1.d.ts.golden --
+export declare class A {
+}
+-- f1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.A = void 0;
+class A {
+}
+exports.A = A;
+;

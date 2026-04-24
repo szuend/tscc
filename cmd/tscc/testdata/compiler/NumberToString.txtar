@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/numberToString.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numberToString.js numberToString.ts
+stderr 'TS2322'
+stderr 'TS2345'
+! exists numberToString.js
+! exists numberToString.d.ts
+! exists numberToString.js.map
+
+-- numberToString.ts --
+function f1(n:number):string {
+    return n; // error return type mismatch
+}
+
+function f2(s:string):void {
+}
+
+f1(3);
+f2(3); // error no coercion to string
+f2(3+""); // ok + operator promotes

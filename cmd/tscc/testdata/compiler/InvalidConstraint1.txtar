@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/invalidConstraint1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js invalidConstraint1.js invalidConstraint1.ts
+stderr 'TS2344'
+! exists invalidConstraint1.js
+! exists invalidConstraint1.d.ts
+! exists invalidConstraint1.js.map
+
+-- invalidConstraint1.ts --
+function f<T, U extends { a: T }>() {
+    return undefined;
+}
+f<string, { a: number }>(); // should error
+

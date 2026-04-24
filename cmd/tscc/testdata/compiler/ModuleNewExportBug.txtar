@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/moduleNewExportBug.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleNewExportBug.js moduleNewExportBug.ts
+stderr 'TS2694'
+! exists moduleNewExportBug.js
+! exists moduleNewExportBug.d.ts
+! exists moduleNewExportBug.js.map
+
+-- moduleNewExportBug.ts --
+namespace mod1 {
+	interface mInt {
+		new (bar:any):any;
+        foo (bar:any):any;
+	}
+ 
+    class C { public moo() {}}
+}
+
+var c : mod1.C; // ERROR: C should not be visible
+
+

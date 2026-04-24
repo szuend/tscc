@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/moduleClassArrayCodeGenTest.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleClassArrayCodeGenTest.js moduleClassArrayCodeGenTest.ts
+stderr 'TS2694'
+! exists moduleClassArrayCodeGenTest.js
+! exists moduleClassArrayCodeGenTest.d.ts
+! exists moduleClassArrayCodeGenTest.js.map
+
+-- moduleClassArrayCodeGenTest.ts --
+// Invalid code gen for Array of Module class
+
+namespace M
+{
+    export class A { }
+    class B{ }
+}
+
+var t: M.A[] = [];
+var t2: M.B[] = [];

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/noErrorsInCallback.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js noErrorsInCallback.js noErrorsInCallback.ts
+stderr 'TS2345'
+! exists noErrorsInCallback.js
+! exists noErrorsInCallback.d.ts
+! exists noErrorsInCallback.js.map
+
+-- noErrorsInCallback.ts --
+class Bar {
+    constructor(public foo: string) { }
+}
+var one = new Bar({}); // Error
+[].forEach(() => {
+    var two = new Bar({}); // No error?
+});
+ 

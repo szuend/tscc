@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/invalidTypeNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js invalidTypeNames.js invalidTypeNames.ts
+! stderr .
+cmp invalidTypeNames.js invalidTypeNames.js.golden
+! exists invalidTypeNames.d.ts
+! exists invalidTypeNames.js.map
+
+-- invalidTypeNames.ts --
+// Refer to calling code - a real illegal name is subbed in here
+class illegal_name_here {
+}
+-- invalidTypeNames.js.golden --
+"use strict";
+// Refer to calling code - a real illegal name is subbed in here
+class illegal_name_here {
+}

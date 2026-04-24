@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/nestedSelf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nestedSelf.js nestedSelf.ts
+! stderr .
+cmp nestedSelf.js nestedSelf.js.golden
+! exists nestedSelf.d.ts
+! exists nestedSelf.js.map
+
+-- nestedSelf.ts --
+namespace M {
+ export class C {
+   public n = 42;
+   public foo() { [1,2,3].map((x) => { return this.n * x; })}
+ }
+}
+
+-- nestedSelf.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class C {
+        constructor() {
+            this.n = 42;
+        }
+        foo() { [1, 2, 3].map((x) => { return this.n * x; }); }
+    }
+    M.C = C;
+})(M || (M = {}));

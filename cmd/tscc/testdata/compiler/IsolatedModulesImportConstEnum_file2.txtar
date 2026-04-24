@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/isolatedModulesImportConstEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --module commonjs --target es2015 --lib es2015,dom --out-js file2.js file2.ts
+! stderr .
+cmp file2.js file2.js.golden
+! exists file2.d.ts
+! exists file2.js.map
+
+-- file1.ts --
+import { Foo } from './file2';
+console.log(Foo.BAR);
+-- file2.ts --
+export const enum Foo {
+  BAR,
+}
+-- file2.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = void 0;
+var Foo;
+(function (Foo) {
+    Foo[Foo["BAR"] = 0] = "BAR";
+})(Foo || (exports.Foo = Foo = {}));

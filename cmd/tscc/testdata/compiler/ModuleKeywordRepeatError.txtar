@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/moduleKeywordRepeatError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleKeywordRepeatError.js moduleKeywordRepeatError.ts
+stderr 'TS1005'
+! exists moduleKeywordRepeatError.js
+! exists moduleKeywordRepeatError.d.ts
+! exists moduleKeywordRepeatError.js.map
+
+-- moduleKeywordRepeatError.ts --
+// "module.module { }" should raise a syntax error
+
+module.module { }

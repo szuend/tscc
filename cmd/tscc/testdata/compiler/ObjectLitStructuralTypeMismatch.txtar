@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/objectLitStructuralTypeMismatch.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectLitStructuralTypeMismatch.js objectLitStructuralTypeMismatch.ts
+stderr 'TS2353'
+! exists objectLitStructuralTypeMismatch.js
+! exists objectLitStructuralTypeMismatch.d.ts
+! exists objectLitStructuralTypeMismatch.js.map
+
+-- objectLitStructuralTypeMismatch.ts --
+// Shouldn't compile
+var x: { a: number; } = { b: 5 };

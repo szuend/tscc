@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/isolatedModulesNoExternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --target es6 --lib es6,dom --out-js file1.js file1.ts
+! stderr .
+cmp file1.js file1.js.golden
+! exists file1.d.ts
+! exists file1.js.map
+
+-- file1.ts --
+var x;
+-- file1.js.golden --
+"use strict";
+var x;

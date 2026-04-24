@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/isolatedModulesDontElideReExportStar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --target es6 --lib es6,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export type T = number;
+-- b.ts --
+export * from "./a";
+-- a.js.golden --
+export {};

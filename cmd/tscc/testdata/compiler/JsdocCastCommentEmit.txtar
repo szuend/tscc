@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/jsdocCastCommentEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js jsdocCastCommentEmit.js jsdocCastCommentEmit.ts
+! stderr .
+cmp jsdocCastCommentEmit.js jsdocCastCommentEmit.js.golden
+! exists jsdocCastCommentEmit.d.ts
+! exists jsdocCastCommentEmit.js.map
+
+-- jsdocCastCommentEmit.ts --
+// allowJs: true
+// checkJs: true
+// outDir: out/
+// filename: input.js
+function f() {
+    return /* @type {number} */ 42;
+}
+-- jsdocCastCommentEmit.js.golden --
+"use strict";
+// allowJs: true
+// checkJs: true
+// outDir: out/
+// filename: input.js
+function f() {
+    return /* @type {number} */ 42;
+}

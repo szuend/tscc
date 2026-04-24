@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/moduleCodegenTest4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js moduleCodegenTest4.js moduleCodegenTest4.ts
+! stderr .
+cmp moduleCodegenTest4.js moduleCodegenTest4.js.golden
+! exists moduleCodegenTest4.d.ts
+! exists moduleCodegenTest4.js.map
+
+-- moduleCodegenTest4.ts --
+export namespace Baz { export var x = "hello"; }
+
+Baz.x = "goodbye";
+void 0;
+-- moduleCodegenTest4.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Baz = void 0;
+var Baz;
+(function (Baz) {
+    Baz.x = "hello";
+})(Baz || (exports.Baz = Baz = {}));
+Baz.x = "goodbye";
+void 0;

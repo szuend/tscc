@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/moduleWithNoValuesAsType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleWithNoValuesAsType.js moduleWithNoValuesAsType.ts
+stderr 'TS2709'
+! exists moduleWithNoValuesAsType.js
+! exists moduleWithNoValuesAsType.d.ts
+! exists moduleWithNoValuesAsType.js.map
+
+-- moduleWithNoValuesAsType.ts --
+namespace A { }
+var a: A; // error
+
+namespace B {
+    interface I {}
+}
+var b: B; // error
+
+namespace C {
+    namespace M {
+        interface I {}
+    }
+}
+
+var c: C; // error

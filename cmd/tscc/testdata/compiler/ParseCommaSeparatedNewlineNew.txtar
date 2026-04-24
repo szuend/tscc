@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/parseCommaSeparatedNewlineNew.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parseCommaSeparatedNewlineNew.js parseCommaSeparatedNewlineNew.ts
+stderr 'TS1109'
+! exists parseCommaSeparatedNewlineNew.js
+! exists parseCommaSeparatedNewlineNew.d.ts
+! exists parseCommaSeparatedNewlineNew.js.map
+
+-- parseCommaSeparatedNewlineNew.ts --
+(a,
+new)

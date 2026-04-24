@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/moduleAugmentationWithNonExistentNamedImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js foo.d.js foo.d.ts
+! stderr .
+! exists foo.d.d.ts
+! exists foo.d.js
+! exists foo.d.js.map
+
+-- bar.d.ts --
+import { Bar } from './foo';
+export = Bar;
+export as namespace Bar;
+-- foo.d.ts --
+export = Foo;
+export as namespace Foo;
+
+declare namespace Foo {
+    function foo();
+}
+
+declare global {
+    namespace Bar { }
+}

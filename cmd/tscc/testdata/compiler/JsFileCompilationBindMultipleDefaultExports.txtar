@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/jsFileCompilationBindMultipleDefaultExports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es6 --lib es6,dom a.js
+stderr 'TS1109'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+export default class a {
+}
+export default var a = 10;

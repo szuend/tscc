@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/moduleReopenedTypeSameBlock.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleReopenedTypeSameBlock.js moduleReopenedTypeSameBlock.ts
+stderr 'TS2322'
+! exists moduleReopenedTypeSameBlock.js
+! exists moduleReopenedTypeSameBlock.d.ts
+! exists moduleReopenedTypeSameBlock.js.map
+
+-- moduleReopenedTypeSameBlock.ts --
+namespace M { export class C1 { } }
+namespace M {
+    export interface I { n: number; }
+    export class C2 { f(): I { return null; } }
+}

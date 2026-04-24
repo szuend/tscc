@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/moduleIdentifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js moduleIdentifiers.js moduleIdentifiers.ts
+! stderr .
+cmp moduleIdentifiers.js moduleIdentifiers.js.golden
+! exists moduleIdentifiers.d.ts
+! exists moduleIdentifiers.js.map
+
+-- moduleIdentifiers.ts --
+namespace M {
+    interface P { x: number; y: number; }
+    export var a = 1
+}
+
+//var p: M.P;
+//var m: M = M;
+var x1 = M.a;
+//var x2 = m.a;
+//var q: m.P;
+-- moduleIdentifiers.js.golden --
+"use strict";
+var M;
+(function (M) {
+    M.a = 1;
+})(M || (M = {}));
+//var p: M.P;
+//var m: M = M;
+var x1 = M.a;
+//var x2 = m.a;
+//var q: m.P;

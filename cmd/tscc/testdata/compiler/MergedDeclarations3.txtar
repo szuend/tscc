@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/mergedDeclarations3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mergedDeclarations3.js mergedDeclarations3.ts
+stderr 'TS2339'
+! exists mergedDeclarations3.js
+! exists mergedDeclarations3.d.ts
+! exists mergedDeclarations3.js.map
+
+-- mergedDeclarations3.ts --
+namespace M {
+ export enum Color {
+   Red, Green
+ }
+}
+namespace M {
+ export namespace Color {
+   export var Blue = 4;
+  }
+}
+var p = M.Color.Blue; // ok
+
+namespace M {
+    export function foo() {
+    }
+}
+
+namespace M {
+    namespace foo {
+        export var x = 1;
+    }
+}
+
+namespace M {
+    export namespace foo {
+        export var y = 2
+    }
+}
+
+namespace M {
+    namespace foo {
+        export var z = 1;
+    }
+}
+
+M.foo() // ok
+M.foo.x // error
+M.foo.y // ok
+M.foo.z // error

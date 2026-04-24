@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/moduleAugmentationExtendFileModule2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --path ./observable=map.ts --out-js main.js main.ts
+stderr 'TS2454'
+! exists main.js
+! exists main.d.ts
+! exists main.js.map
+
+-- main.ts --
+import { Observable } from "./observable"
+import "./map";
+
+let x: Observable<number>;
+let y = x.map(x => x + 1);
+let z1 = Observable.someValue.toFixed();
+let z2 = Observable.someAnotherValue.toLowerCase();
+-- map.ts --
+import { Observable } from "./observable"
+
+(<any>Observable.prototype).map = function() { }
+
+declare module "./observable" {
+    interface Observable<T> {
+        map<U>(proj: (e:T) => U): Observable<U>
+    }
+    namespace Observable {
+        let someAnotherValue: string;
+    }
+}
+-- observable.ts --
+export declare class Observable<T> {
+    filter(pred: (e:T) => boolean): Observable<T>;
+}
+
+export namespace Observable {
+    export let someValue: number;
+}
+

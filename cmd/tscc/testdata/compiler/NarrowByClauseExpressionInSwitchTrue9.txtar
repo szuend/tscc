@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/narrowByClauseExpressionInSwitchTrue9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom narrowByClauseExpressionInSwitchTrue9.ts
+! stderr .
+! exists narrowByClauseExpressionInSwitchTrue9.d.ts
+! exists narrowByClauseExpressionInSwitchTrue9.js.map
+
+-- narrowByClauseExpressionInSwitchTrue9.ts --
+interface IProps {
+    one: boolean;
+}
+
+class Foo {
+    mine: string = "";
+
+    myMethod(x: IProps) {
+        const { one } = x;
+        switch (true) {
+            case one:
+                break;
+            default:
+                let x = this.mine;
+        }
+    }
+}

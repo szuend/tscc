@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/moduleAssignmentCompat3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleAssignmentCompat3.js moduleAssignmentCompat3.ts
+stderr 'TS2709'
+! exists moduleAssignmentCompat3.js
+! exists moduleAssignmentCompat3.d.ts
+! exists moduleAssignmentCompat3.js.map
+
+-- moduleAssignmentCompat3.ts --
+namespace A {
+    export var x = 1;
+}
+namespace B {
+    export var x = "";
+}
+
+var a: A;
+var b: B;
+
+// both errors
+a = b;
+b = a;

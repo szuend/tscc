@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/noCircularitySelfReferentialGetter3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom noCircularitySelfReferentialGetter3.ts
+! stderr .
+! exists noCircularitySelfReferentialGetter3.d.ts
+! exists noCircularitySelfReferentialGetter3.js.map
+
+-- noCircularitySelfReferentialGetter3.ts --
+const a = {
+  prop: 42,
+  get self() {
+    return a;
+  },
+} satisfies { prop: number; self: any };

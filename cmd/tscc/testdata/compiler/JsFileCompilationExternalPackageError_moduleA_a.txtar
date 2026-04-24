@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/jsFileCompilationExternalPackageError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module commonjs --target es2015 --lib es2015,dom moduleA/a.js
+! stderr .
+! exists moduleA/a.d.ts
+! exists moduleA/a.js.map
+
+-- moduleA/a.js --
+import {a} from "b";
+a++;
+import {c} from "c";
+c++;
+-- node_modules/b.ts --
+var a = 10;
+-- node_modules/c.js --
+exports.a = 10;
+c = 10;

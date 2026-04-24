@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/nestedIfStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nestedIfStatement.js nestedIfStatement.ts
+stderr 'TS2872'
+! exists nestedIfStatement.js
+! exists nestedIfStatement.d.ts
+! exists nestedIfStatement.js.map
+
+-- nestedIfStatement.ts --
+if (0) {
+} else if (1) {
+} else if (2) {
+} else if (3) {
+} else {
+}

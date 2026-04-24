@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/propertyAccessOfReadonlyIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccessOfReadonlyIndexSignature.js propertyAccessOfReadonlyIndexSignature.ts
+stderr 'TS2542'
+! exists propertyAccessOfReadonlyIndexSignature.js
+! exists propertyAccessOfReadonlyIndexSignature.d.ts
+! exists propertyAccessOfReadonlyIndexSignature.js.map
+
+-- propertyAccessOfReadonlyIndexSignature.ts --
+interface Test {
+    readonly [key: string]: string;
+}
+
+declare var a: Test;
+a.foo = 'baz';

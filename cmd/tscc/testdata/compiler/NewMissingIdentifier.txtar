@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/newMissingIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js newMissingIdentifier.js newMissingIdentifier.ts
+stderr 'TS1109'
+! exists newMissingIdentifier.js
+! exists newMissingIdentifier.d.ts
+! exists newMissingIdentifier.js.map
+
+-- newMissingIdentifier.ts --
+var x = new ();

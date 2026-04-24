@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/overloadWithCallbacksWithDifferingOptionalityOnArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadWithCallbacksWithDifferingOptionalityOnArgs.js overloadWithCallbacksWithDifferingOptionalityOnArgs.ts
+! stderr .
+cmp overloadWithCallbacksWithDifferingOptionalityOnArgs.js overloadWithCallbacksWithDifferingOptionalityOnArgs.js.golden
+! exists overloadWithCallbacksWithDifferingOptionalityOnArgs.d.ts
+! exists overloadWithCallbacksWithDifferingOptionalityOnArgs.js.map
+
+-- overloadWithCallbacksWithDifferingOptionalityOnArgs.ts --
+function x2(callback: (x?: number) => number);
+function x2(callback: (x: string) => number);
+function x2(callback: (x: any) => number) { }
+x2(() => 1);
+x2((x) => 1 );
+-- overloadWithCallbacksWithDifferingOptionalityOnArgs.js.golden --
+"use strict";
+function x2(callback) { }
+x2(() => 1);
+x2((x) => 1);

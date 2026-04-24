@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/isArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js isArray.js isArray.ts
+stderr 'TS2454'
+stderr 'TS2339'
+! exists isArray.js
+! exists isArray.d.ts
+! exists isArray.js.map
+
+-- isArray.ts --
+var maybeArray: number | number[];
+
+
+if (Array.isArray(maybeArray)) {
+    maybeArray.length; // OK
+}
+else {
+    maybeArray.toFixed(); // OK
+}

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/optionalParamterAndVariableDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js optionalParamterAndVariableDeclaration.js optionalParamterAndVariableDeclaration.ts
+stderr 'TS2403'
+! exists optionalParamterAndVariableDeclaration.js
+! exists optionalParamterAndVariableDeclaration.d.ts
+! exists optionalParamterAndVariableDeclaration.js.map
+
+-- optionalParamterAndVariableDeclaration.ts --
+class C {
+    constructor(options?: number) {
+        var options = (options || 0);
+    }
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/parse1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parse1.js parse1.ts
+stderr 'TS1003'
+! exists parse1.js
+! exists parse1.d.ts
+! exists parse1.js.map
+
+-- parse1.ts --
+var bar = 42;
+function foo() {
+ bar.
+}

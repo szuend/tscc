@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/parsingClassRecoversWhenHittingUnexpectedSemicolon.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parsingClassRecoversWhenHittingUnexpectedSemicolon.js parsingClassRecoversWhenHittingUnexpectedSemicolon.ts
+! stderr .
+cmp parsingClassRecoversWhenHittingUnexpectedSemicolon.js parsingClassRecoversWhenHittingUnexpectedSemicolon.js.golden
+! exists parsingClassRecoversWhenHittingUnexpectedSemicolon.d.ts
+! exists parsingClassRecoversWhenHittingUnexpectedSemicolon.js.map
+
+-- parsingClassRecoversWhenHittingUnexpectedSemicolon.ts --
+class C {
+    public f() { };
+    private m;
+}
+-- parsingClassRecoversWhenHittingUnexpectedSemicolon.js.golden --
+"use strict";
+class C {
+    f() { }
+    ;
+}

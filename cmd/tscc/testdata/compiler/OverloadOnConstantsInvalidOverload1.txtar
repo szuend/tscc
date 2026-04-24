@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/overloadOnConstantsInvalidOverload1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadOnConstantsInvalidOverload1.js overloadOnConstantsInvalidOverload1.ts
+stderr 'TS2394'
+stderr 'TS2322'
+stderr 'TS2345'
+! exists overloadOnConstantsInvalidOverload1.js
+! exists overloadOnConstantsInvalidOverload1.d.ts
+! exists overloadOnConstantsInvalidOverload1.js.map
+
+-- overloadOnConstantsInvalidOverload1.ts --
+class Base { foo() { } }
+class Derived1 extends Base { bar() { } }
+class Derived2 extends Base { baz() { } }
+class Derived3 extends Base { biz() { } }
+
+function foo(name: "SPAN"): Derived1;
+function foo(name: "DIV"): Derived2 {
+    return null;
+}
+
+foo("HI");

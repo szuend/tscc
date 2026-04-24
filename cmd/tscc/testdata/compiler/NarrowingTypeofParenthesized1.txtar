@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/narrowingTypeofParenthesized1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom narrowingTypeofParenthesized1.ts
+! stderr .
+! exists narrowingTypeofParenthesized1.d.ts
+! exists narrowingTypeofParenthesized1.js.map
+
+-- narrowingTypeofParenthesized1.ts --
+// https://github.com/microsoft/TypeScript/issues/42203
+
+declare const foo: string;
+
+if ((typeof foo) === "string") {
+  foo;
+} else {
+  foo;
+}
+
+if (typeof foo === ("string")) {
+  foo;
+} else {
+  foo;
+}

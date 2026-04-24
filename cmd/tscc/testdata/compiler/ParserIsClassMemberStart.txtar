@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/parserIsClassMemberStart.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parserIsClassMemberStart.js parserIsClassMemberStart.ts
+! stderr .
+cmp parserIsClassMemberStart.js parserIsClassMemberStart.js.golden
+! exists parserIsClassMemberStart.d.ts
+! exists parserIsClassMemberStart.js.map
+
+-- parserIsClassMemberStart.ts --
+class C {
+    type!: number;
+}
+-- parserIsClassMemberStart.js.golden --
+"use strict";
+class C {
+}

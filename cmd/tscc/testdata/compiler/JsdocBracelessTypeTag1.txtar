@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/jsdocBracelessTypeTag1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom index.js
+stderr 'TS2322'
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+/** @type () => string */
+function fn1() {
+  return 42;
+}
+
+/** @type () => string */
+function fn2() {
+  return "foo";
+}
+
+/** @type (arg: string) => string */
+function fn3(arg) {
+  return arg;
+}
+
+/** @type ({ type: 'foo' } | { type: 'bar' }) & { prop: number } */
+const obj1 = { type: "foo", prop: 10 };
+
+/** @type ({ type: 'foo' } | { type: 'bar' }) & { prop: number } */
+const obj2 = { type: "other", prop: 10 };

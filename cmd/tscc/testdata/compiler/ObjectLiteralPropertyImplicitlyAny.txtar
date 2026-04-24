@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/objectLiteralPropertyImplicitlyAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target esnext --lib esnext,dom --out-js objectLiteralPropertyImplicitlyAny.js objectLiteralPropertyImplicitlyAny.ts
+! stderr .
+cmp objectLiteralPropertyImplicitlyAny.js objectLiteralPropertyImplicitlyAny.js.golden
+! exists objectLiteralPropertyImplicitlyAny.d.ts
+! exists objectLiteralPropertyImplicitlyAny.js.map
+
+-- objectLiteralPropertyImplicitlyAny.ts --
+const foo = Symbol.for("foo");
+const o = { [foo]: undefined };
+-- objectLiteralPropertyImplicitlyAny.js.golden --
+"use strict";
+const foo = Symbol.for("foo");
+const o = { [foo]: undefined };

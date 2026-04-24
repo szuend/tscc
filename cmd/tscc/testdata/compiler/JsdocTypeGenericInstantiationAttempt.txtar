@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/jsdocTypeGenericInstantiationAttempt.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom index.js
+! stderr .
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+/**
+ * @param {Array<*>} list
+ */
+function thing(list) {
+    return list;
+}

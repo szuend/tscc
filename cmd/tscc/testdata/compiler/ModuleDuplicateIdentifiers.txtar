@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/moduleDuplicateIdentifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js moduleDuplicateIdentifiers.js moduleDuplicateIdentifiers.ts
+stderr 'TS2323'
+stderr 'TS2300'
+! exists moduleDuplicateIdentifiers.js
+! exists moduleDuplicateIdentifiers.d.ts
+! exists moduleDuplicateIdentifiers.js.map
+
+-- moduleDuplicateIdentifiers.ts --
+export var Foo = 2;
+export var Foo = 42; // Should error
+
+export interface Bar {
+	_brand1: any;
+}
+
+export interface Bar { // Shouldn't error
+	_brand2: any;
+}
+
+export namespace FooBar {
+	export var member1 = 2;
+}
+
+export namespace FooBar { // Shouldn't error
+	export var member2 = 42;
+}
+
+export class Kettle {
+	member1 = 2;
+}
+
+export class Kettle { // Should error
+	member2 = 42;
+}
+
+export var Pot = 2;
+Pot = 42; // Shouldn't error
+
+export enum Utensils {
+	Spoon,
+	Fork,
+	Knife
+}
+
+export enum Utensils { // Shouldn't error
+	Spork = 3
+}

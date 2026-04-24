@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.js internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.ts
+! stderr .
+cmp internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.d.ts internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.d.ts.golden
+cmp internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.js internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.js.golden
+! exists internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.js.map
+
+-- internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.ts --
+export namespace a {
+    export namespace b {
+        export interface I {
+            foo();
+        }
+    }
+}
+
+import b = a.b;
+export var x: b.I;
+x.foo();
+-- internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.d.ts.golden --
+export declare namespace a {
+    namespace b {
+        interface I {
+            foo(): any;
+        }
+    }
+}
+import b = a.b;
+export declare var x: b.I;
+-- internalAliasUninitializedModuleInsideTopLevelModuleWithoutExport.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = void 0;
+exports.x.foo();

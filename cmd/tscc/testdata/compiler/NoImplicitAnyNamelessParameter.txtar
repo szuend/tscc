@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/noImplicitAnyNamelessParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyNamelessParameter.js noImplicitAnyNamelessParameter.ts
+stderr 'TS7051'
+! exists noImplicitAnyNamelessParameter.js
+! exists noImplicitAnyNamelessParameter.d.ts
+! exists noImplicitAnyNamelessParameter.js.map
+
+-- noImplicitAnyNamelessParameter.ts --
+class C { }
+declare var a: { m(...string): void }
+declare var b: (string, C) => void;
+declare var c: { (C, number): void };
+declare var d: { m(boolean, C, object, undefined): void }
+// note: null and void do not parse correctly without a preceding parameter name

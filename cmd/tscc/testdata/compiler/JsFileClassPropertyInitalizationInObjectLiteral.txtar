@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/jsFileClassPropertyInitalizationInObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom foo.js
+! stderr .
+! exists foo.d.ts
+! exists foo.js.map
+
+-- foo.js --
+module.exports = function () {
+  class A { }
+  return {
+    c: A.b = 1,
+  }
+};

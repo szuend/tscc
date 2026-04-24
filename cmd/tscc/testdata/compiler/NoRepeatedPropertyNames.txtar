@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/noRepeatedPropertyNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js noRepeatedPropertyNames.js noRepeatedPropertyNames.ts
+stderr 'TS1117'
+! exists noRepeatedPropertyNames.js
+! exists noRepeatedPropertyNames.d.ts
+! exists noRepeatedPropertyNames.js.map
+
+-- noRepeatedPropertyNames.ts --
+// https://github.com/microsoft/TypeScript/issues/46815
+const first = { a: 1, a: 2 };
+class C {
+    m() {
+        const second = { a: 1, a: 2 };
+        return second.a;
+    }
+}

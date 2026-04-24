@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/intersectionsAndReadonlyProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js intersectionsAndReadonlyProperties.js intersectionsAndReadonlyProperties.ts
+stderr 'TS2540'
+! exists intersectionsAndReadonlyProperties.js
+! exists intersectionsAndReadonlyProperties.d.ts
+! exists intersectionsAndReadonlyProperties.js.map
+
+-- intersectionsAndReadonlyProperties.ts --
+// readonly and non-readonly
+type Intersection1 = { readonly a: number } & { a: number };
+declare let i1: Intersection1;
+
+i1.a = 2;
+
+// getter and setter
+type Intersection2 = { get a(): number } & { set a(v: number) };
+declare let i2: Intersection2;
+
+i2.a = 2;
+
+// assignment to an all read-only property should still be disallowed
+type IntersectionAllReadonly = { readonly a: number } & { get a(): number };
+declare let ia: IntersectionAllReadonly;
+
+ia.a = 2; // Error

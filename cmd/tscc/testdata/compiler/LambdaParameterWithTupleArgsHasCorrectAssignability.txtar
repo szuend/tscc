@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/lambdaParameterWithTupleArgsHasCorrectAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js lambdaParameterWithTupleArgsHasCorrectAssignability.js lambdaParameterWithTupleArgsHasCorrectAssignability.ts
+! stderr .
+cmp lambdaParameterWithTupleArgsHasCorrectAssignability.js lambdaParameterWithTupleArgsHasCorrectAssignability.js.golden
+! exists lambdaParameterWithTupleArgsHasCorrectAssignability.d.ts
+! exists lambdaParameterWithTupleArgsHasCorrectAssignability.js.map
+
+-- lambdaParameterWithTupleArgsHasCorrectAssignability.ts --
+type MyTupleItem = {};
+type MyTuple = [MyTupleItem, ...MyTupleItem[]];
+
+type GenericFunction<T extends MyTuple> = (...fromArgs: T) => void;
+
+class GenericClass<T extends MyTuple> {
+    from: GenericFunction<T> | undefined;
+}
+
+function createClass<T extends MyTuple>(f: GenericFunction<T>): GenericClass<T> {
+    return new GenericClass<T>(/* ... use f */);
+}
+
+function consumeClass(c: GenericClass<[string, boolean]>) { }
+
+// should work
+consumeClass(createClass(str => console.log(str.length)));
+
+// should work
+consumeClass(createClass((str, _unused_num) => console.log(str.length)));
+-- lambdaParameterWithTupleArgsHasCorrectAssignability.js.golden --
+"use strict";
+class GenericClass {
+}
+function createClass(f) {
+    return new GenericClass( /* ... use f */);
+}
+function consumeClass(c) { }
+// should work
+consumeClass(createClass(str => console.log(str.length)));
+// should work
+consumeClass(createClass((str, _unused_num) => console.log(str.length)));

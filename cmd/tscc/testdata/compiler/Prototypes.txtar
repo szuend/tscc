@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/prototypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js prototypes.js prototypes.ts
+stderr 'TS2339'
+! exists prototypes.js
+! exists prototypes.d.ts
+! exists prototypes.js.map
+
+-- prototypes.ts --
+Object.prototype; // ok
+new Object().prototype; // error
+function f() {}
+f.prototype;

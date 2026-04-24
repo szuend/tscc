@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/parserConstructorDeclaration12.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserConstructorDeclaration12.js parserConstructorDeclaration12.ts
+stderr 'TS1098'
+stderr 'TS1092'
+! exists parserConstructorDeclaration12.js
+! exists parserConstructorDeclaration12.d.ts
+! exists parserConstructorDeclaration12.js.map
+
+-- parserConstructorDeclaration12.ts --
+class C {
+  constructor<>() { }
+  constructor<> () { }
+  constructor <>() { }
+  constructor <> () { }
+  constructor< >() { }
+  constructor< > () { }
+  constructor < >() { }
+  constructor < > () { }
+}

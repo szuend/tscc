@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/narrowByClauseExpressionInSwitchTrue2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom narrowByClauseExpressionInSwitchTrue2.ts
+! stderr .
+! exists narrowByClauseExpressionInSwitchTrue2.d.ts
+! exists narrowByClauseExpressionInSwitchTrue2.js.map
+
+-- narrowByClauseExpressionInSwitchTrue2.ts --
+// https://github.com/microsoft/TypeScript/issues/55986
+
+declare const f: 'a' | 'b' | 'c';
+
+switch(true) {
+    case f === 'a':
+    case f === 'b':
+        f;
+        break
+    default:
+        f;
+}
+
+f;
+
+switch(true) {
+    case f === 'a':
+        f;
+    case f === 'b':
+        f;
+        break
+    default:
+        f;
+}
+
+f;

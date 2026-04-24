@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/moduleMemberWithoutTypeAnnotation2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js moduleMemberWithoutTypeAnnotation2.js moduleMemberWithoutTypeAnnotation2.ts
+! stderr .
+cmp moduleMemberWithoutTypeAnnotation2.js moduleMemberWithoutTypeAnnotation2.js.golden
+! exists moduleMemberWithoutTypeAnnotation2.d.ts
+! exists moduleMemberWithoutTypeAnnotation2.js.map
+
+-- moduleMemberWithoutTypeAnnotation2.ts --
+namespace TypeScript {
+    export namespace CompilerDiagnostics {
+
+        export interface IDiagnosticWriter {
+            Alert(output: string): void;
+        }
+
+        export var diagnosticWriter = null;
+
+        export function Alert(output: string) {
+            if (diagnosticWriter) {
+                diagnosticWriter.Alert(output);
+            }
+        }
+    }
+}
+-- moduleMemberWithoutTypeAnnotation2.js.golden --
+"use strict";
+var TypeScript;
+(function (TypeScript) {
+    let CompilerDiagnostics;
+    (function (CompilerDiagnostics) {
+        CompilerDiagnostics.diagnosticWriter = null;
+        function Alert(output) {
+            if (CompilerDiagnostics.diagnosticWriter) {
+                CompilerDiagnostics.diagnosticWriter.Alert(output);
+            }
+        }
+        CompilerDiagnostics.Alert = Alert;
+    })(CompilerDiagnostics = TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
+})(TypeScript || (TypeScript = {}));

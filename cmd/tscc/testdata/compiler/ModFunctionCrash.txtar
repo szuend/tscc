@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/modFunctionCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js modFunctionCrash.js modFunctionCrash.ts
+! stderr .
+cmp modFunctionCrash.js modFunctionCrash.js.golden
+! exists modFunctionCrash.d.ts
+! exists modFunctionCrash.js.map
+
+-- modFunctionCrash.ts --
+declare namespace Q {
+    function f(fn:()=>void); // typechecking the function type shouldnot crash the compiler
+}
+
+
+Q.f(function() {this;});
+-- modFunctionCrash.js.golden --
+"use strict";
+Q.f(function () { this; });

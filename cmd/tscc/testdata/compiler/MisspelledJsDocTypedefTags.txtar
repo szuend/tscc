@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/misspelledJsDocTypedefTags.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** @typedef {{ endTime: number, screenshots: number}} A.<b>*/
+Animation.AnimationModel.ScreenshotCapture.Request;
+
+/** @typedef {{ endTime: number, screenshots: !B.<string>}} */
+Animation.AnimationModel.ScreenshotCapture.Request;

@@ -1,0 +1,59 @@
+# Ported from tests/cases/compiler/nonNullReferenceMatching.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nonNullReferenceMatching.js nonNullReferenceMatching.ts
+! stderr .
+cmp nonNullReferenceMatching.js nonNullReferenceMatching.js.golden
+! exists nonNullReferenceMatching.d.ts
+! exists nonNullReferenceMatching.js.map
+
+-- nonNullReferenceMatching.ts --
+type ElementRef = (element: HTMLElement | null) => void;
+
+type ThumbProps = {
+    elementRef?: ElementRef;
+}
+
+type ComponentProps = {
+    thumbYProps?: ThumbProps;
+    thumbXProps: ThumbProps;
+}
+
+class Component {
+    props!: ComponentProps;
+    public thumbYElementRef = (ref: HTMLElement | null) => {
+        typeof this.props.thumbYProps!.elementRef === 'function' && this.props.thumbYProps!.elementRef(ref);
+
+        typeof (this.props.thumbYProps!.elementRef) === 'function' && this.props.thumbYProps!.elementRef(ref);
+
+        typeof ((this.props).thumbYProps!.elementRef)! === 'function' && this.props.thumbYProps!.elementRef(ref);
+
+        typeof this.props.thumbXProps.elementRef === 'function' && this.props.thumbXProps.elementRef(ref);
+
+        typeof this.props.thumbXProps.elementRef === 'function' && (this.props).thumbXProps.elementRef(ref);
+
+        typeof this.props.thumbXProps.elementRef === 'function' && (this.props.thumbXProps).elementRef(ref);
+
+        typeof this.props.thumbXProps.elementRef === 'function' && ((this.props)!.thumbXProps)!.elementRef(ref);
+
+        typeof (this.props.thumbXProps).elementRef === 'function' && ((this.props)!.thumbXProps)!.elementRef(ref);
+
+        typeof this.props!.thumbXProps!.elementRef === 'function' && ((this.props)!.thumbXProps)!.elementRef(ref);
+    };
+}
+-- nonNullReferenceMatching.js.golden --
+"use strict";
+class Component {
+    constructor() {
+        this.thumbYElementRef = (ref) => {
+            typeof this.props.thumbYProps.elementRef === 'function' && this.props.thumbYProps.elementRef(ref);
+            typeof (this.props.thumbYProps.elementRef) === 'function' && this.props.thumbYProps.elementRef(ref);
+            typeof ((this.props).thumbYProps.elementRef) === 'function' && this.props.thumbYProps.elementRef(ref);
+            typeof this.props.thumbXProps.elementRef === 'function' && this.props.thumbXProps.elementRef(ref);
+            typeof this.props.thumbXProps.elementRef === 'function' && (this.props).thumbXProps.elementRef(ref);
+            typeof this.props.thumbXProps.elementRef === 'function' && (this.props.thumbXProps).elementRef(ref);
+            typeof this.props.thumbXProps.elementRef === 'function' && ((this.props).thumbXProps).elementRef(ref);
+            typeof (this.props.thumbXProps).elementRef === 'function' && ((this.props).thumbXProps).elementRef(ref);
+            typeof this.props.thumbXProps.elementRef === 'function' && ((this.props).thumbXProps).elementRef(ref);
+        };
+    }
+}

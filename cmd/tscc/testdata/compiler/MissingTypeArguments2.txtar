@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/missingTypeArguments2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js missingTypeArguments2.js missingTypeArguments2.ts
+stderr 'TS2314'
+! exists missingTypeArguments2.js
+! exists missingTypeArguments2.d.ts
+! exists missingTypeArguments2.js.map
+
+-- missingTypeArguments2.ts --
+class A<T> { }
+
+var x: () => A;
+(a: A) => { };
+var y: A<A>;
+(): A => null;

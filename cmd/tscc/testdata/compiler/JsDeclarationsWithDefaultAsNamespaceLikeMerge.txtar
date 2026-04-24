@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/jsDeclarationsWithDefaultAsNamespaceLikeMerge.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts index.d.ts --target es2015 --lib es2015,dom index.js
+! stderr .
+cmp index.d.ts index.d.ts.golden
+! exists index.js.map
+! exists out_index.js
+
+-- helper.d.ts --
+type Computed = () => any;
+interface Mapper<R> {
+    <Key extends string>(map: Key[]): { [K in Key]: R };
+    <Map extends Record<string, string>>(map: Map): { [K in keyof Map]: R };
+}
+interface NamespacedMappers {
+    mapState: Mapper<Computed>;
+}
+export declare function createNamespacedHelpers(): NamespacedMappers;
+-- index.js --
+import { createNamespacedHelpers } from './helper'
+const { mapState } = createNamespacedHelpers()
+export default {
+    computed: {
+        ...mapState(['panels'])
+    }
+}
+-- index.d.ts.golden --
+declare const _default: {
+    computed: {
+        panels: import("./helper").Computed;
+    };
+};
+export default _default;

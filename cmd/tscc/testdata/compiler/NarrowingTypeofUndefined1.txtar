@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/narrowingTypeofUndefined1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js narrowingTypeofUndefined1.js narrowingTypeofUndefined1.ts
+! stderr .
+cmp narrowingTypeofUndefined1.js narrowingTypeofUndefined1.js.golden
+! exists narrowingTypeofUndefined1.d.ts
+! exists narrowingTypeofUndefined1.js.map
+
+-- narrowingTypeofUndefined1.ts --
+declare const a: { error: { prop: string }, result: undefined } | { error: undefined, result: { prop: number } }
+
+if (typeof a.error === 'undefined') {
+    a.result.prop; // number
+}
+else {
+    a.error.prop; // string
+}
+
+if (typeof a.error !== 'undefined') {
+    a.error.prop; // string
+}
+else {
+    a.result.prop; // number
+}
+-- narrowingTypeofUndefined1.js.golden --
+"use strict";
+if (typeof a.error === 'undefined') {
+    a.result.prop; // number
+}
+else {
+    a.error.prop; // string
+}
+if (typeof a.error !== 'undefined') {
+    a.error.prop; // string
+}
+else {
+    a.result.prop; // number
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/propertyAccess5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js propertyAccess5.js propertyAccess5.ts
+stderr 'TS18050'
+! exists propertyAccess5.js
+! exists propertyAccess5.d.ts
+! exists propertyAccess5.js.map
+
+-- propertyAccess5.ts --
+undefined.toBAZ();

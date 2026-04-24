@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/privacyCheckTypeOfInvisibleModuleError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts privacyCheckTypeOfInvisibleModuleError.d.ts --target es2015 --lib es2015,dom --out-js privacyCheckTypeOfInvisibleModuleError.js privacyCheckTypeOfInvisibleModuleError.ts
+! stderr .
+cmp privacyCheckTypeOfInvisibleModuleError.d.ts privacyCheckTypeOfInvisibleModuleError.d.ts.golden
+cmp privacyCheckTypeOfInvisibleModuleError.js privacyCheckTypeOfInvisibleModuleError.js.golden
+! exists privacyCheckTypeOfInvisibleModuleError.js.map
+
+-- privacyCheckTypeOfInvisibleModuleError.ts --
+namespace Outer {
+    namespace Inner {
+        export var m: typeof Inner;
+    }
+
+    export var f: typeof Inner;
+}
+-- privacyCheckTypeOfInvisibleModuleError.d.ts.golden --
+declare namespace Outer {
+    namespace Inner {
+        var m: typeof Inner;
+    }
+    export var f: typeof Inner;
+    export {};
+}
+-- privacyCheckTypeOfInvisibleModuleError.js.golden --
+"use strict";
+var Outer;
+(function (Outer) {
+    let Inner;
+    (function (Inner) {
+    })(Inner || (Inner = {}));
+})(Outer || (Outer = {}));

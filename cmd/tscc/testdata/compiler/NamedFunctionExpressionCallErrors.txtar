@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/namedFunctionExpressionCallErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js namedFunctionExpressionCallErrors.js namedFunctionExpressionCallErrors.ts
+stderr 'TS2304'
+! exists namedFunctionExpressionCallErrors.js
+! exists namedFunctionExpressionCallErrors.d.ts
+! exists namedFunctionExpressionCallErrors.js.map
+
+-- namedFunctionExpressionCallErrors.ts --
+var recurser = function foo() {
+};
+
+// Error: foo should not be visible here
+foo();
+
+// recurser should be
+recurser();
+
+(function bar() {
+    // Error: foo should not be visible here either
+    foo();
+});
+
+// Error: bar should not be visible
+bar();

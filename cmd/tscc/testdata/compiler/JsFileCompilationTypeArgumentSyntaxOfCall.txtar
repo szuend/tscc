@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/jsFileCompilationTypeArgumentSyntaxOfCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --target es2015 --lib es2015,dom --out-js a.js a.jsx
+stderr 'TS1109'
+stderr 'TS1003'
+stderr 'TS1382'
+stderr 'TS1005'
+! exists a.js
+! exists out_a.jsx
+! exists a.d.ts
+! exists a.js.map
+
+-- a.jsx --
+Foo<number>();
+Foo<number>(1);
+Foo<number>``;
+<Foo<number>></Foo>;
+<Foo<number>/>;

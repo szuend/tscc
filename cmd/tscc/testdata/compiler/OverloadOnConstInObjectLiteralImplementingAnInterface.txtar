@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/overloadOnConstInObjectLiteralImplementingAnInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadOnConstInObjectLiteralImplementingAnInterface.js overloadOnConstInObjectLiteralImplementingAnInterface.ts
+! stderr .
+cmp overloadOnConstInObjectLiteralImplementingAnInterface.js overloadOnConstInObjectLiteralImplementingAnInterface.js.golden
+! exists overloadOnConstInObjectLiteralImplementingAnInterface.d.ts
+! exists overloadOnConstInObjectLiteralImplementingAnInterface.js.map
+
+-- overloadOnConstInObjectLiteralImplementingAnInterface.ts --
+interface I {
+    x1(a: number, callback: (x: 'hi') => number);
+}
+
+var i2: I = { x1: (a: number, cb: (x: 'hi') => number) => { } }; // error
+-- overloadOnConstInObjectLiteralImplementingAnInterface.js.golden --
+"use strict";
+var i2 = { x1: (a, cb) => { } }; // error

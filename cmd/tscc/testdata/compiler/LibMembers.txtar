@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/libMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js libMembers.js libMembers.ts
+stderr 'TS1011'
+! exists libMembers.js
+! exists libMembers.d.ts
+! exists libMembers.js.map
+
+-- libMembers.ts --
+var s="hello";
+s.substring(0);
+s.substring(3,4);
+s.subby(12);   // error unresolved
+String.fromCharCode(12);
+namespace M {
+    export class C {
+    }
+    var a=new C[];
+    a.length;
+    a.push(new C());
+    (new C()).prototype;
+}
+

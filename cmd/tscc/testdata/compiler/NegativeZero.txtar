@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/negativeZero.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js negativeZero.js negativeZero.ts
+! stderr .
+cmp negativeZero.js negativeZero.js.golden
+! exists negativeZero.d.ts
+! exists negativeZero.js.map
+
+-- negativeZero.ts --
+var x = -0
+-- negativeZero.js.golden --
+"use strict";
+var x = -0;

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/promiseWithResolvers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js promiseWithResolvers.js promiseWithResolvers.ts
+! stderr .
+cmp promiseWithResolvers.js promiseWithResolvers.js.golden
+! exists promiseWithResolvers.d.ts
+! exists promiseWithResolvers.js.map
+
+-- promiseWithResolvers.ts --
+type T = {};
+const { promise, resolve, reject } = Promise.withResolvers<T>();
+-- promiseWithResolvers.js.golden --
+"use strict";
+const { promise, resolve, reject } = Promise.withResolvers();

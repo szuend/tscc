@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.js internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.ts
+stderr 'TS2564'
+stderr 'TS2437'
+! exists internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.js
+! exists internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.d.ts
+! exists internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.js.map
+
+-- internalImportInstantiatedModuleMergedWithClassNotReferencingInstance.ts --
+class A {
+    aProp: string;
+}
+namespace A {
+    export interface X { s: string }
+    export var a = 10;
+}
+
+namespace B {
+    var A = 1;
+    import Y = A;
+}

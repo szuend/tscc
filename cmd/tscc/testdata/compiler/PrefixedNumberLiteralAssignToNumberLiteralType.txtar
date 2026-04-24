@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/prefixedNumberLiteralAssignToNumberLiteralType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js prefixedNumberLiteralAssignToNumberLiteralType.js prefixedNumberLiteralAssignToNumberLiteralType.ts
+! stderr .
+cmp prefixedNumberLiteralAssignToNumberLiteralType.js prefixedNumberLiteralAssignToNumberLiteralType.js.golden
+! exists prefixedNumberLiteralAssignToNumberLiteralType.d.ts
+! exists prefixedNumberLiteralAssignToNumberLiteralType.js.map
+
+-- prefixedNumberLiteralAssignToNumberLiteralType.ts --
+let x: 1 = +1;
+
+let y: -1 = -1;
+-- prefixedNumberLiteralAssignToNumberLiteralType.js.golden --
+"use strict";
+let x = +1;
+let y = -1;

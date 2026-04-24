@@ -1,0 +1,87 @@
+# Ported from tests/cases/compiler/nestedBlockScopedBindings4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js nestedBlockScopedBindings4.js nestedBlockScopedBindings4.ts
+! stderr .
+cmp nestedBlockScopedBindings4.js nestedBlockScopedBindings4.js.golden
+! exists nestedBlockScopedBindings4.d.ts
+! exists nestedBlockScopedBindings4.js.map
+
+-- nestedBlockScopedBindings4.ts --
+function a0() {
+    for (let x; x < 1;) {
+        x = x + 1;
+    }
+    for (let x;;) {
+        x = x + 2;
+    }
+}
+
+function a1() {
+    for (let x; x < 1;) {
+        x = x + 1;
+        () => x;
+    }
+    for (let x;;) {
+        x = x + 2;
+    }
+}
+
+function a2() {
+    for (let x; x < 1;) {
+        x = x + 1;
+    }
+    for (let x;;) {
+        x = x + 2;
+        () => x;
+    }
+}
+
+
+function a3() {
+    for (let x; x < 1;) {
+        x = x + 1;
+        () => x;
+    }
+    for (let x;;) {
+        x = x + 2;
+        () => x;
+    }
+}
+-- nestedBlockScopedBindings4.js.golden --
+"use strict";
+function a0() {
+    for (let x; x < 1;) {
+        x = x + 1;
+    }
+    for (let x;;) {
+        x = x + 2;
+    }
+}
+function a1() {
+    for (let x; x < 1;) {
+        x = x + 1;
+        () => x;
+    }
+    for (let x;;) {
+        x = x + 2;
+    }
+}
+function a2() {
+    for (let x; x < 1;) {
+        x = x + 1;
+    }
+    for (let x;;) {
+        x = x + 2;
+        () => x;
+    }
+}
+function a3() {
+    for (let x; x < 1;) {
+        x = x + 1;
+        () => x;
+    }
+    for (let x;;) {
+        x = x + 2;
+        () => x;
+    }
+}

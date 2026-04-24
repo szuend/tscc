@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/nonMergedDeclarationsAndOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nonMergedDeclarationsAndOverloads.js nonMergedDeclarationsAndOverloads.ts
+stderr 'TS2300'
+stderr 'TS2564'
+! exists nonMergedDeclarationsAndOverloads.js
+! exists nonMergedDeclarationsAndOverloads.d.ts
+! exists nonMergedDeclarationsAndOverloads.js.map
+
+-- nonMergedDeclarationsAndOverloads.ts --
+class A {
+    m1: string;
+    f() {}
+    m1 (a: string): void;
+    m1 (a: number): void;
+    m1 (a: any): void {
+    }
+}

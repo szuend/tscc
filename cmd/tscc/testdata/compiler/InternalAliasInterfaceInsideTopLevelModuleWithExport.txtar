@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/internalAliasInterfaceInsideTopLevelModuleWithExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasInterfaceInsideTopLevelModuleWithExport.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasInterfaceInsideTopLevelModuleWithExport.js internalAliasInterfaceInsideTopLevelModuleWithExport.ts
+! stderr .
+cmp internalAliasInterfaceInsideTopLevelModuleWithExport.d.ts internalAliasInterfaceInsideTopLevelModuleWithExport.d.ts.golden
+cmp internalAliasInterfaceInsideTopLevelModuleWithExport.js internalAliasInterfaceInsideTopLevelModuleWithExport.js.golden
+! exists internalAliasInterfaceInsideTopLevelModuleWithExport.js.map
+
+-- internalAliasInterfaceInsideTopLevelModuleWithExport.ts --
+export namespace a {
+    export interface I {
+    }
+}
+
+export import b = a.I;
+export var x: b;
+-- internalAliasInterfaceInsideTopLevelModuleWithExport.d.ts.golden --
+export declare namespace a {
+    interface I {
+    }
+}
+export import b = a.I;
+export declare var x: b;
+-- internalAliasInterfaceInsideTopLevelModuleWithExport.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = void 0;

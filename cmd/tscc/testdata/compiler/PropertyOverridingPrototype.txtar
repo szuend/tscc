@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/propertyOverridingPrototype.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js propertyOverridingPrototype.js propertyOverridingPrototype.ts
+stderr 'TS2564'
+! exists propertyOverridingPrototype.js
+! exists propertyOverridingPrototype.d.ts
+! exists propertyOverridingPrototype.js.map
+
+-- propertyOverridingPrototype.ts --
+class Base {
+    foo() {
+    }
+}
+
+class Derived extends Base {
+    foo: () => { };
+}
+

@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/overloadsWithinClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadsWithinClasses.js overloadsWithinClasses.ts
+stderr 'TS2393'
+! exists overloadsWithinClasses.js
+! exists overloadsWithinClasses.d.ts
+! exists overloadsWithinClasses.js.map
+
+-- overloadsWithinClasses.ts --
+class foo {
+ 
+    static fnOverload( ) {}
+ 
+    static fnOverload(foo: string){ } // error
+ 
+}
+
+class bar {
+ 
+    static fnOverload( );
+ 
+    static fnOverload(foo?: string){ } // no error
+ 
+}
+
+class X {
+   public attr(name:string):string;
+   public attr(name:string, value:string):X;
+   public attr(first:any, second?:any):any {
+   }
+}

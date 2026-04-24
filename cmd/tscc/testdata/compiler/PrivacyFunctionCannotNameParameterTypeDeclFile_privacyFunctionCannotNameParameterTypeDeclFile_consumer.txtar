@@ -1,0 +1,320 @@
+# Ported from tests/cases/compiler/privacyFunctionCannotNameParameterTypeDeclFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts privacyFunctionCannotNameParameterTypeDeclFile_consumer.d.ts --module commonjs --target es2015 --lib es2015,dom --path GlobalWidgets=privacyFunctionCannotNameParameterTypeDeclFile_GlobalWidgets.ts --out-js privacyFunctionCannotNameParameterTypeDeclFile_consumer.js privacyFunctionCannotNameParameterTypeDeclFile_consumer.ts
+! stderr .
+cmp privacyFunctionCannotNameParameterTypeDeclFile_consumer.d.ts privacyFunctionCannotNameParameterTypeDeclFile_consumer.d.ts.golden
+cmp privacyFunctionCannotNameParameterTypeDeclFile_consumer.js privacyFunctionCannotNameParameterTypeDeclFile_consumer.js.golden
+! exists privacyFunctionCannotNameParameterTypeDeclFile_consumer.js.map
+
+-- privacyFunctionCannotNameParameterTypeDeclFile_GlobalWidgets.ts --
+declare module "GlobalWidgets" {
+    export class Widget3 {
+        name: string;
+    }
+    export function createWidget3(): Widget3;
+
+    export namespace SpecializedGlobalWidget {
+        export class Widget4 {
+            name: string;
+        }
+        function createWidget4(): Widget4;
+    }
+}
+-- privacyFunctionCannotNameParameterTypeDeclFile_Widgets.ts --
+export class Widget1 {
+    name = 'one';
+}
+export function createWidget1() {
+    return new Widget1();
+}
+
+export namespace SpecializedWidget {
+    export class Widget2 {
+        name = 'one';
+    }
+    export function createWidget2() {
+        return new Widget2();
+    }
+}
+-- privacyFunctionCannotNameParameterTypeDeclFile_consumer.ts --
+import exporter = require("./privacyFunctionCannotNameParameterTypeDeclFile_exporter");
+export class publicClassWithWithPrivateParmeterTypes {
+    static myPublicStaticMethod(param = exporter.createExportedWidget1()) { // Error
+    }
+    private static myPrivateStaticMethod(param = exporter.createExportedWidget1()) {
+    }
+    myPublicMethod(param  = exporter.createExportedWidget1()) { // Error
+    }
+    private myPrivateMethod(param = exporter.createExportedWidget1()) {
+    }
+    constructor(param = exporter.createExportedWidget1(), private param1 = exporter.createExportedWidget1(), public param2 = exporter.createExportedWidget1()) { // Error
+    }
+}
+export class publicClassWithWithPrivateParmeterTypes1 {
+    static myPublicStaticMethod(param = exporter.createExportedWidget3()) { // Error
+    }
+    private static myPrivateStaticMethod(param = exporter.createExportedWidget3()) {
+    }
+    myPublicMethod(param  = exporter.createExportedWidget3()) { // Error
+    }
+    private myPrivateMethod(param = exporter.createExportedWidget3()) {
+    }
+    constructor(param = exporter.createExportedWidget3(), private param1 = exporter.createExportedWidget3(), public param2 = exporter.createExportedWidget3()) { // Error
+    }
+}
+
+class privateClassWithWithPrivateParmeterTypes {
+    static myPublicStaticMethod(param = exporter.createExportedWidget1()) {
+    }
+    private static myPrivateStaticMethod(param = exporter.createExportedWidget1()) {
+    }
+    myPublicMethod(param  = exporter.createExportedWidget1()) {
+    }
+    private myPrivateMethod(param = exporter.createExportedWidget1()) {
+    }
+    constructor(param = exporter.createExportedWidget1(), private param1 = exporter.createExportedWidget1(), public param2 = exporter.createExportedWidget1()) {
+    }
+}
+class privateClassWithWithPrivateParmeterTypes2 {
+    static myPublicStaticMethod(param = exporter.createExportedWidget3()) {
+    }
+    private static myPrivateStaticMethod(param = exporter.createExportedWidget3()) {
+    }
+    myPublicMethod(param  = exporter.createExportedWidget3()) {
+    }
+    private myPrivateMethod(param = exporter.createExportedWidget3()) {
+    }
+    constructor(param = exporter.createExportedWidget3(), private param1 = exporter.createExportedWidget3(), public param2 = exporter.createExportedWidget3()) {
+    }
+}
+
+export function publicFunctionWithPrivateParmeterTypes(param = exporter.createExportedWidget1()) { // Error
+}
+function privateFunctionWithPrivateParmeterTypes(param = exporter.createExportedWidget1()) {
+}
+export function publicFunctionWithPrivateParmeterTypes1(param = exporter.createExportedWidget3()) { // Error
+}
+function privateFunctionWithPrivateParmeterTypes1(param = exporter.createExportedWidget3()) {
+}
+
+
+export class publicClassWithPrivateModuleParameterTypes {
+    static myPublicStaticMethod(param= exporter.createExportedWidget2()) { // Error
+    }
+    myPublicMethod(param= exporter.createExportedWidget2()) { // Error
+    }
+    constructor(param= exporter.createExportedWidget2(), private param1= exporter.createExportedWidget2(), public param2= exporter.createExportedWidget2()) { // Error
+    }
+}
+export class publicClassWithPrivateModuleParameterTypes2 {
+    static myPublicStaticMethod(param= exporter.createExportedWidget4()) { // Error
+    }
+    myPublicMethod(param= exporter.createExportedWidget4()) { // Error
+    }
+    constructor(param= exporter.createExportedWidget4(), private param1= exporter.createExportedWidget4(), public param2= exporter.createExportedWidget4()) { // Error
+    }
+}
+export function publicFunctionWithPrivateModuleParameterTypes(param= exporter.createExportedWidget2()) { // Error
+}
+export function publicFunctionWithPrivateModuleParameterTypes1(param= exporter.createExportedWidget4()) { // Error
+}
+
+
+class privateClassWithPrivateModuleParameterTypes {
+    static myPublicStaticMethod(param= exporter.createExportedWidget2()) {
+    }
+    myPublicMethod(param= exporter.createExportedWidget2()) {
+    }
+    constructor(param= exporter.createExportedWidget2(), private param1= exporter.createExportedWidget2(), public param2= exporter.createExportedWidget2()) {
+    }
+}
+class privateClassWithPrivateModuleParameterTypes1 {
+    static myPublicStaticMethod(param= exporter.createExportedWidget4()) {
+    }
+    myPublicMethod(param= exporter.createExportedWidget4()) {
+    }
+    constructor(param= exporter.createExportedWidget4(), private param1= exporter.createExportedWidget4(), public param2= exporter.createExportedWidget4()) {
+    }
+}
+function privateFunctionWithPrivateModuleParameterTypes(param= exporter.createExportedWidget2()) {
+}
+function privateFunctionWithPrivateModuleParameterTypes1(param= exporter.createExportedWidget4()) {
+}
+-- privacyFunctionCannotNameParameterTypeDeclFile_exporter.ts --
+///<reference path='privacyFunctionCannotNameParameterTypeDeclFile_GlobalWidgets.ts'/>
+import Widgets = require("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets");
+import Widgets1 = require("GlobalWidgets");
+export function createExportedWidget1() {
+    return Widgets.createWidget1();
+}
+export function createExportedWidget2() {
+    return Widgets.SpecializedWidget.createWidget2();
+}
+export function createExportedWidget3() {
+    return Widgets1.createWidget3();
+}
+export function createExportedWidget4() {
+    return Widgets1.SpecializedGlobalWidget.createWidget4();
+}
+-- privacyFunctionCannotNameParameterTypeDeclFile_consumer.d.ts.golden --
+export declare class publicClassWithWithPrivateParmeterTypes {
+    private param1;
+    param2: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").Widget1;
+    static myPublicStaticMethod(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").Widget1): void;
+    private static myPrivateStaticMethod;
+    myPublicMethod(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").Widget1): void;
+    private myPrivateMethod;
+    constructor(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").Widget1, param1?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").Widget1, param2?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").Widget1);
+}
+export declare class publicClassWithWithPrivateParmeterTypes1 {
+    private param1;
+    param2: import("GlobalWidgets").Widget3;
+    static myPublicStaticMethod(param?: import("GlobalWidgets").Widget3): void;
+    private static myPrivateStaticMethod;
+    myPublicMethod(param?: import("GlobalWidgets").Widget3): void;
+    private myPrivateMethod;
+    constructor(param?: import("GlobalWidgets").Widget3, param1?: import("GlobalWidgets").Widget3, param2?: import("GlobalWidgets").Widget3);
+}
+export declare function publicFunctionWithPrivateParmeterTypes(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").Widget1): void;
+export declare function publicFunctionWithPrivateParmeterTypes1(param?: import("GlobalWidgets").Widget3): void;
+export declare class publicClassWithPrivateModuleParameterTypes {
+    private param1;
+    param2: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").SpecializedWidget.Widget2;
+    static myPublicStaticMethod(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").SpecializedWidget.Widget2): void;
+    myPublicMethod(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").SpecializedWidget.Widget2): void;
+    constructor(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").SpecializedWidget.Widget2, param1?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").SpecializedWidget.Widget2, param2?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").SpecializedWidget.Widget2);
+}
+export declare class publicClassWithPrivateModuleParameterTypes2 {
+    private param1;
+    param2: import("GlobalWidgets").SpecializedGlobalWidget.Widget4;
+    static myPublicStaticMethod(param?: import("GlobalWidgets").SpecializedGlobalWidget.Widget4): void;
+    myPublicMethod(param?: import("GlobalWidgets").SpecializedGlobalWidget.Widget4): void;
+    constructor(param?: import("GlobalWidgets").SpecializedGlobalWidget.Widget4, param1?: import("GlobalWidgets").SpecializedGlobalWidget.Widget4, param2?: import("GlobalWidgets").SpecializedGlobalWidget.Widget4);
+}
+export declare function publicFunctionWithPrivateModuleParameterTypes(param?: import("./privacyFunctionCannotNameParameterTypeDeclFile_Widgets").SpecializedWidget.Widget2): void;
+export declare function publicFunctionWithPrivateModuleParameterTypes1(param?: import("GlobalWidgets").SpecializedGlobalWidget.Widget4): void;
+-- privacyFunctionCannotNameParameterTypeDeclFile_consumer.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.publicClassWithPrivateModuleParameterTypes2 = exports.publicClassWithPrivateModuleParameterTypes = exports.publicClassWithWithPrivateParmeterTypes1 = exports.publicClassWithWithPrivateParmeterTypes = void 0;
+exports.publicFunctionWithPrivateParmeterTypes = publicFunctionWithPrivateParmeterTypes;
+exports.publicFunctionWithPrivateParmeterTypes1 = publicFunctionWithPrivateParmeterTypes1;
+exports.publicFunctionWithPrivateModuleParameterTypes = publicFunctionWithPrivateModuleParameterTypes;
+exports.publicFunctionWithPrivateModuleParameterTypes1 = publicFunctionWithPrivateModuleParameterTypes1;
+const exporter = require("./privacyFunctionCannotNameParameterTypeDeclFile_exporter");
+class publicClassWithWithPrivateParmeterTypes {
+    static myPublicStaticMethod(param = exporter.createExportedWidget1()) {
+    }
+    static myPrivateStaticMethod(param = exporter.createExportedWidget1()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget1()) {
+    }
+    myPrivateMethod(param = exporter.createExportedWidget1()) {
+    }
+    constructor(param = exporter.createExportedWidget1(), param1 = exporter.createExportedWidget1(), param2 = exporter.createExportedWidget1()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+exports.publicClassWithWithPrivateParmeterTypes = publicClassWithWithPrivateParmeterTypes;
+class publicClassWithWithPrivateParmeterTypes1 {
+    static myPublicStaticMethod(param = exporter.createExportedWidget3()) {
+    }
+    static myPrivateStaticMethod(param = exporter.createExportedWidget3()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget3()) {
+    }
+    myPrivateMethod(param = exporter.createExportedWidget3()) {
+    }
+    constructor(param = exporter.createExportedWidget3(), param1 = exporter.createExportedWidget3(), param2 = exporter.createExportedWidget3()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+exports.publicClassWithWithPrivateParmeterTypes1 = publicClassWithWithPrivateParmeterTypes1;
+class privateClassWithWithPrivateParmeterTypes {
+    static myPublicStaticMethod(param = exporter.createExportedWidget1()) {
+    }
+    static myPrivateStaticMethod(param = exporter.createExportedWidget1()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget1()) {
+    }
+    myPrivateMethod(param = exporter.createExportedWidget1()) {
+    }
+    constructor(param = exporter.createExportedWidget1(), param1 = exporter.createExportedWidget1(), param2 = exporter.createExportedWidget1()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+class privateClassWithWithPrivateParmeterTypes2 {
+    static myPublicStaticMethod(param = exporter.createExportedWidget3()) {
+    }
+    static myPrivateStaticMethod(param = exporter.createExportedWidget3()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget3()) {
+    }
+    myPrivateMethod(param = exporter.createExportedWidget3()) {
+    }
+    constructor(param = exporter.createExportedWidget3(), param1 = exporter.createExportedWidget3(), param2 = exporter.createExportedWidget3()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+function publicFunctionWithPrivateParmeterTypes(param = exporter.createExportedWidget1()) {
+}
+function privateFunctionWithPrivateParmeterTypes(param = exporter.createExportedWidget1()) {
+}
+function publicFunctionWithPrivateParmeterTypes1(param = exporter.createExportedWidget3()) {
+}
+function privateFunctionWithPrivateParmeterTypes1(param = exporter.createExportedWidget3()) {
+}
+class publicClassWithPrivateModuleParameterTypes {
+    static myPublicStaticMethod(param = exporter.createExportedWidget2()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget2()) {
+    }
+    constructor(param = exporter.createExportedWidget2(), param1 = exporter.createExportedWidget2(), param2 = exporter.createExportedWidget2()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+exports.publicClassWithPrivateModuleParameterTypes = publicClassWithPrivateModuleParameterTypes;
+class publicClassWithPrivateModuleParameterTypes2 {
+    static myPublicStaticMethod(param = exporter.createExportedWidget4()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget4()) {
+    }
+    constructor(param = exporter.createExportedWidget4(), param1 = exporter.createExportedWidget4(), param2 = exporter.createExportedWidget4()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+exports.publicClassWithPrivateModuleParameterTypes2 = publicClassWithPrivateModuleParameterTypes2;
+function publicFunctionWithPrivateModuleParameterTypes(param = exporter.createExportedWidget2()) {
+}
+function publicFunctionWithPrivateModuleParameterTypes1(param = exporter.createExportedWidget4()) {
+}
+class privateClassWithPrivateModuleParameterTypes {
+    static myPublicStaticMethod(param = exporter.createExportedWidget2()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget2()) {
+    }
+    constructor(param = exporter.createExportedWidget2(), param1 = exporter.createExportedWidget2(), param2 = exporter.createExportedWidget2()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+class privateClassWithPrivateModuleParameterTypes1 {
+    static myPublicStaticMethod(param = exporter.createExportedWidget4()) {
+    }
+    myPublicMethod(param = exporter.createExportedWidget4()) {
+    }
+    constructor(param = exporter.createExportedWidget4(), param1 = exporter.createExportedWidget4(), param2 = exporter.createExportedWidget4()) {
+        this.param1 = param1;
+        this.param2 = param2;
+    }
+}
+function privateFunctionWithPrivateModuleParameterTypes(param = exporter.createExportedWidget2()) {
+}
+function privateFunctionWithPrivateModuleParameterTypes1(param = exporter.createExportedWidget4()) {
+}

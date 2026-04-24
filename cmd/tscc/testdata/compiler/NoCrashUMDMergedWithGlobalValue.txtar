@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/noCrashUMDMergedWithGlobalValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js main.js main.ts
+! stderr .
+cmp main.js main.js.golden
+! exists main.d.ts
+! exists main.js.map
+
+-- main.ts --
+interface SomeInterface {
+  readonly length: number;
+}
+declare const value: SomeInterface;
+-- other.d.ts --
+export as namespace SomeInterface;
+export type Action = "PUSH" | "POP" | "REPLACE";
+-- main.js.golden --
+"use strict";

@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/letAsIdentifier2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js letAsIdentifier2.js letAsIdentifier2.ts
+stderr 'TS1212'
+! exists letAsIdentifier2.js
+! exists letAsIdentifier2.d.ts
+! exists letAsIdentifier2.js.map
+
+-- letAsIdentifier2.ts --
+function let() {}

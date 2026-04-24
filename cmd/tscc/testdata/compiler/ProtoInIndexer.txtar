@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/protoInIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js protoInIndexer.js protoInIndexer.ts
+! stderr .
+cmp protoInIndexer.js protoInIndexer.js.golden
+! exists protoInIndexer.d.ts
+! exists protoInIndexer.js.map
+
+-- protoInIndexer.ts --
+class X {
+    constructor() {
+        this['__proto__'] = null; // used to cause ICE
+    }
+}
+-- protoInIndexer.js.golden --
+"use strict";
+class X {
+    constructor() {
+        this['__proto__'] = null; // used to cause ICE
+    }
+}

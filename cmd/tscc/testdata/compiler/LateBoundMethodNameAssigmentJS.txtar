@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/lateBoundMethodNameAssigmentJS.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts lateBoundMethodNameAssigmentJS.d.ts --strict --target es6 --lib es6,dom lateBoundMethodNameAssigmentJS.js
+! stderr .
+cmp lateBoundMethodNameAssigmentJS.d.ts lateBoundMethodNameAssigmentJS.d.ts.golden
+! exists lateBoundMethodNameAssigmentJS.js.map
+! exists out_lateBoundMethodNameAssigmentJS.js
+
+-- lateBoundMethodNameAssigmentJS.js --
+const _symbol = Symbol("_sym");
+export class MyClass {
+    constructor() {
+        this[_symbol] = this[_symbol].bind(this);
+    }
+
+    async [_symbol]() { }
+}
+-- lateBoundMethodNameAssigmentJS.d.ts.golden --
+declare const _symbol: unique symbol;
+export declare class MyClass {
+    constructor();
+    [_symbol](): Promise<void>;
+}
+export {};

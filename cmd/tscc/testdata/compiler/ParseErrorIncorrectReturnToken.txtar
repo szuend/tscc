@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/parseErrorIncorrectReturnToken.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parseErrorIncorrectReturnToken.js parseErrorIncorrectReturnToken.ts
+stderr 'TS1005'
+stderr 'TS1434'
+stderr 'TS1128'
+! exists parseErrorIncorrectReturnToken.js
+! exists parseErrorIncorrectReturnToken.d.ts
+! exists parseErrorIncorrectReturnToken.js.map
+
+-- parseErrorIncorrectReturnToken.ts --
+type F1 = {
+    (n: number) => string; // should be : not =>
+}
+type F2 = (n: number): string; // should be => not :
+
+// doesn't work in non-type contexts, where the return type is optional
+let f = (n: number) => string => n.toString();
+let o = {
+    m(n: number) => string {
+        return n.toString();
+    }
+};

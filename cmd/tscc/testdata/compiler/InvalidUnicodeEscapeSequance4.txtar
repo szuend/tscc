@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/invalidUnicodeEscapeSequance4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidUnicodeEscapeSequance4.js invalidUnicodeEscapeSequance4.ts
+stderr 'TS1127'
+! exists invalidUnicodeEscapeSequance4.js
+! exists invalidUnicodeEscapeSequance4.d.ts
+! exists invalidUnicodeEscapeSequance4.js.map
+
+-- invalidUnicodeEscapeSequance4.ts --
+var a\u0031; // a1 is a valid identifier
+var \u0031a; // 1a is an invalid identifier

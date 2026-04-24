@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/parenthesizedJSDocCastDoesNotNarrow.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom index.js
+stderr 'TS2678'
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+let value = "";
+
+switch (/** @type {"foo" | "bar"} */ (value)) {
+  case "bar":
+    value;
+    break;
+
+  case "foo":
+    value;
+    break;
+
+  case "invalid":
+    value;
+    break;
+}

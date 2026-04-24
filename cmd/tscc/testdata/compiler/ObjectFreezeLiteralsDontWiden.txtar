@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/objectFreezeLiteralsDontWiden.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectFreezeLiteralsDontWiden.js objectFreezeLiteralsDontWiden.ts
+stderr 'TS2322'
+! exists objectFreezeLiteralsDontWiden.js
+! exists objectFreezeLiteralsDontWiden.d.ts
+! exists objectFreezeLiteralsDontWiden.js.map
+
+-- objectFreezeLiteralsDontWiden.ts --
+const PUPPETEER_REVISIONS = Object.freeze({
+  chromium: '1011831',
+  firefox: 'latest',
+});
+
+let preferredRevision = PUPPETEER_REVISIONS.chromium;
+preferredRevision = PUPPETEER_REVISIONS.firefox;

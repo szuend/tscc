@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/namedFunctionExpressionInModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js namedFunctionExpressionInModule.js namedFunctionExpressionInModule.ts
+! stderr .
+cmp namedFunctionExpressionInModule.js namedFunctionExpressionInModule.js.golden
+! exists namedFunctionExpressionInModule.d.ts
+! exists namedFunctionExpressionInModule.js.map
+
+-- namedFunctionExpressionInModule.ts --
+namespace Variables{
+    var x = function bar(a, b, c) {
+    }
+    x(1, 2, 3);
+}
+-- namedFunctionExpressionInModule.js.golden --
+"use strict";
+var Variables;
+(function (Variables) {
+    var x = function bar(a, b, c) {
+    };
+    x(1, 2, 3);
+})(Variables || (Variables = {}));

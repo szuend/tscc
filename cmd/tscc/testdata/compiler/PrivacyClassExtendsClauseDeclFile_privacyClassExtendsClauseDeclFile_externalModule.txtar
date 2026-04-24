@@ -1,0 +1,101 @@
+# Ported from tests/cases/compiler/privacyClassExtendsClauseDeclFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts privacyClassExtendsClauseDeclFile_externalModule.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js privacyClassExtendsClauseDeclFile_externalModule.js privacyClassExtendsClauseDeclFile_externalModule.ts
+stderr 'TS2449'
+! exists privacyClassExtendsClauseDeclFile_externalModule.d.ts
+! exists privacyClassExtendsClauseDeclFile_externalModule.js
+! exists privacyClassExtendsClauseDeclFile_externalModule.js.map
+
+-- privacyClassExtendsClauseDeclFile_GlobalFile.ts --
+namespace publicModuleInGlobal {
+    export class publicClassInPublicModule {
+        private f1() {
+        }
+    }
+
+    class privateClassInPublicModule {
+    }
+
+    class privateClassExtendingPublicClassInModule extends publicClassInPublicModule {
+    }
+    class privateClassExtendingPrivateClassInModule extends privateClassInPublicModule {
+    }
+    export class publicClassExtendingPublicClassInModule extends publicClassInPublicModule {
+    }
+    export class publicClassExtendingPrivateClassInModule extends privateClassInPublicModule { // Should error
+    }
+}
+class publicClassInGlobal {
+}
+class publicClassExtendingPublicClassInGlobal extends publicClassInGlobal {
+}
+-- privacyClassExtendsClauseDeclFile_externalModule.ts --
+export namespace publicModule {
+    export class publicClassInPublicModule {
+        private f1() {
+        }
+    }
+
+    class privateClassInPublicModule {
+    }
+
+    class privateClassExtendingPublicClassInModule extends publicClassInPublicModule {
+    }
+    class privateClassExtendingPrivateClassInModule extends privateClassInPublicModule {
+    }
+    export class publicClassExtendingPublicClassInModule extends publicClassInPublicModule {
+    }
+    export class publicClassExtendingPrivateClassInModule extends privateClassInPublicModule { // Should error
+    }
+
+    class privateClassExtendingFromPrivateModuleClass extends privateModule.publicClassInPrivateModule {
+    }
+    export class publicClassExtendingFromPrivateModuleClass extends privateModule.publicClassInPrivateModule { // Should error
+    }
+}
+
+namespace privateModule {
+    export class publicClassInPrivateModule {
+        private f1() {
+        }
+    }
+
+    class privateClassInPrivateModule {
+    }
+
+    class privateClassExtendingPublicClassInModule extends publicClassInPrivateModule {
+    }
+    class privateClassExtendingPrivateClassInModule extends privateClassInPrivateModule {
+    }
+    export class publicClassExtendingPublicClassInModule extends publicClassInPrivateModule {
+    }
+    export class publicClassExtendingPrivateClassInModule extends privateClassInPrivateModule { 
+    }
+
+    class privateClassExtendingFromPrivateModuleClass extends privateModule.publicClassInPrivateModule {
+    }
+    export class publicClassExtendingFromPrivateModuleClass extends privateModule.publicClassInPrivateModule {
+    }
+}
+
+export class publicClass {
+    private f1() {
+    }
+}
+
+class privateClass {
+}
+
+class privateClassExtendingPublicClass extends publicClass {
+}
+class privateClassExtendingPrivateClassInModule extends privateClass {
+}
+export class publicClassExtendingPublicClass extends publicClass {
+}
+export class publicClassExtendingPrivateClass extends privateClass { // Should error
+}
+
+class privateClassExtendingFromPrivateModuleClass extends privateModule.publicClassInPrivateModule {
+}
+export class publicClassExtendingFromPrivateModuleClass extends privateModule.publicClassInPrivateModule { // Should error
+}

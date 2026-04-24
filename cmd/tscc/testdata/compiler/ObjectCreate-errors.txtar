@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/objectCreate-errors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js objectCreate-errors.js objectCreate-errors.ts
+stderr 'TS2345'
+! exists objectCreate-errors.js
+! exists objectCreate-errors.d.ts
+! exists objectCreate-errors.js.map
+
+-- objectCreate-errors.ts --
+var e1 = Object.create(1);               // Error
+var e2 = Object.create("string");        // Error
+var e3 = Object.create(false);           // Error
+var e4 = Object.create(undefined);       // Error
+
+ 
+var e5 = Object.create(1, {});           // Error
+var e6 = Object.create("string", {});    // Error
+var e7 = Object.create(false, {});       // Error
+var e8 = Object.create(undefined, {});   // Error

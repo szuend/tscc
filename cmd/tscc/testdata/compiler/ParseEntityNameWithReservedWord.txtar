@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/parseEntityNameWithReservedWord.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parseEntityNameWithReservedWord.js parseEntityNameWithReservedWord.ts
+! stderr .
+cmp parseEntityNameWithReservedWord.js parseEntityNameWithReservedWord.js.golden
+! exists parseEntityNameWithReservedWord.d.ts
+! exists parseEntityNameWithReservedWord.js.map
+
+-- parseEntityNameWithReservedWord.ts --
+enum Bool { false }
+const x: Bool.false = Bool.false;
+-- parseEntityNameWithReservedWord.js.golden --
+"use strict";
+var Bool;
+(function (Bool) {
+    Bool[Bool["false"] = 0] = "false";
+})(Bool || (Bool = {}));
+const x = Bool.false;

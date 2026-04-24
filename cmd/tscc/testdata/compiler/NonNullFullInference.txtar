@@ -1,0 +1,69 @@
+# Ported from tests/cases/compiler/nonNullFullInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js nonNullFullInference.js nonNullFullInference.ts
+! stderr .
+cmp nonNullFullInference.js nonNullFullInference.js.golden
+! exists nonNullFullInference.d.ts
+! exists nonNullFullInference.js.map
+
+-- nonNullFullInference.ts --
+// https://github.com/microsoft/TypeScript/issues/19577
+
+function testNonNullInference(numbers: number[]) {
+    let last;
+
+    for (const n of numbers) {
+        if (n % 2) {
+            return n;
+        }
+
+        last = n;
+    }
+
+    last;
+    last!;
+}
+
+function testNonNullInferenceWithArrays(numbers: number[]) {
+    let result;
+    const arr = [];
+
+    for (const n of numbers) {
+        if (n % 2) {
+            return [n];
+        }
+
+        arr.push(n);
+        result = arr;
+    }
+
+    result;
+    result!;
+}
+-- nonNullFullInference.js.golden --
+"use strict";
+// https://github.com/microsoft/TypeScript/issues/19577
+function testNonNullInference(numbers) {
+    let last;
+    for (const n of numbers) {
+        if (n % 2) {
+            return n;
+        }
+        last = n;
+    }
+    last;
+    last;
+}
+function testNonNullInferenceWithArrays(numbers) {
+    let result;
+    const arr = [];
+    for (const n of numbers) {
+        if (n % 2) {
+            return [n];
+        }
+        arr.push(n);
+        result = arr;
+    }
+    result;
+    result;
+}

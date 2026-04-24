@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/moduleVisibilityTest3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleVisibilityTest3.js moduleVisibilityTest3.ts
+stderr 'TS2709'
+stderr 'TS2724'
+! exists moduleVisibilityTest3.js
+! exists moduleVisibilityTest3.d.ts
+! exists moduleVisibilityTest3.js.map
+
+-- moduleVisibilityTest3.ts --
+namespace _modes {
+ export interface IMode {
+  
+ }
+ 
+ class Mode {
+  
+ }
+}
+
+//_modes. // produces an internal error - please implement in derived class
+
+namespace editor {
+ import modes = _modes;
+ 
+ var i : modes.IMode;
+  
+ // If you just use p1:modes, the compiler accepts it - should be an error
+ class Bug {
+     constructor(p1: modes, p2: modes.Mode) {// should be an error on p2 - it's not exported
+         var x:modes.Mode;
+     }
+    
+ }
+}

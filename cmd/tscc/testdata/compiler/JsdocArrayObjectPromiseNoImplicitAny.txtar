@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/jsdocArrayObjectPromiseNoImplicitAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --lib es2015 --strict --target es2015 jsdocArrayObjectPromiseNoImplicitAny.js
+stderr 'TS2314'
+stderr 'TS2322'
+! exists jsdocArrayObjectPromiseNoImplicitAny.d.ts
+! exists jsdocArrayObjectPromiseNoImplicitAny.js.map
+
+-- jsdocArrayObjectPromiseNoImplicitAny.js --
+/** @type {Array} */
+var notAnyArray = [5];
+
+/** @type {Array<number>} */
+var numberArray = [5];
+
+/**
+ * @param {Array} arr
+ * @return {Array}
+ */
+function returnNotAnyArray(arr) {
+  return arr;
+}
+
+/** @type {Promise} */
+var notAnyPromise = Promise.resolve(5);
+
+/** @type {Promise<number>} */
+var numberPromise = Promise.resolve(5);
+
+/**
+ * @param {Promise} pr
+ * @return {Promise}
+ */
+function returnNotAnyPromise(pr) {
+  return pr;
+}
+
+/** @type {Object} */
+var notAnyObject = {valueOf: 1}; // error since assigning to Object, not any.
+
+/** @type {Object<string, number>} */
+var paramedObject = {valueOf: 1};
+
+/**
+ * @param {Object} obj
+ * @return {Object}
+ */
+function returnNotAnyObject(obj) {
+  return obj;
+}

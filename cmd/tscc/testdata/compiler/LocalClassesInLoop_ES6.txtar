@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/localClassesInLoop_ES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js localClassesInLoop_ES6.js localClassesInLoop_ES6.ts
+! stderr .
+cmp localClassesInLoop_ES6.js localClassesInLoop_ES6.js.golden
+! exists localClassesInLoop_ES6.d.ts
+! exists localClassesInLoop_ES6.js.map
+
+-- localClassesInLoop_ES6.ts --
+declare function use(a: any);
+
+"use strict"
+var data = [];
+for (let x = 0; x < 2; ++x) {
+    class C { }
+    data.push(() => C);
+}
+
+use(data[0]() === data[1]());
+-- localClassesInLoop_ES6.js.golden --
+"use strict";
+"use strict";
+var data = [];
+for (let x = 0; x < 2; ++x) {
+    class C {
+    }
+    data.push(() => C);
+}
+use(data[0]() === data[1]());

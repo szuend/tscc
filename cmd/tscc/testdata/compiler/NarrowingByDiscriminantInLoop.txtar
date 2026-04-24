@@ -1,0 +1,144 @@
+# Ported from tests/cases/compiler/narrowingByDiscriminantInLoop.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js narrowingByDiscriminantInLoop.js narrowingByDiscriminantInLoop.ts
+! stderr .
+cmp narrowingByDiscriminantInLoop.js narrowingByDiscriminantInLoop.js.golden
+! exists narrowingByDiscriminantInLoop.d.ts
+! exists narrowingByDiscriminantInLoop.js.map
+
+-- narrowingByDiscriminantInLoop.ts --
+// Repro from #9977
+
+type IDLMemberTypes = OperationMemberType | ConstantMemberType;
+
+interface IDLTypeDescription {
+    origin: string;
+}
+
+interface InterfaceType {
+    members: IDLMemberTypes[];
+}
+
+interface OperationMemberType {
+    type: "operation";
+    idlType: IDLTypeDescription;
+}
+
+interface ConstantMemberType {
+    type: "const";
+    idlType: string;
+}
+
+function insertInterface(callbackType: InterfaceType) {
+    for (const memberType of callbackType.members) {
+        if (memberType.type === "const") {
+            memberType.idlType;  // string
+        }
+        else if (memberType.type === "operation") {
+            memberType.idlType.origin;  // string
+            (memberType.idlType as IDLTypeDescription);
+        }
+    }
+}
+
+function insertInterface2(callbackType: InterfaceType) {
+    for (const memberType of callbackType.members) {
+        if (memberType.type === "operation") {
+            memberType.idlType.origin;  // string
+        }
+    }
+}
+
+function foo(memberType: IDLMemberTypes) {
+    if (memberType.type === "const") {
+        memberType.idlType;  // string
+    }
+    else if (memberType.type === "operation") {
+        memberType.idlType.origin;  // string
+    }
+}
+
+// Repro for issue similar to #8383
+
+interface A {
+    kind: true;
+    prop: { a: string; };
+}
+
+interface B {
+    kind: false;
+    prop: { b: string; }
+}
+
+function f1(x: A | B) {
+    while (true) {
+        x.prop;
+        if (x.kind === true) {
+            x.prop.a;
+        }
+        if (x.kind === false) {
+            x.prop.b;
+        }
+    }
+}
+
+function f2(x: A | B) {
+    while (true) {
+        if (x.kind) {
+            x.prop.a;
+        }
+        if (!x.kind) {
+            x.prop.b;
+        }
+    }
+}
+-- narrowingByDiscriminantInLoop.js.golden --
+"use strict";
+// Repro from #9977
+function insertInterface(callbackType) {
+    for (const memberType of callbackType.members) {
+        if (memberType.type === "const") {
+            memberType.idlType; // string
+        }
+        else if (memberType.type === "operation") {
+            memberType.idlType.origin; // string
+            memberType.idlType;
+        }
+    }
+}
+function insertInterface2(callbackType) {
+    for (const memberType of callbackType.members) {
+        if (memberType.type === "operation") {
+            memberType.idlType.origin; // string
+        }
+    }
+}
+function foo(memberType) {
+    if (memberType.type === "const") {
+        memberType.idlType; // string
+    }
+    else if (memberType.type === "operation") {
+        memberType.idlType.origin; // string
+    }
+}
+function f1(x) {
+    while (true) {
+        x.prop;
+        if (x.kind === true) {
+            x.prop.a;
+        }
+        if (x.kind === false) {
+            x.prop.b;
+        }
+    }
+}
+function f2(x) {
+    while (true) {
+        if (x.kind) {
+            x.prop.a;
+        }
+        if (!x.kind) {
+            x.prop.b;
+        }
+    }
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/optionalParameterProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js optionalParameterProperty.js optionalParameterProperty.ts
+stderr 'TS2415'
+! exists optionalParameterProperty.js
+! exists optionalParameterProperty.d.ts
+! exists optionalParameterProperty.js.map
+
+-- optionalParameterProperty.ts --
+class C {
+    p: number = 0;
+}
+
+class D extends C { 
+    constructor(public p?: number) {
+        super();
+    }
+}

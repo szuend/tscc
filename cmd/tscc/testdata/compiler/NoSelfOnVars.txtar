@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/noSelfOnVars.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js noSelfOnVars.js noSelfOnVars.ts
+! stderr .
+cmp noSelfOnVars.js noSelfOnVars.js.golden
+! exists noSelfOnVars.d.ts
+! exists noSelfOnVars.js.map
+
+-- noSelfOnVars.ts --
+function foo() {
+    function bar() { }
+    var x = bar;
+}
+
+
+-- noSelfOnVars.js.golden --
+"use strict";
+function foo() {
+    function bar() { }
+    var x = bar;
+}

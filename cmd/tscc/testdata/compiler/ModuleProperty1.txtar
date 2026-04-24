@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/moduleProperty1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleProperty1.js moduleProperty1.ts
+stderr 'TS1128'
+! exists moduleProperty1.js
+! exists moduleProperty1.d.ts
+! exists moduleProperty1.js.map
+
+-- moduleProperty1.ts --
+namespace M {
+    var x=10;  // variable local to this module body
+    var y=x;  // property visible only in module
+    export var z=y;  // property visible to any code
+}
+
+namespace M2 {
+    var x = 10;  // variable local to this module body
+    private y = x;  // can't use private in modules
+    export var z = y;  // property visible to any code
+}

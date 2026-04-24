@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/nestedGenericSpreadInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nestedGenericSpreadInference.js nestedGenericSpreadInference.ts
+! stderr .
+cmp nestedGenericSpreadInference.js nestedGenericSpreadInference.js.golden
+! exists nestedGenericSpreadInference.d.ts
+! exists nestedGenericSpreadInference.js.map
+
+-- nestedGenericSpreadInference.ts --
+declare function wrap<X>(x: X): { x: X };
+declare function call<A extends unknown[], T>(x: { x: (...args: A) => T }, ...args: A): T;
+
+const leak = call(wrap(<T>(x: T) => x), 1);
+-- nestedGenericSpreadInference.js.golden --
+"use strict";
+const leak = call(wrap((x) => x), 1);

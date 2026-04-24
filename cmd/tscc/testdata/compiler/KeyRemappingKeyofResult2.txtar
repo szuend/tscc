@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/keyRemappingKeyofResult2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom keyRemappingKeyofResult2.ts
+! stderr .
+! exists keyRemappingKeyofResult2.d.ts
+! exists keyRemappingKeyofResult2.js.map
+
+-- keyRemappingKeyofResult2.ts --
+// https://github.com/microsoft/TypeScript/issues/56239
+
+type Values<T> = T[keyof T];
+
+type ProvidedActor = {
+  src: string;
+  logic: unknown;
+};
+
+interface StateMachineConfig<TActors extends ProvidedActor> {
+  invoke: {
+    src: TActors["src"];
+  };
+}
+
+declare function setup<TActors extends Record<string, unknown>>(_: {
+  actors: {
+    [K in keyof TActors]: TActors[K];
+  };
+}): {
+  createMachine: (
+    config: StateMachineConfig<
+      Values<{
+        [K in keyof TActors as K & string]: {
+          src: K;
+          logic: TActors[K];
+        };
+      }>
+    >,
+  ) => void;
+};

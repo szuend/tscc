@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/nestedIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js nestedIndexer.js nestedIndexer.ts
+! stderr .
+cmp nestedIndexer.js nestedIndexer.js.golden
+! exists nestedIndexer.d.ts
+! exists nestedIndexer.js.map
+
+-- nestedIndexer.ts --
+function then(x) {
+
+var match: { [index: number]: string; }
+
+}
+-- nestedIndexer.js.golden --
+"use strict";
+function then(x) {
+    var match;
+}

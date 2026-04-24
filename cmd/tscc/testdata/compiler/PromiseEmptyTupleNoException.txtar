@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/promiseEmptyTupleNoException.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2017 --lib es2017,dom --out-js promiseEmptyTupleNoException.js promiseEmptyTupleNoException.ts
+stderr 'TS2322'
+! exists promiseEmptyTupleNoException.js
+! exists promiseEmptyTupleNoException.d.ts
+! exists promiseEmptyTupleNoException.js.map
+
+-- promiseEmptyTupleNoException.ts --
+export async function get(): Promise<[]> {
+  let emails = [];
+  return emails;
+}

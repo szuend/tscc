@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/memberScope.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js memberScope.js memberScope.ts
+stderr 'TS2708'
+! exists memberScope.js
+! exists memberScope.d.ts
+! exists memberScope.js.map
+
+-- memberScope.ts --
+namespace Salt {
+  export class Pepper {}
+  export namespace Basil { }
+  var z = Basil.Pepper;
+}
+

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/moduleVisibilityTest4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleVisibilityTest4.js moduleVisibilityTest4.ts
+stderr 'TS2724'
+stderr 'TS2694'
+! exists moduleVisibilityTest4.js
+! exists moduleVisibilityTest4.d.ts
+! exists moduleVisibilityTest4.js.map
+
+-- moduleVisibilityTest4.ts --
+namespace M {
+    export type nums = number;
+}
+
+namespace N {
+    export type nums = number;
+}
+
+let a1: M.num;
+let b1: M.nums;
+let c1: M.bar;
+
+let a2: N.num;
+let b2: N.nums;
+let c2: N.bar;

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/intersectionApparentTypeCaching.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom intersectionApparentTypeCaching.ts
+! stderr .
+! exists intersectionApparentTypeCaching.d.ts
+! exists intersectionApparentTypeCaching.js.map
+
+-- intersectionApparentTypeCaching.ts --
+// https://github.com/microsoft/TypeScript/issues/58175
+
+type TX<T extends any[] & object> = T["length"];
+type T0<U extends any[] & object> = U;
+type T1 = T0<string[]>;

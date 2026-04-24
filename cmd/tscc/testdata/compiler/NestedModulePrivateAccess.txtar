@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/nestedModulePrivateAccess.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nestedModulePrivateAccess.js nestedModulePrivateAccess.ts
+! stderr .
+cmp nestedModulePrivateAccess.js nestedModulePrivateAccess.js.golden
+! exists nestedModulePrivateAccess.d.ts
+! exists nestedModulePrivateAccess.js.map
+
+-- nestedModulePrivateAccess.ts --
+namespace a{
+       var x:number;
+       namespace b{
+               var y = x; // should not be an error
+       }
+}
+-- nestedModulePrivateAccess.js.golden --
+"use strict";
+var a;
+(function (a) {
+    var x;
+    let b;
+    (function (b) {
+        var y = x; // should not be an error
+    })(b || (b = {}));
+})(a || (a = {}));

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/methodInAmbientClass1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js methodInAmbientClass1.js methodInAmbientClass1.ts
+stderr 'TS1183'
+! exists methodInAmbientClass1.js
+! exists methodInAmbientClass1.d.ts
+! exists methodInAmbientClass1.js.map
+
+-- methodInAmbientClass1.ts --
+    declare class Foo {
+    	fn(): boolean {
+    	}
+    }

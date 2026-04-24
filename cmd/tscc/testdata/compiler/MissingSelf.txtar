@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/missingSelf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js missingSelf.js missingSelf.ts
+! stderr .
+cmp missingSelf.js missingSelf.js.golden
+! exists missingSelf.d.ts
+! exists missingSelf.js.map
+
+-- missingSelf.ts --
+class CalcButton
+{
+    public a() { this.onClick(); }
+    public onClick() { }
+}
+
+class CalcButton2
+{
+    public b() { () => this.onClick(); }
+    public onClick() { }
+}
+
+var c = new CalcButton();
+c.a();
+var c2 = new CalcButton2();
+c2.b();
+
+-- missingSelf.js.golden --
+"use strict";
+class CalcButton {
+    a() { this.onClick(); }
+    onClick() { }
+}
+class CalcButton2 {
+    b() { () => this.onClick(); }
+    onClick() { }
+}
+var c = new CalcButton();
+c.a();
+var c2 = new CalcButton2();
+c2.b();

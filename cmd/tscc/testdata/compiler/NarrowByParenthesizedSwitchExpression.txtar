@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/narrowByParenthesizedSwitchExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom narrowByParenthesizedSwitchExpression.ts
+! stderr .
+! exists narrowByParenthesizedSwitchExpression.d.ts
+! exists narrowByParenthesizedSwitchExpression.js.map
+
+-- narrowByParenthesizedSwitchExpression.ts --
+interface Base {
+  type: "foo" | "bar";
+}
+
+interface Foo extends Base {
+  type: "foo";
+  foo: string;
+}
+
+interface Bar extends Base {
+  type: "bar";
+  bar: number;
+}
+
+function getV(): Foo | Bar {
+  return null!;
+}
+
+const v = getV();
+
+switch ((v.type)) {
+  case "bar":
+    v.bar;
+    break;
+
+  case "foo":
+    v.foo;
+    break;
+}

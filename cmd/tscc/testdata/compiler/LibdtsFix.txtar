@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/libdtsFix.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js libdtsFix.js libdtsFix.ts
+! stderr .
+cmp libdtsFix.js libdtsFix.js.golden
+! exists libdtsFix.d.ts
+! exists libdtsFix.js.map
+
+-- libdtsFix.ts --
+interface HTMLElement {
+    type: string;
+}
+-- libdtsFix.js.golden --
+"use strict";

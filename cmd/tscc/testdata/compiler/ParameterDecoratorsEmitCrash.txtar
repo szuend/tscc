@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/parameterDecoratorsEmitCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js parameterDecoratorsEmitCrash.js parameterDecoratorsEmitCrash.ts
+stderr 'TS1206'
+! exists parameterDecoratorsEmitCrash.js
+! exists parameterDecoratorsEmitCrash.d.ts
+! exists parameterDecoratorsEmitCrash.js.map
+
+-- parameterDecoratorsEmitCrash.ts --
+// https://github.com/microsoft/TypeScript/issues/58269
+declare var dec: any;
+
+export class C {
+    @dec x: any;
+    constructor(@dec x: any) {}
+}

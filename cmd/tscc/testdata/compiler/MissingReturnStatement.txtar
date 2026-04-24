@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/missingReturnStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js missingReturnStatement.js missingReturnStatement.ts
+stderr 'TS2355'
+! exists missingReturnStatement.js
+! exists missingReturnStatement.d.ts
+! exists missingReturnStatement.js.map
+
+-- missingReturnStatement.ts --
+namespace Test {
+    export class Bug {
+        public foo():string {
+        }
+    }    
+}

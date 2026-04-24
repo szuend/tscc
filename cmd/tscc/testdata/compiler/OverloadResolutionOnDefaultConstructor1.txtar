@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/overloadResolutionOnDefaultConstructor1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadResolutionOnDefaultConstructor1.js overloadResolutionOnDefaultConstructor1.ts
+stderr 'TS2554'
+! exists overloadResolutionOnDefaultConstructor1.js
+! exists overloadResolutionOnDefaultConstructor1.d.ts
+! exists overloadResolutionOnDefaultConstructor1.js.map
+
+-- overloadResolutionOnDefaultConstructor1.ts --
+class Bar {
+    public clone() {
+        return new Bar(0);
+    }
+}

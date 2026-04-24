@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/noExcessiveStackDepthError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts noExcessiveStackDepthError.d.ts --strict --target es2015 --lib es2015,dom --out-js noExcessiveStackDepthError.js noExcessiveStackDepthError.ts
+stderr 'TS2403'
+! exists noExcessiveStackDepthError.d.ts
+! exists noExcessiveStackDepthError.js
+! exists noExcessiveStackDepthError.js.map
+
+-- noExcessiveStackDepthError.ts --
+// Repro from #46631
+
+interface FindOperator<T> {
+    foo: T;
+}
+
+type FindConditions<T> = {
+    [P in keyof T]?: FindConditions<T[P]> | FindOperator<FindConditions<T[P]>>;
+};
+
+function foo<Entity>() {
+    var x: FindConditions<any>;
+    var x: FindConditions<Entity>;  // Excessive stack depth error not expected here
+}

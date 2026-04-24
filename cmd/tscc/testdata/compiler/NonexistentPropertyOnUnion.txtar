@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/nonexistentPropertyOnUnion.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nonexistentPropertyOnUnion.js nonexistentPropertyOnUnion.ts
+stderr 'TS2339'
+! exists nonexistentPropertyOnUnion.js
+! exists nonexistentPropertyOnUnion.d.ts
+! exists nonexistentPropertyOnUnion.js.map
+
+-- nonexistentPropertyOnUnion.ts --
+function f(x: string | Promise<string>) {
+    x.toLowerCase();
+}

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/overloadEquivalenceWithStatics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadEquivalenceWithStatics.js overloadEquivalenceWithStatics.ts
+stderr 'TS2322'
+! exists overloadEquivalenceWithStatics.js
+! exists overloadEquivalenceWithStatics.d.ts
+! exists overloadEquivalenceWithStatics.js.map
+
+-- overloadEquivalenceWithStatics.ts --
+class A1<T> {
+static B<S>(v: A1<S>): A1<S>; // 1 
+static B<S>(v: S): A1<S>; // 2 : Error Duplicate signature
+static B<S>(v: any): A1<S> {
+return null;
+}
+}

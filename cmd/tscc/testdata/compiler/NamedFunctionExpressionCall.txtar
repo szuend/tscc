@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/namedFunctionExpressionCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js namedFunctionExpressionCall.js namedFunctionExpressionCall.ts
+! stderr .
+cmp namedFunctionExpressionCall.js namedFunctionExpressionCall.js.golden
+! exists namedFunctionExpressionCall.d.ts
+! exists namedFunctionExpressionCall.js.map
+
+-- namedFunctionExpressionCall.ts --
+var recurser = function foo() {
+    // using the local name
+    foo();
+
+    // using the globally visible name
+    recurser();
+};
+
+
+(function bar() {
+    bar();
+});
+-- namedFunctionExpressionCall.js.golden --
+"use strict";
+var recurser = function foo() {
+    // using the local name
+    foo();
+    // using the globally visible name
+    recurser();
+};
+(function bar() {
+    bar();
+});

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/propagateNonInferrableType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js propagateNonInferrableType.js propagateNonInferrableType.ts
+! stderr .
+cmp propagateNonInferrableType.js propagateNonInferrableType.js.golden
+! exists propagateNonInferrableType.d.ts
+! exists propagateNonInferrableType.js.map
+
+-- propagateNonInferrableType.ts --
+declare function resolver<T>(): () => void;
+declare function wrapResolver<T>(resolverFunction: () => void): void;
+
+wrapResolver(resolver() || []);
+-- propagateNonInferrableType.js.golden --
+"use strict";
+wrapResolver(resolver() || []);

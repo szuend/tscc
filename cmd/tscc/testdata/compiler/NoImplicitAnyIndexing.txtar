@@ -1,0 +1,58 @@
+# Ported from tests/cases/compiler/noImplicitAnyIndexing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyIndexing.js noImplicitAnyIndexing.ts
+stderr 'TS7015'
+stderr 'TS2339'
+stderr 'TS7053'
+! exists noImplicitAnyIndexing.js
+! exists noImplicitAnyIndexing.d.ts
+! exists noImplicitAnyIndexing.js.map
+
+-- noImplicitAnyIndexing.ts --
+enum MyEmusEnum {
+    emu
+}
+
+// Should be okay; should be a string.
+var strRepresentation1 = MyEmusEnum[0]
+
+// Should be okay; should be a string.
+var strRepresentation2 = MyEmusEnum[MyEmusEnum.emu]
+
+// Should be implicit 'any' ; property access fails, no string indexer.
+var strRepresentation3 = MyEmusEnum["monehh"];
+
+// Should be okay; should be a MyEmusEnum
+var strRepresentation4 = MyEmusEnum["emu"];
+
+
+// Should report an implicit 'any'.
+var x = {}["hi"];
+
+// Should report an implicit 'any'.
+var y = {}[10];
+
+
+var hi: any = "hi";
+
+var emptyObj = {};
+
+// Should report an implicit 'any'.
+var z1 = emptyObj[hi];
+var z2 = (<any>emptyObj)[hi];
+
+interface MyMap<T> {
+    [key: string]: T;
+}
+
+var m: MyMap<number> = {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "Okay that's enough for today.": NaN
+};
+
+var mResult1 = m[MyEmusEnum.emu];
+var mResult2 = m[MyEmusEnum[MyEmusEnum.emu]];
+var mResult3 = m[hi];
+

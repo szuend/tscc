@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/moduleSharesNameWithImportDeclarationInsideIt4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js moduleSharesNameWithImportDeclarationInsideIt4.js moduleSharesNameWithImportDeclarationInsideIt4.ts
+! stderr .
+cmp moduleSharesNameWithImportDeclarationInsideIt4.js moduleSharesNameWithImportDeclarationInsideIt4.js.golden
+! exists moduleSharesNameWithImportDeclarationInsideIt4.d.ts
+! exists moduleSharesNameWithImportDeclarationInsideIt4.js.map
+
+-- moduleSharesNameWithImportDeclarationInsideIt4.ts --
+namespace Z.M {
+    export function bar() {
+        return "";
+    }
+}
+namespace A.M {
+    interface M { }
+    import M = Z.M;
+    export function bar() {
+    }
+    M.bar(); // Should call Z.M.bar
+}
+-- moduleSharesNameWithImportDeclarationInsideIt4.js.golden --
+"use strict";
+var Z;
+(function (Z) {
+    var M;
+    (function (M) {
+        function bar() {
+            return "";
+        }
+        M.bar = bar;
+    })(M = Z.M || (Z.M = {}));
+})(Z || (Z = {}));
+var A;
+(function (A) {
+    var M;
+    (function (M_1) {
+        var M = Z.M;
+        function bar() {
+        }
+        M_1.bar = bar;
+        M.bar(); // Should call Z.M.bar
+    })(M = A.M || (A.M = {}));
+})(A || (A = {}));

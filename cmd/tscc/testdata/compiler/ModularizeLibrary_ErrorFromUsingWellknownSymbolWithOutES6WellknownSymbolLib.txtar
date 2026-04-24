@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/modularizeLibrary_ErrorFromUsingWellknownSymbolWithOutES6WellknownSymbolLib.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5,es2015.core --target es2015 --out-js modularizeLibrary_ErrorFromUsingWellknownSymbolWithOutES6WellknownSymbolLib.js modularizeLibrary_ErrorFromUsingWellknownSymbolWithOutES6WellknownSymbolLib.ts
+stderr 'TS2322'
+stderr 'TS2585'
+! exists modularizeLibrary_ErrorFromUsingWellknownSymbolWithOutES6WellknownSymbolLib.js
+! exists modularizeLibrary_ErrorFromUsingWellknownSymbolWithOutES6WellknownSymbolLib.d.ts
+! exists modularizeLibrary_ErrorFromUsingWellknownSymbolWithOutES6WellknownSymbolLib.js.map
+
+-- modularizeLibrary_ErrorFromUsingWellknownSymbolWithOutES6WellknownSymbolLib.ts --
+function f(x: number, y: number, z: number) {
+    return Array.from(arguments);
+}
+
+f(1, 2, 3);   // no error
+let a = ['c', 'd'];
+a[Symbol.isConcatSpreadable] = false;

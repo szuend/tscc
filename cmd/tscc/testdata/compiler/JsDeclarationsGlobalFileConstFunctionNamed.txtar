@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/jsDeclarationsGlobalFileConstFunctionNamed.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --out-dts file.d.ts --target es2015 --lib es2015,dom file.js
+stderr 'TS2683'
+stderr 'TS7009'
+! exists file.d.ts
+! exists file.js.map
+! exists out_file.js
+
+-- file.js --
+const SomeConstructor = function Named() {
+	this.x = 1;
+};
+
+const SomeConstructor2 = function Named() {
+};
+SomeConstructor2.staticMember = "str";
+
+const SomeConstructor3 = function Named() {
+	this.x = 1;
+};
+SomeConstructor3.staticMember = "str";
+
+const SelfReference = function Named() {
+    if (!(this instanceof Named)) return new Named();
+    this.x = 1;
+}
+SelfReference.staticMember = "str";

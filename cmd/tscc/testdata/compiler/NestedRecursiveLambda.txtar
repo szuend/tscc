@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/nestedRecursiveLambda.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js nestedRecursiveLambda.js nestedRecursiveLambda.ts
+! stderr .
+cmp nestedRecursiveLambda.js nestedRecursiveLambda.js.golden
+! exists nestedRecursiveLambda.d.ts
+! exists nestedRecursiveLambda.js.map
+
+-- nestedRecursiveLambda.ts --
+function f(a:any) {
+void (r =>(r => r));
+}
+f((r =>(r => r)));
+void(r =>(r => r));
+[(r =>(r => r))]
+-- nestedRecursiveLambda.js.golden --
+"use strict";
+function f(a) {
+    void (r => (r => r));
+}
+f((r => (r => r)));
+void (r => (r => r));
+[(r => (r => r))];

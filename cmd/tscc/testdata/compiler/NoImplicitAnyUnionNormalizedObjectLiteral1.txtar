@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/noImplicitAnyUnionNormalizedObjectLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --no-strict-null-checks --target es2015 --lib es2015,dom noImplicitAnyUnionNormalizedObjectLiteral1.ts
+stderr 'TS7018'
+! exists noImplicitAnyUnionNormalizedObjectLiteral1.d.ts
+! exists noImplicitAnyUnionNormalizedObjectLiteral1.js.map
+
+-- noImplicitAnyUnionNormalizedObjectLiteral1.ts --
+// https://github.com/microsoft/TypeScript/issues/58150
+
+function doSthWithParams(params: unknown) {
+  if (typeof params !== "object") {
+    return {};
+  }
+
+  return {
+    c: "foo",
+    p: "bar",
+    s: "baz",
+  };
+}
+
+const bar = {
+  p: null,
+  s: null,
+  ...doSthWithParams({
+    p: "hello",
+    s: "world",
+  }),
+};

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/mappedTypeGenericInstantiationPreservesHomomorphism.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts api.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js api.js api.ts
+! stderr .
+cmp api.d.ts api.d.ts.golden
+cmp api.js api.js.golden
+! exists api.js.map
+
+-- api.ts --
+import {usePrivateType} from './internal';
+export const mappedUnionWithPrivateType = <T extends unknown[]>(...args: T) => usePrivateType(...args);
+-- internal.ts --
+export declare function usePrivateType<T extends unknown[]>(...args: T): PrivateMapped<T[any]>;
+
+type PrivateMapped<Obj> = {[K in keyof Obj]: Obj[K]};
+-- api.d.ts.golden --
+export declare const mappedUnionWithPrivateType: <T extends unknown[]>(...args: T) => T[any] extends infer T_1 ? { [K in keyof T_1]: T_1[K]; } : never;
+-- api.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mappedUnionWithPrivateType = void 0;
+const internal_1 = require("./internal");
+const mappedUnionWithPrivateType = (...args) => (0, internal_1.usePrivateType)(...args);
+exports.mappedUnionWithPrivateType = mappedUnionWithPrivateType;

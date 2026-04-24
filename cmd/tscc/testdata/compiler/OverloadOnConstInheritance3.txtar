@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/overloadOnConstInheritance3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js overloadOnConstInheritance3.js overloadOnConstInheritance3.ts
+! stderr .
+cmp overloadOnConstInheritance3.js overloadOnConstInheritance3.js.golden
+! exists overloadOnConstInheritance3.d.ts
+! exists overloadOnConstInheritance3.js.map
+
+-- overloadOnConstInheritance3.ts --
+interface Base {
+    addEventListener(x: string): any;
+}
+interface Deriver extends Base {
+    // shouldn't need to redeclare the string overload
+    addEventListener(x: 'bar'): string;
+    addEventListener(x: 'foo'): string;
+}
+-- overloadOnConstInheritance3.js.golden --
+"use strict";

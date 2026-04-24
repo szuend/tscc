@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/mergedDeclarations7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --path passport=passport.d.ts --out-js test.js test.ts
+stderr 'TS2322'
+! exists test.js
+! exists test.d.ts
+! exists test.js.map
+
+-- passport.d.ts --
+declare module 'passport' {
+    namespace passport {
+        interface Passport {
+            use(): this;
+        }
+
+        interface PassportStatic extends Passport {
+            Passport: {new(): Passport};
+        }
+    }
+
+    const passport: passport.PassportStatic;
+    export = passport;
+}
+-- test.ts --
+import * as passport from "passport";
+import { Passport } from "passport";
+
+let p: Passport = passport.use();

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/overloadsInDifferentContainersDisagreeOnAmbient.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadsInDifferentContainersDisagreeOnAmbient.js overloadsInDifferentContainersDisagreeOnAmbient.ts
+stderr 'TS2384'
+! exists overloadsInDifferentContainersDisagreeOnAmbient.js
+! exists overloadsInDifferentContainersDisagreeOnAmbient.d.ts
+! exists overloadsInDifferentContainersDisagreeOnAmbient.js.map
+
+-- overloadsInDifferentContainersDisagreeOnAmbient.ts --
+declare namespace M {
+    // Error because body is not ambient and this overload is
+    export function f();
+}
+
+namespace M {
+    export function f() { }
+}

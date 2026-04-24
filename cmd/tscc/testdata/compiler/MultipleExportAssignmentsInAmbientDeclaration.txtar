@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/multipleExportAssignmentsInAmbientDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --path m1=multipleExportAssignmentsInAmbientDeclaration.ts --out-js multipleExportAssignmentsInAmbientDeclaration.js multipleExportAssignmentsInAmbientDeclaration.ts
+stderr 'TS2300'
+! exists multipleExportAssignmentsInAmbientDeclaration.js
+! exists multipleExportAssignmentsInAmbientDeclaration.d.ts
+! exists multipleExportAssignmentsInAmbientDeclaration.js.map
+
+-- multipleExportAssignmentsInAmbientDeclaration.ts --
+declare module "m1" {
+    var a: number
+    var b: number;
+    export = a;
+    export = b;
+}

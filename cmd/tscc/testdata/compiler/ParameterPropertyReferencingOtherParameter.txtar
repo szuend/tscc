@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/parameterPropertyReferencingOtherParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parameterPropertyReferencingOtherParameter.js parameterPropertyReferencingOtherParameter.ts
+! stderr .
+cmp parameterPropertyReferencingOtherParameter.js parameterPropertyReferencingOtherParameter.js.golden
+! exists parameterPropertyReferencingOtherParameter.d.ts
+! exists parameterPropertyReferencingOtherParameter.js.map
+
+-- parameterPropertyReferencingOtherParameter.ts --
+class Foo {
+    constructor(public x: number, public y: number = x) { }
+}
+-- parameterPropertyReferencingOtherParameter.js.golden --
+"use strict";
+class Foo {
+    constructor(x, y = x) {
+        this.x = x;
+        this.y = y;
+    }
+}

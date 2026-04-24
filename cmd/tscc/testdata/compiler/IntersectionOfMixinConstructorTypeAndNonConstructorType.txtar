@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/intersectionOfMixinConstructorTypeAndNonConstructorType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js intersectionOfMixinConstructorTypeAndNonConstructorType.js intersectionOfMixinConstructorTypeAndNonConstructorType.ts
+! stderr .
+cmp intersectionOfMixinConstructorTypeAndNonConstructorType.js intersectionOfMixinConstructorTypeAndNonConstructorType.js.golden
+! exists intersectionOfMixinConstructorTypeAndNonConstructorType.d.ts
+! exists intersectionOfMixinConstructorTypeAndNonConstructorType.js.map
+
+-- intersectionOfMixinConstructorTypeAndNonConstructorType.ts --
+// Repro for #17388
+
+declare let x: {foo: undefined} & {new(...args: any[]): any};
+new x();
+-- intersectionOfMixinConstructorTypeAndNonConstructorType.js.golden --
+"use strict";
+// Repro for #17388
+new x();

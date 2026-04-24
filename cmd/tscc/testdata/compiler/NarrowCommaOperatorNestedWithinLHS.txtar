@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/narrowCommaOperatorNestedWithinLHS.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js narrowCommaOperatorNestedWithinLHS.js narrowCommaOperatorNestedWithinLHS.ts
+! stderr .
+cmp narrowCommaOperatorNestedWithinLHS.js narrowCommaOperatorNestedWithinLHS.js.golden
+! exists narrowCommaOperatorNestedWithinLHS.d.ts
+! exists narrowCommaOperatorNestedWithinLHS.js.map
+
+-- narrowCommaOperatorNestedWithinLHS.ts --
+const otherValue = () => true;
+const value: { inner: number | string } = null as any;
+
+function isNumber(obj: any): obj is number {
+    return true; // method implementation irrelevant
+}
+
+if (typeof (otherValue(), value).inner === 'number') {
+    const a = value.inner; // number
+    const b: number = (otherValue(), value).inner; // string | number , but should be number
+}
+
+if (isNumber((otherValue(), value).inner)) {
+    const a = value.inner; // number
+    const b: number = (otherValue(), value).inner; // string | number , but should be number
+}
+-- narrowCommaOperatorNestedWithinLHS.js.golden --
+"use strict";
+const otherValue = () => true;
+const value = null;
+function isNumber(obj) {
+    return true; // method implementation irrelevant
+}
+if (typeof (otherValue(), value).inner === 'number') {
+    const a = value.inner; // number
+    const b = (otherValue(), value).inner; // string | number , but should be number
+}
+if (isNumber((otherValue(), value).inner)) {
+    const a = value.inner; // number
+    const b = (otherValue(), value).inner; // string | number , but should be number
+}

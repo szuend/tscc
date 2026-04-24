@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/internalAliasInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasInterface.d.ts --target es2015 --lib es2015,dom --out-js internalAliasInterface.js internalAliasInterface.ts
+! stderr .
+cmp internalAliasInterface.d.ts internalAliasInterface.d.ts.golden
+cmp internalAliasInterface.js internalAliasInterface.js.golden
+! exists internalAliasInterface.js.map
+
+-- internalAliasInterface.ts --
+namespace a {
+    export interface I {
+    }
+}
+
+namespace c {
+    import b = a.I;
+    export var x: b;
+}
+-- internalAliasInterface.d.ts.golden --
+declare namespace a {
+    interface I {
+    }
+}
+declare namespace c {
+    import b = a.I;
+    var x: b;
+}
+-- internalAliasInterface.js.golden --
+"use strict";
+var c;
+(function (c) {
+})(c || (c = {}));

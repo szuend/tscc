@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/parseInvalidNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parseInvalidNames.js parseInvalidNames.ts
+stderr 'TS1005'
+stderr 'TS1128'
+! exists parseInvalidNames.js
+! exists parseInvalidNames.d.ts
+! exists parseInvalidNames.js.map
+
+-- parseInvalidNames.ts --
+namespace 100 {}
+interface 100 {}
+type 100 {}
+
+export namespace 100 {}
+export interface 100 {}
+export type 100 {}

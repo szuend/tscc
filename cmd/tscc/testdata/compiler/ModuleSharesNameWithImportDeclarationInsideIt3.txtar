@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/moduleSharesNameWithImportDeclarationInsideIt3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleSharesNameWithImportDeclarationInsideIt3.js moduleSharesNameWithImportDeclarationInsideIt3.ts
+stderr 'TS2300'
+! exists moduleSharesNameWithImportDeclarationInsideIt3.js
+! exists moduleSharesNameWithImportDeclarationInsideIt3.d.ts
+! exists moduleSharesNameWithImportDeclarationInsideIt3.js.map
+
+-- moduleSharesNameWithImportDeclarationInsideIt3.ts --
+namespace Z {
+    export namespace M {
+        export function bar() {
+            return "";
+        }
+    }
+    export interface I { }
+}
+namespace A.M {
+    import M = Z.M;
+    import M = Z.I;
+
+    export function bar() {
+    }
+    M.bar(); // Should call Z.M.bar
+}

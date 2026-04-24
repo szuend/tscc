@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/narrowedConstInMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js narrowedConstInMethod.js narrowedConstInMethod.ts
+! stderr .
+cmp narrowedConstInMethod.js narrowedConstInMethod.js.golden
+! exists narrowedConstInMethod.d.ts
+! exists narrowedConstInMethod.js.map
+
+-- narrowedConstInMethod.ts --
+// Fixes #10501, possibly null 'x'
+function f() {
+    const x: string | null = <any>{};
+    if (x !== null) {
+        return {
+            bar() { return x.length; }  // ok
+        };
+    }
+}
+
+function f2() {
+    const x: string | null = <any>{};
+    if (x !== null) {
+        return class {
+            bar() { return x.length; }  // ok
+        };
+    }
+}
+-- narrowedConstInMethod.js.golden --
+"use strict";
+// Fixes #10501, possibly null 'x'
+function f() {
+    const x = {};
+    if (x !== null) {
+        return {
+            bar() { return x.length; } // ok
+        };
+    }
+}
+function f2() {
+    const x = {};
+    if (x !== null) {
+        return class {
+            bar() { return x.length; } // ok
+        };
+    }
+}

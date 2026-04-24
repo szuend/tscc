@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/overridingPrivateStaticMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overridingPrivateStaticMembers.js overridingPrivateStaticMembers.ts
+stderr 'TS2417'
+! exists overridingPrivateStaticMembers.js
+! exists overridingPrivateStaticMembers.d.ts
+! exists overridingPrivateStaticMembers.js.map
+
+-- overridingPrivateStaticMembers.ts --
+class Base2 {
+    private static y: { foo: string };
+}
+ 
+class Derived2 extends Base2 {
+    private static y: { foo: string; bar: string; };
+}

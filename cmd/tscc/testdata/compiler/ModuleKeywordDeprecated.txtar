@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/moduleKeywordDeprecated.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path good=foo.ts --path alsogood=decl.d.ts --out-js foo.js foo.ts
+stderr 'TS1540'
+! exists foo.js
+! exists foo.d.ts
+! exists foo.js.map
+
+-- decl.d.ts --
+declare module foo { }
+declare module foo.bar { }
+
+// Still the only way to do it
+declare module "alsogood" { }
+
+export module exported { }
+export module exported.sub { }
+-- foo.ts --
+// Error
+module notok { }
+module not.ok { }
+declare module bad { }
+declare module also.bad { }
+
+// Still the only way to do it
+declare module "good" { }

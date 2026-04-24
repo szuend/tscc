@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/internalAliasEnumInsideLocalModuleWithoutExportAccessError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasEnumInsideLocalModuleWithoutExportAccessError.js internalAliasEnumInsideLocalModuleWithoutExportAccessError.ts
+stderr 'TS2339'
+! exists internalAliasEnumInsideLocalModuleWithoutExportAccessError.js
+! exists internalAliasEnumInsideLocalModuleWithoutExportAccessError.d.ts
+! exists internalAliasEnumInsideLocalModuleWithoutExportAccessError.js.map
+
+-- internalAliasEnumInsideLocalModuleWithoutExportAccessError.ts --
+export namespace a {
+    export enum weekend {
+        Friday,
+        Saturday,
+        Sunday
+    }
+}
+
+export namespace c {
+    import b = a.weekend;
+    export var bVal: b = b.Sunday;
+}
+
+var happyFriday = c.b.Friday;

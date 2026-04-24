@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/privateNameWeakMapCollision.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js privateNameWeakMapCollision.js privateNameWeakMapCollision.ts
+stderr 'TS18027'
+! exists privateNameWeakMapCollision.js
+! exists privateNameWeakMapCollision.d.ts
+! exists privateNameWeakMapCollision.js.map
+
+-- privateNameWeakMapCollision.ts --
+function test() {
+    let WeakMap;
+    let WeakSet;
+    class C {
+        #x;
+    }
+}

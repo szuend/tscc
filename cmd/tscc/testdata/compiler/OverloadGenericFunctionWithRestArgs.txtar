@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/overloadGenericFunctionWithRestArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadGenericFunctionWithRestArgs.js overloadGenericFunctionWithRestArgs.ts
+stderr 'TS2564'
+! exists overloadGenericFunctionWithRestArgs.js
+! exists overloadGenericFunctionWithRestArgs.d.ts
+! exists overloadGenericFunctionWithRestArgs.js.map
+
+-- overloadGenericFunctionWithRestArgs.ts --
+class B<V>{
+    private id: V;
+}
+class A<U>{
+    GetEnumerator: () => B<U>;
+}
+function Choice<T>(...v_args: T[]): A<T>;
+function Choice<T>(...v_args: T[]): A<T> {
+    return new A<T>();
+}

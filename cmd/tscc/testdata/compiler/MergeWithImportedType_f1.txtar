@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/mergeWithImportedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js f1.js f1.ts
+! stderr .
+cmp f1.js f1.js.golden
+! exists f1.d.ts
+! exists f1.js.map
+
+-- f1.ts --
+export enum E {X}
+-- f2.ts --
+import {E} from "./f1";
+export type E = E;
+-- f1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.E = void 0;
+var E;
+(function (E) {
+    E[E["X"] = 0] = "X";
+})(E || (exports.E = E = {}));

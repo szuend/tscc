@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/propertyAccessOnObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccessOnObjectLiteral.js propertyAccessOnObjectLiteral.ts
+! stderr .
+cmp propertyAccessOnObjectLiteral.js propertyAccessOnObjectLiteral.js.golden
+! exists propertyAccessOnObjectLiteral.d.ts
+! exists propertyAccessOnObjectLiteral.js.map
+
+-- propertyAccessOnObjectLiteral.ts --
+class A { }
+
+(<A>{}).toString();
+
+(() => {
+    (<A>{}).toString();
+})();
+-- propertyAccessOnObjectLiteral.js.golden --
+"use strict";
+class A {
+}
+({}.toString());
+(() => {
+    ({}.toString());
+})();

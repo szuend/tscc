@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/jsdocTypedefNoCrash2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --target es6 --lib es6,dom --out-js out_export.js export.js
+stderr 'TS8008'
+! exists out_export.js
+! exists dist/export.d.ts
+! exists dist/export.js.map
+
+-- export.js --
+export type foo = 5;
+/**
+ * @typedef {{
+ * }}
+ */
+export const foo = 5;

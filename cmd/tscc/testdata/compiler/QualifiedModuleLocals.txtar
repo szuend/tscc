@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/qualifiedModuleLocals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js qualifiedModuleLocals.js qualifiedModuleLocals.ts
+stderr 'TS2339'
+! exists qualifiedModuleLocals.js
+! exists qualifiedModuleLocals.d.ts
+! exists qualifiedModuleLocals.js.map
+
+-- qualifiedModuleLocals.ts --
+namespace A {
+
+  function b() {}
+
+  export function a(){  A.b();  } // A.b should be an unresolved symbol error
+
+}
+
+A.a();

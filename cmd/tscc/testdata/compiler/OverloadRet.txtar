@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/overloadRet.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js overloadRet.js overloadRet.ts
+! stderr .
+cmp overloadRet.js overloadRet.js.golden
+! exists overloadRet.d.ts
+! exists overloadRet.js.map
+
+-- overloadRet.ts --
+interface I {
+    f(s:string):number;  
+    f(n:number):string;
+    g(n:number):any; 
+    g(n:number,m:number):string;
+    h(n:number):I;  
+    h(b:boolean):number;
+    i(b:boolean):number;
+    i(b:boolean):any;
+}
+-- overloadRet.js.golden --
+"use strict";

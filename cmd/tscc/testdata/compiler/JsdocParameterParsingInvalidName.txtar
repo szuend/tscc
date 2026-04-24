@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/jsdocParameterParsingInvalidName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js jsdocParameterParsingInvalidName.js jsdocParameterParsingInvalidName.ts
+! stderr .
+cmp jsdocParameterParsingInvalidName.js jsdocParameterParsingInvalidName.js.golden
+! exists jsdocParameterParsingInvalidName.d.ts
+! exists jsdocParameterParsingInvalidName.js.map
+
+-- jsdocParameterParsingInvalidName.ts --
+class c {
+    /**
+     * @param {string} [`foo]
+     */
+    method(foo) {
+    }
+}
+-- jsdocParameterParsingInvalidName.js.golden --
+"use strict";
+class c {
+    /**
+     * @param {string} [`foo]
+     */
+    method(foo) {
+    }
+}

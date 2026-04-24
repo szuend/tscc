@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/modularizeLibrary_Worker.asynciterable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es2018,webworker,webworker.asynciterable --skip-lib-check --target es2018 --out-js modularizeLibrary_Worker.asynciterable.js modularizeLibrary_Worker.asynciterable.ts
+! stderr .
+cmp modularizeLibrary_Worker.asynciterable.js modularizeLibrary_Worker.asynciterable.js.golden
+! exists modularizeLibrary_Worker.asynciterable.d.ts
+! exists modularizeLibrary_Worker.asynciterable.js.map
+
+-- modularizeLibrary_Worker.asynciterable.ts --
+navigator.storage.getDirectory().then(async directory => {
+    for await (const [key, handle] of directory) {
+        handle.kind;
+    }
+});
+-- modularizeLibrary_Worker.asynciterable.js.golden --
+"use strict";
+navigator.storage.getDirectory().then(async (directory) => {
+    for await (const [key, handle] of directory) {
+        handle.kind;
+    }
+});

@@ -1,0 +1,90 @@
+# Ported from tests/cases/compiler/numberLiteralsWithLeadingZeros.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numberLiteralsWithLeadingZeros.js numberLiteralsWithLeadingZeros.ts
+stderr 'TS1121'
+stderr 'TS1489'
+stderr 'TS1005'
+stderr 'TS6188'
+! exists numberLiteralsWithLeadingZeros.js
+! exists numberLiteralsWithLeadingZeros.d.ts
+! exists numberLiteralsWithLeadingZeros.js.map
+
+-- numberLiteralsWithLeadingZeros.ts --
+00;
+000;
+01;
+001;
+08;
+008;
+
+00.5;
+000.5;
+01.5;
+001.5;
+08.5;
+008.5;
+
+00e5;
+000e5;
+01e5;
+001e5;
+08e5;
+008e5;
+
+00.5e5;
+000.5e5;
+01.5e5;
+001.5e5;
+08.5e5;
+008.5e5;
+
+00.5_5;
+000.5_5;
+01.5_5;
+001.5_5;
+08.5_5;
+008.5_5;
+
+00e5_5;
+000e5_5;
+01e5_5;
+001e5_5;
+08e5_5;
+008e5_5;
+
+00.5_5e5_5;
+000.5_5e5_5;
+01.5_5e5_5;
+001.5_5e5_5;
+08.5_5e5_5;
+008.5_5e5_5;
+
+0_0.5_5;
+0_00.5_5;
+0_0_0.5_5;
+0_1.5_5;
+0_01.5_5;
+0_0_1.5_5;
+0_8.5_5;
+0_08.5_5;
+0_0_8.5_5;
+
+0_0e5_5;
+0_00e5_5;
+0_0_0e5_5;
+0_1e5_5;
+0_01e5_5;
+0_0_1e5_5;
+0_8e5_5;
+0_08e5_5;
+0_0_8e5_5;
+
+0_0.5_5e5_5;
+0_00.5_5e5_5;
+0_0_0.5_5e5_5;
+0_1.5_5e5_5;
+0_01.5_5e5_5;
+0_0_1.5_5e5_5;
+0_8.5_5e5_5;
+0_08.5_5e5_5;
+0_0_8.5_5e5_5;

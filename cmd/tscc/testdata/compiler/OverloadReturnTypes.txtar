@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/overloadReturnTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js overloadReturnTypes.js overloadReturnTypes.ts
+! stderr .
+cmp overloadReturnTypes.js overloadReturnTypes.js.golden
+! exists overloadReturnTypes.d.ts
+! exists overloadReturnTypes.js.map
+
+-- overloadReturnTypes.ts --
+class Accessor {}
+
+function attr(name: string): string;
+function attr(name: string, value: string): Accessor;
+function attr(map: any): Accessor;
+function attr(nameOrMap: any, value?: string): any {
+    if (nameOrMap && typeof nameOrMap === "object") {
+        // handle map case
+        return new Accessor;
+    }
+    else {
+        // handle string case
+        return "s";
+    }
+}
+
+
+interface IFace {
+	attr(name:string):string;
+	attr(name: string, value: string): Accessor;
+	attr(map: any): Accessor;
+}
+-- overloadReturnTypes.js.golden --
+"use strict";
+class Accessor {
+}
+function attr(nameOrMap, value) {
+    if (nameOrMap && typeof nameOrMap === "object") {
+        // handle map case
+        return new Accessor;
+    }
+    else {
+        // handle string case
+        return "s";
+    }
+}

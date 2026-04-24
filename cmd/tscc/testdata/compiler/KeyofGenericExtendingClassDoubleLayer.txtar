@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/keyofGenericExtendingClassDoubleLayer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js keyofGenericExtendingClassDoubleLayer.js keyofGenericExtendingClassDoubleLayer.ts
+stderr 'TS2564'
+! exists keyofGenericExtendingClassDoubleLayer.js
+! exists keyofGenericExtendingClassDoubleLayer.d.ts
+! exists keyofGenericExtendingClassDoubleLayer.js.map
+
+-- keyofGenericExtendingClassDoubleLayer.ts --
+class Model<Attributes = any> {
+    public createdAt: Date;
+}
+
+type ModelAttributes<T> = Omit<T, keyof Model>;
+
+class AutoModel<T> extends Model<ModelAttributes<T>> {}
+
+class PersonModel extends AutoModel<PersonModel> {
+    public age: number;
+
+    toJson() {
+        let x: keyof this = 'createdAt';
+    }
+}

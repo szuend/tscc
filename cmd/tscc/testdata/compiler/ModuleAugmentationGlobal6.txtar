@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/moduleAugmentationGlobal6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js moduleAugmentationGlobal6.js moduleAugmentationGlobal6.ts
+stderr 'TS2669'
+! exists moduleAugmentationGlobal6.js
+! exists moduleAugmentationGlobal6.d.ts
+! exists moduleAugmentationGlobal6.js.map
+
+-- moduleAugmentationGlobal6.ts --
+declare global {
+    interface Array<T> { x }
+}

@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/moduleAugmentationImportsAndExports5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts f2.d.ts --module commonjs --target es2015 --lib es2015,dom --path ./f1=f3.ts --out-js f2.js f2.ts
+stderr 'TS2564'
+! exists f2.d.ts
+! exists f2.js
+! exists f2.js.map
+
+-- f1.ts --
+export class A {}
+-- f2.ts --
+export class B {
+    n: number;
+}
+-- f3.ts --
+import {A} from "./f1";
+import {B} from "./f2";
+
+A.prototype.foo = function () { return undefined; }
+
+namespace N {
+    export interface Ifc { a: number; }
+    export interface Cls { b: number; }
+}
+import I = N.Ifc;
+import C = N.Cls;
+
+declare module "./f1" {
+    interface A {
+        foo(): B;
+        bar(): I;
+        baz(): C;
+    }
+}
+-- f4.ts --
+import {A} from "./f1";
+import "./f3";
+
+let a: A;
+let b = a.foo().n;
+let c = a.bar().a;
+let d = a.baz().b;

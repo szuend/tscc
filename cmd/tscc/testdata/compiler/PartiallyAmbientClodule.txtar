@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/partiallyAmbientClodule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js partiallyAmbientClodule.js partiallyAmbientClodule.ts
+! stderr .
+cmp partiallyAmbientClodule.js partiallyAmbientClodule.js.golden
+! exists partiallyAmbientClodule.d.ts
+! exists partiallyAmbientClodule.js.map
+
+-- partiallyAmbientClodule.ts --
+declare namespace foo {
+    export function x(): any;
+}
+class foo { } // Legal, because module is ambient
+-- partiallyAmbientClodule.js.golden --
+"use strict";
+class foo {
+} // Legal, because module is ambient

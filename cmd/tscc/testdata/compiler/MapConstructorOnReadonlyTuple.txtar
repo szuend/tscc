@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/mapConstructorOnReadonlyTuple.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mapConstructorOnReadonlyTuple.js mapConstructorOnReadonlyTuple.ts
+! stderr .
+cmp mapConstructorOnReadonlyTuple.js mapConstructorOnReadonlyTuple.js.golden
+! exists mapConstructorOnReadonlyTuple.d.ts
+! exists mapConstructorOnReadonlyTuple.js.map
+
+-- mapConstructorOnReadonlyTuple.ts --
+const pairs = [[{}, 1], [{}, 2]] as const;
+new Map(pairs);
+new WeakMap(pairs);
+-- mapConstructorOnReadonlyTuple.js.golden --
+"use strict";
+const pairs = [[{}, 1], [{}, 2]];
+new Map(pairs);
+new WeakMap(pairs);

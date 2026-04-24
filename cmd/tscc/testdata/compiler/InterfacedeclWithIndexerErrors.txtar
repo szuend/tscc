@@ -1,0 +1,64 @@
+# Ported from tests/cases/compiler/interfacedeclWithIndexerErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js interfacedeclWithIndexerErrors.js interfacedeclWithIndexerErrors.ts
+stderr 'TS2411'
+stderr 'TS2840'
+stderr 'TS2693'
+! exists interfacedeclWithIndexerErrors.js
+! exists interfacedeclWithIndexerErrors.d.ts
+! exists interfacedeclWithIndexerErrors.js.map
+
+-- interfacedeclWithIndexerErrors.ts --
+interface a0 {
+    (): string;
+    (a, b, c?: string): number;
+    
+    new (): string;
+    new (s: string);
+
+    [n: number]: ()=>string;
+    [s: string]: ()=>string;
+
+    p1;
+    p2: string;
+    p3?;
+    p4?: number;
+    p5: (s: number) =>string;
+
+    f1();
+    f2? ();
+    f3(a: string): number;
+    f4? (s: number): string;
+}
+
+
+interface a1 {
+    [n: number]: number;
+}
+
+interface a2 {
+    [s: string]: number;
+}
+
+interface a {
+}
+
+interface b extends a {
+}
+
+interface c extends a, b {
+}
+
+interface d extends a {
+}
+
+interface e extends number {
+}
+
+interface f {
+    prop: typeof string;
+}
+
+class c1 implements a {
+}
+var instance2 = new c1();

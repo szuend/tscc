@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/modKeyword.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js modKeyword.js modKeyword.ts
+! stderr .
+cmp modKeyword.js modKeyword.js.golden
+! exists modKeyword.d.ts
+! exists modKeyword.js.map
+
+-- modKeyword.ts --
+var module:any;
+var foo:any;
+
+var _ = module.exports = foo
+-- modKeyword.js.golden --
+"use strict";
+var module;
+var foo;
+var _ = module.exports = foo;

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/namespaces2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js namespaces2.js namespaces2.ts
+! stderr .
+cmp namespaces2.js namespaces2.js.golden
+! exists namespaces2.d.ts
+! exists namespaces2.js.map
+
+-- namespaces2.ts --
+namespace A {
+    export namespace B {
+        export class C { }
+    }
+}
+
+var c: A.B.C = new A.B.C();
+-- namespaces2.js.golden --
+"use strict";
+var A;
+(function (A) {
+    let B;
+    (function (B) {
+        class C {
+        }
+        B.C = C;
+    })(B = A.B || (A.B = {}));
+})(A || (A = {}));
+var c = new A.B.C();

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/multiExtendsSplitInterfaces1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js multiExtendsSplitInterfaces1.js multiExtendsSplitInterfaces1.ts
+! stderr .
+cmp multiExtendsSplitInterfaces1.js multiExtendsSplitInterfaces1.js.golden
+! exists multiExtendsSplitInterfaces1.d.ts
+! exists multiExtendsSplitInterfaces1.js.map
+
+-- multiExtendsSplitInterfaces1.ts --
+self.cancelAnimationFrame(0);
+-- multiExtendsSplitInterfaces1.js.golden --
+"use strict";
+self.cancelAnimationFrame(0);

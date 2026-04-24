@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/narrowUnknownByTypeofObject.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js narrowUnknownByTypeofObject.js narrowUnknownByTypeofObject.ts
+! stderr .
+cmp narrowUnknownByTypeofObject.js narrowUnknownByTypeofObject.js.golden
+! exists narrowUnknownByTypeofObject.d.ts
+! exists narrowUnknownByTypeofObject.js.map
+
+-- narrowUnknownByTypeofObject.ts --
+function foo(x: unknown) {
+    if (typeof x === "object") {
+        x
+    }
+}
+-- narrowUnknownByTypeofObject.js.golden --
+"use strict";
+function foo(x) {
+    if (typeof x === "object") {
+        x;
+    }
+}

@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/noCrashOnImportShadowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+stderr 'TS2709'
+! exists index.js
+! exists index.d.ts
+! exists index.js.map
+
+-- a.ts --
+import * as B from "./b";
+
+interface B {
+    x: string;
+}
+
+const x: B = { x: "" };
+B.zzz;
+
+export { B };
+-- b.ts --
+export const zzz = 123;
+-- index.ts --
+import { B } from "./a";
+
+const x: B = { x: "" };
+B.zzz;
+
+import * as OriginalB from "./b";
+OriginalB.zzz;
+
+const y: OriginalB = x;

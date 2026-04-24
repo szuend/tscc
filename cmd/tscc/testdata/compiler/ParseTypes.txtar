@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/parseTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parseTypes.js parseTypes.ts
+stderr 'TS2352'
+stderr 'TS2322'
+! exists parseTypes.js
+! exists parseTypes.d.ts
+! exists parseTypes.js.map
+
+-- parseTypes.ts --
+var x = <() => number>null;
+var y = <{(): number; }>null;
+var z = <{new(): number; }>null
+var w = <{[x:number]: number; }>null
+function f() { return 3 };
+function g(s: string) { true };
+y=f;
+y=g;
+x=g;
+w=g;
+z=g;

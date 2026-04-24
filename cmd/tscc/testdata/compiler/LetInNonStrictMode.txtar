@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/letInNonStrictMode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js letInNonStrictMode.js letInNonStrictMode.ts
+! stderr .
+cmp letInNonStrictMode.js letInNonStrictMode.js.golden
+! exists letInNonStrictMode.d.ts
+! exists letInNonStrictMode.js.map
+
+-- letInNonStrictMode.ts --
+let [x] = [1];
+let {a: y} = {a: 1};
+-- letInNonStrictMode.js.golden --
+"use strict";
+let [x] = [1];
+let { a: y } = { a: 1 };

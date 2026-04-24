@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/noCircularDefinitionOnExportOfPrivateInMergedNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js noCircularDefinitionOnExportOfPrivateInMergedNamespace.js noCircularDefinitionOnExportOfPrivateInMergedNamespace.ts
+! stderr .
+cmp noCircularDefinitionOnExportOfPrivateInMergedNamespace.js noCircularDefinitionOnExportOfPrivateInMergedNamespace.js.golden
+! exists noCircularDefinitionOnExportOfPrivateInMergedNamespace.d.ts
+! exists noCircularDefinitionOnExportOfPrivateInMergedNamespace.js.map
+
+-- noCircularDefinitionOnExportOfPrivateInMergedNamespace.ts --
+const cat = 12;
+class Foo {}
+export = Foo;
+declare namespace Foo {
+    export { cat };
+}
+-- noCircularDefinitionOnExportOfPrivateInMergedNamespace.js.golden --
+"use strict";
+const cat = 12;
+class Foo {
+}
+module.exports = Foo;

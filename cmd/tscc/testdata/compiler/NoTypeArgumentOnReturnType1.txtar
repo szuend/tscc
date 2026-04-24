@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/noTypeArgumentOnReturnType1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js noTypeArgumentOnReturnType1.js noTypeArgumentOnReturnType1.ts
+stderr 'TS2314'
+! exists noTypeArgumentOnReturnType1.js
+! exists noTypeArgumentOnReturnType1.d.ts
+! exists noTypeArgumentOnReturnType1.js.map
+
+-- noTypeArgumentOnReturnType1.ts --
+class A<T>{
+ 
+ foo(): A{
+  return null;
+ }
+}

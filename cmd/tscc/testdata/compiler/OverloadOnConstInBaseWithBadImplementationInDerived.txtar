@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/overloadOnConstInBaseWithBadImplementationInDerived.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadOnConstInBaseWithBadImplementationInDerived.js overloadOnConstInBaseWithBadImplementationInDerived.ts
+! stderr .
+cmp overloadOnConstInBaseWithBadImplementationInDerived.js overloadOnConstInBaseWithBadImplementationInDerived.js.golden
+! exists overloadOnConstInBaseWithBadImplementationInDerived.d.ts
+! exists overloadOnConstInBaseWithBadImplementationInDerived.js.map
+
+-- overloadOnConstInBaseWithBadImplementationInDerived.ts --
+interface I {
+    x1(a: number, callback: (x: 'hi') => number);
+}
+
+class C implements I {
+    x1(a: number, callback: (x: 'hi') => number) { // error
+    }
+}
+-- overloadOnConstInBaseWithBadImplementationInDerived.js.golden --
+"use strict";
+class C {
+    x1(a, callback) {
+    }
+}

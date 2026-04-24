@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/keywordField.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js keywordField.js keywordField.ts
+! stderr .
+cmp keywordField.js keywordField.js.golden
+! exists keywordField.d.ts
+! exists keywordField.js.map
+
+-- keywordField.ts --
+var obj:any = {};
+
+obj.if = 1;
+
+var a = { if: "test" }
+
+var n = a.if
+
+var q = a["if"];
+-- keywordField.js.golden --
+"use strict";
+var obj = {};
+obj.if = 1;
+var a = { if: "test" };
+var n = a.if;
+var q = a["if"];

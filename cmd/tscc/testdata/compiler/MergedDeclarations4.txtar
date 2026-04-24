@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/mergedDeclarations4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mergedDeclarations4.js mergedDeclarations4.ts
+! stderr .
+cmp mergedDeclarations4.js mergedDeclarations4.js.golden
+! exists mergedDeclarations4.d.ts
+! exists mergedDeclarations4.js.map
+
+-- mergedDeclarations4.ts --
+namespace M {
+    export function f() { }
+    f();
+    M.f();    
+    var r = f.hello;
+}
+ 
+namespace M {
+    export namespace f {
+        export var hello = 1;
+    }
+    f();
+    M.f();
+    var r = f.hello;
+}
+ 
+M.f();
+M.f.hello;
+-- mergedDeclarations4.js.golden --
+"use strict";
+var M;
+(function (M) {
+    function f() { }
+    M.f = f;
+    f();
+    M.f();
+    var r = f.hello;
+})(M || (M = {}));
+(function (M) {
+    let f;
+    (function (f) {
+        f.hello = 1;
+    })(f = M.f || (M.f = {}));
+    f();
+    M.f();
+    var r = f.hello;
+})(M || (M = {}));
+M.f();
+M.f.hello;

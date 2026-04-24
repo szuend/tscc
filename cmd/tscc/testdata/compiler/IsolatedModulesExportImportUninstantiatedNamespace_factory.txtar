@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/isolatedModulesExportImportUninstantiatedNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --isolated-modules --module esnext --target es2015 --lib es2015,dom --out-js factory.js factory.ts
+stderr 'TS1269'
+! exists factory.js
+! exists factory.d.ts
+! exists factory.js.map
+
+-- factory.ts --
+import { JSXInternal } from "./jsx"
+
+export import JSX = JSXInternal;
+
+export function createElement<ElementType extends HTMLElement>(
+  tagName: string,
+  attributes: JSX.HTMLAttributes,
+  ...children: JSX.ComponentChildren[]
+): any {
+  //...
+}
+
+-- jsx.ts --
+export namespace JSXInternal {
+  export type HTMLAttributes = string
+  export type ComponentChildren = string
+}

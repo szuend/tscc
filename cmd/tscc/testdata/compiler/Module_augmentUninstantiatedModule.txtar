@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/module_augmentUninstantiatedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --path foo=module_augmentUninstantiatedModule.ts --path bar=module_augmentUninstantiatedModule.ts --out-js module_augmentUninstantiatedModule.js module_augmentUninstantiatedModule.ts
+! stderr .
+cmp module_augmentUninstantiatedModule.js module_augmentUninstantiatedModule.js.golden
+! exists module_augmentUninstantiatedModule.d.ts
+! exists module_augmentUninstantiatedModule.js.map
+
+-- module_augmentUninstantiatedModule.ts --
+declare module "foo" {
+   namespace M {}
+   var M;
+   export = M;
+}
+
+declare module "bar" {
+    module "foo" {}
+}
+-- module_augmentUninstantiatedModule.js.golden --
+"use strict";

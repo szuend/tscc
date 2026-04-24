@@ -1,0 +1,9 @@
+# Ported from tests/cases/compiler/jsFileCompilationTypeParameterSyntaxOfClassExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --target es2015 --lib es2015,dom a.js
+stderr 'TS8004'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+const Bar = class<T> {};

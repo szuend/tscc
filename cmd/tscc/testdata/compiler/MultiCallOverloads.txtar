@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/multiCallOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js multiCallOverloads.js multiCallOverloads.ts
+! stderr .
+cmp multiCallOverloads.js multiCallOverloads.js.golden
+! exists multiCallOverloads.d.ts
+! exists multiCallOverloads.js.map
+
+-- multiCallOverloads.ts --
+interface ICallback {
+    (x?: string):void;
+}
+
+function load(f: ICallback) {}
+
+var f1: ICallback = function(z?) {}
+var f2: ICallback = function(z?) {}
+load(f1) // ok
+load(f2) // ok
+load(function() {}) // this shouldn’t be an error
+load(function(z?) {}) // this shouldn't be an error
+-- multiCallOverloads.js.golden --
+"use strict";
+function load(f) { }
+var f1 = function (z) { };
+var f2 = function (z) { };
+load(f1); // ok
+load(f2); // ok
+load(function () { }); // this shouldn’t be an error
+load(function (z) { }); // this shouldn't be an error

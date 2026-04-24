@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/jsCheckObjectDefineThisNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom jsCheckObjectDefineThisNoCrash.js
+stderr 'TS2339'
+! exists jsCheckObjectDefineThisNoCrash.d.ts
+! exists jsCheckObjectDefineThisNoCrash.js.map
+
+-- jsCheckObjectDefineThisNoCrash.js --
+class C {
+    constructor() {
+        // Neither of the following should be recognized as declarations yet
+        Object.defineProperty(this, "_prop", { value: {} });
+        Object.defineProperty(this._prop, "num", { value: 12 });
+    }
+}

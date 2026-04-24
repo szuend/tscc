@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/internalAliasClassInsideLocalModuleWithoutExportAccessError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasClassInsideLocalModuleWithoutExportAccessError.js internalAliasClassInsideLocalModuleWithoutExportAccessError.ts
+stderr 'TS2339'
+! exists internalAliasClassInsideLocalModuleWithoutExportAccessError.js
+! exists internalAliasClassInsideLocalModuleWithoutExportAccessError.d.ts
+! exists internalAliasClassInsideLocalModuleWithoutExportAccessError.js.map
+
+-- internalAliasClassInsideLocalModuleWithoutExportAccessError.ts --
+export namespace x {
+    export class c {
+        foo(a: number) {
+            return a;
+        }
+    }
+}
+
+export namespace m2 {
+    export namespace m3 {
+        import c = x.c;
+        export var cProp = new c();
+        var cReturnVal = cProp.foo(10);
+    }
+}
+
+export var d = new m2.m3.c();

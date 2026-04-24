@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/mappedTypePartialNonHomomorphicBaseConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mappedTypePartialNonHomomorphicBaseConstraint.js mappedTypePartialNonHomomorphicBaseConstraint.ts
+! stderr .
+cmp mappedTypePartialNonHomomorphicBaseConstraint.js mappedTypePartialNonHomomorphicBaseConstraint.js.golden
+! exists mappedTypePartialNonHomomorphicBaseConstraint.d.ts
+! exists mappedTypePartialNonHomomorphicBaseConstraint.js.map
+
+-- mappedTypePartialNonHomomorphicBaseConstraint.ts --
+export type Errors<D> = { readonly [K in keyof D | "base"]?: string[] };
+
+class Model<D> {
+  getErrors(): Errors<D> {
+    return { base: ["some base error"] };
+  }
+}
+-- mappedTypePartialNonHomomorphicBaseConstraint.js.golden --
+class Model {
+    getErrors() {
+        return { base: ["some base error"] };
+    }
+}
+export {};

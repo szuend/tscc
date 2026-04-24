@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/objectLiteralWithNumericPropertyName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectLiteralWithNumericPropertyName.js objectLiteralWithNumericPropertyName.ts
+stderr 'TS2322'
+! exists objectLiteralWithNumericPropertyName.js
+! exists objectLiteralWithNumericPropertyName.d.ts
+! exists objectLiteralWithNumericPropertyName.js.map
+
+-- objectLiteralWithNumericPropertyName.ts --
+interface A {
+    0: string;
+}
+var x: A = {
+    0: 3
+};

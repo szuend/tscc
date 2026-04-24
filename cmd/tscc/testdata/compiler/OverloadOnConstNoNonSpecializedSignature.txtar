@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/overloadOnConstNoNonSpecializedSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadOnConstNoNonSpecializedSignature.js overloadOnConstNoNonSpecializedSignature.ts
+! stderr .
+cmp overloadOnConstNoNonSpecializedSignature.js overloadOnConstNoNonSpecializedSignature.js.golden
+! exists overloadOnConstNoNonSpecializedSignature.d.ts
+! exists overloadOnConstNoNonSpecializedSignature.js.map
+
+-- overloadOnConstNoNonSpecializedSignature.ts --
+class C {
+   x1(a: 'hi'); // error, no non-specialized signature in overload list
+   x1(a: string) { }
+}
+-- overloadOnConstNoNonSpecializedSignature.js.golden --
+"use strict";
+class C {
+    x1(a) { }
+}

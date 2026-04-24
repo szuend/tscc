@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/objectLiteralMemberWithoutBlock1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectLiteralMemberWithoutBlock1.js objectLiteralMemberWithoutBlock1.ts
+stderr 'TS1005'
+! exists objectLiteralMemberWithoutBlock1.js
+! exists objectLiteralMemberWithoutBlock1.d.ts
+! exists objectLiteralMemberWithoutBlock1.js.map
+
+-- objectLiteralMemberWithoutBlock1.ts --
+var v = { foo(); }

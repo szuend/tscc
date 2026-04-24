@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/parserPrivateIdentifierInArrayAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserPrivateIdentifierInArrayAssignment.js parserPrivateIdentifierInArrayAssignment.ts
+stderr 'TS1109'
+! exists parserPrivateIdentifierInArrayAssignment.js
+! exists parserPrivateIdentifierInArrayAssignment.d.ts
+! exists parserPrivateIdentifierInArrayAssignment.js.map
+
+-- parserPrivateIdentifierInArrayAssignment.ts --
+[#abc]=

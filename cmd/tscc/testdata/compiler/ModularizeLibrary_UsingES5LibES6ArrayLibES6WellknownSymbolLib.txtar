@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es5,es2015.core,es2015.symbol.wellknown --no-strict --target es2015 --out-js modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.js modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.ts
+! stderr .
+cmp modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.js modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.js.golden
+! exists modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.d.ts
+! exists modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.js.map
+
+-- modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.ts --
+function f(x: number, y: number, z: number) {
+    return Array.from(arguments);
+}
+
+f(1, 2, 3);   // no error
+let a = ['c', 'd'];
+a[Symbol.isConcatSpreadable] = false;
+-- modularizeLibrary_UsingES5LibES6ArrayLibES6WellknownSymbolLib.js.golden --
+"use strict";
+function f(x, y, z) {
+    return Array.from(arguments);
+}
+f(1, 2, 3); // no error
+let a = ['c', 'd'];
+a[Symbol.isConcatSpreadable] = false;

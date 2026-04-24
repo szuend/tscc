@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/missingCloseBracketInArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js missingCloseBracketInArray.js missingCloseBracketInArray.ts
+stderr 'TS1005'
+! exists missingCloseBracketInArray.js
+! exists missingCloseBracketInArray.d.ts
+! exists missingCloseBracketInArray.js.map
+
+-- missingCloseBracketInArray.ts --
+var alphas:string[] = alphas = ["1","2","3","4"

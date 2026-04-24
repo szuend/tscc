@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/methodChainError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js methodChainError.js methodChainError.ts
+stderr 'TS2564'
+stderr 'TS2554'
+stderr 'TS2349'
+! exists methodChainError.js
+! exists methodChainError.d.ts
+! exists methodChainError.js.map
+
+-- methodChainError.ts --
+class Builder {
+    notMethod: string
+    method(param: string): Builder {
+        return this;
+    }
+}
+
+new Builder()
+    .method("a")
+    .method()
+    .method("a");
+
+    
+new Builder()
+    .method("a")
+    .notMethod()
+    .method("a");

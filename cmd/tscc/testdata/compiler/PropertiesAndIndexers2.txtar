@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/propertiesAndIndexers2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js propertiesAndIndexers2.js propertiesAndIndexers2.ts
+stderr 'TS2413'
+stderr 'TS2411'
+! exists propertiesAndIndexers2.js
+! exists propertiesAndIndexers2.d.ts
+! exists propertiesAndIndexers2.js.map
+
+-- propertiesAndIndexers2.ts --
+interface A {
+    [n: number]: string;
+    [s: string]: number;
+}
+
+// All of these should fail.
+interface B extends A {
+    c: string;
+    3: string;
+    Infinity: string;
+    "-Infinity": string;
+    NaN: string;
+    "-NaN": string;
+    6(): string;
+}

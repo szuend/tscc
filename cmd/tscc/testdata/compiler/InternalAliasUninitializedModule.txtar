@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/internalAliasUninitializedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasUninitializedModule.d.ts --no-strict --target es2015 --lib es2015,dom --out-js internalAliasUninitializedModule.js internalAliasUninitializedModule.ts
+! stderr .
+cmp internalAliasUninitializedModule.d.ts internalAliasUninitializedModule.d.ts.golden
+cmp internalAliasUninitializedModule.js internalAliasUninitializedModule.js.golden
+! exists internalAliasUninitializedModule.js.map
+
+-- internalAliasUninitializedModule.ts --
+namespace a {
+    export namespace b {
+        export interface I {
+            foo();
+        }
+    }
+}
+
+namespace c {
+    import b = a.b;
+    export var x: b.I;
+    x.foo();
+}
+-- internalAliasUninitializedModule.d.ts.golden --
+declare namespace a {
+    namespace b {
+        interface I {
+            foo(): any;
+        }
+    }
+}
+declare namespace c {
+    import b = a.b;
+    var x: b.I;
+}
+-- internalAliasUninitializedModule.js.golden --
+"use strict";
+var c;
+(function (c) {
+    c.x.foo();
+})(c || (c = {}));

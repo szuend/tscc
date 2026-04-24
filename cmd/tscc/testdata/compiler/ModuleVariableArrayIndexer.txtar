@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/moduleVariableArrayIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleVariableArrayIndexer.js moduleVariableArrayIndexer.ts
+stderr 'TS18050'
+! exists moduleVariableArrayIndexer.js
+! exists moduleVariableArrayIndexer.d.ts
+! exists moduleVariableArrayIndexer.js.map
+
+-- moduleVariableArrayIndexer.ts --
+namespace Bar {
+    export var a = 1;
+    var t = undefined[a][a]; // CG: var t = undefined[Bar.a][a];
+}

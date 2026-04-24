@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/parseShortform.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parseShortform.js parseShortform.ts
+! stderr .
+cmp parseShortform.js parseShortform.js.golden
+! exists parseShortform.d.ts
+! exists parseShortform.js.map
+
+-- parseShortform.ts --
+interface I {
+    w: {
+        z: I;
+        (): boolean;
+        [s: string]: { x: any; y: any; };
+        [n: number]: { x: any; y: any; };
+    };
+    x: boolean;
+    y: (s: string) => boolean;
+    z: I; 
+}
+-- parseShortform.js.golden --
+"use strict";

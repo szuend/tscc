@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/noCrashOnMixin2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom noCrashOnMixin2.ts
+stderr 'TS1047'
+! exists noCrashOnMixin2.d.ts
+! exists noCrashOnMixin2.js.map
+
+-- noCrashOnMixin2.ts --
+// https://github.com/microsoft/TypeScript/issues/62921
+
+class Abstract {
+    protected constructor() {
+    }
+}
+
+class Concrete extends Abstract {
+}
+
+type Constructor<T = {}> = new (...args?: any[]) => T;
+
+function Mixin<TBase extends Constructor>(Base: TBase) {
+    return class extends Base {
+    };
+}
+
+class Empty {
+}
+
+class CrashTrigger extends Mixin(Empty) {
+    public trigger() {
+        new Concrete();
+    }
+}

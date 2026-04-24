@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/iteratorExtraParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom iteratorExtraParameters.ts
+stderr 'TS2488'
+! exists iteratorExtraParameters.d.ts
+! exists iteratorExtraParameters.js.map
+
+-- iteratorExtraParameters.ts --
+// https://github.com/microsoft/TypeScript/issues/57130
+const iter = {
+    *[Symbol.iterator](_: number) {
+        yield 0;
+    }
+};
+
+declare function g(...args: any): any;
+
+function* f() {
+    for (const _ of iter);
+
+    yield* iter;
+
+    [...iter]
+
+    g(...iter);
+}

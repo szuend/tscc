@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/jsDeclarationsGlobalFileConstFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --out-dts file.d.ts --target es2015 --lib es2015,dom file.js
+stderr 'TS2683'
+! exists file.d.ts
+! exists file.js.map
+! exists out_file.js
+
+-- file.js --
+const SomeConstructor = function () {
+	this.x = 1;
+};
+
+const SomeConstructor2 = function () {
+};
+SomeConstructor2.staticMember = "str";
+
+const SomeConstructor3 = function () {
+	this.x = 1;
+};
+SomeConstructor3.staticMember = "str";

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/interfaceWithCommaSeparators.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js interfaceWithCommaSeparators.js interfaceWithCommaSeparators.ts
+! stderr .
+cmp interfaceWithCommaSeparators.js interfaceWithCommaSeparators.js.golden
+! exists interfaceWithCommaSeparators.d.ts
+! exists interfaceWithCommaSeparators.js.map
+
+-- interfaceWithCommaSeparators.ts --
+var v: { bar(): void, baz }
+interface Foo { bar(): void, baz }
+-- interfaceWithCommaSeparators.js.golden --
+"use strict";
+var v;

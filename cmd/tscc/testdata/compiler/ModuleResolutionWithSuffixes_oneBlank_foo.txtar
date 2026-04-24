@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/moduleResolutionWithSuffixes_oneBlank.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo.js foo.ts
+! stderr .
+cmp foo.js foo.js.golden
+! exists foo.d.ts
+! exists foo.js.map
+
+-- foo.ts --
+export function base() {}
+-- index.ts --
+import { base } from "./foo";
+-- tsconfig.json --
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"traceResolution": true,
+		"moduleSuffixes": [""]
+	}
+}
+-- foo.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.base = base;
+function base() { }

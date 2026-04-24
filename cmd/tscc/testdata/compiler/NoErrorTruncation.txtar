@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/noErrorTruncation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js noErrorTruncation.js noErrorTruncation.ts
+stderr 'TS2322'
+! exists noErrorTruncation.js
+! exists noErrorTruncation.d.ts
+! exists noErrorTruncation.js.map
+
+-- noErrorTruncation.ts --
+// @noErrorTruncation
+
+type SomeLongOptionA = { someLongOptionA: string }
+type SomeLongOptionB = { someLongOptionB: string }
+type SomeLongOptionC = { someLongOptionC: string }
+type SomeLongOptionD = { someLongOptionD: string }
+type SomeLongOptionE = { someLongOptionE: string }
+type SomeLongOptionF = { someLongOptionF: string }
+
+const x: SomeLongOptionA
+       | SomeLongOptionB
+       | SomeLongOptionC
+       | SomeLongOptionD
+       | SomeLongOptionE
+       | SomeLongOptionF = 42;

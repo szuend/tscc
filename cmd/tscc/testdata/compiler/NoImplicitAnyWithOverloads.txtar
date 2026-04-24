@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/noImplicitAnyWithOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyWithOverloads.js noImplicitAnyWithOverloads.ts
+stderr 'TS7008'
+stderr 'TS7010'
+stderr 'TS7006'
+! exists noImplicitAnyWithOverloads.js
+! exists noImplicitAnyWithOverloads.d.ts
+! exists noImplicitAnyWithOverloads.js.map
+
+-- noImplicitAnyWithOverloads.ts --
+interface A {
+    foo;
+}
+interface B { }
+
+function callb(lam: (l: A) => void);
+function callb(lam: (n: B) => void);
+function callb(a) { }
+callb((a) => { a.foo; }); // error, chose first overload

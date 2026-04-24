@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/parse2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parse2.js parse2.ts
+stderr 'TS1135'
+! exists parse2.js
+! exists parse2.d.ts
+! exists parse2.js.map
+
+-- parse2.ts --
+function foo() {
+ foo(
+}

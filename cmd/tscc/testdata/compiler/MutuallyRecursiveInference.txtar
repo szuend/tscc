@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/mutuallyRecursiveInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mutuallyRecursiveInference.js mutuallyRecursiveInference.ts
+stderr 'TS2564'
+! exists mutuallyRecursiveInference.js
+! exists mutuallyRecursiveInference.d.ts
+! exists mutuallyRecursiveInference.js.map
+
+-- mutuallyRecursiveInference.ts --
+class T<A> {
+    a: A;
+    b: any
+}
+class L<RT extends { a: 'a' | 'b', b: any }> extends T<RT[RT['a']]> {
+    m() { this.a }
+}
+class X extends L<X> {
+    a: 'a' | 'b'
+    b: number
+    m2() {
+        this.a
+    }
+}

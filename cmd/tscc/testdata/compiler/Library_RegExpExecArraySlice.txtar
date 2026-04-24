@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/library_RegExpExecArraySlice.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js library_RegExpExecArraySlice.js library_RegExpExecArraySlice.ts
+stderr 'TS2454'
+! exists library_RegExpExecArraySlice.js
+! exists library_RegExpExecArraySlice.d.ts
+! exists library_RegExpExecArraySlice.js.map
+
+-- library_RegExpExecArraySlice.ts --
+// RegExpExecArray.slice can have zero, one, or two arguments
+var regExpExecArrayValue: RegExpExecArray;
+regExpExecArrayValue.slice();
+regExpExecArrayValue.slice(0);
+regExpExecArrayValue.slice(0,1);

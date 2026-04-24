@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/namespacesDeclaration2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts namespacesDeclaration2.d.ts --target es2015 --lib es2015,dom --out-js namespacesDeclaration2.js namespacesDeclaration2.ts
+stderr 'TS2694'
+! exists namespacesDeclaration2.d.ts
+! exists namespacesDeclaration2.js
+! exists namespacesDeclaration2.js.map
+
+-- namespacesDeclaration2.ts --
+namespace N {
+    function S() {}
+}
+namespace M {
+    function F() {}
+}
+
+declare namespace ns {
+    let f: number;
+}
+
+var foge: N.S;
+var foo: M.F;
+let x: ns.A;

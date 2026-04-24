@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/invalidStaticField.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidStaticField.js invalidStaticField.ts
+stderr 'TS2339'
+! exists invalidStaticField.js
+! exists invalidStaticField.d.ts
+! exists invalidStaticField.js.map
+
+-- invalidStaticField.ts --
+class A { foo() { return B.NULL; } }
+class B { static NOT_NULL = new B(); }

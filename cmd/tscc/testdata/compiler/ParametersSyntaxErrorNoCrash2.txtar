@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/parametersSyntaxErrorNoCrash2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom parametersSyntaxErrorNoCrash2.ts
+stderr 'TS1005'
+! exists parametersSyntaxErrorNoCrash2.d.ts
+! exists parametersSyntaxErrorNoCrash2.js.map
+
+-- parametersSyntaxErrorNoCrash2.ts --
+// https://github.com/microsoft/TypeScript/issues/59353
+
+export default function getThing( { return 'thing'; }

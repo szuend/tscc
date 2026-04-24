@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/maxConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js maxConstraints.js maxConstraints.ts
+stderr 'TS2345'
+! exists maxConstraints.js
+! exists maxConstraints.d.ts
+! exists maxConstraints.js.map
+
+-- maxConstraints.ts --
+interface Comparable<T> {
+    compareTo(other: T): number;
+}
+interface Comparer {
+    <T extends Comparable<T>>(x: T, y: T): T;
+}
+var max2: Comparer = (x, y) => { return (x.compareTo(y) > 0) ? x : y };
+var maxResult = max2(1, 2);

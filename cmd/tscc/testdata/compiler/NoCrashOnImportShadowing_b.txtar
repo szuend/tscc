@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/noCrashOnImportShadowing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+import * as B from "./b";
+
+interface B {
+    x: string;
+}
+
+const x: B = { x: "" };
+B.zzz;
+
+export { B };
+-- b.ts --
+export const zzz = 123;
+-- index.ts --
+import { B } from "./a";
+
+const x: B = { x: "" };
+B.zzz;
+
+import * as OriginalB from "./b";
+OriginalB.zzz;
+
+const y: OriginalB = x;
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.zzz = void 0;
+exports.zzz = 123;

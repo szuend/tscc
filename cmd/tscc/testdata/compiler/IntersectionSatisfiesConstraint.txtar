@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/intersectionSatisfiesConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --strict --target es2015 --out-js intersectionSatisfiesConstraint.js intersectionSatisfiesConstraint.ts
+! stderr .
+cmp intersectionSatisfiesConstraint.js intersectionSatisfiesConstraint.js.golden
+! exists intersectionSatisfiesConstraint.d.ts
+! exists intersectionSatisfiesConstraint.js.map
+
+-- intersectionSatisfiesConstraint.ts --
+interface FirstInterface {
+    commonProperty: number
+}
+
+interface SecondInterface {
+    commonProperty: number
+}
+
+const myFirstFunction = <T extends FirstInterface | SecondInterface>(param1: T) => {
+    const newParam: T & { otherProperty: number } = Object.assign(param1, { otherProperty: 3 })
+    mySecondFunction(newParam)
+}
+
+const mySecondFunction = <T extends { commonProperty: number, otherProperty: number }>(newParam: T) => {
+    return newParam
+}
+-- intersectionSatisfiesConstraint.js.golden --
+"use strict";
+const myFirstFunction = (param1) => {
+    const newParam = Object.assign(param1, { otherProperty: 3 });
+    mySecondFunction(newParam);
+};
+const mySecondFunction = (newParam) => {
+    return newParam;
+};

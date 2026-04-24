@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/narrowingWithNonNullExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js narrowingWithNonNullExpression.js narrowingWithNonNullExpression.ts
+! stderr .
+cmp narrowingWithNonNullExpression.js narrowingWithNonNullExpression.js.golden
+! exists narrowingWithNonNullExpression.d.ts
+! exists narrowingWithNonNullExpression.js.map
+
+-- narrowingWithNonNullExpression.ts --
+const m = ''.match('');
+m! && m[0];
+m?.[0]! && m[0];
+-- narrowingWithNonNullExpression.js.golden --
+"use strict";
+const m = ''.match('');
+m && m[0];
+(m === null || m === void 0 ? void 0 : m[0]) && m[0];

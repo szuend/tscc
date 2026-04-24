@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/numericClassMembers1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numericClassMembers1.js numericClassMembers1.ts
+stderr 'TS2300'
+! exists numericClassMembers1.js
+! exists numericClassMembers1.d.ts
+! exists numericClassMembers1.js.map
+
+-- numericClassMembers1.ts --
+class C234 {
+  0 = 1; 
+  0.0 = 2;
+}
+ 
+class C235 { 
+  0.0 = 1;
+ '0' = 2;
+}
+
+class C236 {
+    '0.0' = 1;
+    '0' = 2;
+}

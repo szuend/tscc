@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/moduleResolutionWithSuffixes_threeLastIsBlank3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js tsconfig.js tsconfig.json
+! stderr .
+! exists tsconfig.d.ts
+! exists tsconfig.js
+! exists tsconfig.js.map
+
+-- foo.ts --
+export function base() {}
+-- index.ts --
+import { base } from "./foo";
+-- tsconfig.json --
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"traceResolution": true,
+		"moduleSuffixes": ["-ios", "__native", ""]
+	}
+}

@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/json.stringify.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js json.stringify.js json.stringify.ts
+! stderr .
+cmp json.stringify.js json.stringify.js.golden
+! exists json.stringify.d.ts
+! exists json.stringify.js.map
+
+-- json.stringify.ts --
+var value = null;
+JSON.stringify(value, undefined, 2);
+JSON.stringify(value, null, 2);
+JSON.stringify(value, ["a", 1], 2);
+JSON.stringify(value, (k) => undefined, 2);
+JSON.stringify(value, undefined, 2);
+-- json.stringify.js.golden --
+"use strict";
+var value = null;
+JSON.stringify(value, undefined, 2);
+JSON.stringify(value, null, 2);
+JSON.stringify(value, ["a", 1], 2);
+JSON.stringify(value, (k) => undefined, 2);
+JSON.stringify(value, undefined, 2);

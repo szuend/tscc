@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/parameterPropertyInConstructor4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts parameterPropertyInConstructor4.d.ts --strict --target es2015 --lib es2015,dom --out-js parameterPropertyInConstructor4.js parameterPropertyInConstructor4.ts
+! stderr .
+cmp parameterPropertyInConstructor4.d.ts parameterPropertyInConstructor4.d.ts.golden
+cmp parameterPropertyInConstructor4.js parameterPropertyInConstructor4.js.golden
+! exists parameterPropertyInConstructor4.js.map
+
+-- parameterPropertyInConstructor4.ts --
+export class C {
+    constructor(public a: number[] = [], b: number) {
+    }
+}
+-- parameterPropertyInConstructor4.d.ts.golden --
+export declare class C {
+    a: number[];
+    constructor(a: number[] | undefined, b: number);
+}
+-- parameterPropertyInConstructor4.js.golden --
+export class C {
+    constructor(a = [], b) {
+        this.a = a;
+    }
+}

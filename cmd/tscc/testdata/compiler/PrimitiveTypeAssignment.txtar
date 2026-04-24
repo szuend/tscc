@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/primitiveTypeAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js primitiveTypeAssignment.js primitiveTypeAssignment.ts
+stderr 'TS2693'
+! exists primitiveTypeAssignment.js
+! exists primitiveTypeAssignment.d.ts
+! exists primitiveTypeAssignment.js.map
+
+-- primitiveTypeAssignment.ts --
+var x = any;
+
+var y = number;
+
+var z = boolean;

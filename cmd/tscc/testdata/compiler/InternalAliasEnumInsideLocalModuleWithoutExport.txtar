@@ -1,0 +1,51 @@
+# Ported from tests/cases/compiler/internalAliasEnumInsideLocalModuleWithoutExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasEnumInsideLocalModuleWithoutExport.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasEnumInsideLocalModuleWithoutExport.js internalAliasEnumInsideLocalModuleWithoutExport.ts
+! stderr .
+cmp internalAliasEnumInsideLocalModuleWithoutExport.d.ts internalAliasEnumInsideLocalModuleWithoutExport.d.ts.golden
+cmp internalAliasEnumInsideLocalModuleWithoutExport.js internalAliasEnumInsideLocalModuleWithoutExport.js.golden
+! exists internalAliasEnumInsideLocalModuleWithoutExport.js.map
+
+-- internalAliasEnumInsideLocalModuleWithoutExport.ts --
+export namespace a {
+    export enum weekend {
+        Friday,
+        Saturday,
+        Sunday
+    }
+}
+
+export namespace c {
+    import b = a.weekend;
+    export var bVal: b = b.Sunday;
+}
+-- internalAliasEnumInsideLocalModuleWithoutExport.d.ts.golden --
+export declare namespace a {
+    enum weekend {
+        Friday = 0,
+        Saturday = 1,
+        Sunday = 2
+    }
+}
+export declare namespace c {
+    import b = a.weekend;
+    var bVal: b;
+}
+-- internalAliasEnumInsideLocalModuleWithoutExport.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.c = exports.a = void 0;
+var a;
+(function (a) {
+    let weekend;
+    (function (weekend) {
+        weekend[weekend["Friday"] = 0] = "Friday";
+        weekend[weekend["Saturday"] = 1] = "Saturday";
+        weekend[weekend["Sunday"] = 2] = "Sunday";
+    })(weekend = a.weekend || (a.weekend = {}));
+})(a || (exports.a = a = {}));
+var c;
+(function (c) {
+    var b = a.weekend;
+    c.bVal = b.Sunday;
+})(c || (exports.c = c = {}));

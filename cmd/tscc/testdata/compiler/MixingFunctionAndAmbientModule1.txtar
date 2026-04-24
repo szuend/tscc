@@ -1,0 +1,69 @@
+# Ported from tests/cases/compiler/mixingFunctionAndAmbientModule1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js mixingFunctionAndAmbientModule1.js mixingFunctionAndAmbientModule1.ts
+! stderr .
+cmp mixingFunctionAndAmbientModule1.js mixingFunctionAndAmbientModule1.js.golden
+! exists mixingFunctionAndAmbientModule1.d.ts
+! exists mixingFunctionAndAmbientModule1.js.map
+
+-- mixingFunctionAndAmbientModule1.ts --
+namespace A {
+    declare namespace My {
+        export var x: number;
+    }
+    function My(s: string) { }
+}
+
+namespace B {
+    declare namespace My {
+        export var x: number;
+    }
+    function My(s: boolean);
+    function My(s: any) { }
+}
+
+namespace C {
+    declare namespace My {
+        export var x: number;
+    }
+    declare function My(s: boolean);
+}
+
+namespace D {
+    declare namespace My {
+        export var x: number;
+    }
+    declare function My(s: boolean);
+    declare function My(s: any);
+}
+
+
+namespace E {
+    declare namespace My {
+        export var x: number;
+    }
+    declare function My(s: boolean);
+    declare namespace My {
+        export var y: number;
+    }
+    declare function My(s: any);
+}
+-- mixingFunctionAndAmbientModule1.js.golden --
+"use strict";
+var A;
+(function (A) {
+    function My(s) { }
+})(A || (A = {}));
+var B;
+(function (B) {
+    function My(s) { }
+})(B || (B = {}));
+var C;
+(function (C) {
+})(C || (C = {}));
+var D;
+(function (D) {
+})(D || (D = {}));
+var E;
+(function (E) {
+})(E || (E = {}));

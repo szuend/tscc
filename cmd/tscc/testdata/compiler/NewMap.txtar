@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/newMap.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --target es2015 --out-js newMap.js newMap.ts
+stderr 'TS2743'
+! exists newMap.js
+! exists newMap.d.ts
+! exists newMap.js.map
+
+-- newMap.ts --
+new Map<string>();
+new WeakMap<object>();

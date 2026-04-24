@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/numericIndexerConstraint2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numericIndexerConstraint2.js numericIndexerConstraint2.ts
+stderr 'TS2322'
+! exists numericIndexerConstraint2.js
+! exists numericIndexerConstraint2.d.ts
+! exists numericIndexerConstraint2.js.map
+
+-- numericIndexerConstraint2.ts --
+class Foo { foo() { } }
+declare var x: { [index: string]: Foo; };
+var a: { one: number; } = { one: 1 };
+x = a;

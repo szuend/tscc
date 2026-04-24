@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/modulePrologueES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module es6 --target es6 --lib es6,dom --out-js modulePrologueES6.js modulePrologueES6.ts
+! stderr .
+cmp modulePrologueES6.js modulePrologueES6.js.golden
+! exists modulePrologueES6.d.ts
+! exists modulePrologueES6.js.map
+
+-- modulePrologueES6.ts --
+"use strict";
+
+export class Foo {}
+-- modulePrologueES6.js.golden --
+"use strict";
+export class Foo {
+}

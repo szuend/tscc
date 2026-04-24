@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/invalidSymbolInTypeParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidSymbolInTypeParameter1.js invalidSymbolInTypeParameter1.ts
+stderr 'TS2304'
+! exists invalidSymbolInTypeParameter1.js
+! exists invalidSymbolInTypeParameter1.d.ts
+! exists invalidSymbolInTypeParameter1.js.map
+
+-- invalidSymbolInTypeParameter1.ts --
+function test() {
+    var cats = new Array<WAWA>(); // WAWA is not a valid type
+}

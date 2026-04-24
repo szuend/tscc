@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/overloadResolutionWithAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadResolutionWithAny.js overloadResolutionWithAny.ts
+! stderr .
+cmp overloadResolutionWithAny.js overloadResolutionWithAny.js.golden
+! exists overloadResolutionWithAny.d.ts
+! exists overloadResolutionWithAny.js.map
+
+-- overloadResolutionWithAny.ts --
+var func: {
+    (s: string): number;
+    (s: any): string;
+};
+
+func(""); // number
+func(3); // string
+var x: any;
+func(x); // string
+
+var func2: {
+    (s: string, t: string): number;
+    (s: any, t: string): boolean;
+    (s: string, t: any): RegExp;
+    (s: any, t: any): string;
+}
+
+func2(x, x); // string
+func2("", ""); // number
+func2(x, ""); // boolean
+func2("", x); // RegExp
+-- overloadResolutionWithAny.js.golden --
+"use strict";
+var func;
+func(""); // number
+func(3); // string
+var x;
+func(x); // string
+var func2;
+func2(x, x); // string
+func2("", ""); // number
+func2(x, ""); // boolean
+func2("", x); // RegExp

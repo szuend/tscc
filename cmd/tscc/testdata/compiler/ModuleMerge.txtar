@@ -1,0 +1,51 @@
+# Ported from tests/cases/compiler/moduleMerge.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js moduleMerge.js moduleMerge.ts
+! stderr .
+cmp moduleMerge.js moduleMerge.js.golden
+! exists moduleMerge.d.ts
+! exists moduleMerge.js.map
+
+-- moduleMerge.ts --
+// This should not compile both B classes are in the same module this should be a collission
+
+namespace A
+{
+    class B
+    {
+        public Hello(): string
+        {
+            return "from private B";
+        }
+    }
+}
+
+namespace A
+{
+    export class B
+    {
+        public Hello(): string
+        {
+            return "from export B";
+        }
+    }
+}
+-- moduleMerge.js.golden --
+"use strict";
+// This should not compile both B classes are in the same module this should be a collission
+var A;
+(function (A) {
+    class B {
+        Hello() {
+            return "from private B";
+        }
+    }
+})(A || (A = {}));
+(function (A) {
+    class B {
+        Hello() {
+            return "from export B";
+        }
+    }
+    A.B = B;
+})(A || (A = {}));

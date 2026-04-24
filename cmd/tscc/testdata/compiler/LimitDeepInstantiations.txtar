@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/limitDeepInstantiations.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js limitDeepInstantiations.js limitDeepInstantiations.ts
+stderr 'TS2589'
+stderr 'TS2344'
+! exists limitDeepInstantiations.js
+! exists limitDeepInstantiations.d.ts
+! exists limitDeepInstantiations.js.map
+
+-- limitDeepInstantiations.ts --
+// Repro from #14837
+
+type Foo<T extends "true", B> = { "true": Foo<T, Foo<T, B>> }[T];
+let f1: Foo<"true", {}>;
+let f2: Foo<"false", {}>;

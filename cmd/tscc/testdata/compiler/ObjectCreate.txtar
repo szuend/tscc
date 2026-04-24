@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/objectCreate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js objectCreate.js objectCreate.ts
+! stderr .
+cmp objectCreate.js objectCreate.js.golden
+! exists objectCreate.d.ts
+! exists objectCreate.js.map
+
+-- objectCreate.ts --
+declare var union: null | { a: number, b: string };
+
+var n = Object.create(null);             // object
+var t = Object.create({ a: 1, b: "" });  // {a: number, b: string }
+var u = Object.create(union);            // object | {a: number, b: string }
+var e = Object.create({});               // {}
+var o = Object.create(<object>{});       // object
+
+var a = Object.create(null, {});           // any
+var a = Object.create({ a: 1, b: "" }, {});
+var a = Object.create(union, {});
+var a = Object.create({}, {});
+var a = Object.create(<object>{}, {});
+-- objectCreate.js.golden --
+"use strict";
+var n = Object.create(null); // object
+var t = Object.create({ a: 1, b: "" }); // {a: number, b: string }
+var u = Object.create(union); // object | {a: number, b: string }
+var e = Object.create({}); // {}
+var o = Object.create({}); // object
+var a = Object.create(null, {}); // any
+var a = Object.create({ a: 1, b: "" }, {});
+var a = Object.create(union, {});
+var a = Object.create({}, {});
+var a = Object.create({}, {});

@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/omitTypeTestErrors01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts omitTypeTestErrors01.d.ts --target es2015 --lib es2015,dom --out-js omitTypeTestErrors01.js omitTypeTestErrors01.ts
+stderr 'TS2339'
+! exists omitTypeTestErrors01.d.ts
+! exists omitTypeTestErrors01.js
+! exists omitTypeTestErrors01.js.map
+
+-- omitTypeTestErrors01.ts --
+interface Foo {
+    a: string;
+    b: number;
+    c: boolean;
+}
+
+export type Bar = Omit<Foo, "c">;
+export type Baz = Omit<Foo, "b" | "c">;
+
+export function getBarC(bar: Bar) {
+    return bar.c;
+}
+
+export function getBazB(baz: Baz) {
+    return baz.b;
+}
+

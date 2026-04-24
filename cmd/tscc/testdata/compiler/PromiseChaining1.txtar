@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/promiseChaining1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js promiseChaining1.js promiseChaining1.ts
+stderr 'TS2322'
+! exists promiseChaining1.js
+! exists promiseChaining1.d.ts
+! exists promiseChaining1.js.map
+
+-- promiseChaining1.ts --
+// same example but with constraints on each type parameter
+class Chain2<T extends { length: number }> {
+    constructor(public value: T) { }
+    then<S extends Function>(cb: (x: T) => S): Chain2<S> {
+        var result = cb(this.value);
+        // should get a fresh type parameter which each then call
+        var z = this.then(x => result)/*S*/.then(x => "abc")/*Function*/.then(x => x.length)/*number*/; // Should error on "abc" because it is not a Function
+        return new Chain2(result);
+    }
+}

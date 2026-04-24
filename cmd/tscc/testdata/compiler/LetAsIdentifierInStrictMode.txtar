@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/letAsIdentifierInStrictMode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js letAsIdentifierInStrictMode.js letAsIdentifierInStrictMode.ts
+stderr 'TS1212'
+! exists letAsIdentifierInStrictMode.js
+! exists letAsIdentifierInStrictMode.d.ts
+! exists letAsIdentifierInStrictMode.js.map
+
+-- letAsIdentifierInStrictMode.ts --
+"use strict";
+var let = 10;
+var a = 10;
+let = 30;
+let
+a;

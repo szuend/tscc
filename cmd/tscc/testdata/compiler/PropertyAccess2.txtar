@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/propertyAccess2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccess2.js propertyAccess2.ts
+stderr 'TS2339'
+! exists propertyAccess2.js
+! exists propertyAccess2.d.ts
+! exists propertyAccess2.js.map
+
+-- propertyAccess2.ts --
+declare var foo: number;
+foo.toBAZ();

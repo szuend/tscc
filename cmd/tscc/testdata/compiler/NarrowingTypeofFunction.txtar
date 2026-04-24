@@ -1,0 +1,58 @@
+# Ported from tests/cases/compiler/narrowingTypeofFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js narrowingTypeofFunction.js narrowingTypeofFunction.ts
+! stderr .
+cmp narrowingTypeofFunction.js narrowingTypeofFunction.js.golden
+! exists narrowingTypeofFunction.d.ts
+! exists narrowingTypeofFunction.js.map
+
+-- narrowingTypeofFunction.ts --
+type Meta = { foo: string }
+interface F { (): string }
+
+function f1(a: (F & Meta) | string) {
+    if (typeof a === "function") {
+        a;
+    }
+    else {
+        a;
+    }
+}
+
+function f2<T>(x: (T & F) | T & string) {
+    if (typeof x === "function") {
+        x;
+    }
+    else {
+        x;
+    }
+}
+
+function f3(x: { _foo: number } & number) {
+    if (typeof x === "function") {
+        x;
+    }
+}
+-- narrowingTypeofFunction.js.golden --
+"use strict";
+function f1(a) {
+    if (typeof a === "function") {
+        a;
+    }
+    else {
+        a;
+    }
+}
+function f2(x) {
+    if (typeof x === "function") {
+        x;
+    }
+    else {
+        x;
+    }
+}
+function f3(x) {
+    if (typeof x === "function") {
+        x;
+    }
+}

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/nonContextuallyTypedLogicalOr.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js nonContextuallyTypedLogicalOr.js nonContextuallyTypedLogicalOr.ts
+! stderr .
+cmp nonContextuallyTypedLogicalOr.js nonContextuallyTypedLogicalOr.js.golden
+! exists nonContextuallyTypedLogicalOr.d.ts
+! exists nonContextuallyTypedLogicalOr.js.map
+
+-- nonContextuallyTypedLogicalOr.ts --
+interface Contextual {
+    dummy;
+    p?: number;
+}
+
+interface Ellement {
+    dummy;
+    p: any;
+}
+
+var c: Contextual;
+var e: Ellement;
+
+(c || e).dummy;
+-- nonContextuallyTypedLogicalOr.js.golden --
+"use strict";
+var c;
+var e;
+(c || e).dummy;

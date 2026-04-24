@@ -1,0 +1,52 @@
+# Ported from tests/cases/compiler/noCollisionThisExpressionAndLocalVarInConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js noCollisionThisExpressionAndLocalVarInConstructor.js noCollisionThisExpressionAndLocalVarInConstructor.ts
+! stderr .
+cmp noCollisionThisExpressionAndLocalVarInConstructor.js noCollisionThisExpressionAndLocalVarInConstructor.js.golden
+! exists noCollisionThisExpressionAndLocalVarInConstructor.d.ts
+! exists noCollisionThisExpressionAndLocalVarInConstructor.js.map
+
+-- noCollisionThisExpressionAndLocalVarInConstructor.ts --
+class class1 {
+    constructor() {
+        var x2 = {
+            doStuff: (callback) => () => {
+                var _this = 2;
+                return callback(_this);
+            }
+        }
+    }
+}
+
+class class2 {
+    constructor() {
+        var _this = 2;
+        var x2 = {
+            doStuff: (callback) => () => {
+                return callback(_this);
+            }
+        }
+    }
+}
+-- noCollisionThisExpressionAndLocalVarInConstructor.js.golden --
+"use strict";
+class class1 {
+    constructor() {
+        var x2 = {
+            doStuff: (callback) => () => {
+                var _this = 2;
+                return callback(_this);
+            }
+        };
+    }
+}
+class class2 {
+    constructor() {
+        var _this = 2;
+        var x2 = {
+            doStuff: (callback) => () => {
+                return callback(_this);
+            }
+        };
+    }
+}

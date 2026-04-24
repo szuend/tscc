@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/noImplicitAnyInContextuallyTypesFunctionParamter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyInContextuallyTypesFunctionParamter.js noImplicitAnyInContextuallyTypesFunctionParamter.ts
+! stderr .
+cmp noImplicitAnyInContextuallyTypesFunctionParamter.js noImplicitAnyInContextuallyTypesFunctionParamter.js.golden
+! exists noImplicitAnyInContextuallyTypesFunctionParamter.d.ts
+! exists noImplicitAnyInContextuallyTypesFunctionParamter.js.map
+
+-- noImplicitAnyInContextuallyTypesFunctionParamter.ts --
+var regexMatchList = ['', ''];
+regexMatchList.forEach(match => ''.replace(match, ''));
+-- noImplicitAnyInContextuallyTypesFunctionParamter.js.golden --
+"use strict";
+var regexMatchList = ['', ''];
+regexMatchList.forEach(match => ''.replace(match, ''));

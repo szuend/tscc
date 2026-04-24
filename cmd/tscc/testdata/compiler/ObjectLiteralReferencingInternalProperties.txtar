@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/objectLiteralReferencingInternalProperties.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectLiteralReferencingInternalProperties.js objectLiteralReferencingInternalProperties.ts
+stderr 'TS2304'
+! exists objectLiteralReferencingInternalProperties.js
+! exists objectLiteralReferencingInternalProperties.d.ts
+! exists objectLiteralReferencingInternalProperties.js.map
+
+-- objectLiteralReferencingInternalProperties.ts --
+var a = { b: 10, c: b }; // Should give error for attempting to reference b.

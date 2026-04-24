@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/objectGroupBy.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js objectGroupBy.js objectGroupBy.ts
+stderr 'TS2322'
+! exists objectGroupBy.js
+! exists objectGroupBy.d.ts
+! exists objectGroupBy.js.map
+
+-- objectGroupBy.ts --
+const basic = Object.groupBy([0, 2, 8], x => x < 5 ? 'small' : 'large');
+
+const chars = Object.groupBy('a string', c => c);
+
+type Employee = { name: string, role: 'ic' | 'manager' }
+const employees: Set<Employee> = new Set();
+const byRole = Object.groupBy(employees, x => x.role);
+
+const byNonKey = Object.groupBy(employees, x => x);

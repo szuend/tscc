@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/partiallyAmbientFundule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js partiallyAmbientFundule.js partiallyAmbientFundule.ts
+! stderr .
+cmp partiallyAmbientFundule.js partiallyAmbientFundule.js.golden
+! exists partiallyAmbientFundule.d.ts
+! exists partiallyAmbientFundule.js.map
+
+-- partiallyAmbientFundule.ts --
+declare namespace foo {
+    export function x(): any;
+}
+function foo () { } // Legal, because module is ambient
+-- partiallyAmbientFundule.js.golden --
+"use strict";
+function foo() { } // Legal, because module is ambient

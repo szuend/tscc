@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/nestedInfinitelyExpandedRecursiveTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nestedInfinitelyExpandedRecursiveTypes.js nestedInfinitelyExpandedRecursiveTypes.ts
+stderr 'TS2454'
+! exists nestedInfinitelyExpandedRecursiveTypes.js
+! exists nestedInfinitelyExpandedRecursiveTypes.d.ts
+! exists nestedInfinitelyExpandedRecursiveTypes.js.map
+
+-- nestedInfinitelyExpandedRecursiveTypes.ts --
+interface F<T> {
+      t: G<F<() => T>>;
+}
+interface G<U> {
+      t: G<G<() => U>>;
+}
+ 
+var f: F<string>;
+var g: G<string>;
+f = g;
+g = f;

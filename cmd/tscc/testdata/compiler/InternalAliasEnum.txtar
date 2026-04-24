@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/internalAliasEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasEnum.d.ts --target es2015 --lib es2015,dom --out-js internalAliasEnum.js internalAliasEnum.ts
+! stderr .
+cmp internalAliasEnum.d.ts internalAliasEnum.d.ts.golden
+cmp internalAliasEnum.js internalAliasEnum.js.golden
+! exists internalAliasEnum.js.map
+
+-- internalAliasEnum.ts --
+namespace a {
+    export enum weekend {
+        Friday,
+        Saturday,
+        Sunday
+    }
+}
+
+namespace c {
+    import b = a.weekend;
+    export var bVal: b = b.Sunday;
+}
+-- internalAliasEnum.d.ts.golden --
+declare namespace a {
+    enum weekend {
+        Friday = 0,
+        Saturday = 1,
+        Sunday = 2
+    }
+}
+declare namespace c {
+    import b = a.weekend;
+    var bVal: b;
+}
+-- internalAliasEnum.js.golden --
+"use strict";
+var a;
+(function (a) {
+    let weekend;
+    (function (weekend) {
+        weekend[weekend["Friday"] = 0] = "Friday";
+        weekend[weekend["Saturday"] = 1] = "Saturday";
+        weekend[weekend["Sunday"] = 2] = "Sunday";
+    })(weekend = a.weekend || (a.weekend = {}));
+})(a || (a = {}));
+var c;
+(function (c) {
+    var b = a.weekend;
+    c.bVal = b.Sunday;
+})(c || (c = {}));

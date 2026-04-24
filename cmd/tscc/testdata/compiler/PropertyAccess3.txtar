@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/propertyAccess3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccess3.js propertyAccess3.ts
+stderr 'TS2339'
+! exists propertyAccess3.js
+! exists propertyAccess3.d.ts
+! exists propertyAccess3.js.map
+
+-- propertyAccess3.ts --
+declare var foo: boolean;
+foo.toBAZ();

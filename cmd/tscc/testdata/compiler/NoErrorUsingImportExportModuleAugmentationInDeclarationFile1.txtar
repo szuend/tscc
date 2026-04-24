@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/noErrorUsingImportExportModuleAugmentationInDeclarationFile1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module none --target es2015 --lib es2015,dom --out-js 0.d.js 0.d.ts
+! stderr .
+! exists 0.d.d.ts
+! exists 0.d.js
+! exists 0.d.js.map
+
+-- 0.d.ts --
+export = a;
+declare var a: number;

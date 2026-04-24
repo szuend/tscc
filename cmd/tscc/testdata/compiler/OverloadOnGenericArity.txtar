@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/overloadOnGenericArity.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js overloadOnGenericArity.js overloadOnGenericArity.ts
+! stderr .
+cmp overloadOnGenericArity.js overloadOnGenericArity.js.golden
+! exists overloadOnGenericArity.d.ts
+! exists overloadOnGenericArity.js.map
+
+-- overloadOnGenericArity.ts --
+interface Test {
+    then<U>(p: string): string;
+    then(p: string): Date; // Error: Overloads cannot differ only by return type
+}
+  
+-- overloadOnGenericArity.js.golden --
+"use strict";

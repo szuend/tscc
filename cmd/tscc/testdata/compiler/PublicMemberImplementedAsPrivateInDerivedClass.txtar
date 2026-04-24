@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/publicMemberImplementedAsPrivateInDerivedClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js publicMemberImplementedAsPrivateInDerivedClass.js publicMemberImplementedAsPrivateInDerivedClass.ts
+stderr 'TS2420'
+stderr 'TS2564'
+! exists publicMemberImplementedAsPrivateInDerivedClass.js
+! exists publicMemberImplementedAsPrivateInDerivedClass.d.ts
+! exists publicMemberImplementedAsPrivateInDerivedClass.js.map
+
+-- publicMemberImplementedAsPrivateInDerivedClass.ts --
+interface Qux {
+ Bar: number;
+}
+class Foo implements Qux {
+ private Bar: number;
+}

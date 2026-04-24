@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/jsdocImportTypeResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom usage.js
+! stderr .
+! exists usage.d.ts
+! exists usage.js.map
+
+-- module.js --
+export class MyClass {
+}
+-- usage.js --
+/**
+ * @typedef {Object} options
+ * @property {import("./module").MyClass} option
+ */
+/** @type {options} */
+let v;

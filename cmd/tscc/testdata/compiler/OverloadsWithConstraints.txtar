@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/overloadsWithConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js overloadsWithConstraints.js overloadsWithConstraints.ts
+! stderr .
+cmp overloadsWithConstraints.js overloadsWithConstraints.js.golden
+! exists overloadsWithConstraints.d.ts
+! exists overloadsWithConstraints.js.map
+
+-- overloadsWithConstraints.ts --
+declare function f<T extends Number>(x: T): T;
+declare function f<T extends String>(x: T): T
+
+var v = f<string>("");
+-- overloadsWithConstraints.js.golden --
+"use strict";
+var v = f("");

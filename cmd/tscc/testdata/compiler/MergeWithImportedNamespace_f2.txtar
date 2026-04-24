@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/mergeWithImportedNamespace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js f2.js f2.ts
+stderr 'TS2440'
+! exists f2.js
+! exists f2.d.ts
+! exists f2.js.map
+
+-- f1.ts --
+export namespace N { export var x = 1; }
+-- f2.ts --
+import {N} from "./f1";
+export namespace N {
+    export interface I {x: any}
+}

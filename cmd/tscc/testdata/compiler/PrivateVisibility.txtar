@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/privateVisibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateVisibility.js privateVisibility.ts
+stderr 'TS2341'
+! exists privateVisibility.js
+! exists privateVisibility.d.ts
+! exists privateVisibility.js.map
+
+-- privateVisibility.ts --
+class Foo {
+	public pubMeth() {this.privMeth();}
+	private privMeth() {}
+	public pubProp = 0;
+	private privProp = 0;
+}
+
+var f = new Foo();
+f.privMeth(); // should not work
+f.privProp; // should not work
+
+f.pubMeth(); // should work
+f.pubProp; // should work
+
+namespace M {
+    export class C { public pub = 0; private priv = 1; }
+    export var V = 0;
+}
+
+
+var c = new M.C();
+
+c.pub; // should work
+c.priv; // should not work
+

@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/promiseChaining.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js promiseChaining.js promiseChaining.ts
+! stderr .
+cmp promiseChaining.js promiseChaining.js.golden
+! exists promiseChaining.d.ts
+! exists promiseChaining.js.map
+
+-- promiseChaining.ts --
+class Chain<T> {
+    constructor(public value: T) { }
+    then<S>(cb: (x: T) => S): Chain<S> {
+        var result = cb(this.value);
+        // should get a fresh type parameter which each then call
+        var z = this.then(x => result)/*S*/.then(x => "abc")/*string*/.then(x => x.length)/*number*/; // No error
+        return new Chain(result);
+    }
+}
+
+-- promiseChaining.js.golden --
+"use strict";
+class Chain {
+    constructor(value) {
+        this.value = value;
+    }
+    then(cb) {
+        var result = cb(this.value);
+        // should get a fresh type parameter which each then call
+        var z = this.then(x => result) /*S*/.then(x => "abc") /*string*/.then(x => x.length) /*number*/; // No error
+        return new Chain(result);
+    }
+}

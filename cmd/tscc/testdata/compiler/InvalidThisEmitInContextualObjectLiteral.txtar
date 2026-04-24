@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/invalidThisEmitInContextualObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js invalidThisEmitInContextualObjectLiteral.js invalidThisEmitInContextualObjectLiteral.ts
+! stderr .
+cmp invalidThisEmitInContextualObjectLiteral.js invalidThisEmitInContextualObjectLiteral.js.golden
+! exists invalidThisEmitInContextualObjectLiteral.d.ts
+! exists invalidThisEmitInContextualObjectLiteral.js.map
+
+-- invalidThisEmitInContextualObjectLiteral.ts --
+interface IDef {
+	p1: (e:string) => void;
+	p2: () => (n: number) => any;
+}
+
+class TestController {
+	public m(def: IDef) { }
+	public p = this.m({
+		p1: e => { },
+		p2: () => { return vvvvvvvvv => this; },
+	});
+}
+-- invalidThisEmitInContextualObjectLiteral.js.golden --
+"use strict";
+class TestController {
+    constructor() {
+        this.p = this.m({
+            p1: e => { },
+            p2: () => { return vvvvvvvvv => this; },
+        });
+    }
+    m(def) { }
+}

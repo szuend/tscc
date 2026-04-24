@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/propertyWrappedInTry.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyWrappedInTry.js propertyWrappedInTry.ts
+stderr 'TS1068'
+stderr 'TS1128'
+stderr 'TS1005'
+! exists propertyWrappedInTry.js
+! exists propertyWrappedInTry.d.ts
+! exists propertyWrappedInTry.js.map
+
+-- propertyWrappedInTry.ts --
+class Foo {
+
+    try {
+
+        public bar = someInitThatMightFail();
+
+    } catch(e) {}
+
+
+
+    public baz() {
+
+        return this.bar; // doesn't get rewritten to Foo.bar.
+
+    }
+
+}
+

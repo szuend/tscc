@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/lateBoundAssignmentCandidateJS3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts index.d.ts --lib esnext --strict --target esnext --out-js out_index.js index.js
+stderr 'TS2322'
+! exists out_index.js
+! exists dist/index.js.map
+! exists index.d.ts
+
+-- index.js --
+const prop = 'prop';
+
+export class foo2 {
+    constructor() {
+        this[prop] = 12;
+    }
+
+    /**
+     * @protected
+     * @type {string}
+     */
+    prop = 'baz';
+}

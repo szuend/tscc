@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/newArrays.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js newArrays.js newArrays.ts
+stderr 'TS2564'
+! exists newArrays.js
+! exists newArrays.d.ts
+! exists newArrays.js.map
+
+-- newArrays.ts --
+namespace M {
+	class Foo {}
+	class Gar {
+		public fa: Foo[];
+		public x = 10;
+		public y = 10;
+
+		public m () {
+			this.fa = new Array<Foo>(this.x * this.y);		
+		}
+	}
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/parseObjectLiteralsWithoutTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js parseObjectLiteralsWithoutTypes.js parseObjectLiteralsWithoutTypes.ts
+! stderr .
+cmp parseObjectLiteralsWithoutTypes.js parseObjectLiteralsWithoutTypes.js.golden
+! exists parseObjectLiteralsWithoutTypes.d.ts
+! exists parseObjectLiteralsWithoutTypes.js.map
+
+-- parseObjectLiteralsWithoutTypes.ts --
+let x: { foo, bar }
+let y: { foo: number, bar }
+let z: { foo, bar: number }
+-- parseObjectLiteralsWithoutTypes.js.golden --
+"use strict";
+let x;
+let y;
+let z;

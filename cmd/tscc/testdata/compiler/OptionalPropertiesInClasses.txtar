@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/optionalPropertiesInClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js optionalPropertiesInClasses.js optionalPropertiesInClasses.ts
+stderr 'TS2564'
+stderr 'TS2420'
+! exists optionalPropertiesInClasses.js
+! exists optionalPropertiesInClasses.d.ts
+! exists optionalPropertiesInClasses.js.map
+
+-- optionalPropertiesInClasses.ts --
+interface ifoo {
+	x?:number;
+	y:number;
+}
+
+class C1 implements ifoo {
+	public y:number;
+}
+
+class C2 implements ifoo { // ERROR - still need 'y'
+	public x:number;
+}
+
+class C3 implements ifoo {
+	public x:number;
+	public y:number;
+}

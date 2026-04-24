@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/mismatchedGenericArguments1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mismatchedGenericArguments1.js mismatchedGenericArguments1.ts
+stderr 'TS2416'
+stderr 'TS2322'
+! exists mismatchedGenericArguments1.js
+! exists mismatchedGenericArguments1.d.ts
+! exists mismatchedGenericArguments1.js.map
+
+-- mismatchedGenericArguments1.ts --
+interface IFoo<T> {
+   foo<T>(x: T): T;
+}
+class C<T> implements IFoo<T> {
+   foo(x: string): number {
+     return null;
+   }
+}
+
+class C2<T> implements IFoo<T> {
+   foo<U>(x: string): number {
+     return null;
+   }
+}

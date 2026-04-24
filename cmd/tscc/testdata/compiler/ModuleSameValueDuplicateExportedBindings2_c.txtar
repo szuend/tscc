@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/moduleSameValueDuplicateExportedBindings2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js c.js c.ts
+! stderr .
+cmp c.js c.js.golden
+! exists c.d.ts
+! exists c.js.map
+
+-- a.ts --
+export * from "./b";
+export * from "./c";
+-- b.ts --
+export {Animals} from "./c";
+-- c.ts --
+export enum Animals {
+	Cat,
+	Dog
+};
+-- c.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Animals = void 0;
+var Animals;
+(function (Animals) {
+    Animals[Animals["Cat"] = 0] = "Cat";
+    Animals[Animals["Dog"] = 1] = "Dog";
+})(Animals || (exports.Animals = Animals = {}));
+;

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/noImplicitAnyDestructuringParameterDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyDestructuringParameterDeclaration.js noImplicitAnyDestructuringParameterDeclaration.ts
+stderr 'TS7031'
+stderr 'TS7006'
+stderr 'TS7008'
+! exists noImplicitAnyDestructuringParameterDeclaration.js
+! exists noImplicitAnyDestructuringParameterDeclaration.d.ts
+! exists noImplicitAnyDestructuringParameterDeclaration.js.map
+
+-- noImplicitAnyDestructuringParameterDeclaration.ts --
+function f1([a], {b}, c, d) { // error
+}
+function f2([a = undefined], {b = null}, c = undefined, d = null) { // error
+}
+function f3([a]: [any], {b}: { b: any }, c: any, d: any) {
+}
+function f4({b}: { b }, x: { b }) { // error in type instead
+}
+function f5([a1] = [undefined], {b1} = { b1: null }, c1 = undefined, d1 = null) { // error
+}

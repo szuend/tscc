@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/propagationOfPromiseInitialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js propagationOfPromiseInitialization.js propagationOfPromiseInitialization.ts
+stderr 'TS2454'
+! exists propagationOfPromiseInitialization.js
+! exists propagationOfPromiseInitialization.d.ts
+! exists propagationOfPromiseInitialization.js.map
+
+-- propagationOfPromiseInitialization.ts --
+interface IPromise<T> {
+    then<TResult>(successCallback: (promiseValue: T) => TResult, errorCallback?: (reason: any) => TResult): IPromise<TResult>;
+}
+
+var foo: IPromise<number>;
+foo.then((x) => {
+    // x is inferred to be a number
+    return "asdf";
+}).then((x) => {
+    // x is inferred to be string
+    x.length;
+    return 123;
+});

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/overloadOnConstConstraintChecks3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadOnConstConstraintChecks3.js overloadOnConstConstraintChecks3.ts
+stderr 'TS2322'
+! exists overloadOnConstConstraintChecks3.js
+! exists overloadOnConstConstraintChecks3.d.ts
+! exists overloadOnConstConstraintChecks3.js.map
+
+-- overloadOnConstConstraintChecks3.ts --
+class A { private x = 1} 
+class B extends A {}
+class C extends A {
+    public foo() { }
+}
+function foo(name: 'hi'): B;
+function foo(name: 'bye'): C;
+function foo(name: string): A;
+function foo(name: any): A {
+    return null;
+}

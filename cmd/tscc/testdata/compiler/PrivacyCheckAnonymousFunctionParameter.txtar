@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/privacyCheckAnonymousFunctionParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts privacyCheckAnonymousFunctionParameter.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js privacyCheckAnonymousFunctionParameter.js privacyCheckAnonymousFunctionParameter.ts
+stderr 'TS2322'
+! exists privacyCheckAnonymousFunctionParameter.d.ts
+! exists privacyCheckAnonymousFunctionParameter.js
+! exists privacyCheckAnonymousFunctionParameter.js.map
+
+-- privacyCheckAnonymousFunctionParameter.ts --
+export var x = 1;  // Makes this an external module
+interface Iterator<T> {
+}
+
+namespace Query {
+    export function fromDoWhile<T>(doWhile: (test: Iterator<T>) => boolean): Iterator<T> {
+        return null;
+    }
+
+    function fromOrderBy() {
+        return fromDoWhile(test => {
+            return true;
+        });
+    }
+}

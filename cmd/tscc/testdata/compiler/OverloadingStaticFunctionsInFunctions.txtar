@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/overloadingStaticFunctionsInFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js overloadingStaticFunctionsInFunctions.js overloadingStaticFunctionsInFunctions.ts
+stderr 'TS1005'
+stderr 'TS1128'
+stderr 'TS1109'
+! exists overloadingStaticFunctionsInFunctions.js
+! exists overloadingStaticFunctionsInFunctions.d.ts
+! exists overloadingStaticFunctionsInFunctions.js.map
+
+-- overloadingStaticFunctionsInFunctions.ts --
+function boo {
+  static test()
+  static test(name:string)
+  static test(name?:any){ }
+}

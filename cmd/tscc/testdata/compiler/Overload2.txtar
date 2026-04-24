@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/overload2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overload2.js overload2.ts
+! stderr .
+cmp overload2.js overload2.js.golden
+! exists overload2.d.ts
+! exists overload2.js.map
+
+-- overload2.ts --
+enum A { }
+enum B { }
+    
+function foo(a: A);
+function foo(b: B);
+// should be ok
+function foo(x: number) { 
+}
+
+class C { }
+function foo1(a: A);
+function foo1(c: C);
+// should be ok
+function foo1(x: number) { 
+}
+-- overload2.js.golden --
+"use strict";
+var A;
+(function (A) {
+})(A || (A = {}));
+var B;
+(function (B) {
+})(B || (B = {}));
+// should be ok
+function foo(x) {
+}
+class C {
+}
+// should be ok
+function foo1(x) {
+}

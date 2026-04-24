@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/propertyAccessibility1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertyAccessibility1.js propertyAccessibility1.ts
+stderr 'TS2341'
+! exists propertyAccessibility1.js
+! exists propertyAccessibility1.d.ts
+! exists propertyAccessibility1.js.map
+
+-- propertyAccessibility1.ts --
+class Foo {
+  private privProp = 0;
+}
+var f = new Foo();
+f.privProp;

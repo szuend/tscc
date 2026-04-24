@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/mappedTypePartialConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mappedTypePartialConstraints.js mappedTypePartialConstraints.ts
+! stderr .
+cmp mappedTypePartialConstraints.js mappedTypePartialConstraints.js.golden
+! exists mappedTypePartialConstraints.d.ts
+! exists mappedTypePartialConstraints.js.map
+
+-- mappedTypePartialConstraints.ts --
+// Repro from #16985
+
+interface MyInterface {
+  something: number;
+}
+
+class MyClass<T extends MyInterface> {
+  doIt(data : Partial<T>) {}
+}
+
+class MySubClass extends MyClass<MyInterface> {}
+
+function fn(arg: typeof MyClass) {};
+
+fn(MySubClass);
+-- mappedTypePartialConstraints.js.golden --
+"use strict";
+// Repro from #16985
+class MyClass {
+    doIt(data) { }
+}
+class MySubClass extends MyClass {
+}
+function fn(arg) { }
+;
+fn(MySubClass);

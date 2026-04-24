@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/library_ArraySlice.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js library_ArraySlice.js library_ArraySlice.ts
+! stderr .
+cmp library_ArraySlice.js library_ArraySlice.js.golden
+! exists library_ArraySlice.d.ts
+! exists library_ArraySlice.js.map
+
+-- library_ArraySlice.ts --
+// Array.prototype.slice can have zero, one, or two arguments
+Array.prototype.slice();
+Array.prototype.slice(0);
+Array.prototype.slice(0, 1);
+-- library_ArraySlice.js.golden --
+"use strict";
+// Array.prototype.slice can have zero, one, or two arguments
+Array.prototype.slice();
+Array.prototype.slice(0);
+Array.prototype.slice(0, 1);

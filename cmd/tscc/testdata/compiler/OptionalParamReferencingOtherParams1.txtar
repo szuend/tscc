@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/optionalParamReferencingOtherParams1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js optionalParamReferencingOtherParams1.js optionalParamReferencingOtherParams1.ts
+! stderr .
+cmp optionalParamReferencingOtherParams1.js optionalParamReferencingOtherParams1.js.golden
+! exists optionalParamReferencingOtherParams1.d.ts
+! exists optionalParamReferencingOtherParams1.js.map
+
+-- optionalParamReferencingOtherParams1.ts --
+function strange(x: number, y = x * 1, z = x + y) {
+    return z;
+}
+-- optionalParamReferencingOtherParams1.js.golden --
+"use strict";
+function strange(x, y = x * 1, z = x + y) {
+    return z;
+}

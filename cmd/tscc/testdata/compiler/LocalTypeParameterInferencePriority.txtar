@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/localTypeParameterInferencePriority.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js localTypeParameterInferencePriority.js localTypeParameterInferencePriority.ts
+! stderr .
+cmp localTypeParameterInferencePriority.js localTypeParameterInferencePriority.js.golden
+! exists localTypeParameterInferencePriority.d.ts
+! exists localTypeParameterInferencePriority.js.map
+
+-- localTypeParameterInferencePriority.ts --
+export type UnrollOnHover<O extends object> = O extends object ?
+    { [K in keyof O]: O[K]; } :
+    never;
+
+
+export type Schema = Record<string, unknown>;
+class Table<S extends Schema>  {
+    __schema!: S;
+
+    // Removing this line, removes the error 
+    getRows<C extends keyof S>(): Array<UnrollOnHover<Pick<S, C>>> {
+        return null!
+    }
+}
+
+class ColumnSelectViewImp<S extends Schema> extends Table<S> { }
+
+
+const ColumnSelectView1: new <S extends Schema>() => Table<UnrollOnHover<S>> = ColumnSelectViewImp;
+const ColumnSelectView2: new <S extends Schema>() => Table<UnrollOnHover<S>> = Table;
+-- localTypeParameterInferencePriority.js.golden --
+class Table {
+    // Removing this line, removes the error 
+    getRows() {
+        return null;
+    }
+}
+class ColumnSelectViewImp extends Table {
+}
+const ColumnSelectView1 = ColumnSelectViewImp;
+const ColumnSelectView2 = Table;
+export {};

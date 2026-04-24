@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/mappedTypeNoTypeNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts mappedTypeNoTypeNoCrash.d.ts --no-strict --target es2015 --lib es2015,dom --out-js mappedTypeNoTypeNoCrash.js mappedTypeNoTypeNoCrash.ts
+stderr 'TS2304'
+! exists mappedTypeNoTypeNoCrash.d.ts
+! exists mappedTypeNoTypeNoCrash.js
+! exists mappedTypeNoTypeNoCrash.js.map
+
+-- mappedTypeNoTypeNoCrash.ts --
+type T0<T> = ({[K in keyof T]}) extends ({[key in K]: T[K]}) ? number : never;

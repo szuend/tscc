@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/memberOverride.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js memberOverride.js memberOverride.ts
+stderr 'TS1117'
+! exists memberOverride.js
+! exists memberOverride.d.ts
+! exists memberOverride.js.map
+
+-- memberOverride.ts --
+// An object initialiser accepts the first definition for the same property with a different type signature
+// Should compile, since the second declaration of a overrides the first
+var x = {
+    a: "", 
+    a: 5
+}
+
+var n: number = x.a;

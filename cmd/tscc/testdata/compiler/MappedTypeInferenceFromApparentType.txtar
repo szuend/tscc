@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/mappedTypeInferenceFromApparentType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom mappedTypeInferenceFromApparentType.ts
+stderr 'TS2322'
+! exists mappedTypeInferenceFromApparentType.d.ts
+! exists mappedTypeInferenceFromApparentType.js.map
+
+-- mappedTypeInferenceFromApparentType.ts --
+type Obj = {
+    [s: string]: number;
+};
+
+type foo = <T>(target: { [K in keyof T]: T[K] }) => void;
+type bar = <U extends string[]>(source: { [K in keyof U]: Obj[K] }) => void;
+
+declare let f: foo;
+declare let b: bar;
+b = f;

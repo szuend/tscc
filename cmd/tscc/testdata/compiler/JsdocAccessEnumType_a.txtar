@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/jsdocAccessEnumType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.ts
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export enum E { A }
+-- b.js --
+import { E } from "./a";
+/** @type {E} */
+const e = E.A;

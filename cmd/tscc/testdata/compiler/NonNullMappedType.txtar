@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/nonNullMappedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nonNullMappedType.js nonNullMappedType.ts
+! stderr .
+cmp nonNullMappedType.js nonNullMappedType.js.golden
+! exists nonNullMappedType.d.ts
+! exists nonNullMappedType.js.map
+
+-- nonNullMappedType.ts --
+function f<A extends string>(p0: { [key in A]: {} | undefined }, p1: A) {
+    const v: {} = p0[p1]!;
+}
+-- nonNullMappedType.js.golden --
+"use strict";
+function f(p0, p1) {
+    const v = p0[p1];
+}

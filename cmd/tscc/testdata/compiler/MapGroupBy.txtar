@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/mapGroupBy.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js mapGroupBy.js mapGroupBy.ts
+! stderr .
+cmp mapGroupBy.js mapGroupBy.js.golden
+! exists mapGroupBy.d.ts
+! exists mapGroupBy.js.map
+
+-- mapGroupBy.ts --
+const basic = Map.groupBy([0, 2, 8], x => x < 5 ? 'small' : 'large');
+
+const chars = Map.groupBy('a string', c => c);
+
+type Employee = { name: string, role: 'ic' | 'manager' }
+const employees: Set<Employee> = new Set();
+const byRole = Map.groupBy(employees, x => x.role);
+
+const byNonKey = Map.groupBy(employees, x => x);
+-- mapGroupBy.js.golden --
+"use strict";
+const basic = Map.groupBy([0, 2, 8], x => x < 5 ? 'small' : 'large');
+const chars = Map.groupBy('a string', c => c);
+const employees = new Set();
+const byRole = Map.groupBy(employees, x => x.role);
+const byNonKey = Map.groupBy(employees, x => x);

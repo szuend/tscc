@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/intersectionTypeWithLeadingOperator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js intersectionTypeWithLeadingOperator.js intersectionTypeWithLeadingOperator.ts
+! stderr .
+cmp intersectionTypeWithLeadingOperator.js intersectionTypeWithLeadingOperator.js.golden
+! exists intersectionTypeWithLeadingOperator.d.ts
+! exists intersectionTypeWithLeadingOperator.js.map
+
+-- intersectionTypeWithLeadingOperator.ts --
+type A = & string;
+type B =
+  & { foo: string }
+  & { bar: number };
+
+type C = [& { foo: 1 } & { bar: 2 }, & { foo: 3 } & { bar: 4 }];
+-- intersectionTypeWithLeadingOperator.js.golden --
+"use strict";

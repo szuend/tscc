@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/nameCollisionWithBlockScopedVariable1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es6 --lib es6,dom --out-js nameCollisionWithBlockScopedVariable1.js nameCollisionWithBlockScopedVariable1.ts
+! stderr .
+cmp nameCollisionWithBlockScopedVariable1.js nameCollisionWithBlockScopedVariable1.js.golden
+! exists nameCollisionWithBlockScopedVariable1.d.ts
+! exists nameCollisionWithBlockScopedVariable1.js.map
+
+-- nameCollisionWithBlockScopedVariable1.ts --
+namespace M {
+    export class C { }
+}
+namespace M {
+    {
+        let M = 0;
+        new C();
+    }
+}
+-- nameCollisionWithBlockScopedVariable1.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class C {
+    }
+    M.C = C;
+})(M || (M = {}));
+(function (M_1) {
+    {
+        let M = 0;
+        new M_1.C();
+    }
+})(M || (M = {}));

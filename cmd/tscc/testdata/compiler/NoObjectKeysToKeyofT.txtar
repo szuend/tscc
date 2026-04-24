@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/noObjectKeysToKeyofT.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2016 --lib es2016,dom --out-js noObjectKeysToKeyofT.js noObjectKeysToKeyofT.ts
+! stderr .
+cmp noObjectKeysToKeyofT.js noObjectKeysToKeyofT.js.golden
+! exists noObjectKeysToKeyofT.d.ts
+! exists noObjectKeysToKeyofT.js.map
+
+-- noObjectKeysToKeyofT.ts --
+// Do not change Object.keys to return keyof T.
+// The current return type (string[]) is intentional.
+Object.keys({ a: 0 }).push("b");
+
+// See also
+// https://stackoverflow.com/questions/55012174/why-doesnt-object-keys-return-a-keyof-type-in-typescript
+-- noObjectKeysToKeyofT.js.golden --
+"use strict";
+// Do not change Object.keys to return keyof T.
+// The current return type (string[]) is intentional.
+Object.keys({ a: 0 }).push("b");
+// See also
+// https://stackoverflow.com/questions/55012174/why-doesnt-object-keys-return-a-keyof-type-in-typescript

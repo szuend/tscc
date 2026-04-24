@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/omittedExpressionForOfLoop.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js omittedExpressionForOfLoop.js omittedExpressionForOfLoop.ts
+stderr 'TS18050'
+! exists omittedExpressionForOfLoop.js
+! exists omittedExpressionForOfLoop.d.ts
+! exists omittedExpressionForOfLoop.js.map
+
+-- omittedExpressionForOfLoop.ts --
+for (const [,] of doesNotExist) {
+}
+
+for (const [,] of undefined) {
+}
+
+for (const [,] of []) {
+}
+
+for (const [] of []) {
+}

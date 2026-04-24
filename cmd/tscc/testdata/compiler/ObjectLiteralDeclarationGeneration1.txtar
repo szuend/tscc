@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/objectLiteralDeclarationGeneration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts objectLiteralDeclarationGeneration1.d.ts --target es2015 --lib es2015,dom --out-js objectLiteralDeclarationGeneration1.js objectLiteralDeclarationGeneration1.ts
+! stderr .
+cmp objectLiteralDeclarationGeneration1.d.ts objectLiteralDeclarationGeneration1.d.ts.golden
+cmp objectLiteralDeclarationGeneration1.js objectLiteralDeclarationGeneration1.js.golden
+! exists objectLiteralDeclarationGeneration1.js.map
+
+-- objectLiteralDeclarationGeneration1.ts --
+class y<T extends {}>{ }
+-- objectLiteralDeclarationGeneration1.d.ts.golden --
+declare class y<T extends {}> {
+}
+-- objectLiteralDeclarationGeneration1.js.golden --
+"use strict";
+class y {
+}

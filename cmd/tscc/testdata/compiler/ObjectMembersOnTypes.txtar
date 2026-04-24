@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/objectMembersOnTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectMembersOnTypes.js objectMembersOnTypes.ts
+stderr 'TS2454'
+! exists objectMembersOnTypes.js
+! exists objectMembersOnTypes.d.ts
+! exists objectMembersOnTypes.js.map
+
+-- objectMembersOnTypes.ts --
+interface I {}
+class AAA implements I { }
+var x: number;
+x.toString();
+var i: I;
+i.toString(); // used to be an error
+var c: AAA;
+c.toString(); // used to be an error

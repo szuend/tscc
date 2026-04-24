@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/mappedTypeRecursiveInference2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom mappedTypeRecursiveInference2.ts
+! stderr .
+! exists mappedTypeRecursiveInference2.d.ts
+! exists mappedTypeRecursiveInference2.js.map
+
+-- mappedTypeRecursiveInference2.ts --
+type MorphTuple = [string, "|>", any]
+
+type validateMorph<def extends MorphTuple> = def[1] extends "|>"
+    ? [validateDefinition<def[0]>, "|>", (In: def[0]) => unknown]
+    : def
+
+type validateDefinition<def> = def extends MorphTuple
+    ? validateMorph<def>
+    : {
+          [k in keyof def]: validateDefinition<def[k]>
+      }
+
+declare function type<def>(def: validateDefinition<def>): def
+
+const shallow = type(["ark", "|>", (x) => x.length])
+const objectLiteral = type({ a: ["ark", "|>", (x) => x.length] })
+const nestedTuple = type([["ark", "|>", (x) => x.length]])

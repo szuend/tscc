@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/narrowingConstrainedTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js narrowingConstrainedTypeParameter.js narrowingConstrainedTypeParameter.ts
+! stderr .
+cmp narrowingConstrainedTypeParameter.js narrowingConstrainedTypeParameter.js.golden
+! exists narrowingConstrainedTypeParameter.d.ts
+! exists narrowingConstrainedTypeParameter.js.map
+
+-- narrowingConstrainedTypeParameter.ts --
+// Repro from #10811
+
+interface Pet {
+    name: string;
+}
+
+function isPet(pet: any): pet is Pet {
+    return typeof pet.name === "string";
+}
+
+export function speak<TPet extends Pet>(pet: TPet, voice: (pet: TPet) => string): string {
+    if (!isPet(pet)) {
+        throw new Error("Expected \"pet\" to be a Pet");
+    }
+    return voice(pet);
+}
+-- narrowingConstrainedTypeParameter.js.golden --
+// Repro from #10811
+function isPet(pet) {
+    return typeof pet.name === "string";
+}
+export function speak(pet, voice) {
+    if (!isPet(pet)) {
+        throw new Error("Expected \"pet\" to be a Pet");
+    }
+    return voice(pet);
+}

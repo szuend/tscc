@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/keyofIsLiteralContexualType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js keyofIsLiteralContexualType.js keyofIsLiteralContexualType.ts
+stderr 'TS2322'
+stderr 'TS2339'
+! exists keyofIsLiteralContexualType.js
+! exists keyofIsLiteralContexualType.d.ts
+! exists keyofIsLiteralContexualType.js.map
+
+-- keyofIsLiteralContexualType.ts --
+// keyof T is a literal contextual type
+
+function foo<T extends { a: string, b: string }>() {
+    let a: (keyof T)[] = ["a", "b"];
+    let b: (keyof T)[] = ["a", "b", "c"];
+}
+
+// Repro from #12455
+
+declare function pick<T, K extends keyof T>(obj: T, propNames: K[]): Pick<T, K>;
+
+let x = pick({ a: 10, b: 20, c: 30 }, ["a", "c"]);
+let b = x.b;  // Error

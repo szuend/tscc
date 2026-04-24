@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/letDeclarations-scopes2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target ES6 --lib ES6,dom --out-js letDeclarations-scopes2.js letDeclarations-scopes2.ts
+stderr 'TS2552'
+stderr 'TS2304'
+! exists letDeclarations-scopes2.js
+! exists letDeclarations-scopes2.d.ts
+! exists letDeclarations-scopes2.js.map
+
+-- letDeclarations-scopes2.ts --
+let global = 0;
+
+{ 
+    let local = 0;
+
+    local;  // OK
+    global; // OK
+    local2; // Error
+
+    {
+        let local2 = 0;
+
+        local;  // OK
+        global; // OK
+        local2; // OK
+    } 
+
+    local;  // OK
+    global; // OK
+    local2; // Error
+}
+
+local;  // Error
+global; // OK
+local2; // Error

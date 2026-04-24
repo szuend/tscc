@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/internalAliasUninitializedModuleInsideLocalModuleWithoutExportAccessError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js internalAliasUninitializedModuleInsideLocalModuleWithoutExportAccessError.js internalAliasUninitializedModuleInsideLocalModuleWithoutExportAccessError.ts
+stderr 'TS2694'
+! exists internalAliasUninitializedModuleInsideLocalModuleWithoutExportAccessError.js
+! exists internalAliasUninitializedModuleInsideLocalModuleWithoutExportAccessError.d.ts
+! exists internalAliasUninitializedModuleInsideLocalModuleWithoutExportAccessError.js.map
+
+-- internalAliasUninitializedModuleInsideLocalModuleWithoutExportAccessError.ts --
+export namespace a {
+    export namespace b {
+        export interface I {
+            foo();
+        }
+    }
+}
+
+export namespace c {
+    import b = a.b;
+    export declare var x: b.I;
+    x.foo();
+}
+
+
+export var z: c.b.I;

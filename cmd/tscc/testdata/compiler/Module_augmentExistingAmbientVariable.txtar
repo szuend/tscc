@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/module_augmentExistingAmbientVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es5 --target es2015 --out-js module_augmentExistingAmbientVariable.js module_augmentExistingAmbientVariable.ts
+stderr 'TS2300'
+! exists module_augmentExistingAmbientVariable.js
+! exists module_augmentExistingAmbientVariable.d.ts
+! exists module_augmentExistingAmbientVariable.js.map
+
+-- module_augmentExistingAmbientVariable.ts --
+declare var console: any;
+
+namespace console {
+    export var x = 2;
+}

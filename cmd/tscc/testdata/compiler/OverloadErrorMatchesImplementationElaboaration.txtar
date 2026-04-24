@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/overloadErrorMatchesImplementationElaboaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadErrorMatchesImplementationElaboaration.js overloadErrorMatchesImplementationElaboaration.ts
+stderr 'TS2345'
+! exists overloadErrorMatchesImplementationElaboaration.js
+! exists overloadErrorMatchesImplementationElaboaration.d.ts
+! exists overloadErrorMatchesImplementationElaboaration.js.map
+
+-- overloadErrorMatchesImplementationElaboaration.ts --
+class EventAggregator
+{
+    publish(event: string, data?: any): void;
+    publish<T>(event: T): void {}
+}
+
+declare var ea: EventAggregator;
+ea.publish([1,2,3]);

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/promises.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js promises.js promises.ts
+! stderr .
+cmp promises.js promises.js.golden
+! exists promises.d.ts
+! exists promises.js.map
+
+-- promises.ts --
+interface Promise<T> {
+    then<U>(success?: (value: T) => U): Promise<U>;
+    then<U>(success?: (value: T) => Promise<U>): Promise<U>;
+    value: T;
+}
+-- promises.js.golden --
+"use strict";

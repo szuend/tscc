@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/isolatedModulesSpecifiedModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js file1.js file1.ts
+! stderr .
+cmp file1.js file1.js.golden
+! exists file1.d.ts
+! exists file1.js.map
+
+-- file1.ts --
+export var x;
+-- file1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = void 0;

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/jsdocTypeCast.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --out-js out_jsdocTypeCast.js jsdocTypeCast.js
+stderr 'TS2322'
+! exists out_jsdocTypeCast.js
+! exists out/jsdocTypeCast.d.ts
+! exists out/jsdocTypeCast.js.map
+
+-- jsdocTypeCast.js --
+/**
+ * @param {string} x
+ */
+ function f(x) {
+    /** @type {'a' | 'b'} */
+    let a = (x); // Error
+    a;
+
+    /** @type {'a' | 'b'} */
+    let b = (((x))); // Error
+    b;
+
+    /** @type {'a' | 'b'} */
+    let c = /** @type {'a' | 'b'} */ (x); // Ok
+    c;
+}

@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/moduleCrashBug1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleCrashBug1.js moduleCrashBug1.ts
+stderr 'TS2709'
+! exists moduleCrashBug1.js
+! exists moduleCrashBug1.d.ts
+! exists moduleCrashBug1.js.map
+
+-- moduleCrashBug1.ts --
+namespace _modes {
+ export interface IMode {
+  
+ }
+ 
+ class Mode {
+  
+ }
+}
+
+//_modes. // produces an internal error - please implement in derived class
+
+namespace editor {
+ import modes = _modes;
+
+}
+
+var m : _modes;
+
+

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/parseReplacementCharacter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js parseReplacementCharacter.js parseReplacementCharacter.ts
+! stderr .
+cmp parseReplacementCharacter.js parseReplacementCharacter.js.golden
+! exists parseReplacementCharacter.d.ts
+! exists parseReplacementCharacter.js.map
+
+-- parseReplacementCharacter.ts --
+"oops �� oops";
+'oops �� oops';
+`oops �� oops`;
+`${"oops �� oops"}`;
+// oops �� oops
+/* oops �� oops */
+/** oops �� oops */
+-- parseReplacementCharacter.js.golden --
+"use strict";
+"oops �� oops";
+'oops �� oops';
+`oops �� oops`;
+`${"oops �� oops"}`;
+// oops �� oops
+/* oops �� oops */
+/** oops �� oops */

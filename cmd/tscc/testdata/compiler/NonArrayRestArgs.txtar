@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/nonArrayRestArgs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js nonArrayRestArgs.js nonArrayRestArgs.ts
+stderr 'TS2370'
+! exists nonArrayRestArgs.js
+! exists nonArrayRestArgs.d.ts
+! exists nonArrayRestArgs.js.map
+
+-- nonArrayRestArgs.ts --
+function foo(...rest: number) { // error
+	var x: string = rest[0];
+	return x;
+}

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/isolatedModulesImportConstEnumTypeOnly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.js index.js.golden
+! exists index.d.ts
+! exists index.js.map
+
+-- enum.ts --
+export const enum Foo { Bar }
+-- index.ts --
+import { Foo } from "./enum";
+function f(foo: Foo) { return; }
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function f(foo) { return; }

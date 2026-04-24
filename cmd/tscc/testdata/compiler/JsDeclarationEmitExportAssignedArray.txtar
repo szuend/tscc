@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/jsDeclarationEmitExportAssignedArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts file.d.ts --target es2015 --lib es2015,dom file.js
+! stderr .
+cmp file.d.ts file.d.ts.golden
+! exists file.js.map
+! exists out_file.js
+
+-- file.js --
+module.exports = [{ name: 'other', displayName: 'Other', defaultEnabled: true }];
+-- file.d.ts.golden --
+declare const _default: {
+    name: string;
+    displayName: string;
+    defaultEnabled: boolean;
+}[];
+export = _default;

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/lastPropertyInLiteralWins.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js lastPropertyInLiteralWins.js lastPropertyInLiteralWins.ts
+stderr 'TS1117'
+! exists lastPropertyInLiteralWins.js
+! exists lastPropertyInLiteralWins.d.ts
+! exists lastPropertyInLiteralWins.js.map
+
+-- lastPropertyInLiteralWins.ts --
+interface Thing {
+    thunk: (str: string) => void;
+}
+function test(thing: Thing) {
+    thing.thunk("str");
+}
+test({ // Should error, as last one wins, and is wrong type
+    thunk: (str: string) => {},
+    thunk: (num: number) => {}
+});
+
+test({ // Should be OK.  Last 'thunk' is of correct type
+    thunk: (num: number) => {},
+    thunk: (str: string) => {}
+});

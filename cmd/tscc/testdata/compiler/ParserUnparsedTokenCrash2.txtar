@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/parserUnparsedTokenCrash2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parserUnparsedTokenCrash2.js parserUnparsedTokenCrash2.ts
+stderr 'TS1109'
+stderr 'TS1005'
+! exists parserUnparsedTokenCrash2.js
+! exists parserUnparsedTokenCrash2.d.ts
+! exists parserUnparsedTokenCrash2.js.map
+
+-- parserUnparsedTokenCrash2.ts --
+export = } x = ( y = z ==== 'function') {

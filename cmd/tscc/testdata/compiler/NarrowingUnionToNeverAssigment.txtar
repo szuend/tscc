@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/narrowingUnionToNeverAssigment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js narrowingUnionToNeverAssigment.js narrowingUnionToNeverAssigment.ts
+stderr 'TS2322'
+! exists narrowingUnionToNeverAssigment.js
+! exists narrowingUnionToNeverAssigment.d.ts
+! exists narrowingUnionToNeverAssigment.js.map
+
+-- narrowingUnionToNeverAssigment.ts --
+type Variants = "a" | "b" | "c" | "d";
+
+
+function fx1(x: Variants) {
+    if (x === "a" || x === "b") {        
+    }
+    else {
+        const y: never = x;
+    }
+}

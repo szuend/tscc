@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/mergedModuleDeclarationWithSharedExportedVar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mergedModuleDeclarationWithSharedExportedVar.js mergedModuleDeclarationWithSharedExportedVar.ts
+! stderr .
+cmp mergedModuleDeclarationWithSharedExportedVar.js mergedModuleDeclarationWithSharedExportedVar.js.golden
+! exists mergedModuleDeclarationWithSharedExportedVar.d.ts
+! exists mergedModuleDeclarationWithSharedExportedVar.js.map
+
+-- mergedModuleDeclarationWithSharedExportedVar.ts --
+namespace M {
+    export var v = 10;
+    v;
+}
+namespace M {
+    v;
+}
+-- mergedModuleDeclarationWithSharedExportedVar.js.golden --
+"use strict";
+var M;
+(function (M) {
+    M.v = 10;
+    M.v;
+})(M || (M = {}));
+(function (M) {
+    M.v;
+})(M || (M = {}));

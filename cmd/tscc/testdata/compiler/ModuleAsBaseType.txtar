@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/moduleAsBaseType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleAsBaseType.js moduleAsBaseType.ts
+stderr 'TS2708'
+stderr 'TS2709'
+! exists moduleAsBaseType.js
+! exists moduleAsBaseType.d.ts
+! exists moduleAsBaseType.js.map
+
+-- moduleAsBaseType.ts --
+namespace M {}
+class C extends M {}
+interface I extends M { }
+class C2 implements M { }

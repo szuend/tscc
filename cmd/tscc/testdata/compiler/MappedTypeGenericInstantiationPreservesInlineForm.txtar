@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/mappedTypeGenericInstantiationPreservesInlineForm.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts mappedTypeGenericInstantiationPreservesInlineForm.d.ts --strict --target es2015 --lib es2015,dom mappedTypeGenericInstantiationPreservesInlineForm.ts
+! stderr .
+cmp mappedTypeGenericInstantiationPreservesInlineForm.d.ts mappedTypeGenericInstantiationPreservesInlineForm.d.ts.golden
+! exists mappedTypeGenericInstantiationPreservesInlineForm.js.map
+
+-- mappedTypeGenericInstantiationPreservesInlineForm.ts --
+// repro from #53109
+
+export const test1 = <T = Record<string, never>>(schema: {
+    [K in keyof Required<T>]: T[K];
+}) => {}
+
+export function test2<T = Record<string, never>>(schema: {
+    [K in keyof Required<T>]: T[K];
+}) {};
+-- mappedTypeGenericInstantiationPreservesInlineForm.d.ts.golden --
+export declare const test1: <T = Record<string, never>>(schema: { [K in keyof Required<T>]: T[K]; }) => void;
+export declare function test2<T = Record<string, never>>(schema: {
+    [K in keyof Required<T>]: T[K];
+}): void;

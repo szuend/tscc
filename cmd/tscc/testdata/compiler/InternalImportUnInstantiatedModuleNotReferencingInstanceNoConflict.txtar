@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.js internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.ts
+! stderr .
+cmp internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.js internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.js.golden
+! exists internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.d.ts
+! exists internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.js.map
+
+-- internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.ts --
+namespace A {
+    export interface X { s: string }
+}
+
+namespace B {
+    var A = 1;
+    import Y = A;
+}
+-- internalImportUnInstantiatedModuleNotReferencingInstanceNoConflict.js.golden --
+"use strict";
+var B;
+(function (B) {
+    var A = 1;
+})(B || (B = {}));

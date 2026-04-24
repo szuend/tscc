@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/noUsedBeforeDefinedErrorInAmbientContext1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js test.d.js test.d.ts
+! stderr .
+! exists test.d.d.ts
+! exists test.d.js
+! exists test.d.js.map
+
+-- test.d.ts --
+declare var S: typeof A; // no error
+declare const A: number;  

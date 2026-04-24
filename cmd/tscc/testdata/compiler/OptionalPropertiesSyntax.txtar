@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/optionalPropertiesSyntax.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js optionalPropertiesSyntax.js optionalPropertiesSyntax.ts
+stderr 'TS1005'
+stderr 'TS1131'
+! exists optionalPropertiesSyntax.js
+! exists optionalPropertiesSyntax.d.ts
+! exists optionalPropertiesSyntax.js.map
+
+-- optionalPropertiesSyntax.ts --
+interface fnSigs {
+    //functions signatures can be optional
+    fn(): void;
+    fn?(): void; //err
+    fn2?(): void;
+}
+
+interface callSig {
+    //Call signatures can't be optional
+    (): any;
+    ()?: any; //err
+    ?(): any; //err
+}
+
+interface constructSig {
+    //Construct signatures can't be optional
+    new (): any;
+    new ()?: any; //err
+    new ?(): any; //err
+}
+
+interface propertySig {
+    //Property signatures can be optional
+    prop: any;
+    prop?: any;
+    prop2?: any;
+}
+
+interface indexSig {
+    //Index signatures can't be optional
+    [idx: number]: any;
+    [idx: number]?: any; //err
+    ? [idx: number]: any; //err
+    [idx?: number]: any; //err
+}

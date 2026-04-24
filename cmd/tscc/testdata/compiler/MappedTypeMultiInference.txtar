@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/mappedTypeMultiInference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mappedTypeMultiInference.js mappedTypeMultiInference.ts
+! stderr .
+cmp mappedTypeMultiInference.js mappedTypeMultiInference.js.golden
+! exists mappedTypeMultiInference.d.ts
+! exists mappedTypeMultiInference.js.map
+
+-- mappedTypeMultiInference.ts --
+interface Style {
+    flashy: any;
+}
+
+declare function mergeStyleSets<K extends string>(
+    ...cssSets: { [P in K]?: Style }[]): { [P in K]: Style };
+
+// Expected:
+//   let x: {
+//       a: Style;
+//       b: Style;
+//   }
+let x = mergeStyleSets(
+    {},
+    {
+        a: { flashy: true },
+    },
+    {
+        b: { flashy: true },
+    },
+)
+-- mappedTypeMultiInference.js.golden --
+"use strict";
+// Expected:
+//   let x: {
+//       a: Style;
+//       b: Style;
+//   }
+let x = mergeStyleSets({}, {
+    a: { flashy: true },
+}, {
+    b: { flashy: true },
+});

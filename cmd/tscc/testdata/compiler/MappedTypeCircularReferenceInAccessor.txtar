@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/mappedTypeCircularReferenceInAccessor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js mappedTypeCircularReferenceInAccessor.js mappedTypeCircularReferenceInAccessor.ts
+! stderr .
+cmp mappedTypeCircularReferenceInAccessor.js mappedTypeCircularReferenceInAccessor.js.golden
+! exists mappedTypeCircularReferenceInAccessor.d.ts
+! exists mappedTypeCircularReferenceInAccessor.js.map
+
+-- mappedTypeCircularReferenceInAccessor.ts --
+interface User {
+  firstName: string,
+  level: number,
+  get bestFriend(): User
+  set bestFriend(user: SerializablePartial<User>)
+}
+
+type FilteredKeys<T> = { [K in keyof T]: T[K] extends number ? K : T[K] extends string ? K : T[K] extends boolean ? K : never }[keyof T];
+
+type SerializablePartial<T> = {
+  [K in FilteredKeys<T>]: T[K]
+};
+-- mappedTypeCircularReferenceInAccessor.js.golden --
+"use strict";

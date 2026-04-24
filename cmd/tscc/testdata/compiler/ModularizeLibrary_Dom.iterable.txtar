@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/modularizeLibrary_Dom.iterable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib es6,dom,dom.iterable --skip-lib-check --target es6 --out-js modularizeLibrary_Dom.iterable.js modularizeLibrary_Dom.iterable.ts
+! stderr .
+cmp modularizeLibrary_Dom.iterable.js modularizeLibrary_Dom.iterable.js.golden
+! exists modularizeLibrary_Dom.iterable.d.ts
+! exists modularizeLibrary_Dom.iterable.js.map
+
+-- modularizeLibrary_Dom.iterable.ts --
+for (const element of document.getElementsByTagName("a")) {
+    element.href;
+}
+-- modularizeLibrary_Dom.iterable.js.golden --
+"use strict";
+for (const element of document.getElementsByTagName("a")) {
+    element.href;
+}

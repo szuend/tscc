@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/objectCreationExpressionInFunctionParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectCreationExpressionInFunctionParameter.js objectCreationExpressionInFunctionParameter.ts
+stderr 'TS1128'
+! exists objectCreationExpressionInFunctionParameter.js
+! exists objectCreationExpressionInFunctionParameter.d.ts
+! exists objectCreationExpressionInFunctionParameter.js.map
+
+-- objectCreationExpressionInFunctionParameter.ts --
+class A {
+    constructor(public a1: string) {
+    }
+}
+function foo(x = new A(123)) { //should error, 123 is not string
+}}

@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/parameterDestructuringObjectLiteral.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts parameterDestructuringObjectLiteral.d.ts --target es2015 --lib es2015,dom --out-js parameterDestructuringObjectLiteral.js parameterDestructuringObjectLiteral.ts
+! stderr .
+cmp parameterDestructuringObjectLiteral.d.ts parameterDestructuringObjectLiteral.d.ts.golden
+cmp parameterDestructuringObjectLiteral.js parameterDestructuringObjectLiteral.js.golden
+! exists parameterDestructuringObjectLiteral.js.map
+
+-- parameterDestructuringObjectLiteral.ts --
+// Repro from #22644
+
+const fn1 = (options: { headers?: {} }) => { };
+fn1({ headers: { foo: 1 } });
+
+const fn2 = ({ headers = {} }) => { };
+fn2({ headers: { foo: 1 } });
+-- parameterDestructuringObjectLiteral.d.ts.golden --
+declare const fn1: (options: {
+    headers?: {};
+}) => void;
+declare const fn2: ({ headers }: {
+    headers?: {} | undefined;
+}) => void;
+-- parameterDestructuringObjectLiteral.js.golden --
+"use strict";
+// Repro from #22644
+const fn1 = (options) => { };
+fn1({ headers: { foo: 1 } });
+const fn2 = ({ headers = {} }) => { };
+fn2({ headers: { foo: 1 } });

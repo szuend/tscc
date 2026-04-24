@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/noUsedBeforeDefinedErrorInTypeContext.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom noUsedBeforeDefinedErrorInTypeContext.ts
+! stderr .
+! exists noUsedBeforeDefinedErrorInTypeContext.d.ts
+! exists noUsedBeforeDefinedErrorInTypeContext.js.map
+
+-- noUsedBeforeDefinedErrorInTypeContext.ts --
+// https://github.com/microsoft/TypeScript/issues/8775
+
+interface IThing<T> {
+    owner: T;
+}
+
+var foo = {
+    one: {} as IThing<typeof foo>,
+}
+
+let baz = {
+    two: {} as IThing<typeof bar>,
+}
+
+let bar = {
+    three: {} as IThing<typeof bar>,
+}
+
+const qwe = {
+    four: {} as IThing<typeof qwe>,
+}

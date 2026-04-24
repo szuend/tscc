@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/prototypeOnConstructorFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js prototypeOnConstructorFunctions.js prototypeOnConstructorFunctions.ts
+! stderr .
+cmp prototypeOnConstructorFunctions.js prototypeOnConstructorFunctions.js.golden
+! exists prototypeOnConstructorFunctions.d.ts
+! exists prototypeOnConstructorFunctions.js.map
+
+-- prototypeOnConstructorFunctions.ts --
+interface I1 {
+    const: new (options?, element?) => any;
+}
+
+
+var i: I1;
+
+
+i.const.prototype.prop = "yo";
+-- prototypeOnConstructorFunctions.js.golden --
+"use strict";
+var i;
+i.const.prototype.prop = "yo";

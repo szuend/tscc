@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/letAsIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts letAsIdentifier.d.ts --target es2015 --lib es2015,dom --out-js letAsIdentifier.js letAsIdentifier.ts
+stderr 'TS1212'
+! exists letAsIdentifier.d.ts
+! exists letAsIdentifier.js
+! exists letAsIdentifier.js.map
+
+-- letAsIdentifier.ts --
+var let = 10;
+var a = 10;
+let = 30;
+let
+a;

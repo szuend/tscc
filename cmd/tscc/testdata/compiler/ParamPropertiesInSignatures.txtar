@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/paramPropertiesInSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js paramPropertiesInSignatures.js paramPropertiesInSignatures.ts
+stderr 'TS2369'
+! exists paramPropertiesInSignatures.js
+! exists paramPropertiesInSignatures.d.ts
+! exists paramPropertiesInSignatures.js.map
+
+-- paramPropertiesInSignatures.ts --
+class C1 {
+	constructor(public p1:string); // ERROR
+	constructor(private p2:number); // ERROR
+	constructor(public p3:any) {} // OK
+}
+
+declare class C2 {
+	constructor(public p1:string); // ERROR
+	constructor(private p2:number); // ERROR
+	constructor(public p3:any); // ERROR
+}

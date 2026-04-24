@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/keywordExpressionInternalComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js keywordExpressionInternalComments.js keywordExpressionInternalComments.ts
+stderr 'TS2790'
+! exists keywordExpressionInternalComments.js
+! exists keywordExpressionInternalComments.d.ts
+! exists keywordExpressionInternalComments.js.map
+
+-- keywordExpressionInternalComments.ts --
+/*1*/ new /*2*/ Array /*3*/;
+/*1*/ typeof /*2*/ Array /*3*/;
+/*1*/ void /*2*/ Array /*3*/;
+/*1*/ delete /*2*/ Array.toString /*3*/;

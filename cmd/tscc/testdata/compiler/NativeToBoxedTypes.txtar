@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/nativeToBoxedTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js nativeToBoxedTypes.js nativeToBoxedTypes.ts
+stderr 'TS2322'
+stderr 'TS2454'
+! exists nativeToBoxedTypes.js
+! exists nativeToBoxedTypes.d.ts
+! exists nativeToBoxedTypes.js.map
+
+-- nativeToBoxedTypes.ts --
+var N = new Number();
+var n = 100;
+n = N;
+
+var S = new String();
+var s = "foge";
+s = S;
+
+var B = new Boolean();
+var b = true;
+b = B;
+
+var sym: symbol; 
+var Sym: Symbol;
+sym = Sym;

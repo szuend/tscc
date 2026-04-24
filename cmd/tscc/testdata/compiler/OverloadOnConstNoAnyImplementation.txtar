@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/overloadOnConstNoAnyImplementation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadOnConstNoAnyImplementation.js overloadOnConstNoAnyImplementation.ts
+stderr 'TS2394'
+stderr 'TS2345'
+! exists overloadOnConstNoAnyImplementation.js
+! exists overloadOnConstNoAnyImplementation.d.ts
+! exists overloadOnConstNoAnyImplementation.js.map
+
+-- overloadOnConstNoAnyImplementation.ts --
+function x1(a: number, cb: (x: 'hi') => number);
+function x1(a: number, cb: (x: 'bye') => number);
+function x1(a: number, cb: (x: string) => number) {
+    cb('hi');
+    cb('bye');
+    var hm = 'hm';
+    cb(hm);
+    cb('uh');
+    cb(1); // error
+}
+
+var cb: (number) => number = (x: number) => 1;
+x1(1, cb);
+x1(1, (x: 'hi') => 1); // error
+x1(1, (x: string) => 1);

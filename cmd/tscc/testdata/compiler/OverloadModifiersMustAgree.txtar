@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/overloadModifiersMustAgree.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js overloadModifiersMustAgree.js overloadModifiersMustAgree.ts
+stderr 'TS2385'
+stderr 'TS2384'
+stderr 'TS2383'
+stderr 'TS2386'
+! exists overloadModifiersMustAgree.js
+! exists overloadModifiersMustAgree.d.ts
+! exists overloadModifiersMustAgree.js.map
+
+-- overloadModifiersMustAgree.ts --
+class baz {
+    public foo();
+    private foo(bar?: any) { } // error - access modifiers do not agree
+}
+
+declare function bar();
+export function bar(s: string);
+function bar(s?: string) { }
+
+interface I {
+    foo? ();
+    foo(s: string);
+}
+

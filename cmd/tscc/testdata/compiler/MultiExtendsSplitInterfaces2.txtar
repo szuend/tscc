@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/multiExtendsSplitInterfaces2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js multiExtendsSplitInterfaces2.js multiExtendsSplitInterfaces2.ts
+stderr 'TS2454'
+! exists multiExtendsSplitInterfaces2.js
+! exists multiExtendsSplitInterfaces2.d.ts
+! exists multiExtendsSplitInterfaces2.js.map
+
+-- multiExtendsSplitInterfaces2.ts --
+interface A {
+	a: number;
+}
+
+interface I extends A {
+	i1: number;
+}
+
+interface B {
+	b: number;
+}
+
+interface I extends B {
+	i2: number;
+}
+
+var i: I;
+
+var a = i.a;
+var i1 = i.i1;
+var b = i.b;
+var i2 = i.i2;

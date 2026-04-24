@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/overloadedConstructorFixesInferencesAppropriately.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js overloadedConstructorFixesInferencesAppropriately.js overloadedConstructorFixesInferencesAppropriately.ts
+! stderr .
+cmp overloadedConstructorFixesInferencesAppropriately.js overloadedConstructorFixesInferencesAppropriately.js.golden
+! exists overloadedConstructorFixesInferencesAppropriately.d.ts
+! exists overloadedConstructorFixesInferencesAppropriately.js.map
+
+-- overloadedConstructorFixesInferencesAppropriately.ts --
+interface Box<T> {
+    v: T;
+}
+
+interface ErrorResult {
+    readonly error: true
+}
+
+interface AsyncLoaderProps<TResult extends {}> {
+    readonly asyncLoad: () => Box<TResult>;
+    readonly children: (result: Exclude<TResult, ErrorResult>) => string;
+}
+
+class AsyncLoader<TResult extends {}> {
+    constructor(props: string, context: any);
+    constructor(props: AsyncLoaderProps<TResult>);
+    constructor(...args: any[]) {}
+}
+
+function load(): Box<{ success: true } | ErrorResult> {
+    return null as any;
+}
+
+new AsyncLoader({
+    asyncLoad: load,
+    children: result => result.success as any,
+}); // should work fine
+-- overloadedConstructorFixesInferencesAppropriately.js.golden --
+"use strict";
+class AsyncLoader {
+    constructor(...args) { }
+}
+function load() {
+    return null;
+}
+new AsyncLoader({
+    asyncLoad: load,
+    children: result => result.success,
+}); // should work fine

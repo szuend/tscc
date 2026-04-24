@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/m7Bugs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js m7Bugs.js m7Bugs.ts
+stderr 'TS2564'
+! exists m7Bugs.js
+! exists m7Bugs.d.ts
+! exists m7Bugs.js.map
+
+-- m7Bugs.ts --
+// scenario 1
+interface ISomething {
+   something: number;
+}
+
+var s: ISomething = <ISomething>({ });
+
+
+// scenario 2
+interface A { x: string; }
+
+interface B extends A { }
+
+var x: B = <B>{ };
+
+class C1 {
+	public x: string;
+}
+
+class C2 extends C1 {}
+
+var y1: C1 = new C2();
+var y2: C1 = <C1> new C2();
+var y3: C1 = <C1> {};
+

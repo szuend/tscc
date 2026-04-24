@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/overloadOnConstInheritance2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadOnConstInheritance2.js overloadOnConstInheritance2.ts
+stderr 'TS2430'
+! exists overloadOnConstInheritance2.js
+! exists overloadOnConstInheritance2.d.ts
+! exists overloadOnConstInheritance2.js.map
+
+-- overloadOnConstInheritance2.ts --
+interface Base {
+    addEventListener(x: string): any;
+    addEventListener(x: 'foo'): string;
+}
+interface Deriver extends Base {
+    addEventListener(x: 'bar'): string; // shouldn't need to redeclare the string overload
+}

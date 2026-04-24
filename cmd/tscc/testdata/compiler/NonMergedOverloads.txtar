@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/nonMergedOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js nonMergedOverloads.js nonMergedOverloads.ts
+stderr 'TS2395'
+! exists nonMergedOverloads.js
+! exists nonMergedOverloads.d.ts
+! exists nonMergedOverloads.js.map
+
+-- nonMergedOverloads.ts --
+var f = 10;
+
+export function f();
+export function f() {
+}

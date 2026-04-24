@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/mappedTypeInferenceAliasSubstitution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom mappedTypeInferenceAliasSubstitution.ts
+! stderr .
+! exists mappedTypeInferenceAliasSubstitution.d.ts
+! exists mappedTypeInferenceAliasSubstitution.js.map
+
+-- mappedTypeInferenceAliasSubstitution.ts --
+// repro from #31616
+
+const v = { test: { smth: 5 } };
+
+type Field<A extends string, R> = { [K in A]: R }
+
+const f = <A extends string, B extends string, R>(x: { [K in A]: Field<B, R> }): R => ({} as any);
+const r1 = f(v);
+
+const g = <A extends string, B extends string, R>(x: Field<A, Field<B, R>>): R => ({} as any);
+const r2 = g(v);

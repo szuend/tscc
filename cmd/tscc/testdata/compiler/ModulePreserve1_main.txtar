@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/modulePreserve1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module preserve --target esnext --lib esnext,dom --out-js main.js main.ts
+! stderr .
+cmp main.js main.js.golden
+! exists main.d.ts
+! exists main.js.map
+
+-- a.ts --
+export class A {}
+-- b.ts --
+export = class B {}
+-- main.ts --
+import { A } from "./a";
+import B = require("./b");
+export { A, B };
+-- main.js.golden --
+import { A } from "./a";
+const B = require("./b");
+export { A, B };

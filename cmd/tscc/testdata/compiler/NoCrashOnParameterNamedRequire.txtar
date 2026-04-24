@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/noCrashOnParameterNamedRequire.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom --out-js out_index.js index.js
+stderr 'TS2307'
+! exists out_index.js
+! exists built/index.d.ts
+! exists built/index.js.map
+
+-- index.js --
+(function(require, module, exports){
+    const mod = require("./mod");
+    mod.foo;
+})(null, null, null);

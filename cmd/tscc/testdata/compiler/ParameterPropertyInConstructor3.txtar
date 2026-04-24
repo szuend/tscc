@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/parameterPropertyInConstructor3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parameterPropertyInConstructor3.js parameterPropertyInConstructor3.ts
+stderr 'TS2398'
+! exists parameterPropertyInConstructor3.js
+! exists parameterPropertyInConstructor3.d.ts
+! exists parameterPropertyInConstructor3.js.map
+
+-- parameterPropertyInConstructor3.ts --
+class Foo {
+  constructor(public constructor: string) {}
+}

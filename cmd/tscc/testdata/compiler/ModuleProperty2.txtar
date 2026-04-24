@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/moduleProperty2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js moduleProperty2.js moduleProperty2.ts
+stderr 'TS2304'
+stderr 'TS2339'
+! exists moduleProperty2.js
+! exists moduleProperty2.d.ts
+! exists moduleProperty2.js.map
+
+-- moduleProperty2.ts --
+namespace M {
+    function f() {
+        var x;
+    }
+    var y;
+    export var z;
+    var test1=x;
+    var test2=y; // y visible because same module
+}
+
+namespace N {
+    var test3=M.y; // nope y private property of M
+    var test4=M.z; // ok public property of M
+}

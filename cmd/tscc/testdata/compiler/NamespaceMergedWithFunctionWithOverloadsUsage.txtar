@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/namespaceMergedWithFunctionWithOverloadsUsage.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+stderr 'TS2769'
+! exists index.js
+! exists index.d.ts
+! exists index.js.map
+
+-- file.d.ts --
+declare namespace Foo {
+    interface Whatever {
+        prop: any;
+    }
+}
+
+declare function Foo(opts?: Foo.Whatever): void;
+declare function Foo(cb: Function, opts?: Foo.Whatever): void;
+
+export = Foo;
+-- index.ts --
+import X = require("./file");
+
+X(0); // shouldn't cause a crash

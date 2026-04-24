@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/overloadOnConstInheritance4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadOnConstInheritance4.js overloadOnConstInheritance4.ts
+! stderr .
+cmp overloadOnConstInheritance4.js overloadOnConstInheritance4.js.golden
+! exists overloadOnConstInheritance4.d.ts
+! exists overloadOnConstInheritance4.js.map
+
+-- overloadOnConstInheritance4.ts --
+interface I {
+    x1(a: number, callback: (x: 'hi') => number);
+}
+class C implements I {
+    x1(a: number, callback: (x: 'hi') => number);
+    x1(a: number, callback: (x: 'hi') => number) {
+    }
+}
+-- overloadOnConstInheritance4.js.golden --
+"use strict";
+class C {
+    x1(a, callback) {
+    }
+}

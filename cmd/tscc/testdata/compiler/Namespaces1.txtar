@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/namespaces1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js namespaces1.js namespaces1.ts
+! stderr .
+cmp namespaces1.js namespaces1.js.golden
+! exists namespaces1.d.ts
+! exists namespaces1.js.map
+
+-- namespaces1.ts --
+namespace X {
+    export namespace Y {
+        export interface Z { }
+    }
+    export interface Y { }
+}
+
+var x: X.Y.Z;
+var x2: X.Y;
+-- namespaces1.js.golden --
+"use strict";
+var x;
+var x2;

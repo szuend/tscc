@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/multipleClassPropertyModifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js multipleClassPropertyModifiers.js multipleClassPropertyModifiers.ts
+stderr 'TS1029'
+! exists multipleClassPropertyModifiers.js
+! exists multipleClassPropertyModifiers.d.ts
+! exists multipleClassPropertyModifiers.js.map
+
+-- multipleClassPropertyModifiers.ts --
+class C {
+    public static p1;
+    static public p2;
+    private static p3;
+    static private p4;
+}

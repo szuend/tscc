@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/multiLinePropertyAccessAndArrowFunctionIndent1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js multiLinePropertyAccessAndArrowFunctionIndent1.js multiLinePropertyAccessAndArrowFunctionIndent1.ts
+stderr 'TS1108'
+! exists multiLinePropertyAccessAndArrowFunctionIndent1.js
+! exists multiLinePropertyAccessAndArrowFunctionIndent1.d.ts
+! exists multiLinePropertyAccessAndArrowFunctionIndent1.js.map
+
+-- multiLinePropertyAccessAndArrowFunctionIndent1.ts --
+return this.edit(role)
+    .then((role: Role) =>
+        this.roleService.add(role)
+            .then((data: ng.IHttpPromiseCallbackArg<Role>) => data.data));

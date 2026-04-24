@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/mappedTypeWithCombinedTypeMappers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mappedTypeWithCombinedTypeMappers.js mappedTypeWithCombinedTypeMappers.ts
+stderr 'TS2322'
+! exists mappedTypeWithCombinedTypeMappers.js
+! exists mappedTypeWithCombinedTypeMappers.d.ts
+! exists mappedTypeWithCombinedTypeMappers.js.map
+
+-- mappedTypeWithCombinedTypeMappers.ts --
+// Repro from #13351
+
+type Meta<T, A> = {
+    readonly[P in keyof T]: {
+        value: T[P];
+        also: A;
+        readonly children: Meta<T[P], A>;
+    };
+}
+
+interface Input {
+    x: string;
+    y: number;
+}
+
+declare const output: Meta<Input, boolean>;
+
+const shouldFail: { important: boolean } = output.x.children;

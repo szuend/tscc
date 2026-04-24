@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/jsNegativeElementAccessNotBound.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom jsNegativeELementAccessNotBound.js
+! stderr .
+! exists jsNegativeELementAccessNotBound.d.ts
+! exists jsNegativeELementAccessNotBound.js.map
+
+-- jsNegativeELementAccessNotBound.js --
+var indexMap = {};
+indexMap[-1] = 0;

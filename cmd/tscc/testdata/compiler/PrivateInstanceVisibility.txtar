@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/privateInstanceVisibility.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js privateInstanceVisibility.js privateInstanceVisibility.ts
+stderr 'TS2564'
+! exists privateInstanceVisibility.js
+! exists privateInstanceVisibility.d.ts
+! exists privateInstanceVisibility.js.map
+
+-- privateInstanceVisibility.ts --
+namespace Test {
+ 
+    export class Example {
+ 
+        private someNumber: number;
+ 
+        
+
+        public doSomething() {
+ 
+            var that = this;                      
+
+            function innerFunction() {
+                
+                var num = that.someNumber;
+ 
+            }
+ 
+        }        
+
+    }
+ 
+}
+
+
+
+class C {
+
+    private x: number;
+
+    getX() { return this.x; }
+
+    clone(other: C) {
+        this.x = other.x;
+
+    }
+}

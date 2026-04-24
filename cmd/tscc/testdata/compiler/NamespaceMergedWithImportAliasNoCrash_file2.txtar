@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/namespaceMergedWithImportAliasNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js file2.js file2.ts
+stderr 'TS2440'
+stderr 'TS2694'
+! exists file2.js
+! exists file2.d.ts
+! exists file2.js.map
+
+-- file1.ts --
+export namespace Library {
+    export type Bar = { a: number };
+}
+var x: Library.Bar; // should work
+Library.foo; // should be an error
+-- file2.ts --
+import * as Lib from './file1';
+namespace Lib { // should fail to merge
+    export const foo: string = "";
+}
+Lib.foo; // should work
+var x: Lib.Bar; // should be an error
+export { Lib }

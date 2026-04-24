@@ -1,0 +1,55 @@
+# Ported from tests/cases/compiler/moduleScopingBug.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js moduleScopingBug.js moduleScopingBug.ts
+! stderr .
+cmp moduleScopingBug.js moduleScopingBug.js.golden
+! exists moduleScopingBug.d.ts
+! exists moduleScopingBug.js.map
+
+-- moduleScopingBug.ts --
+namespace M
+
+{
+
+    var outer: number;
+
+    function f() {
+
+        var inner = outer;   // Ok
+
+    }
+
+    class C {
+
+        constructor() {
+            var inner = outer;   // Ok
+        }
+
+    }
+
+    namespace X {
+
+        var inner = outer;   // Error: outer not visible
+
+    }
+
+}
+
+-- moduleScopingBug.js.golden --
+"use strict";
+var M;
+(function (M) {
+    var outer;
+    function f() {
+        var inner = outer; // Ok
+    }
+    class C {
+        constructor() {
+            var inner = outer; // Ok
+        }
+    }
+    let X;
+    (function (X) {
+        var inner = outer; // Error: outer not visible
+    })(X || (X = {}));
+})(M || (M = {}));

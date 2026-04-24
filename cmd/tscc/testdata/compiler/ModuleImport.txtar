@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/moduleImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js moduleImport.js moduleImport.ts
+stderr 'TS2694'
+! exists moduleImport.js
+! exists moduleImport.d.ts
+! exists moduleImport.js.map
+
+-- moduleImport.ts --
+namespace A.B.C {
+	import XYZ = X.Y.Z;
+	export function ping(x: number) {
+		if (x>0) XYZ.pong (x-1);
+	}
+}
+
+namespace X {
+	import ABC = A.B.C;
+	export function pong(x: number) {
+		if (x > 0) ABC.ping(x-1);
+	}
+}

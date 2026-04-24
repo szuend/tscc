@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/propertySignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js propertySignatures.js propertySignatures.ts
+stderr 'TS2300'
+stderr 'TS2552'
+! exists propertySignatures.js
+! exists propertySignatures.d.ts
+! exists propertySignatures.js.map
+
+-- propertySignatures.ts --
+// Should be error - duplicate identifiers
+declare var foo1: { a:string; a: string; };
+
+// Should be OK
+declare var foo2: { a; };
+foo2.a = 2;
+foo2.a = "0";
+
+// Should be error
+declare var foo3: { (): string; (): string; };
+
+// Should be OK
+declare var foo4: { (): void; };
+var test = foo();
+
+// Should be OK
+declare var foo5: {();};
+var test = foo5();
+test.bar = 2;

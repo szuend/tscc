@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/intrinsics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts intrinsics.d.ts --no-strict --target es2015 --lib es2015,dom --out-js intrinsics.js intrinsics.ts
+stderr 'TS2749'
+stderr 'TS2304'
+! exists intrinsics.d.ts
+! exists intrinsics.js
+! exists intrinsics.js.map
+
+-- intrinsics.ts --
+var hasOwnProperty: hasOwnProperty; // Error
+
+namespace m1 {
+    export var __proto__;
+    interface __proto__ {}
+
+    class C<T extends { __proto__: __proto__ }> { }
+}
+
+__proto__ = 0; // Error, __proto__ not defined
+m1.__proto__ = 0;
+
+class Foo<__proto__> { }
+var foo: (__proto__: number) => void;

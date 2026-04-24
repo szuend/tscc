@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/keyofObjectWithGlobalSymbolIncluded.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es6 --lib es6,dom --out-js keyofObjectWithGlobalSymbolIncluded.js keyofObjectWithGlobalSymbolIncluded.ts
+! stderr .
+cmp keyofObjectWithGlobalSymbolIncluded.js keyofObjectWithGlobalSymbolIncluded.js.golden
+! exists keyofObjectWithGlobalSymbolIncluded.d.ts
+! exists keyofObjectWithGlobalSymbolIncluded.js.map
+
+-- keyofObjectWithGlobalSymbolIncluded.ts --
+const obj = {
+    [Symbol.species]: Array
+};
+
+type Q = keyof typeof obj;
+-- keyofObjectWithGlobalSymbolIncluded.js.golden --
+"use strict";
+const obj = {
+    [Symbol.species]: Array
+};

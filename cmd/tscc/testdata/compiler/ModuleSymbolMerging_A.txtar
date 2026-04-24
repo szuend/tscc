@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/moduleSymbolMerging.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts A.d.ts --target es2015 --lib es2015,dom --out-js A.js A.ts
+! stderr .
+cmp A.d.ts A.d.ts.golden
+cmp A.js A.js.golden
+! exists A.js.map
+
+-- A.ts --
+namespace A { export interface I {} }
+-- B.ts --
+///<reference path="A.ts" preserve="true" />
+namespace A { ; }
+namespace B {
+	export function f(): A.I { return null; }
+}
+
+-- A.d.ts.golden --
+declare namespace A {
+    interface I {
+    }
+}
+-- A.js.golden --
+"use strict";

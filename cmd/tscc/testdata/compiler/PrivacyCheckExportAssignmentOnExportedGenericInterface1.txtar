@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/privacyCheckExportAssignmentOnExportedGenericInterface1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts privacyCheckExportAssignmentOnExportedGenericInterface1.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js privacyCheckExportAssignmentOnExportedGenericInterface1.js privacyCheckExportAssignmentOnExportedGenericInterface1.ts
+stderr 'TS2454'
+! exists privacyCheckExportAssignmentOnExportedGenericInterface1.d.ts
+! exists privacyCheckExportAssignmentOnExportedGenericInterface1.js
+! exists privacyCheckExportAssignmentOnExportedGenericInterface1.js.map
+
+-- privacyCheckExportAssignmentOnExportedGenericInterface1.ts --
+namespace Foo {
+    export interface A<T> {
+    }
+}
+interface Foo<T> {
+}
+var Foo: new () => Foo.A<Foo<string>>;
+export = Foo;

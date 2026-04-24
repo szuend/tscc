@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/objectLiteralParameterResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectLiteralParameterResolution.js objectLiteralParameterResolution.ts
+stderr 'TS2304'
+! exists objectLiteralParameterResolution.js
+! exists objectLiteralParameterResolution.d.ts
+! exists objectLiteralParameterResolution.js.map
+
+-- objectLiteralParameterResolution.ts --
+interface Foo{
+    extend<T>(target: T, ...objs: any[]): T;
+    extend<T>(deep: boolean, target: T, ...objs: any[]): T;
+}
+declare var $: Foo;
+var s = $.extend({
+    type: "GET" ,
+    data: "data" ,
+    success: wrapSuccessCallback(requestContext, callback) ,
+    error: wrapErrorCallback(requestContext, errorCallback) ,
+    dataType: "json" ,
+    converters: { "text json": "" },
+    traditional: true ,
+    timeout: 12,
+    }, "");

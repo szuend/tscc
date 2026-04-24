@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/invalidLetInForOfAndForIn_ES5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js invalidLetInForOfAndForIn_ES5.js invalidLetInForOfAndForIn_ES5.ts
+stderr 'TS1005'
+stderr 'TS1181'
+stderr 'TS1128'
+! exists invalidLetInForOfAndForIn_ES5.js
+! exists invalidLetInForOfAndForIn_ES5.d.ts
+! exists invalidLetInForOfAndForIn_ES5.js.map
+
+-- invalidLetInForOfAndForIn_ES5.ts --
+// This should be an error
+// More details: http://www.ecma-international.org/ecma-262/6.0/#sec-iteration-statements
+
+var let = 10;
+for (let of [1,2,3]) {}
+
+for (let in [1,2,3]) {}
+ 
+

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/objectLiteralIndexerNoImplicitAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js objectLiteralIndexerNoImplicitAny.js objectLiteralIndexerNoImplicitAny.ts
+! stderr .
+cmp objectLiteralIndexerNoImplicitAny.js objectLiteralIndexerNoImplicitAny.js.golden
+! exists objectLiteralIndexerNoImplicitAny.d.ts
+! exists objectLiteralIndexerNoImplicitAny.js.map
+
+-- objectLiteralIndexerNoImplicitAny.ts --
+interface I {
+    [s: string]: any;
+}
+
+var x: I = {
+    p: null
+}
+-- objectLiteralIndexerNoImplicitAny.js.golden --
+"use strict";
+var x = {
+    p: null
+};

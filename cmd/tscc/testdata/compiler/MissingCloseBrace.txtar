@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/missingCloseBrace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js missingCloseBrace.js missingCloseBrace.ts
+stderr 'TS1005'
+! exists missingCloseBrace.js
+! exists missingCloseBrace.d.ts
+! exists missingCloseBrace.js.map
+
+-- missingCloseBrace.ts --
+function base_init() {
+    {
+
+    }
+
+    function me() {
+
+    }

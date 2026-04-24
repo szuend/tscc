@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/overloadOnConstConstraintChecks2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js overloadOnConstConstraintChecks2.js overloadOnConstConstraintChecks2.ts
+stderr 'TS2322'
+! exists overloadOnConstConstraintChecks2.js
+! exists overloadOnConstConstraintChecks2.d.ts
+! exists overloadOnConstConstraintChecks2.js.map
+
+-- overloadOnConstConstraintChecks2.ts --
+class A {} 
+class B extends A {}
+class C extends A {
+    public foo() { }
+}
+function foo(name: 'hi'): B;
+function foo(name: 'bye'): C;
+function foo(name: string): A;
+function foo(name: any): A {
+    return null;
+}

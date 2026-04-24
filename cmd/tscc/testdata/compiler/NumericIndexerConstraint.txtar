@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/numericIndexerConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js numericIndexerConstraint.js numericIndexerConstraint.ts
+stderr 'TS2411'
+! exists numericIndexerConstraint.js
+! exists numericIndexerConstraint.d.ts
+! exists numericIndexerConstraint.js.map
+
+-- numericIndexerConstraint.ts --
+class C {
+    0: number;
+    [x: number]: RegExp;
+}

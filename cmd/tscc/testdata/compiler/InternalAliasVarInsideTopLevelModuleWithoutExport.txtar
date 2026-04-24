@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/internalAliasVarInsideTopLevelModuleWithoutExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts internalAliasVarInsideTopLevelModuleWithoutExport.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasVarInsideTopLevelModuleWithoutExport.js internalAliasVarInsideTopLevelModuleWithoutExport.ts
+! stderr .
+cmp internalAliasVarInsideTopLevelModuleWithoutExport.d.ts internalAliasVarInsideTopLevelModuleWithoutExport.d.ts.golden
+cmp internalAliasVarInsideTopLevelModuleWithoutExport.js internalAliasVarInsideTopLevelModuleWithoutExport.js.golden
+! exists internalAliasVarInsideTopLevelModuleWithoutExport.js.map
+
+-- internalAliasVarInsideTopLevelModuleWithoutExport.ts --
+export namespace a {
+    export var x = 10;
+}
+
+import b = a.x;
+export var bVal = b;
+
+-- internalAliasVarInsideTopLevelModuleWithoutExport.d.ts.golden --
+export declare namespace a {
+    var x: number;
+}
+export declare var bVal: number;
+-- internalAliasVarInsideTopLevelModuleWithoutExport.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.bVal = exports.a = void 0;
+var a;
+(function (a) {
+    a.x = 10;
+})(a || (exports.a = a = {}));
+var b = a.x;
+exports.bVal = b;

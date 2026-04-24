@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/iteratorsAndStrictNullChecks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target ES6 --lib ES6,dom --out-js iteratorsAndStrictNullChecks.js iteratorsAndStrictNullChecks.ts
+! stderr .
+cmp iteratorsAndStrictNullChecks.js iteratorsAndStrictNullChecks.js.golden
+! exists iteratorsAndStrictNullChecks.d.ts
+! exists iteratorsAndStrictNullChecks.js.map
+
+-- iteratorsAndStrictNullChecks.ts --
+// for..of
+for (const x of ["a", "b"]) {
+    x.substring;
+}
+
+// Spread
+const xs = [1, 2, 3];
+const ys = [4, 5];
+xs.push(...ys);
+-- iteratorsAndStrictNullChecks.js.golden --
+"use strict";
+// for..of
+for (const x of ["a", "b"]) {
+    x.substring;
+}
+// Spread
+const xs = [1, 2, 3];
+const ys = [4, 5];
+xs.push(...ys);

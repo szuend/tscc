@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/invalidUnicodeEscapeSequance3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js invalidUnicodeEscapeSequance3.js invalidUnicodeEscapeSequance3.ts
+stderr 'TS1127'
+! exists invalidUnicodeEscapeSequance3.js
+! exists invalidUnicodeEscapeSequance3.d.ts
+! exists invalidUnicodeEscapeSequance3.js.map
+
+-- invalidUnicodeEscapeSequance3.ts --
+a\u

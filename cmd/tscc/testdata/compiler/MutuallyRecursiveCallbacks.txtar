@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/mutuallyRecursiveCallbacks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js mutuallyRecursiveCallbacks.js mutuallyRecursiveCallbacks.ts
+stderr 'TS2322'
+! exists mutuallyRecursiveCallbacks.js
+! exists mutuallyRecursiveCallbacks.d.ts
+! exists mutuallyRecursiveCallbacks.js.map
+
+-- mutuallyRecursiveCallbacks.ts --
+// Repro from #18277
+
+interface Foo<T> { (bar: Bar<T>): void };
+type Bar<T> = (foo: Foo<T>) => Foo<T>;
+declare function foo<T>(bar: Bar<T>): void;
+declare var bar: Bar<{}>;
+bar = foo;

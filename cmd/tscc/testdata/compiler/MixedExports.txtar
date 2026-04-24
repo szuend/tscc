@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/mixedExports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js mixedExports.js mixedExports.ts
+! stderr .
+cmp mixedExports.js mixedExports.js.golden
+! exists mixedExports.d.ts
+! exists mixedExports.js.map
+
+-- mixedExports.ts --
+declare namespace M {
+     function foo();
+     export function foo();
+     function foo();
+}
+
+declare namespace M1 {
+     export interface Foo {}
+     interface Foo {}
+}
+
+namespace A {
+     interface X {x}
+     export namespace X {}
+     interface X {y}
+}
+-- mixedExports.js.golden --
+"use strict";

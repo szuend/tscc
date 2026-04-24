@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/optionalSetterParam.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js optionalSetterParam.js optionalSetterParam.ts
+stderr 'TS1051'
+! exists optionalSetterParam.js
+! exists optionalSetterParam.d.ts
+! exists optionalSetterParam.js.map
+
+-- optionalSetterParam.ts --
+class foo {
+
+    public set bar(param?:any) { }
+}

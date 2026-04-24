@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/objectBindingPattern_restElementWithPropertyName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js objectBindingPattern_restElementWithPropertyName.js objectBindingPattern_restElementWithPropertyName.ts
+stderr 'TS2566'
+! exists objectBindingPattern_restElementWithPropertyName.js
+! exists objectBindingPattern_restElementWithPropertyName.d.ts
+! exists objectBindingPattern_restElementWithPropertyName.js.map
+
+-- objectBindingPattern_restElementWithPropertyName.ts --
+const { ...a: b } = {};

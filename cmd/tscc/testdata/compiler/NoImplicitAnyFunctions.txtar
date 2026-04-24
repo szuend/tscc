@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/noImplicitAnyFunctions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js noImplicitAnyFunctions.js noImplicitAnyFunctions.ts
+stderr 'TS7010'
+stderr 'TS7006'
+! exists noImplicitAnyFunctions.js
+! exists noImplicitAnyFunctions.d.ts
+! exists noImplicitAnyFunctions.js.map
+
+-- noImplicitAnyFunctions.ts --
+declare function f1();
+
+declare function f2(): any;
+
+function f3(x) {
+}
+
+function f4(x: any) {
+    return x;
+}
+
+function f5(x: any): any {
+    return x;
+}
+
+function f6(x: string, y: number);
+function f6(x: string, y: string): any;
+function f6(x: string, y) {
+    return null;
+}

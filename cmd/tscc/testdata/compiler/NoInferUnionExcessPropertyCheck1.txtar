@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/noInferUnionExcessPropertyCheck1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom noInferUnionExcessPropertyCheck1.ts
+stderr 'TS2353'
+! exists noInferUnionExcessPropertyCheck1.d.ts
+! exists noInferUnionExcessPropertyCheck1.js.map
+
+-- noInferUnionExcessPropertyCheck1.ts --
+declare function test1<T extends { x: string }>(
+  a: T,
+  b: NoInfer<T> | (() => NoInfer<T>),
+): void;
+
+test1({ x: "foo" }, { x: "bar" }); // no error
+test1({ x: "foo" }, { x: "bar", y: 42 }); // epc error
+
+declare function test2<T extends { x: string }>(
+  a: T,
+  b: NoInfer<T> | NoInfer<() => T>,
+): void;
+
+test2({ x: "foo" }, { x: "bar" }); // no error
+test2({ x: "foo" }, { x: "bar", y: 42 }); // epc error
+
+declare function test3<T extends { x: string }>(
+  a: T,
+  b: NoInfer<T | (() => T)>,
+): void;
+
+test3({ x: "foo" }, { x: "bar" }); // no error
+test3({ x: "foo" }, { x: "bar", y: 42 }); // epc error

@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/omitTypeHelperModifiers01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js omitTypeHelperModifiers01.js omitTypeHelperModifiers01.ts
+stderr 'TS2540'
+! exists omitTypeHelperModifiers01.js
+! exists omitTypeHelperModifiers01.d.ts
+! exists omitTypeHelperModifiers01.js.map
+
+-- omitTypeHelperModifiers01.ts --
+type A = {
+    a: number;
+    b?: string;
+    readonly c: boolean;
+    d: unknown;
+};
+
+type B = Omit<A, 'a'>;
+
+function f(x: B) {
+    const b = x.b;
+    x.b = "hello";
+    x.b = undefined;
+
+    const c = x.c;
+    x.c = true;
+
+    const d = x.d;
+    x.d = d;
+}

@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/objectLitGetterSetter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js objectLitGetterSetter.js objectLitGetterSetter.ts
+! stderr .
+cmp objectLitGetterSetter.js objectLitGetterSetter.js.golden
+! exists objectLitGetterSetter.d.ts
+! exists objectLitGetterSetter.js.map
+
+-- objectLitGetterSetter.ts --
+            var obj = {};
+            Object.defineProperty(obj, "accProperty", <PropertyDescriptor>({
+                get: function () {
+                    eval("public = 1;");
+                    return 11;
+                },
+                set: function (v) {
+                }
+            }))
+-- objectLitGetterSetter.js.golden --
+"use strict";
+var obj = {};
+Object.defineProperty(obj, "accProperty", ({
+    get: function () {
+        eval("public = 1;");
+        return 11;
+    },
+    set: function (v) {
+    }
+}));

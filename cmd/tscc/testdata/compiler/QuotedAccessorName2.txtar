@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/quotedAccessorName2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js quotedAccessorName2.js quotedAccessorName2.ts
+! stderr .
+cmp quotedAccessorName2.js quotedAccessorName2.js.golden
+! exists quotedAccessorName2.d.ts
+! exists quotedAccessorName2.js.map
+
+-- quotedAccessorName2.ts --
+class C {
+    static get "foo"() { return 0; }
+}
+-- quotedAccessorName2.js.golden --
+"use strict";
+class C {
+    static get "foo"() { return 0; }
+}

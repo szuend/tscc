@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/overloadConsecutiveness.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js overloadConsecutiveness.js overloadConsecutiveness.ts
+stderr 'TS1144'
+stderr 'TS1128'
+stderr 'TS1068'
+! exists overloadConsecutiveness.js
+! exists overloadConsecutiveness.d.ts
+! exists overloadConsecutiveness.js.map
+
+-- overloadConsecutiveness.ts --
+// Making sure compiler won't break with declarations that are consecutive in the AST but not consecutive in the source. Syntax errors intentional.
+
+function f1(), function f1();
+function f2(), function f2() {}
+function f3() {}, function f3();
+
+class C {
+	m1(), m1();
+	m2(), m2() {}
+	m3() {}, m3();
+}

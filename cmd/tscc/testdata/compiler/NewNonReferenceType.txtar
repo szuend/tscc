@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/newNonReferenceType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js newNonReferenceType.js newNonReferenceType.ts
+stderr 'TS2693'
+! exists newNonReferenceType.js
+! exists newNonReferenceType.d.ts
+! exists newNonReferenceType.js.map
+
+-- newNonReferenceType.ts --
+var a = new any();
+var b = new boolean(); // error

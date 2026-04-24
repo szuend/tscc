@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/javascriptDefinePropertyPrototypeNonConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --no-check-js --target es2015 --lib es2015,dom a.js
+! stderr .
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+function Graphic() {
+}
+
+Object.defineProperty(Graphic.prototype, "instance", {
+  get: function() {
+    return this;
+  }
+});
+

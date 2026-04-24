@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/nestedCallbackErrorNotFlattened.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js nestedCallbackErrorNotFlattened.js nestedCallbackErrorNotFlattened.ts
+stderr 'TS2322'
+! exists nestedCallbackErrorNotFlattened.js
+! exists nestedCallbackErrorNotFlattened.d.ts
+! exists nestedCallbackErrorNotFlattened.js.map
+
+-- nestedCallbackErrorNotFlattened.ts --
+type Cb<T> = {noAlias: () => T}["noAlias"]; // `"noAlias"` here prevents an alias symbol from being made
+// which means the comparison will definitely be structural, rather than by variance
+
+declare const x: Cb<Cb<Cb<Cb<number>>>>; // one more layer of `Cb` adn we'd get a `true` from the deeply-nested symbol check
+declare let y: Cb<Cb<Cb<Cb<string>>>>;
+y = x;

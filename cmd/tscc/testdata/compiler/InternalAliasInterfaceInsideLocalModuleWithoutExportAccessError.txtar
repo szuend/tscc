@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/internalAliasInterfaceInsideLocalModuleWithoutExportAccessError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js internalAliasInterfaceInsideLocalModuleWithoutExportAccessError.js internalAliasInterfaceInsideLocalModuleWithoutExportAccessError.ts
+stderr 'TS2694'
+! exists internalAliasInterfaceInsideLocalModuleWithoutExportAccessError.js
+! exists internalAliasInterfaceInsideLocalModuleWithoutExportAccessError.d.ts
+! exists internalAliasInterfaceInsideLocalModuleWithoutExportAccessError.js.map
+
+-- internalAliasInterfaceInsideLocalModuleWithoutExportAccessError.ts --
+export namespace a {
+    export interface I {
+    }
+}
+
+export namespace c {
+    import b = a.I;
+    export var x: b;
+}
+
+var x: c.b;

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/newExpressionWithTypeParameterConstrainedToOuterTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js newExpressionWithTypeParameterConstrainedToOuterTypeParameter.js newExpressionWithTypeParameterConstrainedToOuterTypeParameter.ts
+stderr 'TS2454'
+! exists newExpressionWithTypeParameterConstrainedToOuterTypeParameter.js
+! exists newExpressionWithTypeParameterConstrainedToOuterTypeParameter.d.ts
+! exists newExpressionWithTypeParameterConstrainedToOuterTypeParameter.js.map
+
+-- newExpressionWithTypeParameterConstrainedToOuterTypeParameter.ts --
+interface I<T> {
+    new <U extends T>(u: U): U;
+}
+var i: I<string>;
+var y = new i(""); // y should be string

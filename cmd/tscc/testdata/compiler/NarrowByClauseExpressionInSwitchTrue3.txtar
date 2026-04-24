@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/narrowByClauseExpressionInSwitchTrue3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom narrowByClauseExpressionInSwitchTrue3.ts
+stderr 'TS2367'
+stderr 'TS2339'
+! exists narrowByClauseExpressionInSwitchTrue3.d.ts
+! exists narrowByClauseExpressionInSwitchTrue3.js.map
+
+-- narrowByClauseExpressionInSwitchTrue3.ts --
+type Shape =
+    | { kind: "circle", radius: number }
+    | { kind: "square", sideLength: number }
+
+function wat(shape: Shape) {
+    switch (true) {
+        case shape.kind === "circle":
+            return Math.PI * shape.radius ** 2;
+        case shape.kind === "circle": // should error
+    }
+
+    if (shape.kind === "circle") {
+        return Math.PI * shape.radius ** 2;
+    }
+    else if (shape.kind === "circle") {
+        //         ~~~~
+        // Property 'kind' does not exist on type 'never'.
+    }
+}

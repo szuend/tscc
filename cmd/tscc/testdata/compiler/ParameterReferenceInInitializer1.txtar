@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/parameterReferenceInInitializer1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js parameterReferenceInInitializer1.js parameterReferenceInInitializer1.ts
+stderr 'TS2322'
+! exists parameterReferenceInInitializer1.js
+! exists parameterReferenceInInitializer1.d.ts
+! exists parameterReferenceInInitializer1.js.map
+
+-- parameterReferenceInInitializer1.ts --
+function fn<a>(y: Y, set: (y: Y, x: number) => void): a {
+    return undefined;
+}
+interface Y { x: number }
+
+class C {
+    constructor(
+        y: Y,
+        public x = fn(y, (y, x) => y.x = x) // expected to work, but actually doesn't
+    ) {
+    }
+}

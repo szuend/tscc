@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/numericMethodName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js numericMethodName1.js numericMethodName1.ts
+! stderr .
+cmp numericMethodName1.js numericMethodName1.js.golden
+! exists numericMethodName1.d.ts
+! exists numericMethodName1.js.map
+
+-- numericMethodName1.ts --
+class C {
+  1 = 2;
+}
+-- numericMethodName1.js.golden --
+"use strict";
+class C {
+    constructor() {
+        this[1] = 2;
+    }
+}

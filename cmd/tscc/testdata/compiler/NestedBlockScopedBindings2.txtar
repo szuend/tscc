@@ -1,0 +1,251 @@
+# Ported from tests/cases/compiler/nestedBlockScopedBindings2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js nestedBlockScopedBindings2.js nestedBlockScopedBindings2.ts
+! stderr .
+cmp nestedBlockScopedBindings2.js nestedBlockScopedBindings2.js.golden
+! exists nestedBlockScopedBindings2.d.ts
+! exists nestedBlockScopedBindings2.js.map
+
+-- nestedBlockScopedBindings2.ts --
+function a0() {
+    {
+        let x = 1;
+        () => x;
+    }
+    {
+        let x = 1;
+    }
+}
+
+function a1() {
+    {
+        let x;
+    }
+    {
+        let x = 1;
+        () => x;
+    }
+}
+
+function a2() {
+    {
+        let x = 1;
+        () => x;
+    }
+    {
+        let x;
+        () => x;
+    }
+}
+
+
+function a3() {
+    {
+        let x = 1;
+        () => x;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
+
+
+function a4() {
+    {
+        let x;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
+
+
+function a5() {
+    {
+        let x;
+        () => x;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+}
+
+function a6() {
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+}
+
+function a7() {
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+}
+
+function a8() {
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
+
+function a9() {
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
+-- nestedBlockScopedBindings2.js.golden --
+"use strict";
+function a0() {
+    {
+        let x = 1;
+        () => x;
+    }
+    {
+        let x = 1;
+    }
+}
+function a1() {
+    {
+        let x;
+    }
+    {
+        let x = 1;
+        () => x;
+    }
+}
+function a2() {
+    {
+        let x = 1;
+        () => x;
+    }
+    {
+        let x;
+        () => x;
+    }
+}
+function a3() {
+    {
+        let x = 1;
+        () => x;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
+function a4() {
+    {
+        let x;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
+function a5() {
+    {
+        let x;
+        () => x;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+}
+function a6() {
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+}
+function a7() {
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+}
+function a8() {
+    switch (1) {
+        case 1:
+            let x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
+function a9() {
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+    switch (1) {
+        case 1:
+            let x;
+            () => x;
+            break;
+    }
+}
