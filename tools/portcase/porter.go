@@ -220,46 +220,62 @@ func (p *Porter) Port() ([]PortedFile, error) {
 				}
 			}
 
-			noEmit := false
-			if val, ok := variant.Options["noemit"]; ok && strings.ToLower(val) == "true" {
-				noEmit = true
+			renameIfCollision := func(name string) string {
+				if _, isInput := inputs[name]; isInput {
+					dir, file := filepath.Split(name)
+					if dir == "" {
+						return "out_" + file
+					}
+					return filepath.ToSlash(filepath.Join(dir, "out_"+file))
+				}
+				return name
 			}
 
+			renamedOutputs := make(map[string]string)
+			for outName, content := range currentOutputs {
+				renamedOutputs[renameIfCollision(outName)] = content
+			}
+			currentOutputs = renamedOutputs
+
+			var renamedNotExpected []string
+			for _, outName := range currentNotExpectedOutputs {
+				renamedNotExpected = append(renamedNotExpected, renameIfCollision(outName))
+			}
+			currentNotExpectedOutputs = renamedNotExpected
+
+
 			// Calculate flags for out outputs
-			if !noEmit {
-				if len(currentErrorCodes) == 0 && len(currentOutputs) > 0 {
-					for outName := range currentOutputs {
-						if strings.HasSuffix(outName, ".js") {
-							flags = append(flags, "--out-js", outName)
-						}
+			if len(currentOutputs) > 0 {
+				for outName := range currentOutputs {
+					if strings.HasSuffix(outName, ".js") {
+						flags = append(flags, "--out-js", outName)
 					}
-				} else if len(currentErrorCodes) > 0 {
-					if len(currentOutputs) > 0 {
-						for outName := range currentOutputs {
-							if strings.HasSuffix(outName, ".js") {
-								flags = append(flags, "--out-js", outName)
-							}
-						}
-					} else {
-						flags = append(flags, "--out-js", inputStem+".js")
-						currentOutputs[inputStem+".js"] = ""
-					}
+				}
+			} else {
+				outJs := renameIfCollision(inputStem + ".js")
+				flags = append(flags, "--out-js", outJs)
+				if len(currentErrorCodes) > 0 {
+					currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
+				} else {
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
 				}
 			}
 
 			// Check .d.ts
-			if _, ok := currentOutputs[inputStem+".d.ts"]; !ok {
+			outDts := renameIfCollision(inputStem + ".d.ts")
+			if _, ok := currentOutputs[outDts]; !ok {
 				hasDts := slices.Contains(flags, "--out-dts")
 				if !hasDts {
-					currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".d.ts")
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outDts)
 				}
 			}
 
 			// Check .js.map
-			if _, ok := currentOutputs[inputStem+".js.map"]; !ok {
+			outMap := renameIfCollision(inputStem + ".js.map")
+			if _, ok := currentOutputs[outMap]; !ok {
 				hasMap := slices.Contains(flags, "--out-map")
 				if !hasMap {
-					currentNotExpectedOutputs = append(currentNotExpectedOutputs, inputStem+".js.map")
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outMap)
 				}
 			}
 

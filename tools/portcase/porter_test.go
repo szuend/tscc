@@ -71,6 +71,36 @@ func TestPorter_Port_NoEmit(t *testing.T) {
 	}
 }
 
+func TestPorter_Port_Collision(t *testing.T) {
+	p := Porter{
+		CaseName: "collision_case",
+		TsContent: `// @allowJs: true
+// @filename: b.js
+export const b = 2;
+`,
+		BaselineJs: `//// [b.js]
+export const b = 2;
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--out-js out_b.js") {
+		t.Errorf("Expected content to contain --out-js out_b.js, got:\n%s", res.Content)
+	}
+	if !strings.Contains(res.Content, "cmp out_b.js out_b.js.golden") {
+		t.Errorf("Expected content to contain cmp out_b.js out_b.js.golden, got:\n%s", res.Content)
+	}
+}
+
 func TestPorter_MultiFileOccurrence(t *testing.T) {
 	p := &Porter{
 		CaseName: "multiFileOccurrence",

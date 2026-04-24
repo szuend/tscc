@@ -63,6 +63,9 @@ type Config struct {
 
 	// SkipLibCheck skips type checking of declaration files.
 	SkipLibCheck bool
+
+	// AllowJs allows JavaScript files to be a part of your program.
+	AllowJs bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -233,6 +236,7 @@ type flagGroup struct {
 func buildGroups(cfg *Config) []flagGroup {
 	return []flagGroup{
 		languageGroup(cfg),
+		javascriptSupportGroup(cfg),
 		typeCheckingGroup(cfg),
 		resolutionGroup(cfg),
 		completenessGroup(cfg),
@@ -253,6 +257,13 @@ func languageGroup(cfg *Config) flagGroup {
 	g.StringSliceVar(&cfg.Lib, "lib", nil, "Specify a set of bundled library declaration files that describe the target runtime environment (allowed: es5, es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext, dom, dom.iterable, dom.asynciterable, webworker, webworker.importscripts, webworker.iterable, webworker.asynciterable, scripthost, and by-feature options like es2015.core)")
 	g.Lookup("lib").DefValue = "matches --target; excluding DOM"
 	return flagGroup{Name: "Language and Environment", Set: g}
+}
+
+func javascriptSupportGroup(cfg *Config) flagGroup {
+	g := pflag.NewFlagSet("javascript-support", pflag.ContinueOnError)
+	g.BoolVar(&cfg.AllowJs, "allow-js", false, "Allow JavaScript files to be a part of your program. Use the 'checkJs' option to get errors from these files.")
+	g.Lookup("allow-js").DefValue = "false; true if --check-js is passed"
+	return flagGroup{Name: "JavaScript Support", Set: g}
 }
 
 func typeCheckingGroup(cfg *Config) flagGroup {

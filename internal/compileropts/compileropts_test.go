@@ -120,6 +120,25 @@ func TestFromConfigSkipLibCheck(t *testing.T) {
 	}
 }
 
+func TestFromConfigAllowJs(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", AllowJs: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.AllowJs != tc.want {
+			t.Errorf("AllowJs(%v) = %v, want %v", tc.in, got.AllowJs, tc.want)
+		}
+	}
+}
+
 func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	got, err := FromConfig(&config.Config{Target: "es2022"})
 	if err != nil {
