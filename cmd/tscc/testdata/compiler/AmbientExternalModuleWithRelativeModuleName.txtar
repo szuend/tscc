@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/ambientExternalModuleWithRelativeModuleName.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --lib es2015,dom --out-js ambientExternalModuleWithRelativeModuleName.js ambientExternalModuleWithRelativeModuleName.ts
+! exec tscc --target es2015 --lib es2015,dom --path ./relativeModule=ambientExternalModuleWithRelativeModuleName.ts --path .\\relativeModule=ambientExternalModuleWithRelativeModuleName.ts --out-js ambientExternalModuleWithRelativeModuleName.js ambientExternalModuleWithRelativeModuleName.ts
 stderr 'TS2436'
 ! exists ambientExternalModuleWithRelativeModuleName.js
 ! exists ambientExternalModuleWithRelativeModuleName.d.ts

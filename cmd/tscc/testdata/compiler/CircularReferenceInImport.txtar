@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/circularReferenceInImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts app.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js app.js app.ts
+! stderr .
+cmp app.d.ts app.d.ts.golden
+cmp app.js app.js.golden
+! exists app.js.map
+
+-- app.ts --
+import * as Db from "./db"
+
+export function foo() {
+    return new Object()
+}
+-- db.d.ts --
+declare namespace Db {
+    export import Types = Db;
+}
+
+export = Db;
+-- app.d.ts.golden --
+export declare function foo(): Object;
+-- app.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.foo = foo;
+function foo() {
+    return new Object();
+}
