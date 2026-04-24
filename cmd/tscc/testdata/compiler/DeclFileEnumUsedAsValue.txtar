@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/declFileEnumUsedAsValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileEnumUsedAsValue.d.ts --target es2015 --lib es2015,dom --out-js declFileEnumUsedAsValue.js declFileEnumUsedAsValue.ts
+! stderr .
+cmp declFileEnumUsedAsValue.d.ts declFileEnumUsedAsValue.d.ts.golden
+cmp declFileEnumUsedAsValue.js declFileEnumUsedAsValue.js.golden
+! exists declFileEnumUsedAsValue.js.map
+
+-- declFileEnumUsedAsValue.ts --
+enum e {
+    a,
+    b,
+    c
+}
+var x = e;
+-- declFileEnumUsedAsValue.d.ts.golden --
+declare enum e {
+    a = 0,
+    b = 1,
+    c = 2
+}
+declare var x: typeof e;
+-- declFileEnumUsedAsValue.js.golden --
+"use strict";
+var e;
+(function (e) {
+    e[e["a"] = 0] = "a";
+    e[e["b"] = 1] = "b";
+    e[e["c"] = 2] = "c";
+})(e || (e = {}));
+var x = e;

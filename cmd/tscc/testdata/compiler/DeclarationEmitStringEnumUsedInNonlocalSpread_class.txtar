@@ -1,0 +1,63 @@
+# Ported from tests/cases/compiler/declarationEmitStringEnumUsedInNonlocalSpread.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts class.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js class.js class.ts
+! stderr .
+cmp class.d.ts class.d.ts.golden
+cmp class.js class.js.golden
+! exists class.js.map
+
+-- class.ts --
+export const enum TestEnum {
+    Test1 = '123123',
+    Test2 = '12312312312',
+}
+
+export interface ITest {
+    [TestEnum.Test1]: string;
+    [TestEnum.Test2]: string;
+}
+
+export class A {
+    getA(): ITest {
+        return {
+            [TestEnum.Test1]: '123',
+            [TestEnum.Test2]: '123',
+        };
+    }
+}
+-- index.ts --
+import { A } from './class';
+
+export class B extends A {
+    getA() { // TS4053 error
+        return {
+            ...super.getA(),
+            a: '123',
+        };
+    }
+}
+-- class.d.ts.golden --
+export declare const enum TestEnum {
+    Test1 = "123123",
+    Test2 = "12312312312"
+}
+export interface ITest {
+    [TestEnum.Test1]: string;
+    [TestEnum.Test2]: string;
+}
+export declare class A {
+    getA(): ITest;
+}
+-- class.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.A = void 0;
+class A {
+    getA() {
+        return {
+            ["123123" /* TestEnum.Test1 */]: '123',
+            ["12312312312" /* TestEnum.Test2 */]: '123',
+        };
+    }
+}
+exports.A = A;

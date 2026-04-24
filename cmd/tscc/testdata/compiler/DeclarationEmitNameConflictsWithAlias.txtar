@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/declarationEmitNameConflictsWithAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitNameConflictsWithAlias.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitNameConflictsWithAlias.js declarationEmitNameConflictsWithAlias.ts
+! stderr .
+cmp declarationEmitNameConflictsWithAlias.d.ts declarationEmitNameConflictsWithAlias.d.ts.golden
+cmp declarationEmitNameConflictsWithAlias.js declarationEmitNameConflictsWithAlias.js.golden
+! exists declarationEmitNameConflictsWithAlias.js.map
+
+-- declarationEmitNameConflictsWithAlias.ts --
+export namespace C { export interface I { } }
+export import v = C;
+export namespace M {
+    export namespace C { export interface I { } }
+    export var w: v.I; // Gets emitted as C.I, which is the wrong interface
+}
+-- declarationEmitNameConflictsWithAlias.d.ts.golden --
+export declare namespace C {
+    interface I {
+    }
+}
+export import v = C;
+export declare namespace M {
+    namespace C {
+        interface I {
+        }
+    }
+    var w: v.I;
+}
+-- declarationEmitNameConflictsWithAlias.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.M = void 0;
+var M;
+(function (M) {
+})(M || (exports.M = M = {}));

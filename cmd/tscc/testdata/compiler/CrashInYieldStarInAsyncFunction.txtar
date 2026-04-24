@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/crashInYieldStarInAsyncFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target esnext --lib esnext,dom --out-js crashInYieldStarInAsyncFunction.js crashInYieldStarInAsyncFunction.ts
+stderr 'TS1320'
+! exists crashInYieldStarInAsyncFunction.js
+! exists crashInYieldStarInAsyncFunction.d.ts
+! exists crashInYieldStarInAsyncFunction.js.map
+
+-- crashInYieldStarInAsyncFunction.ts --
+// https://github.com/microsoft/TypeScript/issues/53145
+var obj = {
+    [Symbol.asyncIterator]() {
+        return {
+            next() {
+                return { then() { } };
+            }
+        };
+    }
+};
+
+async function* g() {
+    yield* obj;
+}

@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/deeplyDependentLargeArrayMutation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es6 --lib es6,dom foo.js
+! stderr .
+! exists foo.d.ts
+! exists foo.js.map
+
+-- foo.js --
+// repro from #26031
+function build() {
+    var arr = [];
+
+    arr[arr.length] = 'value'; 
+    arr[arr.length] = 'value'; 
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value'; 
+    arr[arr.length] = 'value'; 
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value'; 
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value';
+    arr[arr.length] = 'value'; 
+}

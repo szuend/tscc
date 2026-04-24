@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/destructuringPropertyAssignmentNameIsNotAssignmentTarget.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js destructuringPropertyAssignmentNameIsNotAssignmentTarget.js destructuringPropertyAssignmentNameIsNotAssignmentTarget.ts
+! stderr .
+cmp destructuringPropertyAssignmentNameIsNotAssignmentTarget.js destructuringPropertyAssignmentNameIsNotAssignmentTarget.js.golden
+! exists destructuringPropertyAssignmentNameIsNotAssignmentTarget.d.ts
+! exists destructuringPropertyAssignmentNameIsNotAssignmentTarget.js.map
+
+-- destructuringPropertyAssignmentNameIsNotAssignmentTarget.ts --
+// test for #10668
+function qux(bar: { value: number }) {
+    let foo: number;
+    ({ value: foo } = bar);
+    let x = () => bar;
+}
+
+-- destructuringPropertyAssignmentNameIsNotAssignmentTarget.js.golden --
+"use strict";
+// test for #10668
+function qux(bar) {
+    let foo;
+    ({ value: foo } = bar);
+    let x = () => bar;
+}

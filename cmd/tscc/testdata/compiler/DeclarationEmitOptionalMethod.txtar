@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/declarationEmitOptionalMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitOptionalMethod.d.ts --module commonjs --strict-null-checks --target es2015 --lib es2015,dom --out-js declarationEmitOptionalMethod.js declarationEmitOptionalMethod.ts
+! stderr .
+cmp declarationEmitOptionalMethod.d.ts declarationEmitOptionalMethod.d.ts.golden
+cmp declarationEmitOptionalMethod.js declarationEmitOptionalMethod.js.golden
+! exists declarationEmitOptionalMethod.js.map
+
+-- declarationEmitOptionalMethod.ts --
+export const Foo = (opts: {
+    a?(): void,
+    b?: () => void,
+}): {
+    c?(): void,
+    d?: () => void,
+} => ({  });
+-- declarationEmitOptionalMethod.d.ts.golden --
+export declare const Foo: (opts: {
+    a?(): void;
+    b?: () => void;
+}) => {
+    c?(): void;
+    d?: () => void;
+};
+-- declarationEmitOptionalMethod.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = void 0;
+const Foo = (opts) => ({});
+exports.Foo = Foo;

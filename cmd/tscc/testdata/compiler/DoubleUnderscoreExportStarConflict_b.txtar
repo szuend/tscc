@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/doubleUnderscoreExportStarConflict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.js b.js.golden
+! exists b.d.ts
+! exists b.js.map
+
+-- b.ts --
+export function __foo(): number | void {}
+-- c.ts --
+export function __foo(): string | void {}
+-- index.tsx --
+export * from "./b";
+export * from "./c";
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.__foo = __foo;
+function __foo() { }

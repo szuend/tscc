@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/declarationEmitFunctionKeywordProp.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitFunctionKeywordProp.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitFunctionKeywordProp.js declarationEmitFunctionKeywordProp.ts
+! stderr .
+cmp declarationEmitFunctionKeywordProp.d.ts declarationEmitFunctionKeywordProp.d.ts.golden
+cmp declarationEmitFunctionKeywordProp.js declarationEmitFunctionKeywordProp.js.golden
+! exists declarationEmitFunctionKeywordProp.js.map
+
+-- declarationEmitFunctionKeywordProp.ts --
+function foo() {}
+foo.null = true;
+
+function bar() {}
+bar.async = true;
+bar.normal = false;
+
+function baz() {}
+baz.class = true;
+baz.normal = false;
+-- declarationEmitFunctionKeywordProp.d.ts.golden --
+declare function foo(): void;
+declare namespace foo {
+    var _a: boolean;
+    export { _a as null };
+}
+declare function bar(): void;
+declare namespace bar {
+    var async: boolean;
+}
+declare namespace bar {
+    var normal: boolean;
+}
+declare function baz(): void;
+declare namespace baz {
+    var _b: boolean;
+    export { _b as class };
+}
+declare namespace baz {
+    var normal: boolean;
+}
+-- declarationEmitFunctionKeywordProp.js.golden --
+"use strict";
+function foo() { }
+foo.null = true;
+function bar() { }
+bar.async = true;
+bar.normal = false;
+function baz() { }
+baz.class = true;
+baz.normal = false;

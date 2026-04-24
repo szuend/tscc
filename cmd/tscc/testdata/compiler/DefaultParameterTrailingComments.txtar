@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/defaultParameterTrailingComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js defaultParameterTrailingComments.js defaultParameterTrailingComments.ts
+! stderr .
+cmp defaultParameterTrailingComments.js defaultParameterTrailingComments.js.golden
+! exists defaultParameterTrailingComments.d.ts
+! exists defaultParameterTrailingComments.js.map
+
+-- defaultParameterTrailingComments.ts --
+class C {
+    constructor(defaultParam: boolean = false /* Emit only once*/) {}
+}
+
+function foo(defaultParam = 10 /*emit only once*/) {}
+-- defaultParameterTrailingComments.js.golden --
+"use strict";
+class C {
+    constructor(defaultParam = false /* Emit only once*/) { }
+}
+function foo(defaultParam = 10 /*emit only once*/) { }

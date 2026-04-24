@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringPrivacyError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDestructuringPrivacyError.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringPrivacyError.js declarationEmitDestructuringPrivacyError.ts
+! stderr .
+cmp declarationEmitDestructuringPrivacyError.d.ts declarationEmitDestructuringPrivacyError.d.ts.golden
+cmp declarationEmitDestructuringPrivacyError.js declarationEmitDestructuringPrivacyError.js.golden
+! exists declarationEmitDestructuringPrivacyError.js.map
+
+-- declarationEmitDestructuringPrivacyError.ts --
+namespace m {
+    class c {
+    }
+    export var [x, y, z] = [10, new c(), 30];
+}
+-- declarationEmitDestructuringPrivacyError.d.ts.golden --
+declare namespace m {
+    class c {
+    }
+    export var x: number, y: c, z: number;
+    export {};
+}
+-- declarationEmitDestructuringPrivacyError.js.golden --
+"use strict";
+var m;
+(function (m) {
+    var _a;
+    class c {
+    }
+    _a = [10, new c(), 30], m.x = _a[0], m.y = _a[1], m.z = _a[2];
+})(m || (m = {}));

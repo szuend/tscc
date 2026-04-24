@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/controlFlowPropertyInitializer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js controlFlowPropertyInitializer.js controlFlowPropertyInitializer.ts
+! stderr .
+cmp controlFlowPropertyInitializer.js controlFlowPropertyInitializer.js.golden
+! exists controlFlowPropertyInitializer.d.ts
+! exists controlFlowPropertyInitializer.js.map
+
+-- controlFlowPropertyInitializer.ts --
+// Repro from #8967
+
+const LANG = "Turbo Pascal"
+
+class BestLanguage {
+    name = LANG;
+}
+-- controlFlowPropertyInitializer.js.golden --
+"use strict";
+// Repro from #8967
+const LANG = "Turbo Pascal";
+class BestLanguage {
+    constructor() {
+        this.name = LANG;
+    }
+}

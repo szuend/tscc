@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/duplicateIdentifierInCatchBlock.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateIdentifierInCatchBlock.js duplicateIdentifierInCatchBlock.ts
+stderr 'TS2300'
+stderr 'TS2403'
+! exists duplicateIdentifierInCatchBlock.js
+! exists duplicateIdentifierInCatchBlock.d.ts
+! exists duplicateIdentifierInCatchBlock.js.map
+
+-- duplicateIdentifierInCatchBlock.ts --
+var v;
+try { } catch (e) {
+    function v() { }
+}
+
+function w() { }
+try { } catch (e) {
+    var w;
+}
+
+try { } catch (e) {
+    var x;
+    function x() { } // error
+    function e() { } // error
+    var p: string;
+    var p: number; // error
+}

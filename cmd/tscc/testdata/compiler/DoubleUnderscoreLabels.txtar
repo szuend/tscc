@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/doubleUnderscoreLabels.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js doubleUnderscoreLabels.js doubleUnderscoreLabels.ts
+! stderr .
+cmp doubleUnderscoreLabels.js doubleUnderscoreLabels.js.golden
+! exists doubleUnderscoreLabels.d.ts
+! exists doubleUnderscoreLabels.js.map
+
+-- doubleUnderscoreLabels.ts --
+function doThing() {
+    __call: while (true) {
+        aLabel: for (let i = 0; i < 10; i++) {
+            if (i === 3) {
+                break __call;
+            }
+            if (i === 5) {
+                break aLabel;
+            }
+        }
+    }
+}
+doThing();
+-- doubleUnderscoreLabels.js.golden --
+"use strict";
+function doThing() {
+    __call: while (true) {
+        aLabel: for (let i = 0; i < 10; i++) {
+            if (i === 3) {
+                break __call;
+            }
+            if (i === 5) {
+                break aLabel;
+            }
+        }
+    }
+}
+doThing();

@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/declaredExternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --path connect=declaredExternalModule.ts --out-js declaredExternalModule.js declaredExternalModule.ts
+! stderr .
+cmp declaredExternalModule.js declaredExternalModule.js.golden
+! exists declaredExternalModule.d.ts
+! exists declaredExternalModule.js.map
+
+-- declaredExternalModule.ts --
+declare module 'connect' {
+
+    interface connectModule {
+
+        (res, req, next): void;
+
+    }
+
+    interface connectExport {
+
+        use: (mod: connectModule) => connectExport;
+
+        listen: (port: number) => void;
+
+    }
+
+    var server: {
+
+        (): connectExport;
+
+        test1: connectModule;   // No error
+
+        test2(): connectModule; // ERROR: Return type of method from exported interface has or is using private type ''connect'.connectModule'.
+
+    };
+}
+-- declaredExternalModule.js.golden --
+"use strict";

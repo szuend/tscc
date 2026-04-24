@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es6 --lib es6,dom --out-js emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.js emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.ts
+! stderr .
+cmp emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.js emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.js.golden
+! exists emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.d.ts
+! exists emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.js.map
+
+-- emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.ts --
+(x) => ({ "1": "one", "2": "two" } as { [key: string]: string })[x];
+(x) => ({ "1": "one", "2": "two" } as { [key: string]: string }).x;
+-- emitAccessExpressionOfCastedObjectLiteralExpressionInArrowFunctionES6.js.golden --
+"use strict";
+(x) => ({ "1": "one", "2": "two" }[x]);
+(x) => ({ "1": "one", "2": "two" }.x);

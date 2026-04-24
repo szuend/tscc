@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/declarationEmitInvalidReferenceAllowJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --out-dts declarationEmitInvalidReferenceAllowJs.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitInvalidReferenceAllowJs.js declarationEmitInvalidReferenceAllowJs.ts
+stderr 'TS6231'
+! exists declarationEmitInvalidReferenceAllowJs.d.ts
+! exists declarationEmitInvalidReferenceAllowJs.js
+! exists declarationEmitInvalidReferenceAllowJs.js.map
+
+-- declarationEmitInvalidReferenceAllowJs.ts --
+/// <reference path="invalid" />
+var x = 0; 

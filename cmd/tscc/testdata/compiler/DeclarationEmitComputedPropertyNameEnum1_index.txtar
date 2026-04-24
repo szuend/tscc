@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/declarationEmitComputedPropertyNameEnum1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --strict --target es2015 --lib es2015,dom index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+! exists index.js.map
+
+-- index.ts --
+import { type Type } from "./type";
+
+export const foo = { ...({} as Type) };
+-- type.ts --
+export enum Enum {
+  A = "a",
+  B = "b"
+}
+
+export type Type = { x?: { [Enum.A]: 0 } };
+-- index.d.ts.golden --
+export declare const foo: {
+    x?: {
+        a: 0;
+    };
+};

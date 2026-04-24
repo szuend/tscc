@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/controlFlowBreakContinueWithLabel.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js controlFlowBreakContinueWithLabel.js controlFlowBreakContinueWithLabel.ts
+! stderr .
+cmp controlFlowBreakContinueWithLabel.js controlFlowBreakContinueWithLabel.js.golden
+! exists controlFlowBreakContinueWithLabel.d.ts
+! exists controlFlowBreakContinueWithLabel.js.map
+
+-- controlFlowBreakContinueWithLabel.ts --
+enum User { A, B }
+
+let user: User = User.A
+
+label: while (true) {
+    switch (user) {
+        case User.A:
+            user = User.B;
+            continue label;
+        case User.B:
+            break label;
+    }
+}
+user;
+-- controlFlowBreakContinueWithLabel.js.golden --
+"use strict";
+var User;
+(function (User) {
+    User[User["A"] = 0] = "A";
+    User[User["B"] = 1] = "B";
+})(User || (User = {}));
+let user = User.A;
+label: while (true) {
+    switch (user) {
+        case User.A:
+            user = User.B;
+            continue label;
+        case User.B:
+            break label;
+    }
+}
+user;

@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/duplicateErrorNameNotFound.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --strict --target es2015 --lib es2015,dom --out-js duplicateErrorNameNotFound.js duplicateErrorNameNotFound.ts
+stderr 'TS2552'
+! exists duplicateErrorNameNotFound.js
+! exists duplicateErrorNameNotFound.d.ts
+! exists duplicateErrorNameNotFound.js.map
+
+-- duplicateErrorNameNotFound.ts --
+type RoomInterfae = {};
+
+export type {
+    RoomInterface
+}

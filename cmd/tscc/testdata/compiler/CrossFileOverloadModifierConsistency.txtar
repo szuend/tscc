@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/crossFileOverloadModifierConsistency.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module preserve --strict --target es2015 --lib es2015,dom --path library=augmentations.d.ts --path non-ambient=augmentations.d.ts node_modules/non-ambient/index.ts
+! stderr .
+! exists node_modules/non-ambient/index.d.ts
+! exists node_modules/non-ambient/index.js.map
+
+-- augmentations.d.ts --
+export {};
+
+declare module "library" {
+  export function get(): string | null;
+}
+
+declare module "non-ambient" {
+  export function real(arg: string): string;
+}
+-- node_modules/library/index.d.ts --
+declare function get(): string;
+
+export { get };
+-- node_modules/non-ambient/index.ts --
+export function real(arg?: string): any {}

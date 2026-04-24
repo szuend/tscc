@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/checkingObjectDefinePropertyOnFunctionNonexistentPropertyNoCrash1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts index.d.ts --no-strict --target es2015 --lib es2015,dom --out-js out_index.js index.js
+stderr 'TS2339'
+! exists out_index.js
+! exists dist/index.js.map
+! exists index.d.ts
+
+-- index.js --
+export function test(fn) {
+  const composed = function (...args) { }
+
+  Object.defineProperty(composed, 'name', {
+    value: composed.fn + '_test'
+  })
+
+  return composed
+}

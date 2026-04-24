@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/controlFlowCommaExpressionFunctionCall.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js controlFlowCommaExpressionFunctionCall.js controlFlowCommaExpressionFunctionCall.ts
+! stderr .
+cmp controlFlowCommaExpressionFunctionCall.js controlFlowCommaExpressionFunctionCall.js.golden
+! exists controlFlowCommaExpressionFunctionCall.d.ts
+! exists controlFlowCommaExpressionFunctionCall.js.map
+
+-- controlFlowCommaExpressionFunctionCall.ts --
+const otherValue = () => true;
+const value : number | string = null as any;
+
+function isNumber(obj: any): obj is number {
+    return true; // method implementation irrelevant
+}
+
+// Bad case - fails
+if (isNumber((otherValue(), value))) {
+    const b = value; // string | number , but should be number
+}
+-- controlFlowCommaExpressionFunctionCall.js.golden --
+"use strict";
+const otherValue = () => true;
+const value = null;
+function isNumber(obj) {
+    return true; // method implementation irrelevant
+}
+// Bad case - fails
+if (isNumber((otherValue(), value))) {
+    const b = value; // string | number , but should be number
+}

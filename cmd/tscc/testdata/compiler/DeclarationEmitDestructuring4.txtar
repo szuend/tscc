@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuring4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDestructuring4.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitDestructuring4.js declarationEmitDestructuring4.ts
+! stderr .
+cmp declarationEmitDestructuring4.d.ts declarationEmitDestructuring4.d.ts.golden
+cmp declarationEmitDestructuring4.js declarationEmitDestructuring4.js.golden
+! exists declarationEmitDestructuring4.js.map
+
+-- declarationEmitDestructuring4.ts --
+// For an array binding pattern with empty elements,
+// we will not make any modification and will emit
+// the similar binding pattern users' have written
+function baz([]) { }
+function baz1([] = [1,2,3]) { }
+function baz2([[]] = [[1,2,3]]) { }
+
+function baz3({}) { }
+function baz4({} = { x: 10 }) { }
+
+-- declarationEmitDestructuring4.d.ts.golden --
+declare function baz([]: Iterable<any, void, undefined>): void;
+declare function baz1([]?: number[]): void;
+declare function baz2([[]]?: [number[]]): void;
+declare function baz3({}: {}): void;
+declare function baz4({}?: {
+    x: number;
+}): void;
+-- declarationEmitDestructuring4.js.golden --
+"use strict";
+// For an array binding pattern with empty elements,
+// we will not make any modification and will emit
+// the similar binding pattern users' have written
+function baz([]) { }
+function baz1([] = [1, 2, 3]) { }
+function baz2([[]] = [[1, 2, 3]]) { }
+function baz3({}) { }
+function baz4({} = { x: 10 }) { }

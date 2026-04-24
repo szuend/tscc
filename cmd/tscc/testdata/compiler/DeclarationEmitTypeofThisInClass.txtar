@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/declarationEmitTypeofThisInClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTypeofThisInClass.d.ts --strict --target es2015 --lib es2015,dom --out-js declarationEmitTypeofThisInClass.js declarationEmitTypeofThisInClass.ts
+! stderr .
+cmp declarationEmitTypeofThisInClass.d.ts declarationEmitTypeofThisInClass.d.ts.golden
+cmp declarationEmitTypeofThisInClass.js declarationEmitTypeofThisInClass.js.golden
+! exists declarationEmitTypeofThisInClass.js.map
+
+-- declarationEmitTypeofThisInClass.ts --
+class Foo {
+    public foo!: string
+    public bar!: typeof this.foo //Public property 'bar' of exported class has or is using private name 'this'.(4031)
+}
+-- declarationEmitTypeofThisInClass.d.ts.golden --
+declare class Foo {
+    foo: string;
+    bar: typeof this.foo;
+}
+-- declarationEmitTypeofThisInClass.js.golden --
+"use strict";
+class Foo {
+}

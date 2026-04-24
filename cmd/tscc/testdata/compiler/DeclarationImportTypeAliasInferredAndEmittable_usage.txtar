@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/declarationImportTypeAliasInferredAndEmittable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts usage.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js usage.js usage.ts
+! stderr .
+cmp usage.d.ts usage.d.ts.golden
+cmp usage.js usage.js.golden
+! exists usage.js.map
+
+-- foo.ts --
+class Conn {
+    constructor() { }
+    item = 3;
+    method() { }
+}
+
+export = Conn;
+-- usage.ts --
+type Conn = import("./foo");
+declare var x: Conn;
+
+export class Wrap {
+    connItem: number;
+    constructor(c = x) {
+        this.connItem = c.item;
+    }
+}
+-- usage.d.ts.golden --
+export declare class Wrap {
+    connItem: number;
+    constructor(c?: import("./foo"));
+}
+-- usage.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Wrap = void 0;
+class Wrap {
+    constructor(c = x) {
+        this.connItem = c.item;
+    }
+}
+exports.Wrap = Wrap;

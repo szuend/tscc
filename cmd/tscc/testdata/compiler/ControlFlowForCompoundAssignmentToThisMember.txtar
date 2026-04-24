@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/controlFlowForCompoundAssignmentToThisMember.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js controlFlowForCompoundAssignmentToThisMember.js controlFlowForCompoundAssignmentToThisMember.ts
+! stderr .
+cmp controlFlowForCompoundAssignmentToThisMember.js controlFlowForCompoundAssignmentToThisMember.js.golden
+! exists controlFlowForCompoundAssignmentToThisMember.d.ts
+! exists controlFlowForCompoundAssignmentToThisMember.js.map
+
+-- controlFlowForCompoundAssignmentToThisMember.ts --
+class DatasourceCommandWidgetElement {
+    _commandBased: boolean;
+    _commandElement: unknown;
+    commandElement: unknown;
+
+    constructor(target: unknown) {
+        if (target instanceof DatasourceCommandWidgetElement) {
+            this._commandBased = true;
+            this._commandElement = target.commandElement;
+        } else {
+            this._commandBased = false;
+        }
+
+        if (this._commandBased = (target instanceof DatasourceCommandWidgetElement)) {
+            this._commandElement = target.commandElement;
+        }
+    }
+}
+-- controlFlowForCompoundAssignmentToThisMember.js.golden --
+"use strict";
+class DatasourceCommandWidgetElement {
+    constructor(target) {
+        if (target instanceof DatasourceCommandWidgetElement) {
+            this._commandBased = true;
+            this._commandElement = target.commandElement;
+        }
+        else {
+            this._commandBased = false;
+        }
+        if (this._commandBased = (target instanceof DatasourceCommandWidgetElement)) {
+            this._commandElement = target.commandElement;
+        }
+    }
+}

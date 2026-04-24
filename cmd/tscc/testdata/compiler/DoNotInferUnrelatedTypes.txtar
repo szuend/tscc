@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/doNotInferUnrelatedTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js doNotInferUnrelatedTypes.js doNotInferUnrelatedTypes.ts
+! stderr .
+cmp doNotInferUnrelatedTypes.js doNotInferUnrelatedTypes.js.golden
+! exists doNotInferUnrelatedTypes.d.ts
+! exists doNotInferUnrelatedTypes.js.map
+
+-- doNotInferUnrelatedTypes.ts --
+// #16709
+declare function dearray<T>(ara: ReadonlyArray<T>): T;
+type LiteralType = "foo" | "bar";
+declare var alt: Array<LiteralType>;
+
+let foo: LiteralType = dearray(alt);
+-- doNotInferUnrelatedTypes.js.golden --
+"use strict";
+let foo = dearray(alt);

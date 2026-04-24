@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/declFileRegressionTests.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileRegressionTests.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declFileRegressionTests.js declFileRegressionTests.ts
+! stderr .
+cmp declFileRegressionTests.d.ts declFileRegressionTests.d.ts.golden
+cmp declFileRegressionTests.js declFileRegressionTests.js.golden
+! exists declFileRegressionTests.js.map
+
+-- declFileRegressionTests.ts --
+// 'null' not converted to 'any' in d.ts
+// function types not piped through correctly
+var n = { w: null, x: '', y: () => { }, z: 32 };
+
+-- declFileRegressionTests.d.ts.golden --
+declare var n: {
+    w: any;
+    x: string;
+    y: () => void;
+    z: number;
+};
+-- declFileRegressionTests.js.golden --
+"use strict";
+// 'null' not converted to 'any' in d.ts
+// function types not piped through correctly
+var n = { w: null, x: '', y: () => { }, z: 32 };

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/declarationEmitIndexTypeArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitIndexTypeArray.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitIndexTypeArray.js declarationEmitIndexTypeArray.ts
+! stderr .
+cmp declarationEmitIndexTypeArray.d.ts declarationEmitIndexTypeArray.d.ts.golden
+cmp declarationEmitIndexTypeArray.js declarationEmitIndexTypeArray.js.golden
+! exists declarationEmitIndexTypeArray.js.map
+
+-- declarationEmitIndexTypeArray.ts --
+function doSomethingWithKeys<T>(...keys: (keyof T)[]) { }
+
+const utilityFunctions = {
+  doSomethingWithKeys
+};
+-- declarationEmitIndexTypeArray.d.ts.golden --
+declare function doSomethingWithKeys<T>(...keys: (keyof T)[]): void;
+declare const utilityFunctions: {
+    doSomethingWithKeys: typeof doSomethingWithKeys;
+};
+-- declarationEmitIndexTypeArray.js.golden --
+"use strict";
+function doSomethingWithKeys(...keys) { }
+const utilityFunctions = {
+    doSomethingWithKeys
+};

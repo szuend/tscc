@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/declarationEmitAliasFromIndirectFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts app.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js app.js app.ts
+! stderr .
+cmp app.d.ts app.d.ts.golden
+cmp app.js app.js.golden
+! exists app.js.map
+
+-- app.ts --
+import { FlatpickrFn } from "./instance";
+const fp = { l10ns: {} } as FlatpickrFn;
+export default fp.l10ns;
+-- instance.d.ts --
+import { Locale, CustomLocale, key as LocaleKey } from "./locale";
+export interface FlatpickrFn {
+    l10ns: {[k in LocaleKey]?: CustomLocale } & { default: Locale };
+}
+-- locale.d.ts --
+export type Locale = {
+    weekdays: {
+        shorthand: [string, string, string, string, string, string, string];
+        longhand: [string, string, string, string, string, string, string];
+    };
+};
+export type CustomLocale = {
+    weekdays: {
+        shorthand: [string, string, string, string, string, string, string];
+        longhand: [string, string, string, string, string, string, string];
+    };
+};
+export type key = "ar" | "bg";
+-- app.d.ts.golden --
+declare const _default: {
+    ar?: import("./locale").CustomLocale | undefined;
+    bg?: import("./locale").CustomLocale | undefined;
+} & {
+    default: import("./locale").Locale;
+};
+export default _default;
+-- app.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fp = { l10ns: {} };
+exports.default = fp.l10ns;

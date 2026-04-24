@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/dontShowCompilerGeneratedMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js dontShowCompilerGeneratedMembers.js dontShowCompilerGeneratedMembers.ts
+stderr 'TS1139'
+stderr 'TS1109'
+! exists dontShowCompilerGeneratedMembers.js
+! exists dontShowCompilerGeneratedMembers.d.ts
+! exists dontShowCompilerGeneratedMembers.js.map
+
+-- dontShowCompilerGeneratedMembers.ts --
+var f: {
+    x: number;
+    <-
+};

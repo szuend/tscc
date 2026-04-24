@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/controlFlowCommaExpressionAssertionWithinTernary.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js controlFlowCommaExpressionAssertionWithinTernary.js controlFlowCommaExpressionAssertionWithinTernary.ts
+! stderr .
+cmp controlFlowCommaExpressionAssertionWithinTernary.js controlFlowCommaExpressionAssertionWithinTernary.js.golden
+! exists controlFlowCommaExpressionAssertionWithinTernary.d.ts
+! exists controlFlowCommaExpressionAssertionWithinTernary.js.map
+
+-- controlFlowCommaExpressionAssertionWithinTernary.ts --
+declare function assert(value: any): asserts value;
+
+function foo2(param: number | null | undefined): number | null {
+    const val = param !== undefined;
+    return val ? (assert(param !== undefined), param) : null;
+    // ^^^^^ Still typed as number | null | undefined
+}
+-- controlFlowCommaExpressionAssertionWithinTernary.js.golden --
+"use strict";
+function foo2(param) {
+    const val = param !== undefined;
+    return val ? (assert(param !== undefined), param) : null;
+    // ^^^^^ Still typed as number | null | undefined
+}

@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declarationEmitReadonlyComputedProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts index.d.ts --lib es2015 --module commonjs --target es2015 --out-js index.js index.ts
+stderr 'TS4023'
+! exists index.d.ts
+! exists index.js
+! exists index.js.map
+
+-- bug.ts --
+export const SYMBOL = Symbol()
+
+export interface Interface {
+  readonly [SYMBOL]: string; // remove readonly and @showEmit to see the expected error
+}
+
+export function createInstance(): Interface {
+  return {
+    [SYMBOL]: ''
+  }
+}
+-- index.ts --
+import { createInstance } from './bug'
+
+export const spread = {
+  ...createInstance(),
+}

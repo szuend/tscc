@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/declarationEmitInferredTypeAlias8.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitInferredTypeAlias8.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitInferredTypeAlias8.js declarationEmitInferredTypeAlias8.ts
+! stderr .
+cmp declarationEmitInferredTypeAlias8.d.ts declarationEmitInferredTypeAlias8.d.ts.golden
+cmp declarationEmitInferredTypeAlias8.js declarationEmitInferredTypeAlias8.js.golden
+! exists declarationEmitInferredTypeAlias8.js.map
+
+-- declarationEmitInferredTypeAlias8.ts --
+type Foo<T> = T | { x: Foo<T> };
+var x: Foo<number[]>;
+
+function returnSomeGlobalValue() {
+    return x;
+}
+-- declarationEmitInferredTypeAlias8.d.ts.golden --
+type Foo<T> = T | {
+    x: Foo<T>;
+};
+declare var x: Foo<number[]>;
+declare function returnSomeGlobalValue(): Foo<number[]>;
+-- declarationEmitInferredTypeAlias8.js.golden --
+"use strict";
+var x;
+function returnSomeGlobalValue() {
+    return x;
+}

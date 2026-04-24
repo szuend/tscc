@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/curiousNestedConditionalEvaluationResult.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js curiousNestedConditionalEvaluationResult.js curiousNestedConditionalEvaluationResult.ts
+! stderr .
+cmp curiousNestedConditionalEvaluationResult.js curiousNestedConditionalEvaluationResult.js.golden
+! exists curiousNestedConditionalEvaluationResult.d.ts
+! exists curiousNestedConditionalEvaluationResult.js.map
+
+-- curiousNestedConditionalEvaluationResult.ts --
+// regression test for #43123
+type Hmm = [0] extends [infer T, any?] ?
+    [T, [0] extends [T] ? true : false]
+    : never
+-- curiousNestedConditionalEvaluationResult.js.golden --
+"use strict";

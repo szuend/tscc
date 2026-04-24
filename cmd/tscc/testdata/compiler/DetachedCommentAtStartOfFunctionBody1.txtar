@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/detachedCommentAtStartOfFunctionBody1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js detachedCommentAtStartOfFunctionBody1.js detachedCommentAtStartOfFunctionBody1.ts
+stderr 'TS2339'
+! exists detachedCommentAtStartOfFunctionBody1.js
+! exists detachedCommentAtStartOfFunctionBody1.d.ts
+! exists detachedCommentAtStartOfFunctionBody1.js.map
+
+-- detachedCommentAtStartOfFunctionBody1.ts --
+class TestFile {
+    foo(message: string): () => string {
+        /// <summary>Test summary</summary>
+        /// <param name="message" type="String" />
+        /// <returns type="Function" />
+        return () => message + this.name;
+    }
+}

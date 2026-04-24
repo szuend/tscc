@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.js declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.ts
+stderr 'TS2304'
+! exists declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.d.ts
+! exists declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.js
+! exists declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.js.map
+
+-- declarationEmitTypeAliasTypeParameterExtendingUnknownSymbol.ts --
+type A<T extends Unknown> = {}

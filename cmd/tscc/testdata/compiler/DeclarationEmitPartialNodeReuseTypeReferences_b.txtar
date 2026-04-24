@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/declarationEmitPartialNodeReuseTypeReferences.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts b.d.ts --strict --target es2020 --lib es2020,dom --out-js b.js b.ts
+! stderr .
+cmp b.d.ts b.d.ts.golden
+cmp b.js b.js.golden
+! exists b.js.map
+
+-- a.ts --
+export type SpecialString = string;
+type PrivateSpecialString = string;
+
+export namespace N {
+    export type SpecialString = string;
+}
+export const o = (p1: SpecialString, p2: PrivateSpecialString, p3: N.SpecialString) => null! as { foo: SpecialString, bar: PrivateSpecialString, baz: N.SpecialString };
+-- b.ts --
+import * as a from "./a";
+export const g = a.o
+-- c.ts --
+import { o, SpecialString } from "./a";
+export const g = o
+-- b.d.ts.golden --
+import * as a from "./a";
+export declare const g: (p1: a.SpecialString, p2: string, p3: a.N.SpecialString) => {
+    foo: a.SpecialString;
+    bar: string;
+    baz: a.N.SpecialString;
+};
+-- b.js.golden --
+import * as a from "./a";
+export const g = a.o;

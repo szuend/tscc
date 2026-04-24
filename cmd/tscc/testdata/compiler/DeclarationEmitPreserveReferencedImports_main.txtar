@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/declarationEmitPreserveReferencedImports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts main.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js main.js main.ts
+! stderr .
+cmp main.d.ts main.d.ts.golden
+cmp main.js main.js.golden
+! exists main.js.map
+
+-- decl.ts --
+import {Evt} from './utils'
+export const o = <T>(o: T) => () : T => null!
+-- main.ts --
+import { o }  from './decl'
+import { Evt }  from './utils'
+
+export const f = { o: o({ v: null! as Evt}) };
+-- utils.ts --
+export interface Evt { }
+
+-- main.d.ts.golden --
+import { Evt } from './utils';
+export declare const f: {
+    o: () => {
+        v: Evt;
+    };
+};
+-- main.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.f = void 0;
+const decl_1 = require("./decl");
+exports.f = { o: (0, decl_1.o)({ v: null }) };

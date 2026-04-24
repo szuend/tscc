@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/allowSyntheticDefaultImportsCanPaintCrossModuleDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts color.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js color.js color.ts
+! stderr .
+cmp color.d.ts color.d.ts.golden
+cmp color.js color.js.golden
+! exists color.js.map
+
+-- color.ts --
+interface Color {
+    c: string;
+}
+export default Color;
+-- file1.ts --
+import Color from "./color";
+export declare function styled(): Color;
+-- file2.ts --
+import { styled }  from "./file1";
+export const A = styled();
+-- color.d.ts.golden --
+interface Color {
+    c: string;
+}
+export default Color;
+-- color.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

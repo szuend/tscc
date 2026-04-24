@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringParameterProperties2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitDestructuringParameterProperties2.d.ts --module commonjs --target es2024 --lib es2024,dom --out-js declarationEmitDestructuringParameterProperties2.js declarationEmitDestructuringParameterProperties2.ts
+stderr 'TS1187'
+! exists declarationEmitDestructuringParameterProperties2.d.ts
+! exists declarationEmitDestructuringParameterProperties2.js
+! exists declarationEmitDestructuringParameterProperties2.js.map
+
+-- declarationEmitDestructuringParameterProperties2.ts --
+class C1 {
+    constructor(public [x, y, z]: string[]) {
+    }
+}
+
+type TupleType1 =[string, number, boolean];
+class C2 {
+    constructor(public [x, y, z]: TupleType1) {
+    }
+}
+
+type ObjType1 = { x: number; y: string; z: boolean }
+class C3 {
+    constructor(public { x, y, z }: ObjType1) {
+    }
+}

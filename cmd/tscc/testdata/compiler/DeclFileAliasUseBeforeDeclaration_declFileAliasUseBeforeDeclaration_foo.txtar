@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/declFileAliasUseBeforeDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileAliasUseBeforeDeclaration_foo.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declFileAliasUseBeforeDeclaration_foo.js declFileAliasUseBeforeDeclaration_foo.ts
+! stderr .
+cmp declFileAliasUseBeforeDeclaration_foo.d.ts declFileAliasUseBeforeDeclaration_foo.d.ts.golden
+cmp declFileAliasUseBeforeDeclaration_foo.js declFileAliasUseBeforeDeclaration_foo.js.golden
+! exists declFileAliasUseBeforeDeclaration_foo.js.map
+
+-- declFileAliasUseBeforeDeclaration_foo.ts --
+export class Foo { }
+-- declFileAliasUseBeforeDeclaration_test.ts --
+export function bar(a: foo.Foo) { }
+import foo = require("./declFileAliasUseBeforeDeclaration_foo");
+-- declFileAliasUseBeforeDeclaration_foo.d.ts.golden --
+export declare class Foo {
+}
+-- declFileAliasUseBeforeDeclaration_foo.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = void 0;
+class Foo {
+}
+exports.Foo = Foo;

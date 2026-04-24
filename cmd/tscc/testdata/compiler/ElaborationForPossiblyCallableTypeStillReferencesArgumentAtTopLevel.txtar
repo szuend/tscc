@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/elaborationForPossiblyCallableTypeStillReferencesArgumentAtTopLevel.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js elaborationForPossiblyCallableTypeStillReferencesArgumentAtTopLevel.js elaborationForPossiblyCallableTypeStillReferencesArgumentAtTopLevel.ts
+stderr 'TS2345'
+! exists elaborationForPossiblyCallableTypeStillReferencesArgumentAtTopLevel.js
+! exists elaborationForPossiblyCallableTypeStillReferencesArgumentAtTopLevel.d.ts
+! exists elaborationForPossiblyCallableTypeStillReferencesArgumentAtTopLevel.js.map
+
+-- elaborationForPossiblyCallableTypeStillReferencesArgumentAtTopLevel.ts --
+declare var ohno: new () => number;
+declare function ff(t: number): void;
+ff(ohno)

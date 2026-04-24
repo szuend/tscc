@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringArrayPattern2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitDestructuringArrayPattern2.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringArrayPattern2.js declarationEmitDestructuringArrayPattern2.ts
+stderr 'TS2493'
+! exists declarationEmitDestructuringArrayPattern2.d.ts
+! exists declarationEmitDestructuringArrayPattern2.js
+! exists declarationEmitDestructuringArrayPattern2.js.map
+
+-- declarationEmitDestructuringArrayPattern2.ts --
+var [x10, [y10, [z10]]] = [1, ["hello", [true]]];
+
+var [x11 = 0, y11 = ""] = [1, "hello"];
+var [a11, b11, c11] = [];
+
+var [a2, [b2, { x12, y12: c2 }]=["abc", { x12: 10, y12: false }]] = [1, ["hello", { x12: 5, y12: true }]];
+
+var [x13, y13] = [1, "hello"];
+var [a3, b3] = [[x13, y13], { x: x13, y: y13 }];

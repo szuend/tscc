@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/dynamicImportInDefaultExportExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --module commonjs --skip-lib-check --target es2015 --out-js dynamicImportInDefaultExportExpression.js dynamicImportInDefaultExportExpression.ts
+stderr 'TS2307'
+! exists dynamicImportInDefaultExportExpression.js
+! exists dynamicImportInDefaultExportExpression.d.ts
+! exists dynamicImportInDefaultExportExpression.js.map
+
+-- dynamicImportInDefaultExportExpression.ts --
+export default {
+    getInstance: function () {
+        return import('./foo2');
+    }
+}

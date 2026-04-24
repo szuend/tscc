@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/destructuringAssignmentWithExportedName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js destructuringAssignmentWithExportedName.js destructuringAssignmentWithExportedName.ts
+stderr 'TS2873'
+! exists destructuringAssignmentWithExportedName.js
+! exists destructuringAssignmentWithExportedName.d.ts
+! exists destructuringAssignmentWithExportedName.js.map
+
+-- destructuringAssignmentWithExportedName.ts --
+export let exportedFoo: any;
+let nonexportedFoo: any;
+
+// sanity checks
+exportedFoo = null;
+nonexportedFoo = null;
+
+if (null as any) {
+    ({ exportedFoo, nonexportedFoo } = null as any);
+}
+else if (null as any) {
+	({ foo: exportedFoo, bar: nonexportedFoo } = null as any);
+}
+else if (null as any) {
+	({ foo: { bar: exportedFoo, baz: nonexportedFoo } } = null as any);
+}
+else if (null as any) {
+	([exportedFoo, nonexportedFoo] = null as any);
+}
+else {
+	([[exportedFoo, nonexportedFoo]] = null as any);
+}
+
+export { nonexportedFoo };
+export { exportedFoo as foo, nonexportedFoo as nfoo };

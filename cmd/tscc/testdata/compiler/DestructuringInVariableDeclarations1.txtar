@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/destructuringInVariableDeclarations1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es6 --lib es6,dom --out-js destructuringInVariableDeclarations1.js destructuringInVariableDeclarations1.ts
+! stderr .
+cmp destructuringInVariableDeclarations1.js destructuringInVariableDeclarations1.js.golden
+! exists destructuringInVariableDeclarations1.d.ts
+! exists destructuringInVariableDeclarations1.js.map
+
+-- destructuringInVariableDeclarations1.ts --
+export let { toString } = 1;
+{
+    let { toFixed } = 1;
+}
+-- destructuringInVariableDeclarations1.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.toString = void 0;
+exports.toString = 1..toString;
+{
+    let { toFixed } = 1;
+}

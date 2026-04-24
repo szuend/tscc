@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/duplicateIdentifierDifferentSpelling.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateIdentifierDifferentSpelling.js duplicateIdentifierDifferentSpelling.ts
+stderr 'TS1117'
+! exists duplicateIdentifierDifferentSpelling.js
+! exists duplicateIdentifierDifferentSpelling.d.ts
+! exists duplicateIdentifierDifferentSpelling.js.map
+
+-- duplicateIdentifierDifferentSpelling.ts --
+class A {
+  0b11 = '';
+  3 = '';
+}
+
+var X = { 0b11: '', 3: '' };

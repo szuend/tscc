@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/duplicateTypeParameters3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateTypeParameters3.js duplicateTypeParameters3.ts
+stderr 'TS2300'
+! exists duplicateTypeParameters3.js
+! exists duplicateTypeParameters3.d.ts
+! exists duplicateTypeParameters3.js.map
+
+-- duplicateTypeParameters3.ts --
+interface X {
+x: () => <A, A>() => void;
+}
+ 

@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/declFileForInterfaceWithRestParams.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileForInterfaceWithRestParams.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declFileForInterfaceWithRestParams.js declFileForInterfaceWithRestParams.ts
+! stderr .
+cmp declFileForInterfaceWithRestParams.d.ts declFileForInterfaceWithRestParams.d.ts.golden
+cmp declFileForInterfaceWithRestParams.js declFileForInterfaceWithRestParams.js.golden
+! exists declFileForInterfaceWithRestParams.js.map
+
+-- declFileForInterfaceWithRestParams.ts --
+interface I {
+    foo(...x): typeof x;
+    foo2(a: number, ...x): typeof x;
+    foo3(b: string, ...x: string[]): typeof x;
+}
+-- declFileForInterfaceWithRestParams.d.ts.golden --
+interface I {
+    foo(...x: any[]): typeof x;
+    foo2(a: number, ...x: any[]): typeof x;
+    foo3(b: string, ...x: string[]): typeof x;
+}
+-- declFileForInterfaceWithRestParams.js.golden --
+"use strict";

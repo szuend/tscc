@@ -1,0 +1,56 @@
+# Ported from tests/cases/compiler/declarationEmitEnumReferenceViaImportEquals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts translation.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js translation.js translation.ts
+! stderr .
+cmp translation.d.ts translation.d.ts.golden
+cmp translation.js translation.js.golden
+! exists translation.js.map
+
+-- index.ts --
+import { Test } from "./test";
+new Test().print();
+-- test.ts --
+import { Translation } from "./translation";
+import TranslationKeyEnum = Translation.TranslationKeyEnum;
+
+export class Test {
+  TranslationKeyEnum = TranslationKeyEnum;
+  print() {
+    console.log(TranslationKeyEnum.Translation1);
+  }
+}
+-- translation.ts --
+export interface Translation {
+  translationKey: Translation.TranslationKeyEnum;
+}
+
+export namespace Translation {
+  export type TranslationKeyEnum = 'translation1' | 'translation2';
+  export const TranslationKeyEnum = {
+    Translation1: 'translation1' as TranslationKeyEnum,
+    Translation2: 'translation2' as TranslationKeyEnum,
+  }
+}
+
+-- translation.d.ts.golden --
+export interface Translation {
+    translationKey: Translation.TranslationKeyEnum;
+}
+export declare namespace Translation {
+    type TranslationKeyEnum = 'translation1' | 'translation2';
+    const TranslationKeyEnum: {
+        Translation1: TranslationKeyEnum;
+        Translation2: TranslationKeyEnum;
+    };
+}
+-- translation.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Translation = void 0;
+var Translation;
+(function (Translation) {
+    Translation.TranslationKeyEnum = {
+        Translation1: 'translation1',
+        Translation2: 'translation2',
+    };
+})(Translation || (exports.Translation = Translation = {}));

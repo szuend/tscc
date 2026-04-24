@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declarationEmitTypeAliasWithTypeParameters6.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTypeAliasWithTypeParameters6.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitTypeAliasWithTypeParameters6.js declarationEmitTypeAliasWithTypeParameters6.ts
+! stderr .
+cmp declarationEmitTypeAliasWithTypeParameters6.d.ts declarationEmitTypeAliasWithTypeParameters6.d.ts.golden
+cmp declarationEmitTypeAliasWithTypeParameters6.js declarationEmitTypeAliasWithTypeParameters6.js.golden
+! exists declarationEmitTypeAliasWithTypeParameters6.js.map
+
+-- declarationEmitTypeAliasWithTypeParameters6.ts --
+type Foo<T, Y> = {
+    foo<U, J>(): Foo<U, J>
+};
+type SubFoo<R, S> = Foo<S, R>;
+
+function foo() {
+    return {} as SubFoo<number, string>;
+}
+-- declarationEmitTypeAliasWithTypeParameters6.d.ts.golden --
+type Foo<T, Y> = {
+    foo<U, J>(): Foo<U, J>;
+};
+type SubFoo<R, S> = Foo<S, R>;
+declare function foo(): SubFoo<number, string>;
+-- declarationEmitTypeAliasWithTypeParameters6.js.golden --
+"use strict";
+function foo() {
+    return {};
+}

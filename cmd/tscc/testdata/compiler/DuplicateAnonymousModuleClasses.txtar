@@ -1,0 +1,99 @@
+# Ported from tests/cases/compiler/duplicateAnonymousModuleClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js duplicateAnonymousModuleClasses.js duplicateAnonymousModuleClasses.ts
+! stderr .
+cmp duplicateAnonymousModuleClasses.js duplicateAnonymousModuleClasses.js.golden
+! exists duplicateAnonymousModuleClasses.d.ts
+! exists duplicateAnonymousModuleClasses.js.map
+
+-- duplicateAnonymousModuleClasses.ts --
+namespace F {
+
+    class Helper {
+
+    }
+
+}
+
+
+namespace F {
+    
+    // Should not be an error
+    class Helper {
+
+    }
+
+}
+
+namespace Foo {
+
+    class Helper {
+
+    }
+
+}
+
+
+namespace Foo {
+    
+    // Should not be an error
+    class Helper {
+
+    }
+
+}
+
+namespace Gar {
+    namespace Foo {
+
+        class Helper {
+
+        }
+
+    }
+
+
+    namespace Foo {
+    
+        // Should not be an error
+        class Helper {
+
+        }
+
+    }
+}
+-- duplicateAnonymousModuleClasses.js.golden --
+"use strict";
+var F;
+(function (F) {
+    class Helper {
+    }
+})(F || (F = {}));
+(function (F) {
+    // Should not be an error
+    class Helper {
+    }
+})(F || (F = {}));
+var Foo;
+(function (Foo) {
+    class Helper {
+    }
+})(Foo || (Foo = {}));
+(function (Foo) {
+    // Should not be an error
+    class Helper {
+    }
+})(Foo || (Foo = {}));
+var Gar;
+(function (Gar) {
+    let Foo;
+    (function (Foo) {
+        class Helper {
+        }
+    })(Foo || (Foo = {}));
+    (function (Foo) {
+        // Should not be an error
+        class Helper {
+        }
+    })(Foo || (Foo = {}));
+})(Gar || (Gar = {}));

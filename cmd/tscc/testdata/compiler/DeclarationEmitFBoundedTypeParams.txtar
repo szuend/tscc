@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/declarationEmitFBoundedTypeParams.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitFBoundedTypeParams.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitFBoundedTypeParams.js declarationEmitFBoundedTypeParams.ts
+! stderr .
+cmp declarationEmitFBoundedTypeParams.d.ts declarationEmitFBoundedTypeParams.d.ts.golden
+cmp declarationEmitFBoundedTypeParams.js declarationEmitFBoundedTypeParams.js.golden
+! exists declarationEmitFBoundedTypeParams.js.map
+
+-- declarationEmitFBoundedTypeParams.ts --
+// Repro from #6040
+
+function append<a, b extends a>(result: a[], value: b): a[] {
+    result.push(value);
+    return result;
+}
+-- declarationEmitFBoundedTypeParams.d.ts.golden --
+declare function append<a, b extends a>(result: a[], value: b): a[];
+-- declarationEmitFBoundedTypeParams.js.golden --
+"use strict";
+// Repro from #6040
+function append(result, value) {
+    result.push(value);
+    return result;
+}

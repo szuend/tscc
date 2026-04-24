@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declarationEmitBindingPatterns.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitBindingPatterns.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declarationEmitBindingPatterns.js declarationEmitBindingPatterns.ts
+! stderr .
+cmp declarationEmitBindingPatterns.d.ts declarationEmitBindingPatterns.d.ts.golden
+cmp declarationEmitBindingPatterns.js declarationEmitBindingPatterns.js.golden
+! exists declarationEmitBindingPatterns.js.map
+
+-- declarationEmitBindingPatterns.ts --
+const k = ({x: z = 'y'}) => { }
+
+var a;
+function f({} = a, [] = a, { p: {} = a} = a) {
+}
+-- declarationEmitBindingPatterns.d.ts.golden --
+declare const k: ({ x: z }: {
+    x?: string;
+}) => void;
+declare var a: any;
+declare function f({}?: any, []?: any, { p: {} }?: any): void;
+-- declarationEmitBindingPatterns.js.golden --
+"use strict";
+const k = ({ x: z = 'y' }) => { };
+var a;
+function f({} = a, [] = a, { p: {} = a } = a) {
+}

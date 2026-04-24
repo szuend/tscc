@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/declInput.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declInput.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declInput.js declInput.ts
+! stderr .
+cmp declInput.d.ts declInput.d.ts.golden
+cmp declInput.js declInput.js.golden
+! exists declInput.js.map
+
+-- declInput.ts --
+interface bar {
+
+}
+
+class bar {
+  public f() { return ''; }
+  public g() { return {a: <bar>null, b: undefined, c: void 4 }; }
+  public h(x = 4, y = null, z = '') { x++; }
+}
+-- declInput.d.ts.golden --
+interface bar {
+}
+declare class bar {
+    f(): string;
+    g(): {
+        a: bar;
+        b: any;
+        c: any;
+    };
+    h(x?: number, y?: any, z?: string): void;
+}
+-- declInput.js.golden --
+"use strict";
+class bar {
+    f() { return ''; }
+    g() { return { a: null, b: undefined, c: void 4 }; }
+    h(x = 4, y = null, z = '') { x++; }
+}

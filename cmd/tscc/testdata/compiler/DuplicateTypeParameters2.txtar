@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/duplicateTypeParameters2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateTypeParameters2.js duplicateTypeParameters2.ts
+stderr 'TS2300'
+! exists duplicateTypeParameters2.js
+! exists duplicateTypeParameters2.d.ts
+! exists duplicateTypeParameters2.js.map
+
+-- duplicateTypeParameters2.ts --
+class A { public foo() { } }
+class B { public bar() { } }
+
+interface I<T extends A, T extends B> {}

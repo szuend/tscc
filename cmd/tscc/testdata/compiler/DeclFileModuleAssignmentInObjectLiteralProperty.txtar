@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/declFileModuleAssignmentInObjectLiteralProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileModuleAssignmentInObjectLiteralProperty.d.ts --target es2015 --lib es2015,dom --out-js declFileModuleAssignmentInObjectLiteralProperty.js declFileModuleAssignmentInObjectLiteralProperty.ts
+! stderr .
+cmp declFileModuleAssignmentInObjectLiteralProperty.d.ts declFileModuleAssignmentInObjectLiteralProperty.d.ts.golden
+cmp declFileModuleAssignmentInObjectLiteralProperty.js declFileModuleAssignmentInObjectLiteralProperty.js.golden
+! exists declFileModuleAssignmentInObjectLiteralProperty.js.map
+
+-- declFileModuleAssignmentInObjectLiteralProperty.ts --
+namespace m1 {
+    export class c {
+    }
+}
+var d = {
+    m1: { m: m1 },
+    m2: { c: m1.c },
+};
+-- declFileModuleAssignmentInObjectLiteralProperty.d.ts.golden --
+declare namespace m1 {
+    class c {
+    }
+}
+declare var d: {
+    m1: {
+        m: typeof m1;
+    };
+    m2: {
+        c: typeof m1.c;
+    };
+};
+-- declFileModuleAssignmentInObjectLiteralProperty.js.golden --
+"use strict";
+var m1;
+(function (m1) {
+    class c {
+    }
+    m1.c = c;
+})(m1 || (m1 = {}));
+var d = {
+    m1: { m: m1 },
+    m2: { c: m1.c },
+};

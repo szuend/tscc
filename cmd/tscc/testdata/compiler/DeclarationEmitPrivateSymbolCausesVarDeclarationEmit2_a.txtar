@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/declarationEmitPrivateSymbolCausesVarDeclarationEmit2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --lib es6 --module commonjs --target es2015 --out-js a.js a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+cmp a.js a.js.golden
+! exists a.js.map
+
+-- a.ts --
+export const x = Symbol();
+-- b.ts --
+import { x } from "./a";
+
+export class C {
+  private [x]: number = 1;
+}
+-- c.ts --
+import { x } from "./a";
+import { C } from "./b";
+
+export class D extends C {
+  private [x]: 12 = 12;
+}
+-- a.d.ts.golden --
+export declare const x: unique symbol;
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = void 0;
+exports.x = Symbol();

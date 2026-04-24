@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/duplicateConstructorOverloadSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js duplicateConstructorOverloadSignature.js duplicateConstructorOverloadSignature.ts
+! stderr .
+cmp duplicateConstructorOverloadSignature.js duplicateConstructorOverloadSignature.js.golden
+! exists duplicateConstructorOverloadSignature.d.ts
+! exists duplicateConstructorOverloadSignature.js.map
+
+-- duplicateConstructorOverloadSignature.ts --
+class C {
+    constructor(x: number);
+    constructor(x: number);
+    constructor(x: any) { }
+}
+-- duplicateConstructorOverloadSignature.js.golden --
+"use strict";
+class C {
+    constructor(x) { }
+}

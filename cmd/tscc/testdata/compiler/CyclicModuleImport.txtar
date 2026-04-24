@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/cyclicModuleImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts cyclicModuleImport.d.ts --target es2015 --lib es2015,dom --path SubModule=cyclicModuleImport.ts --path MainModule=cyclicModuleImport.ts --out-js cyclicModuleImport.js cyclicModuleImport.ts
+! stderr .
+cmp cyclicModuleImport.d.ts cyclicModuleImport.d.ts.golden
+cmp cyclicModuleImport.js cyclicModuleImport.js.golden
+! exists cyclicModuleImport.js.map
+
+-- cyclicModuleImport.ts --
+declare module "SubModule" {
+    import MainModule = require('MainModule');
+    class SubModule {
+        public static StaticVar: number;
+        public InstanceVar: number;
+        public main: MainModule;
+        constructor();
+    }
+    export = SubModule;
+}
+declare module "MainModule" {
+    import SubModule = require('SubModule');
+    class MainModule {
+        public SubModule: SubModule;
+        constructor();
+    }
+    export = MainModule;
+}
+-- cyclicModuleImport.d.ts.golden --
+declare module "SubModule" {
+    import MainModule = require('MainModule');
+    class SubModule {
+        static StaticVar: number;
+        InstanceVar: number;
+        main: MainModule;
+        constructor();
+    }
+    export = SubModule;
+}
+declare module "MainModule" {
+    import SubModule = require('SubModule');
+    class MainModule {
+        SubModule: SubModule;
+        constructor();
+    }
+    export = MainModule;
+}
+-- cyclicModuleImport.js.golden --
+"use strict";

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/createArray.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js createArray.js createArray.ts
+stderr 'TS1011'
+! exists createArray.js
+! exists createArray.d.ts
+! exists createArray.js.map
+
+-- createArray.ts --
+var na=new number[];
+
+class C {
+}
+
+new C[];
+var ba=new boolean[];
+var sa=new string[];
+function f(s:string):number { return 0;
+}
+if (ba[14]) {
+    na[2]=f(sa[3]);
+}
+
+new C[1]; // not an error

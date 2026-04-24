@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/declarationEmitMixinPrivateProtected.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts first.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js first.js first.ts
+stderr 'TS4094'
+! exists first.d.ts
+! exists first.js
+! exists first.js.map
+
+-- another.ts --
+declare function mix<TMix>(mixin: TMix): TMix;
+
+const DisposableMixin = class {
+    protected _onDispose() {
+        this._assertIsStripped()
+    }
+    private _assertIsStripped() {
+    }
+};
+
+export default class extends mix(DisposableMixin) {
+    protected _onDispose() {
+    }
+}
+-- first.ts --
+declare function mix<TMix>(mixin: TMix): TMix;
+
+const DisposableMixin = class {
+    protected _onDispose() {
+        this._assertIsStripped()
+    }
+    private _assertIsStripped() {
+    }
+};
+
+// No error, but definition is wrong. 
+export default mix(DisposableMixin);
+export class Monitor extends mix(DisposableMixin) {
+    protected _onDispose() {
+    }
+}

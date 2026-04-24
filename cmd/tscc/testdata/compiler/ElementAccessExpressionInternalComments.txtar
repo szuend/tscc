@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/elementAccessExpressionInternalComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js elementAccessExpressionInternalComments.js elementAccessExpressionInternalComments.ts
+! stderr .
+cmp elementAccessExpressionInternalComments.js elementAccessExpressionInternalComments.js.golden
+! exists elementAccessExpressionInternalComments.d.ts
+! exists elementAccessExpressionInternalComments.js.map
+
+-- elementAccessExpressionInternalComments.ts --
+/*0*/ Array /*1*/[ /*2*/ "toString" /*3*/ ] /*4*/; /*5*/
+
+/*0*/ Array 
+    // single line
+    /*1*/[ /*2*/ "toString"
+    // single line
+    /*3*/ ] /*4*/
+-- elementAccessExpressionInternalComments.js.golden --
+"use strict";
+/*0*/ Array /*1*/[ /*2*/"toString" /*3*/] /*4*/; /*5*/
+/*0*/ Array
+// single line
+/*1*/ [ /*2*/"toString"
+// single line
+/*3*/ ]; /*4*/

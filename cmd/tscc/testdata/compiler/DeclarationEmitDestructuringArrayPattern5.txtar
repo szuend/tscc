@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringArrayPattern5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDestructuringArrayPattern5.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringArrayPattern5.js declarationEmitDestructuringArrayPattern5.ts
+! stderr .
+cmp declarationEmitDestructuringArrayPattern5.d.ts declarationEmitDestructuringArrayPattern5.d.ts.golden
+cmp declarationEmitDestructuringArrayPattern5.js declarationEmitDestructuringArrayPattern5.js.golden
+! exists declarationEmitDestructuringArrayPattern5.js.map
+
+-- declarationEmitDestructuringArrayPattern5.ts --
+var [, , z] = [1, 2, 4];
+var [, a, , ] = [3, 4, 5];
+var [, , [, b, ]] = [3,5,[0, 1]];
+-- declarationEmitDestructuringArrayPattern5.d.ts.golden --
+declare var z: number;
+declare var a: number;
+declare var b: number;
+-- declarationEmitDestructuringArrayPattern5.js.golden --
+"use strict";
+var [, , z] = [1, 2, 4];
+var [, a, ,] = [3, 4, 5];
+var [, , [, b,]] = [3, 5, [0, 1]];

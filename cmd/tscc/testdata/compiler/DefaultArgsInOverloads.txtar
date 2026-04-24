@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/defaultArgsInOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js defaultArgsInOverloads.js defaultArgsInOverloads.ts
+stderr 'TS2371'
+! exists defaultArgsInOverloads.js
+! exists defaultArgsInOverloads.d.ts
+! exists defaultArgsInOverloads.js.map
+
+-- defaultArgsInOverloads.ts --
+function fun(a: string);
+function fun(a = 3);
+function fun(a = null) { }
+
+class C {
+	fun(a: string);
+	fun(a = 3);
+	fun(a = null) { }
+	static fun(a: string);
+	static fun(a = 3);
+	static fun(a = null) { }
+}
+
+interface I {
+    fun(a: string);
+    fun(a = 3);
+}
+
+var f: (a = 3) => number;

@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/deepExcessPropertyCheckingWhenTargetIsIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js deepExcessPropertyCheckingWhenTargetIsIntersection.js deepExcessPropertyCheckingWhenTargetIsIntersection.ts
+stderr 'TS2353'
+! exists deepExcessPropertyCheckingWhenTargetIsIntersection.js
+! exists deepExcessPropertyCheckingWhenTargetIsIntersection.d.ts
+! exists deepExcessPropertyCheckingWhenTargetIsIntersection.js.map
+
+-- deepExcessPropertyCheckingWhenTargetIsIntersection.ts --
+interface StatelessComponent<P = {}> {
+  (props: P & { children?: number }, context?: any): null;
+}
+ 
+const TestComponent: StatelessComponent<TestProps> = (props) => {
+  return null;
+}
+ 
+interface ITestProps {
+  ariaLabel?: string;
+}
+ 
+interface NestedProp<TProps> {
+  props: TProps;
+}
+ 
+interface TestProps {
+  icon: NestedProp<ITestProps>;
+}
+ 
+TestComponent({icon: { props: { INVALID_PROP_NAME: 'share', ariaLabel: 'test label' } }});
+
+const TestComponent2: StatelessComponent<TestProps | {props2: {x: number}}> = (props) => {
+  return null;
+}
+
+TestComponent2({icon: { props: { INVALID_PROP_NAME: 'share', ariaLabel: 'test label' } }});

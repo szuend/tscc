@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/duplicateLocalVariable3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateLocalVariable3.js duplicateLocalVariable3.ts
+stderr 'TS2403'
+! exists duplicateLocalVariable3.js
+! exists duplicateLocalVariable3.d.ts
+! exists duplicateLocalVariable3.js.map
+
+-- duplicateLocalVariable3.ts --
+var x = 1;
+var x = 2; 
+
+function f() {
+    var y = 1;
+    var y = 2;
+}
+
+function f2() {
+    var z = 3;
+    var z = "";
+}

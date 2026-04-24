@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/doWhileLoop.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js doWhileLoop.js doWhileLoop.ts
+! stderr .
+cmp doWhileLoop.js doWhileLoop.js.golden
+! exists doWhileLoop.d.ts
+! exists doWhileLoop.js.map
+
+-- doWhileLoop.ts --
+do { } while (false);
+var n;
+-- doWhileLoop.js.golden --
+"use strict";
+do { } while (false);
+var n;

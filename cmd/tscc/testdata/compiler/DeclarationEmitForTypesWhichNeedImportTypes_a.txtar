@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declarationEmitForTypesWhichNeedImportTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+cmp a.js a.js.golden
+! exists a.js.map
+
+-- a.ts --
+import { createNamed } from "./b";
+
+export const Value = createNamed();
+-- b.ts --
+export interface Named {}
+
+export function createNamed(): Named {
+  return {};
+}
+-- a.d.ts.golden --
+export declare const Value: import("./b").Named;
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Value = void 0;
+const b_1 = require("./b");
+exports.Value = (0, b_1.createNamed)();

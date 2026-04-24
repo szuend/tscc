@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/declFileAliasUseBeforeDeclaration2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileAliasUseBeforeDeclaration2.d.ts --module commonjs --target es2015 --lib es2015,dom --path test=declFileAliasUseBeforeDeclaration2.ts --out-js declFileAliasUseBeforeDeclaration2.js declFileAliasUseBeforeDeclaration2.ts
+! stderr .
+cmp declFileAliasUseBeforeDeclaration2.d.ts declFileAliasUseBeforeDeclaration2.d.ts.golden
+cmp declFileAliasUseBeforeDeclaration2.js declFileAliasUseBeforeDeclaration2.js.golden
+! exists declFileAliasUseBeforeDeclaration2.js.map
+
+-- declFileAliasUseBeforeDeclaration2.ts --
+declare module "test" {
+    namespace A {
+        class C {
+        }
+    }
+    class B extends E {
+    }
+    import E = A.C;
+}
+-- declFileAliasUseBeforeDeclaration2.d.ts.golden --
+declare module "test" {
+    namespace A {
+        class C {
+        }
+    }
+    class B extends E {
+    }
+    import E = A.C;
+}
+-- declFileAliasUseBeforeDeclaration2.js.golden --
+"use strict";

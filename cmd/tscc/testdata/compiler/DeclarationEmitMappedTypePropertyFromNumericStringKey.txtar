@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/declarationEmitMappedTypePropertyFromNumericStringKey.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitMappedTypePropertyFromNumericStringKey.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitMappedTypePropertyFromNumericStringKey.js declarationEmitMappedTypePropertyFromNumericStringKey.ts
+! stderr .
+cmp declarationEmitMappedTypePropertyFromNumericStringKey.d.ts declarationEmitMappedTypePropertyFromNumericStringKey.d.ts.golden
+cmp declarationEmitMappedTypePropertyFromNumericStringKey.js declarationEmitMappedTypePropertyFromNumericStringKey.js.golden
+! exists declarationEmitMappedTypePropertyFromNumericStringKey.js.map
+
+-- declarationEmitMappedTypePropertyFromNumericStringKey.ts --
+export const f = (<T>(arg: {[K in keyof T]: T[K] | string}) => arg)({'0': 0}); // Original prop uses string syntax
+-- declarationEmitMappedTypePropertyFromNumericStringKey.d.ts.golden --
+export declare const f: {
+    '0': string | number;
+};
+-- declarationEmitMappedTypePropertyFromNumericStringKey.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.f = void 0;
+exports.f = ((arg) => arg)({ '0': 0 }); // Original prop uses string syntax

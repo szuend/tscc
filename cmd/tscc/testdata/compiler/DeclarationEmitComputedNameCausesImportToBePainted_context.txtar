@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/declarationEmitComputedNameCausesImportToBePainted.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts context.d.ts --lib es6 --module commonjs --target es2015 --out-js context.js context.ts
+! stderr .
+cmp context.d.ts context.d.ts.golden
+cmp context.js context.js.golden
+! exists context.js.map
+
+-- context.ts --
+export const Key = Symbol();
+export interface Context {
+  [Key]: string;
+}
+-- index.ts --
+import { Key, Context } from "./context";
+
+export const context: Context = {
+  [Key]: 'bar',
+}
+
+export const withContext = ({ [Key]: value }: Context) => value;
+-- context.d.ts.golden --
+export declare const Key: unique symbol;
+export interface Context {
+    [Key]: string;
+}
+-- context.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Key = void 0;
+exports.Key = Symbol();

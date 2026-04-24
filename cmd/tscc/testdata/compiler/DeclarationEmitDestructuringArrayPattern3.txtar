@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringArrayPattern3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDestructuringArrayPattern3.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringArrayPattern3.js declarationEmitDestructuringArrayPattern3.ts
+! stderr .
+cmp declarationEmitDestructuringArrayPattern3.d.ts declarationEmitDestructuringArrayPattern3.d.ts.golden
+cmp declarationEmitDestructuringArrayPattern3.js declarationEmitDestructuringArrayPattern3.js.golden
+! exists declarationEmitDestructuringArrayPattern3.js.map
+
+-- declarationEmitDestructuringArrayPattern3.ts --
+namespace M {
+    export var [a, b] = [1, 2];
+}
+-- declarationEmitDestructuringArrayPattern3.d.ts.golden --
+declare namespace M {
+    var a: number, b: number;
+}
+-- declarationEmitDestructuringArrayPattern3.js.golden --
+"use strict";
+var M;
+(function (M) {
+    var _a;
+    _a = [1, 2], M.a = _a[0], M.b = _a[1];
+})(M || (M = {}));

@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringOptionalBindingParametersInOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDestructuringOptionalBindingParametersInOverloads.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringOptionalBindingParametersInOverloads.js declarationEmitDestructuringOptionalBindingParametersInOverloads.ts
+! stderr .
+cmp declarationEmitDestructuringOptionalBindingParametersInOverloads.d.ts declarationEmitDestructuringOptionalBindingParametersInOverloads.d.ts.golden
+cmp declarationEmitDestructuringOptionalBindingParametersInOverloads.js declarationEmitDestructuringOptionalBindingParametersInOverloads.js.golden
+! exists declarationEmitDestructuringOptionalBindingParametersInOverloads.js.map
+
+-- declarationEmitDestructuringOptionalBindingParametersInOverloads.ts --
+function foo([x, y, z] ?: [string, number, boolean]);
+function foo(...rest: any[]) {
+}
+
+function foo2( { x, y, z }?: { x: string; y: number; z: boolean });
+function foo2(...rest: any[]) {
+
+}
+-- declarationEmitDestructuringOptionalBindingParametersInOverloads.d.ts.golden --
+declare function foo([x, y, z]?: [string, number, boolean]): any;
+declare function foo2({ x, y, z }?: {
+    x: string;
+    y: number;
+    z: boolean;
+}): any;
+-- declarationEmitDestructuringOptionalBindingParametersInOverloads.js.golden --
+"use strict";
+function foo(...rest) {
+}
+function foo2(...rest) {
+}

@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/downlevelLetConst9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js downlevelLetConst9.js downlevelLetConst9.ts
+! stderr .
+cmp downlevelLetConst9.js downlevelLetConst9.js.golden
+! exists downlevelLetConst9.d.ts
+! exists downlevelLetConst9.js.map
+
+-- downlevelLetConst9.ts --
+let a: number
+-- downlevelLetConst9.js.golden --
+"use strict";
+let a;

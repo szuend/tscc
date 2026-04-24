@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/declarationEmitClassInherritsAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitClassInherritsAny.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitClassInherritsAny.js declarationEmitClassInherritsAny.ts
+! stderr .
+cmp declarationEmitClassInherritsAny.d.ts declarationEmitClassInherritsAny.d.ts.golden
+cmp declarationEmitClassInherritsAny.js declarationEmitClassInherritsAny.js.golden
+! exists declarationEmitClassInherritsAny.js.map
+
+-- declarationEmitClassInherritsAny.ts --
+const anyThing = class {} as any;
+export class Foo extends anyThing {}
+-- declarationEmitClassInherritsAny.d.ts.golden --
+declare const anyThing: any;
+export declare class Foo extends anyThing {
+}
+export {};
+-- declarationEmitClassInherritsAny.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = void 0;
+const anyThing = class {
+};
+class Foo extends anyThing {
+}
+exports.Foo = Foo;

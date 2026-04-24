@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/destructuringWithConstraint.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js destructuringWithConstraint.js destructuringWithConstraint.ts
+! stderr .
+cmp destructuringWithConstraint.js destructuringWithConstraint.js.golden
+! exists destructuringWithConstraint.d.ts
+! exists destructuringWithConstraint.js.map
+
+-- destructuringWithConstraint.ts --
+// Repro from #22823
+
+interface Props {
+    foo?: boolean;
+}
+
+function foo<P extends Props>(props: Readonly<P>) {
+    let { foo = false } = props;
+    if (foo === true) { }
+}
+-- destructuringWithConstraint.js.golden --
+"use strict";
+// Repro from #22823
+function foo(props) {
+    let { foo = false } = props;
+    if (foo === true) { }
+}

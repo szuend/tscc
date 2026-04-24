@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/doNotWidenAtObjectLiteralPropertyAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js doNotWidenAtObjectLiteralPropertyAssignment.js doNotWidenAtObjectLiteralPropertyAssignment.ts
+stderr 'TS2322'
+! exists doNotWidenAtObjectLiteralPropertyAssignment.js
+! exists doNotWidenAtObjectLiteralPropertyAssignment.d.ts
+! exists doNotWidenAtObjectLiteralPropertyAssignment.js.map
+
+-- doNotWidenAtObjectLiteralPropertyAssignment.ts --
+interface ITestEventInterval {
+    begin: number;
+}
+
+interface IIntervalTreeNode {
+    interval: ITestEventInterval;
+    children?: IIntervalTreeNode[];
+}
+
+var test: IIntervalTreeNode[] = [{ interval: { begin: 0 }, children: null }]; // was error here because best common type is {}

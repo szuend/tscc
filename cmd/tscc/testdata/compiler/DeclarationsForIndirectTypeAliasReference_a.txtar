@@ -1,0 +1,56 @@
+# Ported from tests/cases/compiler/declarationsForIndirectTypeAliasReference.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+cmp a.js a.js.golden
+! exists a.js.map
+
+-- a.ts --
+import {StringHash, StringHash2} from "./b";
+
+export {
+    doSome
+}
+
+const MAP: StringHash = {
+    a: "a"
+};
+
+const MAP2: StringHash2 = {
+    a: "a"
+};
+
+function doSome(arg1: string,
+                arg2 = MAP,
+                arg3 = MAP2) {
+}
+-- b.ts --
+export {
+    Hash,
+    StringHash, StringHash2
+};
+
+interface Hash<T> {
+    [key: string]: T;
+}
+
+type StringHash = Hash<string>;
+
+interface StringHash2 extends Hash<string> {}
+-- a.d.ts.golden --
+import { StringHash, StringHash2 } from "./b";
+export { doSome };
+declare function doSome(arg1: string, arg2?: StringHash, arg3?: StringHash2): void;
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.doSome = doSome;
+const MAP = {
+    a: "a"
+};
+const MAP2 = {
+    a: "a"
+};
+function doSome(arg1, arg2 = MAP, arg3 = MAP2) {
+}

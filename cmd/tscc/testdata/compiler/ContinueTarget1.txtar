@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/continueTarget1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js continueTarget1.js continueTarget1.ts
+stderr 'TS1115'
+! exists continueTarget1.js
+! exists continueTarget1.d.ts
+! exists continueTarget1.js.map
+
+-- continueTarget1.ts --
+target:
+  continue target;

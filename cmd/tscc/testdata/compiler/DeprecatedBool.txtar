@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/deprecatedBool.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js deprecatedBool.js deprecatedBool.ts
+! stderr .
+cmp deprecatedBool.js deprecatedBool.js.golden
+! exists deprecatedBool.d.ts
+! exists deprecatedBool.js.map
+
+-- deprecatedBool.ts --
+var b4: boolean;
+var bool: boolean;
+-- deprecatedBool.js.golden --
+"use strict";
+var b4;
+var bool;

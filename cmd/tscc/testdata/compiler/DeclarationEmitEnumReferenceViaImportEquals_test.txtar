@@ -1,0 +1,59 @@
+# Ported from tests/cases/compiler/declarationEmitEnumReferenceViaImportEquals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts test.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js test.js test.ts
+! stderr .
+cmp test.d.ts test.d.ts.golden
+cmp test.js test.js.golden
+! exists test.js.map
+
+-- index.ts --
+import { Test } from "./test";
+new Test().print();
+-- test.ts --
+import { Translation } from "./translation";
+import TranslationKeyEnum = Translation.TranslationKeyEnum;
+
+export class Test {
+  TranslationKeyEnum = TranslationKeyEnum;
+  print() {
+    console.log(TranslationKeyEnum.Translation1);
+  }
+}
+-- translation.ts --
+export interface Translation {
+  translationKey: Translation.TranslationKeyEnum;
+}
+
+export namespace Translation {
+  export type TranslationKeyEnum = 'translation1' | 'translation2';
+  export const TranslationKeyEnum = {
+    Translation1: 'translation1' as TranslationKeyEnum,
+    Translation2: 'translation2' as TranslationKeyEnum,
+  }
+}
+
+-- test.d.ts.golden --
+import { Translation } from "./translation";
+import TranslationKeyEnum = Translation.TranslationKeyEnum;
+export declare class Test {
+    TranslationKeyEnum: {
+        Translation1: TranslationKeyEnum;
+        Translation2: TranslationKeyEnum;
+    };
+    print(): void;
+}
+-- test.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Test = void 0;
+const translation_1 = require("./translation");
+var TranslationKeyEnum = translation_1.Translation.TranslationKeyEnum;
+class Test {
+    constructor() {
+        this.TranslationKeyEnum = TranslationKeyEnum;
+    }
+    print() {
+        console.log(TranslationKeyEnum.Translation1);
+    }
+}
+exports.Test = Test;

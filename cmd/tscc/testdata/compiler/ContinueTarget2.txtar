@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/continueTarget2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js continueTarget2.js continueTarget2.ts
+! stderr .
+cmp continueTarget2.js continueTarget2.js.golden
+! exists continueTarget2.d.ts
+! exists continueTarget2.js.map
+
+-- continueTarget2.ts --
+target:
+while (true) {
+  continue target;
+}
+-- continueTarget2.js.golden --
+"use strict";
+target: while (true) {
+    continue target;
+}

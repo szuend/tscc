@@ -1,0 +1,52 @@
+# Ported from tests/cases/compiler/declarationEmitDefaultExportWithStaticAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index2.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js index2.js index2.ts
+! stderr .
+cmp index2.d.ts index2.d.ts.golden
+cmp index2.js index2.js.golden
+! exists index2.js.map
+
+-- foo.ts --
+export class Foo {}
+-- index1.ts --
+import {Foo} from './foo';
+export default function Example() {}
+Example.Foo = Foo
+-- index2.ts --
+import {Foo} from './foo';
+export {Foo};
+export default function Example() {}
+Example.Foo = Foo
+-- index3.ts --
+export class Bar {}
+export default function Example() {}
+
+Example.Bar = Bar
+-- index4.ts --
+function A() {  }
+
+function B() { }
+
+export function C() {
+  return null;
+}
+
+C.A = A;
+C.B = B;
+-- index2.d.ts.golden --
+import { Foo } from './foo';
+export { Foo };
+declare function Example(): void;
+export default Example;
+declare namespace Example {
+    var Foo: typeof import("./foo").Foo;
+}
+-- index2.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = void 0;
+exports.default = Example;
+const foo_1 = require("./foo");
+Object.defineProperty(exports, "Foo", { enumerable: true, get: function () { return foo_1.Foo; } });
+function Example() { }
+Example.Foo = foo_1.Foo;

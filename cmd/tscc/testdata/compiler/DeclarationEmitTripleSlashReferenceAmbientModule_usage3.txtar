@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/declarationEmitTripleSlashReferenceAmbientModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts usage3.d.ts --target es2015 --lib es2015,dom --path url=node_modules/@types/node/index.d.ts usage3.ts
+! stderr .
+cmp usage3.d.ts usage3.d.ts.golden
+! exists usage3.js.map
+
+-- node_modules/@types/node/index.d.ts --
+declare module "url" {
+  export class Url {}
+  export function parse(): Url; 
+}
+-- usage1.ts --
+export { parse } from "url";
+-- usage2.ts --
+import { parse } from "url";
+export const thing: import("url").Url = parse(); 
+-- usage3.ts --
+import { parse } from "url";
+export const thing = parse();
+-- usage3.d.ts.golden --
+export declare const thing: import("url").Url;

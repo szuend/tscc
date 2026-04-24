@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/declarationEmitTypeParamMergedWithPrivate.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTypeParamMergedWithPrivate.d.ts --target es6 --lib es6,dom --out-js declarationEmitTypeParamMergedWithPrivate.js declarationEmitTypeParamMergedWithPrivate.ts
+! stderr .
+cmp declarationEmitTypeParamMergedWithPrivate.d.ts declarationEmitTypeParamMergedWithPrivate.d.ts.golden
+cmp declarationEmitTypeParamMergedWithPrivate.js declarationEmitTypeParamMergedWithPrivate.js.golden
+! exists declarationEmitTypeParamMergedWithPrivate.js.map
+
+-- declarationEmitTypeParamMergedWithPrivate.ts --
+export class Test<T> {
+    private get T(): T {
+        throw "";
+    }
+
+    public test(): T {
+        return null as any;
+    }
+}
+-- declarationEmitTypeParamMergedWithPrivate.d.ts.golden --
+export declare class Test<T> {
+    private get T();
+    test(): T;
+}
+-- declarationEmitTypeParamMergedWithPrivate.js.golden --
+export class Test {
+    get T() {
+        throw "";
+    }
+    test() {
+        return null;
+    }
+}

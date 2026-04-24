@@ -1,0 +1,53 @@
+# Ported from tests/cases/compiler/declFilePrivateMethodOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFilePrivateMethodOverloads.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declFilePrivateMethodOverloads.js declFilePrivateMethodOverloads.ts
+! stderr .
+cmp declFilePrivateMethodOverloads.d.ts declFilePrivateMethodOverloads.d.ts.golden
+cmp declFilePrivateMethodOverloads.js declFilePrivateMethodOverloads.js.golden
+! exists declFilePrivateMethodOverloads.js.map
+
+-- declFilePrivateMethodOverloads.ts --
+interface IContext {
+    someMethod();
+}
+class c1 {
+    private _forEachBindingContext(bindingContext: IContext, fn: (bindingContext: IContext) => void);
+    private _forEachBindingContext(bindingContextArray: Array<IContext>, fn: (bindingContext: IContext) => void);
+    private _forEachBindingContext(context, fn: (bindingContext: IContext) => void): void {
+        // Function here
+    }
+
+    private overloadWithArityDifference(bindingContext: IContext);
+    private overloadWithArityDifference(bindingContextArray: Array<IContext>, fn: (bindingContext: IContext) => void);
+    private overloadWithArityDifference(context): void {
+        // Function here
+    }
+}
+declare class c2 {
+    private overload1(context, fn);
+
+    private overload2(context);
+    private overload2(context, fn);
+}
+-- declFilePrivateMethodOverloads.d.ts.golden --
+interface IContext {
+    someMethod(): any;
+}
+declare class c1 {
+    private _forEachBindingContext;
+    private overloadWithArityDifference;
+}
+declare class c2 {
+    private overload1;
+    private overload2;
+}
+-- declFilePrivateMethodOverloads.js.golden --
+"use strict";
+class c1 {
+    _forEachBindingContext(context, fn) {
+        // Function here
+    }
+    overloadWithArityDifference(context) {
+        // Function here
+    }
+}

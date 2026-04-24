@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/declarationEmitGenericTypeParamerSerialization3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitGenericTypeParamerSerialization3.d.ts --strict --target esnext --lib esnext,dom --out-js declarationEmitGenericTypeParamerSerialization3.js declarationEmitGenericTypeParamerSerialization3.ts
+! stderr .
+cmp declarationEmitGenericTypeParamerSerialization3.d.ts declarationEmitGenericTypeParamerSerialization3.d.ts.golden
+cmp declarationEmitGenericTypeParamerSerialization3.js declarationEmitGenericTypeParamerSerialization3.js.golden
+! exists declarationEmitGenericTypeParamerSerialization3.js.map
+
+-- declarationEmitGenericTypeParamerSerialization3.ts --
+function mixin<T extends { new (...args: any[]): {} }>(superclass: T) {
+  return class extends superclass {};
+}
+
+export function wrapper<T>(value: T) {
+  class BaseClass {
+    accessor name = value;
+  }
+  return class MyClass extends mixin(BaseClass) {
+    accessor name = value;
+  }
+}
+
+export const Cls = wrapper("test");
+-- declarationEmitGenericTypeParamerSerialization3.d.ts.golden --
+export declare function wrapper<T>(value: T): {
+    new (): {
+        get name(): T;
+        set name(arg: T);
+    };
+};
+export declare const Cls: {
+    new (): {
+        get name(): string;
+        set name(arg: string);
+    };
+};
+-- declarationEmitGenericTypeParamerSerialization3.js.golden --
+function mixin(superclass) {
+    return class extends superclass {
+    };
+}
+export function wrapper(value) {
+    class BaseClass {
+        accessor name = value;
+    }
+    return class MyClass extends mixin(BaseClass) {
+        accessor name = value;
+    };
+}
+export const Cls = wrapper("test");

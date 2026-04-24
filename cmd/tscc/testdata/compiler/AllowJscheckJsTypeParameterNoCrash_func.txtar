@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/allowJscheckJsTypeParameterNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js func.js func.ts
+! stderr .
+cmp func.js func.js.golden
+! exists dist/func.d.ts
+! exists dist/func.js.map
+
+-- app.js --
+import {vextend} from './func';
+// hover on vextend
+export var a = vextend({
+  watch: {
+    data1(val) {
+      this.data2 = 1;
+    },
+    data2(val) { },
+  }
+});
+-- func.ts --
+interface ComponentOptions<V> {
+    watch: Record<string, WatchHandler<any>>;
+}
+type WatchHandler<T> = (val: T) => void;
+declare function extend(options: ComponentOptions<{}>): void;
+export var vextend = extend;
+-- func.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vextend = void 0;
+exports.vextend = extend;

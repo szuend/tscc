@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/destructuringControlFlowNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js destructuringControlFlowNoCrash.js destructuringControlFlowNoCrash.ts
+stderr 'TS1005'
+! exists destructuringControlFlowNoCrash.js
+! exists destructuringControlFlowNoCrash.d.ts
+! exists destructuringControlFlowNoCrash.js.map
+
+-- destructuringControlFlowNoCrash.ts --
+// legal JS, if nonsensical, which also triggers the issue
+const {
+  date,
+} = (inspectedElement: any) => 0;
+
+date.toISOString();
+
+// Working flow code
+const {
+  date2,
+} = (inspectedElement: any).props;
+
+date2.toISOString();
+
+// It could also be an async function
+const { constructor } = async () => {};

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/defaultDeclarationEmitShadowedNamedCorrectly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts this.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js this.js this.ts
+stderr 'TS2564'
+! exists this.d.ts
+! exists this.js
+! exists this.js.map
+
+-- this.ts --
+import * as me from "./this";
+export interface Things<P, T> {
+    p: P;
+    t: T;
+}
+export function make<P, CTor>(x: { new (): CTor & {props: P} }): Things<P, CTor> {
+    return null as any;
+}
+
+export interface Props {
+}
+
+export default class MyComponent {
+    props: Props;
+}
+export namespace Something {
+    let MyComponent = 2; // Shadow declaration, so symbol is only usable via the self-import
+    export const create = make(me.default);
+}

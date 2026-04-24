@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/declFileWithClassNameConflictingWithClassReferredByExtendsClause.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declFileWithClassNameConflictingWithClassReferredByExtendsClause.d.ts --target es2015 --lib es2015,dom --out-js declFileWithClassNameConflictingWithClassReferredByExtendsClause.js declFileWithClassNameConflictingWithClassReferredByExtendsClause.ts
+stderr 'TS2564'
+! exists declFileWithClassNameConflictingWithClassReferredByExtendsClause.d.ts
+! exists declFileWithClassNameConflictingWithClassReferredByExtendsClause.js
+! exists declFileWithClassNameConflictingWithClassReferredByExtendsClause.js.map
+
+-- declFileWithClassNameConflictingWithClassReferredByExtendsClause.ts --
+declare namespace A.B.Base {
+    export class W {
+        id: number;
+    }
+}
+namespace X.Y.base {
+
+    export class W extends A.B.Base.W {
+        name: string;
+    }
+}
+
+namespace X.Y.base.Z {
+
+    export class W<TValue> extends X.Y.base.W {
+        value: boolean;
+    }
+}

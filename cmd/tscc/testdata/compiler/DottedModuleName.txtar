@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/dottedModuleName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js dottedModuleName.js dottedModuleName.ts
+stderr 'TS1144'
+! exists dottedModuleName.js
+! exists dottedModuleName.d.ts
+! exists dottedModuleName.js.map
+
+-- dottedModuleName.ts --
+namespace M {
+    export namespace N {
+	export function f(x:number)=>2*x;
+	export namespace X.Y.Z {
+	    export var v2=f(v);
+	}
+    }
+}
+
+
+
+namespace M.N {
+    export namespace X {
+	export namespace Y.Z {
+	    export var v=f(10);
+	}
+    }
+}

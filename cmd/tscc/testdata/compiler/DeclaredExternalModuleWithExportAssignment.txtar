@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declaredExternalModuleWithExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --path connect=declaredExternalModuleWithExportAssignment.ts --out-js declaredExternalModuleWithExportAssignment.js declaredExternalModuleWithExportAssignment.ts
+! stderr .
+cmp declaredExternalModuleWithExportAssignment.js declaredExternalModuleWithExportAssignment.js.golden
+! exists declaredExternalModuleWithExportAssignment.d.ts
+! exists declaredExternalModuleWithExportAssignment.js.map
+
+-- declaredExternalModuleWithExportAssignment.ts --
+declare module 'connect' {
+    interface connectModule {
+        (res, req, next): void;
+    }
+
+    interface connectExport {
+        use: (mod: connectModule) => connectExport;
+        listen: (port: number) => void;
+    }
+
+    var server: {
+        (): connectExport;
+        test1: connectModule;
+        test2(): connectModule;
+    };
+    export = server;
+}
+-- declaredExternalModuleWithExportAssignment.js.golden --
+"use strict";

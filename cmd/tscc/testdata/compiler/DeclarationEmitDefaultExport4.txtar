@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/declarationEmitDefaultExport4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDefaultExport4.d.ts --target es6 --lib es6,dom --out-js declarationEmitDefaultExport4.js declarationEmitDefaultExport4.ts
+! stderr .
+cmp declarationEmitDefaultExport4.d.ts declarationEmitDefaultExport4.d.ts.golden
+cmp declarationEmitDefaultExport4.js declarationEmitDefaultExport4.js.golden
+! exists declarationEmitDefaultExport4.js.map
+
+-- declarationEmitDefaultExport4.ts --
+export default function () {
+    return 1;
+}
+-- declarationEmitDefaultExport4.d.ts.golden --
+export default function (): number;
+-- declarationEmitDefaultExport4.js.golden --
+export default function () {
+    return 1;
+}

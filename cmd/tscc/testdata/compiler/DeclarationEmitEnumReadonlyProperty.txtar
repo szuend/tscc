@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/declarationEmitEnumReadonlyProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitEnumReadonlyProperty.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitEnumReadonlyProperty.js declarationEmitEnumReadonlyProperty.ts
+! stderr .
+cmp declarationEmitEnumReadonlyProperty.d.ts declarationEmitEnumReadonlyProperty.d.ts.golden
+cmp declarationEmitEnumReadonlyProperty.js declarationEmitEnumReadonlyProperty.js.golden
+! exists declarationEmitEnumReadonlyProperty.js.map
+
+-- declarationEmitEnumReadonlyProperty.ts --
+enum E {
+    A = 'a',
+    B = 'b'
+}
+
+class C {
+    readonly type = E.A;
+}
+
+let x: E.A = new C().type;
+-- declarationEmitEnumReadonlyProperty.d.ts.golden --
+declare enum E {
+    A = "a",
+    B = "b"
+}
+declare class C {
+    readonly type = E.A;
+}
+declare let x: E.A;
+-- declarationEmitEnumReadonlyProperty.js.golden --
+"use strict";
+var E;
+(function (E) {
+    E["A"] = "a";
+    E["B"] = "b";
+})(E || (E = {}));
+class C {
+    constructor() {
+        this.type = E.A;
+    }
+}
+let x = new C().type;

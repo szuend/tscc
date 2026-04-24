@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/declarationEmitPrivateReadonlyLiterals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitPrivateReadonlyLiterals.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitPrivateReadonlyLiterals.js declarationEmitPrivateReadonlyLiterals.ts
+! stderr .
+cmp declarationEmitPrivateReadonlyLiterals.d.ts declarationEmitPrivateReadonlyLiterals.d.ts.golden
+cmp declarationEmitPrivateReadonlyLiterals.js declarationEmitPrivateReadonlyLiterals.js.golden
+! exists declarationEmitPrivateReadonlyLiterals.js.map
+
+-- declarationEmitPrivateReadonlyLiterals.ts --
+class Foo {
+    private static readonly A = "a";
+    private readonly B = "b";
+    private static readonly C = 42;
+    private readonly D = 42;
+}
+-- declarationEmitPrivateReadonlyLiterals.d.ts.golden --
+declare class Foo {
+    private static readonly A;
+    private readonly B;
+    private static readonly C;
+    private readonly D;
+}
+-- declarationEmitPrivateReadonlyLiterals.js.golden --
+"use strict";
+class Foo {
+    constructor() {
+        this.B = "b";
+        this.D = 42;
+    }
+}
+Foo.A = "a";
+Foo.C = 42;

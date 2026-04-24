@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/defaultValueInFunctionTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js defaultValueInFunctionTypes.js defaultValueInFunctionTypes.ts
+stderr 'TS2371'
+stderr 'TS2352'
+! exists defaultValueInFunctionTypes.js
+! exists defaultValueInFunctionTypes.d.ts
+! exists defaultValueInFunctionTypes.js.map
+
+-- defaultValueInFunctionTypes.ts --
+type Foo = ({ first = 0 }: { first?: number }) => unknown;
+
+var x: (a: number = 1) => number;
+var y = <(a : string = "") => any>(undefined)

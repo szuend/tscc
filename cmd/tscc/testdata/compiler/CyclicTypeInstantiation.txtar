@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/cyclicTypeInstantiation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js cyclicTypeInstantiation.js cyclicTypeInstantiation.ts
+stderr 'TS2454'
+! exists cyclicTypeInstantiation.js
+! exists cyclicTypeInstantiation.d.ts
+! exists cyclicTypeInstantiation.js.map
+
+-- cyclicTypeInstantiation.ts --
+function foo<T>() {
+    var x: {
+        a: T;
+        b: typeof x;
+    };
+    return x;
+}
+
+function bar<T>() {
+    var x: {
+        a: T;
+        b: typeof x;
+    };
+    return x;
+}
+
+var a = foo<string>();
+var b = bar<string>();
+// Relating types of a and b produces instantiations of the cyclic anonymous types in foo and bar
+a = b;

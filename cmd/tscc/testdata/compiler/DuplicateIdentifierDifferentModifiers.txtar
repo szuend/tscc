@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/duplicateIdentifierDifferentModifiers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js duplicateIdentifierDifferentModifiers.js duplicateIdentifierDifferentModifiers.ts
+stderr 'TS2687'
+! exists duplicateIdentifierDifferentModifiers.js
+! exists duplicateIdentifierDifferentModifiers.d.ts
+! exists duplicateIdentifierDifferentModifiers.js.map
+
+-- duplicateIdentifierDifferentModifiers.ts --
+// Not OK
+interface B { x; }
+interface B { x?; }
+
+// OK
+class A {
+  public y: string;
+}
+
+interface A {
+  y: string;
+}
+
+// Not OK
+class C {
+  private y: string;
+}
+
+interface C {
+  y: string;
+}

@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declarationEmitScopeConsistency3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+cmp a.js a.js.golden
+! exists a.js.map
+
+-- a.ts --
+export const g = (v: "outer") => {
+    const f = (v: "inner") => () => null! as typeof v;
+    const r = f(null!)
+    return r;
+}
+-- a.d.ts.golden --
+export declare const g: (v: "outer") => () => "inner";
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.g = void 0;
+const g = (v) => {
+    const f = (v) => () => null;
+    const r = f(null);
+    return r;
+};
+exports.g = g;

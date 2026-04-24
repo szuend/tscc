@@ -1,0 +1,43 @@
+# Ported from tests/cases/compiler/duplicateObjectLiteralProperty_computedName1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateObjectLiteralProperty_computedName1.js duplicateObjectLiteralProperty_computedName1.ts
+stderr 'TS1117'
+! exists duplicateObjectLiteralProperty_computedName1.js
+! exists duplicateObjectLiteralProperty_computedName1.d.ts
+! exists duplicateObjectLiteralProperty_computedName1.js.map
+
+-- duplicateObjectLiteralProperty_computedName1.ts --
+const t1 = {
+    1: 1,
+    [1]: 0 // duplicate
+}
+
+const t2 = {
+    1: 1,
+    [+1]: 0 // duplicate
+}
+
+const t3 = {
+    "1": 1,
+    [+1]: 0 // duplicate
+}
+
+const t4 = {
+    "+1": 1,
+    [+1]: 0 // two different keys, "+1", "1"
+}
+
+const t5 = {
+    "+1": 1,
+    ["+1"]: 0 // duplicate
+}
+
+const t6 = {
+    "-1": 1,
+    [-1]: 0 // duplicate
+}
+
+const t7 = {
+    "-1": 1,
+    ["-1"]: 0 // duplicate
+}

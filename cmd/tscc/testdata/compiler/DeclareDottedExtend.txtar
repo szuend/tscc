@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declareDottedExtend.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js declareDottedExtend.js declareDottedExtend.ts
+! stderr .
+cmp declareDottedExtend.js declareDottedExtend.js.golden
+! exists declareDottedExtend.d.ts
+! exists declareDottedExtend.js.map
+
+-- declareDottedExtend.ts --
+declare namespace A.B
+{
+    export class C{ }
+}
+
+import ab = A.B;
+
+class D extends ab.C{ }
+
+class E extends A.B.C{ }
+-- declareDottedExtend.js.golden --
+"use strict";
+var ab = A.B;
+class D extends ab.C {
+}
+class E extends A.B.C {
+}

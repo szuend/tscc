@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/deleteReadonlyInStrictNullChecks.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js deleteReadonlyInStrictNullChecks.js deleteReadonlyInStrictNullChecks.ts
+stderr 'TS2704'
+! exists deleteReadonlyInStrictNullChecks.js
+! exists deleteReadonlyInStrictNullChecks.d.ts
+! exists deleteReadonlyInStrictNullChecks.js.map
+
+-- deleteReadonlyInStrictNullChecks.ts --
+interface Function { readonly name: string; }
+class Foo {}
+delete Foo.name;

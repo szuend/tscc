@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declarationEmitComputedPropertyNameSymbol2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts type.d.ts --lib esnext --strict --target es2015 type.ts
+! stderr .
+cmp type.d.ts type.d.ts.golden
+! exists type.js.map
+
+-- index.ts --
+import { type Type } from "./type";
+
+export const foo = { ...({} as Type) };
+-- type.ts --
+namespace Foo {
+  export const sym = Symbol();
+}
+export type Type = { x?: { [Foo.sym]: 0 } };
+-- type.d.ts.golden --
+declare namespace Foo {
+    const sym: unique symbol;
+}
+export type Type = {
+    x?: {
+        [Foo.sym]: 0;
+    };
+};
+export {};

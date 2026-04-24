@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/declarationEmitTypeAliasWithTypeParameters3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTypeAliasWithTypeParameters3.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitTypeAliasWithTypeParameters3.js declarationEmitTypeAliasWithTypeParameters3.ts
+! stderr .
+cmp declarationEmitTypeAliasWithTypeParameters3.d.ts declarationEmitTypeAliasWithTypeParameters3.d.ts.golden
+cmp declarationEmitTypeAliasWithTypeParameters3.js declarationEmitTypeAliasWithTypeParameters3.js.golden
+! exists declarationEmitTypeAliasWithTypeParameters3.js.map
+
+-- declarationEmitTypeAliasWithTypeParameters3.ts --
+type Foo<T> = {
+    foo<U>(): Foo<U>
+};
+function bar() {
+    return {} as Foo<number>;
+}
+-- declarationEmitTypeAliasWithTypeParameters3.d.ts.golden --
+type Foo<T> = {
+    foo<U>(): Foo<U>;
+};
+declare function bar(): Foo<number>;
+-- declarationEmitTypeAliasWithTypeParameters3.js.golden --
+"use strict";
+function bar() {
+    return {};
+}

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/discriminateObjectTypesOnly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js discriminateObjectTypesOnly.js discriminateObjectTypesOnly.ts
+! stderr .
+cmp discriminateObjectTypesOnly.js discriminateObjectTypesOnly.js.golden
+! exists discriminateObjectTypesOnly.d.ts
+! exists discriminateObjectTypesOnly.js.map
+
+-- discriminateObjectTypesOnly.ts --
+type Thing = number | object;
+const k: Thing = { toFixed: null }; // OK, satisfies object
+
+type Thing2 = number | { toFixed: null } | object;
+const q: Thing2 = { toFixed: null };
+const h: Thing2 = { toString: null }; // OK, satisfies object
+
+type Thing3 = number | { toFixed: null, toString: undefined } | object;
+const l: Thing3 = { toString: undefined }; // error, toFixed isn't null
+-- discriminateObjectTypesOnly.js.golden --
+"use strict";
+const k = { toFixed: null }; // OK, satisfies object
+const q = { toFixed: null };
+const h = { toString: null }; // OK, satisfies object
+const l = { toString: undefined }; // error, toFixed isn't null

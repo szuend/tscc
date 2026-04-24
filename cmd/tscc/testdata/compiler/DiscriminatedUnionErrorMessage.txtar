@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/discriminatedUnionErrorMessage.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js discriminatedUnionErrorMessage.js discriminatedUnionErrorMessage.ts
+stderr 'TS2353'
+! exists discriminatedUnionErrorMessage.js
+! exists discriminatedUnionErrorMessage.d.ts
+! exists discriminatedUnionErrorMessage.js.map
+
+-- discriminatedUnionErrorMessage.ts --
+type Square = { kind: "sq", size: number }
+type Rectangle = { kind: "rt", x: number, y: number }
+type Circle = { kind: "cr", radius: number }
+type Shape =
+    | Square
+    | Rectangle
+    | Circle;
+let shape: Shape = {
+    kind: "sq",
+    x: 12,
+    y: 13,
+}

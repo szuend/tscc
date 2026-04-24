@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declFileClassWithStaticMethodReturningConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileClassWithStaticMethodReturningConstructor.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declFileClassWithStaticMethodReturningConstructor.js declFileClassWithStaticMethodReturningConstructor.ts
+! stderr .
+cmp declFileClassWithStaticMethodReturningConstructor.d.ts declFileClassWithStaticMethodReturningConstructor.d.ts.golden
+cmp declFileClassWithStaticMethodReturningConstructor.js declFileClassWithStaticMethodReturningConstructor.js.golden
+! exists declFileClassWithStaticMethodReturningConstructor.js.map
+
+-- declFileClassWithStaticMethodReturningConstructor.ts --
+export class Enhancement {
+    public static getType() {
+        return this;
+    }
+}
+-- declFileClassWithStaticMethodReturningConstructor.d.ts.golden --
+export declare class Enhancement {
+    static getType(): typeof Enhancement;
+}
+-- declFileClassWithStaticMethodReturningConstructor.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Enhancement = void 0;
+class Enhancement {
+    static getType() {
+        return this;
+    }
+}
+exports.Enhancement = Enhancement;

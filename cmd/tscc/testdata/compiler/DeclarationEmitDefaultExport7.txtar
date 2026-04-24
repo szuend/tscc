@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/declarationEmitDefaultExport7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDefaultExport7.d.ts --target es6 --lib es6,dom --out-js declarationEmitDefaultExport7.js declarationEmitDefaultExport7.ts
+! stderr .
+cmp declarationEmitDefaultExport7.d.ts declarationEmitDefaultExport7.d.ts.golden
+cmp declarationEmitDefaultExport7.js declarationEmitDefaultExport7.js.golden
+! exists declarationEmitDefaultExport7.js.map
+
+-- declarationEmitDefaultExport7.ts --
+class A {}
+export default new A();
+-- declarationEmitDefaultExport7.d.ts.golden --
+declare class A {
+}
+declare const _default: A;
+export default _default;
+-- declarationEmitDefaultExport7.js.golden --
+class A {
+}
+export default new A();

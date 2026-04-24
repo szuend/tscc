@@ -1,0 +1,46 @@
+# Ported from tests/cases/compiler/decrementAndIncrementOperators.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js decrementAndIncrementOperators.js decrementAndIncrementOperators.ts
+stderr 'TS2357'
+! exists decrementAndIncrementOperators.js
+! exists decrementAndIncrementOperators.d.ts
+! exists decrementAndIncrementOperators.js.map
+
+-- decrementAndIncrementOperators.ts --
+var x = 0;
+
+// errors
+1 ++;
+
+(1)++;
+(1)--;
+
+++(1);
+--(1);
+
+(1 + 2)++;
+(1 + 2)--;
+
+++(1 + 2);
+--(1 + 2);
+
+(x + x)++;
+(x + x)--;
+
+++(x + x);
+--(x + x);
+
+//OK
+x++;
+x--;
+
+++x;
+--x;
+
+(x)++;
+--(x);
+
+((x))++;
+((x))--;
+
+x[x++]++;

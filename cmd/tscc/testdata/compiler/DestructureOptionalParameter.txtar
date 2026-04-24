@@ -1,0 +1,62 @@
+# Ported from tests/cases/compiler/destructureOptionalParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts destructureOptionalParameter.d.ts --strict-null-checks --target es2015 --lib es2015,dom --out-js destructureOptionalParameter.js destructureOptionalParameter.ts
+! stderr .
+cmp destructureOptionalParameter.d.ts destructureOptionalParameter.d.ts.golden
+cmp destructureOptionalParameter.js destructureOptionalParameter.js.golden
+! exists destructureOptionalParameter.js.map
+
+-- destructureOptionalParameter.ts --
+declare function f1({ a, b }?: { a: number, b: string }): void;
+
+function f2({ a, b }: { a: number, b: number } = { a: 0, b: 0 }) {
+    a;
+    b;
+}
+
+// Repro from #8681
+
+interface Type { t: void }
+interface QueryMetadata { q: void }
+
+interface QueryMetadataFactory {
+    (selector: Type | string, {descendants, read}?: {
+        descendants?: boolean;
+        read?: any;
+    }): ParameterDecorator;
+    new (selector: Type | string, {descendants, read}?: {
+        descendants?: boolean;
+        read?: any;
+    }): QueryMetadata;
+}
+-- destructureOptionalParameter.d.ts.golden --
+declare function f1({ a, b }?: {
+    a: number;
+    b: string;
+}): void;
+declare function f2({ a, b }?: {
+    a: number;
+    b: number;
+}): void;
+interface Type {
+    t: void;
+}
+interface QueryMetadata {
+    q: void;
+}
+interface QueryMetadataFactory {
+    (selector: Type | string, { descendants, read }?: {
+        descendants?: boolean;
+        read?: any;
+    }): ParameterDecorator;
+    new (selector: Type | string, { descendants, read }?: {
+        descendants?: boolean;
+        read?: any;
+    }): QueryMetadata;
+}
+-- destructureOptionalParameter.js.golden --
+"use strict";
+function f2({ a, b } = { a: 0, b: 0 }) {
+    a;
+    b;
+}

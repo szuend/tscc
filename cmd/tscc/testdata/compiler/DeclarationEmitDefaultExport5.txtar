@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/declarationEmitDefaultExport5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDefaultExport5.d.ts --target es6 --lib es6,dom --out-js declarationEmitDefaultExport5.js declarationEmitDefaultExport5.ts
+! stderr .
+cmp declarationEmitDefaultExport5.d.ts declarationEmitDefaultExport5.d.ts.golden
+cmp declarationEmitDefaultExport5.js declarationEmitDefaultExport5.js.golden
+! exists declarationEmitDefaultExport5.js.map
+
+-- declarationEmitDefaultExport5.ts --
+export default 1 + 2;
+-- declarationEmitDefaultExport5.d.ts.golden --
+declare const _default: number;
+export default _default;
+-- declarationEmitDefaultExport5.js.golden --
+export default 1 + 2;

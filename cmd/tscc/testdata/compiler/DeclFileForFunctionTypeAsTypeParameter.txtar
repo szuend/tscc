@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/declFileForFunctionTypeAsTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileForFunctionTypeAsTypeParameter.d.ts --target es2015 --lib es2015,dom --out-js declFileForFunctionTypeAsTypeParameter.js declFileForFunctionTypeAsTypeParameter.ts
+! stderr .
+cmp declFileForFunctionTypeAsTypeParameter.d.ts declFileForFunctionTypeAsTypeParameter.d.ts.golden
+cmp declFileForFunctionTypeAsTypeParameter.js declFileForFunctionTypeAsTypeParameter.js.golden
+! exists declFileForFunctionTypeAsTypeParameter.js.map
+
+-- declFileForFunctionTypeAsTypeParameter.ts --
+class X<T> {
+}
+class C extends X<() => number> {
+}
+interface I extends X<() => number> {
+}
+
+-- declFileForFunctionTypeAsTypeParameter.d.ts.golden --
+declare class X<T> {
+}
+declare class C extends X<() => number> {
+}
+interface I extends X<() => number> {
+}
+-- declFileForFunctionTypeAsTypeParameter.js.golden --
+"use strict";
+class X {
+}
+class C extends X {
+}

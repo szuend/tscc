@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/convertKeywords.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js convertKeywords.js convertKeywords.ts
+! stderr .
+cmp convertKeywords.js convertKeywords.js.golden
+! exists convertKeywords.d.ts
+! exists convertKeywords.js.map
+
+-- convertKeywords.ts --
+var abstract;
+
+
+-- convertKeywords.js.golden --
+"use strict";
+var abstract;

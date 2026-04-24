@@ -1,0 +1,44 @@
+# Ported from tests/cases/compiler/declFileTypeofModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileTypeofModule.d.ts --target es2015 --lib es2015,dom --out-js declFileTypeofModule.js declFileTypeofModule.ts
+! stderr .
+cmp declFileTypeofModule.d.ts declFileTypeofModule.d.ts.golden
+cmp declFileTypeofModule.js declFileTypeofModule.js.golden
+! exists declFileTypeofModule.js.map
+
+-- declFileTypeofModule.ts --
+namespace m1 {
+    export var c: string;
+}
+var m1_1 = m1;
+var m1_2: typeof m1;
+
+namespace m2 {
+    export var d: typeof m2;
+}
+
+var m2_1 = m2;
+var m2_2: typeof m2;
+-- declFileTypeofModule.d.ts.golden --
+declare namespace m1 {
+    var c: string;
+}
+declare var m1_1: typeof m1;
+declare var m1_2: typeof m1;
+declare namespace m2 {
+    var d: typeof m2;
+}
+declare var m2_1: typeof m2;
+declare var m2_2: typeof m2;
+-- declFileTypeofModule.js.golden --
+"use strict";
+var m1;
+(function (m1) {
+})(m1 || (m1 = {}));
+var m1_1 = m1;
+var m1_2;
+var m2;
+(function (m2) {
+})(m2 || (m2 = {}));
+var m2_1 = m2;
+var m2_2;

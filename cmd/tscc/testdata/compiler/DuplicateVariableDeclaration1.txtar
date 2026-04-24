@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/duplicateVariableDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js duplicateVariableDeclaration1.js duplicateVariableDeclaration1.ts
+! stderr .
+cmp duplicateVariableDeclaration1.js duplicateVariableDeclaration1.js.golden
+! exists duplicateVariableDeclaration1.d.ts
+! exists duplicateVariableDeclaration1.js.map
+
+-- duplicateVariableDeclaration1.ts --
+var v
+var v
+-- duplicateVariableDeclaration1.js.golden --
+"use strict";
+var v;
+var v;

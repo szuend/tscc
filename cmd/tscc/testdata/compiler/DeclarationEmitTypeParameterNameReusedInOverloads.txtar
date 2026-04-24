@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/declarationEmitTypeParameterNameReusedInOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitTypeParameterNameReusedInOverloads.d.ts --module commonjs --no-skip-lib-check --target es2015 --lib es2015,dom --out-js declarationEmitTypeParameterNameReusedInOverloads.js declarationEmitTypeParameterNameReusedInOverloads.ts
+stderr 'TS2564'
+! exists declarationEmitTypeParameterNameReusedInOverloads.d.ts
+! exists declarationEmitTypeParameterNameReusedInOverloads.js
+! exists declarationEmitTypeParameterNameReusedInOverloads.js.map
+
+-- declarationEmitTypeParameterNameReusedInOverloads.ts --
+export class Base { foo: string; }
+export class Derived extends Base { bar: string; }
+export class Derived2 extends Derived { baz: string; }
+
+export type Foo = {
+    new (x: {
+        new <T extends Derived>(a: T): T;
+        new <T extends Base>(a: T): T;
+    }): any[];
+    new (x: {
+        new <T extends Derived2>(a: T): T;
+            new <T extends Base>(a: T): T;
+    }): any[];
+}

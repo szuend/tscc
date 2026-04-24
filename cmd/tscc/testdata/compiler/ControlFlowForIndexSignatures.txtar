@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/controlFlowForIndexSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js controlFlowForIndexSignatures.js controlFlowForIndexSignatures.ts
+stderr 'TS2322'
+! exists controlFlowForIndexSignatures.js
+! exists controlFlowForIndexSignatures.d.ts
+! exists controlFlowForIndexSignatures.js.map
+
+-- controlFlowForIndexSignatures.ts --
+type Foo = { bar: string };
+const boo: Foo = { bar: 'bar' };
+
+function a(aboo1?: Foo) {
+    if (!aboo1) return;
+    const aboo2: { [key: string]: typeof aboo1.bar } = boo;
+}
+
+declare let b: Foo | undefined;
+if (b) {
+    const bboo: { [key: string]: typeof b.bar } = boo;
+}
+b = boo;
+const bboo: { [key: string]: typeof b.bar } = boo;
+
+declare let c: string | number;
+if (typeof c === 'string') {
+    type C = { [key: string]: typeof c };
+    const boo1: C = { bar: 'works' };
+    const boo2: C = { bar: 1 }; // should error
+}

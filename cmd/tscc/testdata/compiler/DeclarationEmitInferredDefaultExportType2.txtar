@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/declarationEmitInferredDefaultExportType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitInferredDefaultExportType2.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitInferredDefaultExportType2.js declarationEmitInferredDefaultExportType2.ts
+! stderr .
+cmp declarationEmitInferredDefaultExportType2.d.ts declarationEmitInferredDefaultExportType2.d.ts.golden
+cmp declarationEmitInferredDefaultExportType2.js declarationEmitInferredDefaultExportType2.js.golden
+! exists declarationEmitInferredDefaultExportType2.js.map
+
+-- declarationEmitInferredDefaultExportType2.ts --
+// test.ts
+export = {
+  foo: [],
+  bar: undefined,
+  baz: null
+}
+-- declarationEmitInferredDefaultExportType2.d.ts.golden --
+declare const _default: {
+    foo: never[];
+    bar: undefined;
+    baz: null;
+};
+export = _default;
+-- declarationEmitInferredDefaultExportType2.js.golden --
+"use strict";
+module.exports = {
+    foo: [],
+    bar: undefined,
+    baz: null
+};

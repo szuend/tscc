@@ -1,0 +1,56 @@
+# Ported from tests/cases/compiler/declFileExportAssignmentImportInternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileExportAssignmentImportInternalModule.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js declFileExportAssignmentImportInternalModule.js declFileExportAssignmentImportInternalModule.ts
+! stderr .
+cmp declFileExportAssignmentImportInternalModule.d.ts declFileExportAssignmentImportInternalModule.d.ts.golden
+cmp declFileExportAssignmentImportInternalModule.js declFileExportAssignmentImportInternalModule.js.golden
+! exists declFileExportAssignmentImportInternalModule.js.map
+
+-- declFileExportAssignmentImportInternalModule.ts --
+namespace m3 {
+    export namespace m2 {
+        export interface connectModule {
+            (res, req, next): void;
+        }
+        export interface connectExport {
+            use: (mod: connectModule) => connectExport;
+            listen: (port: number) => void;
+        }
+
+    }
+
+    export var server: {
+        (): m2.connectExport;
+        test1: m2.connectModule;
+        test2(): m2.connectModule;
+    };
+}
+
+import m = m3
+export = m;
+-- declFileExportAssignmentImportInternalModule.d.ts.golden --
+declare namespace m3 {
+    namespace m2 {
+        interface connectModule {
+            (res: any, req: any, next: any): void;
+        }
+        interface connectExport {
+            use: (mod: connectModule) => connectExport;
+            listen: (port: number) => void;
+        }
+    }
+    var server: {
+        (): m2.connectExport;
+        test1: m2.connectModule;
+        test2(): m2.connectModule;
+    };
+}
+import m = m3;
+export = m;
+-- declFileExportAssignmentImportInternalModule.js.golden --
+"use strict";
+var m3;
+(function (m3) {
+})(m3 || (m3 = {}));
+var m = m3;
+module.exports = m;

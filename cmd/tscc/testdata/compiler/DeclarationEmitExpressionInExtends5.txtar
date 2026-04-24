@@ -1,0 +1,55 @@
+# Ported from tests/cases/compiler/declarationEmitExpressionInExtends5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitExpressionInExtends5.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitExpressionInExtends5.js declarationEmitExpressionInExtends5.ts
+! stderr .
+cmp declarationEmitExpressionInExtends5.d.ts declarationEmitExpressionInExtends5.d.ts.golden
+cmp declarationEmitExpressionInExtends5.js declarationEmitExpressionInExtends5.js.golden
+! exists declarationEmitExpressionInExtends5.js.map
+
+-- declarationEmitExpressionInExtends5.ts --
+namespace Test
+{
+	export interface IFace
+	{
+	}
+
+	export class SomeClass implements IFace
+	{
+	}
+
+	export class Derived extends getClass<IFace>()
+	{
+	}
+
+	export function getClass<T>() : new() => T
+	{
+		return SomeClass as (new() => T);
+	}
+}
+-- declarationEmitExpressionInExtends5.d.ts.golden --
+declare namespace Test {
+    export interface IFace {
+    }
+    export class SomeClass implements IFace {
+    }
+    const Derived_base: new () => IFace;
+    export class Derived extends Derived_base {
+    }
+    export function getClass<T>(): new () => T;
+    export {};
+}
+-- declarationEmitExpressionInExtends5.js.golden --
+"use strict";
+var Test;
+(function (Test) {
+    class SomeClass {
+    }
+    Test.SomeClass = SomeClass;
+    class Derived extends getClass() {
+    }
+    Test.Derived = Derived;
+    function getClass() {
+        return SomeClass;
+    }
+    Test.getClass = getClass;
+})(Test || (Test = {}));

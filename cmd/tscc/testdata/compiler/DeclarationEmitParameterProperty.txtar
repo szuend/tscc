@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declarationEmitParameterProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitParameterProperty.d.ts --module commonjs --strict-null-checks --target es2015 --lib es2015,dom --out-js declarationEmitParameterProperty.js declarationEmitParameterProperty.ts
+! stderr .
+cmp declarationEmitParameterProperty.d.ts declarationEmitParameterProperty.d.ts.golden
+cmp declarationEmitParameterProperty.js declarationEmitParameterProperty.js.golden
+! exists declarationEmitParameterProperty.js.map
+
+-- declarationEmitParameterProperty.ts --
+export class Foo {
+  constructor(public bar?: string) {
+  }
+}
+-- declarationEmitParameterProperty.d.ts.golden --
+export declare class Foo {
+    bar?: string | undefined;
+    constructor(bar?: string | undefined);
+}
+-- declarationEmitParameterProperty.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Foo = void 0;
+class Foo {
+    constructor(bar) {
+        this.bar = bar;
+    }
+}
+exports.Foo = Foo;

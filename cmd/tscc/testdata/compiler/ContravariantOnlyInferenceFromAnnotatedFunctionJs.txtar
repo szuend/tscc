@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/contravariantOnlyInferenceFromAnnotatedFunctionJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --strict --target es2015 --lib es2015,dom index.js
+stderr 'TS2304'
+stderr 'TS2315'
+! exists index.d.ts
+! exists index.js.map
+
+-- index.js --
+/**
+ * @typedef {{ [K in keyof B]: { fn: (a: A, b: B) => void; thing: B[K]; } }} Funcs
+ * @template A
+ * @template {Record<string, unknown>} B
+ */
+
+/**
+ * @template A
+ * @template {Record<string, unknown>} B
+ * @param {Funcs<A, B>} fns
+ * @returns {[A, B]}
+ */
+function foo(fns) {
+  return /** @type {any} */ (null);
+}
+
+const result = foo({
+  bar: {
+    fn:
+      /** @param {string} a */
+      (a) => {},
+    thing: "asd",
+  },
+});

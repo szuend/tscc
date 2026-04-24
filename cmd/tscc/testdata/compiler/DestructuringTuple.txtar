@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/destructuringTuple.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js destructuringTuple.js destructuringTuple.ts
+stderr 'TS2488'
+stderr 'TS2769'
+! exists destructuringTuple.js
+! exists destructuringTuple.d.ts
+! exists destructuringTuple.js.map
+
+-- destructuringTuple.ts --
+declare var tuple: [boolean, number, ...string[]];
+
+const [a, b, c, ...rest] = tuple;
+
+declare var receiver: typeof tuple;
+
+[...receiver] = tuple;
+
+// Repros from #32140
+
+const [oops1] = [1, 2, 3].reduce((accu, el) => accu.concat(el), []);
+
+const [oops2] = [1, 2, 3].reduce((acc: number[], e) => acc.concat(e), []);

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/declarationEmitTupleRestSignatureLeadingVariadic.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTupleRestSignatureLeadingVariadic.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitTupleRestSignatureLeadingVariadic.js declarationEmitTupleRestSignatureLeadingVariadic.ts
+! stderr .
+cmp declarationEmitTupleRestSignatureLeadingVariadic.d.ts declarationEmitTupleRestSignatureLeadingVariadic.d.ts.golden
+cmp declarationEmitTupleRestSignatureLeadingVariadic.js declarationEmitTupleRestSignatureLeadingVariadic.js.golden
+! exists declarationEmitTupleRestSignatureLeadingVariadic.js.map
+
+-- declarationEmitTupleRestSignatureLeadingVariadic.ts --
+const f = <TFirstArgs extends any[], TLastArg>(...args: [...TFirstArgs, TLastArg]): void => {};
+-- declarationEmitTupleRestSignatureLeadingVariadic.d.ts.golden --
+declare const f: <TFirstArgs extends any[], TLastArg>(...args: [...TFirstArgs, TLastArg]) => void;
+-- declarationEmitTupleRestSignatureLeadingVariadic.js.golden --
+"use strict";
+const f = (...args) => { };

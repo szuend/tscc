@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declarationEmitScopeConsistency.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts b.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js b.js b.ts
+! stderr .
+cmp b.d.ts b.d.ts.golden
+cmp b.js b.js.golden
+! exists b.js.map
+
+-- a.ts --
+export interface A { a: number }
+export const f = (x: A) => x as A;
+-- b.ts --
+import { f } from "./a";
+export interface A { other: number }
+export const g = f;
+-- b.d.ts.golden --
+export interface A {
+    other: number;
+}
+export declare const g: (x: import("./a").A) => import("./a").A;
+-- b.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.g = void 0;
+const a_1 = require("./a");
+exports.g = a_1.f;

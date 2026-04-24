@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/elaboratedErrorsOnNullableTargets01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js elaboratedErrorsOnNullableTargets01.js elaboratedErrorsOnNullableTargets01.ts
+stderr 'TS2322'
+! exists elaboratedErrorsOnNullableTargets01.js
+! exists elaboratedErrorsOnNullableTargets01.d.ts
+! exists elaboratedErrorsOnNullableTargets01.js.map
+
+-- elaboratedErrorsOnNullableTargets01.ts --
+export declare let x: null | { foo: { bar: string | null } | undefined } | undefined;
+export declare let y: { foo: { bar: number | undefined } };
+
+x = y;
+
+y = x;

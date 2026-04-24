@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/declFileTypeofClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declFileTypeofClass.d.ts --target es2015 --lib es2015,dom --out-js declFileTypeofClass.js declFileTypeofClass.ts
+stderr 'TS2564'
+! exists declFileTypeofClass.d.ts
+! exists declFileTypeofClass.js
+! exists declFileTypeofClass.js.map
+
+-- declFileTypeofClass.ts --
+class c {
+    static x : string;
+    private static y: number;
+    private x3: string;
+    public y3: number;
+}
+
+var x: c;
+var y = c;
+var z: typeof c;
+class genericC<T>
+{
+}
+var genericX = genericC;

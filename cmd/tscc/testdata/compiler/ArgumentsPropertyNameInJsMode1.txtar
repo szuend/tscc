@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/argumentsPropertyNameInJsMode1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --out-dts a.d.ts --no-strict --target es2015 --lib es2015,dom --out-js out_a.js a.js
+stderr 'TS2554'
+! exists out_a.js
+! exists a.d.ts
+! exists out/a.js.map
+
+-- a.js --
+const foo = {
+   f1: (params) => { }
+}
+
+function f2(x) {
+  foo.f1({ x, arguments: [] });
+}
+
+f2(1, 2, 3);

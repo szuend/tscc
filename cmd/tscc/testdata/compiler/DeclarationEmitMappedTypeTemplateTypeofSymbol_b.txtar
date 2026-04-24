@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/declarationEmitMappedTypeTemplateTypeofSymbol.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts b.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js b.js b.ts
+stderr 'TS4118'
+! exists b.d.ts
+! exists b.js
+! exists b.js.map
+
+-- a.d.ts --
+export declare const timestampSymbol: unique symbol;
+
+export declare const Timestamp: {
+    [TKey in typeof timestampSymbol]: true;
+};
+
+export declare function now(): typeof Timestamp;
+-- b.ts --
+import * as x from "./a";
+export const timestamp = x.now();
+-- c.ts --
+import { now } from "./a";
+
+export const timestamp = now();

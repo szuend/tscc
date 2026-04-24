@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/declareModifierOnTypeAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js declareModifierOnTypeAlias.js declareModifierOnTypeAlias.ts
+! stderr .
+cmp declareModifierOnTypeAlias.js declareModifierOnTypeAlias.js.golden
+! exists declareModifierOnTypeAlias.d.ts
+! exists declareModifierOnTypeAlias.js.map
+
+-- declareModifierOnTypeAlias.ts --
+declare type Foo = string;
+type Bar = number;
+declare type Baz = Bar;
+-- declareModifierOnTypeAlias.js.golden --
+"use strict";

@@ -1,0 +1,133 @@
+# Ported from tests/cases/compiler/controlFlowManyCallExpressionStatementsPerf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js controlFlowManyCallExpressionStatementsPerf.js controlFlowManyCallExpressionStatementsPerf.ts
+! stderr .
+cmp controlFlowManyCallExpressionStatementsPerf.js controlFlowManyCallExpressionStatementsPerf.js.golden
+! exists controlFlowManyCallExpressionStatementsPerf.d.ts
+! exists controlFlowManyCallExpressionStatementsPerf.js.map
+
+-- controlFlowManyCallExpressionStatementsPerf.ts --
+function test(x: boolean): boolean { return x; }
+
+let state = true;
+
+if (state) {
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+  test(state as any && state);
+}
+-- controlFlowManyCallExpressionStatementsPerf.js.golden --
+"use strict";
+function test(x) { return x; }
+let state = true;
+if (state) {
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+    test(state && state);
+}

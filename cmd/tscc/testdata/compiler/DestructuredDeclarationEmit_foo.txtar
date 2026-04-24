@@ -1,0 +1,53 @@
+# Ported from tests/cases/compiler/destructuredDeclarationEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts foo.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js foo.js foo.ts
+! stderr .
+cmp foo.d.ts foo.d.ts.golden
+cmp foo.js foo.js.golden
+! exists foo.js.map
+
+-- foo.ts --
+const foo = { bar: 'hello', bat: 'world', bam: { bork: { bar: 'a', baz: 'b' } } };
+const arr: [0, 1, 2, ['a', 'b', 'c', [{def: 'def'}, {sec: 'sec'}]]] = [0, 1, 2, ['a', 'b', 'c', [{def: 'def'}, {sec: 'sec'}]]];
+export { foo, arr };
+-- index.ts --
+import { foo, arr } from './foo';
+export { foo, arr };
+
+const { bar: baz, bat, bam: { bork: { bar: ibar, baz: ibaz } } } = foo;
+export { baz, ibaz };
+
+const [ , one, , [, bee, , [, {sec} ]]] = arr;
+export { one, bee, sec };
+
+const getFoo = () => ({
+    foo: 'foo'
+});
+
+const { foo: foo2 } = getFoo();
+export { foo2 };
+-- foo.d.ts.golden --
+declare const foo: {
+    bar: string;
+    bat: string;
+    bam: {
+        bork: {
+            bar: string;
+            baz: string;
+        };
+    };
+};
+declare const arr: [0, 1, 2, ['a', 'b', 'c', [{
+    def: 'def';
+}, {
+    sec: 'sec';
+}]]];
+export { foo, arr };
+-- foo.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.arr = exports.foo = void 0;
+const foo = { bar: 'hello', bat: 'world', bam: { bork: { bar: 'a', baz: 'b' } } };
+exports.foo = foo;
+const arr = [0, 1, 2, ['a', 'b', 'c', [{ def: 'def' }, { sec: 'sec' }]]];
+exports.arr = arr;

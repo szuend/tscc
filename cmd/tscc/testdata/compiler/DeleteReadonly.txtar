@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/deleteReadonly.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js deleteReadonly.js deleteReadonly.ts
+stderr 'TS2704'
+stderr 'TS2542'
+! exists deleteReadonly.js
+! exists deleteReadonly.d.ts
+! exists deleteReadonly.js.map
+
+-- deleteReadonly.ts --
+interface A {
+  readonly b
+}
+var a: A = {
+  b: 123
+};
+
+delete a.b;
+
+interface B {
+  readonly [k: string]: string
+}
+
+var b: B = {
+  'test': 'test'
+};
+
+delete b['test'];
+
+delete ((((b['test']))));

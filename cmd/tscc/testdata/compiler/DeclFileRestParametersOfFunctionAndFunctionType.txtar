@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/declFileRestParametersOfFunctionAndFunctionType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileRestParametersOfFunctionAndFunctionType.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declFileRestParametersOfFunctionAndFunctionType.js declFileRestParametersOfFunctionAndFunctionType.ts
+! stderr .
+cmp declFileRestParametersOfFunctionAndFunctionType.d.ts declFileRestParametersOfFunctionAndFunctionType.d.ts.golden
+cmp declFileRestParametersOfFunctionAndFunctionType.js declFileRestParametersOfFunctionAndFunctionType.js.golden
+! exists declFileRestParametersOfFunctionAndFunctionType.js.map
+
+-- declFileRestParametersOfFunctionAndFunctionType.ts --
+function f1(...args) { }
+function f2(x: (...args) => void) { }
+function f3(x: { (...args): void }) { }
+function f4<T extends (...args) => void>() { }
+function f5<T extends { (...args): void }>() { }
+var f6 = () => { return [<any>10]; }
+
+
+-- declFileRestParametersOfFunctionAndFunctionType.d.ts.golden --
+declare function f1(...args: any[]): void;
+declare function f2(x: (...args: any[]) => void): void;
+declare function f3(x: {
+    (...args: any[]): void;
+}): void;
+declare function f4<T extends (...args: any[]) => void>(): void;
+declare function f5<T extends {
+    (...args: any[]): void;
+}>(): void;
+declare var f6: () => any[];
+-- declFileRestParametersOfFunctionAndFunctionType.js.golden --
+"use strict";
+function f1(...args) { }
+function f2(x) { }
+function f3(x) { }
+function f4() { }
+function f5() { }
+var f6 = () => { return [10]; };

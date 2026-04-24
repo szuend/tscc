@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/declarationEmitTypeofRest.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts v2.d.ts --target es2015 --lib es2015,dom --out-js v2.js v2.ts
+stderr 'TS2527'
+! exists v2.d.ts
+! exists v2.js
+! exists v2.js.map
+
+-- v1.ts --
+export const v1 = (...a: [n: "n", a: "a"]): {
+    /** r rest param */
+    a: typeof a,
+} => {
+    return null!
+}
+-- v2.ts --
+const n = Symbol();
+export const v2 = (...a: [n: "n", a: "a"]): {
+    /** r rest param */
+    a: typeof a,
+    /** module var */
+    n: typeof n,
+} => {
+    return null!
+}

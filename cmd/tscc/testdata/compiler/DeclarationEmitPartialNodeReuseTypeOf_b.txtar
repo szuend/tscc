@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/declarationEmitPartialNodeReuseTypeOf.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts b.d.ts --strict --target es2020 --lib es2020,dom --out-js b.js b.ts
+! stderr .
+cmp b.d.ts b.d.ts.golden
+cmp b.js b.js.golden
+! exists b.js.map
+
+-- a.ts --
+export const nImported = "nImported"
+export const nNotImported = "nNotImported"
+const nPrivate = "private"
+export const o = (p1: typeof nImported, p2: typeof nNotImported, p3: typeof nPrivate) => null! as { foo: typeof nImported, bar: typeof nPrivate, baz: typeof nNotImported }
+-- b.ts --
+import { o, nImported } from "./a";
+export const g = o
+console.log(nImported);
+-- c.ts --
+import * as a from "./a";
+export const g = a.o
+-- b.d.ts.golden --
+import { nImported } from "./a";
+export declare const g: (p1: typeof nImported, p2: typeof import("./a").nNotImported, p3: "private") => {
+    foo: typeof nImported;
+    bar: "private";
+    baz: typeof import("./a").nNotImported;
+};
+-- b.js.golden --
+import { o, nImported } from "./a";
+export const g = o;
+console.log(nImported);

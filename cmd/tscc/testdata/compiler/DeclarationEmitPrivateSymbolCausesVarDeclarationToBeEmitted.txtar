@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.d.ts --lib es6 --module commonjs --target es2015 --out-js declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.js declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.ts
+! stderr .
+cmp declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.d.ts declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.d.ts.golden
+cmp declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.js declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.js.golden
+! exists declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.js.map
+
+-- declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.ts --
+const _data = Symbol('data');
+
+export class User {
+    private [_data] : any;
+};
+-- declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.d.ts.golden --
+declare const _data: unique symbol;
+export declare class User {
+    private [_data];
+}
+export {};
+-- declarationEmitPrivateSymbolCausesVarDeclarationToBeEmitted.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.User = void 0;
+const _data = Symbol('data');
+class User {
+}
+exports.User = User;
+;

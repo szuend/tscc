@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/declarationEmitExpressionInExtends7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitExpressionInExtends7.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitExpressionInExtends7.js declarationEmitExpressionInExtends7.ts
+stderr 'TS2304'
+! exists declarationEmitExpressionInExtends7.d.ts
+! exists declarationEmitExpressionInExtends7.js
+! exists declarationEmitExpressionInExtends7.js.map
+
+-- declarationEmitExpressionInExtends7.ts --
+export default class extends SomeUndefinedFunction {}

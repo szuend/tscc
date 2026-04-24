@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/dottedSymbolResolution1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js dottedSymbolResolution1.js dottedSymbolResolution1.ts
+stderr 'TS2454'
+! exists dottedSymbolResolution1.js
+! exists dottedSymbolResolution1.d.ts
+! exists dottedSymbolResolution1.js.map
+
+-- dottedSymbolResolution1.ts --
+interface JQuery {
+    find(selector: string): JQuery;
+}
+
+interface JQueryStatic {
+    
+    (selector: string): JQuery;
+    (object: JQuery): JQuery;
+}
+
+class Base { foo() { } }
+
+function each(collection: string, callback: (indexInArray: any, valueOfElement: any) => any): any;
+function each(collection: JQuery, callback: (indexInArray: number, valueOfElement: Base) => any): any;
+function each(collection: any, callback: (indexInArray: any, valueOfElement: any) => any): any {
+    return null;
+}
+
+function _setBarAndText(): void {
+    var x: JQuery, $: JQueryStatic
+    each(x.find(" "), function () {
+        var $this: JQuery = $(''),
+            thisBar = $this.find(".fx-usagebars-calloutbar-this"); // bug lead to 'could not find dotted symbol' here
+    } );
+}

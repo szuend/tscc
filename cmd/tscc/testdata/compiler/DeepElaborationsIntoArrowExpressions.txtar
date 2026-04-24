@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/deepElaborationsIntoArrowExpressions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js deepElaborationsIntoArrowExpressions.js deepElaborationsIntoArrowExpressions.ts
+stderr 'TS2322'
+! exists deepElaborationsIntoArrowExpressions.js
+! exists deepElaborationsIntoArrowExpressions.d.ts
+! exists deepElaborationsIntoArrowExpressions.js.map
+
+-- deepElaborationsIntoArrowExpressions.ts --
+const a: {
+    y(): "a"
+} = {
+    y: () => "b"
+};
+
+interface Foo {
+    a: number;
+}
+
+function foo1(): () => Foo {
+    return () => ({a: ''});
+}
+
+function foo3(): Foo[] {
+    return [{a: ''}];
+}
+var y: Foo[] = [{a: ''}]

@@ -1,0 +1,70 @@
+# Ported from tests/cases/compiler/declFileForClassWithMultipleBaseClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileForClassWithMultipleBaseClasses.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declFileForClassWithMultipleBaseClasses.js declFileForClassWithMultipleBaseClasses.ts
+! stderr .
+cmp declFileForClassWithMultipleBaseClasses.d.ts declFileForClassWithMultipleBaseClasses.d.ts.golden
+cmp declFileForClassWithMultipleBaseClasses.js declFileForClassWithMultipleBaseClasses.js.golden
+! exists declFileForClassWithMultipleBaseClasses.js.map
+
+-- declFileForClassWithMultipleBaseClasses.ts --
+class A {
+    foo() { }
+}
+
+class B {
+    bar() { }
+}
+
+interface I {
+    baz();
+}
+
+interface J {
+    bat();
+}
+
+
+class D implements I, J {
+    baz() { }
+    bat() { }
+    foo() { }
+    bar() { }
+}
+
+interface I extends A, B {
+}
+-- declFileForClassWithMultipleBaseClasses.d.ts.golden --
+declare class A {
+    foo(): void;
+}
+declare class B {
+    bar(): void;
+}
+interface I {
+    baz(): any;
+}
+interface J {
+    bat(): any;
+}
+declare class D implements I, J {
+    baz(): void;
+    bat(): void;
+    foo(): void;
+    bar(): void;
+}
+interface I extends A, B {
+}
+-- declFileForClassWithMultipleBaseClasses.js.golden --
+"use strict";
+class A {
+    foo() { }
+}
+class B {
+    bar() { }
+}
+class D {
+    baz() { }
+    bat() { }
+    foo() { }
+    bar() { }
+}

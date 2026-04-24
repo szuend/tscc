@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/defaultValueInConstructorOverload1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js defaultValueInConstructorOverload1.js defaultValueInConstructorOverload1.ts
+stderr 'TS2371'
+! exists defaultValueInConstructorOverload1.js
+! exists defaultValueInConstructorOverload1.d.ts
+! exists defaultValueInConstructorOverload1.js.map
+
+-- defaultValueInConstructorOverload1.ts --
+class C {
+    constructor(x = '');
+    constructor(x = '') {
+    }
+}

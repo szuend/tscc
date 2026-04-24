@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/declarationEmitExpressionInExtends2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitExpressionInExtends2.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitExpressionInExtends2.js declarationEmitExpressionInExtends2.ts
+stderr 'TS2564'
+! exists declarationEmitExpressionInExtends2.d.ts
+! exists declarationEmitExpressionInExtends2.js
+! exists declarationEmitExpressionInExtends2.js.map
+
+-- declarationEmitExpressionInExtends2.ts --
+class C<T, U> {
+    x: T;
+    y: U;
+}
+
+function getClass<T>(c: T) {
+    return C;
+}
+
+class MyClass extends getClass(2) <string, number> {
+}

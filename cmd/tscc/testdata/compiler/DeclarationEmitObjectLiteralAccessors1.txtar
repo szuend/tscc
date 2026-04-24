@@ -1,0 +1,60 @@
+# Ported from tests/cases/compiler/declarationEmitObjectLiteralAccessors1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitObjectLiteralAccessors1.d.ts --strict --target es2015 --lib es2015,dom declarationEmitObjectLiteralAccessors1.ts
+! stderr .
+cmp declarationEmitObjectLiteralAccessors1.d.ts declarationEmitObjectLiteralAccessors1.d.ts.golden
+! exists declarationEmitObjectLiteralAccessors1.js.map
+
+-- declarationEmitObjectLiteralAccessors1.ts --
+// same type accessors
+export const obj1 = {
+  /** my awesome getter (first in source order) */
+  get x(): string {
+    return "";
+  },
+  /** my awesome setter (second in source order) */
+  set x(a: string) {},
+};
+
+// divergent accessors
+export const obj2 = {
+  /** my awesome getter */
+  get x(): string {
+    return "";
+  },
+  /** my awesome setter */
+  set x(a: number) {},
+};
+
+export const obj3 = {
+  /** my awesome getter */
+  get x(): string {
+    return "";
+  },
+};
+
+export const obj4 = {
+  /** my awesome setter */
+  set x(a: number) {},
+};
+-- declarationEmitObjectLiteralAccessors1.d.ts.golden --
+export declare const obj1: {
+    /** my awesome getter (first in source order) */
+    get x(): string;
+    /** my awesome setter (second in source order) */
+    set x(a: string);
+};
+export declare const obj2: {
+    /** my awesome getter */
+    get x(): string;
+    /** my awesome setter */
+    set x(a: number);
+};
+export declare const obj3: {
+    /** my awesome getter */
+    readonly x: string;
+};
+export declare const obj4: {
+    /** my awesome setter */
+    x: number;
+};

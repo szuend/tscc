@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/detachedCommentAtStartOfLambdaFunction2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js detachedCommentAtStartOfLambdaFunction2.js detachedCommentAtStartOfLambdaFunction2.ts
+stderr 'TS2564'
+! exists detachedCommentAtStartOfLambdaFunction2.js
+! exists detachedCommentAtStartOfLambdaFunction2.d.ts
+! exists detachedCommentAtStartOfLambdaFunction2.js.map
+
+-- detachedCommentAtStartOfLambdaFunction2.ts --
+class TestFile {
+    name: string;
+    foo(message: string): () => string {
+        return (...x: string[]) =>
+            /// <summary>Test summary</summary>
+            /// <param name="message" type="String" />
+            /// <returns type="Function" />
+
+            message + this.name;
+    }
+}

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/duplicateLocalVariable4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateLocalVariable4.js duplicateLocalVariable4.ts
+stderr 'TS2403'
+! exists duplicateLocalVariable4.js
+! exists duplicateLocalVariable4.d.ts
+! exists duplicateLocalVariable4.js.map
+
+-- duplicateLocalVariable4.ts --
+enum E{
+a
+}
+ 
+var x = E;
+var x = E.a;

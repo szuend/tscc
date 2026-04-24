@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/contravariantOnlyInferenceWithAnnotatedOptionalParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom contravariantOnlyInferenceWithAnnotatedOptionalParameter.ts
+! stderr .
+! exists contravariantOnlyInferenceWithAnnotatedOptionalParameter.d.ts
+! exists contravariantOnlyInferenceWithAnnotatedOptionalParameter.js.map
+
+-- contravariantOnlyInferenceWithAnnotatedOptionalParameter.ts --
+// repro https://github.com/microsoft/TypeScript/issues/55394
+
+declare function filter<T>(predicate: (value: T, index: number) => boolean): T;
+const a = filter((pose?: number) => true);
+const b = filter((pose?: number, _?: number) => true);

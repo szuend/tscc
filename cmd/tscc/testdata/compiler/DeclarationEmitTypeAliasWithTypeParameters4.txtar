@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declarationEmitTypeAliasWithTypeParameters4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTypeAliasWithTypeParameters4.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitTypeAliasWithTypeParameters4.js declarationEmitTypeAliasWithTypeParameters4.ts
+! stderr .
+cmp declarationEmitTypeAliasWithTypeParameters4.d.ts declarationEmitTypeAliasWithTypeParameters4.d.ts.golden
+cmp declarationEmitTypeAliasWithTypeParameters4.js declarationEmitTypeAliasWithTypeParameters4.js.golden
+! exists declarationEmitTypeAliasWithTypeParameters4.js.map
+
+-- declarationEmitTypeAliasWithTypeParameters4.ts --
+type Foo<T, Y> = {
+    foo<U, J>(): Foo<U, J>
+};
+type SubFoo<R> = Foo<string, R>;
+
+function foo() {
+    return {} as SubFoo<number>;
+}
+-- declarationEmitTypeAliasWithTypeParameters4.d.ts.golden --
+type Foo<T, Y> = {
+    foo<U, J>(): Foo<U, J>;
+};
+type SubFoo<R> = Foo<string, R>;
+declare function foo(): SubFoo<number>;
+-- declarationEmitTypeAliasWithTypeParameters4.js.golden --
+"use strict";
+function foo() {
+    return {};
+}

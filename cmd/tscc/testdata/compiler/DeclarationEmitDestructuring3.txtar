@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuring3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDestructuring3.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declarationEmitDestructuring3.js declarationEmitDestructuring3.ts
+! stderr .
+cmp declarationEmitDestructuring3.d.ts declarationEmitDestructuring3.d.ts.golden
+cmp declarationEmitDestructuring3.js declarationEmitDestructuring3.js.golden
+! exists declarationEmitDestructuring3.js.map
+
+-- declarationEmitDestructuring3.ts --
+function bar([x, z, ...w]) { }
+function foo([x, ...y] = [1, "string", true]) { }
+
+-- declarationEmitDestructuring3.d.ts.golden --
+declare function bar([x, z, ...w]: [any, any, ...any[]]): void;
+declare function foo([x, ...y]?: [number, string, boolean]): void;
+-- declarationEmitDestructuring3.js.golden --
+"use strict";
+function bar([x, z, ...w]) { }
+function foo([x, ...y] = [1, "string", true]) { }

@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/destructuredLateBoundNameHasCorrectTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js destructuredLateBoundNameHasCorrectTypes.js destructuredLateBoundNameHasCorrectTypes.ts
+stderr 'TS2339'
+stderr 'TS2353'
+! exists destructuredLateBoundNameHasCorrectTypes.js
+! exists destructuredLateBoundNameHasCorrectTypes.d.ts
+! exists destructuredLateBoundNameHasCorrectTypes.js.map
+
+-- destructuredLateBoundNameHasCorrectTypes.ts --
+let { [Symbol.iterator]: destructured } = [];
+void destructured;
+
+const named = "prop";
+
+let { [named]: computed } = { prop: "b" };
+void computed;
+
+const notPresent = "prop2";
+
+let { [notPresent]: computed2 } = { prop: "b" };

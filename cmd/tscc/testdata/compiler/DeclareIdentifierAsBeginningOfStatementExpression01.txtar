@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/declareIdentifierAsBeginningOfStatementExpression01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js declareIdentifierAsBeginningOfStatementExpression01.js declareIdentifierAsBeginningOfStatementExpression01.ts
+! stderr .
+cmp declareIdentifierAsBeginningOfStatementExpression01.js declareIdentifierAsBeginningOfStatementExpression01.js.golden
+! exists declareIdentifierAsBeginningOfStatementExpression01.d.ts
+! exists declareIdentifierAsBeginningOfStatementExpression01.js.map
+
+-- declareIdentifierAsBeginningOfStatementExpression01.ts --
+class C {
+}
+
+var declare: any;
+
+declare instanceof C;
+-- declareIdentifierAsBeginningOfStatementExpression01.js.golden --
+"use strict";
+class C {
+}
+var declare;
+declare instanceof C;

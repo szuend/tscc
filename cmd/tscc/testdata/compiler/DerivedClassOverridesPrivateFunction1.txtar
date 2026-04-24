@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/derivedClassOverridesPrivateFunction1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js derivedClassOverridesPrivateFunction1.js derivedClassOverridesPrivateFunction1.ts
+stderr 'TS2415'
+! exists derivedClassOverridesPrivateFunction1.js
+! exists derivedClassOverridesPrivateFunction1.d.ts
+! exists derivedClassOverridesPrivateFunction1.js.map
+
+-- derivedClassOverridesPrivateFunction1.ts --
+class BaseClass {
+    constructor() {
+        this._init();
+    }
+    private _init() {
+    }
+}
+class DerivedClass extends BaseClass {
+    constructor() {
+        super();
+    }
+    private _init() {
+    }
+}
+new DerivedClass();

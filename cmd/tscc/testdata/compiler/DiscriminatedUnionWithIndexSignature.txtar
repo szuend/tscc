@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/discriminatedUnionWithIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js discriminatedUnionWithIndexSignature.js discriminatedUnionWithIndexSignature.ts
+! stderr .
+cmp discriminatedUnionWithIndexSignature.js discriminatedUnionWithIndexSignature.js.golden
+! exists discriminatedUnionWithIndexSignature.d.ts
+! exists discriminatedUnionWithIndexSignature.js.map
+
+-- discriminatedUnionWithIndexSignature.ts --
+export interface UnionAltA {
+    type?: 'text';
+}
+
+export interface UnionAltB {
+    type?: 'image' | 'video' | 'document';
+}
+
+export type ValueUnion = UnionAltA | UnionAltB;
+
+export type MapOrSingleton =
+    | {
+        [key: string]: ValueUnion;
+    }
+    | ValueUnion;
+
+const withoutAsConst: MapOrSingleton = {
+    1: {
+        type: 'text' /*as const*/,
+    },
+};
+
+const withAsConst: MapOrSingleton = {
+    1: {
+        type: 'text' as const,
+    },
+};
+-- discriminatedUnionWithIndexSignature.js.golden --
+const withoutAsConst = {
+    1: {
+        type: 'text' /*as const*/,
+    },
+};
+const withAsConst = {
+    1: {
+        type: 'text',
+    },
+};
+export {};

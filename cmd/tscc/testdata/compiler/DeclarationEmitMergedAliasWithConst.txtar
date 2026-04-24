@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/declarationEmitMergedAliasWithConst.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitMergedAliasWithConst.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitMergedAliasWithConst.js declarationEmitMergedAliasWithConst.ts
+! stderr .
+cmp declarationEmitMergedAliasWithConst.d.ts declarationEmitMergedAliasWithConst.d.ts.golden
+cmp declarationEmitMergedAliasWithConst.js declarationEmitMergedAliasWithConst.js.golden
+! exists declarationEmitMergedAliasWithConst.js.map
+
+-- declarationEmitMergedAliasWithConst.ts --
+export const Color = {
+    Red: "Red",
+    Green: "Green",
+    Blue: "Blue"
+} as const
+
+export type Color = typeof Color
+export type Colors = Color[keyof Color]
+-- declarationEmitMergedAliasWithConst.d.ts.golden --
+export declare const Color: {
+    readonly Red: "Red";
+    readonly Green: "Green";
+    readonly Blue: "Blue";
+};
+export type Color = typeof Color;
+export type Colors = Color[keyof Color];
+-- declarationEmitMergedAliasWithConst.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Color = void 0;
+exports.Color = {
+    Red: "Red",
+    Green: "Green",
+    Blue: "Blue"
+};

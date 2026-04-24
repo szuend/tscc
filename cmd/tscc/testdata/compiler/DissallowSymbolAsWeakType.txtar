@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/dissallowSymbolAsWeakType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es2022 --target es2022 --out-js dissallowSymbolAsWeakType.js dissallowSymbolAsWeakType.ts
+stderr 'TS2769'
+stderr 'TS2345'
+! exists dissallowSymbolAsWeakType.js
+! exists dissallowSymbolAsWeakType.d.ts
+! exists dissallowSymbolAsWeakType.js.map
+
+-- dissallowSymbolAsWeakType.ts --
+const s: symbol = Symbol('s');
+
+const ws = new WeakSet([s]);
+ws.add(s);
+ws.has(s);
+ws.delete(s);
+
+const wm = new WeakMap([[s, false]]);
+wm.set(s, true);
+wm.has(s);
+wm.get(s);
+wm.delete(s);
+
+const wr = new WeakRef(s);
+wr.deref();
+
+const f = new FinalizationRegistry(() => {});
+f.register(s, null);
+f.unregister(s);

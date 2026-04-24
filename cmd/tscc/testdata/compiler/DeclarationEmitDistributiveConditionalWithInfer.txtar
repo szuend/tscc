@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/declarationEmitDistributiveConditionalWithInfer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDistributiveConditionalWithInfer.d.ts --lib es2020 --module commonjs --target es2015 --out-js declarationEmitDistributiveConditionalWithInfer.js declarationEmitDistributiveConditionalWithInfer.ts
+! stderr .
+cmp declarationEmitDistributiveConditionalWithInfer.d.ts declarationEmitDistributiveConditionalWithInfer.d.ts.golden
+cmp declarationEmitDistributiveConditionalWithInfer.js declarationEmitDistributiveConditionalWithInfer.js.golden
+! exists declarationEmitDistributiveConditionalWithInfer.js.map
+
+-- declarationEmitDistributiveConditionalWithInfer.ts --
+// This function's type is changed on declaration
+export const fun = (
+    subFun: <Collection, Field extends keyof Collection>()
+        => FlatArray<Collection[Field], 0>[]) => { };
+-- declarationEmitDistributiveConditionalWithInfer.d.ts.golden --
+export declare const fun: (subFun: <Collection, Field extends keyof Collection>() => FlatArray<Collection[Field], 0>[]) => void;
+-- declarationEmitDistributiveConditionalWithInfer.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fun = void 0;
+// This function's type is changed on declaration
+const fun = (subFun) => { };
+exports.fun = fun;

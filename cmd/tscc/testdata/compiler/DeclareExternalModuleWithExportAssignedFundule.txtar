@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/declareExternalModuleWithExportAssignedFundule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --path express=declareExternalModuleWithExportAssignedFundule.ts --out-js declareExternalModuleWithExportAssignedFundule.js declareExternalModuleWithExportAssignedFundule.ts
+! stderr .
+cmp declareExternalModuleWithExportAssignedFundule.js declareExternalModuleWithExportAssignedFundule.js.golden
+! exists declareExternalModuleWithExportAssignedFundule.d.ts
+! exists declareExternalModuleWithExportAssignedFundule.js.map
+
+-- declareExternalModuleWithExportAssignedFundule.ts --
+declare module "express" {
+
+    export = express;
+
+    function express(): express.ExpressServer;
+
+    namespace express {
+
+        export interface ExpressServer {
+
+            enable(name: string): ExpressServer;
+
+            post(path: RegExp, handler: (req: Function) => void ): void;
+
+        }
+
+        export class ExpressServerRequest {
+
+        }
+
+    }
+
+}
+-- declareExternalModuleWithExportAssignedFundule.js.golden --
+"use strict";

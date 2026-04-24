@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/destructuredMaappedTypeIsNotImplicitlyAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-implicit-any --target es2015 --lib es2015,dom --out-js destructuredMaappedTypeIsNotImplicitlyAny.js destructuredMaappedTypeIsNotImplicitlyAny.ts
+! stderr .
+cmp destructuredMaappedTypeIsNotImplicitlyAny.js destructuredMaappedTypeIsNotImplicitlyAny.js.golden
+! exists destructuredMaappedTypeIsNotImplicitlyAny.d.ts
+! exists destructuredMaappedTypeIsNotImplicitlyAny.js.map
+
+-- destructuredMaappedTypeIsNotImplicitlyAny.ts --
+function foo<T extends string>(key: T, obj: { [_ in T]: number }) {
+    const { [key]: bar } = obj; // Element implicitly has an 'any' type because type '{ [_ in T]: number; }' has no index signature.
+    bar; // bar : any
+
+    // Note: this does work:
+    const lorem = obj[key];
+}
+-- destructuredMaappedTypeIsNotImplicitlyAny.js.golden --
+"use strict";
+function foo(key, obj) {
+    const { [key]: bar } = obj; // Element implicitly has an 'any' type because type '{ [_ in T]: number; }' has no index signature.
+    bar; // bar : any
+    // Note: this does work:
+    const lorem = obj[key];
+}

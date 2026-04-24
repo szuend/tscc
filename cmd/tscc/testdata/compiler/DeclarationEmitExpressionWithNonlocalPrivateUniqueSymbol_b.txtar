@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/declarationEmitExpressionWithNonlocalPrivateUniqueSymbol.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts b.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+stderr 'TS2527'
+! exists b.d.ts
+! exists b.js
+! exists b.js.map
+
+-- a.ts --
+type AX = { readonly A: unique symbol };
+export const A: AX = 0 as any;
+-- b.ts --
+import { A } from './a';
+export const A1 = A;

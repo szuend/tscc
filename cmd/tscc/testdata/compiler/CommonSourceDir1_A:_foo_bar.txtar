@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/commonSourceDir1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js bar.js A:/foo/bar.ts
+! stderr .
+cmp bar.js bar.js.golden
+! exists A:/A:/foo/bar.d.ts
+! exists A:/A:/foo/bar.js.map
+
+-- A:/foo/bar.ts --
+var x: number;
+-- A:/foo/baz.ts --
+var y: number;
+-- bar.js.golden --
+"use strict";
+var x;

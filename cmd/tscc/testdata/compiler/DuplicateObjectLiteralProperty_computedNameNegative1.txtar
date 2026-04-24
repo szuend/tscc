@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/duplicateObjectLiteralProperty_computedNameNegative1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom duplicateObjectLiteralProperty_computedNameNegative1.ts
+! stderr .
+! exists duplicateObjectLiteralProperty_computedNameNegative1.d.ts
+! exists duplicateObjectLiteralProperty_computedNameNegative1.js.map
+
+-- duplicateObjectLiteralProperty_computedNameNegative1.ts --
+// repro from https://github.com/microsoft/TypeScript/issues/56341
+
+function bar(props: { x?: string; y?: string }) {
+  const { x = "", y = "" } = props;
+  return {
+    [x]: 1,
+    [y]: 2,
+  };
+}
+
+function foo({ x = "", y = "" }: { x?: string; y?: string }) {
+  return {
+    [x]: 1,
+    [y]: 2,
+  };
+}

@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/declFileModuleContinuation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileModuleContinuation.d.ts --target es2015 --lib es2015,dom --out-js declFileModuleContinuation.js declFileModuleContinuation.ts
+! stderr .
+cmp declFileModuleContinuation.d.ts declFileModuleContinuation.d.ts.golden
+cmp declFileModuleContinuation.js declFileModuleContinuation.js.golden
+! exists declFileModuleContinuation.js.map
+
+-- declFileModuleContinuation.ts --
+namespace A.C {
+    export interface Z {
+    }
+}
+
+namespace A.B.C {
+    export class W implements A.C.Z {
+    }
+}
+-- declFileModuleContinuation.d.ts.golden --
+declare namespace A.C {
+    interface Z {
+    }
+}
+declare namespace A.B.C {
+    class W implements A.C.Z {
+    }
+}
+-- declFileModuleContinuation.js.golden --
+"use strict";
+var A;
+(function (A) {
+    var B;
+    (function (B) {
+        var C;
+        (function (C) {
+            class W {
+            }
+            C.W = W;
+        })(C = B.C || (B.C = {}));
+    })(B = A.B || (A.B = {}));
+})(A || (A = {}));

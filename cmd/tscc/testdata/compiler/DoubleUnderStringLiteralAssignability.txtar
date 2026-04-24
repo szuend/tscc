@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/doubleUnderStringLiteralAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js doubleUnderStringLiteralAssignability.js doubleUnderStringLiteralAssignability.ts
+stderr 'TS2322'
+! exists doubleUnderStringLiteralAssignability.js
+! exists doubleUnderStringLiteralAssignability.d.ts
+! exists doubleUnderStringLiteralAssignability.js.map
+
+-- doubleUnderStringLiteralAssignability.ts --
+var shouldBeOk: '__dunder' = '__dunder';
+var bad: '__dunder' = 'no_dunder';
+var okok: '___thunder' = '___thunder';
+var alsoOk: '_sunder' = '_sunder';

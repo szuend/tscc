@@ -1,0 +1,58 @@
+# Ported from tests/cases/compiler/doesNotNarrowUnionOfConstructorsWithInstanceof.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js doesNotNarrowUnionOfConstructorsWithInstanceof.js doesNotNarrowUnionOfConstructorsWithInstanceof.ts
+! stderr .
+cmp doesNotNarrowUnionOfConstructorsWithInstanceof.js doesNotNarrowUnionOfConstructorsWithInstanceof.js.golden
+! exists doesNotNarrowUnionOfConstructorsWithInstanceof.d.ts
+! exists doesNotNarrowUnionOfConstructorsWithInstanceof.js.map
+
+-- doesNotNarrowUnionOfConstructorsWithInstanceof.ts --
+class A {
+    length: 1
+    constructor() {
+      this.length = 1
+    }
+}
+
+class B {
+    length: 2
+    constructor() {
+      this.length = 2
+    }
+}
+
+function getTypedArray(flag: boolean) {
+  return flag ? new A() : new B();
+}
+function getTypedArrayConstructor(flag: boolean) {
+  return flag ? A : B;
+}
+const a = getTypedArray(true);              // A | B
+const b = getTypedArrayConstructor(false);  // A constructor | B constructor
+
+if (!(a instanceof b)) {
+  console.log(a.length);  // Used to be property 'length' does not exist on type 'never'.
+}
+-- doesNotNarrowUnionOfConstructorsWithInstanceof.js.golden --
+"use strict";
+class A {
+    constructor() {
+        this.length = 1;
+    }
+}
+class B {
+    constructor() {
+        this.length = 2;
+    }
+}
+function getTypedArray(flag) {
+    return flag ? new A() : new B();
+}
+function getTypedArrayConstructor(flag) {
+    return flag ? A : B;
+}
+const a = getTypedArray(true); // A | B
+const b = getTypedArrayConstructor(false); // A constructor | B constructor
+if (!(a instanceof b)) {
+    console.log(a.length); // Used to be property 'length' does not exist on type 'never'.
+}

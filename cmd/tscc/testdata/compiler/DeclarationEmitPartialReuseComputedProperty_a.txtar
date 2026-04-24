@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/declarationEmitPartialReuseComputedProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --strict --target es2020 --lib es2020,dom --out-js a.js a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+cmp a.js a.js.golden
+! exists a.js.map
+
+-- a.ts --
+export const n = "A"
+export const poz = 1;
+export const neg = -1;
+export const o = () => null! as { [n]: string, foo: string, [poz]: number, [neg]: number }
+-- b.ts --
+import { o } from "./a";
+export const g = o
+-- a.d.ts.golden --
+export declare const n = "A";
+export declare const poz = 1;
+export declare const neg = -1;
+export declare const o: () => {
+    [n]: string;
+    foo: string;
+    [poz]: number;
+    [neg]: number;
+};
+-- a.js.golden --
+export const n = "A";
+export const poz = 1;
+export const neg = -1;
+export const o = () => null;

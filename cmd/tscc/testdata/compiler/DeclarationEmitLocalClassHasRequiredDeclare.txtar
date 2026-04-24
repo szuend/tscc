@@ -1,0 +1,51 @@
+# Ported from tests/cases/compiler/declarationEmitLocalClassHasRequiredDeclare.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitLocalClassHasRequiredDeclare.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitLocalClassHasRequiredDeclare.js declarationEmitLocalClassHasRequiredDeclare.ts
+! stderr .
+cmp declarationEmitLocalClassHasRequiredDeclare.d.ts declarationEmitLocalClassHasRequiredDeclare.d.ts.golden
+cmp declarationEmitLocalClassHasRequiredDeclare.js declarationEmitLocalClassHasRequiredDeclare.js.golden
+! exists declarationEmitLocalClassHasRequiredDeclare.js.map
+
+-- declarationEmitLocalClassHasRequiredDeclare.ts --
+export declare namespace A {
+    namespace X { }
+}
+
+class X { }
+
+export class A {
+    static X = X;
+}
+
+export declare namespace Y {
+
+}
+
+export class Y { }
+-- declarationEmitLocalClassHasRequiredDeclare.d.ts.golden --
+export declare namespace A {
+    namespace X { }
+}
+declare class X {
+}
+export declare class A {
+    static X: typeof X;
+}
+export declare namespace Y {
+}
+export declare class Y {
+}
+export {};
+-- declarationEmitLocalClassHasRequiredDeclare.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Y = exports.A = void 0;
+class X {
+}
+class A {
+}
+exports.A = A;
+A.X = X;
+class Y {
+}
+exports.Y = Y;

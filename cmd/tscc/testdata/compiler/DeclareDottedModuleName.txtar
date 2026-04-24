@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/declareDottedModuleName.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declareDottedModuleName.d.ts --target es2015 --lib es2015,dom --out-js declareDottedModuleName.js declareDottedModuleName.ts
+! stderr .
+cmp declareDottedModuleName.d.ts declareDottedModuleName.d.ts.golden
+cmp declareDottedModuleName.js declareDottedModuleName.js.golden
+! exists declareDottedModuleName.js.map
+
+-- declareDottedModuleName.ts --
+namespace M {
+    namespace P.Q { } // This shouldnt be emitted
+}
+
+namespace M {
+    export namespace R.S { }  //This should be emitted
+}
+
+namespace T.U { // This needs to be emitted
+}
+-- declareDottedModuleName.d.ts.golden --
+declare namespace M {
+}
+declare namespace M {
+    namespace R.S { }
+}
+declare namespace T.U {
+}
+-- declareDottedModuleName.js.golden --
+"use strict";

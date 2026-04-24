@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/declarationEmitArrowFunctionNoRenaming.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitArrowFunctionNoRenaming.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js declarationEmitArrowFunctionNoRenaming.js declarationEmitArrowFunctionNoRenaming.ts
+! stderr .
+cmp declarationEmitArrowFunctionNoRenaming.d.ts declarationEmitArrowFunctionNoRenaming.d.ts.golden
+cmp declarationEmitArrowFunctionNoRenaming.js declarationEmitArrowFunctionNoRenaming.js.golden
+! exists declarationEmitArrowFunctionNoRenaming.js.map
+
+-- declarationEmitArrowFunctionNoRenaming.ts --
+export type Brand<
+  Base,
+  Branding,
+  ReservedName extends string = "__type__"
+> = Base & { [K in ReservedName]: Branding } & { __witness__: Base };
+
+export type BoundedInteger<
+  LowerBound extends number,
+  UpperBound extends number
+> = Brand<number, "BoundedInteger">;
+
+export const toBoundedInteger =
+  <LowerBound extends number, UpperBound extends number>(bounds: {
+    lowerBound: LowerBound;
+    upperBound: UpperBound;
+  }) =>
+  (
+    n: number
+  ): BoundedInteger<LowerBound, UpperBound> =>
+  // Implementation doesn't matter here
+    ({} as any)
+-- declarationEmitArrowFunctionNoRenaming.d.ts.golden --
+export type Brand<Base, Branding, ReservedName extends string = "__type__"> = Base & {
+    [K in ReservedName]: Branding;
+} & {
+    __witness__: Base;
+};
+export type BoundedInteger<LowerBound extends number, UpperBound extends number> = Brand<number, "BoundedInteger">;
+export declare const toBoundedInteger: <LowerBound extends number, UpperBound extends number>(bounds: {
+    lowerBound: LowerBound;
+    upperBound: UpperBound;
+}) => (n: number) => BoundedInteger<LowerBound, UpperBound>;
+-- declarationEmitArrowFunctionNoRenaming.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.toBoundedInteger = void 0;
+const toBoundedInteger = (bounds) => (n) => 
+// Implementation doesn't matter here
+({});
+exports.toBoundedInteger = toBoundedInteger;

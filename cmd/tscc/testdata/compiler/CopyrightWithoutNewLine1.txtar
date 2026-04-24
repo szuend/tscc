@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/copyrightWithoutNewLine1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js copyrightWithoutNewLine1.js copyrightWithoutNewLine1.ts
+stderr 'TS2307'
+! exists copyrightWithoutNewLine1.js
+! exists copyrightWithoutNewLine1.d.ts
+! exists copyrightWithoutNewLine1.js.map
+
+-- copyrightWithoutNewLine1.ts --
+/*****************************
+* (c) Copyright - Important
+****************************/
+import model = require("./greeter")
+var el = document.getElementById('content');
+var greeter = new model.Greeter(el);
+/** things */
+greeter.start();

@@ -1,0 +1,50 @@
+# Ported from tests/cases/compiler/declarationEmitAliasInlineing.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts aExp.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js aExp.js aExp.ts
+! stderr .
+cmp aExp.d.ts aExp.d.ts.golden
+cmp aExp.js aExp.js.golden
+! exists aExp.js.map
+
+-- a.ts --
+type O = {
+    prop: string
+    prop2: string
+}
+
+type I = {
+    prop: string
+}
+
+export const fn = (v: O['prop'], p: Omit<O, 'prop'>, key: keyof O, p2: Omit<O, keyof I>) => {};
+-- aExp.ts --
+export type O = {
+    prop: string
+    prop2: string
+}
+
+export type I = {
+    prop: string
+}
+
+export const fnExp = (v: O['prop'], p: Omit<O, 'prop'>, key: keyof O, p2: Omit<O, keyof I>) => {};
+-- b.ts --
+import {fn} from './a'
+import {fnExp} from './aExp'
+export const f = fn;
+export const fExp = fnExp;
+-- aExp.d.ts.golden --
+export type O = {
+    prop: string;
+    prop2: string;
+};
+export type I = {
+    prop: string;
+};
+export declare const fnExp: (v: O['prop'], p: Omit<O, 'prop'>, key: keyof O, p2: Omit<O, keyof I>) => void;
+-- aExp.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fnExp = void 0;
+const fnExp = (v, p, key, p2) => { };
+exports.fnExp = fnExp;

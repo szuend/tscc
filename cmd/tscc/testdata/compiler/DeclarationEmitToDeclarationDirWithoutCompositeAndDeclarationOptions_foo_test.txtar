@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/declarationEmitToDeclarationDirWithoutCompositeAndDeclarationOptions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js test.js foo/test.ts
+! stderr .
+cmp test.js test.js.golden
+! exists foo/test.d.ts
+! exists foo/test.js.map
+
+-- foo/test.ts --
+interface Foo {
+    x: number;
+}
+export default Foo;
+-- foo/tsconfig.json --
+{
+    "compilerOptions": { "declarationDir": "out", "module": "commonjs", "target": "es2015" }
+}
+-- test.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

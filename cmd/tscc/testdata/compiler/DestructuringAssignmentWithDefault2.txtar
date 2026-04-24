@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/destructuringAssignmentWithDefault2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es2015 --strict-null-checks --target es2015 --out-js destructuringAssignmentWithDefault2.js destructuringAssignmentWithDefault2.ts
+stderr 'TS2322'
+! exists destructuringAssignmentWithDefault2.js
+! exists destructuringAssignmentWithDefault2.d.ts
+! exists destructuringAssignmentWithDefault2.js.map
+
+-- destructuringAssignmentWithDefault2.ts --
+const a: { x?: number; y?: number } = { };
+
+let x: number;
+
+// Should not error out
+({ x = 0 } = a);
+({ x: x = 0} = a);
+({ y: x = 0} = a);
+
+// Should be error
+({ x = undefined } = a);
+({ x: x = undefined } = a);
+({ y: x = undefined } = a);
+
+const { x: z1 } = a;
+const { x: z2 = 0 } = a;
+const { x: z3 = undefined } = a;
+
+
+declare const r: Iterator<number>;
+let done: boolean;
+let value;
+
+({ done = false, value } = r.next());
+({ done: done = false, value } = r.next());

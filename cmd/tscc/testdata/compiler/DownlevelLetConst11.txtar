@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/downlevelLetConst11.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js downlevelLetConst11.js downlevelLetConst11.ts
+stderr 'TS1212'
+! exists downlevelLetConst11.js
+! exists downlevelLetConst11.d.ts
+! exists downlevelLetConst11.js.map
+
+-- downlevelLetConst11.ts --
+"use strict";
+let

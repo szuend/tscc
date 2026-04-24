@@ -1,0 +1,48 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringObjectLiteralPattern2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDestructuringObjectLiteralPattern2.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringObjectLiteralPattern2.js declarationEmitDestructuringObjectLiteralPattern2.ts
+! stderr .
+cmp declarationEmitDestructuringObjectLiteralPattern2.d.ts declarationEmitDestructuringObjectLiteralPattern2.d.ts.golden
+cmp declarationEmitDestructuringObjectLiteralPattern2.js declarationEmitDestructuringObjectLiteralPattern2.js.golden
+! exists declarationEmitDestructuringObjectLiteralPattern2.js.map
+
+-- declarationEmitDestructuringObjectLiteralPattern2.ts --
+var { a: x11, b: { a: y11, b: { a: z11 }}} = { a: 1, b: { a: "hello", b: { a: true } } };
+
+function f15() {
+    var a4 = "hello";
+    var b4 = 1;
+    var c4 = true;
+    return { a4, b4, c4 };
+}
+var { a4, b4, c4 } = f15();
+
+namespace m {
+    export var { a4, b4, c4 } = f15();
+}
+-- declarationEmitDestructuringObjectLiteralPattern2.d.ts.golden --
+declare var x11: number, y11: string, z11: boolean;
+declare function f15(): {
+    a4: string;
+    b4: number;
+    c4: boolean;
+};
+declare var a4: string, b4: number, c4: boolean;
+declare namespace m {
+    var a4: string, b4: number, c4: boolean;
+}
+-- declarationEmitDestructuringObjectLiteralPattern2.js.golden --
+"use strict";
+var { a: x11, b: { a: y11, b: { a: z11 } } } = { a: 1, b: { a: "hello", b: { a: true } } };
+function f15() {
+    var a4 = "hello";
+    var b4 = 1;
+    var c4 = true;
+    return { a4, b4, c4 };
+}
+var { a4, b4, c4 } = f15();
+var m;
+(function (m) {
+    var _a;
+    _a = f15(), m.a4 = _a.a4, m.b4 = _a.b4, m.c4 = _a.c4;
+})(m || (m = {}));

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/crashInsourcePropertyIsRelatableToTargetProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js crashInsourcePropertyIsRelatableToTargetProperty.js crashInsourcePropertyIsRelatableToTargetProperty.ts
+stderr 'TS2322'
+! exists crashInsourcePropertyIsRelatableToTargetProperty.js
+! exists crashInsourcePropertyIsRelatableToTargetProperty.d.ts
+! exists crashInsourcePropertyIsRelatableToTargetProperty.js.map
+
+-- crashInsourcePropertyIsRelatableToTargetProperty.ts --
+class C {
+    private x = 1;
+}
+class D extends C { }
+function foo(x: "hi", items: string[]): typeof foo;
+function foo(x: string, items: string[]): typeof foo {
+    return null;
+}
+var a: D = foo("hi", []);

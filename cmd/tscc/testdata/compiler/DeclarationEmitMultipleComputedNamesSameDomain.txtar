@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/declarationEmitMultipleComputedNamesSameDomain.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitMultipleComputedNamesSameDomain.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitMultipleComputedNamesSameDomain.js declarationEmitMultipleComputedNamesSameDomain.ts
+! stderr .
+cmp declarationEmitMultipleComputedNamesSameDomain.d.ts declarationEmitMultipleComputedNamesSameDomain.d.ts.golden
+cmp declarationEmitMultipleComputedNamesSameDomain.js declarationEmitMultipleComputedNamesSameDomain.js.golden
+! exists declarationEmitMultipleComputedNamesSameDomain.js.map
+
+-- declarationEmitMultipleComputedNamesSameDomain.ts --
+declare const x: string;
+declare const y: "y";
+
+export class Test {
+    [x] = 10;
+    [y] = 10;
+}
+-- declarationEmitMultipleComputedNamesSameDomain.d.ts.golden --
+declare const x: string;
+declare const y: "y";
+export declare class Test {
+    [x]: number;
+    [y]: number;
+}
+export {};
+-- declarationEmitMultipleComputedNamesSameDomain.js.golden --
+var _a, _b;
+export class Test {
+    constructor() {
+        this[_a] = 10;
+        this[_b] = 10;
+    }
+}
+_a = x, _b = y;

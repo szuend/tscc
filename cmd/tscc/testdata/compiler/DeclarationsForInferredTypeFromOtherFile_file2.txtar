@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declarationsForInferredTypeFromOtherFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts file2.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js file2.js file2.ts
+! stderr .
+cmp file2.d.ts file2.d.ts.golden
+cmp file2.js file2.js.golden
+! exists file2.js.map
+
+-- file1.ts --
+export class Foo {}
+-- file2.ts --
+export function foo(): import("./file1").Foo {
+    return null as any;
+}
+-- file3.ts --
+import {foo} from "./file2";
+export function bar() {
+    return foo();
+}
+-- file2.d.ts.golden --
+export declare function foo(): import("./file1").Foo;
+-- file2.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.foo = foo;
+function foo() {
+    return null;
+}

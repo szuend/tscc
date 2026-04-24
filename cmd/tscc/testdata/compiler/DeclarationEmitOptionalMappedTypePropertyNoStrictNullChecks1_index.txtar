@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/declarationEmitOptionalMappedTypePropertyNoStrictNullChecks1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --no-strict-null-checks --target es2015 --lib es2015,dom index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+! exists index.js.map
+
+-- createApi.ts --
+type Id<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+export declare function createApi<Definitions>(_: { endpoints: Definitions }): {
+  [K in keyof Definitions as `use${Capitalize<K & string>}Query`]: () => Id<{
+    status: "uninitialized";
+    originalArgs?: undefined;
+  }>;
+};
+-- index.ts --
+import { createApi } from "./createApi";
+
+const slice = createApi({
+  endpoints: {
+    test: {
+      url: `/user`,
+    },
+  },
+});
+
+export const { useTestQuery } = slice;
+-- index.d.ts.golden --
+export declare const useTestQuery: () => {
+    status: "uninitialized";
+    originalArgs?: undefined;
+};

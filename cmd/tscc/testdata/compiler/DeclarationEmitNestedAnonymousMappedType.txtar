@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/declarationEmitNestedAnonymousMappedType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitNestedAnonymousMappedType.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitNestedAnonymousMappedType.js declarationEmitNestedAnonymousMappedType.ts
+! stderr .
+cmp declarationEmitNestedAnonymousMappedType.d.ts declarationEmitNestedAnonymousMappedType.d.ts.golden
+cmp declarationEmitNestedAnonymousMappedType.js declarationEmitNestedAnonymousMappedType.js.golden
+! exists declarationEmitNestedAnonymousMappedType.js.map
+
+-- declarationEmitNestedAnonymousMappedType.ts --
+export function enumFromStrings<const Members extends readonly string[]>() {
+    type Part1 = {
+        [key in keyof Members as Members[key] extends string
+        ? Members[key]
+        : never]: Members[key];
+    };
+    type Part2 = { [Property in keyof Part1]: Part1[Property] };
+    return Object.create(null) as Part2;
+}
+-- declarationEmitNestedAnonymousMappedType.d.ts.golden --
+export declare function enumFromStrings<const Members extends readonly string[]>(): { [Property in keyof { [key in keyof Members as Members[key] extends string ? Members[key] : never]: Members[key]; }]: { [key in keyof Members as Members[key] extends string ? Members[key] : never]: Members[key]; }[Property]; };
+-- declarationEmitNestedAnonymousMappedType.js.golden --
+export function enumFromStrings() {
+    return Object.create(null);
+}

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/declFileForInterfaceWithOptionalFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileForInterfaceWithOptionalFunction.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declFileForInterfaceWithOptionalFunction.js declFileForInterfaceWithOptionalFunction.ts
+! stderr .
+cmp declFileForInterfaceWithOptionalFunction.d.ts declFileForInterfaceWithOptionalFunction.d.ts.golden
+cmp declFileForInterfaceWithOptionalFunction.js declFileForInterfaceWithOptionalFunction.js.golden
+! exists declFileForInterfaceWithOptionalFunction.js.map
+
+-- declFileForInterfaceWithOptionalFunction.ts --
+interface I {
+    foo? (x?);
+    foo2? (x?: number): number;
+}
+-- declFileForInterfaceWithOptionalFunction.d.ts.golden --
+interface I {
+    foo?(x?: any): any;
+    foo2?(x?: number): number;
+}
+-- declFileForInterfaceWithOptionalFunction.js.golden --
+"use strict";

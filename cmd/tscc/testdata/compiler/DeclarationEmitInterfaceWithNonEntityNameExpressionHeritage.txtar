@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/declarationEmitInterfaceWithNonEntityNameExpressionHeritage.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitInterfaceWithNonEntityNameExpressionHeritage.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitInterfaceWithNonEntityNameExpressionHeritage.js declarationEmitInterfaceWithNonEntityNameExpressionHeritage.ts
+stderr 'TS2499'
+! exists declarationEmitInterfaceWithNonEntityNameExpressionHeritage.d.ts
+! exists declarationEmitInterfaceWithNonEntityNameExpressionHeritage.js
+! exists declarationEmitInterfaceWithNonEntityNameExpressionHeritage.js.map
+
+-- declarationEmitInterfaceWithNonEntityNameExpressionHeritage.ts --
+class A { }
+interface Class extends (typeof A) { }

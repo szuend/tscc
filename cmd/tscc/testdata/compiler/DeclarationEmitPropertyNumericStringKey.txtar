@@ -1,0 +1,42 @@
+# Ported from tests/cases/compiler/declarationEmitPropertyNumericStringKey.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitPropertyNumericStringKey.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitPropertyNumericStringKey.js declarationEmitPropertyNumericStringKey.ts
+! stderr .
+cmp declarationEmitPropertyNumericStringKey.d.ts declarationEmitPropertyNumericStringKey.d.ts.golden
+cmp declarationEmitPropertyNumericStringKey.js declarationEmitPropertyNumericStringKey.js.golden
+! exists declarationEmitPropertyNumericStringKey.js.map
+
+-- declarationEmitPropertyNumericStringKey.ts --
+// https://github.com/microsoft/TypeScript/issues/55292
+
+const STATUS = {
+    ["404"]: "not found",
+} as const;
+
+const hundredStr = "100";
+const obj = { [hundredStr]: "foo" };
+
+const hundredNum = 100;
+const obj2 = { [hundredNum]: "bar" };
+-- declarationEmitPropertyNumericStringKey.d.ts.golden --
+declare const STATUS: {
+    readonly ["404"]: "not found";
+};
+declare const hundredStr = "100";
+declare const obj: {
+    "100": string;
+};
+declare const hundredNum = 100;
+declare const obj2: {
+    100: string;
+};
+-- declarationEmitPropertyNumericStringKey.js.golden --
+"use strict";
+// https://github.com/microsoft/TypeScript/issues/55292
+const STATUS = {
+    ["404"]: "not found",
+};
+const hundredStr = "100";
+const obj = { [hundredStr]: "foo" };
+const hundredNum = 100;
+const obj2 = { [hundredNum]: "bar" };

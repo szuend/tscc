@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/controlFlowFinallyNoCatchAssignments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js controlFlowFinallyNoCatchAssignments.js controlFlowFinallyNoCatchAssignments.ts
+! stderr .
+cmp controlFlowFinallyNoCatchAssignments.js controlFlowFinallyNoCatchAssignments.js.golden
+! exists controlFlowFinallyNoCatchAssignments.d.ts
+! exists controlFlowFinallyNoCatchAssignments.js.map
+
+-- controlFlowFinallyNoCatchAssignments.ts --
+let x: number;
+x = Math.random();
+let a: number;
+try {
+    if (x) {
+        a = 1;
+    } else {
+        a = 2;
+    }
+} finally {
+    console.log(x);
+}
+
+console.log(a); // <- error here
+-- controlFlowFinallyNoCatchAssignments.js.golden --
+"use strict";
+let x;
+x = Math.random();
+let a;
+try {
+    if (x) {
+        a = 1;
+    }
+    else {
+        a = 2;
+    }
+}
+finally {
+    console.log(x);
+}
+console.log(a); // <- error here

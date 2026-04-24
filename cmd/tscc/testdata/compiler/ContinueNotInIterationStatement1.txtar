@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/continueNotInIterationStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js continueNotInIterationStatement1.js continueNotInIterationStatement1.ts
+stderr 'TS1104'
+! exists continueNotInIterationStatement1.js
+! exists continueNotInIterationStatement1.d.ts
+! exists continueNotInIterationStatement1.js.map
+
+-- continueNotInIterationStatement1.ts --
+continue;

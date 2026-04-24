@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/duplicateVarAndImport2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateVarAndImport2.js duplicateVarAndImport2.ts
+stderr 'TS2440'
+! exists duplicateVarAndImport2.js
+! exists duplicateVarAndImport2.d.ts
+! exists duplicateVarAndImport2.js.map
+
+-- duplicateVarAndImport2.ts --
+// error since module is instantiated
+var a;
+namespace M { export var x = 1; }
+import a = M;

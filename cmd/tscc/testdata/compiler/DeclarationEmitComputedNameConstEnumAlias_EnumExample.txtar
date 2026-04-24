@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/declarationEmitComputedNameConstEnumAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts EnumExample.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js EnumExample.js EnumExample.ts
+! stderr .
+cmp EnumExample.d.ts EnumExample.d.ts.golden
+cmp EnumExample.js EnumExample.js.golden
+! exists EnumExample.js.map
+
+-- EnumExample.ts --
+enum EnumExample {
+    TEST = 'TEST',
+}
+
+export default EnumExample;
+-- index.ts --
+import EnumExample from './EnumExample';
+
+export default {
+    [EnumExample.TEST]: {},
+};
+-- EnumExample.d.ts.golden --
+declare enum EnumExample {
+    TEST = "TEST"
+}
+export default EnumExample;
+-- EnumExample.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var EnumExample;
+(function (EnumExample) {
+    EnumExample["TEST"] = "TEST";
+})(EnumExample || (EnumExample = {}));
+exports.default = EnumExample;

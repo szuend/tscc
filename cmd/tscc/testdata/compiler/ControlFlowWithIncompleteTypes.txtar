@@ -1,0 +1,61 @@
+# Ported from tests/cases/compiler/controlFlowWithIncompleteTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js controlFlowWithIncompleteTypes.js controlFlowWithIncompleteTypes.ts
+! stderr .
+cmp controlFlowWithIncompleteTypes.js controlFlowWithIncompleteTypes.js.golden
+! exists controlFlowWithIncompleteTypes.d.ts
+! exists controlFlowWithIncompleteTypes.js.map
+
+-- controlFlowWithIncompleteTypes.ts --
+// Repro from #11000
+
+declare var cond: boolean;
+
+function foo1() {
+    let x: string | number | boolean = 0;
+    while (cond) {
+        if (typeof x === "string") {
+            x = x.slice();
+        }
+        else {
+            x = "abc";
+        }
+    }
+}
+
+function foo2() {
+    let x: string | number | boolean = 0;
+    while (cond) {
+        if (typeof x === "number") {
+            x = "abc";
+        }
+        else {
+            x = x.slice();
+        }
+    }
+}
+-- controlFlowWithIncompleteTypes.js.golden --
+"use strict";
+// Repro from #11000
+function foo1() {
+    let x = 0;
+    while (cond) {
+        if (typeof x === "string") {
+            x = x.slice();
+        }
+        else {
+            x = "abc";
+        }
+    }
+}
+function foo2() {
+    let x = 0;
+    while (cond) {
+        if (typeof x === "number") {
+            x = "abc";
+        }
+        else {
+            x = x.slice();
+        }
+    }
+}

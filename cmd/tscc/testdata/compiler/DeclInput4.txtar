@@ -1,0 +1,56 @@
+# Ported from tests/cases/compiler/declInput4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declInput4.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declInput4.js declInput4.ts
+! stderr .
+cmp declInput4.d.ts declInput4.d.ts.golden
+cmp declInput4.js declInput4.js.golden
+! exists declInput4.js.map
+
+-- declInput4.ts --
+namespace M {
+    class C { }
+    export class E {}
+    export interface I1 {}
+    interface I2 {}
+    export class D {
+        public m1: number;
+        public m2: string;
+        public m23: E;
+        public m24: I1;
+        public m232(): E { return null;}
+        public m242(): I1 { return null; }
+        public m26(i:I1) {}
+    }
+}
+-- declInput4.d.ts.golden --
+declare namespace M {
+    class E {
+    }
+    interface I1 {
+    }
+    class D {
+        m1: number;
+        m2: string;
+        m23: E;
+        m24: I1;
+        m232(): E;
+        m242(): I1;
+        m26(i: I1): void;
+    }
+}
+-- declInput4.js.golden --
+"use strict";
+var M;
+(function (M) {
+    class C {
+    }
+    class E {
+    }
+    M.E = E;
+    class D {
+        m232() { return null; }
+        m242() { return null; }
+        m26(i) { }
+    }
+    M.D = D;
+})(M || (M = {}));

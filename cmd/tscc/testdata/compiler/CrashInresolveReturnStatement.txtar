@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/crashInresolveReturnStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js crashInresolveReturnStatement.js crashInresolveReturnStatement.ts
+! stderr .
+cmp crashInresolveReturnStatement.js crashInresolveReturnStatement.js.golden
+! exists crashInresolveReturnStatement.d.ts
+! exists crashInresolveReturnStatement.js.map
+
+-- crashInresolveReturnStatement.ts --
+class WorkItemToolbar {
+    public onToolbarItemClick() {
+        WITDialogs.createCopyOfWorkItem();
+    }
+}
+class CreateCopyOfWorkItemDialog {
+    public getDialogResult() {
+        return null;
+    }
+}
+function createWorkItemDialog<P0>(dialogType: P0) {
+}
+class WITDialogs {
+    public static createCopyOfWorkItem() {
+        createWorkItemDialog(CreateCopyOfWorkItemDialog);
+    }
+}
+-- crashInresolveReturnStatement.js.golden --
+"use strict";
+class WorkItemToolbar {
+    onToolbarItemClick() {
+        WITDialogs.createCopyOfWorkItem();
+    }
+}
+class CreateCopyOfWorkItemDialog {
+    getDialogResult() {
+        return null;
+    }
+}
+function createWorkItemDialog(dialogType) {
+}
+class WITDialogs {
+    static createCopyOfWorkItem() {
+        createWorkItemDialog(CreateCopyOfWorkItemDialog);
+    }
+}

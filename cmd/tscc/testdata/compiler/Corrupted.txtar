@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/corrupted.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js corrupted.js corrupted.ts
+stderr 'TS1490'
+! exists corrupted.js
+! exists corrupted.d.ts
+! exists corrupted.js.map
+
+-- corrupted.ts --
+���

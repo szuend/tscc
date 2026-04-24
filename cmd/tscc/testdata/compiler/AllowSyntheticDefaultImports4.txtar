@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/allowSyntheticDefaultImports4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+import Foo from "./b";
+export var x = new Foo();
+-- b.d.ts --
+declare class Foo {
+	member: string;
+}
+export = Foo;
+-- a.js.golden --
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.x = void 0;
+const b_1 = __importDefault(require("./b"));
+exports.x = new b_1.default();

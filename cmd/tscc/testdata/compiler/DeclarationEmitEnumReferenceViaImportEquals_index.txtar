@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/declarationEmitEnumReferenceViaImportEquals.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --module commonjs --strict --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- index.ts --
+import { Test } from "./test";
+new Test().print();
+-- test.ts --
+import { Translation } from "./translation";
+import TranslationKeyEnum = Translation.TranslationKeyEnum;
+
+export class Test {
+  TranslationKeyEnum = TranslationKeyEnum;
+  print() {
+    console.log(TranslationKeyEnum.Translation1);
+  }
+}
+-- translation.ts --
+export interface Translation {
+  translationKey: Translation.TranslationKeyEnum;
+}
+
+export namespace Translation {
+  export type TranslationKeyEnum = 'translation1' | 'translation2';
+  export const TranslationKeyEnum = {
+    Translation1: 'translation1' as TranslationKeyEnum,
+    Translation2: 'translation2' as TranslationKeyEnum,
+  }
+}
+
+-- index.d.ts.golden --
+export {};
+-- index.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("./test");
+new test_1.Test().print();

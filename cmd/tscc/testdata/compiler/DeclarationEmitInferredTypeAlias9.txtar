@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/declarationEmitInferredTypeAlias9.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitInferredTypeAlias9.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitInferredTypeAlias9.js declarationEmitInferredTypeAlias9.ts
+! stderr .
+cmp declarationEmitInferredTypeAlias9.d.ts declarationEmitInferredTypeAlias9.d.ts.golden
+cmp declarationEmitInferredTypeAlias9.js declarationEmitInferredTypeAlias9.js.golden
+! exists declarationEmitInferredTypeAlias9.js.map
+
+-- declarationEmitInferredTypeAlias9.ts --
+type Foo<T> = T | { x: Foo<T> };
+var x: Foo<number[]>;
+
+export function returnSomeGlobalValue() {
+    return x;
+}
+-- declarationEmitInferredTypeAlias9.d.ts.golden --
+type Foo<T> = T | {
+    x: Foo<T>;
+};
+export declare function returnSomeGlobalValue(): Foo<number[]>;
+export {};
+-- declarationEmitInferredTypeAlias9.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.returnSomeGlobalValue = returnSomeGlobalValue;
+var x;
+function returnSomeGlobalValue() {
+    return x;
+}

@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/controlFlowUnionContainingTypeParameter1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom controlFlowUnionContainingTypeParameter1.ts
+! stderr .
+! exists controlFlowUnionContainingTypeParameter1.d.ts
+! exists controlFlowUnionContainingTypeParameter1.js.map
+
+-- controlFlowUnionContainingTypeParameter1.ts --
+// https://github.com/microsoft/TypeScript/issues/44814
+
+class TestClass<T> {
+  typeguard(val: unknown): val is T {
+    return true;
+  }
+  f(v: number): void {}
+  h(v: T): void {}
+  func(val: T | number): void {
+    if (this.typeguard(val)) {
+      this.h(val);
+      return;
+    }
+    this.f(val);
+  }
+}
+
+class TestClass2<T extends Date> {
+  typeguard(val: unknown): val is T {
+    return true;
+  }
+  f(v: number): void {}
+  h(v: T): void {}
+  func(val: T | number): void {
+    if (this.typeguard(val)) {
+      this.h(val);
+      return;
+    }
+    val;
+    this.f(val);
+  }
+}

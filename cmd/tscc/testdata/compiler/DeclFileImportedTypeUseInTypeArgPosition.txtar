@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/declFileImportedTypeUseInTypeArgPosition.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileImportedTypeUseInTypeArgPosition.d.ts --target es2015 --lib es2015,dom --path mod1=declFileImportedTypeUseInTypeArgPosition.ts --path moo=declFileImportedTypeUseInTypeArgPosition.ts --out-js declFileImportedTypeUseInTypeArgPosition.js declFileImportedTypeUseInTypeArgPosition.ts
+! stderr .
+cmp declFileImportedTypeUseInTypeArgPosition.d.ts declFileImportedTypeUseInTypeArgPosition.d.ts.golden
+cmp declFileImportedTypeUseInTypeArgPosition.js declFileImportedTypeUseInTypeArgPosition.js.golden
+! exists declFileImportedTypeUseInTypeArgPosition.js.map
+
+-- declFileImportedTypeUseInTypeArgPosition.ts --
+class List<T> { }
+declare module 'mod1' {
+    class Foo {
+    }
+}
+
+declare module 'moo' {
+    import x = require('mod1');
+    export var p: List<x.Foo>;
+}
+
+
+-- declFileImportedTypeUseInTypeArgPosition.d.ts.golden --
+declare class List<T> {
+}
+declare module 'mod1' {
+    class Foo {
+    }
+}
+declare module 'moo' {
+    import x = require('mod1');
+    var p: List<x.Foo>;
+}
+-- declFileImportedTypeUseInTypeArgPosition.js.golden --
+"use strict";
+class List {
+}

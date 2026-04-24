@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/declarationQuotedMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationQuotedMembers.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationQuotedMembers.js declarationQuotedMembers.ts
+! stderr .
+cmp declarationQuotedMembers.d.ts declarationQuotedMembers.d.ts.golden
+cmp declarationQuotedMembers.js declarationQuotedMembers.js.golden
+! exists declarationQuotedMembers.js.map
+
+-- declarationQuotedMembers.ts --
+export declare const mapped: { [K in 'a-b-c']: number }
+export const example = mapped;
+-- declarationQuotedMembers.d.ts.golden --
+export declare const mapped: {
+    [K in 'a-b-c']: number;
+};
+export declare const example: {
+    "a-b-c": number;
+};
+-- declarationQuotedMembers.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.example = void 0;
+exports.example = exports.mapped;

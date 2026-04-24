@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/destructuringWithGenericParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js destructuringWithGenericParameter.js destructuringWithGenericParameter.ts
+stderr 'TS2564'
+! exists destructuringWithGenericParameter.js
+! exists destructuringWithGenericParameter.d.ts
+! exists destructuringWithGenericParameter.js.map
+
+-- destructuringWithGenericParameter.ts --
+class GenericClass<T> {
+    payload: T;
+}
+
+var genericObject = new GenericClass<{ greeting: string }>();
+
+function genericFunction<T>(object: GenericClass<T>, callback: (payload: T) => void) {
+    callback(object.payload);
+}
+
+genericFunction(genericObject, ({greeting}) => {
+    var s = greeting.toLocaleLowerCase();  // Greeting should be of type string
+});

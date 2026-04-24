@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/declarationEmitInferredTypeAlias4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitInferredTypeAlias4.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitInferredTypeAlias4.js declarationEmitInferredTypeAlias4.ts
+stderr 'TS2454'
+! exists declarationEmitInferredTypeAlias4.d.ts
+! exists declarationEmitInferredTypeAlias4.js
+! exists declarationEmitInferredTypeAlias4.js.map
+
+-- declarationEmitInferredTypeAlias4.ts --
+function f<A>() {
+    type Foo<T> = T | { x: Foo<T> };
+    var x: Foo<A[]>;
+    return x;
+}

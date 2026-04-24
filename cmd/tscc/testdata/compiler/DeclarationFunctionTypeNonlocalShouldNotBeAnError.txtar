@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/declarationFunctionTypeNonlocalShouldNotBeAnError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationFunctionTypeNonlocalShouldNotBeAnError.d.ts --target es2015 --lib es2015,dom --out-js declarationFunctionTypeNonlocalShouldNotBeAnError.js declarationFunctionTypeNonlocalShouldNotBeAnError.ts
+! stderr .
+cmp declarationFunctionTypeNonlocalShouldNotBeAnError.d.ts declarationFunctionTypeNonlocalShouldNotBeAnError.d.ts.golden
+cmp declarationFunctionTypeNonlocalShouldNotBeAnError.js declarationFunctionTypeNonlocalShouldNotBeAnError.js.golden
+! exists declarationFunctionTypeNonlocalShouldNotBeAnError.js.map
+
+-- declarationFunctionTypeNonlocalShouldNotBeAnError.ts --
+namespace foo {
+    function bar(): void {}
+
+    export const obj = {
+        bar
+    }
+}
+-- declarationFunctionTypeNonlocalShouldNotBeAnError.d.ts.golden --
+declare namespace foo {
+    function bar(): void;
+    export const obj: {
+        bar: typeof bar;
+    };
+    export {};
+}
+-- declarationFunctionTypeNonlocalShouldNotBeAnError.js.golden --
+"use strict";
+var foo;
+(function (foo) {
+    function bar() { }
+    foo.obj = {
+        bar
+    };
+})(foo || (foo = {}));

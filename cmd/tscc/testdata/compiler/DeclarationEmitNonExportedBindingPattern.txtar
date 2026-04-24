@@ -1,0 +1,52 @@
+# Ported from tests/cases/compiler/declarationEmitNonExportedBindingPattern.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts test.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js test.js test.ts
+! stderr .
+cmp test.d.ts test.d.ts.golden
+cmp test.js test.js.golden
+! exists test.js.map
+
+-- test.ts --
+function getFoo() {
+  return { foo: { test: 42 } }
+}
+
+const { foo } = getFoo()
+
+export type AliasType = typeof foo
+
+const { foo: renamed } = getFoo()
+
+export type AliasType2 = typeof renamed
+
+function getNested() {
+  return { a: { b: { c: 'd' } } }
+}
+
+const { a: { b: { c } } } = getNested()
+
+export type AliasType3 = typeof c
+-- test.d.ts.golden --
+declare const foo: {
+    test: number;
+};
+export type AliasType = typeof foo;
+declare const renamed: {
+    test: number;
+};
+export type AliasType2 = typeof renamed;
+declare const c: string;
+export type AliasType3 = typeof c;
+export {};
+-- test.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function getFoo() {
+    return { foo: { test: 42 } };
+}
+const { foo } = getFoo();
+const { foo: renamed } = getFoo();
+function getNested() {
+    return { a: { b: { c: 'd' } } };
+}
+const { a: { b: { c } } } = getNested();

@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/derivedClasses.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js derivedClasses.js derivedClasses.ts
+stderr 'TS2449'
+! exists derivedClasses.js
+! exists derivedClasses.d.ts
+! exists derivedClasses.js.map
+
+-- derivedClasses.ts --
+class Red extends Color {
+    public shade() { 
+    	var getHue = () => { return this.hue(); };
+    	return getHue() + " red"; 
+    }
+}
+
+class Color {
+    public shade() { return "some shade"; }
+    public hue() { return "some hue"; }
+}
+
+class Blue extends Color {
+    
+    public shade() { 
+    	var getHue = () => { return this.hue(); };
+    	return getHue() + " blue"; 
+    }
+}
+
+var r = new Red();
+var b = new Blue();
+
+r.shade();
+r.hue();
+b.shade();
+b.hue();
+
+

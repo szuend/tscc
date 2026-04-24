@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/duplicateErrorAssignability.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js duplicateErrorAssignability.js duplicateErrorAssignability.ts
+stderr 'TS2741'
+stderr 'TS2538'
+! exists duplicateErrorAssignability.js
+! exists duplicateErrorAssignability.d.ts
+! exists duplicateErrorAssignability.js.map
+
+-- duplicateErrorAssignability.ts --
+interface A {
+    x: number;
+}
+interface B {
+    y: string;
+}
+
+declare let b: B;
+declare let a: A;
+const x = a = b;
+let obj: { 3: string } = { 3: "three" };
+obj[x];

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/declareClassInterfaceImplementation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js declareClassInterfaceImplementation.js declareClassInterfaceImplementation.ts
+stderr 'TS2420'
+! exists declareClassInterfaceImplementation.js
+! exists declareClassInterfaceImplementation.d.ts
+! exists declareClassInterfaceImplementation.js.map
+
+-- declareClassInterfaceImplementation.ts --
+interface IBuffer {
+    [index: number]: number;
+}
+
+declare class Buffer implements IBuffer {
+
+}

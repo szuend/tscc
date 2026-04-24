@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declarationEmitOfFuncspace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts expando.d.ts --target es2015 --lib es2015,dom --out-js expando.js expando.ts
+! stderr .
+cmp expando.d.ts expando.d.ts.golden
+cmp expando.js expando.js.golden
+! exists expando.js.map
+
+-- expando.ts --
+// #27032
+function ExpandoMerge(n: number) {
+    return n;
+}
+namespace ExpandoMerge {
+    export interface I { }
+}
+-- expando.d.ts.golden --
+declare function ExpandoMerge(n: number): number;
+declare namespace ExpandoMerge {
+    interface I {
+    }
+}
+-- expando.js.golden --
+"use strict";
+// #27032
+function ExpandoMerge(n) {
+    return n;
+}

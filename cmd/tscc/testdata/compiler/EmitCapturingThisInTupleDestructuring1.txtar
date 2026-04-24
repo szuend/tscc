@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/emitCapturingThisInTupleDestructuring1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js emitCapturingThisInTupleDestructuring1.js emitCapturingThisInTupleDestructuring1.ts
+stderr 'TS7010'
+stderr 'TS7041'
+stderr 'TS7017'
+stderr 'TS2493'
+! exists emitCapturingThisInTupleDestructuring1.js
+! exists emitCapturingThisInTupleDestructuring1.d.ts
+! exists emitCapturingThisInTupleDestructuring1.js.map
+
+-- emitCapturingThisInTupleDestructuring1.ts --
+declare function wrapper(x: any);
+wrapper((array: [any]) => {
+    [this.test, this.test1, this.test2] = array;  // even though there is a compiler error, we should still emit lexical capture for "this"
+});

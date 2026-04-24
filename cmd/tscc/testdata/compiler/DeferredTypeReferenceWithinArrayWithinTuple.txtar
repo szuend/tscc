@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/deferredTypeReferenceWithinArrayWithinTuple.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js deferredTypeReferenceWithinArrayWithinTuple.js deferredTypeReferenceWithinArrayWithinTuple.ts
+! stderr .
+cmp deferredTypeReferenceWithinArrayWithinTuple.js deferredTypeReferenceWithinArrayWithinTuple.js.golden
+! exists deferredTypeReferenceWithinArrayWithinTuple.d.ts
+! exists deferredTypeReferenceWithinArrayWithinTuple.js.map
+
+-- deferredTypeReferenceWithinArrayWithinTuple.ts --
+type TypeStructure =
+  | ["or", TypeStructure[]] // problem is only here, when using array
+  | ["string"]
+  | ["number"] 
+  | ["list", TypeStructure] // with just this it is ok
+-- deferredTypeReferenceWithinArrayWithinTuple.js.golden --
+"use strict";

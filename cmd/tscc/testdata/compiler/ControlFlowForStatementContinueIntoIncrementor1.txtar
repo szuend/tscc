@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/controlFlowForStatementContinueIntoIncrementor1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom controlFlowForStatementContinueIntoIncrementor1.ts
+stderr 'TS2322'
+! exists controlFlowForStatementContinueIntoIncrementor1.d.ts
+! exists controlFlowForStatementContinueIntoIncrementor1.js.map
+
+-- controlFlowForStatementContinueIntoIncrementor1.ts --
+// https://github.com/microsoft/TypeScript/issues/60945
+
+{
+  let iNext;
+  for (
+    let i = 0;
+    i < 10;
+    i = iNext // error
+  ) {
+    if (i == 5) {
+      iNext = "bad";
+      continue;
+    }
+    iNext = i + 1;
+  }
+}
+
+{
+  let iNext: string | number = "";
+  for (
+    let i = 0;
+    i < 10;
+    i = iNext // error
+  ) {
+    if (i == 5) {
+      iNext = "bad";
+      continue;
+    }
+    iNext = i + 1;
+  }
+}

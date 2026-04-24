@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/duplicateInterfaceMembers1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateInterfaceMembers1.js duplicateInterfaceMembers1.ts
+stderr 'TS2300'
+! exists duplicateInterfaceMembers1.js
+! exists duplicateInterfaceMembers1.d.ts
+! exists duplicateInterfaceMembers1.js.map
+
+-- duplicateInterfaceMembers1.ts --
+interface Bar {
+   x: number;
+   x: number;
+}

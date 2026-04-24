@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/elidingImportNames.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js elidingImportNames_test.js elidingImportNames_test.ts
+! stderr .
+cmp elidingImportNames_test.js elidingImportNames_test.js.golden
+! exists elidingImportNames_test.d.ts
+! exists elidingImportNames_test.js.map
+
+-- elidingImportNames_main.ts --
+export var main = 10;
+-- elidingImportNames_main1.ts --
+export var main = 10;
+-- elidingImportNames_test.ts --
+import a = require('./elidingImportNames_main'); // alias used in typeof
+var b = a;
+var x: typeof a;
+import a2 = require('./elidingImportNames_main1'); // alias not used in typeof
+var b2 = a2;
+
+-- elidingImportNames_test.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const a = require("./elidingImportNames_main"); // alias used in typeof
+var b = a;
+var x;
+const a2 = require("./elidingImportNames_main1"); // alias not used in typeof
+var b2 = a2;

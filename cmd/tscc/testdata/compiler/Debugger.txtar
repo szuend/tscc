@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/debugger.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js debugger.js debugger.ts
+! stderr .
+cmp debugger.js debugger.js.golden
+! exists debugger.d.ts
+! exists debugger.js.map
+
+-- debugger.ts --
+debugger;
+
+function foo() {
+    debugger;
+
+}
+-- debugger.js.golden --
+"use strict";
+debugger;
+function foo() {
+    debugger;
+}

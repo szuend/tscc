@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/duplicateVariablesWithAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateVariablesWithAny.js duplicateVariablesWithAny.ts
+stderr 'TS2403'
+! exists duplicateVariablesWithAny.js
+! exists duplicateVariablesWithAny.d.ts
+! exists duplicateVariablesWithAny.js.map
+
+-- duplicateVariablesWithAny.ts --
+// They should have to be the same even when one of the types is 'any'
+var x: any;
+var x = 2; //error
+
+var y = "";
+var y; //error
+
+namespace N {
+    var x: any;
+    var x = 2; //error
+
+    var y = "";
+    var y; //error
+}
+
+var z: any;
+var z; // ok

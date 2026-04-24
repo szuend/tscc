@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/dynamicImportTrailingComma.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --module commonjs --skip-lib-check --target es2015 --out-js dynamicImportTrailingComma.js dynamicImportTrailingComma.ts
+stderr 'TS1009'
+! exists dynamicImportTrailingComma.js
+! exists dynamicImportTrailingComma.d.ts
+! exists dynamicImportTrailingComma.js.map
+
+-- dynamicImportTrailingComma.ts --
+const path = './foo';
+import(path,);

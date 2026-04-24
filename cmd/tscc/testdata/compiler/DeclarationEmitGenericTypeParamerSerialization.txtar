@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/declarationEmitGenericTypeParamerSerialization.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitGenericTypeParamerSerialization.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitGenericTypeParamerSerialization.js declarationEmitGenericTypeParamerSerialization.ts
+! stderr .
+cmp declarationEmitGenericTypeParamerSerialization.d.ts declarationEmitGenericTypeParamerSerialization.d.ts.golden
+cmp declarationEmitGenericTypeParamerSerialization.js declarationEmitGenericTypeParamerSerialization.js.golden
+! exists declarationEmitGenericTypeParamerSerialization.js.map
+
+-- declarationEmitGenericTypeParamerSerialization.ts --
+function wrapper<T>(value: T) {
+  return {
+      m() { return value; },
+      get g() { return value; },
+  }
+}
+
+export const w = wrapper(0)
+-- declarationEmitGenericTypeParamerSerialization.d.ts.golden --
+export declare const w: {
+    m(): number;
+    readonly g: number;
+};
+-- declarationEmitGenericTypeParamerSerialization.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.w = void 0;
+function wrapper(value) {
+    return {
+        m() { return value; },
+        get g() { return value; },
+    };
+}
+exports.w = wrapper(0);

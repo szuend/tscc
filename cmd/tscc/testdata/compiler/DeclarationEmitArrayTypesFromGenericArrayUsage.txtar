@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/declarationEmitArrayTypesFromGenericArrayUsage.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitArrayTypesFromGenericArrayUsage.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitArrayTypesFromGenericArrayUsage.js declarationEmitArrayTypesFromGenericArrayUsage.ts
+! stderr .
+cmp declarationEmitArrayTypesFromGenericArrayUsage.d.ts declarationEmitArrayTypesFromGenericArrayUsage.d.ts.golden
+cmp declarationEmitArrayTypesFromGenericArrayUsage.js declarationEmitArrayTypesFromGenericArrayUsage.js.golden
+! exists declarationEmitArrayTypesFromGenericArrayUsage.js.map
+
+-- declarationEmitArrayTypesFromGenericArrayUsage.ts --
+interface A extends Array<string> { }
+-- declarationEmitArrayTypesFromGenericArrayUsage.d.ts.golden --
+interface A extends Array<string> {
+}
+-- declarationEmitArrayTypesFromGenericArrayUsage.js.golden --
+"use strict";

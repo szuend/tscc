@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/destructuringTempOccursAfterPrologue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js destructuringTempOccursAfterPrologue.js destructuringTempOccursAfterPrologue.ts
+! stderr .
+cmp destructuringTempOccursAfterPrologue.js destructuringTempOccursAfterPrologue.js.golden
+! exists destructuringTempOccursAfterPrologue.d.ts
+! exists destructuringTempOccursAfterPrologue.js.map
+
+-- destructuringTempOccursAfterPrologue.ts --
+function test(p: any) {
+    'use strict';
+    'use strong';
+    p = { prop: p } = p;
+}
+-- destructuringTempOccursAfterPrologue.js.golden --
+"use strict";
+function test(p) {
+    'use strict';
+    'use strong';
+    p = { prop: p } = p;
+}

@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/downlevelLetConst2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js downlevelLetConst2.js downlevelLetConst2.ts
+stderr 'TS1155'
+! exists downlevelLetConst2.js
+! exists downlevelLetConst2.d.ts
+! exists downlevelLetConst2.js.map
+
+-- downlevelLetConst2.ts --
+const a

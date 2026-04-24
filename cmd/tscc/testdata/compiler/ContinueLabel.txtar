@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/continueLabel.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js continueLabel.js continueLabel.ts
+! stderr .
+cmp continueLabel.js continueLabel.js.golden
+! exists continueLabel.d.ts
+! exists continueLabel.js.map
+
+-- continueLabel.ts --
+label1: for(var i = 0; i < 1; i++) {
+    continue label1;
+}
+-- continueLabel.js.golden --
+"use strict";
+label1: for (var i = 0; i < 1; i++) {
+    continue label1;
+}

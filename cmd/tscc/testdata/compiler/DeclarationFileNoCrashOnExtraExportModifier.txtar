@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/declarationFileNoCrashOnExtraExportModifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js input.js input.ts
+stderr 'TS2309'
+! exists input.js
+! exists input.d.ts
+! exists input.js.map
+
+-- input.ts --
+export = exports;
+declare class exports {
+    constructor(p: number);
+    t: number;
+}
+export class Sub {
+    instance!: {
+        t: number;
+    };
+}
+declare namespace exports {
+    export { Sub };
+}

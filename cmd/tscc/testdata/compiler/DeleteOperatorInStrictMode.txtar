@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/deleteOperatorInStrictMode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js deleteOperatorInStrictMode.js deleteOperatorInStrictMode.ts
+stderr 'TS1102'
+! exists deleteOperatorInStrictMode.js
+! exists deleteOperatorInStrictMode.d.ts
+! exists deleteOperatorInStrictMode.js.map
+
+-- deleteOperatorInStrictMode.ts --
+"use strict"
+var a;
+delete a;

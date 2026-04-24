@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/declarationEmitNoInvalidCommentReuse3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --strict --target es2015 --lib es2015,dom a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+! exists a.js.map
+
+-- a.ts --
+import { object } from "./obj";
+import { id } from "./id";
+export const _ = object;
+/**
+*/
+-- id.d.ts --
+export declare namespace id {
+    type A<T> = T;
+}
+-- obj.d.ts --
+import { id } from "./id";
+// ----
+export declare const object: id.A<{
+    foo: id.A<1>
+}>;
+-- a.d.ts.golden --
+import { id } from "./id";
+export declare const _: {
+    foo: id.A<1>;
+};
+/**
+*/

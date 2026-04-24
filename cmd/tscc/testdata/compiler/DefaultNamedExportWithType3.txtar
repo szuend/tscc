@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/defaultNamedExportWithType3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esnext --lib esnext,dom --out-js defaultNamedExportWithType3.js defaultNamedExportWithType3.ts
+! stderr .
+cmp defaultNamedExportWithType3.js defaultNamedExportWithType3.js.golden
+! exists defaultNamedExportWithType3.d.ts
+! exists defaultNamedExportWithType3.js.map
+
+-- defaultNamedExportWithType3.ts --
+interface Foo {}
+export const Foo = {};
+export default Foo;
+-- defaultNamedExportWithType3.js.golden --
+export const Foo = {};
+export default Foo;

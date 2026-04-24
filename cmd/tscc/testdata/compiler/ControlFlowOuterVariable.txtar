@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/controlFlowOuterVariable.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js controlFlowOuterVariable.js controlFlowOuterVariable.ts
+! stderr .
+cmp controlFlowOuterVariable.js controlFlowOuterVariable.js.golden
+! exists controlFlowOuterVariable.d.ts
+! exists controlFlowOuterVariable.js.map
+
+-- controlFlowOuterVariable.ts --
+// Repros from #10641
+
+const CONFIG = {
+    foo: '',
+    setFoo: function(foo: string) {
+        CONFIG.foo = foo;
+    }
+};
+
+const helper = function<T>(t: T[]) {
+    helper(t.slice(1));
+}
+-- controlFlowOuterVariable.js.golden --
+"use strict";
+// Repros from #10641
+const CONFIG = {
+    foo: '',
+    setFoo: function (foo) {
+        CONFIG.foo = foo;
+    }
+};
+const helper = function (t) {
+    helper(t.slice(1));
+};

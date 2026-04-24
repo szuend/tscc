@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declarationEmitClassSetAccessorParamNameInJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts foo.d.ts --target es2015 --lib es2015,dom foo.js
+! stderr .
+cmp foo.d.ts foo.d.ts.golden
+! exists foo.js.map
+! exists out_foo.js
+
+-- foo.js --
+// https://github.com/microsoft/TypeScript/issues/55391
+
+export class Foo {
+    /**
+     * Bar.
+     *
+     * @param {string} baz Baz.
+     */
+    set bar(baz) {}
+}
+-- foo.d.ts.golden --
+export declare class Foo {
+    /**
+     * Bar.
+     *
+     * @param {string} baz Baz.
+     */
+    set bar(baz: string);
+}

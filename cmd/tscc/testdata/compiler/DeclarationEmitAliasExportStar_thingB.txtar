@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/declarationEmitAliasExportStar.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts thingB.d.ts --module commonjs --no-strict --target es2015 --lib es2015,dom --out-js thingB.js thingB.ts
+! stderr .
+cmp thingB.d.ts thingB.d.ts.golden
+cmp thingB.js thingB.js.golden
+! exists thingB.js.map
+
+-- index.ts --
+import * as things from "./things";
+export const thing2 = (param: things.ThingB) => null;
+-- thingB.ts --
+export interface ThingB { }
+-- things.ts --
+export * from "./thingB";
+-- thingB.d.ts.golden --
+export interface ThingB {
+}
+-- thingB.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

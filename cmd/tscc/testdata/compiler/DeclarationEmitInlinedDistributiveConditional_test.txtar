@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/declarationEmitInlinedDistributiveConditional.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts test.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js test.js test.ts
+! stderr .
+cmp test.d.ts test.d.ts.golden
+cmp test.js test.js.golden
+! exists test.js.map
+
+-- api.ts --
+import {excludePrivateKeys1, excludePrivateKeys2} from './internal';
+export const dropPrivateProps1 = <Obj>(obj: Obj) => excludePrivateKeys1(obj);
+export const dropPrivateProps2 = <Obj>(obj: Obj) => excludePrivateKeys2(obj);
+-- internal.ts --
+export declare function excludePrivateKeys1<Obj>(obj: Obj): {[K in PublicKeys1<keyof Obj>]: Obj[K]};
+export declare function excludePrivateKeys2<Obj>(obj: Obj): {[K in PublicKeys2<keyof Obj>]: Obj[K]};
+export type PublicKeys1<T> = T extends `_${string}` ? never : T;
+type PublicKeys2<T>        = T extends `_${string}` ? never : T;
+-- test.ts --
+import {dropPrivateProps1, dropPrivateProps2} from './api';
+const a = dropPrivateProps1({foo: 42, _bar: 'secret'}); // type is {foo: number}
+//a._bar                                                // error: _bar does not exist           <===== as expected
+const b = dropPrivateProps2({foo: 42, _bar: 'secret'}); // type is {foo: number, _bar: string}
+//b._bar                                                // no error, type of b._bar is string   <===== NOT expected
+-- test.d.ts.golden --
+export {};
+-- test.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const api_1 = require("./api");
+const a = (0, api_1.dropPrivateProps1)({ foo: 42, _bar: 'secret' }); // type is {foo: number}
+//a._bar                                                // error: _bar does not exist           <===== as expected
+const b = (0, api_1.dropPrivateProps2)({ foo: 42, _bar: 'secret' }); // type is {foo: number, _bar: string}
+//b._bar                                                // no error, type of b._bar is string   <===== NOT expected

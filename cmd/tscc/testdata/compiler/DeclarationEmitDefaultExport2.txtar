@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/declarationEmitDefaultExport2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDefaultExport2.d.ts --target es6 --lib es6,dom --out-js declarationEmitDefaultExport2.js declarationEmitDefaultExport2.ts
+! stderr .
+cmp declarationEmitDefaultExport2.d.ts declarationEmitDefaultExport2.d.ts.golden
+cmp declarationEmitDefaultExport2.js declarationEmitDefaultExport2.js.golden
+! exists declarationEmitDefaultExport2.js.map
+
+-- declarationEmitDefaultExport2.ts --
+export default class {
+}
+-- declarationEmitDefaultExport2.d.ts.golden --
+export default class {
+}
+-- declarationEmitDefaultExport2.js.golden --
+export default class {
+}

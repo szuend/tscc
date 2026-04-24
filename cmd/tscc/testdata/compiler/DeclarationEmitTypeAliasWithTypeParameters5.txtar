@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/declarationEmitTypeAliasWithTypeParameters5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTypeAliasWithTypeParameters5.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitTypeAliasWithTypeParameters5.js declarationEmitTypeAliasWithTypeParameters5.ts
+! stderr .
+cmp declarationEmitTypeAliasWithTypeParameters5.d.ts declarationEmitTypeAliasWithTypeParameters5.d.ts.golden
+cmp declarationEmitTypeAliasWithTypeParameters5.js declarationEmitTypeAliasWithTypeParameters5.js.golden
+! exists declarationEmitTypeAliasWithTypeParameters5.js.map
+
+-- declarationEmitTypeAliasWithTypeParameters5.ts --
+type Foo<T, Y> = {
+    foo<U, J>(): Foo<U, J>
+};
+export type SubFoo<R> = Foo<string, R>;
+
+function foo() {
+    return {} as SubFoo<number>;
+}
+-- declarationEmitTypeAliasWithTypeParameters5.d.ts.golden --
+type Foo<T, Y> = {
+    foo<U, J>(): Foo<U, J>;
+};
+export type SubFoo<R> = Foo<string, R>;
+export {};
+-- declarationEmitTypeAliasWithTypeParameters5.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function foo() {
+    return {};
+}

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/declarationEmitTypeAliasWithTypeParameters2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitTypeAliasWithTypeParameters2.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitTypeAliasWithTypeParameters2.js declarationEmitTypeAliasWithTypeParameters2.ts
+! stderr .
+cmp declarationEmitTypeAliasWithTypeParameters2.d.ts declarationEmitTypeAliasWithTypeParameters2.d.ts.golden
+cmp declarationEmitTypeAliasWithTypeParameters2.js declarationEmitTypeAliasWithTypeParameters2.js.golden
+! exists declarationEmitTypeAliasWithTypeParameters2.js.map
+
+-- declarationEmitTypeAliasWithTypeParameters2.ts --
+export type Bar<X, Y, Z> = () => [X, Y, Z];
+export type Baz<M, N> = Bar<M, string, N>;
+export type Baa<Y> = Baz<boolean, Y>;
+export const y = (x: Baa<number>) => 1
+-- declarationEmitTypeAliasWithTypeParameters2.d.ts.golden --
+export type Bar<X, Y, Z> = () => [X, Y, Z];
+export type Baz<M, N> = Bar<M, string, N>;
+export type Baa<Y> = Baz<boolean, Y>;
+export declare const y: (x: Baa<number>) => number;
+-- declarationEmitTypeAliasWithTypeParameters2.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.y = void 0;
+const y = (x) => 1;
+exports.y = y;

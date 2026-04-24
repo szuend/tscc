@@ -1,0 +1,47 @@
+# Ported from tests/cases/compiler/discriminateWithOptionalProperty3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --lib esnext --strict --target es2015 discriminateWithOptionalProperty3.ts
+! stderr .
+! exists discriminateWithOptionalProperty3.d.ts
+! exists discriminateWithOptionalProperty3.js.map
+
+-- discriminateWithOptionalProperty3.ts --
+// https://github.com/microsoft/TypeScript/issues/55532#issuecomment-1694744665
+
+type Maybe<T> = null | undefined | T;
+
+declare class GraphQLError extends Error {
+  originalError: Error;
+}
+
+interface ExecutionArgs {
+  variableValues?: Maybe<{ readonly [variable: string]: unknown }>;
+}
+
+interface ExecutionContext {
+  variableValues: { [variable: string]: unknown };
+}
+
+type CoercedVariableValues =
+  | { errors: ReadonlyArray<GraphQLError>; coerced?: never }
+  | { coerced: { [variable: string]: unknown }; errors?: never };
+
+declare function getVariableValues(inputs: {
+  readonly [variable: string]: unknown;
+}): CoercedVariableValues;
+
+export function buildExecutionContext(
+  args: ExecutionArgs,
+): ReadonlyArray<GraphQLError> | ExecutionContext {
+  const { variableValues: rawVariableValues } = args;
+
+  const coercedVariableValues = getVariableValues(rawVariableValues ?? {});
+
+  if (coercedVariableValues.errors) {
+    return coercedVariableValues.errors;
+  }
+
+  return {
+    variableValues: coercedVariableValues.coerced,
+  };
+}

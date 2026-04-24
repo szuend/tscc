@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/declarationEmitExpressionInExtends.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitExpressionInExtends.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitExpressionInExtends.js declarationEmitExpressionInExtends.ts
+stderr 'TS2564'
+stderr 'TS2454'
+! exists declarationEmitExpressionInExtends.d.ts
+! exists declarationEmitExpressionInExtends.js
+! exists declarationEmitExpressionInExtends.js.map
+
+-- declarationEmitExpressionInExtends.ts --
+var x: {
+    new<T>(s: any): Q;
+}
+
+class Q {
+    s: string;    
+}
+
+class B extends x<string> {    
+}
+
+var q: B;
+q.s;

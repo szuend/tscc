@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/declarationsForFileShadowingGlobalNoError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts dom.d.ts --lib dom,es6 --module commonjs --target es2015 --out-js dom.js dom.ts
+! stderr .
+cmp dom.d.ts dom.d.ts.golden
+cmp dom.js dom.js.golden
+! exists dom.js.map
+
+-- custom.ts --
+export type Node = {};
+-- dom.ts --
+export type DOMNode = Node;
+-- index.ts --
+import { Node } from './custom'
+import { DOMNode } from './dom'
+
+type Constructor = new (...args: any[]) => any
+
+export const mixin = (Base: Constructor) => {
+  return class extends Base {
+    get(domNode: DOMNode) {}
+  }
+}
+-- dom.d.ts.golden --
+export type DOMNode = Node;
+-- dom.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

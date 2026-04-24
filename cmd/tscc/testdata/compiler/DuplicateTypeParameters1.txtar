@@ -1,0 +1,10 @@
+# Ported from tests/cases/compiler/duplicateTypeParameters1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js duplicateTypeParameters1.js duplicateTypeParameters1.ts
+stderr 'TS2300'
+! exists duplicateTypeParameters1.js
+! exists duplicateTypeParameters1.d.ts
+! exists duplicateTypeParameters1.js.map
+
+-- duplicateTypeParameters1.ts --
+function A<X, X>() { }

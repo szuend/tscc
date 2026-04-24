@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/declarationEmitDefaultExport3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitDefaultExport3.d.ts --target es6 --lib es6,dom --out-js declarationEmitDefaultExport3.js declarationEmitDefaultExport3.ts
+! stderr .
+cmp declarationEmitDefaultExport3.d.ts declarationEmitDefaultExport3.d.ts.golden
+cmp declarationEmitDefaultExport3.js declarationEmitDefaultExport3.js.golden
+! exists declarationEmitDefaultExport3.js.map
+
+-- declarationEmitDefaultExport3.ts --
+export default function foo() {
+    return ""
+}
+-- declarationEmitDefaultExport3.d.ts.golden --
+export default function foo(): string;
+-- declarationEmitDefaultExport3.js.golden --
+export default function foo() {
+    return "";
+}

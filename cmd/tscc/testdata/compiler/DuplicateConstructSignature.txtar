@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/duplicateConstructSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js duplicateConstructSignature.js duplicateConstructSignature.ts
+! stderr .
+cmp duplicateConstructSignature.js duplicateConstructSignature.js.golden
+! exists duplicateConstructSignature.d.ts
+! exists duplicateConstructSignature.js.map
+
+-- duplicateConstructSignature.ts --
+interface I {
+    (): number;
+    (): string;
+}
+-- duplicateConstructSignature.js.golden --
+"use strict";

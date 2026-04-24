@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/crashOnMethodSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js crashOnMethodSignatures.js crashOnMethodSignatures.ts
+stderr 'TS2391'
+! exists crashOnMethodSignatures.js
+! exists crashOnMethodSignatures.d.ts
+! exists crashOnMethodSignatures.js.map
+
+-- crashOnMethodSignatures.ts --
+class A {
+    a(completed: () => any): void;
+}

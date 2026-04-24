@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/declarationEmitMappedTypeDistributivityPreservesConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts types.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js types.js types.ts
+! stderr .
+cmp types.d.ts types.d.ts.golden
+cmp types.js types.js.golden
+! exists types.js.map
+
+-- reexport.ts --
+import test from "./types";
+export default { test };
+-- types.ts --
+type Fns = Record<string, (...params: unknown[]) => unknown>
+
+type Map<T extends Fns> = { [K in keyof T]: T[K]; };
+
+type AllArg<T extends Fns> = { [K in keyof T]: Parameters<T[K]> };
+
+function fn<T extends { x: Map<T['x']> }>(sliceIndex: T): AllArg<T['x']> {
+    return null!;
+}
+
+export default { fn };
+-- types.d.ts.golden --
+type Fns = Record<string, (...params: unknown[]) => unknown>;
+type Map<T extends Fns> = {
+    [K in keyof T]: T[K];
+};
+type AllArg<T extends Fns> = {
+    [K in keyof T]: Parameters<T[K]>;
+};
+declare function fn<T extends {
+    x: Map<T['x']>;
+}>(sliceIndex: T): AllArg<T['x']>;
+declare const _default: {
+    fn: typeof fn;
+};
+export default _default;
+-- types.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function fn(sliceIndex) {
+    return null;
+}
+exports.default = { fn };

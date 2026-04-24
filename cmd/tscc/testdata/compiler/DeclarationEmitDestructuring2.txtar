@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuring2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitDestructuring2.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declarationEmitDestructuring2.js declarationEmitDestructuring2.ts
+stderr 'TS2300'
+! exists declarationEmitDestructuring2.d.ts
+! exists declarationEmitDestructuring2.js
+! exists declarationEmitDestructuring2.js.map
+
+-- declarationEmitDestructuring2.ts --
+function f({x = 10, y: [a, b, c, d] = [1, 2, 3, 4]} = { x: 10, y: [2, 4, 6, 8] }) { }
+function g([a, b, c, d] = [1, 2, 3, 4]) { }
+function h([a, [b], [[c]], {x = 10, y: [a, b, c], z: {a1, b1}}]){ }
+function h1([a, [b], [[c]], {x = 10, y = [1, 2, 3], z: {a1, b1}}]){ }

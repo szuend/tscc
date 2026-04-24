@@ -1,0 +1,9 @@
+# Ported from tests/cases/compiler/declFileEmitDeclarationOnlyError1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom hello.ts
+! stderr .
+! exists hello.d.ts
+! exists hello.js.map
+
+-- hello.ts --
+var hello = "yo!";

@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/deeplyNestedConstraints.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts deeplyNestedConstraints.d.ts --strict --target es2015 --lib es2015,dom --out-js deeplyNestedConstraints.js deeplyNestedConstraints.ts
+! stderr .
+cmp deeplyNestedConstraints.d.ts deeplyNestedConstraints.d.ts.golden
+cmp deeplyNestedConstraints.js deeplyNestedConstraints.js.golden
+! exists deeplyNestedConstraints.js.map
+
+-- deeplyNestedConstraints.ts --
+// Repro from #41931
+
+type Enum = Record<string, string | number>;
+
+type TypeMap<E extends Enum> = { [key in E[keyof E]]: number | boolean | string | number[] };
+
+class BufferPool<E extends Enum, M extends TypeMap<E>> {
+    setArray2<K extends E[keyof E]>(_: K, array: Extract<M[K], ArrayLike<any>>) {
+        array.length; // Requires exploration of >5 levels of constraints
+    }
+}
+-- deeplyNestedConstraints.d.ts.golden --
+type Enum = Record<string, string | number>;
+type TypeMap<E extends Enum> = {
+    [key in E[keyof E]]: number | boolean | string | number[];
+};
+declare class BufferPool<E extends Enum, M extends TypeMap<E>> {
+    setArray2<K extends E[keyof E]>(_: K, array: Extract<M[K], ArrayLike<any>>): void;
+}
+-- deeplyNestedConstraints.js.golden --
+"use strict";
+// Repro from #41931
+class BufferPool {
+    setArray2(_, array) {
+        array.length; // Requires exploration of >5 levels of constraints
+    }
+}

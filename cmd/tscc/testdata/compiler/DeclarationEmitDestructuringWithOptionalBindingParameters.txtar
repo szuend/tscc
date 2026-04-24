@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringWithOptionalBindingParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitDestructuringWithOptionalBindingParameters.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringWithOptionalBindingParameters.js declarationEmitDestructuringWithOptionalBindingParameters.ts
+stderr 'TS2463'
+! exists declarationEmitDestructuringWithOptionalBindingParameters.d.ts
+! exists declarationEmitDestructuringWithOptionalBindingParameters.js
+! exists declarationEmitDestructuringWithOptionalBindingParameters.js.map
+
+-- declarationEmitDestructuringWithOptionalBindingParameters.ts --
+function foo([x,y,z]?: [string, number, boolean]) {
+}
+function foo1( { x, y, z }?: { x: string; y: number; z: boolean }) {
+}

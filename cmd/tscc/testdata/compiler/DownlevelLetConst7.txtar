@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/downlevelLetConst7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js downlevelLetConst7.js downlevelLetConst7.ts
+! stderr .
+cmp downlevelLetConst7.js downlevelLetConst7.js.golden
+! exists downlevelLetConst7.d.ts
+! exists downlevelLetConst7.js.map
+
+-- downlevelLetConst7.ts --
+let a
+-- downlevelLetConst7.js.golden --
+"use strict";
+let a;

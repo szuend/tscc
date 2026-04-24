@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/declarationEmitNestedGenerics.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitNestedGenerics.d.ts --target es2015 --lib es2015,dom --out-js declarationEmitNestedGenerics.js declarationEmitNestedGenerics.ts
+! stderr .
+cmp declarationEmitNestedGenerics.d.ts declarationEmitNestedGenerics.d.ts.golden
+cmp declarationEmitNestedGenerics.js declarationEmitNestedGenerics.js.golden
+! exists declarationEmitNestedGenerics.js.map
+
+-- declarationEmitNestedGenerics.ts --
+function f<T>(p: T) {
+    let g: <T>(x: T) => typeof p = null as any;
+    return g;
+}
+
+function g<T>(x: T) {
+    let y: typeof x extends (infer T)[] ? T : typeof x = null as any;
+    return y;
+}
+-- declarationEmitNestedGenerics.d.ts.golden --
+declare function f<T>(p: T): <T>(x: T) => typeof p;
+declare function g<T>(x: T): T extends (infer T_1)[] ? T_1 : T;
+-- declarationEmitNestedGenerics.js.golden --
+"use strict";
+function f(p) {
+    let g = null;
+    return g;
+}
+function g(x) {
+    let y = null;
+    return y;
+}

@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/declarationEmitDoesNotUseReexportedNamespaceAsLocal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts sub.d.ts --module esnext --target esnext --lib esnext,dom --out-js sub.js sub.ts
+! stderr .
+cmp sub.d.ts sub.d.ts.golden
+cmp sub.js sub.js.golden
+! exists sub.js.map
+
+-- index.ts --
+export const x = add(import("./sub"));
+export * as Q from "./sub";
+declare function add<T>(x: Promise<T>): T;
+-- sub.ts --
+export function a() {}
+-- sub.d.ts.golden --
+export declare function a(): void;
+-- sub.js.golden --
+export function a() { }

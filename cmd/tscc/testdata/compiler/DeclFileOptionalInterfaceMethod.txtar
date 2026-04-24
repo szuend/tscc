@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/declFileOptionalInterfaceMethod.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileOptionalInterfaceMethod.d.ts --no-strict --target es2015 --lib es2015,dom --out-js declFileOptionalInterfaceMethod.js declFileOptionalInterfaceMethod.ts
+! stderr .
+cmp declFileOptionalInterfaceMethod.d.ts declFileOptionalInterfaceMethod.d.ts.golden
+cmp declFileOptionalInterfaceMethod.js declFileOptionalInterfaceMethod.js.golden
+! exists declFileOptionalInterfaceMethod.js.map
+
+-- declFileOptionalInterfaceMethod.ts --
+interface X {
+    f? <T>();
+}
+-- declFileOptionalInterfaceMethod.d.ts.golden --
+interface X {
+    f?<T>(): any;
+}
+-- declFileOptionalInterfaceMethod.js.golden --
+"use strict";

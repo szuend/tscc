@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/defaultDeclarationEmitDefaultImport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts root.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js root.js root.ts
+! stderr .
+cmp root.d.ts root.d.ts.golden
+cmp root.js root.js.golden
+! exists root.js.map
+
+-- main.ts --
+import Thing, { getSomething } from "./root";
+export const instance = getSomething();
+-- root.ts --
+export function getSomething(): Something { return null as any }
+export default class Something {}
+-- root.d.ts.golden --
+export declare function getSomething(): Something;
+export default class Something {
+}
+-- root.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSomething = getSomething;
+function getSomething() { return null; }
+class Something {
+}
+exports.default = Something;

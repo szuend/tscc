@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/declarationEmitComputedNameConstEnumAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- EnumExample.ts --
+enum EnumExample {
+    TEST = 'TEST',
+}
+
+export default EnumExample;
+-- index.ts --
+import EnumExample from './EnumExample';
+
+export default {
+    [EnumExample.TEST]: {},
+};
+-- index.d.ts.golden --
+declare const _default: {
+    TEST: {};
+};
+export default _default;
+-- index.js.golden --
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const EnumExample_1 = __importDefault(require("./EnumExample"));
+exports.default = {
+    [EnumExample_1.default.TEST]: {},
+};

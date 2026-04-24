@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/defaultBestCommonTypesHaveDecls.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js defaultBestCommonTypesHaveDecls.js defaultBestCommonTypesHaveDecls.ts
+stderr 'TS2339'
+stderr 'TS2345'
+! exists defaultBestCommonTypesHaveDecls.js
+! exists defaultBestCommonTypesHaveDecls.d.ts
+! exists defaultBestCommonTypesHaveDecls.js.map
+
+-- defaultBestCommonTypesHaveDecls.ts --
+var obj1: {};
+obj1.length;
+
+var obj2: Object;
+obj2.length;
+
+function concat<T>(x: T, y: T): T { return null; }
+var result = concat(1, ""); // error
+var elementCount = result.length; 
+
+function concat2<T, U>(x: T, y: U) { return null; }
+var result2 = concat2(1, ""); // result2 will be number|string
+var elementCount2 = result.length; 
+

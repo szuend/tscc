@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/detachedCommentAtStartOfConstructor1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --out-js detachedCommentAtStartOfConstructor1.js detachedCommentAtStartOfConstructor1.ts
+! stderr .
+cmp detachedCommentAtStartOfConstructor1.js detachedCommentAtStartOfConstructor1.js.golden
+! exists detachedCommentAtStartOfConstructor1.d.ts
+! exists detachedCommentAtStartOfConstructor1.js.map
+
+-- detachedCommentAtStartOfConstructor1.ts --
+class TestFile {
+    public message: string;
+    public name;
+    constructor(message: string) {
+        /// <summary>Test summary</summary>
+        /// <param name="message" type="String" />
+        var getMessage = () => message + this.name;
+        this.message = getMessage();
+    }
+}
+-- detachedCommentAtStartOfConstructor1.js.golden --
+"use strict";
+class TestFile {
+    constructor(message) {
+        /// <summary>Test summary</summary>
+        /// <param name="message" type="String" />
+        var getMessage = () => message + this.name;
+        this.message = getMessage();
+    }
+}

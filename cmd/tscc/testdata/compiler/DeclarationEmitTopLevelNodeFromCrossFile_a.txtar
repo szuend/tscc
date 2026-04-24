@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/declarationEmitTopLevelNodeFromCrossFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+cmp a.js a.js.golden
+! exists a.js.map
+
+-- a.ts --
+export type X = string;
+export const fn = { o: (a?: (X | undefined)[]) => {} };
+-- b.ts --
+import {fn} from "./a";
+export const m = {                        
+    /**
+    * leading doc for prop
+    */ 
+    prop: 1
+}
+
+
+export const x = { p: fn }; 
+-- a.d.ts.golden --
+export type X = string;
+export declare const fn: {
+    o: (a?: (X | undefined)[]) => void;
+};
+-- a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fn = void 0;
+exports.fn = { o: (a) => { } };

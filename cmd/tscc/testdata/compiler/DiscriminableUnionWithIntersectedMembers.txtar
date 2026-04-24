@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/discriminableUnionWithIntersectedMembers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js discriminableUnionWithIntersectedMembers.js discriminableUnionWithIntersectedMembers.ts
+! stderr .
+cmp discriminableUnionWithIntersectedMembers.js discriminableUnionWithIntersectedMembers.js.golden
+! exists discriminableUnionWithIntersectedMembers.d.ts
+! exists discriminableUnionWithIntersectedMembers.js.map
+
+-- discriminableUnionWithIntersectedMembers.ts --
+// regression test for https://github.com/microsoft/TypeScript/issues/33243
+type X = 
+ | { x: 'x', y: number } & { y: number } 
+ | { x: 'y', y: number, z?: boolean } & { y: number }
+
+// error
+const x: X = 4 as any as { x: 'x' | 'y', y: number };
+
+type Y = 
+ | { x: 'x', y: number } 
+ | { x: 'y', y: number, z?: boolean }
+
+// no  error
+const y: Y = 4 as any as { x: 'x' | 'y', y: number };
+-- discriminableUnionWithIntersectedMembers.js.golden --
+"use strict";
+// error
+const x = 4;
+// no  error
+const y = 4;

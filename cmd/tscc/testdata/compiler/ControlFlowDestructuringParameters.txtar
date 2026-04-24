@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/controlFlowDestructuringParameters.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict-null-checks --target es2015 --lib es2015,dom --out-js controlFlowDestructuringParameters.js controlFlowDestructuringParameters.ts
+! stderr .
+cmp controlFlowDestructuringParameters.js controlFlowDestructuringParameters.js.golden
+! exists controlFlowDestructuringParameters.d.ts
+! exists controlFlowDestructuringParameters.js.map
+
+-- controlFlowDestructuringParameters.ts --
+// Repro for #8376
+
+
+[{ x: 1 }].map(
+  ({ x }) => x
+);
+-- controlFlowDestructuringParameters.js.golden --
+"use strict";
+// Repro for #8376
+[{ x: 1 }].map(({ x }) => x);

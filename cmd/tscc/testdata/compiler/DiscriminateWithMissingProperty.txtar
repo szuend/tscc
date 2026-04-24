@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/discriminateWithMissingProperty.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom discriminateWithMissingProperty.ts
+! stderr .
+! exists discriminateWithMissingProperty.d.ts
+! exists discriminateWithMissingProperty.js.map
+
+-- discriminateWithMissingProperty.ts --
+type Arg = {
+    mode: "numeric",
+    data: number,
+} | {
+    mode: "alphabetic",
+    data: string,
+} | {
+    data: string | Uint8Array;
+}
+
+declare function foo(arg: Arg): void;
+foo({ mode: "numeric", data: new Uint8Array([30]) }); // Should error

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/discriminateWithOptionalProperty1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom discriminateWithOptionalProperty1.ts
+! stderr .
+! exists discriminateWithOptionalProperty1.d.ts
+! exists discriminateWithOptionalProperty1.js.map
+
+-- discriminateWithOptionalProperty1.ts --
+type Box<T> = { done?: false } | { done: true; value: T };
+
+declare const box: Box<number>;
+
+if (box.done) {
+  box.value;
+}

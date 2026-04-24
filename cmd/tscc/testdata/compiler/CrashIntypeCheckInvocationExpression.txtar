@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/crashIntypeCheckInvocationExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module esnext --no-strict --target es2015 --lib es2015,dom --out-js crashIntypeCheckInvocationExpression.js crashIntypeCheckInvocationExpression.ts
+stderr 'TS2304'
+stderr 'TS2347'
+! exists crashIntypeCheckInvocationExpression.js
+! exists crashIntypeCheckInvocationExpression.d.ts
+! exists crashIntypeCheckInvocationExpression.js.map
+
+-- crashIntypeCheckInvocationExpression.ts --
+var nake;
+function doCompile<P0, P1, P2>(fileset: P0, moduleType: P1) {
+
+    return undefined;
+}
+export var compileServer = task<number, number, any>(<P0, P1, P2>() => {
+
+    var folder = path.join(),
+        fileset = nake.fileSetSync<number, number, any>(folder)
+  return doCompile<number, number, any>(fileset, moduleType);
+});

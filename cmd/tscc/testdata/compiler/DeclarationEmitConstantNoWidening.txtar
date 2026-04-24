@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/declarationEmitConstantNoWidening.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declarationEmitConstantNoWidening.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitConstantNoWidening.js declarationEmitConstantNoWidening.ts
+! stderr .
+cmp declarationEmitConstantNoWidening.d.ts declarationEmitConstantNoWidening.d.ts.golden
+cmp declarationEmitConstantNoWidening.js declarationEmitConstantNoWidening.js.golden
+! exists declarationEmitConstantNoWidening.js.map
+
+-- declarationEmitConstantNoWidening.ts --
+export const FOO = 'FOO'; 
+export class Bar {
+    readonly type = FOO; // Should be widening literal "FOO" - so either `typeof "FOO"` or = "FOO"
+}
+-- declarationEmitConstantNoWidening.d.ts.golden --
+export declare const FOO = "FOO";
+export declare class Bar {
+    readonly type = "FOO";
+}
+-- declarationEmitConstantNoWidening.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Bar = exports.FOO = void 0;
+exports.FOO = 'FOO';
+class Bar {
+    constructor() {
+        this.type = exports.FOO; // Should be widening literal "FOO" - so either `typeof "FOO"` or = "FOO"
+    }
+}
+exports.Bar = Bar;

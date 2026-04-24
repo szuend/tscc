@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/declarationEmitDoesNotUseReexportedNamespaceAsLocal.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts index.d.ts --module esnext --target esnext --lib esnext,dom --out-js index.js index.ts
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp index.js index.js.golden
+! exists index.js.map
+
+-- index.ts --
+export const x = add(import("./sub"));
+export * as Q from "./sub";
+declare function add<T>(x: Promise<T>): T;
+-- sub.ts --
+export function a() {}
+-- index.d.ts.golden --
+export declare const x: typeof import("./sub");
+export * as Q from "./sub";
+-- index.js.golden --
+export const x = add(import("./sub"));
+export * as Q from "./sub";

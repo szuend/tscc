@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/doWhileUnreachableCode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js doWhileUnreachableCode.js doWhileUnreachableCode.ts
+! stderr .
+cmp doWhileUnreachableCode.js doWhileUnreachableCode.js.golden
+! exists doWhileUnreachableCode.d.ts
+! exists doWhileUnreachableCode.js.map
+
+-- doWhileUnreachableCode.ts --
+function test() {
+    let foo = 0;
+    testLoop: do {
+        foo++;
+        continue testLoop;
+    } while (function() {
+        var x = 1;
+        return false;
+    }());
+
+    return foo;
+}
+-- doWhileUnreachableCode.js.golden --
+"use strict";
+function test() {
+    let foo = 0;
+    testLoop: do {
+        foo++;
+        continue testLoop;
+    } while (function () {
+        var x = 1;
+        return false;
+    }());
+    return foo;
+}

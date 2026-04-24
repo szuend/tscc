@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/defaultValueInFunctionOverload1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js defaultValueInFunctionOverload1.js defaultValueInFunctionOverload1.ts
+stderr 'TS2371'
+! exists defaultValueInFunctionOverload1.js
+! exists defaultValueInFunctionOverload1.d.ts
+! exists defaultValueInFunctionOverload1.js.map
+
+-- defaultValueInFunctionOverload1.ts --
+function foo(x: string = '');
+function foo(x = '') { }

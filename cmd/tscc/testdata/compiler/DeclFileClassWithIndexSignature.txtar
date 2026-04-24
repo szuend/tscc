@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/declFileClassWithIndexSignature.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileClassWithIndexSignature.d.ts --target es2015 --lib es2015,dom --out-js declFileClassWithIndexSignature.js declFileClassWithIndexSignature.ts
+! stderr .
+cmp declFileClassWithIndexSignature.d.ts declFileClassWithIndexSignature.d.ts.golden
+cmp declFileClassWithIndexSignature.js declFileClassWithIndexSignature.js.golden
+! exists declFileClassWithIndexSignature.js.map
+
+-- declFileClassWithIndexSignature.ts --
+class BlockIntrinsics {
+    [s: string]: string;
+}
+-- declFileClassWithIndexSignature.d.ts.golden --
+declare class BlockIntrinsics {
+    [s: string]: string;
+}
+-- declFileClassWithIndexSignature.js.golden --
+"use strict";
+class BlockIntrinsics {
+}

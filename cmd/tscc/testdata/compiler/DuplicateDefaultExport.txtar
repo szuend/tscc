@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/duplicateDefaultExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js duplicateDefaultExport.js duplicateDefaultExport.ts
+stderr 'TS2528'
+! exists duplicateDefaultExport.js
+! exists duplicateDefaultExport.d.ts
+! exists duplicateDefaultExport.js.map
+
+-- duplicateDefaultExport.ts --
+export default 0;
+export default function() {}

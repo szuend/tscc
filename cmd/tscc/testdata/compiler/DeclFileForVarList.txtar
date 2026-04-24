@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/declFileForVarList.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts declFileForVarList.d.ts --target es2015 --lib es2015,dom --out-js declFileForVarList.js declFileForVarList.ts
+! stderr .
+cmp declFileForVarList.d.ts declFileForVarList.d.ts.golden
+cmp declFileForVarList.js declFileForVarList.js.golden
+! exists declFileForVarList.js.map
+
+-- declFileForVarList.ts --
+var x, y, z = 1;
+var x1 = 1, y2 = 2, z2 = 3;
+-- declFileForVarList.d.ts.golden --
+declare var x: any, y: any, z: number;
+declare var x1: number, y2: number, z2: number;
+-- declFileForVarList.js.golden --
+"use strict";
+var x, y, z = 1;
+var x1 = 1, y2 = 2, z2 = 3;

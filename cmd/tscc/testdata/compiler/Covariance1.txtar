@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/covariance1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js covariance1.js covariance1.ts
+stderr 'TS2454'
+! exists covariance1.js
+! exists covariance1.d.ts
+! exists covariance1.js.map
+
+-- covariance1.ts --
+namespace M {
+
+    interface X { m1:number; }
+    export class XX implements X { constructor(public m1:number) { } }
+
+    interface Y { x:X; }
+
+    export function f(y:Y) { }
+
+    var a:X;
+    f({x:a}); // ok
+
+    var b:XX;
+    f({x:b}); // ok covariant subtype
+}
+

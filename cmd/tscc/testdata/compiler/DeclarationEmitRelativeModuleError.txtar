@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/declarationEmitRelativeModuleError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --path b:block=declarationEmitRelativeModuleError.ts --path b:/block=declarationEmitRelativeModuleError.ts --out-js declarationEmitRelativeModuleError.js declarationEmitRelativeModuleError.ts
+stderr 'TS2436'
+! exists declarationEmitRelativeModuleError.js
+! exists declarationEmitRelativeModuleError.d.ts
+! exists declarationEmitRelativeModuleError.js.map
+
+-- declarationEmitRelativeModuleError.ts --
+declare module "b:block" { // <-- no error anymore
+    
+}
+
+declare module "b:/block" { // <-- still an error
+    
+}

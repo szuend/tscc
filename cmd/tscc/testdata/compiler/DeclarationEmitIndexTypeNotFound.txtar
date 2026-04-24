@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/declarationEmitIndexTypeNotFound.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts declarationEmitIndexTypeNotFound.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js declarationEmitIndexTypeNotFound.js declarationEmitIndexTypeNotFound.ts
+stderr 'TS1268'
+! exists declarationEmitIndexTypeNotFound.d.ts
+! exists declarationEmitIndexTypeNotFound.js
+! exists declarationEmitIndexTypeNotFound.js.map
+
+-- declarationEmitIndexTypeNotFound.ts --
+export interface Test {
+    [index: TypeNotFound]: any;
+}
