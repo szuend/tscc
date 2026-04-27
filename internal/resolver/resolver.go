@@ -116,13 +116,21 @@ func unresolved() *tsccbridge.ResolvedModule {
 }
 
 // ResolveTypeReferenceDirective is treated as a bare import: permitted only
-// when an explicit mapping exists (design §4 / §8).
+// when an explicit mapping exists (design §4 / §8). We also allow absolute
+// paths directly to support the --types flag which injects files by absolute path.
 func (r *LiteralResolver) ResolveTypeReferenceDirective(
 	typeReferenceDirectiveName string,
 	containingFile string,
 	resolutionMode tsccbridge.ResolutionMode,
 	redirectedReference tsccbridge.ResolvedProjectReference,
 ) (*tsccbridge.ResolvedTypeReferenceDirective, []tsccbridge.DiagAndArgs) {
+	if path.IsAbs(typeReferenceDirectiveName) && r.fs.FileExists(typeReferenceDirectiveName) {
+		return &tsccbridge.ResolvedTypeReferenceDirective{
+			ResolvedFileName: typeReferenceDirectiveName,
+			OriginalPath:     typeReferenceDirectiveName,
+		}, nil
+	}
+
 	target, ok := r.paths[typeReferenceDirectiveName]
 	if !ok {
 		return nil, nil

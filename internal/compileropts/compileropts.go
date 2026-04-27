@@ -109,6 +109,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		Declaration:             decl,
 		SourceMap:               srcMap,
 		Lib:                     cfg.Lib,
+		Types:                   cfg.AmbientTypeFiles,
 		Paths:                   pathsMap,
 	}, nil
 }

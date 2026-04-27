@@ -205,3 +205,14 @@ func TestTypeReferenceViaPathMap(t *testing.T) {
 		t.Fatalf("expected /vendor/@types/node/index.d.ts, got %+v", res)
 	}
 }
+
+func TestTypeReferenceAbsolute(t *testing.T) {
+	r, _ := newResolver(
+		map[string]bool{"/opt/ambient.d.ts": true},
+		nil,
+	)
+	res, _ := r.ResolveTypeReferenceDirective("/opt/ambient.d.ts", "/app/a.ts", 0, nil)
+	if res == nil || res.ResolvedFileName != "/opt/ambient.d.ts" {
+		t.Fatalf("expected /opt/ambient.d.ts, got %+v", res)
+	}
+}

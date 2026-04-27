@@ -101,7 +101,6 @@ func prepareOptions(cfg *config.Config) (*tsccbridge.ParsedCommandLine, error) {
 	// Design §8: pin compiler options so the caller cannot steer typescript-go
 	// into inferring configuration from the environment.
 	opts := parsed.CompilerOptions()
-	opts.Types = []string{}
 	opts.TypeRoots = []string{}
 
 	// ProjectReferences must be nil (design §8). tscc has no flag that populates

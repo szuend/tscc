@@ -54,6 +54,9 @@ type Config struct {
 	// consumed in Parse to build Paths.
 	rawPaths []string
 
+	// AmbientTypeFiles holds paths to ambient type files (.ts or .d.ts) to include in the compilation.
+	AmbientTypeFiles []string
+
 	// Lib holds the library files to include in the compilation.
 	// Populated by repeated --lib flags or comma-separated values.
 	Lib []string
@@ -235,6 +238,16 @@ func (cfg *Config) Validate(args []string) error {
 	}
 	cfg.rawPaths = nil
 
+	var absTypes []string
+	for _, t := range cfg.AmbientTypeFiles {
+		absT, err := filepath.Abs(t)
+		if err != nil {
+			return fmt.Errorf("resolve ambient type file path %q: %w", t, err)
+		}
+		absTypes = append(absTypes, filepath.ToSlash(absT))
+	}
+	cfg.AmbientTypeFiles = absTypes
+
 	return nil
 }
 
@@ -292,6 +305,7 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 func resolutionGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("resolution", pflag.ContinueOnError)
 	g.StringArrayVar(&cfg.rawPaths, "path", nil, "Map a bare import specifier to a file path: `NAME=PATH`. Repeat for each dependency. Targets are resolved to absolute paths. Bare imports without a mapping are denied.")
+	g.StringSliceVar(&cfg.AmbientTypeFiles, "ambient-type-file", nil, "Specify ambient type files (.ts or .d.ts) to include in the compilation.")
 	g.BoolVar(&cfg.CaseSensitivePaths, "case-sensitive-paths", true, "Treat filesystem paths as case-sensitive when keying the compiler's path cache. Pin this across all hosts to avoid macOS/Windows divergence")
 	return flagGroup{Name: "Module Resolution", Set: g}
 }

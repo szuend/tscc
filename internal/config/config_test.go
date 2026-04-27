@@ -440,3 +440,23 @@ func TestParse_PathMap(t *testing.T) {
 		t.Errorf("Paths[rel]: got %q, want %q", got, filepath.ToSlash(wantRel))
 	}
 }
+
+func TestParse_AmbientTypeFile(t *testing.T) {
+	cfg, err := Parse([]string{"--ambient-type-file", "/vendor/lib.d.ts", "--ambient-type-file", "./local.d.ts", "in.ts"})
+	if err != nil {
+		t.Fatalf("Parse error: %v", err)
+	}
+
+	if len(cfg.AmbientTypeFiles) != 2 {
+		t.Fatalf("expected 2 ambient type files, got %d", len(cfg.AmbientTypeFiles))
+	}
+
+	if got, want := cfg.AmbientTypeFiles[0], "/vendor/lib.d.ts"; got != want {
+		t.Errorf("AmbientTypeFiles[0]: got %q, want %q", got, want)
+	}
+
+	wantRel, _ := filepath.Abs("./local.d.ts")
+	if got, want := cfg.AmbientTypeFiles[1], filepath.ToSlash(wantRel); got != want {
+		t.Errorf("AmbientTypeFiles[1]: got %q, want %q", got, want)
+	}
+}
