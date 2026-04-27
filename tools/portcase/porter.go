@@ -222,6 +222,57 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		applyShortCircuitFilter(errorCodesMap)
 	}
 
+	rawGraph := make(map[string][]string)
+	for _, f := range inputList {
+		if strings.HasSuffix(f, "package.json") {
+			continue
+		}
+		rawDeps := getDependencies(inputs[f])
+		var resolvedDeps []string
+		for _, raw := range rawDeps {
+			resolved := resolveDependency(f, raw, inputList)
+			if resolved != "" {
+				resolvedDeps = append(resolvedDeps, resolved)
+			}
+		}
+		rawGraph[f] = resolvedDeps
+	}
+
+	for i := 1; i < len(inputList); i++ {
+		curr := inputList[i]
+		if strings.HasSuffix(curr, "package.json") {
+			continue
+		}
+
+		if isScript(inputs[curr]) {
+			for j := 0; j < i; j++ {
+				prev := inputList[j]
+				if !strings.HasSuffix(prev, "package.json") && isScript(inputs[prev]) {
+					rawGraph[curr] = append(rawGraph[curr], prev)
+				}
+			}
+		}
+	}
+
+	if errorCodesMap == nil {
+		errorCodesMap = make(map[string][]string)
+	}
+
+	changed := true
+	for changed {
+		changed = false
+		for file, deps := range rawGraph {
+			for _, dep := range deps {
+				for _, errCode := range errorCodesMap[dep] {
+					if !slices.Contains(errorCodesMap[file], errCode) {
+						errorCodesMap[file] = append(errorCodesMap[file], errCode)
+						changed = true
+					}
+				}
+			}
+		}
+	}
+
 	variants := ComputeVariants(globalOptions)
 
 	hasNonDts := false
@@ -290,6 +341,16 @@ func (p *Porter) Port() ([]PortedFile, error) {
 						if _, ok := currentOutputs[outName]; !ok {
 							currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
 						}
+					}
+				}
+			}
+
+			// For scripts, include previous scripts as ambient types so they share the global scope.
+			if isScript(inputs[inputFile]) {
+				for j := 0; j < inputIndex; j++ {
+					prev := inputList[j]
+					if !strings.HasSuffix(prev, "package.json") && isScript(inputs[prev]) {
+						flags = append(flags, "--ambient-type-file", prev)
 					}
 				}
 			}
