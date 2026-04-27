@@ -143,13 +143,22 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 	}
 	sort.Strings(allCases)
 
+	existingCases, existingCaseNames, err := getExistingCases(testdataDir, suiteName, allCases)
+	if err != nil {
+		return nil, err
+	}
+
+	return filterCandidates(allCases, existingCases, existingCaseNames, updateExisting), nil
+}
+
+func getExistingCases(testdataDir, suiteName string, allCases []string) (map[string]bool, []string, error) {
 	existingFiles, err := os.ReadDir(testdataDir)
 	if err != nil {
 		if os.IsNotExist(err) {
 			// It's okay if the directory doesn't exist yet
-			existingFiles = []os.DirEntry{}
+			return make(map[string]bool), nil, nil
 		} else {
-			return nil, fmt.Errorf("reading testdata dir: %w", err)
+			return nil, nil, fmt.Errorf("reading testdata dir: %w", err)
 		}
 	}
 
@@ -186,7 +195,10 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 			}
 		}
 	}
+	return existingCases, existingCaseNames, nil
+}
 
+func filterCandidates(allCases []string, existingCases map[string]bool, existingCaseNames []string, updateExisting bool) []string {
 	if updateExisting {
 		unique := make(map[string]bool)
 		var candidates []string
@@ -198,7 +210,7 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 		}
 		sort.Strings(candidates)
 		fmt.Printf("Found %d already ported cases to update.\n", len(candidates))
-		return candidates, nil
+		return candidates
 	}
 
 	var candidates []string
@@ -222,7 +234,7 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 	}
 
 	fmt.Printf("Found %d total cases, %d already ported, %d candidates.\n", len(allCases), len(allCases)-len(candidates), len(candidates))
-	return candidates, nil
+	return candidates
 }
 
 // buildTools builds the portcase tool and the tscc test binary once into a workspace-local tmp directory.

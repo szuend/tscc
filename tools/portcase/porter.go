@@ -171,36 +171,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 	// Pre-group outputs by base outStem and occurrence.
 	// An occurrence is bounded by seeing the same outName again.
-	type OutputGroup map[string]string
-	groupedOutputs := make(map[string][]OutputGroup)
-
-	for _, out := range outputs {
-		name := out.Name
-		outStem := name
-		if before, ok := strings.CutSuffix(name, ".d.ts"); ok {
-			outStem = before
-		} else if before, ok := strings.CutSuffix(name, ".js.map"); ok {
-			outStem = before
-		} else {
-			outStem = strings.TrimSuffix(name, filepath.Ext(name))
-		}
-
-		baseOutStem := filepath.Base(outStem)
-
-		groups := groupedOutputs[baseOutStem]
-		if len(groups) == 0 {
-			groups = append(groups, make(OutputGroup))
-		}
-
-		lastGroup := groups[len(groups)-1]
-		if _, exists := lastGroup[name]; exists {
-			lastGroup = make(OutputGroup)
-			groups = append(groups, lastGroup)
-		}
-
-		lastGroup[name] = out.Content
-		groupedOutputs[baseOutStem] = groups
-	}
+	groupedOutputs := groupOutputs(outputs)
 
 	if len(inputs) == 0 {
 		var stripped []string
@@ -222,56 +193,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		applyShortCircuitFilter(errorCodesMap)
 	}
 
-	rawGraph := make(map[string][]string)
-	for _, f := range inputList {
-		if strings.HasSuffix(f, "package.json") {
-			continue
-		}
-		rawDeps := getDependencies(inputs[f])
-		var resolvedDeps []string
-		for _, raw := range rawDeps {
-			resolved := resolveDependency(f, raw, inputList)
-			if resolved != "" {
-				resolvedDeps = append(resolvedDeps, resolved)
-			}
-		}
-		rawGraph[f] = resolvedDeps
-	}
-
-	for i := 1; i < len(inputList); i++ {
-		curr := inputList[i]
-		if strings.HasSuffix(curr, "package.json") {
-			continue
-		}
-
-		if isScript(inputs[curr]) {
-			for j := 0; j < i; j++ {
-				prev := inputList[j]
-				if !strings.HasSuffix(prev, "package.json") && isScript(inputs[prev]) {
-					rawGraph[curr] = append(rawGraph[curr], prev)
-				}
-			}
-		}
-	}
-
-	if errorCodesMap == nil {
-		errorCodesMap = make(map[string][]string)
-	}
-
-	changed := true
-	for changed {
-		changed = false
-		for file, deps := range rawGraph {
-			for _, dep := range deps {
-				for _, errCode := range errorCodesMap[dep] {
-					if !slices.Contains(errorCodesMap[file], errCode) {
-						errorCodesMap[file] = append(errorCodesMap[file], errCode)
-						changed = true
-					}
-				}
-			}
-		}
-	}
+	errorCodesMap = propagateErrors(inputList, inputs, errorCodesMap)
 
 	variants := ComputeVariants(globalOptions)
 
@@ -302,175 +224,11 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		}
 
 		for _, variant := range variants {
-			flags, err := TranslateDirectives(variant.Options, inputStem)
+			file, err := p.renderVariant(variant, inputFile, inputStem, inputIndex, occurrenceIndex, currentErrorCodes, pathArgs, inputList, inputs, groupedOutputs)
 			if err != nil {
 				return nil, err
 			}
-			for _, arg := range pathArgs {
-				flags = append(flags, "--path", arg)
-			}
-
-			// Determine output file name
-			var currentOutName string
-			base := FlattenName(p.CaseName)
-			safeInputStem := strings.ReplaceAll(inputStem, "/", "_")
-			safeInputStem = strings.ReplaceAll(safeInputStem, "\\", "_")
-
-			if len(inputList) == 1 && variant.Name == "" {
-				currentOutName = base + ".txtar"
-			} else if len(inputList) == 1 {
-				currentOutName = fmt.Sprintf("%s_%s.txtar", base, variant.Name)
-			} else if variant.Name == "" {
-				currentOutName = fmt.Sprintf("%s_%s.txtar", base, safeInputStem)
-			} else {
-				currentOutName = fmt.Sprintf("%s_%s_%s.txtar", base, safeInputStem, variant.Name)
-			}
-
-			// Assign outputs for this specific occurrence
-			currentOutputs := make(map[string]string)
-			var currentNotExpectedOutputs []string
-
-			groups := groupedOutputs[filepath.Base(inputStem)]
-			if occurrenceIndex < len(groups) {
-				currentOutputs = groups[occurrenceIndex]
-			}
-
-			for i, group := range groups {
-				if i != occurrenceIndex {
-					for outName := range group {
-						if _, ok := currentOutputs[outName]; !ok {
-							currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
-						}
-					}
-				}
-			}
-
-			// For scripts, include previous scripts as ambient types so they share the global scope.
-			if isScript(inputs[inputFile]) {
-				for j := 0; j < inputIndex; j++ {
-					prev := inputList[j]
-					if !strings.HasSuffix(prev, "package.json") && isScript(inputs[prev]) {
-						flags = append(flags, "--ambient-type-file", prev)
-					}
-				}
-			}
-
-			outDir := ""
-			if val, ok := variant.Options["outdir"]; ok {
-				outDir = val
-			}
-
-			applyOutDir := func(name string) string {
-				if outDir != "" {
-					return filepath.ToSlash(filepath.Join(outDir, name))
-				}
-				return name
-			}
-
-			renameIfCollision := func(name string) string {
-				if _, isInput := inputs[name]; isInput {
-					dir, file := filepath.Split(name)
-					if dir == "" {
-						return "out_" + file
-					}
-					return filepath.ToSlash(filepath.Join(dir, "out_"+file))
-				}
-				return name
-			}
-
-			renamedOutputs := make(map[string]string)
-			for outName, content := range currentOutputs {
-				renamedOutputs[renameIfCollision(outName)] = content
-			}
-			currentOutputs = renamedOutputs
-
-			var renamedNotExpected []string
-			for _, outName := range currentNotExpectedOutputs {
-				renamedNotExpected = append(renamedNotExpected, renameIfCollision(outName))
-			}
-			currentNotExpectedOutputs = renamedNotExpected
-
-			noEmit := false
-			if val, ok := variant.Options["noemit"]; ok && strings.ToLower(val) == "true" {
-				noEmit = true
-			}
-
-			emitDeclOnly := false
-			if val, ok := variant.Options["emitdeclarationonly"]; ok && strings.ToLower(val) == "true" {
-				emitDeclOnly = true
-			}
-
-			// Calculate flags for out outputs
-			if !noEmit {
-				if len(currentOutputs) > 0 {
-					hasJs := false
-					var toRemove []string
-					for outName := range currentOutputs {
-						if strings.HasSuffix(outName, ".js") {
-							if emitDeclOnly {
-								toRemove = append(toRemove, outName)
-								currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
-							} else {
-								flags = append(flags, "--out-js", outName)
-								hasJs = true
-							}
-						}
-					}
-					for _, r := range toRemove {
-						delete(currentOutputs, r)
-					}
-					if !hasJs && !emitDeclOnly {
-						outJs := renameIfCollision(applyOutDir(inputStem + ".js"))
-						currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
-					}
-				} else {
-					if !emitDeclOnly {
-						outJs := renameIfCollision(applyOutDir(inputStem + ".js"))
-						flags = append(flags, "--out-js", outJs)
-						if len(currentErrorCodes) > 0 {
-							currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
-						} else {
-							currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
-						}
-					}
-				}
-			}
-
-			// Check .d.ts
-			outDts := renameIfCollision(applyOutDir(inputStem + ".d.ts"))
-			if _, ok := currentOutputs[outDts]; !ok {
-				hasDts := slices.Contains(flags, "--out-dts")
-				if !hasDts {
-					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outDts)
-				}
-			}
-
-			// Check .js.map
-			outMap := renameIfCollision(applyOutDir(inputStem + ".js.map"))
-			if _, ok := currentOutputs[outMap]; !ok {
-				hasMap := slices.Contains(flags, "--out-map")
-				if !hasMap {
-					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outMap)
-				}
-			}
-
-			args := RenderArgs{
-				SuiteName:          p.SuiteName,
-				CaseName:           p.CaseName,
-				Date:               time.Now().UTC(),
-				Flags:              flags,
-				Inputs:             []string{inputFile},
-				ErrorCodes:         currentErrorCodes,
-				Files:              inputs,
-				Outputs:            currentOutputs,
-				NotExpectedOutputs: currentNotExpectedOutputs,
-			}
-
-			txtarContent := RenderTxtar(args)
-			results = append(results, PortedFile{
-				Name:    currentOutName,
-				Content: txtarContent,
-			})
+			results = append(results, file)
 		}
 	}
 
@@ -543,4 +301,276 @@ func ComputeVariants(options map[string]string) []Variant {
 
 	generate(0, make(map[string]string), nil)
 	return result
+}
+
+type OutputGroup map[string]string
+
+func groupOutputs(outputs []OutputFile) map[string][]OutputGroup {
+	groupedOutputs := make(map[string][]OutputGroup)
+
+	for _, out := range outputs {
+		name := out.Name
+		outStem := name
+		if before, ok := strings.CutSuffix(name, ".d.ts"); ok {
+			outStem = before
+		} else if before, ok := strings.CutSuffix(name, ".js.map"); ok {
+			outStem = before
+		} else {
+			outStem = strings.TrimSuffix(name, filepath.Ext(name))
+		}
+
+		baseOutStem := filepath.Base(outStem)
+
+		groups := groupedOutputs[baseOutStem]
+		if len(groups) == 0 {
+			groups = append(groups, make(OutputGroup))
+		}
+
+		lastGroup := groups[len(groups)-1]
+		if _, exists := lastGroup[name]; exists {
+			lastGroup = make(OutputGroup)
+			groups = append(groups, lastGroup)
+		}
+
+		lastGroup[name] = out.Content
+		groupedOutputs[baseOutStem] = groups
+	}
+	return groupedOutputs
+}
+
+func propagateErrors(inputList []string, inputs map[string]string, errorCodesMap map[string][]string) map[string][]string {
+	rawGraph := make(map[string][]string)
+	for _, f := range inputList {
+		if strings.HasSuffix(f, "package.json") {
+			continue
+		}
+		rawDeps := getDependencies(inputs[f])
+		var resolvedDeps []string
+		for _, raw := range rawDeps {
+			resolved := resolveDependency(f, raw, inputList)
+			if resolved != "" {
+				resolvedDeps = append(resolvedDeps, resolved)
+			}
+		}
+		rawGraph[f] = resolvedDeps
+	}
+
+	for i := 1; i < len(inputList); i++ {
+		curr := inputList[i]
+		if strings.HasSuffix(curr, "package.json") {
+			continue
+		}
+
+		if isScript(inputs[curr]) {
+			for j := 0; j < i; j++ {
+				prev := inputList[j]
+				if !strings.HasSuffix(prev, "package.json") && isScript(inputs[prev]) {
+					rawGraph[curr] = append(rawGraph[curr], prev)
+				}
+			}
+		}
+	}
+
+	if errorCodesMap == nil {
+		errorCodesMap = make(map[string][]string)
+	}
+
+	changed := true
+	for changed {
+		changed = false
+		for file, deps := range rawGraph {
+			for _, dep := range deps {
+				for _, errCode := range errorCodesMap[dep] {
+					if !slices.Contains(errorCodesMap[file], errCode) {
+						errorCodesMap[file] = append(errorCodesMap[file], errCode)
+						changed = true
+					}
+				}
+			}
+		}
+	}
+	return errorCodesMap
+}
+
+func (p *Porter) renderVariant(
+	variant Variant,
+	inputFile string,
+	inputStem string,
+	inputIndex int,
+	occurrenceIndex int,
+	currentErrorCodes []string,
+	pathArgs []string,
+	inputList []string,
+	inputs map[string]string,
+	groupedOutputs map[string][]OutputGroup,
+) (PortedFile, error) {
+	flags, err := TranslateDirectives(variant.Options, inputStem)
+	if err != nil {
+		return PortedFile{}, err
+	}
+	for _, arg := range pathArgs {
+		flags = append(flags, "--path", arg)
+	}
+
+	// Determine output file name
+	var currentOutName string
+	base := FlattenName(p.CaseName)
+	safeInputStem := strings.ReplaceAll(inputStem, "/", "_")
+	safeInputStem = strings.ReplaceAll(safeInputStem, "\\", "_")
+
+	if len(inputList) == 1 && variant.Name == "" {
+		currentOutName = base + ".txtar"
+	} else if len(inputList) == 1 {
+		currentOutName = fmt.Sprintf("%s_%s.txtar", base, variant.Name)
+	} else if variant.Name == "" {
+		currentOutName = fmt.Sprintf("%s_%s.txtar", base, safeInputStem)
+	} else {
+		currentOutName = fmt.Sprintf("%s_%s_%s.txtar", base, safeInputStem, variant.Name)
+	}
+
+	// Assign outputs for this specific occurrence
+	currentOutputs := make(map[string]string)
+	var currentNotExpectedOutputs []string
+
+	groups := groupedOutputs[filepath.Base(inputStem)]
+	if occurrenceIndex < len(groups) {
+		currentOutputs = groups[occurrenceIndex]
+	}
+
+	for i, group := range groups {
+		if i != occurrenceIndex {
+			for outName := range group {
+				if _, ok := currentOutputs[outName]; !ok {
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
+				}
+			}
+		}
+	}
+
+	// For scripts, include previous scripts as ambient types so they share the global scope.
+	if isScript(inputs[inputFile]) {
+		for j := range inputIndex {
+			prev := inputList[j]
+			if !strings.HasSuffix(prev, "package.json") && isScript(inputs[prev]) {
+				flags = append(flags, "--ambient-type-file", prev)
+			}
+		}
+	}
+
+	outDir := ""
+	if val, ok := variant.Options["outdir"]; ok {
+		outDir = val
+	}
+
+	applyOutDir := func(name string) string {
+		if outDir != "" {
+			return filepath.ToSlash(filepath.Join(outDir, name))
+		}
+		return name
+	}
+
+	renameIfCollision := func(name string) string {
+		if _, isInput := inputs[name]; isInput {
+			dir, file := filepath.Split(name)
+			if dir == "" {
+				return "out_" + file
+			}
+			return filepath.ToSlash(filepath.Join(dir, "out_"+file))
+		}
+		return name
+	}
+
+	renamedOutputs := make(map[string]string)
+	for outName, content := range currentOutputs {
+		renamedOutputs[renameIfCollision(outName)] = content
+	}
+	currentOutputs = renamedOutputs
+
+	var renamedNotExpected []string
+	for _, outName := range currentNotExpectedOutputs {
+		renamedNotExpected = append(renamedNotExpected, renameIfCollision(outName))
+	}
+	currentNotExpectedOutputs = renamedNotExpected
+
+	noEmit := false
+	if val, ok := variant.Options["noemit"]; ok && strings.ToLower(val) == "true" {
+		noEmit = true
+	}
+
+	emitDeclOnly := false
+	if val, ok := variant.Options["emitdeclarationonly"]; ok && strings.ToLower(val) == "true" {
+		emitDeclOnly = true
+	}
+
+	// Calculate flags for out outputs
+	if !noEmit {
+		if len(currentOutputs) > 0 {
+			hasJs := false
+			var toRemove []string
+			for outName := range currentOutputs {
+				if strings.HasSuffix(outName, ".js") {
+					if emitDeclOnly {
+						toRemove = append(toRemove, outName)
+						currentNotExpectedOutputs = append(currentNotExpectedOutputs, outName)
+					} else {
+						flags = append(flags, "--out-js", outName)
+						hasJs = true
+					}
+				}
+			}
+			for _, r := range toRemove {
+				delete(currentOutputs, r)
+			}
+			if !hasJs && !emitDeclOnly {
+				outJs := renameIfCollision(applyOutDir(inputStem + ".js"))
+				currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
+			}
+		} else {
+			if !emitDeclOnly {
+				outJs := renameIfCollision(applyOutDir(inputStem + ".js"))
+				flags = append(flags, "--out-js", outJs)
+				if len(currentErrorCodes) > 0 {
+					currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
+				} else {
+					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
+				}
+			}
+		}
+	}
+
+	// Check .d.ts
+	outDts := renameIfCollision(applyOutDir(inputStem + ".d.ts"))
+	if _, ok := currentOutputs[outDts]; !ok {
+		hasDts := slices.Contains(flags, "--out-dts")
+		if !hasDts {
+			currentNotExpectedOutputs = append(currentNotExpectedOutputs, outDts)
+		}
+	}
+
+	// Check .js.map
+	outMap := renameIfCollision(applyOutDir(inputStem + ".js.map"))
+	if _, ok := currentOutputs[outMap]; !ok {
+		hasMap := slices.Contains(flags, "--out-map")
+		if !hasMap {
+			currentNotExpectedOutputs = append(currentNotExpectedOutputs, outMap)
+		}
+	}
+
+	args := RenderArgs{
+		SuiteName:          p.SuiteName,
+		CaseName:           p.CaseName,
+		Date:               time.Now().UTC(),
+		Flags:              flags,
+		Inputs:             []string{inputFile},
+		ErrorCodes:         currentErrorCodes,
+		Files:              inputs,
+		Outputs:            currentOutputs,
+		NotExpectedOutputs: currentNotExpectedOutputs,
+	}
+
+	txtarContent := RenderTxtar(args)
+	return PortedFile{
+		Name:    currentOutName,
+		Content: txtarContent,
+	}, nil
 }
