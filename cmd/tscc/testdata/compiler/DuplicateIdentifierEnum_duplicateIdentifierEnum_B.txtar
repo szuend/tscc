@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/duplicateIdentifierEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --ambient-type-file duplicateIdentifierEnum_A.ts --out-js duplicateIdentifierEnum_B.js duplicateIdentifierEnum_B.ts
+stderr 'TS2567'
+stderr 'TS2564'
+! exists duplicateIdentifierEnum_B.js
+! exists duplicateIdentifierEnum_B.d.ts
+! exists duplicateIdentifierEnum_B.js.map
+
+-- duplicateIdentifierEnum_A.ts --
+enum A {
+    bar
+}
+class A {
+    foo: number;
+}
+
+interface B {
+    foo: number;
+}
+const enum B {
+    bar
+}
+
+const enum C {
+
+}
+function C() {
+    return 0;
+}
+
+enum D {
+    bar
+}
+class E {
+    foo: number;
+}
+// also make sure the error appears when trying to merge an enum in a separate file.
+-- duplicateIdentifierEnum_B.ts --
+function D() {
+    return 0;
+}
+enum E {
+    bar
+}

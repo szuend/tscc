@@ -4,6 +4,7 @@
 stderr 'TS2352'
 stderr 'TS2873'
 stderr 'TS2322'
+stderr 'TS2564'
 ! exists aliasUsageInOrExpression_main.js
 ! exists aliasUsageInOrExpression_main.d.ts
 ! exists aliasUsageInOrExpression_main.js.map

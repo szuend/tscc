@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/exportDefaultAbstractClass.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+stderr 'TS2564'
+! exists b.js
+! exists b.d.ts
+! exists b.js.map
+
+-- a.ts --
+export default abstract class A { a: number; }
+
+class B extends A {}
+new B().a.toExponential();
+-- b.ts --
+import A from './a';
+
+class C extends A {}
+new C().a.toExponential();

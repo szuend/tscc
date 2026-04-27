@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/moduleExportsTypeNoExcessPropertyCheckFromContainedLiteral.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom typescript-eslint.js
+exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom --ambient-type-file eslint-plugin-react.js typescript-eslint.js
 ! stderr .
 ! exists typescript-eslint.d.ts
 ! exists typescript-eslint.js.map

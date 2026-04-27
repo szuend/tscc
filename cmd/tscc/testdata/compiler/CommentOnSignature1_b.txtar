@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/commentOnSignature1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --no-strict --target es2015 --lib es2015,dom --out-js b.js b.ts
+exec tscc --no-strict --target es2015 --lib es2015,dom --ambient-type-file a.ts --out-js b.js b.ts
 ! stderr .
 cmp b.js b.js.golden
 ! exists b.d.ts

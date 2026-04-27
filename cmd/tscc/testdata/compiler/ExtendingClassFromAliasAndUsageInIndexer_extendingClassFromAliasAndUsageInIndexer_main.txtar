@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/extendingClassFromAliasAndUsageInIndexer.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js extendingClassFromAliasAndUsageInIndexer_main.js extendingClassFromAliasAndUsageInIndexer_main.ts
+stderr 'TS2454'
+stderr 'TS2564'
+! exists extendingClassFromAliasAndUsageInIndexer_main.js
+! exists extendingClassFromAliasAndUsageInIndexer_main.d.ts
+! exists extendingClassFromAliasAndUsageInIndexer_main.js.map
+
+-- extendingClassFromAliasAndUsageInIndexer_backbone.ts --
+export class Model {
+    public someData: string;
+}
+-- extendingClassFromAliasAndUsageInIndexer_main.ts --
+import Backbone = require("./extendingClassFromAliasAndUsageInIndexer_backbone");
+import moduleA = require("./extendingClassFromAliasAndUsageInIndexer_moduleA");
+import moduleB = require("./extendingClassFromAliasAndUsageInIndexer_moduleB");
+interface IHasVisualizationModel {
+    VisualizationModel: typeof Backbone.Model;
+}
+var moduleATyped: IHasVisualizationModel = moduleA;
+var moduleMap: { [key: string]: IHasVisualizationModel } = {
+    "moduleA": moduleA,
+    "moduleB": moduleB
+};
+var moduleName: string;
+var visModel = new moduleMap[moduleName].VisualizationModel();
+-- extendingClassFromAliasAndUsageInIndexer_moduleA.ts --
+import Backbone = require("./extendingClassFromAliasAndUsageInIndexer_backbone");
+export class VisualizationModel extends Backbone.Model {
+    // interesting stuff here
+}
+-- extendingClassFromAliasAndUsageInIndexer_moduleB.ts --
+import Backbone = require("./extendingClassFromAliasAndUsageInIndexer_backbone");
+export class VisualizationModel extends Backbone.Model {
+    // different interesting stuff here
+}

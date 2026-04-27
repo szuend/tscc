@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/visibilityOfCrossModuleTypeUsage.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js visibilityOfCrossModuleTypeUsage_server.js visibilityOfCrossModuleTypeUsage_server.ts
+! stderr .
+cmp visibilityOfCrossModuleTypeUsage_server.js visibilityOfCrossModuleTypeUsage_server.js.golden
+! exists visibilityOfCrossModuleTypeUsage_server.d.ts
+! exists visibilityOfCrossModuleTypeUsage_server.js.map
+
+-- visibilityOfCrossModuleTypeUsage_commands.ts --
+import fs = require('./visibilityOfCrossModuleTypeUsage_fs');
+import server = require('./visibilityOfCrossModuleTypeUsage_server');
+
+export interface IConfiguration {
+    workspace: server.IWorkspace;
+    server?: server.IServer;
+}
+-- visibilityOfCrossModuleTypeUsage_fs.ts --
+import commands = require('./visibilityOfCrossModuleTypeUsage_commands');
+function run(configuration: commands.IConfiguration) {
+    var absoluteWorkspacePath = configuration.workspace.toAbsolutePath(configuration.server);
+}
+-- visibilityOfCrossModuleTypeUsage_server.ts --
+export interface IServer {
+}
+
+export interface IWorkspace {
+    toAbsolutePath(server: IServer, workspaceRelativePath?: string): string;
+}
+-- visibilityOfCrossModuleTypeUsage_server.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

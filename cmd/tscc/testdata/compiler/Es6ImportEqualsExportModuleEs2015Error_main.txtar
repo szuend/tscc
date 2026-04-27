@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/es6ImportEqualsExportModuleEs2015Error.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module es2015 --target es2015 --lib es2015,dom --out-js main.js main.ts
+stderr 'TS1203'
+! exists main.js
+! exists main.d.ts
+! exists main.js.map
+
+-- a.ts --
+class a { }
+export = a;
+-- main.ts --
+import * as a from "./a";
+a;
+
+

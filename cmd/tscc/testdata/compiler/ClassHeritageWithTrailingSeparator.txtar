@@ -1,7 +1,6 @@
 # Ported from tests/cases/compiler/classHeritageWithTrailingSeparator.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --target es2015 --lib es2015,dom --out-js classHeritageWithTrailingSeparator.js classHeritageWithTrailingSeparator.ts
-stderr 'TS2564'
 stderr 'TS1009'
 ! exists classHeritageWithTrailingSeparator.js
 ! exists classHeritageWithTrailingSeparator.d.ts

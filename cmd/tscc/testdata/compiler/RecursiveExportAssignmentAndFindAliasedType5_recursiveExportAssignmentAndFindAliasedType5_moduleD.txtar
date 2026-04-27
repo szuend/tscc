@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js recursiveExportAssignmentAndFindAliasedType5_moduleD.js recursiveExportAssignmentAndFindAliasedType5_moduleD.ts
+stderr 'TS2303'
+! exists recursiveExportAssignmentAndFindAliasedType5_moduleD.js
+! exists recursiveExportAssignmentAndFindAliasedType5_moduleD.d.ts
+! exists recursiveExportAssignmentAndFindAliasedType5_moduleD.js.map
+
+-- recursiveExportAssignmentAndFindAliasedType5_moduleA.ts --
+import moduleC = require("./recursiveExportAssignmentAndFindAliasedType5_moduleC");
+import ClassB = require("./recursiveExportAssignmentAndFindAliasedType5_moduleB");
+export var b: ClassB; // This should result in type ClassB
+-- recursiveExportAssignmentAndFindAliasedType5_moduleB.ts --
+class ClassB { }
+export = ClassB;
+-- recursiveExportAssignmentAndFindAliasedType5_moduleC.ts --
+import self = require("./recursiveExportAssignmentAndFindAliasedType5_moduleD");
+export = self;
+-- recursiveExportAssignmentAndFindAliasedType5_moduleD.ts --
+import self = require("./recursiveExportAssignmentAndFindAliasedType5_moduleC");
+export = self;

@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/moduleSymbolMerging.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --out-dts B.d.ts --target es2015 --lib es2015,dom --out-js B.js B.ts
+! exec tscc --out-dts B.d.ts --target es2015 --lib es2015,dom --ambient-type-file A.ts --out-js B.js B.ts
 stderr 'TS2322'
 ! exists B.d.ts
 ! exists B.js

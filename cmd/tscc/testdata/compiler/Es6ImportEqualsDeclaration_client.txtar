@@ -2,6 +2,7 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --target es6 --lib es6,dom --out-js client.js client.ts
 stderr 'TS1202'
+stderr 'TS1203'
 ! exists client.js
 ! exists client.d.ts
 ! exists client.js.map

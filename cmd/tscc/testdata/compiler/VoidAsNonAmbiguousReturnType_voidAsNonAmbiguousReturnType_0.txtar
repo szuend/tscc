@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/voidAsNonAmbiguousReturnType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js voidAsNonAmbiguousReturnType_0.js voidAsNonAmbiguousReturnType_0.ts
+stderr 'TS2394'
+! exists voidAsNonAmbiguousReturnType_0.js
+! exists voidAsNonAmbiguousReturnType_0.d.ts
+! exists voidAsNonAmbiguousReturnType_0.js.map
+
+-- voidAsNonAmbiguousReturnType_0.ts --
+export function mkdirSync(path: string, mode?: number): void;
+export function mkdirSync(path: string, mode?: string): void {}
+-- voidAsNonAmbiguousReturnType_1.ts --
+///<reference path='voidAsNonAmbiguousReturnType_0.ts'/>
+import fs = require("./voidAsNonAmbiguousReturnType_0");
+
+function main() {
+ fs.mkdirSync('test'); // should not error - return types are the same
+}

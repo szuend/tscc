@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/importExportInternalComments.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target esnext --lib esnext,dom --path foo=include.d.ts --out-js default.js default.ts
+exec tscc --target esnext --lib esnext,dom --path foo=include.d.ts --ambient-type-file include.d.ts --out-js default.js default.ts
 ! stderr .
 cmp default.js default.js.golden
 ! exists default.d.ts

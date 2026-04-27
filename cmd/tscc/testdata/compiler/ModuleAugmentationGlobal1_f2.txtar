@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/moduleAugmentationGlobal1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts f2.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js f2.js f2.ts
+stderr 'TS2564'
+! exists f2.d.ts
+! exists f2.js
+! exists f2.js.map
+
+-- f1.ts --
+export class A {x: number;}
+-- f2.ts --
+import {A} from "./f1";
+
+// change the shape of Array<T>
+declare global {
+    interface Array<T> {
+        getA(): A;
+    }
+}
+
+let x = [1];
+let y = x.getA().x;

@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --path moduleC=recursiveExportAssignmentAndFindAliasedType2_moduleDef.d.ts --path moduleD=recursiveExportAssignmentAndFindAliasedType2_moduleDef.d.ts --out-js recursiveExportAssignmentAndFindAliasedType2_moduleA.js recursiveExportAssignmentAndFindAliasedType2_moduleA.ts
+stderr 'TS2303'
+! exists recursiveExportAssignmentAndFindAliasedType2_moduleA.js
+! exists recursiveExportAssignmentAndFindAliasedType2_moduleA.d.ts
+! exists recursiveExportAssignmentAndFindAliasedType2_moduleA.js.map
+
+-- recursiveExportAssignmentAndFindAliasedType2_moduleA.ts --
+/// <reference path="recursiveExportAssignmentAndFindAliasedType2_moduleDef.d.ts"/>
+import moduleC = require("moduleC");
+import ClassB = require("./recursiveExportAssignmentAndFindAliasedType2_moduleB");
+export var b: ClassB; // This should result in type ClassB
+-- recursiveExportAssignmentAndFindAliasedType2_moduleB.ts --
+class ClassB { }
+export = ClassB;
+-- recursiveExportAssignmentAndFindAliasedType2_moduleDef.d.ts --
+declare module "moduleC" {
+    import self = require("moduleD");
+    export = self;
+}
+declare module "moduleD" {
+    import self = require("moduleC");
+    export = self;
+}

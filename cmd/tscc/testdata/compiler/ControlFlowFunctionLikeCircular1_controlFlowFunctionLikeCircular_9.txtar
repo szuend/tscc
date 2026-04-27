@@ -1,0 +1,79 @@
+# Ported from tests/cases/compiler/controlFlowFunctionLikeCircular1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --lib es2025,dom --ambient-type-file controlFlowFunctionLikeCircular_1.ts --ambient-type-file controlFlowFunctionLikeCircular_2.ts --ambient-type-file controlFlowFunctionLikeCircular_3.ts --ambient-type-file controlFlowFunctionLikeCircular_4.ts --ambient-type-file controlFlowFunctionLikeCircular_5.ts --ambient-type-file controlFlowFunctionLikeCircular_6.ts --ambient-type-file controlFlowFunctionLikeCircular_7.ts --ambient-type-file controlFlowFunctionLikeCircular_8.ts controlFlowFunctionLikeCircular_9.ts
+stderr 'TS1155'
+! exists controlFlowFunctionLikeCircular_9.d.ts
+! exists controlFlowFunctionLikeCircular_9.js.map
+
+-- controlFlowFunctionLikeCircular_1.ts --
+unionOfDifferentReturnType1(true);
+const unionOfDifferentReturnType1: { (a: any): number; } | { (a: number): typeof Date; };
+-- controlFlowFunctionLikeCircular_10.ts --
+function test(arg: string | number, whatever: any) {
+  if (typeof arg === "string") {
+    o.foo();
+    const o: { [k: string]: () => typeof arg } = whatever
+    return o.foo;
+  }
+  return undefined;
+}
+-- controlFlowFunctionLikeCircular_2.ts --
+unionOfDifferentReturnType1(true);
+const unionOfDifferentReturnType1 = Math.random() ? (a: any) => 1 : (a: number) => ({}) as typeof Date;
+-- controlFlowFunctionLikeCircular_3.ts --
+function test(arg: () => string) {
+  fn();
+  const fn: typeof fn = Math.random() ? arg : (): (() => arg) => {};
+}
+-- controlFlowFunctionLikeCircular_4.ts --
+function test(arg: () => string) {
+  fn();
+  const fn = Math.random() ? arg : (): (() => arg) => {};
+}
+-- controlFlowFunctionLikeCircular_5.ts --
+function test(arg: string | number) {
+  if (typeof arg === "string") {
+    fn();
+    const fn: () => typeof arg = () => arg;
+    return fn;
+  }
+  return undefined;
+}
+-- controlFlowFunctionLikeCircular_6.ts --
+function test(arg: string | number) {
+  if (typeof arg === "string") {
+    fn();
+    const fn = (): typeof arg => arg;
+    return fn;
+  }
+  return undefined;
+}
+-- controlFlowFunctionLikeCircular_7.ts --
+function test(arg: string | number) {
+  if (typeof arg === "string") {
+    fn();
+    const fn: { (): typeof arg } = () => arg;
+    return fn;
+  }
+  return undefined;
+}
+-- controlFlowFunctionLikeCircular_8.ts --
+function test(arg: string | number, whatever: any) {
+  if (typeof arg === "string") {
+    b();
+    type First = typeof arg;
+    type Test = (arg: unknown) => arg is First;
+    const b: Test = whatever;
+    return b;
+  }
+  return undefined;
+}
+-- controlFlowFunctionLikeCircular_9.ts --
+function test(arg: string | number, whatever: any) {
+  if (typeof arg === "string") {
+    o.x();
+    const o: { [k: string]: () => typeof arg; x: (() => typeof Date) | (() => void) } = whatever
+    return o.x;
+  }
+  return undefined;
+}

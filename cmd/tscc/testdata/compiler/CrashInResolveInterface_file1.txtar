@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/crashInResolveInterface.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js file1.js file1.ts
+stderr 'TS2454'
+! exists file1.js
+! exists file1.d.ts
+! exists file1.js.map
+
+-- file1.ts --
+interface Q<T> {
+    each(action: (item: T, index: number) => void): void;
+}
+var q1: Q<{ a: number; }>;
+var x = q1.each(x => c.log(x));
+-- file2.ts --
+///<reference path='file1.ts'/>
+declare var c: C;
+interface C {
+    count(countTitle?: string): void;
+}
+interface C {
+    log(message?: any, ...optionalParams: any[]): void;
+}

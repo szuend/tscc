@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/declFileWithErrorsInInputDeclarationFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts client.d.ts --no-strict --target es2015 --lib es2015,dom --ambient-type-file declFile.d.ts --out-js client.js client.ts
+stderr 'TS1038'
+! exists client.d.ts
+! exists client.js
+! exists client.js.map
+
+-- client.ts --
+///<reference path="declFile.d.ts" preserve="true"/>
+var x = new M.C(); // Declaration file wont get emitted because there are errors in declaration file
+-- declFile.d.ts --
+declare namespace M {
+    declare var x;
+    declare function f();
+
+    declare namespace N { }
+
+    declare class C { }
+}

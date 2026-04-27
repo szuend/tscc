@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/commonSourceDir1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --lib es2015,dom --out-js baz.js A:/foo/baz.ts
+exec tscc --target es2015 --lib es2015,dom --ambient-type-file A:/foo/bar.ts --out-js baz.js A:/foo/baz.ts
 ! stderr .
 cmp baz.js baz.js.golden
 ! exists A:/A:/foo/baz.d.ts

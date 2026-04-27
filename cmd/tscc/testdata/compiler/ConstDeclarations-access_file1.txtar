@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/constDeclarations-access.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target ES6 --lib ES6,dom --out-js file1.js file1.ts
+! stderr .
+cmp file1.js file1.js.golden
+! exists file1.d.ts
+! exists file1.js.map
+
+-- file1.ts --
+const x = 0
+-- file2.ts --
+x++;
+-- file1.js.golden --
+"use strict";
+const x = 0;

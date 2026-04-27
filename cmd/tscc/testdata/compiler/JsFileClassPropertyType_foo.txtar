@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/jsFileClassPropertyType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom foo.js
+! stderr .
+! exists foo.d.ts
+! exists foo.js.map
+
+-- bar.ts --
+(new C()).p = "string";
+-- foo.js --
+class C {
+  constructor () {
+      this.p = 0;
+  }
+}

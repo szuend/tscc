@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/expressionTypeNodeShouldError.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js number.js number.ts
+! exec tscc --no-strict --target es2015 --lib es2015,dom --ambient-type-file base.d.ts --ambient-type-file string.ts --out-js number.js number.ts
 stderr 'TS1005'
 stderr 'TS1389'
 ! exists number.js

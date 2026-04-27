@@ -2,6 +2,7 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --out-dts privacyTopLevelAmbientExternalModuleImportWithoutExport_core.d.ts --module commonjs --target es2015 --lib es2015,dom --path m=privacyTopLevelAmbientExternalModuleImportWithoutExport_require2.ts --path m2=privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.ts --out-js privacyTopLevelAmbientExternalModuleImportWithoutExport_core.js privacyTopLevelAmbientExternalModuleImportWithoutExport_core.ts
 stderr 'TS2323'
+stderr 'TS2564'
 ! exists privacyTopLevelAmbientExternalModuleImportWithoutExport_core.d.ts
 ! exists privacyTopLevelAmbientExternalModuleImportWithoutExport_core.js
 ! exists privacyTopLevelAmbientExternalModuleImportWithoutExport_core.js.map

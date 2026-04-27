@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/isolatedModulesConstEnum.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --target es2015 --lib es2015,dom --ambient-type-file foo.d.ts --out-js bar.js bar.ts
+! stderr .
+cmp bar.js bar.js.golden
+! exists bar.d.ts
+! exists bar.js.map
+
+-- bar.ts --
+type E2 = {
+    [EventName.FOO]: number;
+    [EventName.BAR]: string;
+};
+-- foo.d.ts --
+declare const enum EventName {
+    FOO = 1,
+    BAR = 2
+}
+
+type E1 = {
+    [EventName.FOO]: number;
+    [EventName.BAR]: string;
+};
+-- bar.js.golden --
+"use strict";

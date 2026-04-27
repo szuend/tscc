@@ -2,6 +2,7 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js exportAssignClassAndModule_1.js exportAssignClassAndModule_1.ts
 stderr 'TS2454'
+stderr 'TS2564'
 ! exists exportAssignClassAndModule_1.js
 ! exists exportAssignClassAndModule_1.d.ts
 ! exists exportAssignClassAndModule_1.js.map

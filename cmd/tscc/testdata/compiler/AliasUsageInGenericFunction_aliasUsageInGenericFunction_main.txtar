@@ -2,6 +2,7 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js aliasUsageInGenericFunction_main.js aliasUsageInGenericFunction_main.ts
 stderr 'TS2352'
+stderr 'TS2564'
 ! exists aliasUsageInGenericFunction_main.js
 ! exists aliasUsageInGenericFunction_main.d.ts
 ! exists aliasUsageInGenericFunction_main.js.map

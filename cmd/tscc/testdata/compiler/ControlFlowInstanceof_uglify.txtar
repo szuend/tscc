@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/controlFlowInstanceof.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --strict-null-checks --target es6 --lib es6,dom uglify.js
+! exec tscc --allow-js --check-js --strict-null-checks --target es6 --lib es6,dom --ambient-type-file controlFlowInstanceof.ts uglify.js
 stderr 'TS2683'
 stderr 'TS2339'
 ! exists uglify.d.ts

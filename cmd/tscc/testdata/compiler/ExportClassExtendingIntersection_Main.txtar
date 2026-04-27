@@ -1,0 +1,41 @@
+# Ported from tests/cases/compiler/exportClassExtendingIntersection.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts Main.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js Main.js Main.ts
+stderr 'TS2564'
+! exists Main.d.ts
+! exists Main.js
+! exists Main.js.map
+
+-- BaseClass.ts --
+export type Constructor<T> = new (...args: any[]) => T;
+
+export class MyBaseClass<T> {
+    baseProperty: string;
+    constructor(value: T) {}
+}
+-- FinalClass.ts --
+import { MyBaseClass } from './BaseClass';
+import { MyMixin } from './MixinClass';
+
+export class MyExtendedClass extends MyMixin(MyBaseClass)<string> {
+    extendedClassProperty: number;
+}
+-- Main.ts --
+import { MyExtendedClass } from './FinalClass';
+import { MyMixin } from './MixinClass';
+
+const myExtendedClass = new MyExtendedClass('string');
+
+const AnotherMixedClass = MyMixin(MyExtendedClass);
+-- MixinClass.ts --
+import { Constructor, MyBaseClass } from './BaseClass';
+
+export interface MyMixin {
+    mixinProperty: string;
+}
+
+export function MyMixin<T extends Constructor<MyBaseClass<any>>>(base: T): T & Constructor<MyMixin> {
+    return class extends base {
+        mixinProperty: string;
+    }
+}

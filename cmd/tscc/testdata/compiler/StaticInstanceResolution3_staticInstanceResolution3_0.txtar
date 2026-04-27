@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/staticInstanceResolution3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js staticInstanceResolution3_0.js staticInstanceResolution3_0.ts
+stderr 'TS2322'
+! exists staticInstanceResolution3_0.js
+! exists staticInstanceResolution3_0.d.ts
+! exists staticInstanceResolution3_0.js.map
+
+-- staticInstanceResolution3_0.ts --
+export class Promise {
+    static timeout(delay: number): Promise {
+        return null;
+    }
+}
+-- staticInstanceResolution3_1.ts --
+///<reference path='staticInstanceResolution3_0.ts'/>
+import WinJS = require('./staticInstanceResolution3_0');
+WinJS.Promise.timeout(10);

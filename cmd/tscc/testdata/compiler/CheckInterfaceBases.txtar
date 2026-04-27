@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/checkInterfaceBases.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js app.js app.ts
+exec tscc --module commonjs --target es2015 --lib es2015,dom --ambient-type-file jquery.d.ts --out-js app.js app.ts
 ! stderr .
 cmp app.js app.js.golden
 ! exists app.d.ts

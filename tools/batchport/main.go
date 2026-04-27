@@ -205,16 +205,6 @@ func discoverCandidates(upstreamDir, testdataDir string, updateExisting bool) ([
 	ignoreList := map[string]bool{
 		"transportstream": true, // Binary input file. We need to copy the exact bytes into the .txtar for this one.
 
-		// Manually maintained tests.
-		"aliasusageinarray":                       true,
-		"aliasusageinfunctionexpression":          true,
-		"aliasusageingenericfunction":             true,
-		"aliasusageinindexerofclass":              true,
-		"aliasusageinobjectliteral":               true,
-		"aliasusageinorexpression":                true,
-		"aliasusageintypeargumentofextendsclause": true,
-		"aliasusageinvarassignment":               true,
-
 		// Not supported.
 		"allowjscrossmonorepopackage": true,
 	}

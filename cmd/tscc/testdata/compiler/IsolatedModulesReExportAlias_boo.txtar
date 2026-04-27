@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/isolatedModulesReExportAlias.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --isolated-modules --module commonjs --target es2015 --lib es2015,dom --path events=events.d.ts --path node:events=events.d.ts boo.ts
+exec tscc --isolated-modules --module commonjs --target es2015 --lib es2015,dom --path events=events.d.ts --path node:events=events.d.ts --ambient-type-file events.d.ts boo.ts
 ! stderr .
 ! exists boo.d.ts
 ! exists boo.js.map

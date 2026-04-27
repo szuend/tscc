@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/funduleSplitAcrossFiles.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --ambient-type-file funduleSplitAcrossFiles_function.ts --out-js funduleSplitAcrossFiles_module.js funduleSplitAcrossFiles_module.ts
+stderr 'TS2433'
+! exists funduleSplitAcrossFiles_module.js
+! exists funduleSplitAcrossFiles_module.d.ts
+! exists funduleSplitAcrossFiles_module.js.map
+
+-- funduleSplitAcrossFiles_function.ts --
+function D() { }
+-- funduleSplitAcrossFiles_module.ts --
+namespace D {
+    export var y = "hi";
+}
+D.y;

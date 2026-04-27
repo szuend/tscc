@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/constDeclarations-access.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target ES6 --lib ES6,dom --ambient-type-file file1.ts --out-js file2.js file2.ts
+stderr 'TS2588'
+! exists file2.js
+! exists file2.d.ts
+! exists file2.js.map
+
+-- file1.ts --
+const x = 0
+-- file2.ts --
+x++;

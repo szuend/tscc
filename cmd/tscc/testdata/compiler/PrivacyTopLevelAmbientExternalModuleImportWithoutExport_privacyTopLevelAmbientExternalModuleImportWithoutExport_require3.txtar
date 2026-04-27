@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/privacyTopLevelAmbientExternalModuleImportWithoutExport.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.d.ts --module commonjs --target es2015 --lib es2015,dom --path m=privacyTopLevelAmbientExternalModuleImportWithoutExport_require2.ts --path m2=privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.ts --out-js privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.js privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.ts
+exec tscc --out-dts privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.d.ts --module commonjs --target es2015 --lib es2015,dom --path m=privacyTopLevelAmbientExternalModuleImportWithoutExport_require2.ts --path m2=privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.ts --ambient-type-file privacyTopLevelAmbientExternalModuleImportWithoutExport_require2.ts --out-js privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.js privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.ts
 ! stderr .
 cmp privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.d.ts privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.d.ts.golden
 cmp privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.js privacyTopLevelAmbientExternalModuleImportWithoutExport_require3.js.golden

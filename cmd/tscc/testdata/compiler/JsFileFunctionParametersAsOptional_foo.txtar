@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/jsFileFunctionParametersAsOptional.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom foo.js
+! stderr .
+! exists foo.d.ts
+! exists foo.js.map
+
+-- bar.ts --
+f();
+f(1);
+f(1, 2);
+f(1, 2, 3);
+-- foo.js --
+function f(a, b, c) { }
+

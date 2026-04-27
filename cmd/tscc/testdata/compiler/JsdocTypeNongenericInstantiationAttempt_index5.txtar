@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/jsdocTypeNongenericInstantiationAttempt.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom index5.js
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file index.js --ambient-type-file index2.js --ambient-type-file index3.js --ambient-type-file index4.js index5.js
 stderr 'TS2315'
 ! exists index5.d.ts
 ! exists index5.js.map

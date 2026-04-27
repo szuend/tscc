@@ -2,6 +2,7 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --out-dts f3.d.ts --module commonjs --target es2015 --lib es2015,dom --path ./f1=f3.ts --out-js f3.js f3.ts
 stderr 'TS2322'
+stderr 'TS2564'
 ! exists f3.d.ts
 ! exists f3.js
 ! exists f3.js.map

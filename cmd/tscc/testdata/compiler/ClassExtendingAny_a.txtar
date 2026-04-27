@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/classExtendingAny.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es6 --lib es6,dom a.ts
+stderr 'TS2564'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+declare var Err: any
+class A extends Err {
+    payload: string
+    constructor() {
+        super(1,2,3,3,4,56)
+        super.unknown
+        super['unknown']
+    }
+    process() {
+        return this.payload + "!";
+    }
+}
+
+var o = {
+    m() {
+        super.unknown
+    }
+}
+-- b.js --
+class B extends Err {
+    constructor() {
+        super()
+        this.wat = 12
+    }
+    f() {
+        this.wat
+        this.wit
+        this['wot']
+        super.alsoBad
+    }
+}

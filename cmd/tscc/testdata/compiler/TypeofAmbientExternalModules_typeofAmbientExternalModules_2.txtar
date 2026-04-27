@@ -2,6 +2,7 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js typeofAmbientExternalModules_2.js typeofAmbientExternalModules_2.ts
 stderr 'TS2741'
+stderr 'TS2564'
 ! exists typeofAmbientExternalModules_2.js
 ! exists typeofAmbientExternalModules_2.d.ts
 ! exists typeofAmbientExternalModules_2.js.map

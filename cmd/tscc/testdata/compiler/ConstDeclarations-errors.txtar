@@ -2,7 +2,6 @@
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
 ! exec tscc --no-strict --target ES6 --lib ES6,dom --out-js constDeclarations-errors.js constDeclarations-errors.ts
 stderr 'TS1155'
-stderr 'TS2588'
 ! exists constDeclarations-errors.js
 ! exists constDeclarations-errors.d.ts
 ! exists constDeclarations-errors.js.map

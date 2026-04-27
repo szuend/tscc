@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/isolatedModulesNoExternalModuleMultiple.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --isolated-modules --target es6 --lib es6,dom --out-js file2.js file2.ts
+exec tscc --isolated-modules --target es6 --lib es6,dom --ambient-type-file file1.ts --out-js file2.js file2.ts
 ! stderr .
 cmp file2.js file2.js.golden
 ! exists file2.d.ts

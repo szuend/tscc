@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/es6ExportAssignment2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es6 --lib es6,dom --out-js a.js a.ts
+stderr 'TS1203'
+! exists a.js
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+var a = 10;
+export = a;  // Error: export = not allowed in ES6
+-- b.ts --
+import * as a from "./a";

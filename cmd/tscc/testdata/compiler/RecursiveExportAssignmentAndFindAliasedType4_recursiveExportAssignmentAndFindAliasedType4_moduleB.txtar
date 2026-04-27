@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/recursiveExportAssignmentAndFindAliasedType4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js recursiveExportAssignmentAndFindAliasedType4_moduleB.js recursiveExportAssignmentAndFindAliasedType4_moduleB.ts
+! stderr .
+cmp recursiveExportAssignmentAndFindAliasedType4_moduleB.js recursiveExportAssignmentAndFindAliasedType4_moduleB.js.golden
+! exists recursiveExportAssignmentAndFindAliasedType4_moduleB.d.ts
+! exists recursiveExportAssignmentAndFindAliasedType4_moduleB.js.map
+
+-- recursiveExportAssignmentAndFindAliasedType4_moduleA.ts --
+import moduleC = require("./recursiveExportAssignmentAndFindAliasedType4_moduleC");
+import ClassB = require("./recursiveExportAssignmentAndFindAliasedType4_moduleB");
+export var b: ClassB; // This should result in type ClassB
+-- recursiveExportAssignmentAndFindAliasedType4_moduleB.ts --
+class ClassB { }
+export = ClassB;
+-- recursiveExportAssignmentAndFindAliasedType4_moduleC.ts --
+import self = require("./recursiveExportAssignmentAndFindAliasedType4_moduleC");
+export = self;
+-- recursiveExportAssignmentAndFindAliasedType4_moduleB.js.golden --
+"use strict";
+class ClassB {
+}
+module.exports = ClassB;

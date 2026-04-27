@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/jsFileClassPropertyType3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --target es2015 --lib es2015,dom --ambient-type-file foo.js bar.ts
+stderr 'TS2322'
+! exists bar.d.ts
+! exists bar.js.map
+
+-- bar.ts --
+(new C()).p = "string"; // Error
+-- foo.js --
+class C {
+    constructor() {
+        if (cond) {
+            this.p = null;
+        }
+        else {
+            this.p = 0;
+        }
+    }
+}

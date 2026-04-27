@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/importDeclarationUsedAsTypeQuery.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts importDeclarationUsedAsTypeQuery_1.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js importDeclarationUsedAsTypeQuery_1.js importDeclarationUsedAsTypeQuery_1.ts
+stderr 'TS2564'
+! exists importDeclarationUsedAsTypeQuery_1.d.ts
+! exists importDeclarationUsedAsTypeQuery_1.js
+! exists importDeclarationUsedAsTypeQuery_1.js.map
+
+-- importDeclarationUsedAsTypeQuery_1.ts --
+///<reference path='importDeclarationUsedAsTypeQuery_require.ts'/>
+import a = require('./importDeclarationUsedAsTypeQuery_require');
+export var x: typeof a;
+-- importDeclarationUsedAsTypeQuery_require.ts --
+export class B {
+    id: number;
+}

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/unusedImportDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts unusedImportDeclaration_testerB.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js unusedImportDeclaration_testerB.js unusedImportDeclaration_testerB.ts
+stderr 'TS2564'
+! exists unusedImportDeclaration_testerB.d.ts
+! exists unusedImportDeclaration_testerB.js
+! exists unusedImportDeclaration_testerB.js.map
+
+-- unusedImportDeclaration_testerA.ts --
+import B = require("./unusedImportDeclaration_testerB");
+var thingy: B = {
+    me: "A"
+};
+declare function foo(a: string): void;
+foo("IN " + thingy.me + "!");
+-- unusedImportDeclaration_testerB.ts --
+class TesterB {
+    me: string;
+}
+export = TesterB;

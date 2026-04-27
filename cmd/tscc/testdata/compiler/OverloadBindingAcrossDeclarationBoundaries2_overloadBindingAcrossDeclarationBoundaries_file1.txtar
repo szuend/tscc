@@ -1,6 +1,6 @@
 # Ported from tests/cases/compiler/overloadBindingAcrossDeclarationBoundaries2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --lib es2015,dom --out-js overloadBindingAcrossDeclarationBoundaries_file1.js overloadBindingAcrossDeclarationBoundaries_file1.ts
+! exec tscc --target es2015 --lib es2015,dom --ambient-type-file overloadBindingAcrossDeclarationBoundaries_file0.ts --out-js overloadBindingAcrossDeclarationBoundaries_file1.js overloadBindingAcrossDeclarationBoundaries_file1.ts
 stderr 'TS2454'
 ! exists overloadBindingAcrossDeclarationBoundaries_file1.js
 ! exists overloadBindingAcrossDeclarationBoundaries_file1.d.ts

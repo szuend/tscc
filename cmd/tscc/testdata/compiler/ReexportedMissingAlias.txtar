@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/reexportedMissingAlias.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js crash.js crash.ts
+stderr 'TS2503'
+! exists crash.js
+! exists crash.d.ts
+! exists crash.js.map
+
+-- crash.ts --
+import { Component } from './first';
+class C extends Component { }
+-- first.d.ts --
+import * as Second from './second';
+export = Second;
+-- second.d.ts --
+export import Component = CompletelyMissing;

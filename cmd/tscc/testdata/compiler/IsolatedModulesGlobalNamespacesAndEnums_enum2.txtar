@@ -1,0 +1,39 @@
+# Ported from tests/cases/compiler/isolatedModulesGlobalNamespacesAndEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --isolated-modules --module commonjs --target es2015 --lib es2015,dom --ambient-type-file script-namespaces.ts --ambient-type-file enum1.ts --out-js enum2.js enum2.ts
+stderr 'TS18055'
+stderr 'TS1281'
+stderr 'TS1280'
+! exists enum2.js
+! exists enum2.d.ts
+! exists enum2.js.map
+
+-- enum1.ts --
+enum Enum { A, B, C }
+declare enum Enum { X = 1_000_000 }
+const d = 'd';
+-- enum2.ts --
+enum Enum {
+    D = d,
+    E = A, // error
+    Y = X, // error
+    Z = Enum.A
+}
+
+declare enum Enum {
+    F = A
+}
+-- module-namespaces.ts --
+export namespace Instantiated {
+    export const x = 1;
+}
+-- script-namespaces.ts --
+namespace Instantiated {
+    export const x = 1;
+}
+namespace Uninstantiated {
+    export type T = number;
+}
+declare namespace Ambient {
+    export const x: number;
+}

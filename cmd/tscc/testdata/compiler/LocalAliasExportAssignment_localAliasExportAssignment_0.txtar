@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/localAliasExportAssignment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js localAliasExportAssignment_0.js localAliasExportAssignment_0.ts
+stderr 'TS2454'
+! exists localAliasExportAssignment_0.js
+! exists localAliasExportAssignment_0.d.ts
+! exists localAliasExportAssignment_0.js.map
+
+-- localAliasExportAssignment_0.ts --
+var server: {
+    (): any;
+};
+
+export = server;
+-- localAliasExportAssignment_1.ts --
+///<reference path='localAliasExportAssignment_0.ts'/>
+import connect = require('./localAliasExportAssignment_0');
+
+connect();
+
+

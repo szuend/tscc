@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/cloduleSplitAcrossFiles.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js cloduleSplitAcrossFiles_class.js cloduleSplitAcrossFiles_class.ts
+! stderr .
+cmp cloduleSplitAcrossFiles_class.js cloduleSplitAcrossFiles_class.js.golden
+! exists cloduleSplitAcrossFiles_class.d.ts
+! exists cloduleSplitAcrossFiles_class.js.map
+
+-- cloduleSplitAcrossFiles_class.ts --
+class D { }
+-- cloduleSplitAcrossFiles_module.ts --
+namespace D {
+    export var y = "hi";
+}
+D.y;
+-- cloduleSplitAcrossFiles_class.js.golden --
+"use strict";
+class D {
+}

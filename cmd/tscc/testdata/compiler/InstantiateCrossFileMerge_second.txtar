@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/instantiateCrossFileMerge.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --ambient-type-file first.ts --out-js second.js second.ts
+! stderr .
+cmp second.js second.js.golden
+! exists second.d.ts
+! exists second.js.map
+
+-- first.ts --
+declare class P<R> {
+    constructor(callback: (resolve: (value: R) => void) => void);
+}
+-- second.ts --
+interface P<R> { }
+new P<string>(r => { r('foo') });
+-- second.js.golden --
+"use strict";
+new P(r => { r('foo'); });

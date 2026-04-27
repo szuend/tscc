@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/isolatedModulesGlobalNamespacesAndEnums.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --module commonjs --target es2015 --lib es2015,dom --out-js module-namespaces.js module-namespaces.ts
+! stderr .
+cmp module-namespaces.js module-namespaces.js.golden
+! exists module-namespaces.d.ts
+! exists module-namespaces.js.map
+
+-- enum1.ts --
+enum Enum { A, B, C }
+declare enum Enum { X = 1_000_000 }
+const d = 'd';
+-- enum2.ts --
+enum Enum {
+    D = d,
+    E = A, // error
+    Y = X, // error
+    Z = Enum.A
+}
+
+declare enum Enum {
+    F = A
+}
+-- module-namespaces.ts --
+export namespace Instantiated {
+    export const x = 1;
+}
+-- script-namespaces.ts --
+namespace Instantiated {
+    export const x = 1;
+}
+namespace Uninstantiated {
+    export type T = number;
+}
+declare namespace Ambient {
+    export const x: number;
+}
+-- module-namespaces.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Instantiated = void 0;
+var Instantiated;
+(function (Instantiated) {
+    Instantiated.x = 1;
+})(Instantiated || (exports.Instantiated = Instantiated = {}));
