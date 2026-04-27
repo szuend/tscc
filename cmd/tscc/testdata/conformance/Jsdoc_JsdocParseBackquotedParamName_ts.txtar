@@ -1,7 +1,7 @@
 # Ported from tests/cases/conformance/jsdoc/jsdocParseBackquotedParamName.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom ts.ts
-! stderr .
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom --ambient-type-file a.js ts.ts
+stderr 'TS1016'
 ! exists ts.d.ts
 ! exists ts.js.map
 

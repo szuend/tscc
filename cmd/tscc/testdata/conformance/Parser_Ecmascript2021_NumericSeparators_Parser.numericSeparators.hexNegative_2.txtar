@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/parser/ecmascript2021/numericSeparators/parser.numericSeparators.hexNegative.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --lib es2015,dom --out-js 2.js 2.ts
+! exec tscc --target es2015 --lib es2015,dom --ambient-type-file 1.ts --out-js 2.js 2.ts
 stderr 'TS6188'
 ! exists 2.js
 ! exists 2.d.ts

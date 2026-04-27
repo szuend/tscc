@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment4.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom b.js
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom --ambient-type-file def.js --ambient-type-file a.js b.js
 stderr 'TS2503'
 ! exists b.d.ts
 ! exists b.js.map

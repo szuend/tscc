@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/emitter/es2018/asyncGenerators/emitter.asyncGenerators.functionExpressions.es2018.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --lib esnext --no-strict --target es2018 --out-js F3.js F3.ts
+exec tscc --lib esnext --no-strict --target es2018 --ambient-type-file F1.ts --ambient-type-file F2.ts --out-js F3.js F3.ts
 ! stderr .
 cmp F3.js F3.js.golden
 ! exists F3.d.ts

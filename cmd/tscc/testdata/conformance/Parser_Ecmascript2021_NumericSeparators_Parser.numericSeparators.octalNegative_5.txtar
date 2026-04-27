@@ -1,7 +1,9 @@
 # Ported from tests/cases/conformance/parser/ecmascript2021/numericSeparators/parser.numericSeparators.octalNegative.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --lib es2015,dom --out-js 5.js 5.ts
+! exec tscc --target es2015 --lib es2015,dom --ambient-type-file 1.ts --ambient-type-file 2.ts --ambient-type-file 3.ts --ambient-type-file 4.ts --out-js 5.js 5.ts
 stderr 'TS6189'
+stderr 'TS6188'
+stderr 'TS1351'
 ! exists 5.js
 ! exists 5.d.ts
 ! exists 5.js.map

@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/constructorFunctions2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --allow-js --check-js --module commonjs --no-strict --target es2015 --lib es2015,dom index.js
+exec tscc --allow-js --check-js --module commonjs --no-strict --target es2015 --lib es2015,dom --ambient-type-file node.d.ts index.js
 ! stderr .
 ! exists index.d.ts
 ! exists index.js.map

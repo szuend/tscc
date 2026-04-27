@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/jsdoc/checkJsdocTypeTag4.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom test.js
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file t.d.ts test.js
 stderr 'TS2344'
 ! exists test.d.ts
 ! exists test.js.map

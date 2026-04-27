@@ -1,7 +1,7 @@
 # Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsTypedefAndLatebound.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --allow-js --check-js --lib es2017 --target es2015 LazySet.js
-! stderr .
+! exec tscc --allow-js --check-js --lib es2017 --target es2015 --ambient-type-file index.js LazySet.js
+stderr 'TS2322'
 ! exists LazySet.d.ts
 ! exists LazySet.js.map
 

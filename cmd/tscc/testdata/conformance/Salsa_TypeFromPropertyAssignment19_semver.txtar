@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment19.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom semver.js
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom --ambient-type-file types.d.ts semver.js
 ! stderr .
 ! exists semver.d.ts
 ! exists semver.js.map

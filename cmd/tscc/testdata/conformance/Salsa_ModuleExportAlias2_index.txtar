@@ -1,7 +1,8 @@
 # Ported from tests/cases/conformance/salsa/moduleExportAlias2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom index.js
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom --ambient-type-file node.d.ts --ambient-type-file semver.js index.js
 stderr 'TS2339'
+stderr 'TS2309'
 ! exists index.d.ts
 ! exists index.js.map
 

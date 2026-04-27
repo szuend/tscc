@@ -1,7 +1,9 @@
 # Ported from tests/cases/conformance/salsa/commonJSAliasedExport.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --check-js --out-dts bug43713.d.ts --no-strict --target es2015 --lib es2015,dom --out-js out_bug43713.js bug43713.js
+! exec tscc --check-js --out-dts bug43713.d.ts --no-strict --target es2015 --lib es2015,dom --ambient-type-file commonJSAliasedExport.js --out-js out_bug43713.js bug43713.js
 stderr 'TS2305'
+stderr 'TS2309'
+stderr 'TS2339'
 ! exists out_bug43713.js
 ! exists bug43713.d.ts
 ! exists out/bug43713.js.map

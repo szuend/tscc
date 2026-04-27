@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/exportNestedNamespaces2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom first.js
+! exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom --ambient-type-file mod.js first.js
 stderr 'TS2339'
 ! exists first.d.ts
 ! exists first.js.map

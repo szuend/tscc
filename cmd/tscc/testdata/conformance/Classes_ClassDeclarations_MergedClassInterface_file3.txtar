@@ -1,9 +1,9 @@
 # Ported from tests/cases/conformance/classes/classDeclarations/mergedClassInterface.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --out-dts file3.d.ts --target es2015 --lib es2015,dom --out-js file3.js file3.ts
-! stderr .
-cmp file3.d.ts file3.d.ts.golden
-cmp file3.js file3.js.golden
+! exec tscc --out-dts file3.d.ts --target es2015 --lib es2015,dom --ambient-type-file file1.ts --ambient-type-file file2.ts --out-js file3.js file3.ts
+stderr 'TS2454'
+! exists file3.d.ts
+! exists file3.js
 ! exists file3.js.map
 
 -- file1.ts --
@@ -53,10 +53,3 @@ interface C7 { }
 interface C6 { }
 
 declare class C7 { }
--- file3.d.ts.golden --
-interface C6 {
-}
-declare class C7 {
-}
--- file3.js.golden --
-"use strict";

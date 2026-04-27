@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/typeFromPropertyAssignment8.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --allow-js --check-js --lib es6,dom --no-strict --target es6 b.js
+exec tscc --allow-js --check-js --lib es6,dom --no-strict --target es6 --ambient-type-file a.js b.js
 ! stderr .
 ! exists b.d.ts
 ! exists b.js.map

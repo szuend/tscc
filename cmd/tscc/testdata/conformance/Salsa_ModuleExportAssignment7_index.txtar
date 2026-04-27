@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/moduleExportAssignment7.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom index.ts
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file mod.js --ambient-type-file main.js index.ts
 stderr 'TS2694'
 ! exists index.d.ts
 ! exists index.js.map

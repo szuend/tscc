@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/jsdoc/paramTagWrapping.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom bad.js
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom --ambient-type-file good.js bad.js
 stderr 'TS7006'
 ! exists bad.d.ts
 ! exists bad.js.map

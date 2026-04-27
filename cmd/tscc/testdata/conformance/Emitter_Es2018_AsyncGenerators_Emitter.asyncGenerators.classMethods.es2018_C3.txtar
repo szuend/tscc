@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/emitter/es2018/asyncGenerators/emitter.asyncGenerators.classMethods.es2018.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --lib esnext --no-strict --target es2018 --out-js C3.js C3.ts
+exec tscc --lib esnext --no-strict --target es2018 --ambient-type-file C1.ts --ambient-type-file C2.ts --out-js C3.js C3.ts
 ! stderr .
 cmp C3.js C3.js.golden
 ! exists C3.d.ts

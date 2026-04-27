@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/emitter/es2018/asyncGenerators/emitter.asyncGenerators.objectLiteralMethods.es2018.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --lib esnext --no-strict --target es2018 --out-js O7.js O7.ts
+exec tscc --lib esnext --no-strict --target es2018 --ambient-type-file O1.ts --ambient-type-file O2.ts --ambient-type-file O3.ts --ambient-type-file O4.ts --ambient-type-file O5.ts --ambient-type-file O6.ts --out-js O7.js O7.ts
 ! stderr .
 cmp O7.js O7.js.golden
 ! exists O7.d.ts

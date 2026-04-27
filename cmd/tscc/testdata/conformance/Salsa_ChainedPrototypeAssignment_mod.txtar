@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/chainedPrototypeAssignment.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom mod.js
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom --ambient-type-file types.d.ts mod.js
 stderr 'TS2683'
 ! exists mod.d.ts
 ! exists mod.js.map

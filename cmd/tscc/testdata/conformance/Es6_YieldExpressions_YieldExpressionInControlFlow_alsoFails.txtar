@@ -1,9 +1,10 @@
 # Ported from tests/cases/conformance/es6/yieldExpressions/yieldExpressionInControlFlow.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --lib esnext --no-implicit-any --target es2015 alsoFails.ts
+! exec tscc --allow-js --check-js --lib esnext --no-implicit-any --target es2015 --ambient-type-file bug25149.js alsoFails.ts
 stderr 'TS7034'
 stderr 'TS2322'
 stderr 'TS7005'
+stderr 'TS7057'
 ! exists alsoFails.d.ts
 ! exists alsoFails.js.map
 

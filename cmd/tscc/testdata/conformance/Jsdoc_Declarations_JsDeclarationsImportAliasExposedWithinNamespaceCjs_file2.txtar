@@ -1,7 +1,8 @@
 # Ported from tests/cases/conformance/jsdoc/declarations/jsDeclarationsImportAliasExposedWithinNamespaceCjs.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --out-dts file2.d.ts --module commonjs --target es6 --lib es6,dom file2.js
+! exec tscc --allow-js --check-js --out-dts file2.d.ts --module commonjs --target es6 --lib es6,dom --ambient-type-file file.js file2.js
 stderr 'TS2702'
+stderr 'TS2300'
 ! exists file2.d.ts
 ! exists file2.js.map
 ! exists out_file2.js

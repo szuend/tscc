@@ -1,11 +1,12 @@
 # Ported from tests/cases/conformance/salsa/classCanExtendConstructorFunction.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom generic.js
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file first.js --ambient-type-file second.ts generic.js
 stderr 'TS2683'
 stderr 'TS2507'
 stderr 'TS2339'
 stderr 'TS7009'
 stderr 'TS2554'
+stderr 'TS2749'
 ! exists generic.d.ts
 ! exists generic.js.map
 

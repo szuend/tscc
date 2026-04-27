@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/emitter/es2015/asyncGenerators/emitter.asyncGenerators.objectLiteralMethods.es2015.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --lib esnext --no-strict --target es2015 --out-js O5.js O5.ts
+exec tscc --lib esnext --no-strict --target es2015 --ambient-type-file O1.ts --ambient-type-file O2.ts --ambient-type-file O3.ts --ambient-type-file O4.ts --out-js O5.js O5.ts
 ! stderr .
 cmp O5.js O5.js.golden
 ! exists O5.d.ts

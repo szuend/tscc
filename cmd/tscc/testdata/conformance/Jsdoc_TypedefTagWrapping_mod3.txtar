@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/jsdoc/typedefTagWrapping.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom mod3.js
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file mod1.js --ambient-type-file mod2.js mod3.js
 stderr 'TS1005'
 ! exists mod3.d.ts
 ! exists mod3.js.map

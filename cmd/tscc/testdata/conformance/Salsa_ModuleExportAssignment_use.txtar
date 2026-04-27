@@ -1,7 +1,8 @@
 # Ported from tests/cases/conformance/salsa/moduleExportAssignment.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom use.js
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file npmlog.js use.js
 stderr 'TS2339'
+stderr 'TS2309'
 ! exists use.d.ts
 ! exists use.js.map
 

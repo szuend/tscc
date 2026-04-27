@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/salsa/lateBoundAssignmentDeclarationSupport6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --strict --target es6 --lib es6,dom usage.js
+! exec tscc --allow-js --check-js --strict --target es6 --lib es6,dom --ambient-type-file lateBoundAssignmentDeclarationSupport6.js usage.js
 stderr 'TS7009'
 ! exists usage.d.ts
 ! exists usage.js.map

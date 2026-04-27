@@ -1,7 +1,8 @@
 # Ported from tests/cases/conformance/salsa/moduleExportWithExportPropertyAssignment.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file requires.d.ts --ambient-type-file mod1.js a.js
 stderr 'TS2339'
+stderr 'TS2309'
 ! exists a.d.ts
 ! exists a.js.map
 

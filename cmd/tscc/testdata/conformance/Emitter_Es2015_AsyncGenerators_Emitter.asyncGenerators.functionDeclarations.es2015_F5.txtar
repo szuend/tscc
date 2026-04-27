@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/emitter/es2015/asyncGenerators/emitter.asyncGenerators.functionDeclarations.es2015.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --lib esnext --no-strict --target es2015 --out-js F5.js F5.ts
+exec tscc --lib esnext --no-strict --target es2015 --ambient-type-file F1.ts --ambient-type-file F2.ts --ambient-type-file F3.ts --ambient-type-file F4.ts --out-js F5.js F5.ts
 ! stderr .
 cmp F5.js F5.js.golden
 ! exists F5.d.ts

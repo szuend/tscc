@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/async/es6/asyncMultiFile_es6.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es6 --lib es6,dom --out-js b.js b.ts
+exec tscc --target es6 --lib es6,dom --ambient-type-file a.ts --out-js b.js b.ts
 ! stderr .
 cmp b.js b.js.golden
 ! exists b.d.ts

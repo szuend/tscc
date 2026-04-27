@@ -1,6 +1,6 @@
 # Ported from tests/cases/conformance/jsdoc/jsdocImportType2.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom use.js
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom --ambient-type-file types.d.ts --ambient-type-file mod1.js use.js
 stderr 'TS2454'
 ! exists use.d.ts
 ! exists use.js.map

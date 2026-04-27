@@ -1,7 +1,8 @@
 # Ported from tests/cases/conformance/salsa/typeFromParamTagForFunction.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --allow-js --check-js --module commonjs --target es2015 --lib es2015,dom b-ext.js
-! stderr .
+! exec tscc --allow-js --check-js --module commonjs --target es2015 --lib es2015,dom --ambient-type-file node.d.ts --ambient-type-file a-ext.js --ambient-type-file a.js b-ext.js
+stderr 'TS2683'
+stderr 'TS2749'
 ! exists b-ext.d.ts
 ! exists b-ext.js.map
 
