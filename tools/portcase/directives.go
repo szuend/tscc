@@ -175,10 +175,7 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 				flags = append(flags, "--no-isolated-modules")
 			}
 		case "allowsyntheticdefaultimports":
-			if strings.ToLower(value) == "false" {
-				return nil, &IgnoreError{Directive: key, Reason: "false is permanently unsupported by typescript-go"}
-			}
-			// true or empty is the default, so we can just ignore it
+			return nil, &IgnoreError{Directive: key, Reason: "allowSyntheticDefaultImports is unsupported by typescript-go and permanently ignored"}
 		case "lib":
 			flags = append(flags, "--lib", value)
 		case "noemit":
