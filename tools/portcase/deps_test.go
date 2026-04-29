@@ -141,6 +141,28 @@ export = D;
 `,
 			want: false,
 		},
+		{
+			name: "export curly",
+			content: `
+const x = 1;
+export { x };
+`,
+			want: false,
+		},
+		{
+			name: "import side-effect",
+			content: `
+import "mod";
+`,
+			want: false,
+		},
+		{
+			name: "import require",
+			content: `
+import x = require("mod");
+`,
+			want: false,
+		},
 	}
 
 	for _, tt := range tests {

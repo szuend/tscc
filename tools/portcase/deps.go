@@ -62,7 +62,9 @@ func resolveDependency(importer, dep string, inputList []string) string {
 }
 
 func isScript(content string) bool {
-	hasExport := regexp.MustCompile(`(?m)^export\s+`).MatchString(content)
-	hasImport := regexp.MustCompile(`(?m)^import\s+`).MatchString(content)
+	// A file is a module if it has a top-level import or export.
+	// We use a simplified check that matches most cases in the compiler test suite.
+	hasExport := regexp.MustCompile(`(?m)^(export\s+|export\s*=|export\s*\{)`).MatchString(content)
+	hasImport := regexp.MustCompile(`(?m)^(import\s+|import\s*['"]|import\s*.*?\s*=\s*require\()`).MatchString(content)
 	return !hasExport && !hasImport
 }

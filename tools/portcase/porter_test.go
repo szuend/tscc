@@ -580,6 +580,72 @@ import { x } from 'my-module';
 	}
 }
 
+func TestPorter_Port_AmbientModuleInScript(t *testing.T) {
+	p := Porter{
+		CaseName: "ambient_script",
+		TsContent: `
+declare module 'my-module' {
+    export const x: number;
+}
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--path my-module=ambient_script.ts") {
+		t.Errorf("Expected execution to contain --path my-module=ambient_script.ts, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_AmbientModuleInModule(t *testing.T) {
+	p := Porter{
+		CaseName: "ambient_module",
+		TsContent: `
+export const y = 1;
+declare module 'my-module' {
+    export const x: number;
+}
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	res := results[0]
+	if strings.Contains(res.Content, "--path my-module=") {
+		t.Errorf("Expected execution NOT to contain --path my-module=, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_AmbientModuleInDts(t *testing.T) {
+	p := Porter{
+		CaseName: "ambient_dts",
+		TsContent: `// @filename: a.d.ts
+declare module 'my-module' {
+    export const x: number;
+}
+// @filename: b.ts
+import { x } from 'my-module';
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--path my-module=a.d.ts") {
+		t.Errorf("Expected execution to contain --path my-module=a.d.ts, got:\n%s", res.Content)
+	}
+}
+
 func TestApplyShortCircuitFilter(t *testing.T) {
 	tests := []struct {
 		name     string

@@ -153,10 +153,12 @@ func (p *Porter) Port() ([]PortedFile, error) {
 	ambientModuleRegex := regexp.MustCompile(`(?m)^\s*declare\s+module\s+['"]([^'"]+)['"]`)
 	for _, filename := range inputList {
 		content := inputs[filename]
-		matches := ambientModuleRegex.FindAllStringSubmatch(content, -1)
-		for _, match := range matches {
-			// match[1] is the module name, filename is the filename
-			pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", match[1], filename))
+		if isScript(content) || strings.HasSuffix(filename, ".d.ts") {
+			matches := ambientModuleRegex.FindAllStringSubmatch(content, -1)
+			for _, match := range matches {
+				// match[1] is the module name, filename is the filename
+				pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", match[1], filename))
+			}
 		}
 	}
 
