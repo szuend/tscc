@@ -158,6 +158,25 @@ func TestFromConfigIsolatedModules(t *testing.T) {
 	}
 }
 
+func TestFromConfigNoUncheckedSideEffectImports(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", NoUncheckedSideEffectImports: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.NoUncheckedSideEffectImports != tc.want {
+			t.Errorf("NoUncheckedSideEffectImports(%v) = %v, want %v", tc.in, got.NoUncheckedSideEffectImports, tc.want)
+		}
+	}
+}
+
 func TestFromConfigCheckJs(t *testing.T) {
 	tests := []struct {
 		in   bool

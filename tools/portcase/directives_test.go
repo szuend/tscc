@@ -162,7 +162,7 @@ func TestTranslateDirectives(t *testing.T) {
 			directives: map[string]string{
 				"allowSyntheticDefaultImports": "true",
 			},
-			wantFlags: []string{"--lib", "es2025,dom"},
+			wantSkip: true,
 		},
 		{
 			name: "allowSyntheticDefaultImports false unsupported",

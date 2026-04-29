@@ -174,6 +174,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-isolated-modules")
 			}
+		case "nouncheckedsideeffectimports":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--no-unchecked-side-effect-imports")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-no-unchecked-side-effect-imports")
+			}
 		case "allowsyntheticdefaultimports":
 			return nil, &IgnoreError{Directive: key, Reason: "allowSyntheticDefaultImports is unsupported by typescript-go and permanently ignored"}
 		case "lib":

@@ -94,15 +94,16 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 	}
 
 	return &tsccbridge.CompilerOptions{
-		Target:                     target,
-		Strict:                     boolToTristate(cfg.Strict),
-		NoImplicitAny:              boolToTristate(cfg.NoImplicitAny),
-		StrictNullChecks:           boolToTristate(cfg.StrictNullChecks),
-		ExactOptionalPropertyTypes: boolToTristate(cfg.ExactOptionalPropertyTypes),
-		SkipLibCheck:               boolToTristate(cfg.SkipLibCheck),
-		AllowJs:                    boolToTristate(cfg.AllowJs),
-		CheckJs:                    boolToTristate(cfg.CheckJs),
-		IsolatedModules:            boolToTristate(cfg.IsolatedModules),
+		Target:                       target,
+		Strict:                       boolToTristate(cfg.Strict),
+		NoImplicitAny:                boolToTristate(cfg.NoImplicitAny),
+		StrictNullChecks:             boolToTristate(cfg.StrictNullChecks),
+		ExactOptionalPropertyTypes:   boolToTristate(cfg.ExactOptionalPropertyTypes),
+		SkipLibCheck:                 boolToTristate(cfg.SkipLibCheck),
+		AllowJs:                      boolToTristate(cfg.AllowJs),
+		CheckJs:                      boolToTristate(cfg.CheckJs),
+		IsolatedModules:              boolToTristate(cfg.IsolatedModules),
+		NoUncheckedSideEffectImports: boolToTristate(cfg.NoUncheckedSideEffectImports),
 
 		SuppressOutputPathCheck: tsccbridge.TSTrue,
 		Module:                  mod,

@@ -81,11 +81,12 @@ func runCompile(t *testing.T, cfg *config.Config) (status tsccbridge.ExitStatus,
 // Tests override specific fields inline.
 func defaultCfg(input, output string) *config.Config {
 	return &config.Config{
-		InputPath:          input,
-		OutJSPath:          output,
-		Target:             "es2022",
-		Strict:             true,
-		CaseSensitivePaths: true,
+		InputPath:                    input,
+		OutJSPath:                    output,
+		Target:                       "es2022",
+		Strict:                       true,
+		CaseSensitivePaths:           true,
+		NoUncheckedSideEffectImports: true,
 	}
 }
 

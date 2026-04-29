@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/ambientExportDefaultErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --no-no-unchecked-side-effect-imports --target es2015 --lib es2015,dom --path indirect=indirection.d.ts --path indirect2=indirection2.d.ts --out-js consumer.js consumer.ts
+stderr 'TS2714'
+! exists consumer.js
+! exists consumer.d.ts
+! exists consumer.js.map
+
+-- consumer.ts --
+/// <reference path="./indirection.d.ts" />
+/// <reference path="./indirection2.d.ts" />
+import "indirect";
+import "foo";
+import "indirect2";
+import "foo2";
+-- foo.d.ts --
+export default 2 + 2;
+export as namespace Foo;
+-- foo2.d.ts --
+export = 2 + 2;
+export as namespace Foo2;
+-- indirection.d.ts --
+/// <reference path="./foo.d.ts" />
+declare module "indirect" {
+    export default typeof Foo.default;
+}
+-- indirection2.d.ts --
+/// <reference path="./foo2.d.ts" />
+declare module "indirect2" {
+    export = typeof Foo2;
+}

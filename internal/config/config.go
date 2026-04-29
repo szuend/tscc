@@ -75,6 +75,9 @@ type Config struct {
 
 	// IsolatedModules ensures that each file can be safely transpiled without relying on other imports.
 	IsolatedModules bool
+
+	// NoUncheckedSideEffectImports raises an error when a side-effect import (import "mod") resolves to a file that does not exist.
+	NoUncheckedSideEffectImports bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -313,6 +316,7 @@ func resolutionGroup(cfg *Config) flagGroup {
 func interopConstraintsGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("interop-constraints", pflag.ContinueOnError)
 	g.BoolVar(&cfg.IsolatedModules, "isolated-modules", false, "Ensure that each file can be safely transpiled without relying on other imports.")
+	g.BoolVar(&cfg.NoUncheckedSideEffectImports, "no-unchecked-side-effect-imports", true, "Check side effect imports.")
 
 	return flagGroup{Name: "Interop Constraints", Set: g}
 }
