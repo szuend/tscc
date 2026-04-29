@@ -23,24 +23,6 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func readBaseline(suiteName, caseName, ext string) string {
-	base := filepath.Base(caseName)
-
-	paths := []string{
-		filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", "submodule", suiteName, base+ext),
-		filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", suiteName, base+ext),
-		filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", base+ext),
-	}
-
-	for _, p := range paths {
-		if data, err := os.ReadFile(p); err == nil {
-			return string(data)
-		}
-	}
-
-	return ""
-}
-
 func main() {
 	var suiteName string
 	var caseName string
@@ -79,18 +61,15 @@ func main() {
 	tsContent := string(tsData)
 	tsContent = strings.TrimPrefix(tsContent, "\xef\xbb\xbf")
 
-	// 2. Read the baseline .js if present
-	baselineJs := readBaseline(suiteName, caseName, ".js")
-
-	// 3. Read the baseline .errors.txt if present
-	baselineErrors := readBaseline(suiteName, caseName, ".errors.txt")
+	baselineFinder := func(variant Variant, ext string) string {
+		return readBaseline(suiteName, caseName, ext, variant.UpstreamName)
+	}
 
 	porter := Porter{
 		SuiteName:      suiteName,
 		CaseName:       caseName,
 		TsContent:      tsContent,
-		BaselineJs:     baselineJs,
-		BaselineErrors: baselineErrors,
+		BaselineFinder: baselineFinder,
 	}
 
 	results, err := porter.Port()

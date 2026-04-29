@@ -19,10 +19,20 @@ import (
 	"testing"
 )
 
+func mockFinder(js, errors string) BaselineFinder {
+	return func(variant Variant, ext string) string {
+		if ext == ".js" {
+			return js
+		}
+		return errors
+	}
+}
+
 func TestPorter_Port_Simple(t *testing.T) {
 	p := Porter{
-		CaseName:  "simple",
-		TsContent: "export const x = 1;",
+		CaseName:       "simple",
+		TsContent:      "export const x = 1;",
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -46,8 +56,9 @@ func TestPorter_Port_Simple(t *testing.T) {
 
 func TestPorter_Port_NoEmit(t *testing.T) {
 	p := Porter{
-		CaseName:  "noemit_case",
-		TsContent: "// @noEmit: true\nexport const x = 1;",
+		CaseName:       "noemit_case",
+		TsContent:      "// @noEmit: true\nexport const x = 1;",
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -72,15 +83,18 @@ func TestPorter_Port_NoEmit(t *testing.T) {
 }
 
 func TestPorter_Port_Collision(t *testing.T) {
+	js := `//// [b.js]
+export const b = 2;
+//// [b.js]
+export const b = 2;
+`
 	p := Porter{
 		CaseName: "collision_case",
 		TsContent: `// @allowJs: true
 // @filename: b.js
 export const b = 2;
 `,
-		BaselineJs: `//// [b.js]
-export const b = 2;
-`,
+		BaselineFinder: mockFinder(js, ""),
 	}
 
 	results, err := p.Port()
@@ -102,14 +116,15 @@ export const b = 2;
 }
 
 func TestPorter_Port_OutDir(t *testing.T) {
+	js := `//// [dist/outdir_case.js]
+export const x = 1;
+`
 	p := Porter{
 		CaseName: "outdir_case",
 		TsContent: `// @outDir: dist
 export const x = 1;
 `,
-		BaselineJs: `//// [dist/outdir_case.js]
-export const x = 1;
-`,
+		BaselineFinder: mockFinder(js, ""),
 	}
 
 	results, err := p.Port()
@@ -131,14 +146,7 @@ export const x = 1;
 }
 
 func TestPorter_MultiFileOccurrence(t *testing.T) {
-	p := &Porter{
-		CaseName: "multiFileOccurrence",
-		TsContent: `// @filename: dir1/a.ts
-export const a = 1;
-// @filename: dir2/a.ts
-export const a = 2;
-`,
-		BaselineJs: `//// [tests/cases/compiler/multiFileOccurrence.ts] ////
+	js := `//// [tests/cases/compiler/multiFileOccurrence.ts] ////
 
 //// [a.js]
 "use strict";
@@ -147,7 +155,15 @@ exports.a = 1;
 //// [a.js]
 "use strict";
 exports.a = 2;
+`
+	p := &Porter{
+		CaseName: "multiFileOccurrence",
+		TsContent: `// @filename: dir1/a.ts
+export const a = 1;
+// @filename: dir2/a.ts
+export const a = 2;
 `,
+		BaselineFinder: mockFinder(js, ""),
 	}
 
 	results, err := p.Port()
@@ -184,6 +200,11 @@ exports.a = 2;
 }
 
 func TestPorter_Port_MultiFile(t *testing.T) {
+	js := `//// [a.js]
+export const a = 1;
+//// [b.js]
+export const b = 2;
+`
 	p := Porter{
 		CaseName: "multi",
 		TsContent: `// @filename: a.ts
@@ -191,11 +212,7 @@ export const a = 1;
 // @filename: b.ts
 export const b = 2;
 `,
-		BaselineJs: `//// [a.js]
-export const a = 1;
-//// [b.js]
-export const b = 2;
-`,
+		BaselineFinder: mockFinder(js, ""),
 	}
 
 	results, err := p.Port()
@@ -229,12 +246,18 @@ export const b = 2;
 }
 
 func TestPorter_Port_Error(t *testing.T) {
+	errors := `==== error_case.ts (1 errors) ====
+error_case.ts(1,7): error TS2322: Type 'number' is not assignable to type 'string'.
+`
 	p := Porter{
 		CaseName:  "error_case",
 		TsContent: "const x: string = 1;",
-		BaselineErrors: `==== error_case.ts (1 errors) ====
-error_case.ts(1,7): error TS2322: Type 'number' is not assignable to type 'string'.
-`,
+		BaselineFinder: func(v Variant, ext string) string {
+			if ext == ".errors.txt" {
+				return errors
+			}
+			return ""
+		},
 	}
 
 	results, err := p.Port()
@@ -258,8 +281,9 @@ error_case.ts(1,7): error TS2322: Type 'number' is not assignable to type 'strin
 
 func TestPorter_Port_UnsupportedDirective(t *testing.T) {
 	p := Porter{
-		CaseName:  "unsupported",
-		TsContent: "// @jsx: react\nexport const x = 1;",
+		CaseName:       "unsupported",
+		TsContent:      "// @jsx: react\nexport const x = 1;",
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	_, err := p.Port()
@@ -274,9 +298,14 @@ func TestPorter_Port_UnsupportedDirective(t *testing.T) {
 
 func TestPorter_Port_InvalidBaseline(t *testing.T) {
 	p := Porter{
-		CaseName:   "invalid_baseline",
-		TsContent:  "export const x = 1;",
-		BaselineJs: "invalid baseline content",
+		CaseName:  "invalid_baseline",
+		TsContent: "export const x = 1;",
+		BaselineFinder: func(v Variant, ext string) string {
+			if ext == ".js" {
+				return "invalid baseline content"
+			}
+			return ""
+		},
 	}
 
 	_, err := p.Port()
@@ -291,8 +320,9 @@ func TestPorter_Port_InvalidBaseline(t *testing.T) {
 
 func TestPorter_Port_Variants(t *testing.T) {
 	p := Porter{
-		CaseName:  "variants_case",
-		TsContent: "// @target: esnext, es2015\nexport const x = 1;",
+		CaseName:       "variants_case",
+		TsContent:      "// @target: esnext, es2015\nexport const x = 1;",
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -338,6 +368,11 @@ func TestPorter_Port_Variants(t *testing.T) {
 }
 
 func TestPorter_Port_MultiFile_Variants(t *testing.T) {
+	js := `//// [a.js]
+export const a = 1;
+//// [b.js]
+export const b = 2;
+`
 	p := Porter{
 		CaseName: "multifile_variants",
 		TsContent: `// @target: esnext, es2015
@@ -346,11 +381,7 @@ export const a = 1;
 // @filename: b.ts
 export const b = 2;
 `,
-		BaselineJs: `//// [a.js]
-export const a = 1;
-//// [b.js]
-export const b = 2;
-`,
+		BaselineFinder: mockFinder(js, ""),
 	}
 
 	results, err := p.Port()
@@ -418,6 +449,7 @@ func TestPorter_Port_PackageJson(t *testing.T) {
 // @filename: index.ts
 import ts = require("typescript");
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -447,6 +479,7 @@ func TestPorter_Port_PackageJson_ExtraField(t *testing.T) {
 // @filename: index.ts
 export const x = 1;
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	_, err := p.Port()
@@ -460,13 +493,14 @@ export const x = 1;
 }
 
 func TestPorter_Port_EmitDeclarationOnly(t *testing.T) {
+	js := "//// [emit_decl.js]\nexport const x = 1;"
 	p := Porter{
 		CaseName: "emit_decl",
 		TsContent: `// @emitDeclarationOnly: true
 // @declaration: true
 export const x = 1;
 `,
-		BaselineJs: "//// [emit_decl.js]\nexport const x = 1;",
+		BaselineFinder: mockFinder(js, ""),
 	}
 
 	results, err := p.Port()
@@ -494,6 +528,7 @@ func TestPorter_Port_PathTrimming(t *testing.T) {
 		TsContent: `// @filename: /a.ts
 export const a = 1;
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -525,6 +560,7 @@ export const x: number;
 // @filename: b.d.ts
 export const y: number;
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -559,6 +595,7 @@ declare module 'my-module' {
 // @filename: b.ts
 import { x } from 'my-module';
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -588,6 +625,7 @@ declare module 'my-module' {
     export const x: number;
 }
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -610,6 +648,7 @@ declare module 'my-module' {
     export const x: number;
 }
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -633,6 +672,7 @@ declare module 'my-module' {
 // @filename: b.ts
 import { x } from 'my-module';
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -653,6 +693,7 @@ func TestPorter_Port_AmbientModuleDeduplication(t *testing.T) {
 declare module 'fs' { var x: number; }
 declare module "fs" { var y: string; }
 `,
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()
@@ -665,6 +706,76 @@ declare module "fs" { var y: string; }
 	count := strings.Count(res.Content, "--path fs=")
 	if count != 1 {
 		t.Errorf("Expected 1 --path fs= mapping, got %d", count)
+	}
+}
+
+func TestComputeVariants(t *testing.T) {
+	tests := []struct {
+		name              string
+		options           map[string]string
+		wantNames         []string
+		wantUpstreamNames []string
+	}{
+		{
+			name: "single value",
+			options: map[string]string{
+				"target": "es2015",
+			},
+			wantNames:         []string{""},
+			wantUpstreamNames: []string{""},
+		},
+		{
+			name: "multi-value target",
+			options: map[string]string{
+				"target": "es2015, esnext",
+			},
+			wantNames:         []string{"es2015", "esnext"},
+			wantUpstreamNames: []string{"target=es2015", "target=esnext"},
+		},
+		{
+			name: "multi-value target and module",
+			options: map[string]string{
+				"target": "es2015, esnext",
+				"module": "commonjs, preserve",
+			},
+			wantNames: []string{
+				"es2015_commonjs",
+				"es2015_preserve",
+				"esnext_commonjs",
+				"esnext_preserve",
+			},
+			wantUpstreamNames: []string{
+				"module=commonjs,target=es2015",
+				"module=preserve,target=es2015",
+				"module=commonjs,target=esnext",
+				"module=preserve,target=esnext",
+			},
+		},
+		{
+			name: "case insensitive multi-value keys",
+			options: map[string]string{
+				"Target": "es2015, esnext",
+			},
+			wantNames:         []string{"es2015", "esnext"},
+			wantUpstreamNames: []string{"target=es2015", "target=esnext"},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ComputeVariants(tt.options)
+			if len(got) != len(tt.wantNames) {
+				t.Fatalf("got %d variants, want %d", len(got), len(tt.wantNames))
+			}
+			for i, v := range got {
+				if v.Name != tt.wantNames[i] {
+					t.Errorf("variant[%d].Name = %q, want %q", i, v.Name, tt.wantNames[i])
+				}
+				if v.UpstreamName != tt.wantUpstreamNames[i] {
+					t.Errorf("variant[%d].UpstreamName = %q, want %q", i, v.UpstreamName, tt.wantUpstreamNames[i])
+				}
+			}
+		})
 	}
 }
 

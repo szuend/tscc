@@ -128,7 +128,7 @@ func TestReadBaseline(t *testing.T) {
 	defer os.Chdir(cwd)
 
 	t.Run("SubmoduleOverridesUpstream", func(t *testing.T) {
-		content := readBaseline("compiler", "accessorDeclarationEmitJs", ".js")
+		content := readBaseline("compiler", "accessorDeclarationEmitJs", ".js", "")
 		submodulePath := filepath.Join("third_party", "typescript-go", "testdata", "baselines", "reference", "submodule", "compiler", "accessorDeclarationEmitJs.js")
 		expected, err := os.ReadFile(submodulePath)
 		if err != nil {
@@ -140,7 +140,7 @@ func TestReadBaseline(t *testing.T) {
 	})
 
 	t.Run("UpstreamFallback", func(t *testing.T) {
-		content := readBaseline("compiler", "abstractPropertyInitializer", ".errors.txt")
+		content := readBaseline("compiler", "abstractPropertyInitializer", ".errors.txt", "")
 		upstreamPath := filepath.Join("third_party", "typescript-go", "_submodules", "TypeScript", "tests", "baselines", "reference", "abstractPropertyInitializer.errors.txt")
 		expected, err := os.ReadFile(upstreamPath)
 		if err != nil {
@@ -152,7 +152,7 @@ func TestReadBaseline(t *testing.T) {
 	})
 
 	t.Run("Missing", func(t *testing.T) {
-		content := readBaseline("compiler", "doesNotExistSomething123", ".js")
+		content := readBaseline("compiler", "doesNotExistSomething123", ".js", "")
 		if content != "" {
 			t.Errorf("expected empty string for missing baseline, got %q", content)
 		}

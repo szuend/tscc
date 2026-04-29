@@ -39,9 +39,10 @@ func TestFlattenName(t *testing.T) {
 
 func TestPorter_Port_Nested(t *testing.T) {
 	p := Porter{
-		SuiteName: "conformance",
-		CaseName:  "classes/classExpression",
-		TsContent: "var x = class C {};",
+		SuiteName:      "conformance",
+		CaseName:       "classes/classExpression",
+		TsContent:      "var x = class C {};",
+		BaselineFinder: mockFinder("", ""),
 	}
 
 	results, err := p.Port()

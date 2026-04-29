@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/ambientPropertyDeclarationInJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom test.js
+stderr 'TS8009'
+stderr 'TS8010'
+! exists test.d.ts
+! exists test.js.map
+
+-- test.js --
+class Foo {
+    constructor() {
+        this.prop = {};
+    }
+
+    declare prop: string;
+
+    method() {
+        this.prop.foo
+    }
+}

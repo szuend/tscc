@@ -29,13 +29,14 @@ import (
 	"github.com/microsoft/typescript-go/tsccbridge"
 )
 
+type BaselineFinder func(variant Variant, ext string) string
+
 // Porter handles the translation of an upstream test case to tscc txtar format.
 type Porter struct {
 	SuiteName      string // Upstream suite, e.g. "compiler" or "conformance"
 	CaseName       string
 	TsContent      string
-	BaselineJs     string // Content of .js baseline file
-	BaselineErrors string // Content of .errors.txt baseline file
+	BaselineFinder BaselineFinder
 }
 
 // PortedFile represents a generated file.
@@ -136,20 +137,6 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		return nil, fmt.Errorf("parsing directives: %w", parseErr)
 	}
 
-	var files []OutputFile
-	if p.BaselineJs != "" {
-		files = SplitBaseline(p.BaselineJs)
-		if len(files) == 0 {
-			return nil, fmt.Errorf("failed to split baseline JS content")
-		}
-	} else {
-		files = []OutputFile{
-			{Name: filepath.Base(p.CaseName) + ".ts", Content: p.TsContent},
-		}
-	}
-
-	var outputs []OutputFile
-
 	// Find ambient modules in all inputs deterministically
 	ambientModuleRegex := regexp.MustCompile(`(?m)^\s*declare\s+module\s+['"]([^'"]+)['"]`)
 	for _, filename := range inputList {
@@ -174,19 +161,6 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", name, pathMappings[name]))
 	}
 
-	for _, f := range files {
-		name := f.Name
-		if !((strings.HasSuffix(name, ".ts") && !strings.HasSuffix(name, ".d.ts")) || strings.HasSuffix(name, ".tsx")) {
-			if !strings.HasSuffix(name, "package.json") {
-				outputs = append(outputs, f)
-			}
-		}
-	}
-
-	// Pre-group outputs by base outStem and occurrence.
-	// An occurrence is bounded by seeing the same outName again.
-	groupedOutputs := groupOutputs(outputs)
-
 	if len(inputs) == 0 {
 		var stripped []string
 		lines := strings.Split(p.TsContent, "\n")
@@ -201,14 +175,6 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		inputList = append(inputList, filepath.Base(p.CaseName)+".ts")
 	}
 
-	var errorCodesMap map[string][]string
-	if p.BaselineErrors != "" {
-		errorCodesMap = ExtractErrorCodesPerFile(p.BaselineErrors)
-		applyShortCircuitFilter(errorCodesMap)
-	}
-
-	errorCodesMap = propagateErrors(inputList, inputs, errorCodesMap)
-
 	variants := ComputeVariants(globalOptions)
 
 	hasNonDts := false
@@ -219,25 +185,72 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		}
 	}
 
-	for inputIndex, inputFile := range inputList {
-		if strings.HasSuffix(inputFile, "package.json") {
-			continue
-		}
-		if hasNonDts && strings.HasSuffix(inputFile, ".d.ts") {
-			continue
-		}
-		inputStem := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
-		currentErrorCodes := errorCodesMap[inputFile]
+	// For each variant, we might have different baselines
+	for _, variant := range variants {
+		baselineJs := p.BaselineFinder(variant, ".js")
+		baselineErrors := p.BaselineFinder(variant, ".errors.txt")
 
-		// Figure out which occurrence this input is among inputs with the same basename
-		occurrenceIndex := 0
-		for i := range inputIndex {
-			if filepath.Base(strings.TrimSuffix(inputList[i], filepath.Ext(inputList[i]))) == filepath.Base(inputStem) {
-				occurrenceIndex++
+		var files []OutputFile
+		if baselineJs != "" {
+			files = SplitBaseline(baselineJs)
+			if len(files) == 0 {
+				return nil, fmt.Errorf("failed to split baseline JS content")
+			}
+		} else {
+			// Fallback to TS content if no JS baseline is found
+			files = []OutputFile{
+				{Name: filepath.Base(p.CaseName) + ".ts", Content: p.TsContent},
 			}
 		}
 
-		for _, variant := range variants {
+		var outputs []OutputFile
+		inputSeen := make(map[string]bool)
+		for _, f := range files {
+			// Skip the first occurrence of each input file, as it represents the input itself in the baseline
+			isInput := slices.Contains(inputList, f.Name)
+
+			if isInput && !inputSeen[f.Name] {
+				inputSeen[f.Name] = true
+				continue
+			}
+
+			name := f.Name
+			if !((strings.HasSuffix(name, ".ts") && !strings.HasSuffix(name, ".d.ts")) || strings.HasSuffix(name, ".tsx")) {
+				if !strings.HasSuffix(name, "package.json") {
+					outputs = append(outputs, f)
+				}
+			}
+		}
+
+		// Pre-group outputs by base outStem and occurrence.
+		groupedOutputs := groupOutputs(outputs)
+
+		var errorCodesMap map[string][]string
+		if baselineErrors != "" {
+			errorCodesMap = ExtractErrorCodesPerFile(baselineErrors)
+			applyShortCircuitFilter(errorCodesMap)
+		}
+		errorCodesMap = propagateErrors(inputList, inputs, errorCodesMap)
+
+		// Render this variant for each input file
+		for inputIndex, inputFile := range inputList {
+			if strings.HasSuffix(inputFile, "package.json") {
+				continue
+			}
+			if hasNonDts && strings.HasSuffix(inputFile, ".d.ts") {
+				continue
+			}
+			inputStem := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
+			currentErrorCodes := errorCodesMap[inputFile]
+
+			// Figure out which occurrence this input is among inputs with the same basename
+			occurrenceIndex := 0
+			for i := range inputIndex {
+				if filepath.Base(strings.TrimSuffix(inputList[i], filepath.Ext(inputList[i]))) == filepath.Base(inputStem) {
+					occurrenceIndex++
+				}
+			}
+
 			file, err := p.renderVariant(variant, inputFile, inputStem, inputIndex, occurrenceIndex, currentErrorCodes, pathArgs, inputList, inputs, groupedOutputs)
 			if err != nil {
 				return nil, err
@@ -251,19 +264,30 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 // Variant represents a specific configuration combination.
 type Variant struct {
-	Name    string
-	Options map[string]string
+	Name         string
+	UpstreamName string // e.g. "target=es2015,module=commonjs"
+	Options      map[string]string
 }
 
 // ComputeVariants computes the Cartesian product of all multi-value directives.
-// For now it only supports "target" and "module".
+// For now it only supports "target", "module", "strict" and others from TypeScript's varyBy set.
 func ComputeVariants(options map[string]string) []Variant {
-	multiValueKeys := []string{"target", "module"}
+	multiValueKeys := []string{"target", "module", "strict", "noemit", "isolatedmodules"}
 	var keysWithMultipleValues []string
 	var valuesLists [][]string
 
 	for _, k := range multiValueKeys {
 		val, ok := options[k]
+		if !ok {
+			// Check case-insensitive
+			for ok1, ov1 := range options {
+				if strings.ToLower(ok1) == k {
+					val = ov1
+					ok = true
+					break
+				}
+			}
+		}
 		if !ok {
 			continue
 		}
@@ -284,19 +308,24 @@ func ComputeVariants(options map[string]string) []Variant {
 	}
 
 	if len(keysWithMultipleValues) == 0 {
-		return []Variant{{Name: "", Options: options}}
+		return []Variant{{Name: "", UpstreamName: "", Options: options}}
 	}
 
 	var result []Variant
-	var generate func(int, map[string]string, []string)
-	generate = func(idx int, currentOptions map[string]string, currentNames []string) {
+	var generate func(int, map[string]string, []string, []string)
+	generate = func(idx int, currentOptions map[string]string, currentNames []string, upstreamParts []string) {
 		if idx == len(keysWithMultipleValues) {
 			optCopy := make(map[string]string)
 			maps.Copy(optCopy, options)
 			maps.Copy(optCopy, currentOptions)
+
+			// Sort upstreamParts by key name for consistency with TypeScript
+			sort.Strings(upstreamParts)
+
 			result = append(result, Variant{
-				Name:    strings.Join(currentNames, "_"),
-				Options: optCopy,
+				Name:         strings.Join(currentNames, "_"),
+				UpstreamName: strings.Join(upstreamParts, ","),
+				Options:      optCopy,
 			})
 			return
 		}
@@ -309,11 +338,11 @@ func ComputeVariants(options map[string]string) []Variant {
 			maps.Copy(nextOptions, currentOptions)
 			nextOptions[key] = val
 
-			generate(idx+1, nextOptions, append(currentNames, val))
+			generate(idx+1, nextOptions, append(currentNames, val), append(upstreamParts, fmt.Sprintf("%s=%s", strings.ToLower(key), strings.ToLower(val))))
 		}
 	}
 
-	generate(0, make(map[string]string), nil)
+	generate(0, make(map[string]string), nil, nil)
 	return result
 }
 
