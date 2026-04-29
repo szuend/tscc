@@ -646,6 +646,28 @@ import { x } from 'my-module';
 	}
 }
 
+func TestPorter_Port_AmbientModuleDeduplication(t *testing.T) {
+	p := Porter{
+		CaseName: "dedup",
+		TsContent: `
+declare module 'fs' { var x: number; }
+declare module "fs" { var y: string; }
+`,
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	res := results[0]
+	// Should only contain one --path fs=...
+	count := strings.Count(res.Content, "--path fs=")
+	if count != 1 {
+		t.Errorf("Expected 1 --path fs= mapping, got %d", count)
+	}
+}
+
 func TestApplyShortCircuitFilter(t *testing.T) {
 	tests := []struct {
 		name     string

@@ -21,6 +21,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"slices"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -98,7 +99,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 
 	inputs := make(map[string]string)
 	var inputList []string
-	var pathArgs []string
+	pathMappings := make(map[string]string)
 
 	_, _, _, globalOptions, parseErr := tsccbridge.ParseTestFilesAndSymlinks(
 		p.TsContent,
@@ -123,7 +124,7 @@ func (p *Porter) Port() ([]PortedFile, error) {
 				if strings.HasPrefix(types, "/.ts/") {
 					types = strings.Replace(types, "/.ts/", "$TSCC_TS_DIR/", 1)
 				}
-				pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", name, types))
+				pathMappings[name] = types
 				return "", nil
 			}
 
@@ -157,9 +158,20 @@ func (p *Porter) Port() ([]PortedFile, error) {
 			matches := ambientModuleRegex.FindAllStringSubmatch(content, -1)
 			for _, match := range matches {
 				// match[1] is the module name, filename is the filename
-				pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", match[1], filename))
+				pathMappings[match[1]] = filename
 			}
 		}
+	}
+
+	// Convert map to sorted slice of strings for deterministic flags
+	var pathArgs []string
+	var names []string
+	for name := range pathMappings {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	for _, name := range names {
+		pathArgs = append(pathArgs, fmt.Sprintf("%s=%s", name, pathMappings[name]))
 	}
 
 	for _, f := range files {
