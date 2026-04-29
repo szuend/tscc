@@ -110,8 +110,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			if strings.Contains(value, ",") {
 				return nil, &SkipError{Directive: key, Reason: "multiple values"}
 			}
-			if strings.ToLower(value) == "system" {
+			valLower := strings.ToLower(value)
+			if valLower == "system" {
 				return nil, &IgnoreError{Directive: key, Reason: "system module is not supported by typescript-go"}
+			}
+			if valLower == "amd" || valLower == "umd" {
+				return nil, &IgnoreError{Directive: key, Reason: value + " module is no longer supported by typescript-go"}
 			}
 			flags = append(flags, "--module", value)
 		case "declaration":

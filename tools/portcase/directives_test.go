@@ -253,6 +253,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantSkip: true,
 		},
 		{
+			name: "module amd unsupported",
+			directives: map[string]string{
+				"module": "amd",
+			},
+			wantSkip: true,
+		},
+		{
+			name: "module umd unsupported",
+			directives: map[string]string{
+				"module": "umd",
+			},
+			wantSkip: true,
+		},
+		{
 			name: "module system unsupported",
 			directives: map[string]string{
 				"module": "system",
