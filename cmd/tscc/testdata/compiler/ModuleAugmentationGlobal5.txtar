@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/moduleAugmentationGlobal5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts f3.d.ts --module commonjs --no-no-unchecked-side-effect-imports --no-strict --target es2015 --lib es2015,dom --path A=f1.d.ts --path B=f2.d.ts --out-js f3.js f3.ts
+! stderr .
+cmp f3.d.ts f3.d.ts.golden
+cmp f3.js f3.js.golden
+! exists f3.js.map
+
+-- f1.d.ts --
+declare module "A" {
+    global {
+        interface Something {x}
+    }
+}
+-- f2.d.ts --
+declare module "B" {
+    global {
+        interface Something {y}
+    }
+}
+-- f3.ts --
+/// <reference path="f1.d.ts"/>
+/// <reference path="f2.d.ts"/>
+import "A";
+import "B";
+
+-- f3.d.ts.golden --
+import "A";
+import "B";
+-- f3.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/// <reference path="f1.d.ts"/>
+/// <reference path="f2.d.ts"/>
+require("A");
+require("B");

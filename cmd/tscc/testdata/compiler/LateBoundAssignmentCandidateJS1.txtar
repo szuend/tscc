@@ -1,0 +1,63 @@
+# Ported from tests/cases/compiler/lateBoundAssignmentCandidateJS1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts index.d.ts --lib esnext --strict --target esnext --out-js out_index.js index.js
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp out_index.js out_index.js.golden
+! exists dist/index.js.map
+
+-- index.js --
+// https://github.com/microsoft/TypeScript/issues/60590
+
+export const kBar = Symbol("bar");
+
+export class foo0 {
+    /**
+     * @protected
+     * @type {null | string}
+     */
+    [kBar] = null;
+
+    get bar() {
+        return this[kBar];
+    }
+    /**
+     * @type {string}
+     */
+    set bar(value) {
+        this[kBar] = value;
+    }
+}
+-- index.d.ts.golden --
+export declare const kBar: unique symbol;
+export declare class foo0 {
+    /**
+     * @protected
+     * @type {null | string}
+     */
+    protected [kBar]: null | string;
+    get bar(): string | null;
+    /**
+     * @type {string}
+     */
+    set bar(value: string | null);
+}
+-- out_index.js.golden --
+// https://github.com/microsoft/TypeScript/issues/60590
+export const kBar = Symbol("bar");
+export class foo0 {
+    /**
+     * @protected
+     * @type {null | string}
+     */
+    [kBar] = null;
+    get bar() {
+        return this[kBar];
+    }
+    /**
+     * @type {string}
+     */
+    set bar(value) {
+        this[kBar] = value;
+    }
+}

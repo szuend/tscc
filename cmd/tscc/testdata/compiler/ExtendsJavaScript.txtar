@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/extendsJavaScript.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --no-check-js --target es2015 --lib es2015,dom --out-js out_extendsJavaScript.js extendsJavaScript.js
+! stderr .
+cmp out_extendsJavaScript.js out_extendsJavaScript.js.golden
+! exists out/extendsJavaScript.d.ts
+! exists out/extendsJavaScript.js.map
+
+-- extendsJavaScript.js --
+/**
+ * @extends {SomeBase}
+ */
+class MyClass {
+
+}
+-- out_extendsJavaScript.js.golden --
+"use strict";
+/**
+ * @extends {SomeBase}
+ */
+class MyClass {
+}

@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/declarationEmitMappedPrivateTypeTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts Helpers.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js Helpers.js Helpers.ts
+! stderr .
+cmp Helpers.d.ts Helpers.d.ts.golden
+cmp Helpers.js Helpers.js.golden
+! exists Helpers.js.map
+
+-- FromFactor.ts --
+export type RowToColumns<TColumns> = {
+    [TName in StringKeyOf<TColumns>]: any;
+}
+-- Helpers.ts --
+export type StringKeyOf<TObj> = Extract<string, keyof TObj>;
+-- Helpers.d.ts.golden --
+export type StringKeyOf<TObj> = Extract<string, keyof TObj>;
+-- Helpers.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });

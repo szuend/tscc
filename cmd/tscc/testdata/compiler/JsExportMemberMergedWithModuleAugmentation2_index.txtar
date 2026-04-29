@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/jsExportMemberMergedWithModuleAugmentation2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom index.ts
+stderr 'TS2671'
+stderr 'TS2551'
+! exists index.d.ts
+! exists index.js.map
+
+-- index.ts --
+import { a } from "./test";
+
+declare module "./test" {
+  export const a: number;
+}
+
+a.toFixed();
+-- test.js --
+module.exports = {
+  a: "ok"
+};

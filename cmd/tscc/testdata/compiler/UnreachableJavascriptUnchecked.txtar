@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/unreachableJavascriptUnchecked.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --no-check-js --target es2015 --lib es2015,dom --out-js out_unreachable.js unreachable.js
+! stderr .
+cmp out_unreachable.js out_unreachable.js.golden
+! exists out/unreachable.d.ts
+! exists out/unreachable.js.map
+
+-- unreachable.js --
+function unreachable() {
+    return 1;
+    return 2;
+}
+-- out_unreachable.js.golden --
+"use strict";
+function unreachable() {
+    return 1;
+    return 2;
+}

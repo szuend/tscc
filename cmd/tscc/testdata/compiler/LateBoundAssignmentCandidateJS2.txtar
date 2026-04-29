@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/lateBoundAssignmentCandidateJS2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts index.d.ts --lib esnext --strict --target esnext --out-js out_index.js index.js
+! stderr .
+cmp index.d.ts index.d.ts.golden
+cmp out_index.js out_index.js.golden
+! exists dist/index.js.map
+
+-- index.js --
+const prop = 'prop';
+
+export class foo1 {
+    constructor() {
+        this[prop] = 'bar'
+    }
+
+    /**
+     * @protected
+     * @type {string}
+     */
+    [prop] = 'baz';
+}
+-- index.d.ts.golden --
+declare const prop = "prop";
+export declare class foo1 {
+    constructor();
+    /**
+     * @protected
+     * @type {string}
+     */
+    protected [prop]: string;
+}
+export {};
+-- out_index.js.golden --
+const prop = 'prop';
+export class foo1 {
+    constructor() {
+        this[prop] = 'bar';
+    }
+    /**
+     * @protected
+     * @type {string}
+     */
+    [prop] = 'baz';
+}

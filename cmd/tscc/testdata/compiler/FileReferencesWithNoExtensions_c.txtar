@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/fileReferencesWithNoExtensions.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --ambient-type-file t.ts --ambient-type-file a.ts --ambient-type-file b.d.ts --out-js c.js c.ts
+! stderr .
+cmp c.js c.js.golden
+! exists c.js.map
+! exists out_c.d.ts
+
+-- a.ts --
+var aa = 1;
+-- b.d.ts --
+declare var bb: number;
+-- c.d.ts --
+declare var xx: number;
+-- c.ts --
+var cc = 1;
+-- t.ts --
+/// <reference path="a"/>
+/// <reference path="b"/>
+/// <reference path="c"/>
+var a = aa;  // Check that a.ts is referenced
+var b = bb;  // Check that b.d.ts is referenced
+var c = cc;  // Check that c.ts has precedence over c.d.ts
+-- c.js.golden --
+"use strict";
+var cc = 1;

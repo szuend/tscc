@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/checkJsObjectLiteralIndexSignatures.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --no-implicit-any --target es2015 --lib es2015,dom --out-js out_file.js file.js
+! stderr .
+cmp out_file.js out_file.js.golden
+! exists out/file.d.ts
+! exists out/file.js.map
+
+-- file.js --
+// @ts-check
+
+let n = Math.random();
+let s = `${n}`;
+
+const numericIndex = { [n]: 1 };
+numericIndex[n].toFixed();
+
+const stringIndex = { [s]: 1 };
+stringIndex[s].toFixed();
+
+-- out_file.js.golden --
+"use strict";
+// @ts-check
+let n = Math.random();
+let s = `${n}`;
+const numericIndex = { [n]: 1 };
+numericIndex[n].toFixed();
+const stringIndex = { [s]: 1 };
+stringIndex[s].toFixed();

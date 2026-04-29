@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/useDefineForClassFieldsFlagDefault.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target esNext --lib esNext,dom --out-js useDefineForClassFieldsFlagDefault.js useDefineForClassFieldsFlagDefault.ts
+! stderr .
+cmp useDefineForClassFieldsFlagDefault.js useDefineForClassFieldsFlagDefault.js.golden
+! exists useDefineForClassFieldsFlagDefault.d.ts
+! exists useDefineForClassFieldsFlagDefault.js.map
+
+-- useDefineForClassFieldsFlagDefault.ts --
+class Foo {
+    // For esNext should be emitted 'as is' because useDefineForClassFields defaults to true 
+    // For es2020 should be emitted as an assignment after the class definition (not Object.defineProperty) because useDefineForClassFields defaults to false
+    static x = 1; 
+}
+-- useDefineForClassFieldsFlagDefault.js.golden --
+"use strict";
+class Foo {
+    // For esNext should be emitted 'as is' because useDefineForClassFields defaults to true 
+    // For es2020 should be emitted as an assignment after the class definition (not Object.defineProperty) because useDefineForClassFields defaults to false
+    static x = 1;
+}

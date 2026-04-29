@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/bases.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --no-strict --target es2015 --lib es2015,dom --out-js bases.js bases.ts
+stderr 'TS1005'
+! exists bases.js
+! exists bases.d.ts
+! exists bases.js.map
+
+-- bases.ts --
+interface I {
+    x;
+}
+
+class B {
+    constructor() {
+        this.y: any;
+    }
+}
+
+class C extends B implements I {
+    constructor() {
+        this.x: any;
+    }
+}
+
+new C().x;
+new C().y;
+

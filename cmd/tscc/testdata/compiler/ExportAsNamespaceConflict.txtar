@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/exportAsNamespaceConflict.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --target es2015 --lib es2015,dom --out-js a.d.js a.d.ts
+stderr 'TS2303'
+! exists a.d.js
+! exists a.d.d.ts
+! exists a.d.js.map
+
+-- a.d.ts --
+declare global { namespace N {} }
+export = N;
+export as namespace N;

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/jsdocTypecastNoTypeNoCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom --out-js out_index.js index.js
+! stderr .
+cmp out_index.js out_index.js.golden
+! exists out/index.d.ts
+! exists out/index.js.map
+
+-- index.js --
+function Foo() {}
+const a = /* @type string */(Foo);
+-- out_index.js.golden --
+"use strict";
+function Foo() { }
+const a = /* @type string */ (Foo);

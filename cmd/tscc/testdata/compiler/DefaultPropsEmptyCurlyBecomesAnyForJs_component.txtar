@@ -1,0 +1,38 @@
+# Ported from tests/cases/compiler/defaultPropsEmptyCurlyBecomesAnyForJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module commonjs --target es2015 --lib es2015,dom --out-js out_component.js component.js
+! stderr .
+cmp out_component.js out_component.js.golden
+! exists built/component.d.ts
+! exists built/component.js.map
+
+-- component.js --
+import { Foo } from "./library";
+export class MyFoo extends Foo {
+    member;
+}
+-- library.d.ts --
+export class Foo<T = {}, U = {}> {
+    props: T;
+    state: U;
+    constructor(props: T, state: U);
+}
+-- typed_component.ts --
+import { MyFoo } from "./component";
+export class TypedFoo extends MyFoo {
+    constructor() {
+        super({x: "string", y: 42}, { value: undefined });
+        this.props.x;
+        this.props.y;
+        this.state.value;
+        this.member;
+    }
+}
+-- out_component.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MyFoo = void 0;
+const library_1 = require("./library");
+class MyFoo extends library_1.Foo {
+}
+exports.MyFoo = MyFoo;

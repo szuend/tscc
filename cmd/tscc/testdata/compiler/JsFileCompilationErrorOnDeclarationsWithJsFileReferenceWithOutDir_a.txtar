@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/jsFileCompilationErrorOnDeclarationsWithJsFileReferenceWithOutDir.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts a.d.ts --target es2015 --lib es2015,dom --out-js a.js a.ts
+! stderr .
+cmp a.d.ts a.d.ts.golden
+cmp a.js a.js.golden
+! exists outDir/a.js.map
+
+-- a.ts --
+class c {
+}
+-- b.ts --
+/// <reference path="c.js"/>
+function foo() {
+}
+-- c.js --
+function bar() {
+}
+-- a.d.ts.golden --
+declare class c {
+}
+-- a.js.golden --
+"use strict";
+class c {
+}

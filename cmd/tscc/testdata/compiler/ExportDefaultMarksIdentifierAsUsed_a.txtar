@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/exportDefaultMarksIdentifierAsUsed.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module commonjs --strict --target es2017 --lib es2017,dom --out-js out_a.js a.js
+! stderr .
+cmp out_a.js out_a.js.golden
+! exists /dist/a.d.ts
+! exists /dist/a.js.map
+
+-- a.js --
+const Obj = {};
+export default Obj;
+-- b.js --
+import Obj from './a';
+
+Obj.fn = function() {};
+-- out_a.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Obj = {};
+exports.default = Obj;

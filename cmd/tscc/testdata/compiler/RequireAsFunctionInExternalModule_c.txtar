@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/requireAsFunctionInExternalModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module commonjs --target es2015 --lib es2015,dom --out-js out_c.js c.js
+! stderr .
+cmp out_c.js out_c.js.golden
+! exists dist/c.d.ts
+! exists dist/c.js.map
+
+-- c.js --
+export default function require(a) { }
+export function has(a) { return true }
+-- m.js --
+import require, { has } from "./c"
+export function hello() { }
+if (has('ember-debug')) {
+    require('ember-debug');
+}
+-- m2.ts --
+import { hello } from "./m";
+hello();
+-- out_c.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = require;
+exports.has = has;
+function require(a) { }
+function has(a) { return true; }

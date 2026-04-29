@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/exportSpecifierAndExportedMemberDeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --no-strict --target es2015 --lib es2015,dom --path m2=exportSpecifierAndExportedMemberDeclaration.ts --out-js exportSpecifierAndExportedMemberDeclaration.js exportSpecifierAndExportedMemberDeclaration.ts
+! stderr .
+cmp exportSpecifierAndExportedMemberDeclaration.js exportSpecifierAndExportedMemberDeclaration.js.golden
+! exists exportSpecifierAndExportedMemberDeclaration.d.ts
+! exists exportSpecifierAndExportedMemberDeclaration.js.map
+
+-- exportSpecifierAndExportedMemberDeclaration.ts --
+declare module "m2" {
+    export namespace X {
+        interface I { }
+    }
+    function Y();
+    export { Y as X };
+    function Z(): X.I;
+}
+
+declare module "m2" {
+    function Z2(): X.I;
+}
+-- exportSpecifierAndExportedMemberDeclaration.js.golden --
+"use strict";

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/nonNullableAndObjectIntersections.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --strict --target es2015 --lib es2015,dom --out-js nonNullableAndObjectIntersections.js nonNullableAndObjectIntersections.ts
+! stderr .
+cmp nonNullableAndObjectIntersections.js nonNullableAndObjectIntersections.js.golden
+! exists nonNullableAndObjectIntersections.d.ts
+! exists nonNullableAndObjectIntersections.js.map
+
+-- nonNullableAndObjectIntersections.ts --
+// These should all resolve to never
+
+type T0 = NonNullable<null>;
+type T1 = NonNullable<undefined>;
+type T2 = null & {};
+type T3 = undefined & {};
+type T4 = null & undefined;
+type T6 = null & { a: string } & {};
+
+// Repro from #50519
+
+type NonNullableNew<T> = T & {};
+type NonNullableOld<T> = T extends null | undefined ? never : T;
+
+type TestNew = NonNullableNew<null>;
+type TestOld = NonNullableOld<null>;
+-- nonNullableAndObjectIntersections.js.golden --
+"use strict";
+// These should all resolve to never

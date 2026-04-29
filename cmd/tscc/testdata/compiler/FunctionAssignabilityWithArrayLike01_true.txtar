@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/functionAssignabilityWithArrayLike01.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --strict --target es2015 --lib es2015,dom --out-js functionAssignabilityWithArrayLike01.js functionAssignabilityWithArrayLike01.ts
+stderr 'TS2322'
+! exists functionAssignabilityWithArrayLike01.js
+! exists functionAssignabilityWithArrayLike01.d.ts
+! exists functionAssignabilityWithArrayLike01.js.map
+
+-- functionAssignabilityWithArrayLike01.ts --
+function func() {}
+const array: ArrayLike<any> = func;

@@ -1,0 +1,54 @@
+# Ported from tests/cases/compiler/moduleAugmentationExtendAmbientModule2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts map.d.ts --module commonjs --target es2015 --lib es2015,dom --path observable=observable.d.ts --out-js map.js map.ts
+! stderr .
+cmp map.d.ts map.d.ts.golden
+cmp map.js map.js.golden
+! exists map.js.map
+
+-- main.ts --
+/// <reference path="observable.d.ts"/>
+import { Observable } from "observable"
+import "./map";
+
+let x: Observable<number>;
+let y = x.map(x => x + 1);
+let z1 = Observable.someValue.toFixed();
+let z2 = Observable.someAnotherValue.toLowerCase();
+-- map.ts --
+import { Observable } from "observable"
+
+(<any>Observable.prototype).map = function() { }
+
+declare module "observable" {
+    interface Observable<T> {
+        map<U>(proj: (e:T) => U): Observable<U>
+    }
+    namespace Observable {
+        let someAnotherValue: string;
+    }
+}
+-- observable.d.ts --
+declare module "observable" {
+    class Observable<T> {
+        filter(pred: (e:T) => boolean): Observable<T>;
+    }
+    namespace Observable {
+        export let someValue: number;
+    }
+}
+-- map.d.ts.golden --
+declare module "observable" {
+    interface Observable<T> {
+        map<U>(proj: (e: T) => U): Observable<U>;
+    }
+    namespace Observable {
+        let someAnotherValue: string;
+    }
+}
+export {};
+-- map.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const observable_1 = require("observable");
+observable_1.Observable.prototype.map = function () { };

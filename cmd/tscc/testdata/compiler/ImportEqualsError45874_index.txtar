@@ -1,0 +1,19 @@
+# Ported from tests/cases/compiler/importEqualsError45874.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js index.js index.ts
+! stderr .
+cmp index.js index.js.golden
+! exists index.d.ts
+! exists index.js.map
+
+-- globals.ts --
+namespace globals {
+  export type Foo = {};
+  export const Bar = {};
+}
+import Foo = globals.toString.Blah;
+-- index.ts --
+const Foo = {};
+-- index.js.golden --
+"use strict";
+const Foo = {};

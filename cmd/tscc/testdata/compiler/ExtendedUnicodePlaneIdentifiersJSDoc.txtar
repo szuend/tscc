@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/extendedUnicodePlaneIdentifiersJSDoc.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2018 --lib es2018,dom --out-js out_file.js file.js
+! stderr .
+cmp out_file.js out_file.js.golden
+! exists out/file.d.ts
+! exists out/file.js.map
+
+-- file.js --
+/**
+ * Adds
+ * @param {number} 𝑚
+ * @param {number} 𝑀
+ */
+function foo(𝑚, 𝑀) {
+    console.log(𝑀 + 𝑚);
+}
+-- out_file.js.golden --
+"use strict";
+/**
+ * Adds
+ * @param {number} 𝑚
+ * @param {number} 𝑀
+ */
+function foo(𝑚, 𝑀) {
+    console.log(𝑀 + 𝑚);
+}

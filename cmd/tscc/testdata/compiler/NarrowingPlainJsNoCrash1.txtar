@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/narrowingPlainJsNoCrash1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --no-check-js --target es2015 --lib es2015,dom --out-js out_index.js index.js
+! stderr .
+cmp out_index.js out_index.js.golden
+! exists true/index.d.ts
+! exists true/index.js.map
+
+-- index.js --
+// https://github.com/microsoft/TypeScript/issues/59594
+
+var a$b = {};
+var c, d;
+d = a$b;
+while (d !== a$b);
+while ((c = a$b != a$b)) c.e;
+-- out_index.js.golden --
+"use strict";
+// https://github.com/microsoft/TypeScript/issues/59594
+var a$b = {};
+var c, d;
+d = a$b;
+while (d !== a$b)
+    ;
+while ((c = a$b != a$b))
+    c.e;

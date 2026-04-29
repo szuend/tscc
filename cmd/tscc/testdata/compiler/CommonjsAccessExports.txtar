@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/commonjsAccessExports.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --module commonjs --target es2015 --lib es2015,dom a.js
+stderr 'TS2683'
+stderr 'TS7009'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+exports.x = 0;
+exports.x;
+
+// Works nested
+{
+    // 'exports' does not provide a contextual type to a function-class
+    exports.Cls = function() {
+        this.x = 0;
+    }
+}
+
+const instance = new exports.Cls();

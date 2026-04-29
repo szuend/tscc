@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/checkJsdocTypeTagOnExportAssignment5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --module commonjs --target es2015 --lib es2015,dom --out-js out_a.js a.js
+! stderr .
+cmp out_a.js out_a.js.golden
+! exists out/a.d.ts
+! exists out/a.js.map
+
+-- a.js --
+/**
+ * @typedef {Object} Foo
+ * @property {number} a
+ * @property {number} b
+ */
+
+/** @type {Foo} */
+export default { a: 1, b: 1 };
+-- b.js --
+import a from "./a";
+a;
+-- checkJsdocTypeTagOnExportAssignment5.js --
+
+-- out_a.js.golden --
+"use strict";
+/**
+ * @typedef {Object} Foo
+ * @property {number} a
+ * @property {number} b
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+/** @type {Foo} */
+exports.default = { a: 1, b: 1 };

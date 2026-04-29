@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/modulePreserveTopLevelAwait1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module preserve --no-strict --target es2016 --lib es2016,dom modulePreserveTopLevelAwait1.ts
+stderr 'TS1432'
+stderr 'TS1378'
+! exists modulePreserveTopLevelAwait1.d.ts
+! exists modulePreserveTopLevelAwait1.js.map
+
+-- modulePreserveTopLevelAwait1.ts --
+for await (const x of []) {}
+await Promise.resolve();
+
+export {};

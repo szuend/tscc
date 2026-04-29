@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/optionalChainWithInstantiationExpression2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2019 --lib es2019,dom --out-js optionalChainWithInstantiationExpression2.js optionalChainWithInstantiationExpression2.ts
+! stderr .
+cmp optionalChainWithInstantiationExpression2.js optionalChainWithInstantiationExpression2.js.golden
+! exists optionalChainWithInstantiationExpression2.d.ts
+! exists optionalChainWithInstantiationExpression2.js.map
+
+-- optionalChainWithInstantiationExpression2.ts --
+declare interface A {
+    c: number;
+    <T>(): T;
+}
+
+type b = 'b type';
+
+declare const a: A | undefined;
+
+a?.<b>();
+
+a<b>?.();
+-- optionalChainWithInstantiationExpression2.js.golden --
+"use strict";
+var _a;
+a === null || a === void 0 ? void 0 : a();
+(_a = a) === null || _a === void 0 ? void 0 : _a();

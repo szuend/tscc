@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/ambientRequireFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module preserve --target es2015 --lib es2015,dom --path fs=node.d.ts --ambient-type-file node.d.ts --out-js out_app.js app.js
+! stderr .
+cmp out_app.js out_app.js.golden
+! exists out/app.d.ts
+! exists out/app.js.map
+
+-- app.js --
+/// <reference path="node.d.ts"/>
+
+const fs = require("fs");
+const text = fs.readFileSync("/a/b/c");
+-- node.d.ts --
+declare function require(moduleName: string): any;
+
+declare module "fs" {
+    export function readFileSync(s: string): string;
+}
+-- out_app.js.golden --
+"use strict";
+/// <reference path="node.d.ts"/>
+const fs = require("fs");
+const text = fs.readFileSync("/a/b/c");

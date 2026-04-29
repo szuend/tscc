@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/jsExportMemberMergedWithModuleAugmentation.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom test.js
+stderr 'TS2564'
+! exists test.d.ts
+! exists test.js.map
+
+-- index.ts --
+import { Abcde } from "./test";
+
+declare module "./test" {
+  interface Abcde { b: string }
+}
+
+new Abcde().x;
+
+// Bug: the type meaning from /test.js does not
+// propagate through the object literal export.
+const x: Abcde = { b: "" };
+-- test.js --
+class Abcde {
+  /** @type {string} */
+  x;
+}
+
+module.exports = {
+  Abcde
+};

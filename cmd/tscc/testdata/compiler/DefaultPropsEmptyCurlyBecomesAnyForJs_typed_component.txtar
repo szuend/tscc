@@ -1,0 +1,45 @@
+# Ported from tests/cases/compiler/defaultPropsEmptyCurlyBecomesAnyForJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module commonjs --target es2015 --lib es2015,dom --out-js typed_component.js typed_component.ts
+! stderr .
+cmp typed_component.js typed_component.js.golden
+! exists built/typed_component.d.ts
+! exists built/typed_component.js.map
+
+-- component.js --
+import { Foo } from "./library";
+export class MyFoo extends Foo {
+    member;
+}
+-- library.d.ts --
+export class Foo<T = {}, U = {}> {
+    props: T;
+    state: U;
+    constructor(props: T, state: U);
+}
+-- typed_component.ts --
+import { MyFoo } from "./component";
+export class TypedFoo extends MyFoo {
+    constructor() {
+        super({x: "string", y: 42}, { value: undefined });
+        this.props.x;
+        this.props.y;
+        this.state.value;
+        this.member;
+    }
+}
+-- typed_component.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TypedFoo = void 0;
+const component_1 = require("./component");
+class TypedFoo extends component_1.MyFoo {
+    constructor() {
+        super({ x: "string", y: 42 }, { value: undefined });
+        this.props.x;
+        this.props.y;
+        this.state.value;
+        this.member;
+    }
+}
+exports.TypedFoo = TypedFoo;

@@ -1,0 +1,169 @@
+# Ported from tests/cases/compiler/jsFileMethodOverloads.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts jsFileMethodOverloads.d.ts --target es2015 --lib es2015,dom --out-js out_jsFileMethodOverloads.js jsFileMethodOverloads.js
+! stderr .
+cmp jsFileMethodOverloads.d.ts jsFileMethodOverloads.d.ts.golden
+cmp out_jsFileMethodOverloads.js out_jsFileMethodOverloads.js.golden
+! exists dist/jsFileMethodOverloads.js.map
+
+-- jsFileMethodOverloads.js --
+/**
+ * @template T
+ */
+ class Example {
+  /**
+   * @param {T} value 
+   */
+  constructor(value) {
+    this.value = value;
+  }
+
+  /**
+   * @overload
+   * @param {Example<number>} this
+   * @returns {'number'}
+   */
+  /**
+   * @overload
+   * @param {Example<string>} this
+   * @returns {'string'}
+   */
+  /**
+   * @returns {string}
+   */
+  getTypeName() {
+    return typeof this.value;
+  }
+
+  /**
+   * @template U
+   * @overload
+   * @param {(y: T) => U} fn
+   * @returns {U}
+   */
+  /**
+   * @overload
+   * @returns {T}
+   */
+  /**
+   * @param {(y: T) => unknown} [fn]
+   * @returns {unknown}
+   */
+  transform(fn) {
+    return fn ? fn(this.value) : this.value;
+  }
+}
+-- jsFileMethodOverloads.d.ts.golden --
+/**
+ * @template T
+ */
+declare class Example<T> {
+    /**
+     * @param {T} value
+     */
+    constructor(value: T);
+    /**
+     * @overload
+     * @param {Example<number>} this
+     * @returns {'number'}
+     */
+    /**
+     * @overload
+     * @param {Example<string>} this
+     * @returns {'string'}
+     */
+    /**
+     * @returns {string}
+     */
+    getTypeName(this: Example<number>): 'number';
+    /**
+     * @overload
+     * @param {Example<number>} this
+     * @returns {'number'}
+     */
+    /**
+     * @overload
+     * @param {Example<string>} this
+     * @returns {'string'}
+     */
+    /**
+     * @returns {string}
+     */
+    getTypeName(this: Example<string>): 'string';
+    /**
+     * @template U
+     * @overload
+     * @param {(y: T) => U} fn
+     * @returns {U}
+     */
+    /**
+     * @overload
+     * @returns {T}
+     */
+    /**
+     * @param {(y: T) => unknown} [fn]
+     * @returns {unknown}
+     */
+    transform<U>(fn: (y: T) => U): U;
+    /**
+     * @template U
+     * @overload
+     * @param {(y: T) => U} fn
+     * @returns {U}
+     */
+    /**
+     * @overload
+     * @returns {T}
+     */
+    /**
+     * @param {(y: T) => unknown} [fn]
+     * @returns {unknown}
+     */
+    transform(): T;
+}
+-- out_jsFileMethodOverloads.js.golden --
+"use strict";
+/**
+ * @template T
+ */
+class Example {
+    /**
+     * @param {T} value
+     */
+    constructor(value) {
+        this.value = value;
+    }
+    /**
+     * @overload
+     * @param {Example<number>} this
+     * @returns {'number'}
+     */
+    /**
+     * @overload
+     * @param {Example<string>} this
+     * @returns {'string'}
+     */
+    /**
+     * @returns {string}
+     */
+    getTypeName() {
+        return typeof this.value;
+    }
+    /**
+     * @template U
+     * @overload
+     * @param {(y: T) => U} fn
+     * @returns {U}
+     */
+    /**
+     * @overload
+     * @returns {T}
+     */
+    /**
+     * @param {(y: T) => unknown} [fn]
+     * @returns {unknown}
+     */
+    transform(fn) {
+        return fn ? fn(this.value) : this.value;
+    }
+}

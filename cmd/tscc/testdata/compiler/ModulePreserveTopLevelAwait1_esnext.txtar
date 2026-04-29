@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/modulePreserveTopLevelAwait1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module preserve --no-strict --target esnext --lib esnext,dom modulePreserveTopLevelAwait1.ts
+! stderr .
+! exists modulePreserveTopLevelAwait1.d.ts
+! exists modulePreserveTopLevelAwait1.js.map
+
+-- modulePreserveTopLevelAwait1.ts --
+for await (const x of []) {}
+await Promise.resolve();
+
+export {};

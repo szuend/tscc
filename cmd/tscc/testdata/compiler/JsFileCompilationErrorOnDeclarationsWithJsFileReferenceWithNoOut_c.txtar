@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/jsFileCompilationErrorOnDeclarationsWithJsFileReferenceWithNoOut.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --out-dts c.d.ts --target es2015 --lib es2015,dom --ambient-type-file a.ts --ambient-type-file b.ts c.js
+! stderr .
+cmp c.d.ts c.d.ts.golden
+! exists c.js.map
+! exists out_c.js
+
+-- a.ts --
+class c {
+}
+-- b.ts --
+/// <reference path="c.js"/>
+// b.d.ts should have c.d.ts as the reference path
+function foo() {
+}
+-- c.js --
+function bar() {
+}
+-- c.d.ts.golden --
+declare function bar(): void;

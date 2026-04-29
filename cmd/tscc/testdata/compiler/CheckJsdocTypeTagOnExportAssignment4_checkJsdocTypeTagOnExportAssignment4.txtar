@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/checkJsdocTypeTagOnExportAssignment4.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --module commonjs --target es2015 --lib es2015,dom --out-js out_checkJsdocTypeTagOnExportAssignment4.js checkJsdocTypeTagOnExportAssignment4.js
+! stderr .
+cmp out_checkJsdocTypeTagOnExportAssignment4.js out_checkJsdocTypeTagOnExportAssignment4.js.golden
+! exists out/checkJsdocTypeTagOnExportAssignment4.d.ts
+! exists out/checkJsdocTypeTagOnExportAssignment4.js.map
+
+-- a.js --
+/**
+ * @typedef {number} Foo
+ */
+
+/** @type {Foo} */
+export default "";
+
+-- checkJsdocTypeTagOnExportAssignment4.js --
+
+-- out_checkJsdocTypeTagOnExportAssignment4.js.golden --
+"use strict";

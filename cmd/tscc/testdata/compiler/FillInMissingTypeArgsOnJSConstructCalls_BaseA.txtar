@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/fillInMissingTypeArgsOnJSConstructCalls.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --no-strict --target es2015 --lib es2015,dom BaseA.js
+! stderr .
+! exists BaseA.d.ts
+! exists BaseA.js.map
+
+-- BaseA.js --
+export default class BaseA {
+}
+-- BaseB.js --
+import BaseA from './BaseA';
+export default class B<T: BaseA> {
+    _AClass: Class<T>;
+    constructor(AClass: Class<T>) {
+        this._AClass = AClass;
+    }
+}
+-- SubA.js --
+import BaseA from './BaseA';
+export default class SubA extends BaseA {
+}
+-- SubB.js --
+import SubA from './SubA';
+import BaseB from './BaseB';
+export default class SubB extends BaseB<SubA> {
+    constructor() {
+        super(SubA);
+    }
+}

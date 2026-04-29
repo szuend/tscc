@@ -1,0 +1,27 @@
+# Ported from tests/cases/compiler/resolveNameWithNamspace.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --module commonjs --target es2015 --lib es2015,dom --path assert=node.d.ts --ambient-type-file node.d.ts --ambient-type-file ns.ts --out-js out_app.js app.js
+! stderr .
+cmp out_app.js out_app.js.golden
+! exists out/app.d.ts
+! exists out/app.js.map
+
+-- app.js --
+exports.equal = myAssert.equal
+exports.equal()
+-- node.d.ts --
+declare function require(moduleName: string): any;
+
+declare module "assert" {
+    export function equal(actual: any, expected: any, message?: string | Error): void;
+}
+-- ns.ts --
+/// <reference path="node.d.ts"/>
+namespace myAssert {
+    export type cool = 'cool'
+}
+var myAssert = require('assert')
+-- out_app.js.golden --
+"use strict";
+exports.equal = myAssert.equal;
+exports.equal();

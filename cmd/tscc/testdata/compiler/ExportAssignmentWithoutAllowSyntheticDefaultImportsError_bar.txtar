@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/exportAssignmentWithoutAllowSyntheticDefaultImportsError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module es2015 --target es2015 --lib es2015,dom --out-js bar.js bar.ts
+stderr 'TS1203'
+! exists bar.js
+! exists bar.d.ts
+! exists bar.js.map
+
+-- bar.ts --
+export = bar;
+function bar() {}
+-- foo.ts --
+import bar from './bar';

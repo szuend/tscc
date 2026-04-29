@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/declarationEmitMappedPrivateTypeTypeParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --out-dts FromFactor.d.ts --module commonjs --target es2015 --lib es2015,dom --out-js FromFactor.js FromFactor.ts
+stderr 'TS2304'
+! exists FromFactor.d.ts
+! exists FromFactor.js
+! exists FromFactor.js.map
+
+-- FromFactor.ts --
+export type RowToColumns<TColumns> = {
+    [TName in StringKeyOf<TColumns>]: any;
+}
+-- Helpers.ts --
+export type StringKeyOf<TObj> = Extract<string, keyof TObj>;

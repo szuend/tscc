@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/isolatedModulesWithDeclarationFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --isolated-modules --no-strict --target es6 --lib es6,dom --out-js file1.js file1.ts
+! stderr .
+cmp file1.js file1.js.golden
+! exists file1.js.map
+! exists out_file1.d.ts
+
+-- file1.d.ts --
+declare function foo(): void;
+-- file1.ts --
+export var x;
+-- file1.js.golden --
+export var x;

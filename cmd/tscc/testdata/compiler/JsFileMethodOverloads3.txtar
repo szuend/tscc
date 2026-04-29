@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/jsFileMethodOverloads3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --no-implicit-any --target es2015 --lib es2015,dom a.js
+stderr 'TS7012'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @overload
+ * @param {number} x
+ */
+
+/**
+ * @overload
+ * @param {string} x
+ */
+
+/**
+ * @param {string | number} x
+ * @returns {string | number}
+ */
+function id(x) {
+    return x;
+}
+
+export let a = id(123);
+export let b = id("hello");

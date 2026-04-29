@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/moduleMemberMissingErrorIsRelative.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js bar.js folder/bar.ts
+stderr 'TS2305'
+! exists bar.js
+! exists folder/bar.d.ts
+! exists folder/bar.js.map
+
+-- folder/bar.ts --
+import {nosuch} from './foo';
+-- folder/foo.ts --
+export {};

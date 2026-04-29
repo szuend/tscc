@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/thisAssignmentInNamespaceDeclaration1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --check-js --target es2015 --lib es2015,dom --out-js out_a.js a.js
+stderr 'TS8006'
+! exists out_a.js
+! exists out/a.d.ts
+! exists out/a.js.map
+
+-- a.js --
+namespace foo {
+    this.bar = 4;
+}
+-- b.js --
+namespace blah {
+    this.prop = 42;
+}

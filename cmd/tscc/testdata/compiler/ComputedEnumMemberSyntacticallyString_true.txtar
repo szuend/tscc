@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/computedEnumMemberSyntacticallyString.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --isolated-modules --target esnext --lib esnext,dom --out-js computedEnumMemberSyntacticallyString.js computedEnumMemberSyntacticallyString.ts
+stderr 'TS18033'
+! exists computedEnumMemberSyntacticallyString.js
+! exists computedEnumMemberSyntacticallyString.d.ts
+! exists computedEnumMemberSyntacticallyString.js.map
+
+-- computedEnumMemberSyntacticallyString.ts --
+const BAR = 2..toFixed(0);
+
+enum Foo {
+    A = `${BAR}`,
+    B = "2" + BAR,
+    C = (`${BAR}`),
+
+    F = BAR,
+    G = 2 + BAR,
+
+    H = A,
+    I = H + BAR,
+    J = H
+}

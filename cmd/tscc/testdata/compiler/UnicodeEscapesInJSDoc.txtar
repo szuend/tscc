@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/unicodeEscapesInJSDoc.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --target es2018 --lib es2018,dom --out-js out_file.js file.js
+! stderr .
+cmp out_file.js out_file.js.golden
+! exists out/file.d.ts
+! exists out/file.js.map
+
+-- file.js --
+/**
+ * @param {number} \u0061
+ * @param {number} a\u0061
+ */
+function foo(a, aa) {
+    console.log(a + aa);
+}
+
+/**
+ * @param {number} \u{0061}
+ * @param {number} a\u{0061}
+ */
+function bar(a, aa) {
+    console.log(a + aa);
+}
+-- out_file.js.golden --
+"use strict";
+/**
+ * @param {number} \u0061
+ * @param {number} a\u0061
+ */
+function foo(a, aa) {
+    console.log(a + aa);
+}
+/**
+ * @param {number} \u{0061}
+ * @param {number} a\u{0061}
+ */
+function bar(a, aa) {
+    console.log(a + aa);
+}

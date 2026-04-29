@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/expandoFunctionSymbolPropertyJs.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --check-js --out-dts types.d.ts --lib esnext --module commonjs --strict --target es2015 --out-js types.js types.ts
+! stderr .
+cmp types.d.ts types.d.ts.golden
+cmp types.js types.js.golden
+! exists dist/types.js.map
+
+-- a.js --
+import { symb } from "./types";
+
+/**
+ * @returns {import("./types").TestSymb}
+ */
+export function test() {
+  function inner() {}
+  inner[symb] = true;
+  return inner;
+}
+-- types.ts --
+export const symb = Symbol();
+
+export interface TestSymb {
+  (): void;
+  readonly [symb]: boolean;
+}
+-- types.d.ts.golden --
+export declare const symb: unique symbol;
+export interface TestSymb {
+    (): void;
+    readonly [symb]: boolean;
+}
+-- types.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.symb = void 0;
+exports.symb = Symbol();

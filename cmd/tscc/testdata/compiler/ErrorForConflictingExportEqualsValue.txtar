@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/errorForConflictingExportEqualsValue.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --lib es6 --module commonjs --no-strict --target es2015 --out-js a.js a.ts
+stderr 'TS2309'
+! exists a.js
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+export var x;
+export = x;
+import("./a");

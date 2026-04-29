@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/importDeclTypes.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+stderr 'TS6137'
+! exists a.js
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+import { Foo } from "@types/foo-bar";
+-- node_modules/@types/foo-bar/index.d.ts --
+export interface Foo {
+    bar: string;
+}
+
+// This should error

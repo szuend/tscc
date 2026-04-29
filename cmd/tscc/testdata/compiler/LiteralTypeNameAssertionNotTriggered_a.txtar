@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/literalTypeNameAssertionNotTriggered.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js a.js a.ts
+stderr 'TS2307'
+! exists a.js
+! exists a.d.ts
+! exists a.js.map
+
+-- a.ts --
+import x = require("something");
+export { x };
+-- b.ts --
+import a = require('./a');
+declare function f<T>(obj: T, key: keyof T): void;
+f(a, "");

@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/jsdocRestParameter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --strict --target es2015 --lib es2015,dom a.js
+stderr 'TS2554'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/** @param {...number} a */
+function f(a) {
+    a; // number | undefined
+    // Ideally this would be a number. But currently checker.ts has only one `argumentsSymbol`, so it's `any`.
+    arguments[0];
+}
+f([1, 2]); // Error
+f(1, "2"); // Error
+f(1, 2);

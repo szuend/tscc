@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/jsExportMemberMergedWithModuleAugmentation3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom x.js
+stderr 'TS2339'
+stderr 'TS2309'
+! exists x.d.ts
+! exists x.js.map
+
+-- x.js --
+module.exports.x = 1;
+module.exports = require("./y.js");
+-- y.d.ts --
+export declare type x = 1;

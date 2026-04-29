@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/externalModuleResolution.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js foo.js foo.ts
+! stderr .
+cmp foo.js foo.js.golden
+! exists foo.js.map
+! exists out_foo.d.ts
+
+-- consumer.ts --
+import x = require('./foo');
+x.Y // .ts should be picked
+-- foo.d.ts --
+declare namespace M1 {
+    export var X:number;
+}
+export = M1
+-- foo.ts --
+namespace M2 {
+    export var Y = 1;
+}
+export = M2
+-- foo.js.golden --
+"use strict";
+var M2;
+(function (M2) {
+    M2.Y = 1;
+})(M2 || (M2 = {}));
+module.exports = M2;

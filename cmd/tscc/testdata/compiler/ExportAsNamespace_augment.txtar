@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/exportAsNamespace_augment.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --module commonjs --target es2015 --lib es2015,dom --out-js b.js b.ts
+stderr 'TS2451'
+! exists b.js
+! exists b.d.ts
+! exists b.js.map
+
+-- a.d.ts --
+export as namespace a;
+export const x = 0;
+export const conflict = 0;
+-- b.ts --
+import * as a2 from "./a";
+
+declare global {
+    namespace a {
+        export const y = 0;
+        export const conflict = 0;
+    }
+}
+
+declare module "./a" {
+    export const z = 0;
+    export const conflict = 0;
+}
+
+a.x + a.y + a.z + a.conflict;
+a2.x + a2.y + a2.z + a2.conflict;

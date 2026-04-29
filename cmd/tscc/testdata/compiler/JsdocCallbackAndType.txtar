@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/jsdocCallbackAndType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --allow-js --check-js --target es2015 --lib es2015,dom a.js
+stderr 'TS2322'
+stderr 'TS2554'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+/**
+ * @template T
+ * @callback B
+ */
+/** @type {B<string>} */
+let b = {};
+b();
+b(1);

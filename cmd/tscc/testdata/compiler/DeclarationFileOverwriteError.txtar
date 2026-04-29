@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/declarationFileOverwriteError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --out-dts a.d.ts --target es2015 --lib es2015,dom --ambient-type-file a.d.ts --out-js a.js a.ts
+! stderr .
+cmp a.js a.js.golden
+! exists a.js.map
+
+-- a.d.ts --
+declare class c {
+}
+-- a.ts --
+class d {
+}
+-- a.js.golden --
+"use strict";
+class d {
+}

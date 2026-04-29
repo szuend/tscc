@@ -1,0 +1,32 @@
+# Ported from tests/cases/compiler/superNoModifiersCrash.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --allow-js --target es2015 --lib es2015,dom --out-js out_File.js File.js
+! stderr .
+cmp out_File.js out_File.js.golden
+! exists ../File.d.ts
+! exists ../File.js.map
+
+-- File.js --
+class Parent {
+    initialize() {
+        super.initialize(...arguments)
+        return this.asdf = ''
+    }
+  }
+
+class Child extends Parent {
+    initialize() {
+    }
+}
+-- out_File.js.golden --
+"use strict";
+class Parent {
+    initialize() {
+        super.initialize(...arguments);
+        return this.asdf = '';
+    }
+}
+class Child extends Parent {
+    initialize() {
+    }
+}
