@@ -95,6 +95,26 @@ tests/cases/compiler/foo.ts(3,1): error TS1005: ';' expected.
 	}
 }
 
+func TestExtractErrorCodesPerFile(t *testing.T) {
+	content := `
+/test.js(3,9): error TS2322: Type '{}' is not assignable to type 'string'.
+/test.js(6,5): error TS8009: The 'declare' modifier can only be used in TypeScript files.
+
+==== /test.js (2 errors) ====
+    class Foo {
+!!! error TS2322: Type '{}' is not assignable to type 'string'.
+!!! error TS8009: The 'declare' modifier can only be used in TypeScript files.
+`
+	got := ExtractErrorCodesPerFile(content)
+	want := map[string][]string{
+		"test.js": {"TS2322", "TS8009"},
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("ExtractErrorCodesPerFile() = %v, want %v", got, want)
+	}
+}
+
 func TestReadBaseline(t *testing.T) {
 	cwd, err := os.Getwd()
 	if err != nil {

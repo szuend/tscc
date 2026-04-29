@@ -50,7 +50,7 @@ func applyShortCircuitFilter(errorCodesMap map[string][]string) {
 		for _, codeStr := range codes {
 			code, err := strconv.Atoi(strings.TrimPrefix(codeStr, "TS"))
 			if err == nil {
-				if (code >= 1000 && code < 2000) || (code >= 5000 && code < 7000) || (code >= 18000 && code < 19000) {
+				if (code >= 1000 && code < 2000) || (code >= 5000 && code < 7000) || (code >= 8000 && code < 9000) || (code >= 18000 && code < 19000) {
 					hasShortCircuit = true
 					break
 				}
@@ -67,7 +67,7 @@ func applyShortCircuitFilter(errorCodesMap map[string][]string) {
 			for _, codeStr := range codes {
 				code, err := strconv.Atoi(strings.TrimPrefix(codeStr, "TS"))
 				if err == nil {
-					if (code >= 1000 && code < 2000) || (code >= 5000 && code < 7000) || (code >= 18000 && code < 19000) {
+					if (code >= 1000 && code < 2000) || (code >= 5000 && code < 7000) || (code >= 8000 && code < 9000) || (code >= 18000 && code < 19000) {
 						filtered = append(filtered, codeStr)
 					}
 				} else {

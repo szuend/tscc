@@ -24,8 +24,8 @@ var (
 	noiseRe   = regexp.MustCompile(`(?m)^////\s*\[tests/cases/.*?\]\s*////.*\n?`)
 	markerRe  = regexp.MustCompile(`(?m)^////\s*\[([^\]]+)\]\s*$`)
 	errorRe   = regexp.MustCompile(`(?:error|!!! error)\s+(TS\d{4,5})`)
-	sectionRe = regexp.MustCompile(`^==== ([a-zA-Z0-9._-]+) \(\d+ errors\) ====`)
-	fileRe    = regexp.MustCompile(`^([a-zA-Z0-9._-]+)\(\d+,\d+\):`)
+	sectionRe = regexp.MustCompile(`^==== ([a-zA-Z0-9._\-/]+) \(\d+ errors\) ====`)
+	fileRe    = regexp.MustCompile(`^([a-zA-Z0-9._\-/]+)\(\d+,\d+\):`)
 )
 
 type OutputFile struct {
@@ -113,7 +113,7 @@ func ExtractErrorCodesPerFile(content string) map[string][]string {
 		line := scanner.Text()
 
 		if matches := sectionRe.FindStringSubmatch(line); len(matches) == 2 {
-			currentFile = matches[1]
+			currentFile = strings.TrimPrefix(matches[1], "/")
 			continue
 		}
 
@@ -124,7 +124,7 @@ func ExtractErrorCodesPerFile(content string) map[string][]string {
 
 				if fileToAttr == "" {
 					if fileMatches := fileRe.FindStringSubmatch(line); len(fileMatches) == 2 {
-						fileToAttr = fileMatches[1]
+						fileToAttr = strings.TrimPrefix(fileMatches[1], "/")
 					}
 				}
 

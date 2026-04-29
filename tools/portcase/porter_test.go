@@ -718,14 +718,24 @@ func TestApplyShortCircuitFilter(t *testing.T) {
 		{
 			name: "TS18xxx triggers short circuit",
 			input: map[string][]string{
-				"file1.ts": {"TS18002", "TS2503"},
+				"file1.ts": {"TS18007", "TS2322"},
 			},
 			expected: map[string][]string{
-				"file1.ts": {"TS18002"},
+				"file1.ts": {"TS18007"},
+			},
+		},
+		{
+			name: "TS8xxx triggers short circuit",
+			input: map[string][]string{
+				"file1.ts": {"TS8009", "TS2322"},
+			},
+			expected: map[string][]string{
+				"file1.ts": {"TS8009"},
 			},
 		},
 		{
 			name: "unparseable codes are retained if short circuit",
+
 			input: map[string][]string{
 				"file1.ts": {"TS1003", "TSBAD"},
 			},
