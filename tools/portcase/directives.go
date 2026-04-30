@@ -84,6 +84,8 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			return nil, &IgnoreError{Directive: key, Reason: "noImplicitUseStrict is permanently unsupported by typescript-go"}
 		case "ignoredeprecations":
 			return nil, &IgnoreError{Directive: key, Reason: "ignoreDeprecations is permanently ignored"}
+		case "baseurl":
+			return nil, &IgnoreError{Directive: key, Reason: "baseUrl is removed in TS7 and permanently unsupported"}
 		case "outfile":
 			return nil, &IgnoreError{Directive: key, Reason: "outFile is permanently unsupported by typescript-go"}
 		case "target":

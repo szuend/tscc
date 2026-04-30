@@ -301,6 +301,13 @@ func TestTranslateDirectives(t *testing.T) {
 			},
 			wantSkip: true,
 		},
+		{
+			name: "baseUrl ignored",
+			directives: map[string]string{
+				"baseUrl": ".",
+			},
+			wantSkip: true,
+		},
 	}
 
 	for _, tt := range tests {
