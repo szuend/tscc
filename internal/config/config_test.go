@@ -422,6 +422,51 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "no-emit-helpers flag",
+			args: []string{"--no-emit-helpers", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				NoEmitHelpers:                true,
+				Lib:                          []string{"es2025"},
+			},
+		},
+		{
+			name: "no-emit-helpers explicit false",
+			args: []string{"--no-emit-helpers=false", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				NoEmitHelpers:                false,
+				Lib:                          []string{"es2025"},
+			},
+		},
+		{
+			name: "no-emit-helpers negated",
+			args: []string{"--no-no-emit-helpers", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				NoEmitHelpers:                false,
+				Lib:                          []string{"es2025"},
+			},
+		},
+		{
 			name:        "missing input",
 			args:        []string{"--target", "es2022"},
 			wantErrText: "no input file specified",
@@ -490,6 +535,9 @@ func TestParse(t *testing.T) {
 			}
 			if got.NoUncheckedSideEffectImports != tt.wantConfig.NoUncheckedSideEffectImports {
 				t.Errorf("NoUncheckedSideEffectImports: got %v, want %v", got.NoUncheckedSideEffectImports, tt.wantConfig.NoUncheckedSideEffectImports)
+			}
+			if got.NoEmitHelpers != tt.wantConfig.NoEmitHelpers {
+				t.Errorf("NoEmitHelpers: got %v, want %v", got.NoEmitHelpers, tt.wantConfig.NoEmitHelpers)
 			}
 			if !slices.Equal(got.Lib, tt.wantConfig.Lib) {
 				t.Errorf("Lib: got %v, want %v", got.Lib, tt.wantConfig.Lib)

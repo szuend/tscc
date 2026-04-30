@@ -105,6 +105,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		CheckJs:                      boolToTristate(cfg.CheckJs),
 		IsolatedModules:              boolToTristate(cfg.IsolatedModules),
 		NoUncheckedSideEffectImports: boolToTristate(cfg.NoUncheckedSideEffectImports),
+		NoEmitHelpers:                boolToTristate(cfg.NoEmitHelpers),
 
 		SuppressOutputPathCheck: tsccbridge.TSTrue,
 		Module:                  mod,

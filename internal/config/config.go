@@ -85,6 +85,9 @@ type Config struct {
 
 	// NoUncheckedSideEffectImports raises an error when a side-effect import (import "mod") resolves to a file that does not exist.
 	NoUncheckedSideEffectImports bool
+
+	// NoEmitHelpers disables generating custom helper functions like '__extends' in compiled output.
+	NoEmitHelpers bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -379,6 +382,7 @@ func interopConstraintsGroup(cfg *Config) flagGroup {
 
 func outputGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
+	g.BoolVar(&cfg.NoEmitHelpers, "no-emit-helpers", false, "Disable generating custom helper functions like '__extends' in compiled output.")
 	g.StringVarP(&cfg.OutJSPath, "out-js", "o", "", "Write JavaScript output to `FILE`")
 	g.StringVar(&cfg.OutDtsPath, "out-dts", "", "Write TypeScript declaration output to `FILE`.")
 	g.StringVar(&cfg.OutMapPath, "out-map", "", "Write source map output to `FILE`. URL comment in emitted JS uses basename(FILE); co-locate or rewrite downstream.")
