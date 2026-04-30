@@ -8,13 +8,13 @@ tscc [OPTIONS] FILE
 
 Explicit I/O and depsfile output, built on [typescript-go](https://github.com/microsoft/typescript-go), Microsoft's Go port of the TypeScript compiler.
 
-> **A note on how this project is built.** Both the code and the documentation in this repository are produced with heavy use of generative AI. That is not a disclaimer of responsibility — the author reviews every change, and the project aims squarely at real engineering discipline: a written design doc for every non-trivial feature, an architecture that's been deliberately chosen rather than accreted, and solid end-to-end test coverage as the correctness floor. If something here is wrong, the root cause is a decision that needed to be made better, not "the AI wrote it."
+> **A note on how this project is built.** Both the code and the documentation in this repository are produced with heavy use of generative AI. The author reviews every change, and the project aims squarely at real engineering discipline: a written design doc for non-trivial features, frequent refactoring rounds, and solid end-to-end test coverage.
 
 ## Why tscc
 
-`tsc` is a project system: it discovers `tsconfig.json` by walking up the directory tree, infers output paths from project structure, and implicitly resolves modules through `package.json`. That works great in an editor. It works poorly in a build system.
+`tsc` is a project system: it wants to "run the world". It discovers `tsconfig.json` by walking up the directory tree, infers output paths from project structure, and implicitly resolves modules through `package.json`. That works great in an editor. It works poorly in a build system.
 
-Hermetic build systems (Bazel, Make, Ninja, Buck) need to own the dependency graph. Every input must be declared, every output must be known ahead of time, and the compiler must report which source files it actually read — so the build system knows when to recompile.
+Hermetic build systems (Bazel, Make, Ninja, Buck) need to own the dependency graph. Every input must be declared, every output must be known ahead of time, and the compiler must report which source files it actually read, so the build system knows when to recompile.
 
 `tscc` is designed for exactly this:
 
@@ -55,7 +55,7 @@ dist/index.js: src/index.ts src/lib.ts node_modules/some-dep/index.d.ts
 
 Flags follow Unix kebab-case conventions (`--out-dts`, `--out-map`) and also accept camelCase equivalents for compatibility with typescript-go option names where applicable.
 
-For the principles behind `tscc`'s design — and why it deliberately doesn't do several things `tsc` does — see [`docs/vision.md`](docs/vision.md).
+For the principles behind `tscc`'s design, and why it deliberately doesn't do several things `tsc` does, see [`docs/vision.md`](docs/vision.md).
 
 ## Building from Source
 
