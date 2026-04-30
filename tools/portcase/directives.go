@@ -138,6 +138,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-strict-null-checks")
 			}
+		case "strictfunctiontypes":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--strict-function-types")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-strict-function-types")
+			}
 		case "alwaysstrict":
 			if strings.ToLower(value) == "false" {
 				return nil, &SkipError{Directive: key, Reason: "false is unsupported (deprecated)"}

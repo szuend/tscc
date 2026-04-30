@@ -97,6 +97,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		Target:                       target,
 		Strict:                       boolToTristate(cfg.Strict),
 		NoImplicitAny:                boolToTristate(cfg.NoImplicitAny),
+		StrictFunctionTypes:          boolToTristate(cfg.StrictFunctionTypes),
 		StrictNullChecks:             boolToTristate(cfg.StrictNullChecks),
 		ExactOptionalPropertyTypes:   boolToTristate(cfg.ExactOptionalPropertyTypes),
 		SkipLibCheck:                 boolToTristate(cfg.SkipLibCheck),

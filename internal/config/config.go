@@ -61,6 +61,9 @@ type Config struct {
 	// Populated by repeated --lib flags or comma-separated values.
 	Lib []string
 
+	// StrictFunctionTypes ensures parameters and return values are subtype-compatible when assigning functions.
+	StrictFunctionTypes bool
+
 	// StrictNullChecks enables strict null checks.
 	StrictNullChecks bool
 
@@ -121,6 +124,10 @@ func Parse(args []string) (*Config, error) {
 	// Apply dynamic defaults for strict-mode family flags
 	if !flags.Changed("no-implicit-any") {
 		cfg.NoImplicitAny = cfg.Strict
+	}
+
+	if !flags.Changed("strict-function-types") {
+		cfg.StrictFunctionTypes = cfg.Strict
 	}
 
 	if !flags.Changed("strict-null-checks") {
@@ -299,6 +306,8 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.BoolVar(&cfg.Strict, "strict", true, "Enable all strict type-checking options")
 	g.BoolVar(&cfg.NoImplicitAny, "no-implicit-any", true, "Raise error on expressions and declarations with an implied 'any' type")
 	g.Lookup("no-implicit-any").DefValue = "true; false if --no-strict is passed"
+	g.BoolVar(&cfg.StrictFunctionTypes, "strict-function-types", true, "When assigning functions, check to ensure parameters and the return values are subtype-compatible.")
+	g.Lookup("strict-function-types").DefValue = "true; false if --no-strict is passed"
 	g.BoolVar(&cfg.StrictNullChecks, "strict-null-checks", true, "When type checking, take into account 'null' and 'undefined'")
 	g.Lookup("strict-null-checks").DefValue = "true; false if --no-strict is passed"
 	g.BoolVar(&cfg.ExactOptionalPropertyTypes, "exact-optional-property-types", false, "Interpret optional property types as written, rather than adding 'undefined'")
