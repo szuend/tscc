@@ -116,6 +116,7 @@ func TestExtractErrorCodesPerFile(t *testing.T) {
 }
 
 func TestReadBaseline(t *testing.T) {
+	skipIfUpstreamMissing(t)
 	cwd, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)

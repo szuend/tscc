@@ -23,6 +23,7 @@ import (
 )
 
 func TestPortKnownCase(t *testing.T) {
+	skipIfUpstreamMissing(t)
 	// Re-run the tool against a known case
 	outPath := filepath.Join(t.TempDir(), "ArrowFunctionExpression1.txtar")
 
@@ -81,6 +82,7 @@ func equalLines(a, b []string) bool {
 }
 
 func TestPortKnownCase_Declaration(t *testing.T) {
+	skipIfUpstreamMissing(t)
 	outPath := filepath.Join(t.TempDir(), "DeclarationEmitFunctionDuplicateNamespace.txtar")
 
 	cmd := exec.Command("go", "run", "./tools/portcase", "--case", "declarationEmitFunctionDuplicateNamespace", "--out", outPath)
