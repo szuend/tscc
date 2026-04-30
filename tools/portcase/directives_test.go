@@ -50,7 +50,7 @@ func TestTranslateDirectives(t *testing.T) {
 				"sourcemap":   "true",
 			},
 			outputBaseName: "foo",
-			wantFlags:      []string{"--out-dts", "foo.d.ts", "--out-map", "foo.js.map", "--lib", "es2025,dom"},
+			wantFlags:      []string{"--lib", "es2025,dom"},
 		},
 		{
 			name: "filename ignored, injected lib still added",

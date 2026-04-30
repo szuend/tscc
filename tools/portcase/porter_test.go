@@ -56,8 +56,12 @@ func TestPorter_Port_Simple(t *testing.T) {
 
 func TestPorter_Port_NoEmit(t *testing.T) {
 	p := Porter{
-		CaseName:       "noemit_case",
-		TsContent:      "// @noEmit: true\nexport const x = 1;",
+		CaseName: "noemit_case",
+		TsContent: `// @noEmit: true
+// @declaration: true
+// @sourceMap: true
+export const x = 1;
+`,
 		BaselineFinder: mockFinder("", ""),
 	}
 
@@ -79,6 +83,65 @@ func TestPorter_Port_NoEmit(t *testing.T) {
 	}
 	if strings.Contains(res.Content, "--out-map") {
 		t.Errorf("Expected content to NOT contain --out-map, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_SourceMap(t *testing.T) {
+	js := `//// [sourcemap_case.js]
+export const x = 1;
+//// [sourcemap_case.js.map]
+{"version":3,"file":"sourcemap_case.js"}
+`
+	p := Porter{
+		CaseName: "sourcemap_case",
+		TsContent: `// @sourceMap: true
+export const x = 1;
+`,
+		BaselineFinder: mockFinder(js, ""),
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--out-map sourcemap_case.js.map") {
+		t.Errorf("Expected content to contain --out-map sourcemap_case.js.map, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_OutDir_SourceMap(t *testing.T) {
+	js := `//// [dist/outdir_sourcemap_case.js]
+export const x = 1;
+//// [dist/outdir_sourcemap_case.js.map]
+{"version":3,"file":"outdir_sourcemap_case.js"}
+`
+	p := Porter{
+		CaseName: "outdir_sourcemap_case",
+		TsContent: `// @outDir: dist
+// @sourceMap: true
+export const x = 1;
+`,
+		BaselineFinder: mockFinder(js, ""),
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--out-map dist/outdir_sourcemap_case.js.map") {
+		t.Errorf("Expected content to contain --out-map dist/outdir_sourcemap_case.js.map, got:\n%s", res.Content)
 	}
 }
 
@@ -112,6 +175,70 @@ export const b = 2;
 	}
 	if !strings.Contains(res.Content, "cmp out_b.js out_b.js.golden") {
 		t.Errorf("Expected content to contain cmp out_b.js out_b.js.golden, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_OutDir_Declaration(t *testing.T) {
+	js := `//// [dist/outdir_case.js]
+export const x = 1;
+//// [dist/outdir_case.d.ts]
+export declare const x = 1;
+`
+	p := Porter{
+		CaseName: "outdir_case",
+		TsContent: `// @outDir: dist
+// @declaration: true
+export const x = 1;
+`,
+		BaselineFinder: mockFinder(js, ""),
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--out-dts dist/outdir_case.d.ts") {
+		t.Errorf("Expected content to contain --out-dts dist/outdir_case.d.ts, got:\n%s", res.Content)
+	}
+}
+
+func TestPorter_Port_DeclarationDir(t *testing.T) {
+	js := `//// [dist/decl_case.js]
+export const x = 1;
+//// [types/decl_case.d.ts]
+export declare const x = 1;
+`
+	p := Porter{
+		CaseName: "decl_case",
+		TsContent: `// @outDir: dist
+// @declarationDir: types
+// @declaration: true
+export const x = 1;
+`,
+		BaselineFinder: mockFinder(js, ""),
+	}
+
+	results, err := p.Port()
+	if err != nil {
+		t.Fatalf("Port failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(results))
+	}
+
+	res := results[0]
+	if !strings.Contains(res.Content, "--out-dts types/decl_case.d.ts") {
+		t.Errorf("Expected content to contain --out-dts types/decl_case.d.ts, got:\n%s", res.Content)
+	}
+	if !strings.Contains(res.Content, "--out-js dist/decl_case.js") {
+		t.Errorf("Expected content to contain --out-js dist/decl_case.js, got:\n%s", res.Content)
 	}
 }
 

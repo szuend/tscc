@@ -505,9 +505,21 @@ func (p *Porter) renderVariant(
 		outDir = val
 	}
 
+	declDir := outDir
+	if val, ok := variant.Options["declarationdir"]; ok {
+		declDir = val
+	}
+
 	applyOutDir := func(name string) string {
 		if outDir != "" {
 			return filepath.ToSlash(filepath.Join(outDir, name))
+		}
+		return name
+	}
+
+	applyDeclDir := func(name string) string {
+		if declDir != "" {
+			return filepath.ToSlash(filepath.Join(declDir, name))
 		}
 		return name
 	}
@@ -545,10 +557,22 @@ func (p *Porter) renderVariant(
 		emitDeclOnly = true
 	}
 
+	declaration := false
+	if val, ok := variant.Options["declaration"]; ok && strings.ToLower(val) == "true" {
+		declaration = true
+	}
+
+	sourceMap := false
+	if val, ok := variant.Options["sourcemap"]; ok && strings.ToLower(val) == "true" {
+		sourceMap = true
+	}
+
 	// Calculate flags for out outputs
 	if !noEmit {
 		if len(currentOutputs) > 0 {
 			hasJs := false
+			hasDts := false
+			hasMap := false
 			var toRemove []string
 			for outName := range currentOutputs {
 				if strings.HasSuffix(outName, ".js") {
@@ -559,6 +583,16 @@ func (p *Porter) renderVariant(
 						flags = append(flags, "--out-js", outName)
 						hasJs = true
 					}
+				} else if strings.HasSuffix(outName, ".d.ts") {
+					if declaration {
+						flags = append(flags, "--out-dts", outName)
+						hasDts = true
+					}
+				} else if strings.HasSuffix(outName, ".js.map") {
+					if sourceMap {
+						flags = append(flags, "--out-map", outName)
+						hasMap = true
+					}
 				}
 			}
 			for _, r := range toRemove {
@@ -567,6 +601,14 @@ func (p *Porter) renderVariant(
 			if !hasJs && !emitDeclOnly {
 				outJs := renameIfCollision(applyOutDir(inputStem + ".js"))
 				currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
+			}
+			if declaration && !hasDts {
+				outDts := renameIfCollision(applyDeclDir(inputStem + ".d.ts"))
+				flags = append(flags, "--out-dts", outDts)
+			}
+			if sourceMap && !hasMap {
+				outMap := renameIfCollision(applyOutDir(inputStem + ".js.map"))
+				flags = append(flags, "--out-map", outMap)
 			}
 		} else {
 			if !emitDeclOnly {
@@ -578,14 +620,27 @@ func (p *Porter) renderVariant(
 					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
 				}
 			}
+			if declaration {
+				outDts := renameIfCollision(applyDeclDir(inputStem + ".d.ts"))
+				flags = append(flags, "--out-dts", outDts)
+				if len(currentErrorCodes) > 0 {
+					currentOutputs[outDts] = ""
+				}
+			}
+			if sourceMap {
+				outMap := renameIfCollision(applyOutDir(inputStem + ".js.map"))
+				flags = append(flags, "--out-map", outMap)
+				if len(currentErrorCodes) > 0 {
+					currentOutputs[outMap] = ""
+				}
+			}
 		}
 	}
 
 	// Check .d.ts
-	outDts := renameIfCollision(applyOutDir(inputStem + ".d.ts"))
+	outDts := renameIfCollision(applyDeclDir(inputStem + ".d.ts"))
 	if _, ok := currentOutputs[outDts]; !ok {
-		hasDts := slices.Contains(flags, "--out-dts")
-		if !hasDts {
+		if !declaration || noEmit {
 			currentNotExpectedOutputs = append(currentNotExpectedOutputs, outDts)
 		}
 	}
@@ -593,8 +648,7 @@ func (p *Porter) renderVariant(
 	// Check .js.map
 	outMap := renameIfCollision(applyOutDir(inputStem + ".js.map"))
 	if _, ok := currentOutputs[outMap]; !ok {
-		hasMap := slices.Contains(flags, "--out-map")
-		if !hasMap {
+		if !sourceMap || noEmit {
 			currentNotExpectedOutputs = append(currentNotExpectedOutputs, outMap)
 		}
 	}
