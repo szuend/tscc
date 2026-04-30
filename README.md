@@ -69,6 +69,14 @@ go build ./cmd/tscc
 
 Requires Go 1.26 or later.
 
+## CLI Differences from typescript-go
+
+While `tscc` is built on the `typescript-go` engine, its CLI behavior is optimized for build system ergonomics rather than mirroring `tsc` exactly:
+
+- **Last Flag Wins:** Conflicting flags like `--lib` and `--no-lib` do not cause an error. Instead, the last flag specified on the command line wins. This allows build systems to provide global defaults that are easily overridden by specific targets.
+- **Explicit Libraries:** If the `--lib` flag is specified, `tscc` does not automatically include the base language library corresponding to the `--target`. You must include it explicitly (e.g., `--target es2020 --lib es2020,dom`).
+- **No Implicit DOM:** Unlike `tsc`, `tscc` does not include DOM libraries by default. Compilation only includes the core language types for your specified target unless `dom` is explicitly added to the `--lib` list.
+
 ## Third-party
 
 **[typescript-go](https://github.com/microsoft/typescript-go)** (Apache 2.0, © Microsoft Corporation) — tscc links against typescript-go as a Go module. Its license is at `third_party/typescript-go/LICENSE`. See [`third_party/README.md`](third_party/README.md) for how the bridge works and how to update the pinned commit.
