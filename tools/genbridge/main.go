@@ -22,6 +22,7 @@ package main
 
 import (
 	"fmt"
+	"go/format"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -269,7 +270,12 @@ func main() {
 	}
 
 	outFile := filepath.Join(outDir, "bridge.go")
-	if err := os.WriteFile(outFile, []byte(bridgeContent), 0o644); err != nil {
+	formatted, err := format.Source([]byte(bridgeContent))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "genbridge: failed to format bridge content: %v\n", err)
+		os.Exit(1)
+	}
+	if err := os.WriteFile(outFile, formatted, 0o644); err != nil {
 		fmt.Fprintf(os.Stderr, "genbridge: failed to write bridge file: %v\n", err)
 		os.Exit(1)
 	}
