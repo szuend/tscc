@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/arrayFilter.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --target es2015 --lib es2015,dom --out-js arrayFilter.js arrayFilter.ts
+! stderr .
+cmp arrayFilter.js arrayFilter.js.golden
+! exists arrayFilter.d.ts
+! exists arrayFilter.js.map
+
+-- arrayFilter.ts --
+var foo = [
+    { name: 'bar' },
+    { name: null },
+    { name: 'baz' }
+]
+
+foo.filter(x => x.name); //should accepted all possible types not only boolean! 
+-- arrayFilter.js.golden --
+"use strict";
+var foo = [
+    { name: 'bar' },
+    { name: null },
+    { name: 'baz' }
+];
+foo.filter(x => x.name); //should accepted all possible types not only boolean! 

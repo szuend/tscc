@@ -629,8 +629,6 @@ func (p *Porter) renderVariant(
 				flags = append(flags, "--out-js", outJs)
 				if len(currentErrorCodes) > 0 {
 					currentOutputs[outJs] = "" // Keep it as an expected empty file for errors
-				} else {
-					currentNotExpectedOutputs = append(currentNotExpectedOutputs, outJs)
 				}
 			}
 			if declaration {
