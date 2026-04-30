@@ -294,6 +294,13 @@ func TestTranslateDirectives(t *testing.T) {
 			},
 			wantSkip: true,
 		},
+		{
+			name: "ignoreDeprecations ignored",
+			directives: map[string]string{
+				"ignoreDeprecations": "5.0",
+			},
+			wantSkip: true,
+		},
 	}
 
 	for _, tt := range tests {

@@ -296,6 +296,23 @@ func TestPorter_Port_UnsupportedDirective(t *testing.T) {
 	}
 }
 
+func TestPorter_Port_IgnoreDeprecations(t *testing.T) {
+	p := Porter{
+		CaseName:       "ignored_deprecations",
+		TsContent:      "// @ignoreDeprecations: 5.0\nexport const x = 1;",
+		BaselineFinder: mockFinder("", ""),
+	}
+
+	_, err := p.Port()
+	if err == nil {
+		t.Fatal("Expected error, got nil")
+	}
+
+	if _, ok := err.(*IgnoreError); !ok {
+		t.Errorf("Expected IgnoreError, got %T: %v", err, err)
+	}
+}
+
 func TestPorter_Port_InvalidBaseline(t *testing.T) {
 	p := Porter{
 		CaseName:  "invalid_baseline",
