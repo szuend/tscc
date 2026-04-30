@@ -228,6 +228,19 @@ func (p *Porter) Port() ([]PortedFile, error) {
 		var errorCodesMap map[string][]string
 		if baselineErrors != "" {
 			errorCodesMap = ExtractErrorCodesPerFile(baselineErrors)
+
+			for _, codes := range errorCodesMap {
+				for _, code := range codes {
+					if code == "TS5053" {
+						_, hasLib := variant.Options["lib"]
+						_, hasNoLib := variant.Options["nolib"]
+						if hasLib && hasNoLib {
+							return nil, &IgnoreError{Directive: "nolib", Reason: "tscc implements last-flag-wins for --lib and --no-lib and does not emit TS5053"}
+						}
+					}
+				}
+			}
+
 			applyShortCircuitFilter(errorCodesMap)
 		}
 		errorCodesMap = propagateErrors(inputList, inputs, errorCodesMap)

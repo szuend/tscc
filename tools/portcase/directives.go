@@ -188,6 +188,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			return nil, &IgnoreError{Directive: key, Reason: "allowSyntheticDefaultImports is unsupported by typescript-go and permanently ignored"}
 		case "lib":
 			flags = append(flags, "--lib", value)
+		case "nolib":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--no-lib")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-no-lib")
+			}
 		case "noemit":
 			// Handled at top and in porter.go
 			continue

@@ -111,6 +111,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		Declaration:             decl,
 		SourceMap:               srcMap,
 		Lib:                     cfg.Lib,
+		NoLib:                   boolToTristate(cfg.NoLib),
 		Types:                   cfg.AmbientTypeFiles,
 		Paths:                   pathsMap,
 	}, nil

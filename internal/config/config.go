@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/pflag"
@@ -60,6 +61,9 @@ type Config struct {
 	// Lib holds the library files to include in the compilation.
 	// Populated by repeated --lib flags or comma-separated values.
 	Lib []string
+
+	// NoLib disables including any library files, including the default lib.d.ts.
+	NoLib bool
 
 	// StrictFunctionTypes ensures parameters and return values are subtype-compatible when assigning functions.
 	StrictFunctionTypes bool
@@ -134,7 +138,7 @@ func Parse(args []string) (*Config, error) {
 		cfg.StrictNullChecks = cfg.Strict
 	}
 
-	if !flags.Changed("lib") {
+	if !flags.Changed("lib") && !cfg.NoLib {
 		cfg.Lib = []string{cfg.Target}
 	}
 
@@ -284,12 +288,55 @@ func completenessGroup(cfg *Config) flagGroup {
 	return flagGroup{Name: "Completeness", Set: g}
 }
 
+type libValue struct {
+	cfg     *Config
+	changed bool
+}
+
+func (l *libValue) Set(val string) error {
+	l.cfg.NoLib = false
+	if !l.changed {
+		l.cfg.Lib = nil
+		l.changed = true
+	}
+	parts := strings.Split(val, ",")
+	for _, p := range parts {
+		l.cfg.Lib = append(l.cfg.Lib, strings.TrimSpace(p))
+	}
+	return nil
+}
+func (l *libValue) Type() string   { return "stringSlice" }
+func (l *libValue) String() string { return strings.Join(l.cfg.Lib, ",") }
+
+type noLibValue struct {
+	cfg *Config
+}
+
+func (n *noLibValue) Set(val string) error {
+	v, err := strconv.ParseBool(val)
+	if err != nil {
+		return err
+	}
+	n.cfg.NoLib = v
+	if v {
+		n.cfg.Lib = nil
+	}
+	return nil
+}
+func (n *noLibValue) Type() string   { return "bool" }
+func (n *noLibValue) String() string { return strconv.FormatBool(n.cfg.NoLib) }
+
 func languageGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("language", pflag.ContinueOnError)
 	g.StringVar(&cfg.Target, "target", "es2025", "Set the JavaScript language `version` for emitted JavaScript (allowed: es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext)")
 	g.StringVar(&cfg.Module, "module", "", "Emitted module system `KIND` (allowed: none, commonjs, amd, umd, system, es2015, es2020, es2022, esnext, node16, node18, node20, nodenext, preserve). Default: esnext.")
-	g.StringSliceVar(&cfg.Lib, "lib", nil, "Specify a set of bundled library declaration files that describe the target runtime environment (allowed: es5, es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext, dom, dom.iterable, dom.asynciterable, webworker, webworker.importscripts, webworker.iterable, webworker.asynciterable, scripthost, and by-feature options like es2015.core)")
+
+	g.VarPF(&libValue{cfg: cfg}, "lib", "", "Specify a set of bundled library declaration files that describe the target runtime environment (allowed: es5, es6/es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, es2024, es2025, esnext, dom, dom.iterable, dom.asynciterable, webworker, webworker.importscripts, webworker.iterable, webworker.asynciterable, scripthost, and by-feature options like es2015.core)")
 	g.Lookup("lib").DefValue = "matches --target; excluding DOM"
+
+	noLibFlag := g.VarPF(&noLibValue{cfg: cfg}, "no-lib", "", "Disable including any library files, including the default lib.d.ts.")
+	noLibFlag.NoOptDefVal = "true"
+
 	return flagGroup{Name: "Language and Environment", Set: g}
 }
 
