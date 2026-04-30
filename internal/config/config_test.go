@@ -467,6 +467,51 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "no-implicit-returns flag",
+			args: []string{"--no-implicit-returns", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				NoImplicitReturns:            true,
+				Lib:                          []string{"es2025"},
+			},
+		},
+		{
+			name: "no-implicit-returns explicit false",
+			args: []string{"--no-implicit-returns=false", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				NoImplicitReturns:            false,
+				Lib:                          []string{"es2025"},
+			},
+		},
+		{
+			name: "no-implicit-returns negated",
+			args: []string{"--no-no-implicit-returns", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				NoImplicitReturns:            false,
+				Lib:                          []string{"es2025"},
+			},
+		},
+		{
 			name:        "missing input",
 			args:        []string{"--target", "es2022"},
 			wantErrText: "no input file specified",
@@ -514,6 +559,9 @@ func TestParse(t *testing.T) {
 			}
 			if got.StrictNullChecks != tt.wantConfig.StrictNullChecks {
 				t.Errorf("StrictNullChecks: got %v, want %v", got.StrictNullChecks, tt.wantConfig.StrictNullChecks)
+			}
+			if got.NoImplicitReturns != tt.wantConfig.NoImplicitReturns {
+				t.Errorf("NoImplicitReturns: got %v, want %v", got.NoImplicitReturns, tt.wantConfig.NoImplicitReturns)
 			}
 			if got.Target != tt.wantConfig.Target {
 				t.Errorf("Target: got %q, want %q", got.Target, tt.wantConfig.Target)

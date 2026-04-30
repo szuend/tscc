@@ -71,6 +71,9 @@ type Config struct {
 	// StrictNullChecks enables strict null checks.
 	StrictNullChecks bool
 
+	// NoImplicitReturns enables error reporting for codepaths that do not explicitly return in a function.
+	NoImplicitReturns bool
+
 	// SkipLibCheck skips type checking of declaration files.
 	SkipLibCheck bool
 
@@ -361,6 +364,7 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.BoolVar(&cfg.StrictNullChecks, "strict-null-checks", true, "When type checking, take into account 'null' and 'undefined'")
 	g.Lookup("strict-null-checks").DefValue = "true; false if --no-strict is passed"
 	g.BoolVar(&cfg.ExactOptionalPropertyTypes, "exact-optional-property-types", false, "Interpret optional property types as written, rather than adding 'undefined'")
+	g.BoolVar(&cfg.NoImplicitReturns, "no-implicit-returns", false, "Enable error reporting for codepaths that do not explicitly return in a function.")
 	return flagGroup{Name: "Type Checking", Set: g}
 }
 

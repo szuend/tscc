@@ -158,6 +158,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-no-emit-helpers", "--lib", "es2025,dom"},
 		},
 		{
+			name: "noImplicitReturns true with injected lib",
+			directives: map[string]string{
+				"noImplicitReturns": "true",
+			},
+			wantFlags: []string{"--no-implicit-returns", "--lib", "es2025,dom"},
+		},
+		{
+			name: "noImplicitReturns false with injected lib",
+			directives: map[string]string{
+				"noImplicitReturns": "false",
+			},
+			wantFlags: []string{"--no-no-implicit-returns", "--lib", "es2025,dom"},
+		},
+		{
 			name: "allowJs true with injected lib",
 			directives: map[string]string{
 				"allowJs": "true",

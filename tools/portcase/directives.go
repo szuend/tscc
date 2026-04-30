@@ -190,6 +190,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-no-emit-helpers")
 			}
+		case "noimplicitreturns":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--no-implicit-returns")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-no-implicit-returns")
+			}
 		case "allowsyntheticdefaultimports":
 			return nil, &IgnoreError{Directive: key, Reason: "allowSyntheticDefaultImports is unsupported by typescript-go and permanently ignored"}
 		case "lib":
