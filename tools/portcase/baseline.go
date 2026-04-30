@@ -69,7 +69,7 @@ func SplitBaseline(content string) []OutputFile {
 
 		result = append(result, OutputFile{
 			Name:    filename,
-			Content: strings.TrimRight(block, " \n\t") + "\n",
+			Content: strings.TrimRight(block, "\n\t") + "\n",
 		})
 	}
 

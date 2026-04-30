@@ -48,6 +48,17 @@ var b = 2;
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("SplitBaseline() = %v, want %v", got, want)
 	}
+
+	t.Run("PreserveTrailingSpace", func(t *testing.T) {
+		content := "//// [a.js]\nvar a = 1; \n"
+		got := SplitBaseline(content)
+		want := []OutputFile{
+			{Name: "a.js", Content: "var a = 1; \n"},
+		}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("SplitBaseline() = %q, want %q", got[0].Content, want[0].Content)
+		}
+	})
 }
 
 func TestSplitBaseline_DuplicateNames(t *testing.T) {
