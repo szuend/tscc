@@ -295,6 +295,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-no-property-access-from-index-signature", "--lib", "es2025,dom"},
 		},
 		{
+			name: "removeComments true with injected lib",
+			directives: map[string]string{
+				"removeComments": "true",
+			},
+			wantFlags: []string{"--remove-comments", "--lib", "es2025,dom"},
+		},
+		{
+			name: "removeComments false with injected lib",
+			directives: map[string]string{
+				"removeComments": "false",
+			},
+			wantFlags: []string{"--no-remove-comments", "--lib", "es2025,dom"},
+		},
+		{
 			name: "allowUnreachableCode true with injected lib",
 			directives: map[string]string{
 				"allowUnreachableCode": "true",

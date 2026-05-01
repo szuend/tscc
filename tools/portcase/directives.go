@@ -190,6 +190,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-no-emit-helpers")
 			}
+		case "removecomments":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--remove-comments")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-remove-comments")
+			}
 		case "noimplicitreturns":
 			if strings.ToLower(value) == "true" || value == "" {
 				flags = append(flags, "--no-implicit-returns")

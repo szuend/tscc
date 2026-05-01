@@ -92,6 +92,9 @@ type Config struct {
 	// NoEmitHelpers disables generating custom helper functions like '__extends' in compiled output.
 	NoEmitHelpers bool
 
+	// RemoveComments disables emitting comments.
+	RemoveComments bool
+
 	// UseDefineForClassFields emits ECMAScript-standard-compliant class fields.
 	UseDefineForClassFields bool
 
@@ -415,6 +418,7 @@ func interopConstraintsGroup(cfg *Config) flagGroup {
 func outputGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
 	g.BoolVar(&cfg.NoEmitHelpers, "no-emit-helpers", false, "Disable generating custom helper functions like '__extends' in compiled output.")
+	g.BoolVar(&cfg.RemoveComments, "remove-comments", false, "Disable emitting comments.")
 	g.StringVarP(&cfg.OutJSPath, "out-js", "o", "", "Write JavaScript output to `FILE`")
 	g.StringVar(&cfg.OutDtsPath, "out-dts", "", "Write TypeScript declaration output to `FILE`.")
 	g.StringVar(&cfg.OutMapPath, "out-map", "", "Write source map output to `FILE`. URL comment in emitted JS uses basename(FILE); co-locate or rewrite downstream.")

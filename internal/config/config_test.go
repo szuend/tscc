@@ -581,6 +581,38 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "remove-comments flag",
+			args: []string{"--remove-comments", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				RemoveComments:               true,
+				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
+			},
+		},
+		{
+			name: "remove-comments negated",
+			args: []string{"--no-remove-comments", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				RemoveComments:               false,
+				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
+			},
+		},
+		{
 			name: "no-implicit-returns flag",
 			args: []string{"--no-implicit-returns", "in.ts"},
 			wantConfig: &Config{

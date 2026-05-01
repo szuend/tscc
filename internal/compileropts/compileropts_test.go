@@ -101,6 +101,25 @@ func TestFromConfigNoImplicitAny(t *testing.T) {
 	}
 }
 
+func TestFromConfigRemoveComments(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", RemoveComments: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.RemoveComments != tc.want {
+			t.Errorf("RemoveComments(%v) = %v, want %v", tc.in, got.RemoveComments, tc.want)
+		}
+	}
+}
+
 func TestFromConfigSkipLibCheck(t *testing.T) {
 	tests := []struct {
 		in   bool
