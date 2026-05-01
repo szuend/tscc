@@ -109,6 +109,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		NoEmitHelpers:                      boolToTristate(cfg.NoEmitHelpers),
 		UseDefineForClassFields:            boolToTristate(cfg.UseDefineForClassFields),
 		NoPropertyAccessFromIndexSignature: boolToTristate(cfg.NoPropertyAccessFromIndexSignature),
+		AllowUnreachableCode:               optionalBoolToTristate(cfg.AllowUnreachableCode, cfg.AllowUnreachableCodeSet),
 
 		SuppressOutputPathCheck: tsccbridge.TSTrue,
 		Module:                  mod,
@@ -122,6 +123,16 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 }
 
 func boolToTristate(b bool) tsccbridge.Tristate {
+	if b {
+		return tsccbridge.TSTrue
+	}
+	return tsccbridge.TSFalse
+}
+
+func optionalBoolToTristate(b bool, isSet bool) tsccbridge.Tristate {
+	if !isSet {
+		return tsccbridge.TSUnknown
+	}
 	if b {
 		return tsccbridge.TSTrue
 	}

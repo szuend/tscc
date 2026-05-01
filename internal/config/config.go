@@ -97,6 +97,10 @@ type Config struct {
 
 	// NoPropertyAccessFromIndexSignature enforces using indexed accessors for keys declared using an indexed type.
 	NoPropertyAccessFromIndexSignature bool
+
+	// AllowUnreachableCode disables error reporting for unreachable code.
+	AllowUnreachableCode    bool
+	AllowUnreachableCodeSet bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -136,6 +140,8 @@ func Parse(args []string) (*Config, error) {
 	if err := flags.Parse(normalizedArgs); err != nil {
 		return nil, err
 	}
+
+	cfg.AllowUnreachableCodeSet = flags.Changed("allow-unreachable-code")
 
 	// Apply dynamic defaults for strict-mode family flags
 	if !flags.Changed("no-implicit-any") {
@@ -380,6 +386,8 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.BoolVar(&cfg.ExactOptionalPropertyTypes, "exact-optional-property-types", false, "Interpret optional property types as written, rather than adding 'undefined'")
 	g.BoolVar(&cfg.NoImplicitReturns, "no-implicit-returns", false, "Enable error reporting for codepaths that do not explicitly return in a function.")
 	g.BoolVar(&cfg.NoPropertyAccessFromIndexSignature, "no-property-access-from-index-signature", false, "Enforces using indexed accessors for keys declared using an indexed type.")
+	g.BoolVar(&cfg.AllowUnreachableCode, "allow-unreachable-code", false, "Disable error reporting for unreachable code.")
+	g.Lookup("allow-unreachable-code").DefValue = "undefined"
 	return flagGroup{Name: "Type Checking", Set: g}
 }
 

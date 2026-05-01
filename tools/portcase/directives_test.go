@@ -295,6 +295,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-no-property-access-from-index-signature", "--lib", "es2025,dom"},
 		},
 		{
+			name: "allowUnreachableCode true with injected lib",
+			directives: map[string]string{
+				"allowUnreachableCode": "true",
+			},
+			wantFlags: []string{"--allow-unreachable-code", "--lib", "es2025,dom"},
+		},
+		{
+			name: "allowUnreachableCode false with injected lib",
+			directives: map[string]string{
+				"allowUnreachableCode": "false",
+			},
+			wantFlags: []string{"--no-allow-unreachable-code", "--lib", "es2025,dom"},
+		},
+		{
 			name: "skip unrecognized directive",
 
 			directives: map[string]string{

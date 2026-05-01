@@ -87,7 +87,8 @@ func TestPrintUsage(t *testing.T) {
 				strings.Contains(line, "--no-lib") ||
 				strings.Contains(line, "--no-emit-helpers") ||
 				strings.Contains(line, "--no-implicit-returns") ||
-				strings.Contains(line, "--no-property-access-from-index-signature") {
+				strings.Contains(line, "--no-property-access-from-index-signature") ||
+				strings.Contains(line, "--allow-unreachable-code") {
 				continue
 			}
 			if strings.Contains(line, "--no-") {

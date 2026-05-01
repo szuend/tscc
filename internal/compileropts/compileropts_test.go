@@ -234,6 +234,31 @@ func TestFromConfigNoPropertyAccessFromIndexSignature(t *testing.T) {
 	}
 }
 
+func TestFromConfigAllowUnreachableCode(t *testing.T) {
+	tests := []struct {
+		isSet bool
+		val   bool
+		want  tsccbridge.Tristate
+	}{
+		{false, false, tsccbridge.TSUnknown},
+		{true, true, tsccbridge.TSTrue},
+		{true, false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{
+			Target:                  "es2022",
+			AllowUnreachableCodeSet: tc.isSet,
+			AllowUnreachableCode:    tc.val,
+		})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.AllowUnreachableCode != tc.want {
+			t.Errorf("AllowUnreachableCode(isSet=%v, val=%v) = %v, want %v", tc.isSet, tc.val, got.AllowUnreachableCode, tc.want)
+		}
+	}
+}
+
 func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	got, err := FromConfig(&config.Config{Target: "es2022"})
 	if err != nil {
