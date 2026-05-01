@@ -16,9 +16,11 @@ package config
 
 import (
 	"path/filepath"
-	"slices"
 	"strings"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 func TestParse(t *testing.T) {
@@ -674,76 +676,25 @@ func TestParse(t *testing.T) {
 				t.Fatalf("unexpected error: %v", err)
 			}
 
-			if got.Strict != tt.wantConfig.Strict {
-				t.Errorf("Strict: got %v, want %v", got.Strict, tt.wantConfig.Strict)
+			wantConfig := tt.wantConfig
+			if wantConfig.InputPath != "" {
+				wantConfig.InputPath, _ = filepath.Abs(wantConfig.InputPath)
 			}
-			if got.NoImplicitAny != tt.wantConfig.NoImplicitAny {
-				t.Errorf("NoImplicitAny: got %v, want %v", got.NoImplicitAny, tt.wantConfig.NoImplicitAny)
+			if wantConfig.OutJSPath != "" {
+				wantConfig.OutJSPath, _ = filepath.Abs(wantConfig.OutJSPath)
 			}
-			if got.StrictNullChecks != tt.wantConfig.StrictNullChecks {
-				t.Errorf("StrictNullChecks: got %v, want %v", got.StrictNullChecks, tt.wantConfig.StrictNullChecks)
+			if wantConfig.OutDepsPath != "" {
+				wantConfig.OutDepsPath, _ = filepath.Abs(wantConfig.OutDepsPath)
 			}
-			if got.NoImplicitReturns != tt.wantConfig.NoImplicitReturns {
-				t.Errorf("NoImplicitReturns: got %v, want %v", got.NoImplicitReturns, tt.wantConfig.NoImplicitReturns)
+			if wantConfig.OutDtsPath != "" {
+				wantConfig.OutDtsPath, _ = filepath.Abs(wantConfig.OutDtsPath)
 			}
-			if got.Target != tt.wantConfig.Target {
-				t.Errorf("Target: got %q, want %q", got.Target, tt.wantConfig.Target)
-			}
-			if got.CaseSensitivePaths != tt.wantConfig.CaseSensitivePaths {
-				t.Errorf("CaseSensitivePaths: got %v, want %v", got.CaseSensitivePaths, tt.wantConfig.CaseSensitivePaths)
-			}
-			if got.SkipLibCheck != tt.wantConfig.SkipLibCheck {
-				t.Errorf("SkipLibCheck: got %v, want %v", got.SkipLibCheck, tt.wantConfig.SkipLibCheck)
-			}
-			if got.AllowJs != tt.wantConfig.AllowJs {
-				t.Errorf("AllowJs: got %v, want %v", got.AllowJs, tt.wantConfig.AllowJs)
-			}
-			if got.CheckJs != tt.wantConfig.CheckJs {
-				t.Errorf("CheckJs: got %v, want %v", got.CheckJs, tt.wantConfig.CheckJs)
-			}
-			if got.IsolatedModules != tt.wantConfig.IsolatedModules {
-				t.Errorf("IsolatedModules: got %v, want %v", got.IsolatedModules, tt.wantConfig.IsolatedModules)
-			}
-			if got.NoUncheckedSideEffectImports != tt.wantConfig.NoUncheckedSideEffectImports {
-				t.Errorf("NoUncheckedSideEffectImports: got %v, want %v", got.NoUncheckedSideEffectImports, tt.wantConfig.NoUncheckedSideEffectImports)
-			}
-			if got.NoEmitHelpers != tt.wantConfig.NoEmitHelpers {
-				t.Errorf("NoEmitHelpers: got %v, want %v", got.NoEmitHelpers, tt.wantConfig.NoEmitHelpers)
-			}
-			if !slices.Equal(got.Lib, tt.wantConfig.Lib) {
-				t.Errorf("Lib: got %v, want %v", got.Lib, tt.wantConfig.Lib)
+			if wantConfig.OutMapPath != "" {
+				wantConfig.OutMapPath, _ = filepath.Abs(wantConfig.OutMapPath)
 			}
 
-			wantInput := tt.wantConfig.InputPath
-			if wantInput != "" {
-				wantInput, _ = filepath.Abs(wantInput)
-			}
-			if got.InputPath != wantInput {
-				t.Errorf("InputPath: got %q, want %q", got.InputPath, wantInput)
-			}
-
-			wantOutput := tt.wantConfig.OutJSPath
-			if wantOutput != "" {
-				wantOutput, _ = filepath.Abs(wantOutput)
-			}
-			if got.OutJSPath != wantOutput {
-				t.Errorf("OutJSPath: got %q, want %q", got.OutJSPath, wantOutput)
-			}
-
-			wantDeps := tt.wantConfig.OutDepsPath
-			if wantDeps != "" {
-				wantDeps, _ = filepath.Abs(wantDeps)
-			}
-			if got.OutDepsPath != wantDeps {
-				t.Errorf("OutDepsPath: got %q, want %q", got.OutDepsPath, wantDeps)
-			}
-
-			wantMap := tt.wantConfig.OutMapPath
-			if wantMap != "" {
-				wantMap, _ = filepath.Abs(wantMap)
-			}
-			if got.OutMapPath != wantMap {
-				t.Errorf("OutMapPath: got %q, want %q", got.OutMapPath, wantMap)
+			if diff := cmp.Diff(wantConfig, got, cmpopts.IgnoreUnexported(Config{}), cmpopts.IgnoreFields(Config{}, "StrictFunctionTypes")); diff != "" {
+				t.Errorf("Parse() mismatch (-want +got):\n%s", diff)
 			}
 		})
 	}

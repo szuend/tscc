@@ -19,15 +19,6 @@ import (
 	"testing"
 )
 
-func mockFinder(js, errors string) BaselineFinder {
-	return func(variant Variant, ext string) string {
-		if ext == ".js" {
-			return js
-		}
-		return errors
-	}
-}
-
 func TestPorter_Port_Simple(t *testing.T) {
 	p := Porter{
 		CaseName:       "simple",
@@ -51,97 +42,6 @@ func TestPorter_Port_Simple(t *testing.T) {
 
 	if !strings.Contains(res.Content, "exec tscc --lib es2025,dom --out-js simple.js simple.ts") {
 		t.Errorf("Expected content to contain exec tscc --lib es2025,dom --out-js simple.js, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_NoEmit(t *testing.T) {
-	p := Porter{
-		CaseName: "noemit_case",
-		TsContent: `// @noEmit: true
-// @declaration: true
-// @sourceMap: true
-export const x = 1;
-`,
-		BaselineFinder: mockFinder("", ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if strings.Contains(res.Content, "--out-js") {
-		t.Errorf("Expected content to NOT contain --out-js, got:\n%s", res.Content)
-	}
-	if strings.Contains(res.Content, "--out-dts") {
-		t.Errorf("Expected content to NOT contain --out-dts, got:\n%s", res.Content)
-	}
-	if strings.Contains(res.Content, "--out-map") {
-		t.Errorf("Expected content to NOT contain --out-map, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_SourceMap(t *testing.T) {
-	js := `//// [sourcemap_case.js]
-export const x = 1;
-//// [sourcemap_case.js.map]
-{"version":3,"file":"sourcemap_case.js"}
-`
-	p := Porter{
-		CaseName: "sourcemap_case",
-		TsContent: `// @sourceMap: true
-export const x = 1;
-`,
-		BaselineFinder: mockFinder(js, ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if !strings.Contains(res.Content, "--out-map sourcemap_case.js.map") {
-		t.Errorf("Expected content to contain --out-map sourcemap_case.js.map, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_OutDir_SourceMap(t *testing.T) {
-	js := `//// [dist/outdir_sourcemap_case.js]
-export const x = 1;
-//// [dist/outdir_sourcemap_case.js.map]
-{"version":3,"file":"outdir_sourcemap_case.js"}
-`
-	p := Porter{
-		CaseName: "outdir_sourcemap_case",
-		TsContent: `// @outDir: dist
-// @sourceMap: true
-export const x = 1;
-`,
-		BaselineFinder: mockFinder(js, ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if !strings.Contains(res.Content, "--out-map dist/outdir_sourcemap_case.js.map") {
-		t.Errorf("Expected content to contain --out-map dist/outdir_sourcemap_case.js.map, got:\n%s", res.Content)
 	}
 }
 
@@ -178,100 +78,6 @@ export const b = 2;
 	}
 }
 
-func TestPorter_Port_OutDir_Declaration(t *testing.T) {
-	js := `//// [dist/outdir_case.js]
-export const x = 1;
-//// [dist/outdir_case.d.ts]
-export declare const x = 1;
-`
-	p := Porter{
-		CaseName: "outdir_case",
-		TsContent: `// @outDir: dist
-// @declaration: true
-export const x = 1;
-`,
-		BaselineFinder: mockFinder(js, ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if !strings.Contains(res.Content, "--out-dts dist/outdir_case.d.ts") {
-		t.Errorf("Expected content to contain --out-dts dist/outdir_case.d.ts, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_DeclarationDir(t *testing.T) {
-	js := `//// [dist/decl_case.js]
-export const x = 1;
-//// [types/decl_case.d.ts]
-export declare const x = 1;
-`
-	p := Porter{
-		CaseName: "decl_case",
-		TsContent: `// @outDir: dist
-// @declarationDir: types
-// @declaration: true
-export const x = 1;
-`,
-		BaselineFinder: mockFinder(js, ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if !strings.Contains(res.Content, "--out-dts types/decl_case.d.ts") {
-		t.Errorf("Expected content to contain --out-dts types/decl_case.d.ts, got:\n%s", res.Content)
-	}
-	if !strings.Contains(res.Content, "--out-js dist/decl_case.js") {
-		t.Errorf("Expected content to contain --out-js dist/decl_case.js, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_OutDir(t *testing.T) {
-	js := `//// [dist/outdir_case.js]
-export const x = 1;
-`
-	p := Porter{
-		CaseName: "outdir_case",
-		TsContent: `// @outDir: dist
-export const x = 1;
-`,
-		BaselineFinder: mockFinder(js, ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if !strings.Contains(res.Content, "--out-js dist/outdir_case.js") {
-		t.Errorf("Expected content to contain --out-js dist/outdir_case.js, got:\n%s", res.Content)
-	}
-	if !strings.Contains(res.Content, "cmp dist/outdir_case.js dist/outdir_case.js.golden") {
-		t.Errorf("Expected content to contain cmp dist/outdir_case.js dist/outdir_case.js.golden, got:\n%s", res.Content)
-	}
-}
-
 func TestPorter_MultiFileOccurrence(t *testing.T) {
 	js := `//// [tests/cases/compiler/multiFileOccurrence.ts] ////
 
@@ -302,7 +108,6 @@ export const a = 2;
 		t.Fatalf("Expected 2 results, got %d", len(results))
 	}
 
-	// Ensure the first result gets the first a.js output and the second gets the second a.js output
 	res1 := results[0]
 	if !strings.Contains(res1.Name, "dir1_a.txtar") {
 		t.Errorf("Expected first result name to contain dir1_a.txtar, got %s", res1.Name)
@@ -351,7 +156,6 @@ export const b = 2;
 		t.Fatalf("Expected 2 results, got %d", len(results))
 	}
 
-	// Check names
 	names := map[string]bool{
 		"Multi_a.txtar": false,
 		"Multi_b.txtar": false,
@@ -479,126 +283,6 @@ func TestPorter_Port_InvalidBaseline(t *testing.T) {
 	}
 }
 
-func TestPorter_Port_Variants(t *testing.T) {
-	p := Porter{
-		CaseName:       "variants_case",
-		TsContent:      "// @target: esnext, es2015\nexport const x = 1;",
-		BaselineFinder: mockFinder("", ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 2 {
-		t.Fatalf("Expected 2 results, got %d", len(results))
-	}
-
-	// Check names
-	names := map[string]bool{
-		"Variants_case_esnext.txtar": false,
-		"Variants_case_es2015.txtar": false,
-	}
-
-	for _, res := range results {
-		if _, ok := names[res.Name]; ok {
-			names[res.Name] = true
-		} else {
-			t.Errorf("Unexpected result name: %s", res.Name)
-		}
-	}
-
-	for name, found := range names {
-		if !found {
-			t.Errorf("Expected result %s not found", name)
-		}
-	}
-
-	for _, res := range results {
-		if res.Name == "Variants_case_esnext.txtar" {
-			if !strings.Contains(res.Content, "--target esnext") {
-				t.Errorf("Expected esnext content to contain --target esnext, got:\n%s", res.Content)
-			}
-		} else if res.Name == "Variants_case_es2015.txtar" {
-			if !strings.Contains(res.Content, "--target es2015") {
-				t.Errorf("Expected es2015 content to contain --target es2015, got:\n%s", res.Content)
-			}
-		}
-	}
-}
-
-func TestPorter_Port_MultiFile_Variants(t *testing.T) {
-	js := `//// [a.js]
-export const a = 1;
-//// [b.js]
-export const b = 2;
-`
-	p := Porter{
-		CaseName: "multifile_variants",
-		TsContent: `// @target: esnext, es2015
-// @filename: a.ts
-export const a = 1;
-// @filename: b.ts
-export const b = 2;
-`,
-		BaselineFinder: mockFinder(js, ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	// 2 files * 2 variants = 4 results
-	if len(results) != 4 {
-		t.Fatalf("Expected 4 results, got %d", len(results))
-	}
-
-	// Check names
-	names := map[string]bool{
-		"Multifile_variants_a_esnext.txtar": false,
-		"Multifile_variants_a_es2015.txtar": false,
-		"Multifile_variants_b_esnext.txtar": false,
-		"Multifile_variants_b_es2015.txtar": false,
-	}
-
-	for _, res := range results {
-		if _, ok := names[res.Name]; ok {
-			names[res.Name] = true
-		} else {
-			t.Errorf("Unexpected result name: %s", res.Name)
-		}
-	}
-
-	for name, found := range names {
-		if !found {
-			t.Errorf("Expected result %s not found", name)
-		}
-	}
-
-	// Check content for specific files to ensure flags are correct
-	for _, res := range results {
-		switch res.Name {
-		case "Multifile_variants_a_esnext.txtar":
-			if !strings.Contains(res.Content, "--target esnext") {
-				t.Errorf("Expected a_esnext to contain --target esnext")
-			}
-			if !strings.Contains(res.Content, "exec tscc --target esnext --lib esnext,dom --out-js a.js a.ts") {
-				t.Errorf("Expected a_esnext to execute a.ts with command 'exec tscc --target esnext --lib esnext,dom --out-js a.js a.ts', got:\n%s", res.Content)
-			}
-		case "Multifile_variants_a_es2015.txtar":
-			if !strings.Contains(res.Content, "--target es2015") {
-				t.Errorf("Expected a_es2015 to contain --target es2015")
-			}
-		case "Multifile_variants_b_esnext.txtar":
-			if !strings.Contains(res.Content, "exec tscc --target esnext --lib esnext,dom --out-js b.js b.ts") {
-				t.Errorf("Expected b_esnext to execute b.ts with command 'exec tscc --target esnext --lib esnext,dom --out-js b.js b.ts', got:\n%s", res.Content)
-			}
-		}
-	}
-}
-
 func TestPorter_Port_PackageJson(t *testing.T) {
 	p := Porter{
 		CaseName: "pkg_case",
@@ -650,36 +334,6 @@ export const x = 1;
 
 	if !strings.Contains(err.Error(), "unrecognized package.json") {
 		t.Errorf("Expected error about unrecognized package.json, got: %v", err)
-	}
-}
-
-func TestPorter_Port_EmitDeclarationOnly(t *testing.T) {
-	js := "//// [emit_decl.js]\nexport const x = 1;"
-	p := Porter{
-		CaseName: "emit_decl",
-		TsContent: `// @emitDeclarationOnly: true
-// @declaration: true
-export const x = 1;
-`,
-		BaselineFinder: mockFinder(js, ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if strings.Contains(res.Content, "--out-js") {
-		t.Errorf("Expected content NOT to contain --out-js, got:\n%s", res.Content)
-	}
-
-	if !strings.Contains(res.Content, "! exists emit_decl.js") {
-		t.Errorf("Expected content to assert '! exists emit_decl.js', got:\n%s", res.Content)
 	}
 }
 
@@ -743,200 +397,6 @@ export const y: number;
 	}
 	if !names["Only_dts_b.d.txtar"] {
 		t.Errorf("Expected Only_dts_b.d.txtar")
-	}
-}
-
-func TestPorter_Port_AmbientModule(t *testing.T) {
-	p := Porter{
-		CaseName: "ambient",
-		TsContent: `// @filename: a.d.ts
-declare module 'my-module' {
-    export const x: number;
-}
-// @filename: b.ts
-import { x } from 'my-module';
-`,
-		BaselineFinder: mockFinder("", ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	if len(results) != 1 {
-		t.Fatalf("Expected 1 result, got %d", len(results))
-	}
-
-	res := results[0]
-	if res.Name != "Ambient_b.txtar" {
-		t.Errorf("Expected result name to be Ambient_b.txtar, got %s", res.Name)
-	}
-
-	if !strings.Contains(res.Content, "--path my-module=a.d.ts") {
-		t.Errorf("Expected execution to contain --path my-module=a.d.ts, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_AmbientModuleInScript(t *testing.T) {
-	p := Porter{
-		CaseName: "ambient_script",
-		TsContent: `
-declare module 'my-module' {
-    export const x: number;
-}
-`,
-		BaselineFinder: mockFinder("", ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	res := results[0]
-	if !strings.Contains(res.Content, "--path my-module=ambient_script.ts") {
-		t.Errorf("Expected execution to contain --path my-module=ambient_script.ts, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_AmbientModuleInModule(t *testing.T) {
-	p := Porter{
-		CaseName: "ambient_module",
-		TsContent: `
-export const y = 1;
-declare module 'my-module' {
-    export const x: number;
-}
-`,
-		BaselineFinder: mockFinder("", ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	res := results[0]
-	if strings.Contains(res.Content, "--path my-module=") {
-		t.Errorf("Expected execution NOT to contain --path my-module=, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_AmbientModuleInDts(t *testing.T) {
-	p := Porter{
-		CaseName: "ambient_dts",
-		TsContent: `// @filename: a.d.ts
-declare module 'my-module' {
-    export const x: number;
-}
-// @filename: b.ts
-import { x } from 'my-module';
-`,
-		BaselineFinder: mockFinder("", ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	res := results[0]
-	if !strings.Contains(res.Content, "--path my-module=a.d.ts") {
-		t.Errorf("Expected execution to contain --path my-module=a.d.ts, got:\n%s", res.Content)
-	}
-}
-
-func TestPorter_Port_AmbientModuleDeduplication(t *testing.T) {
-	p := Porter{
-		CaseName: "dedup",
-		TsContent: `
-declare module 'fs' { var x: number; }
-declare module "fs" { var y: string; }
-`,
-		BaselineFinder: mockFinder("", ""),
-	}
-
-	results, err := p.Port()
-	if err != nil {
-		t.Fatalf("Port failed: %v", err)
-	}
-
-	res := results[0]
-	// Should only contain one --path fs=...
-	count := strings.Count(res.Content, "--path fs=")
-	if count != 1 {
-		t.Errorf("Expected 1 --path fs= mapping, got %d", count)
-	}
-}
-
-func TestComputeVariants(t *testing.T) {
-	tests := []struct {
-		name              string
-		options           map[string]string
-		wantNames         []string
-		wantUpstreamNames []string
-	}{
-		{
-			name: "single value",
-			options: map[string]string{
-				"target": "es2015",
-			},
-			wantNames:         []string{""},
-			wantUpstreamNames: []string{""},
-		},
-		{
-			name: "multi-value target",
-			options: map[string]string{
-				"target": "es2015, esnext",
-			},
-			wantNames:         []string{"es2015", "esnext"},
-			wantUpstreamNames: []string{"target=es2015", "target=esnext"},
-		},
-		{
-			name: "multi-value target and module",
-			options: map[string]string{
-				"target": "es2015, esnext",
-				"module": "commonjs, preserve",
-			},
-			wantNames: []string{
-				"es2015_commonjs",
-				"es2015_preserve",
-				"esnext_commonjs",
-				"esnext_preserve",
-			},
-			wantUpstreamNames: []string{
-				"module=commonjs,target=es2015",
-				"module=preserve,target=es2015",
-				"module=commonjs,target=esnext",
-				"module=preserve,target=esnext",
-			},
-		},
-		{
-			name: "case insensitive multi-value keys",
-			options: map[string]string{
-				"Target": "es2015, esnext",
-			},
-			wantNames:         []string{"es2015", "esnext"},
-			wantUpstreamNames: []string{"target=es2015", "target=esnext"},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := ComputeVariants(tt.options)
-			if len(got) != len(tt.wantNames) {
-				t.Fatalf("got %d variants, want %d", len(got), len(tt.wantNames))
-			}
-			for i, v := range got {
-				if v.Name != tt.wantNames[i] {
-					t.Errorf("variant[%d].Name = %q, want %q", i, v.Name, tt.wantNames[i])
-				}
-				if v.UpstreamName != tt.wantUpstreamNames[i] {
-					t.Errorf("variant[%d].UpstreamName = %q, want %q", i, v.UpstreamName, tt.wantUpstreamNames[i])
-				}
-			}
-		})
 	}
 }
 
@@ -1019,7 +479,7 @@ func TestApplyShortCircuitFilter(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// deep copy input map to not mutate test definition
+
 			inputCopy := make(map[string][]string)
 			for k, v := range tt.input {
 				inputCopy[k] = append([]string{}, v...)

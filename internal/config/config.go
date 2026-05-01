@@ -313,8 +313,8 @@ func (l *libValue) Set(val string) error {
 		l.cfg.Lib = nil
 		l.changed = true
 	}
-	parts := strings.Split(val, ",")
-	for _, p := range parts {
+	parts := strings.SplitSeq(val, ",")
+	for p := range parts {
 		l.cfg.Lib = append(l.cfg.Lib, strings.TrimSpace(p))
 	}
 	return nil

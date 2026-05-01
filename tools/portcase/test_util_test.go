@@ -29,3 +29,12 @@ func skipIfUpstreamMissing(t *testing.T) {
 		t.Skipf("skipping test: upstream TypeScript submodule missing at %s", path)
 	}
 }
+
+func mockFinder(js, errors string) BaselineFinder {
+	return func(variant Variant, ext string) string {
+		if ext == ".js" {
+			return js
+		}
+		return errors
+	}
+}
