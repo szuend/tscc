@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/commentInEmptyParameterList1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js commentInEmptyParameterList1.js commentInEmptyParameterList1.ts
+! stderr .
+cmp commentInEmptyParameterList1.js commentInEmptyParameterList1.js.golden
+! exists commentInEmptyParameterList1.d.ts
+! exists commentInEmptyParameterList1.js.map
+
+-- commentInEmptyParameterList1.ts --
+function foo(/** nothing */) {
+}
+-- commentInEmptyParameterList1.js.golden --
+"use strict";
+function foo( /** nothing */) {
+}

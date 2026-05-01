@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/objectLiteralWithSemicolons2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --target es2015 --lib es2015,dom --out-js objectLiteralWithSemicolons2.js objectLiteralWithSemicolons2.ts
+stderr 'TS18004'
+stderr 'TS1005'
+! exists objectLiteralWithSemicolons2.js
+! exists objectLiteralWithSemicolons2.d.ts
+! exists objectLiteralWithSemicolons2.js.map
+
+-- objectLiteralWithSemicolons2.ts --
+var v = {
+  a;
+  b;
+  c
+}

@@ -1,0 +1,11 @@
+# Ported from tests/cases/compiler/objectLiteralWithSemicolons1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --target es2015 --lib es2015,dom --out-js objectLiteralWithSemicolons1.js objectLiteralWithSemicolons1.ts
+stderr 'TS18004'
+stderr 'TS1005'
+! exists objectLiteralWithSemicolons1.js
+! exists objectLiteralWithSemicolons1.d.ts
+! exists objectLiteralWithSemicolons1.js.map
+
+-- objectLiteralWithSemicolons1.ts --
+var v = { a; b; c }

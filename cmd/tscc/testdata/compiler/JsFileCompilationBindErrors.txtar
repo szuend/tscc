@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/jsFileCompilationBindErrors.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --allow-js --no-allow-unreachable-code --check-js --target es2015 --lib es2015,dom a.js
+stderr 'TS2451'
+stderr 'TS7027'
+stderr 'TS1100'
+! exists a.d.ts
+! exists a.js.map
+
+-- a.js --
+let C = "sss";
+let C = 0;  // Error: Cannot redeclare block-scoped variable 'C'.
+
+function f() {
+    return;
+    return;  // Error: Unreachable code detected.
+}
+
+function b() {
+    "use strict";
+    var arguments = 0;  // Error: Invalid use of 'arguments' in strict mode.
+}

@@ -1,0 +1,16 @@
+# Ported from tests/cases/compiler/parenthesizedSatisfiesExpressionWithComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js parenthesizedSatisfiesExpressionWithComments.js parenthesizedSatisfiesExpressionWithComments.ts
+! stderr .
+cmp parenthesizedSatisfiesExpressionWithComments.js parenthesizedSatisfiesExpressionWithComments.js.golden
+! exists parenthesizedSatisfiesExpressionWithComments.d.ts
+! exists parenthesizedSatisfiesExpressionWithComments.js.map
+
+-- parenthesizedSatisfiesExpressionWithComments.ts --
+"use strict";
+const a = (/*comm*/ 10 satisfies number);
+const b = ((/*comm*/ 10 satisfies number));
+-- parenthesizedSatisfiesExpressionWithComments.js.golden --
+"use strict";
+const a = /*comm*/ 10;
+const b = /*comm*/ 10;

@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/ifElseWithStatements1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --allow-unreachable-code --target es2015 --lib es2015,dom --out-js ifElseWithStatements1.js ifElseWithStatements1.ts
+stderr 'TS2304'
+! exists ifElseWithStatements1.js
+! exists ifElseWithStatements1.d.ts
+! exists ifElseWithStatements1.js.map
+
+-- ifElseWithStatements1.ts --
+if (true)
+    f();
+else
+    f();
+
+function foo(): boolean {
+    if (true)
+        return true;
+    else
+        return false;
+}

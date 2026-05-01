@@ -1,0 +1,29 @@
+# Ported from tests/cases/compiler/null.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --allow-unreachable-code --no-strict --target es2015 --lib es2015,dom --out-js null.js null.ts
+stderr 'TS2365'
+! exists null.js
+! exists null.d.ts
+! exists null.js.map
+
+-- null.ts --
+var x=null; 
+var y=3+x;  
+var z=3+null; 
+class C {
+}
+function f() {
+    return null;
+    return new C();
+}
+function g() {
+    return null;
+    return 3;
+}
+interface I {
+    x:any;
+    y:number;
+}
+var w:I={x:null,y:3};
+
+

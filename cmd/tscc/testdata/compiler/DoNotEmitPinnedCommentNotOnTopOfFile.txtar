@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/doNotEmitPinnedCommentNotOnTopOfFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js doNotEmitPinnedCommentNotOnTopOfFile.js doNotEmitPinnedCommentNotOnTopOfFile.ts
+! stderr .
+cmp doNotEmitPinnedCommentNotOnTopOfFile.js doNotEmitPinnedCommentNotOnTopOfFile.js.golden
+! exists doNotEmitPinnedCommentNotOnTopOfFile.d.ts
+! exists doNotEmitPinnedCommentNotOnTopOfFile.js.map
+
+-- doNotEmitPinnedCommentNotOnTopOfFile.ts --
+var x = 10;
+
+/*!
+
+    multi line
+    comment
+*/
+
+var x = 10;
+-- doNotEmitPinnedCommentNotOnTopOfFile.js.golden --
+"use strict";
+var x = 10;
+var x = 10;

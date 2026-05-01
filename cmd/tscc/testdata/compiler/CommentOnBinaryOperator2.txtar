@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/commentOnBinaryOperator2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js commentOnBinaryOperator2.js commentOnBinaryOperator2.ts
+! stderr .
+cmp commentOnBinaryOperator2.js commentOnBinaryOperator2.js.golden
+! exists commentOnBinaryOperator2.d.ts
+! exists commentOnBinaryOperator2.js.map
+
+-- commentOnBinaryOperator2.ts --
+var a = 'some'
+    // comment
+    + 'text';
+
+var b = 'some'
+    /* comment */
+    + 'text';
+
+var c = 'some'
+    /* comment */
+    + /*comment1*/
+    'text';
+-- commentOnBinaryOperator2.js.golden --
+"use strict";
+var a = 'some'
+    + 'text';
+var b = 'some'
+    + 'text';
+var c = 'some'
+    +
+        'text';

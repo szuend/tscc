@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/classIndexer5.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --target esnext --no-use-define-for-class-fields --lib esnext,dom --out-js classIndexer5.js classIndexer5.ts
+stderr 'TS2564'
+! exists classIndexer5.js
+! exists classIndexer5.d.ts
+! exists classIndexer5.js.map
+
+-- classIndexer5.ts --
+class Foo {
+    [key: string]: number;
+
+    #a: boolean;
+    #b = false;
+}

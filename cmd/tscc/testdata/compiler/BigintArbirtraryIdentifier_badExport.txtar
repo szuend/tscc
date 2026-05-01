@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/bigintArbirtraryIdentifier.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --module esnext --target esnext --lib esnext,dom --out-js badExport.js badExport.ts
+stderr 'TS2304'
+stderr 'TS1003'
+stderr 'TS1128'
+! exists badExport.js
+! exists badExport.d.ts
+! exists badExport.js.map
+
+-- badExport.ts --
+export { foo as 0n };
+-- badExport2.ts --
+export { 0n as foo };
+-- badImport.ts --
+import { 0n as foo } from "./foo";
+-- badImport2.ts --
+import { foo as 0n } from "./foo";
+-- correctUse.ts --
+import { "0n" as foo } from "./foo";
+export { foo as "0n" };
+-- foo.ts --
+const foo = 0n;
+export { foo as "0n" };

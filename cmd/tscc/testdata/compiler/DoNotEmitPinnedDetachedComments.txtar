@@ -1,0 +1,49 @@
+# Ported from tests/cases/compiler/doNotEmitPinnedDetachedComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js doNotEmitPinnedDetachedComments.js doNotEmitPinnedDetachedComments.ts
+! stderr .
+cmp doNotEmitPinnedDetachedComments.js doNotEmitPinnedDetachedComments.js.golden
+! exists doNotEmitPinnedDetachedComments.d.ts
+! exists doNotEmitPinnedDetachedComments.js.map
+
+-- doNotEmitPinnedDetachedComments.ts --
+var x = 10;
+
+/*! Single Line comment */
+
+function baz() { }
+
+
+/*!
+    multi-line comment
+
+*/
+
+
+//========================
+
+
+function bar() {
+    /*!
+        Remove this comment
+    */
+
+}
+
+function foo() {
+    /*! Remove this */
+
+    return 0;
+}
+
+
+//========================
+-- doNotEmitPinnedDetachedComments.js.golden --
+"use strict";
+var x = 10;
+function baz() { }
+function bar() {
+}
+function foo() {
+    return 0;
+}

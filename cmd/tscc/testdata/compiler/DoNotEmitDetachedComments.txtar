@@ -1,0 +1,40 @@
+# Ported from tests/cases/compiler/doNotEmitDetachedComments.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js doNotEmitDetachedComments.js doNotEmitDetachedComments.ts
+! stderr .
+cmp doNotEmitDetachedComments.js doNotEmitDetachedComments.js.golden
+! exists doNotEmitDetachedComments.d.ts
+! exists doNotEmitDetachedComments.js.map
+
+-- doNotEmitDetachedComments.ts --
+/*
+
+    multi line
+    comment
+*/
+
+var x = 10;
+
+// Single Line comment
+
+function foo() { }
+
+
+/*
+    multi-line comment
+
+*/
+
+
+//========================
+
+
+function bar() { }
+
+
+//========================
+-- doNotEmitDetachedComments.js.golden --
+"use strict";
+var x = 10;
+function foo() { }
+function bar() { }

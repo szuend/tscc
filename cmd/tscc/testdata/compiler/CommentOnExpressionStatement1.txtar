@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/commentOnExpressionStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js commentOnExpressionStatement1.js commentOnExpressionStatement1.ts
+! stderr .
+cmp commentOnExpressionStatement1.js commentOnExpressionStatement1.js.golden
+! exists commentOnExpressionStatement1.d.ts
+! exists commentOnExpressionStatement1.js.map
+
+-- commentOnExpressionStatement1.ts --
+1 + 1; // Comment.
+-- commentOnExpressionStatement1.js.golden --
+"use strict";
+1 + 1; // Comment.

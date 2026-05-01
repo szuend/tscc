@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/noEmitHelpers.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-emit-helpers --target es2015 --lib es2015,dom --out-js noEmitHelpers.js noEmitHelpers.ts
+! stderr .
+cmp noEmitHelpers.js noEmitHelpers.js.golden
+! exists noEmitHelpers.d.ts
+! exists noEmitHelpers.js.map
+
+-- noEmitHelpers.ts --
+class A { }
+class B extends A { }
+-- noEmitHelpers.js.golden --
+"use strict";
+class A {
+}
+class B extends A {
+}

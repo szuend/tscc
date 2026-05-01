@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/doNotEmitTripleSlashCommentsOnNotEmittedNode.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js file0.js file0.ts
+! stderr .
+cmp file0.js file0.js.golden
+! exists file0.d.ts
+! exists file0.js.map
+
+-- file0.ts --
+/// <reference path="file1.ts" />
+declare var OData: any;
+-- file1.ts --
+/// <reference path="file0.ts" />
+interface F { }
+
+-- file0.js.golden --
+"use strict";

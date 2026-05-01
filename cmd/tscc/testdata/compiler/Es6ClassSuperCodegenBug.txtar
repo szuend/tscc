@@ -1,0 +1,36 @@
+# Ported from tests/cases/compiler/es6ClassSuperCodegenBug.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --allow-unreachable-code --target es2015 --lib es2015,dom --out-js es6ClassSuperCodegenBug.js es6ClassSuperCodegenBug.ts
+! stderr .
+cmp es6ClassSuperCodegenBug.js es6ClassSuperCodegenBug.js.golden
+! exists es6ClassSuperCodegenBug.d.ts
+! exists es6ClassSuperCodegenBug.js.map
+
+-- es6ClassSuperCodegenBug.ts --
+class A {
+	constructor(str1:string, str2:string) {}
+}
+class B extends A {
+    constructor() {
+	    if (true) {
+	        super('a1', 'b1');
+	    } else {
+	        super('a2', 'b2');
+	    }
+    }
+}
+-- es6ClassSuperCodegenBug.js.golden --
+"use strict";
+class A {
+    constructor(str1, str2) { }
+}
+class B extends A {
+    constructor() {
+        if (true) {
+            super('a1', 'b1');
+        }
+        else {
+            super('a2', 'b2');
+        }
+    }
+}

@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/emitPinnedCommentsOnTopOfFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js emitPinnedCommentsOnTopOfFile.js emitPinnedCommentsOnTopOfFile.ts
+! stderr .
+cmp emitPinnedCommentsOnTopOfFile.js emitPinnedCommentsOnTopOfFile.js.golden
+! exists emitPinnedCommentsOnTopOfFile.d.ts
+! exists emitPinnedCommentsOnTopOfFile.js.map
+
+-- emitPinnedCommentsOnTopOfFile.ts --
+/*!
+
+    multi line
+    comment
+*/
+
+var x = 10;
+-- emitPinnedCommentsOnTopOfFile.js.golden --
+"use strict";
+/*!
+
+    multi line
+    comment
+*/
+var x = 10;

@@ -1,0 +1,28 @@
+# Ported from tests/cases/compiler/commentsOnReturnStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js commentsOnReturnStatement1.js commentsOnReturnStatement1.ts
+! stderr .
+cmp commentsOnReturnStatement1.js commentsOnReturnStatement1.js.golden
+! exists commentsOnReturnStatement1.d.ts
+! exists commentsOnReturnStatement1.js.map
+
+-- commentsOnReturnStatement1.ts --
+class DebugClass {
+    public static debugFunc() {
+        // Start Debugger Test Code
+        var i = 0;
+
+        // End Debugger Test Code
+        return true;
+    }
+}
+-- commentsOnReturnStatement1.js.golden --
+"use strict";
+class DebugClass {
+    static debugFunc() {
+        // Start Debugger Test Code
+        var i = 0;
+        // End Debugger Test Code
+        return true;
+    }
+}

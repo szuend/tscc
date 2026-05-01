@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/es6ImportNamedImportParsingError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --target es6 --lib es6,dom --out-js es6ImportNamedImportParsingError_1.js es6ImportNamedImportParsingError_1.ts
+stderr 'TS1003'
+stderr 'TS1141'
+stderr 'TS1109'
+stderr 'TS1434'
+stderr 'TS2304'
+stderr 'TS1192'
+stderr 'TS1005'
+stderr 'TS1128'
+! exists es6ImportNamedImportParsingError_1.js
+! exists es6ImportNamedImportParsingError_1.d.ts
+! exists es6ImportNamedImportParsingError_1.js.map
+
+-- es6ImportNamedImportParsingError_0.ts --
+export var a = 10;
+export var x = a;
+export var m = a;
+-- es6ImportNamedImportParsingError_1.ts --
+import { * } from "./es6ImportNamedImportParsingError_0";
+import defaultBinding, from "./es6ImportNamedImportParsingError_0";
+import , { a } from "./es6ImportNamedImportParsingError_0";
+import { a }, from "./es6ImportNamedImportParsingError_0";

@@ -1,0 +1,15 @@
+# Ported from tests/cases/compiler/noCrashOnNoLib.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --no-lib --target es2015 --out-js noCrashOnNoLib.js noCrashOnNoLib.ts
+stderr 'TS2318'
+! exists noCrashOnNoLib.js
+! exists noCrashOnNoLib.d.ts
+! exists noCrashOnNoLib.js.map
+
+-- noCrashOnNoLib.ts --
+export function f() {
+    let e: {}[] = [];
+    while (true) {
+      e = [...(e || [])];
+    }
+}

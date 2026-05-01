@@ -1,0 +1,68 @@
+# Ported from tests/cases/compiler/doNotEmitDetachedCommentsAtStartOfConstructor.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js doNotEmitDetachedCommentsAtStartOfConstructor.js doNotEmitDetachedCommentsAtStartOfConstructor.ts
+! stderr .
+cmp doNotEmitDetachedCommentsAtStartOfConstructor.js doNotEmitDetachedCommentsAtStartOfConstructor.js.golden
+! exists doNotEmitDetachedCommentsAtStartOfConstructor.d.ts
+! exists doNotEmitDetachedCommentsAtStartOfConstructor.js.map
+
+-- doNotEmitDetachedCommentsAtStartOfConstructor.ts --
+class A {
+    constructor() {
+        // Single Line Comment
+
+        var x = 10;
+    }
+}
+
+class B {
+    constructor() {
+        /* 
+            Multi-line comment
+        */
+
+        var y = 10;
+    }
+}
+
+class C {
+    constructor() {
+        // Single Line Comment with more than one blank line
+
+
+        var x = 10;
+    }
+}
+
+class D {
+    constructor() {
+        /* 
+            Multi-line comment with more than one blank line
+        */
+
+
+        var y = 10;
+    }
+}
+-- doNotEmitDetachedCommentsAtStartOfConstructor.js.golden --
+"use strict";
+class A {
+    constructor() {
+        var x = 10;
+    }
+}
+class B {
+    constructor() {
+        var y = 10;
+    }
+}
+class C {
+    constructor() {
+        var x = 10;
+    }
+}
+class D {
+    constructor() {
+        var y = 10;
+    }
+}

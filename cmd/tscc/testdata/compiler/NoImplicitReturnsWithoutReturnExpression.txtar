@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/noImplicitReturnsWithoutReturnExpression.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --no-implicit-returns --no-strict --target es2015 --lib es2015,dom --out-js noImplicitReturnsWithoutReturnExpression.js noImplicitReturnsWithoutReturnExpression.ts
+stderr 'TS7030'
+! exists noImplicitReturnsWithoutReturnExpression.js
+! exists noImplicitReturnsWithoutReturnExpression.d.ts
+! exists noImplicitReturnsWithoutReturnExpression.js.map
+
+-- noImplicitReturnsWithoutReturnExpression.ts --
+function isMissingReturnExpression(): number {
+    return;
+}
+
+function isMissingReturnExpression2(): any {
+    return;
+}
+
+function isMissingReturnExpression3(): number|void {
+    return;
+}
+
+function isMissingReturnExpression4(): void {
+    return;
+}
+
+function isMissingReturnExpression5(x) {
+    if (x) {
+        return 0;
+    }
+    else {
+        return;
+    }
+}

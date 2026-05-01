@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/definiteAssignmentWithErrorStillStripped.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --no-strict --target esnext --use-define-for-class-fields --lib esnext,dom --out-js definiteAssignmentWithErrorStillStripped.js definiteAssignmentWithErrorStillStripped.ts
+stderr 'TS1264'
+! exists definiteAssignmentWithErrorStillStripped.js
+! exists definiteAssignmentWithErrorStillStripped.d.ts
+! exists definiteAssignmentWithErrorStillStripped.js.map
+
+-- definiteAssignmentWithErrorStillStripped.ts --
+class C {
+    p!;
+}

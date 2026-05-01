@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/noImplicitReturnsWithProtectedBlocks3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --no-implicit-returns --target es2015 --lib es2015,dom --out-js noImplicitReturnsWithProtectedBlocks3.js noImplicitReturnsWithProtectedBlocks3.ts
+stderr 'TS2366'
+! exists noImplicitReturnsWithProtectedBlocks3.js
+! exists noImplicitReturnsWithProtectedBlocks3.d.ts
+! exists noImplicitReturnsWithProtectedBlocks3.js.map
+
+-- noImplicitReturnsWithProtectedBlocks3.ts --
+declare function log(s: string): void;
+declare function get(): number;
+
+function main1() : number {
+    try {
+        return get();
+    }
+    catch(e) {
+        log("in catch");
+    }
+}

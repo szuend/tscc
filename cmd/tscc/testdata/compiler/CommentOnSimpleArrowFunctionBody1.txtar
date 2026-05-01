@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/commentOnSimpleArrowFunctionBody1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js commentOnSimpleArrowFunctionBody1.js commentOnSimpleArrowFunctionBody1.ts
+! stderr .
+cmp commentOnSimpleArrowFunctionBody1.js commentOnSimpleArrowFunctionBody1.js.golden
+! exists commentOnSimpleArrowFunctionBody1.d.ts
+! exists commentOnSimpleArrowFunctionBody1.js.map
+
+-- commentOnSimpleArrowFunctionBody1.ts --
+function Foo(x: any)
+{
+}
+ 
+Foo(() =>
+    // do something
+    127);
+-- commentOnSimpleArrowFunctionBody1.js.golden --
+"use strict";
+function Foo(x) {
+}
+Foo(() => 
+// do something
+127);

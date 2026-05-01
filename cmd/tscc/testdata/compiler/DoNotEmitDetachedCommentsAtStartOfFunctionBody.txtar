@@ -1,0 +1,55 @@
+# Ported from tests/cases/compiler/doNotEmitDetachedCommentsAtStartOfFunctionBody.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js doNotEmitDetachedCommentsAtStartOfFunctionBody.js doNotEmitDetachedCommentsAtStartOfFunctionBody.ts
+! stderr .
+cmp doNotEmitDetachedCommentsAtStartOfFunctionBody.js doNotEmitDetachedCommentsAtStartOfFunctionBody.js.golden
+! exists doNotEmitDetachedCommentsAtStartOfFunctionBody.d.ts
+! exists doNotEmitDetachedCommentsAtStartOfFunctionBody.js.map
+
+-- doNotEmitDetachedCommentsAtStartOfFunctionBody.ts --
+function foo1() {
+    // Single line comment
+
+    return 42;
+}
+
+function foo2() {
+    /*
+
+        multi line
+        comment
+    */
+
+    return 42;
+}
+
+function foo3() {
+    // Single line comment with more than one blank line
+
+
+    return 42;
+}
+
+function foo4() {
+    /*
+
+        multi line comment with more than one blank line
+    */
+
+    return 42;
+}
+
+-- doNotEmitDetachedCommentsAtStartOfFunctionBody.js.golden --
+"use strict";
+function foo1() {
+    return 42;
+}
+function foo2() {
+    return 42;
+}
+function foo3() {
+    return 42;
+}
+function foo4() {
+    return 42;
+}

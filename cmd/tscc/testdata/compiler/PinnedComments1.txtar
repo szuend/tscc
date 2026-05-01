@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/pinnedComments1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js pinnedComments1.js pinnedComments1.ts
+! stderr .
+cmp pinnedComments1.js pinnedComments1.js.golden
+! exists pinnedComments1.d.ts
+! exists pinnedComments1.js.map
+
+-- pinnedComments1.ts --
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+
+/* unpinned comment */
+/*! pinned comment that need to be removed */
+class C {
+}
+-- pinnedComments1.js.golden --
+"use strict";
+/*!=========
+    Keep this pinned comment
+   =========
+*/
+class C {
+}

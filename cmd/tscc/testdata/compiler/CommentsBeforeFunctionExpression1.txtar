@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/commentsBeforeFunctionExpression1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --no-strict --target es2015 --lib es2015,dom --out-js commentsBeforeFunctionExpression1.js commentsBeforeFunctionExpression1.ts
+! stderr .
+cmp commentsBeforeFunctionExpression1.js commentsBeforeFunctionExpression1.js.golden
+! exists commentsBeforeFunctionExpression1.d.ts
+! exists commentsBeforeFunctionExpression1.js.map
+
+-- commentsBeforeFunctionExpression1.ts --
+var v = {
+    f: /**own f*/ (a) => 0
+}
+-- commentsBeforeFunctionExpression1.js.golden --
+"use strict";
+var v = {
+    f: /**own f*/ (a) => 0
+};

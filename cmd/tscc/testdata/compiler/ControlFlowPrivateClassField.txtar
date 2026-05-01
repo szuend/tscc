@@ -1,0 +1,58 @@
+# Ported from tests/cases/compiler/controlFlowPrivateClassField.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --strict --target esnext --no-use-define-for-class-fields --lib esnext,dom --out-js controlFlowPrivateClassField.js controlFlowPrivateClassField.ts
+! stderr .
+cmp controlFlowPrivateClassField.js controlFlowPrivateClassField.js.golden
+! exists controlFlowPrivateClassField.d.ts
+! exists controlFlowPrivateClassField.js.map
+
+-- controlFlowPrivateClassField.ts --
+class Example {
+    #test;
+
+    constructor(test: number) {
+        this.#test = test;
+    }
+
+    get test() {
+        return this.#test
+    }
+}
+
+class Example2 {
+    #test;
+
+    constructor(test: number | undefined) {
+        this.#test = test;
+    }
+
+    get test() {
+        if (this.#test) {
+            return this.#test
+        }
+        return 0;
+    }
+}
+-- controlFlowPrivateClassField.js.golden --
+"use strict";
+class Example {
+    #test;
+    constructor(test) {
+        this.#test = test;
+    }
+    get test() {
+        return this.#test;
+    }
+}
+class Example2 {
+    #test;
+    constructor(test) {
+        this.#test = test;
+    }
+    get test() {
+        if (this.#test) {
+            return this.#test;
+        }
+        return 0;
+    }
+}

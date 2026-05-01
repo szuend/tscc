@@ -1,0 +1,31 @@
+# Ported from tests/cases/compiler/commentEmitOnParenthesizedAssertionInReturnStatement2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --lib esnext --no-remove-comments --strict --target esnext --out-js commentEmitOnParenthesizedAssertionInReturnStatement2.js commentEmitOnParenthesizedAssertionInReturnStatement2.ts
+! stderr .
+cmp commentEmitOnParenthesizedAssertionInReturnStatement2.js commentEmitOnParenthesizedAssertionInReturnStatement2.js.golden
+! exists commentEmitOnParenthesizedAssertionInReturnStatement2.d.ts
+! exists commentEmitOnParenthesizedAssertionInReturnStatement2.js.map
+
+-- commentEmitOnParenthesizedAssertionInReturnStatement2.ts --
+export class Foo {
+    client = {
+      getThing: () => Promise.resolve('')
+    }
+  
+    foo() {
+      return (
+        /* TODO: please refactor */ this.client
+          .getThing() satisfies Promise<string>);
+    }
+  }
+-- commentEmitOnParenthesizedAssertionInReturnStatement2.js.golden --
+export class Foo {
+    client = {
+        getThing: () => Promise.resolve('')
+    };
+    foo() {
+        return (
+        /* TODO: please refactor */ this.client
+            .getThing());
+    }
+}

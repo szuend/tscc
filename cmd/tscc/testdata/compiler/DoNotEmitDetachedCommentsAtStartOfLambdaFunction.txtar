@@ -1,0 +1,52 @@
+# Ported from tests/cases/compiler/doNotEmitDetachedCommentsAtStartOfLambdaFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --out-js doNotEmitDetachedCommentsAtStartOfLambdaFunction.js doNotEmitDetachedCommentsAtStartOfLambdaFunction.ts
+! stderr .
+cmp doNotEmitDetachedCommentsAtStartOfLambdaFunction.js doNotEmitDetachedCommentsAtStartOfLambdaFunction.js.golden
+! exists doNotEmitDetachedCommentsAtStartOfLambdaFunction.d.ts
+! exists doNotEmitDetachedCommentsAtStartOfLambdaFunction.js.map
+
+-- doNotEmitDetachedCommentsAtStartOfLambdaFunction.ts --
+() => {
+    // Single line comment
+
+    return 0;
+}
+
+() => {
+    /*
+        multi-line comment
+    */
+
+    return 0;
+}
+
+() => {
+    // Single line comment with more than one blank line
+
+
+    return 0;
+}
+
+() => {
+    /*
+        multi-line comment with more than one blank line
+    */
+
+
+    return 0;
+}
+-- doNotEmitDetachedCommentsAtStartOfLambdaFunction.js.golden --
+"use strict";
+() => {
+    return 0;
+};
+() => {
+    return 0;
+};
+() => {
+    return 0;
+};
+() => {
+    return 0;
+};

@@ -1,0 +1,61 @@
+# Ported from tests/cases/compiler/letAndVarRedeclaration.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --allow-unreachable-code --target es6 --lib es6,dom --out-js letAndVarRedeclaration.js letAndVarRedeclaration.ts
+stderr 'TS2300'
+stderr 'TS2451'
+! exists letAndVarRedeclaration.js
+! exists letAndVarRedeclaration.d.ts
+! exists letAndVarRedeclaration.js.map
+
+-- letAndVarRedeclaration.ts --
+let e0
+var e0;
+function e0() { }
+
+function f0() {
+    let x1;
+    var x1;
+    function x1() { }
+}
+
+function f1() {
+    let x;
+    {
+        var x;
+    }
+    {
+        function x() { }
+    }
+}
+
+namespace M0 {
+    let x2;
+    var x2;
+    function x2() { }
+}
+
+namespace M1 {
+    let x2;
+    {
+        var x2;
+    }
+    {
+        function x2() { }
+    }
+}
+
+let x11;
+for (var x11; ;) {
+}
+
+function f2() {
+    let x11;
+    for (var x11; ;) {
+    }
+}
+
+namespace M2 {
+    let x11;
+    for (var x11; ;) {
+    }
+}

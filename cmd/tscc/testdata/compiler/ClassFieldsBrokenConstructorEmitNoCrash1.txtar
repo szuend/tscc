@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/classFieldsBrokenConstructorEmitNoCrash1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --strict --target es2021 --no-use-define-for-class-fields --lib es2021,dom --out-js classFieldsBrokenConstructorEmitNoCrash1.js classFieldsBrokenConstructorEmitNoCrash1.ts
+stderr 'TS2390'
+stderr 'TS1005'
+! exists classFieldsBrokenConstructorEmitNoCrash1.js
+! exists classFieldsBrokenConstructorEmitNoCrash1.d.ts
+! exists classFieldsBrokenConstructorEmitNoCrash1.js.map
+
+-- classFieldsBrokenConstructorEmitNoCrash1.ts --
+class Test {
+  prop = 42;
+  constructor
+}

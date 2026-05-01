@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/doNotEmitPinnedCommentOnNotEmittedNodets.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --no-strict --target es2015 --lib es2015,dom --out-js doNotEmitPinnedCommentOnNotEmittedNodets.js doNotEmitPinnedCommentOnNotEmittedNodets.ts
+! stderr .
+cmp doNotEmitPinnedCommentOnNotEmittedNodets.js doNotEmitPinnedCommentOnNotEmittedNodets.js.golden
+! exists doNotEmitPinnedCommentOnNotEmittedNodets.d.ts
+! exists doNotEmitPinnedCommentOnNotEmittedNodets.js.map
+
+-- doNotEmitPinnedCommentOnNotEmittedNodets.ts --
+class C {
+    /*! remove pinned comment anywhere else */
+    public foo(x: string, y: any)
+    public foo(x: string, y: number) { }
+}
+
+/*! remove pinned comment anywhere else */
+declare var OData: any;
+-- doNotEmitPinnedCommentOnNotEmittedNodets.js.golden --
+"use strict";
+class C {
+    foo(x, y) { }
+}

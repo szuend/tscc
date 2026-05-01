@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/lambdaASIEmit.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js lambdaASIEmit.js lambdaASIEmit.ts
+! stderr .
+cmp lambdaASIEmit.js lambdaASIEmit.js.golden
+! exists lambdaASIEmit.d.ts
+! exists lambdaASIEmit.js.map
+
+-- lambdaASIEmit.ts --
+function Foo(x: any)
+{
+}
+ 
+Foo(() =>
+    // do something
+    127);
+-- lambdaASIEmit.js.golden --
+"use strict";
+function Foo(x) {
+}
+Foo(() => 
+// do something
+127);

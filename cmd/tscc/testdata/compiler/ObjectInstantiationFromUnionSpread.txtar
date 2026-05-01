@@ -1,0 +1,37 @@
+# Ported from tests/cases/compiler/objectInstantiationFromUnionSpread.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --strict-function-types --target es2015 --lib es2015,dom --out-js objectInstantiationFromUnionSpread.js objectInstantiationFromUnionSpread.ts
+! stderr .
+cmp objectInstantiationFromUnionSpread.js objectInstantiationFromUnionSpread.js.golden
+! exists objectInstantiationFromUnionSpread.d.ts
+! exists objectInstantiationFromUnionSpread.js.map
+
+-- objectInstantiationFromUnionSpread.ts --
+// #40995
+
+interface Success {
+  isSuccess: true;
+}
+
+interface Fail {
+  isSuccess: false;
+}
+
+type Item = Success | Fail;
+
+function f1(a: Item[]) {
+  a.map(item => ({ ...item })).filter(value => {});
+}
+
+function f2<T>(a: Item[]) {
+  a.map(item => ({ ...item })).filter(value => {});
+}
+-- objectInstantiationFromUnionSpread.js.golden --
+"use strict";
+// #40995
+function f1(a) {
+    a.map(item => (Object.assign({}, item))).filter(value => { });
+}
+function f2(a) {
+    a.map(item => (Object.assign({}, item))).filter(value => { });
+}

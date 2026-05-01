@@ -1,0 +1,63 @@
+# Ported from tests/cases/compiler/emitCommentsOnlyFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js emitCommentsOnlyFile.js emitCommentsOnlyFile.ts
+! stderr .
+cmp emitCommentsOnlyFile.js emitCommentsOnlyFile.js.golden
+! exists emitCommentsOnlyFile.d.ts
+! exists emitCommentsOnlyFile.js.map
+
+-- emitCommentsOnlyFile.ts --
+/**
+* @name Foo
+* @class
+*/
+/**#@+
+* @memberOf Foo#
+* @field
+*/
+/**
+* @name bar
+* @type Object[]
+*/
+/**#@-*/
+/**
+* @name Foo2
+* @class
+*/
+/**#@+
+* @memberOf Foo2#
+* @field
+*/
+/**
+* @name bar
+* @type Object[]
+*/
+/**#@-*/
+-- emitCommentsOnlyFile.js.golden --
+"use strict";
+/**
+* @name Foo
+* @class
+*/
+/**#@+
+* @memberOf Foo#
+* @field
+*/
+/**
+* @name bar
+* @type Object[]
+*/
+/**#@-*/
+/**
+* @name Foo2
+* @class
+*/
+/**#@+
+* @memberOf Foo2#
+* @field
+*/
+/**
+* @name bar
+* @type Object[]
+*/
+/**#@-*/

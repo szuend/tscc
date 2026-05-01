@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/emitOneLineVariableDeclarationRemoveCommentsFalse.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js emitOneLineVariableDeclarationRemoveCommentsFalse.js emitOneLineVariableDeclarationRemoveCommentsFalse.ts
+! stderr .
+cmp emitOneLineVariableDeclarationRemoveCommentsFalse.js emitOneLineVariableDeclarationRemoveCommentsFalse.js.golden
+! exists emitOneLineVariableDeclarationRemoveCommentsFalse.d.ts
+! exists emitOneLineVariableDeclarationRemoveCommentsFalse.js.map
+
+-- emitOneLineVariableDeclarationRemoveCommentsFalse.ts --
+let a = /*[[${something}]]*/ {};
+let b: any = /*[[${something}]]*/ {};
+let c: { hoge: boolean } = /*[[${something}]]*/ { hoge: true };
+let d: any  /*[[${something}]]*/ = {};
+let e/*[[${something}]]*/: any   = {};
+let f = /* comment1 */ d(e);
+let g: any = /* comment2 */ d(e);
+-- emitOneLineVariableDeclarationRemoveCommentsFalse.js.golden --
+"use strict";
+let a = /*[[${something}]]*/ {};
+let b = /*[[${something}]]*/ {};
+let c = /*[[${something}]]*/ { hoge: true };
+let d /*[[${something}]]*/ = {};
+let e /*[[${something}]]*/ = {};
+let f = /* comment1 */ d(e);
+let g = /* comment2 */ d(e);

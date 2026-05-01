@@ -1,0 +1,24 @@
+# Ported from tests/cases/compiler/functionWithNoBestCommonType2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --allow-unreachable-code --target es2015 --lib es2015,dom --out-js functionWithNoBestCommonType2.js functionWithNoBestCommonType2.ts
+! stderr .
+cmp functionWithNoBestCommonType2.js functionWithNoBestCommonType2.js.golden
+! exists functionWithNoBestCommonType2.d.ts
+! exists functionWithNoBestCommonType2.js.map
+
+-- functionWithNoBestCommonType2.ts --
+var v = function () {
+   return true;
+   return bar();
+};
+
+function bar(): void {
+}
+-- functionWithNoBestCommonType2.js.golden --
+"use strict";
+var v = function () {
+    return true;
+    return bar();
+};
+function bar() {
+}

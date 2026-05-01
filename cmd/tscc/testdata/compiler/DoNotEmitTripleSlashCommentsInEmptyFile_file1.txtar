@@ -1,0 +1,18 @@
+# Ported from tests/cases/compiler/doNotEmitTripleSlashCommentsInEmptyFile.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --remove-comments --target es2015 --lib es2015,dom --ambient-type-file file0.ts --out-js file1.js file1.ts
+! stderr .
+cmp file1.js file1.js.golden
+! exists file1.d.ts
+! exists file1.js.map
+
+-- file0.ts --
+
+-- file1.ts --
+
+-- file2.ts --
+/// <reference path="file0.ts" />
+/// <reference path="file1.ts" />
+/// <amd-dependency path="/js/libs/hgn.js!app/templates/home" name="compiler"/>
+-- file1.js.golden --
+"use strict";

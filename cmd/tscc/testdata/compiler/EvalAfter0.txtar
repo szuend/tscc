@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/evalAfter0.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --no-allow-unreachable-code --no-strict --target es2015 --lib es2015,dom --out-js evalAfter0.js evalAfter0.ts
+stderr 'TS2695'
+! exists evalAfter0.js
+! exists evalAfter0.d.ts
+! exists evalAfter0.js.map
+
+-- evalAfter0.ts --
+(0,eval)("10"); // fine: special case for eval
+
+declare var eva;
+(0,eva)("10"); // error: no side effect left of comma (suspect of missing method name or something)

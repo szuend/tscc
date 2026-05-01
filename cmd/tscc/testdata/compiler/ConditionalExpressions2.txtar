@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/conditionalExpressions2.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --allow-unreachable-code --no-strict --target es2015 --lib es2015,dom --out-js conditionalExpressions2.js conditionalExpressions2.ts
+! stderr .
+cmp conditionalExpressions2.js conditionalExpressions2.js.golden
+! exists conditionalExpressions2.d.ts
+! exists conditionalExpressions2.js.map
+
+-- conditionalExpressions2.ts --
+var a = false ? 1 : null;
+var b = false ? undefined : 0;
+var c = false ? 1 : 0;
+var d = false ? false : true;
+var e = false ? "foo" : "bar";
+var f = false ? null : undefined;
+var g = true ? {g:5} : null;
+var h = [{h:5}, null];
+function i() { if (true) { return { x: 5 }; } else { return null; } }
+-- conditionalExpressions2.js.golden --
+"use strict";
+var a = false ? 1 : null;
+var b = false ? undefined : 0;
+var c = false ? 1 : 0;
+var d = false ? false : true;
+var e = false ? "foo" : "bar";
+var f = false ? null : undefined;
+var g = true ? { g: 5 } : null;
+var h = [{ h: 5 }, null];
+function i() { if (true) {
+    return { x: 5 };
+}
+else {
+    return null;
+} }

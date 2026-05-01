@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/intersectionType_useDefineForClassFields.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --target ESNext --use-define-for-class-fields --lib ESNext,dom --out-js intersectionType_useDefineForClassFields.js intersectionType_useDefineForClassFields.ts
+! stderr .
+cmp intersectionType_useDefineForClassFields.js intersectionType_useDefineForClassFields.js.golden
+! exists intersectionType_useDefineForClassFields.d.ts
+! exists intersectionType_useDefineForClassFields.js.map
+
+-- intersectionType_useDefineForClassFields.ts --
+type Foo<T> = {
+    [k in keyof T & string]: any
+}
+
+function bar<T>(_p: T): { new(): Foo<T> } {
+    return null as any;
+}
+
+class Baz extends bar({ x: 1 }) {
+}
+-- intersectionType_useDefineForClassFields.js.golden --
+"use strict";
+function bar(_p) {
+    return null;
+}
+class Baz extends bar({ x: 1 }) {
+}

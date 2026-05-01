@@ -1,0 +1,23 @@
+# Ported from tests/cases/compiler/functionReturn.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --allow-unreachable-code --target es2015 --lib es2015,dom --out-js functionReturn.js functionReturn.ts
+stderr 'TS2322'
+! exists functionReturn.js
+! exists functionReturn.d.ts
+! exists functionReturn.js.map
+
+-- functionReturn.ts --
+function f0(): void { }
+function f1() {
+    var n: any = f0();
+}
+function f2(): any { }
+function f3(): string { return; }
+function f4(): string {
+    return '';
+    return;
+}
+function f5(): string {
+    return '';
+    return undefined;
+}

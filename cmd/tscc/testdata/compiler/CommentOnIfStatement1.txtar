@@ -1,0 +1,17 @@
+# Ported from tests/cases/compiler/commentOnIfStatement1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js commentOnIfStatement1.js commentOnIfStatement1.ts
+! stderr .
+cmp commentOnIfStatement1.js commentOnIfStatement1.js.golden
+! exists commentOnIfStatement1.d.ts
+! exists commentOnIfStatement1.js.map
+
+-- commentOnIfStatement1.ts --
+// Test
+if (true) {
+}
+-- commentOnIfStatement1.js.golden --
+"use strict";
+// Test
+if (true) {
+}

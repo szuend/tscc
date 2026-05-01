@@ -1,0 +1,20 @@
+# Ported from tests/cases/compiler/awaitInClassInAsyncFunction.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --target esnext --no-use-define-for-class-fields --lib esnext,dom --out-js awaitInClassInAsyncFunction.js awaitInClassInAsyncFunction.ts
+stderr 'TS1308'
+! exists awaitInClassInAsyncFunction.js
+! exists awaitInClassInAsyncFunction.d.ts
+! exists awaitInClassInAsyncFunction.js.map
+
+-- awaitInClassInAsyncFunction.ts --
+// https://github.com/microsoft/TypeScript/issues/34887
+
+async function bar() {
+    return 2;
+}
+
+async function foo() {
+    return new class {
+        baz = await bar();
+    };
+}

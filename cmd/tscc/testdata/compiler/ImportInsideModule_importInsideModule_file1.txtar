@@ -1,0 +1,14 @@
+# Ported from tests/cases/compiler/importInsideModule.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --module commonjs --target es2015 --lib es2015,dom --out-js importInsideModule_file1.js importInsideModule_file1.ts
+! stderr .
+! exists importInsideModule_file1.d.ts
+! exists importInsideModule_file1.js.map
+
+-- importInsideModule_file1.ts --
+export var x = 1;
+-- importInsideModule_file2.ts --
+export namespace myModule {
+    import foo = require("importInsideModule_file1");
+    var a = foo.x;
+}

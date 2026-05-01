@@ -1,0 +1,12 @@
+# Ported from tests/cases/compiler/incompleteObjectLiteral1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --target es2015 --lib es2015,dom --out-js incompleteObjectLiteral1.js incompleteObjectLiteral1.ts
+stderr 'TS18004'
+stderr 'TS1005'
+! exists incompleteObjectLiteral1.js
+! exists incompleteObjectLiteral1.d.ts
+! exists incompleteObjectLiteral1.js.map
+
+-- incompleteObjectLiteral1.ts --
+var tt = { aa; }
+var x = tt;

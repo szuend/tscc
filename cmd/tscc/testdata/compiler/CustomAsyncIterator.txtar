@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/customAsyncIterator.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --target esnext --no-use-define-for-class-fields --lib esnext,dom --out-js customAsyncIterator.js customAsyncIterator.ts
+! stderr .
+cmp customAsyncIterator.js customAsyncIterator.js.golden
+! exists customAsyncIterator.d.ts
+! exists customAsyncIterator.js.map
+
+-- customAsyncIterator.ts --
+// GH: https://github.com/microsoft/TypeScript/issues/33239
+class ConstantIterator<T> implements AsyncIterator<T, void, T | undefined> {
+    constructor(private constant: T) {
+    }
+    async next(value?: T): Promise<IteratorResult<T>> {
+        if (value != null) {
+            throw new Error("ConstantIterator.prototype.next may not take any values");
+        }
+        return { value: this.constant, done: false };
+    }
+}
+-- customAsyncIterator.js.golden --
+"use strict";
+// GH: https://github.com/microsoft/TypeScript/issues/33239
+class ConstantIterator {
+    constructor(constant) {
+        this.constant = constant;
+    }
+    async next(value) {
+        if (value != null) {
+            throw new Error("ConstantIterator.prototype.next may not take any values");
+        }
+        return { value: this.constant, done: false };
+    }
+}

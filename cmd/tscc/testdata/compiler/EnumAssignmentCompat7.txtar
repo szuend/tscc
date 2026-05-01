@@ -1,0 +1,34 @@
+# Ported from tests/cases/compiler/enumAssignmentCompat7.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --strict --no-strict-function-types --target es2015 --lib es2015,dom --out-js enumAssignmentCompat7.js enumAssignmentCompat7.ts
+stderr 'TS2416'
+stderr 'TS2394'
+stderr 'TS2339'
+! exists enumAssignmentCompat7.js
+! exists enumAssignmentCompat7.d.ts
+! exists enumAssignmentCompat7.js.map
+
+-- enumAssignmentCompat7.ts --
+namespace first {
+    export enum E { A = 1 }
+}
+
+namespace second {
+    export enum E { A = 2 }
+}
+
+class Base {
+    method(param: first.E) {
+
+    }
+}
+
+class Derived extends Base {
+    override method(param: second.E) {
+    }
+}
+
+function overloadingFunction(): first.E
+function overloadingFunction(): second.E {
+    return second.E.B
+}

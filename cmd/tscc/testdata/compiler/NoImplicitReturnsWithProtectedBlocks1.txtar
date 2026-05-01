@@ -1,0 +1,30 @@
+# Ported from tests/cases/compiler/noImplicitReturnsWithProtectedBlocks1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-implicit-returns --target es2015 --lib es2015,dom --out-js noImplicitReturnsWithProtectedBlocks1.js noImplicitReturnsWithProtectedBlocks1.ts
+! stderr .
+cmp noImplicitReturnsWithProtectedBlocks1.js noImplicitReturnsWithProtectedBlocks1.js.golden
+! exists noImplicitReturnsWithProtectedBlocks1.d.ts
+! exists noImplicitReturnsWithProtectedBlocks1.js.map
+
+-- noImplicitReturnsWithProtectedBlocks1.ts --
+declare function log(s: string): void;
+declare function get(): number;
+
+function main1() : number {
+    try {
+        return get();
+    }
+    finally {
+        log("in finally");
+    }
+}
+-- noImplicitReturnsWithProtectedBlocks1.js.golden --
+"use strict";
+function main1() {
+    try {
+        return get();
+    }
+    finally {
+        log("in finally");
+    }
+}

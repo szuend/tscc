@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/isolatedModulesExportDeclarationType.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --isolated-modules --module commonjs --target es2015 --lib es2015,dom --out-js test3.js test3.ts
+stderr 'TS1292'
+! exists test3.js
+! exists test3.d.ts
+! exists test3.js.map
+
+-- test1.ts --
+import { T } from "./type";
+const T = 0;      // Error as of #56354
+export default T; // Ok
+-- test2.ts --
+import { T } from "./type";
+type T = number;  // Merge error
+export default T; // Transpiler could assume the alias resolves to a value?
+-- test3.ts --
+import { T } from "./type";
+export default T; // Error
+-- test4.ts --
+// @ts-expect-error
+import unresolved from "./doesntexist";
+export default unresolved;
+-- type.ts --
+export type T = number;

@@ -1,0 +1,33 @@
+# Ported from tests/cases/compiler/declarationEmitDestructuringArrayPattern1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --target es2015 --lib es2015,dom --out-js declarationEmitDestructuringArrayPattern1.js --out-dts declarationEmitDestructuringArrayPattern1.d.ts declarationEmitDestructuringArrayPattern1.ts
+! stderr .
+cmp declarationEmitDestructuringArrayPattern1.d.ts declarationEmitDestructuringArrayPattern1.d.ts.golden
+cmp declarationEmitDestructuringArrayPattern1.js declarationEmitDestructuringArrayPattern1.js.golden
+! exists declarationEmitDestructuringArrayPattern1.js.map
+
+-- declarationEmitDestructuringArrayPattern1.ts --
+var [] = [1, "hello"]; // Dont emit anything
+var [x] = [1, "hello"]; // emit x: number
+var [x1, y1] = [1, "hello"]; // emit x1: number, y1: string
+var [, , z1] = [0, 1, 2]; // emit z1: number
+
+var a = [1, "hello"];
+var [x2] = a;          // emit x2: number | string
+var [x3, y3, z3] = a;  // emit x3, y3, z3 
+-- declarationEmitDestructuringArrayPattern1.d.ts.golden --
+declare var x: number;
+declare var x1: number, y1: string;
+declare var z1: number;
+declare var a: (string | number)[];
+declare var x2: string | number;
+declare var x3: string | number, y3: string | number, z3: string | number;
+-- declarationEmitDestructuringArrayPattern1.js.golden --
+"use strict";
+var [] = [1, "hello"]; // Dont emit anything
+var [x] = [1, "hello"]; // emit x: number
+var [x1, y1] = [1, "hello"]; // emit x1: number, y1: string
+var [, , z1] = [0, 1, 2]; // emit z1: number
+var a = [1, "hello"];
+var [x2] = a; // emit x2: number | string
+var [x3, y3, z3] = a; // emit x3, y3, z3 

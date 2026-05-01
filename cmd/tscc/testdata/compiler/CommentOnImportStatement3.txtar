@@ -1,0 +1,13 @@
+# Ported from tests/cases/compiler/commentOnImportStatement3.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --module commonjs --no-remove-comments --target es2015 --lib es2015,dom --out-js commentOnImportStatement3.js commentOnImportStatement3.ts
+stderr 'TS2307'
+! exists commentOnImportStatement3.js
+! exists commentOnImportStatement3.d.ts
+! exists commentOnImportStatement3.js.map
+
+-- commentOnImportStatement3.ts --
+/* copyright */
+
+/* not copyright */
+import foo = require('./foo');

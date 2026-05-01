@@ -1,0 +1,25 @@
+# Ported from tests/cases/compiler/commentOnClassMethod1.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --no-remove-comments --target es2015 --lib es2015,dom --out-js commentOnClassMethod1.js commentOnClassMethod1.ts
+! stderr .
+cmp commentOnClassMethod1.js commentOnClassMethod1.js.golden
+! exists commentOnClassMethod1.d.ts
+! exists commentOnClassMethod1.js.map
+
+-- commentOnClassMethod1.ts --
+class WebControls {
+    /**
+     * Render a control
+     */
+    createControl(): any {
+    }
+}
+-- commentOnClassMethod1.js.golden --
+"use strict";
+class WebControls {
+    /**
+     * Render a control
+     */
+    createControl() {
+    }
+}

@@ -1,0 +1,35 @@
+# Ported from tests/cases/compiler/multiImportExport.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --module commonjs --target es2015 --lib es2015,dom --out-dts Drawing.d.ts --out-js Drawing.js Drawing.ts
+! stderr .
+cmp Drawing.d.ts Drawing.d.ts.golden
+cmp Drawing.js Drawing.js.golden
+! exists Drawing.js.map
+
+-- Drawing.ts --
+export import Math = require('./Math/Math')
+-- Math/Adder.ts --
+class Adder {
+    add(a: number, b: number) {
+        
+    }
+}
+
+export = Adder;
+-- Math/Math.ts --
+import Adder = require('./Adder');
+
+var Math = {
+    Adder:Adder
+};
+
+export = Math
+-- consumer.ts --
+import Drawing = require('./Drawing');
+var addr = new Drawing.Math.Adder();
+-- Drawing.d.ts.golden --
+export import Math = require('./Math/Math');
+-- Drawing.js.golden --
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Math = require("./Math/Math");

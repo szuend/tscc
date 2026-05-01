@@ -1,0 +1,21 @@
+# Ported from tests/cases/compiler/bestCommonTypeReturnStatement.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --allow-unreachable-code --target es2015 --lib es2015,dom --out-js bestCommonTypeReturnStatement.js bestCommonTypeReturnStatement.ts
+stderr 'TS2322'
+! exists bestCommonTypeReturnStatement.js
+! exists bestCommonTypeReturnStatement.d.ts
+! exists bestCommonTypeReturnStatement.js.map
+
+-- bestCommonTypeReturnStatement.ts --
+interface IPromise<T> {
+    then(successCallback: (promiseValue: T) => any, errorCallback?: (reason: any) => any): IPromise<any>;
+}
+
+function f() {
+    if (true) return b();
+    return d();
+}
+
+
+function b(): IPromise<void> { return null; }
+function d(): IPromise<any> { return null; }

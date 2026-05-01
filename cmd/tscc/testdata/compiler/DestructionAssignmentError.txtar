@@ -1,0 +1,22 @@
+# Ported from tests/cases/compiler/destructionAssignmentError.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+! exec tscc --report-all-diagnostics --target es2015 --lib es2015,dom --out-js destructionAssignmentError.js destructionAssignmentError.ts
+stderr 'TS2695'
+stderr 'TS2809'
+! exists destructionAssignmentError.js
+! exists destructionAssignmentError.d.ts
+! exists destructionAssignmentError.js.map
+
+-- destructionAssignmentError.ts --
+declare function fn(): { a: 1, b: 2 }
+let a: number;
+let b: number;
+
+({ a, b } = fn());
+{ a, b } = fn();
+
+({ a, b } =
+fn());
+
+{ a, b }
+= fn();

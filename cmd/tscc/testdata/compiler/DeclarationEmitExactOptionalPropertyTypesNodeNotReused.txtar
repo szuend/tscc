@@ -1,0 +1,26 @@
+# Ported from tests/cases/compiler/declarationEmitExactOptionalPropertyTypesNodeNotReused.ts by tools/portcase.
+# DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
+exec tscc --report-all-diagnostics --module commonjs --strict --target es2015 --lib es2015,dom --out-js declarationEmitExactOptionalPropertyTypesNodeNotReused.js --out-dts declarationEmitExactOptionalPropertyTypesNodeNotReused.d.ts declarationEmitExactOptionalPropertyTypesNodeNotReused.ts
+! stderr .
+! exists declarationEmitExactOptionalPropertyTypesNodeNotReused.js.map
+
+-- declarationEmitExactOptionalPropertyTypesNodeNotReused.ts --
+type InexactOptionals<A> = {
+    [K in keyof A as undefined extends A[K] ? K : never]?: undefined extends A[K]
+    ? A[K] | undefined
+    : A[K];
+} & {
+    [K in keyof A as undefined extends A[K] ? never : K]: A[K];
+};
+
+type In = {
+    foo?: string;
+    bar: number;
+    baz: undefined;
+}
+
+type Out = InexactOptionals<In>
+
+const foo = <A = {}>() => (x: Out & A) => null
+
+export const baddts = foo()
