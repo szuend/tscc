@@ -49,7 +49,7 @@ func RenderTxtar(args RenderArgs) string {
 
 	// Command line
 	var execCmd strings.Builder
-	execCmd.WriteString("exec tscc")
+	execCmd.WriteString("exec tscc --report-all-diagnostics")
 	if len(args.Flags) > 0 {
 		execCmd.WriteString(" " + strings.Join(args.Flags, " "))
 	}

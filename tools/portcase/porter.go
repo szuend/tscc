@@ -22,7 +22,6 @@ import (
 	"regexp"
 	"slices"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -43,45 +42,6 @@ type Porter struct {
 type PortedFile struct {
 	Name    string // Filename only, e.g. "Foo.txtar"
 	Content string
-}
-
-func applyShortCircuitFilter(errorCodesMap map[string][]string) {
-	hasShortCircuit := false
-	for _, codes := range errorCodesMap {
-		for _, codeStr := range codes {
-			code, err := strconv.Atoi(strings.TrimPrefix(codeStr, "TS"))
-			if err == nil {
-				if (code >= 1000 && code < 2000 && code != 1141) || (code >= 5000 && code < 7000) || (code >= 8000 && code < 9000) || (code >= 18000 && code < 19000) || code == 2318 || code == 2468 {
-					hasShortCircuit = true
-					break
-				}
-			}
-		}
-		if hasShortCircuit {
-			break
-		}
-	}
-
-	if hasShortCircuit {
-		for file, codes := range errorCodesMap {
-			var filtered []string
-			for _, codeStr := range codes {
-				code, err := strconv.Atoi(strings.TrimPrefix(codeStr, "TS"))
-				if err == nil {
-					if (code >= 1000 && code < 2000 && code != 1141) || (code >= 5000 && code < 7000) || (code >= 8000 && code < 9000) || (code >= 18000 && code < 19000) || code == 2318 || code == 2468 {
-						filtered = append(filtered, codeStr)
-					}
-				} else {
-					filtered = append(filtered, codeStr)
-				}
-			}
-			if len(filtered) > 0 {
-				errorCodesMap[file] = filtered
-			} else {
-				delete(errorCodesMap, file)
-			}
-		}
-	}
 }
 
 func FlattenName(name string) string {
@@ -240,8 +200,6 @@ func (p *Porter) Port() ([]PortedFile, error) {
 					}
 				}
 			}
-
-			applyShortCircuitFilter(errorCodesMap)
 		}
 		errorCodesMap = propagateErrors(inputList, inputs, errorCodesMap)
 

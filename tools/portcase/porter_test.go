@@ -40,8 +40,8 @@ func TestPorter_Port_Simple(t *testing.T) {
 		t.Errorf("Expected name Simple.txtar, got %s", res.Name)
 	}
 
-	if !strings.Contains(res.Content, "exec tscc --lib es2025,dom --out-js simple.js simple.ts") {
-		t.Errorf("Expected content to contain exec tscc --lib es2025,dom --out-js simple.js, got:\n%s", res.Content)
+	if !strings.Contains(res.Content, "exec tscc --report-all-diagnostics --lib es2025,dom --out-js simple.js simple.ts") {
+		t.Errorf("Expected content to contain exec tscc --report-all-diagnostics --lib es2025,dom --out-js simple.js, got:\n%s", res.Content)
 	}
 }
 
@@ -397,118 +397,5 @@ export const y: number;
 	}
 	if !names["Only_dts_b.d.txtar"] {
 		t.Errorf("Expected Only_dts_b.d.txtar")
-	}
-}
-
-func TestApplyShortCircuitFilter(t *testing.T) {
-	tests := []struct {
-		name     string
-		input    map[string][]string
-		expected map[string][]string
-	}{
-		{
-			name: "no short circuit",
-			input: map[string][]string{
-				"file1.ts": {"TS2503", "TS2694"},
-				"file2.ts": {"TS4023"},
-			},
-			expected: map[string][]string{
-				"file1.ts": {"TS2503", "TS2694"},
-				"file2.ts": {"TS4023"},
-			},
-		},
-		{
-			name: "syntax error triggers short circuit",
-			input: map[string][]string{
-				"file1.ts": {"TS1003", "TS2503"},
-				"file2.ts": {"TS2694"},
-			},
-			expected: map[string][]string{
-				"file1.ts": {"TS1003"},
-			},
-		},
-		{
-			name: "program error triggers short circuit",
-			input: map[string][]string{
-				"file1.ts": {"TS5023", "TS2503"},
-			},
-			expected: map[string][]string{
-				"file1.ts": {"TS5023"},
-			},
-		},
-		{
-			name: "multiple short circuit codes",
-			input: map[string][]string{
-				"file1.ts": {"TS1003", "TS1359", "TS2503"},
-				"file2.ts": {"TS6053", "TS4023"},
-			},
-			expected: map[string][]string{
-				"file1.ts": {"TS1003", "TS1359"},
-				"file2.ts": {"TS6053"},
-			},
-		},
-		{
-			name: "TS18xxx triggers short circuit",
-			input: map[string][]string{
-				"file1.ts": {"TS18007", "TS2322"},
-			},
-			expected: map[string][]string{
-				"file1.ts": {"TS18007"},
-			},
-		},
-		{
-			name: "TS8xxx triggers short circuit",
-			input: map[string][]string{
-				"file1.ts": {"TS8009", "TS2322"},
-			},
-			expected: map[string][]string{
-				"file1.ts": {"TS8009"},
-			},
-		},
-		{
-			name: "unparseable codes are retained if short circuit",
-
-			input: map[string][]string{
-				"file1.ts": {"TS1003", "TSBAD"},
-			},
-			expected: map[string][]string{
-				"file1.ts": {"TS1003", "TSBAD"},
-			},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-
-			inputCopy := make(map[string][]string)
-			for k, v := range tt.input {
-				inputCopy[k] = append([]string{}, v...)
-			}
-
-			applyShortCircuitFilter(inputCopy)
-
-			if len(inputCopy) != len(tt.expected) {
-				t.Errorf("Expected map of length %d, got %d. Map: %v", len(tt.expected), len(inputCopy), inputCopy)
-			}
-
-			for k, expectedVals := range tt.expected {
-				actualVals, ok := inputCopy[k]
-				if !ok {
-					t.Errorf("Expected key %q not found", k)
-					continue
-				}
-
-				if len(actualVals) != len(expectedVals) {
-					t.Errorf("For key %q: Expected %v, got %v", k, expectedVals, actualVals)
-					continue
-				}
-
-				for i, v := range expectedVals {
-					if actualVals[i] != v {
-						t.Errorf("For key %q: Expected [%d] = %q, got %q", k, i, v, actualVals[i])
-					}
-				}
-			}
-		})
 	}
 }

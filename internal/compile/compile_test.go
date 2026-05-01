@@ -104,6 +104,41 @@ func TestCompile_SingleFile(t *testing.T) {
 	}
 }
 
+func TestCompile_ReportAllDiagnostics(t *testing.T) {
+	dir := t.TempDir()
+	// Has both a syntax error (var x: string =) and semantic error (string not assignable to number)
+	in := writeFile(t, dir, "a.ts", "var x: string =\nconst y: number = \"hello\";")
+	out := filepath.Join(dir, "a.js")
+
+	// By default, only the syntax error should be reported (short-circuiting)
+	cfg := defaultCfg(in, out)
+	statusDefault, stderrDefault, _ := runCompile(t, cfg)
+	if statusDefault != tsccbridge.ExitStatusDiagnosticsPresent_OutputsGenerated {
+		t.Errorf("default status: got %d, want %d", statusDefault, tsccbridge.ExitStatusDiagnosticsPresent_OutputsGenerated)
+	}
+	if !strings.Contains(stderrDefault, "TS1109") {
+		t.Errorf("default stderr missing syntax error TS1109:\n%s", stderrDefault)
+	}
+	if strings.Contains(stderrDefault, "TS2322") {
+		t.Errorf("default stderr should not contain semantic error TS2322:\n%s", stderrDefault)
+	}
+
+	// With ReportAllDiagnostics, both should be reported
+	cfgAllDiags := defaultCfg(in, out)
+	cfgAllDiags.ReportAllDiagnostics = true
+	statusAll, stderrAll, _ := runCompile(t, cfgAllDiags)
+
+	if statusAll != tsccbridge.ExitStatusDiagnosticsPresent_OutputsGenerated {
+		t.Errorf("all diags status: got %d, want %d", statusAll, tsccbridge.ExitStatusDiagnosticsPresent_OutputsGenerated)
+	}
+	if !strings.Contains(stderrAll, "TS1109") {
+		t.Errorf("all diags stderr missing syntax error TS1109:\n%s", stderrAll)
+	}
+	if !strings.Contains(stderrAll, "TS2322") {
+		t.Errorf("all diags stderr missing semantic error TS2322:\n%s", stderrAll)
+	}
+}
+
 func TestCompile_RelativeImportResolvesViaLiteralResolver(t *testing.T) {
 	// .js specifier must substitute to .ts under literal resolution (§3).
 	// Explicit outputs only: --out-js names the primary output; the imported

@@ -37,7 +37,7 @@ func TestRenderTxtar(t *testing.T) {
 	got := RenderTxtar(args)
 	want := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-! exec tscc --target es2015 --out-js a.js a.ts
+! exec tscc --report-all-diagnostics --target es2015 --out-js a.js a.ts
 stderr 'TS2369'
 ! exists a.js
 
@@ -54,7 +54,7 @@ var v = (public x: string) => { };
 	gotSuccess := RenderTxtar(args)
 	wantSuccess := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js a.js a.ts
+exec tscc --report-all-diagnostics --target es2015 --out-js a.js a.ts
 ! stderr .
 cmp a.js a.js.golden
 
@@ -88,7 +88,7 @@ func TestRenderTxtar_NotExpectedOutputs(t *testing.T) {
 	got := RenderTxtar(args)
 	want := `# Ported from tests/cases/compiler/arrowFunctionExpression1.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 --out-js a.js a.ts
+exec tscc --report-all-diagnostics --target es2015 --out-js a.js a.ts
 ! stderr .
 cmp a.js a.js.golden
 ! exists a.d.ts
@@ -126,7 +126,7 @@ func TestRenderTxtar_NotExpectedDeduplication(t *testing.T) {
 	got := RenderTxtar(args)
 	want := `# Ported from tests/cases/compiler/dedupTest.ts by tools/portcase.
 # DO NOT EDIT by hand; re-run the porter if the upstream baseline changes.
-exec tscc --target es2015 a.ts
+exec tscc --report-all-diagnostics --target es2015 a.ts
 ! stderr .
 cmp a.js a.js.golden
 ! exists a.d.ts
