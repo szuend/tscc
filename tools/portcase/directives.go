@@ -196,6 +196,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-no-implicit-returns")
 			}
+		case "nopropertyaccessfromindexsignature":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--no-property-access-from-index-signature")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-no-property-access-from-index-signature")
+			}
 		case "usedefineforclassfields":
 			if strings.ToLower(value) == "true" || value == "" {
 				flags = append(flags, "--use-define-for-class-fields")

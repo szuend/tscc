@@ -79,7 +79,15 @@ func TestPrintUsage(t *testing.T) {
 
 	t.Run("bool descriptions omit --no- form", func(t *testing.T) {
 		for line := range strings.SplitSeq(out, "\n") {
-			if strings.HasPrefix(line, "Note:") || strings.Contains(line, "--no-implicit-any") || strings.Contains(line, "--strict-function-types") || strings.Contains(line, "--strict-null-checks") || strings.Contains(line, "--no-unchecked-side-effect-imports") || strings.Contains(line, "--no-lib") || strings.Contains(line, "--no-emit-helpers") || strings.Contains(line, "--no-implicit-returns") {
+			if strings.HasPrefix(line, "Note:") ||
+				strings.Contains(line, "--no-implicit-any") ||
+				strings.Contains(line, "--strict-function-types") ||
+				strings.Contains(line, "--strict-null-checks") ||
+				strings.Contains(line, "--no-unchecked-side-effect-imports") ||
+				strings.Contains(line, "--no-lib") ||
+				strings.Contains(line, "--no-emit-helpers") ||
+				strings.Contains(line, "--no-implicit-returns") ||
+				strings.Contains(line, "--no-property-access-from-index-signature") {
 				continue
 			}
 			if strings.Contains(line, "--no-") {

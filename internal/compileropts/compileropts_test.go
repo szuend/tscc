@@ -215,6 +215,25 @@ func TestFromConfigUseDefineForClassFields(t *testing.T) {
 	}
 }
 
+func TestFromConfigNoPropertyAccessFromIndexSignature(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", NoPropertyAccessFromIndexSignature: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.NoPropertyAccessFromIndexSignature != tc.want {
+			t.Errorf("NoPropertyAccessFromIndexSignature(%v) = %v, want %v", tc.in, got.NoPropertyAccessFromIndexSignature, tc.want)
+		}
+	}
+}
+
 func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	got, err := FromConfig(&config.Config{Target: "es2022"})
 	if err != nil {

@@ -281,7 +281,22 @@ func TestTranslateDirectives(t *testing.T) {
 			wantSkip: true,
 		},
 		{
-			name: "unrecognized directive",
+			name: "noPropertyAccessFromIndexSignature true with injected lib",
+			directives: map[string]string{
+				"noPropertyAccessFromIndexSignature": "true",
+			},
+			wantFlags: []string{"--no-property-access-from-index-signature", "--lib", "es2025,dom"},
+		},
+		{
+			name: "noPropertyAccessFromIndexSignature false with injected lib",
+			directives: map[string]string{
+				"noPropertyAccessFromIndexSignature": "false",
+			},
+			wantFlags: []string{"--no-no-property-access-from-index-signature", "--lib", "es2025,dom"},
+		},
+		{
+			name: "skip unrecognized directive",
+
 			directives: map[string]string{
 				"somethingMadeUp": "true",
 			},

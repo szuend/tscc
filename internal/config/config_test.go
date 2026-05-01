@@ -91,6 +91,38 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "no-property-access-from-index-signature",
+			args: []string{"--no-property-access-from-index-signature", "in.ts"},
+			wantConfig: &Config{
+				Strict:                             true,
+				NoImplicitAny:                      true,
+				StrictNullChecks:                   true,
+				Target:                             "es2025",
+				InputPath:                          "in.ts",
+				CaseSensitivePaths:                 true,
+				NoUncheckedSideEffectImports:       true,
+				Lib:                                []string{"es2025"},
+				UseDefineForClassFields:            true,
+				NoPropertyAccessFromIndexSignature: true,
+			},
+		},
+		{
+			name: "negated no-property-access-from-index-signature",
+			args: []string{"--no-no-property-access-from-index-signature", "in.ts"},
+			wantConfig: &Config{
+				Strict:                             true,
+				NoImplicitAny:                      true,
+				StrictNullChecks:                   true,
+				Target:                             "es2025",
+				InputPath:                          "in.ts",
+				CaseSensitivePaths:                 true,
+				NoUncheckedSideEffectImports:       true,
+				Lib:                                []string{"es2025"},
+				UseDefineForClassFields:            true,
+				NoPropertyAccessFromIndexSignature: false,
+			},
+		},
+		{
 			name: "output flag",
 			args: []string{"-o", "out.js", "in.ts"},
 			wantConfig: &Config{

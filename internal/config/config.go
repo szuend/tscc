@@ -94,6 +94,9 @@ type Config struct {
 
 	// UseDefineForClassFields emits ECMAScript-standard-compliant class fields.
 	UseDefineForClassFields bool
+
+	// NoPropertyAccessFromIndexSignature enforces using indexed accessors for keys declared using an indexed type.
+	NoPropertyAccessFromIndexSignature bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -376,6 +379,7 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.Lookup("strict-null-checks").DefValue = "true; false if --no-strict is passed"
 	g.BoolVar(&cfg.ExactOptionalPropertyTypes, "exact-optional-property-types", false, "Interpret optional property types as written, rather than adding 'undefined'")
 	g.BoolVar(&cfg.NoImplicitReturns, "no-implicit-returns", false, "Enable error reporting for codepaths that do not explicitly return in a function.")
+	g.BoolVar(&cfg.NoPropertyAccessFromIndexSignature, "no-property-access-from-index-signature", false, "Enforces using indexed accessors for keys declared using an indexed type.")
 	return flagGroup{Name: "Type Checking", Set: g}
 }
 
