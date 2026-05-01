@@ -125,6 +125,8 @@ func ExtractErrorCodesPerFile(content string) map[string][]string {
 				if fileToAttr == "" {
 					if fileMatches := fileRe.FindStringSubmatch(line); len(fileMatches) == 2 {
 						fileToAttr = strings.TrimPrefix(fileMatches[1], "/")
+					} else {
+						fileToAttr = "*GLOBAL*"
 					}
 				}
 

@@ -116,11 +116,11 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-strict-function-types", "--lib", "es2025,dom"},
 		},
 		{
-			name: "noLib true with injected lib",
+			name: "noLib true without injected lib",
 			directives: map[string]string{
 				"noLib": "true",
 			},
-			wantFlags: []string{"--no-lib", "--lib", "es2025,dom"},
+			wantFlags: []string{"--no-lib"},
 		},
 		{
 			name: "noLib false with injected lib",

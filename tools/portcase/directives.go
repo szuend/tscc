@@ -246,10 +246,27 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 		}
 	}
 
-	if _, ok := directives["lib"]; !ok {
+	hasLib := false
+	isNoLibTrue := false
+	for k, v := range directives {
+		kLower := strings.ToLower(k)
+		if kLower == "lib" {
+			hasLib = true
+		} else if kLower == "nolib" {
+			if strings.ToLower(v) == "true" || v == "" {
+				isNoLibTrue = true
+			}
+		}
+	}
+
+	if !hasLib && !isNoLibTrue {
 		target := "es2025"
-		if t, ok := directives["target"]; ok {
-			target = t
+		// Need case-insensitive target lookup too
+		for k, v := range directives {
+			if strings.ToLower(k) == "target" {
+				target = v
+				break
+			}
 		}
 		flags = append(flags, "--lib", target+",dom")
 	}
