@@ -101,6 +101,10 @@ type Config struct {
 	// AllowUnreachableCode disables error reporting for unreachable code.
 	AllowUnreachableCode    bool
 	AllowUnreachableCodeSet bool
+
+	// ReportAllDiagnostics disables short-circuiting of diagnostic collection, ensuring
+	// semantic errors are reported even if syntactic errors exist.
+	ReportAllDiagnostics bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -388,6 +392,7 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.BoolVar(&cfg.NoPropertyAccessFromIndexSignature, "no-property-access-from-index-signature", false, "Enforces using indexed accessors for keys declared using an indexed type.")
 	g.BoolVar(&cfg.AllowUnreachableCode, "allow-unreachable-code", false, "Disable error reporting for unreachable code.")
 	g.Lookup("allow-unreachable-code").DefValue = "undefined"
+	g.BoolVar(&cfg.ReportAllDiagnostics, "report-all-diagnostics", false, "Disable short-circuiting of diagnostic collection; report semantic errors even when syntactic errors exist.")
 	return flagGroup{Name: "Type Checking", Set: g}
 }
 

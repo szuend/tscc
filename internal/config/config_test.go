@@ -123,6 +123,22 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
+			name: "report-all-diagnostics",
+			args: []string{"--report-all-diagnostics", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
+				ReportAllDiagnostics:         true,
+			},
+		},
+		{
 			name: "allow-unreachable-code",
 			args: []string{"--allow-unreachable-code", "in.ts"},
 			wantConfig: &Config{

@@ -61,7 +61,7 @@ func Compile(ctx context.Context, in Inputs) (*Result, tsccbridge.ExitStatus, er
 
 	program := createProgram(in, parsed)
 
-	allDiags := analyzeProgram(ctx, program)
+	allDiags := analyzeProgram(ctx, program, in.Config)
 
 	// Explicit outputs only (vision.md): the emitter walks the whole program
 	// and offers a file for every non-declaration source file, but we only
@@ -133,7 +133,19 @@ func createProgram(in Inputs, parsed *tsccbridge.ParsedCommandLine) *tsccbridge.
 	})
 }
 
-func analyzeProgram(ctx context.Context, program *tsccbridge.Program) []*tsccbridge.Diagnostic {
+func analyzeProgram(ctx context.Context, program *tsccbridge.Program, cfg *config.Config) []*tsccbridge.Diagnostic {
+	if cfg.ReportAllDiagnostics {
+		var diags []*tsccbridge.Diagnostic
+		diags = append(diags, program.GetProgramDiagnostics()...)
+		diags = append(diags, program.GetSyntacticDiagnostics(ctx, nil)...)
+		diags = append(diags, program.GetSemanticDiagnostics(ctx, nil)...)
+		diags = append(diags, program.GetGlobalDiagnostics(ctx)...)
+		if program.Options().GetEmitDeclarations() {
+			diags = append(diags, program.GetDeclarationDiagnostics(ctx, nil)...)
+		}
+		return diags
+	}
+
 	// Collect syntactic + semantic diagnostics in tsc's order.
 	return tsccbridge.GetDiagnosticsOfAnyProgram(
 		ctx,

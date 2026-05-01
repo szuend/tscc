@@ -1,0 +1,13 @@
+# By default, tscc short-circuits on syntactic errors
+! exec tscc --target es2022 --module esnext a.ts
+stderr 'error TS1109: Expression expected.'
+! stderr 'error TS2322: Type .string. is not assignable to type .number.'
+
+# With --report-all-diagnostics, both syntactic and semantic errors are reported
+! exec tscc --target es2022 --module esnext --report-all-diagnostics a.ts
+stderr 'error TS1109: Expression expected.'
+stderr 'error TS2322: Type .string. is not assignable to type .number.'
+
+-- a.ts --
+var x: string =
+const y: number = "hello";
