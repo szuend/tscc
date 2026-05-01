@@ -281,6 +281,13 @@ func TestTranslateDirectives(t *testing.T) {
 			wantSkip: true,
 		},
 		{
+			name: "unsupported downlevelIteration",
+			directives: map[string]string{
+				"downlevelIteration": "true",
+			},
+			wantSkip: true,
+		},
+		{
 			name: "noPropertyAccessFromIndexSignature true with injected lib",
 			directives: map[string]string{
 				"noPropertyAccessFromIndexSignature": "true",

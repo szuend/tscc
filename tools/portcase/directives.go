@@ -80,6 +80,8 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 		}
 
 		switch keyLower {
+		case "downleveliteration":
+			return nil, &IgnoreError{Directive: key, Reason: "downlevelIteration is permanently removed from typescript-go"}
 		case "noimplicitusestrict":
 			return nil, &IgnoreError{Directive: key, Reason: "noImplicitUseStrict is permanently unsupported by typescript-go"}
 		case "ignoredeprecations":
