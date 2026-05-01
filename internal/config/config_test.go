@@ -40,6 +40,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -54,6 +55,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           false,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -68,6 +70,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2015"},
+				UseDefineForClassFields:      false,
 			},
 		},
 		{
@@ -82,6 +85,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -97,6 +101,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -112,6 +117,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -127,6 +133,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -141,6 +148,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -155,6 +163,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -169,6 +178,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -183,6 +193,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -197,6 +208,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"esnext", "dom"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -212,6 +224,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          nil,
 				NoLib:                        true,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -227,6 +240,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          nil,
 				NoLib:                        true,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -242,6 +256,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"dom"},
 				NoLib:                        false,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -257,6 +272,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"webworker"},
 				NoLib:                        false,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -271,6 +287,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"esnext", "dom"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -285,6 +302,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -299,6 +317,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -314,6 +333,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
 				SkipLibCheck:                 true,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -329,6 +349,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
 				SkipLibCheck:                 false,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -345,6 +366,7 @@ func TestParse(t *testing.T) {
 				Lib:                          []string{"es2025"},
 				CheckJs:                      true,
 				AllowJs:                      true,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -360,6 +382,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
 				IsolatedModules:              true,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -375,6 +398,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				Lib:                          []string{"es2025"},
 				IsolatedModules:              false,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -391,6 +415,7 @@ func TestParse(t *testing.T) {
 				Lib:                          []string{"es2025"},
 				CheckJs:                      true,
 				AllowJs:                      false,
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -405,6 +430,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: false,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -419,6 +445,7 @@ func TestParse(t *testing.T) {
 				CaseSensitivePaths:           true,
 				NoUncheckedSideEffectImports: false,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -434,6 +461,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				NoEmitHelpers:                true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -449,6 +477,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				NoEmitHelpers:                false,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -464,6 +493,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				NoEmitHelpers:                false,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -479,6 +509,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				NoImplicitReturns:            true,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -494,6 +525,7 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				NoImplicitReturns:            false,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
 			},
 		},
 		{
@@ -509,6 +541,97 @@ func TestParse(t *testing.T) {
 				NoUncheckedSideEffectImports: true,
 				NoImplicitReturns:            false,
 				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
+			},
+		},
+		{
+			name: "use-define-for-class-fields default true for es2025",
+			args: []string{"in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
+			},
+		},
+		{
+			name: "use-define-for-class-fields default false for es2020",
+			args: []string{"--target", "es2020", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2020",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				Lib:                          []string{"es2020"},
+				UseDefineForClassFields:      false,
+			},
+		},
+		{
+			name: "use-define-for-class-fields default true for esnext",
+			args: []string{"--target", "esnext", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "esnext",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				Lib:                          []string{"esnext"},
+				UseDefineForClassFields:      true,
+			},
+		},
+		{
+			name: "use-define-for-class-fields explicit true",
+			args: []string{"--use-define-for-class-fields", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      true,
+			},
+		},
+		{
+			name: "use-define-for-class-fields explicit false",
+			args: []string{"--use-define-for-class-fields=false", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      false,
+			},
+		},
+		{
+			name: "use-define-for-class-fields negated",
+			args: []string{"--no-use-define-for-class-fields", "in.ts"},
+			wantConfig: &Config{
+				Strict:                       true,
+				NoImplicitAny:                true,
+				StrictNullChecks:             true,
+				Target:                       "es2025",
+				InputPath:                    "in.ts",
+				CaseSensitivePaths:           true,
+				NoUncheckedSideEffectImports: true,
+				Lib:                          []string{"es2025"},
+				UseDefineForClassFields:      false,
 			},
 		},
 		{

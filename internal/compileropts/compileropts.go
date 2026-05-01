@@ -107,6 +107,7 @@ func FromConfig(cfg *config.Config) (*tsccbridge.CompilerOptions, error) {
 		IsolatedModules:              boolToTristate(cfg.IsolatedModules),
 		NoUncheckedSideEffectImports: boolToTristate(cfg.NoUncheckedSideEffectImports),
 		NoEmitHelpers:                boolToTristate(cfg.NoEmitHelpers),
+		UseDefineForClassFields:      boolToTristate(cfg.UseDefineForClassFields),
 
 		SuppressOutputPathCheck: tsccbridge.TSTrue,
 		Module:                  mod,

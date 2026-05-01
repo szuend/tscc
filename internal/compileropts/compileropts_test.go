@@ -196,6 +196,25 @@ func TestFromConfigCheckJs(t *testing.T) {
 	}
 }
 
+func TestFromConfigUseDefineForClassFields(t *testing.T) {
+	tests := []struct {
+		in   bool
+		want tsccbridge.Tristate
+	}{
+		{true, tsccbridge.TSTrue},
+		{false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{Target: "es2022", UseDefineForClassFields: tc.in})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.UseDefineForClassFields != tc.want {
+			t.Errorf("UseDefineForClassFields(%v) = %v, want %v", tc.in, got.UseDefineForClassFields, tc.want)
+		}
+	}
+}
+
 func TestFromConfigUnsetFieldsStayZero(t *testing.T) {
 	got, err := FromConfig(&config.Config{Target: "es2022"})
 	if err != nil {

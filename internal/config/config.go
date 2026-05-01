@@ -91,6 +91,9 @@ type Config struct {
 
 	// NoEmitHelpers disables generating custom helper functions like '__extends' in compiled output.
 	NoEmitHelpers bool
+
+	// UseDefineForClassFields emits ECMAScript-standard-compliant class fields.
+	UseDefineForClassFields bool
 }
 
 func Parse(args []string) (*Config, error) {
@@ -150,6 +153,11 @@ func Parse(args []string) (*Config, error) {
 
 	if !flags.Changed("allow-js") {
 		cfg.AllowJs = cfg.CheckJs
+	}
+
+	if !flags.Changed("use-define-for-class-fields") {
+		t := strings.ToLower(cfg.Target)
+		cfg.UseDefineForClassFields = t == "es2022" || t == "es2023" || t == "es2024" || t == "es2025" || t == "esnext"
 	}
 
 	if err := cfg.Validate(flags.Args()); err != nil {
@@ -342,6 +350,9 @@ func languageGroup(cfg *Config) flagGroup {
 
 	noLibFlag := g.VarPF(&noLibValue{cfg: cfg}, "no-lib", "", "Disable including any library files, including the default lib.d.ts.")
 	noLibFlag.NoOptDefVal = "true"
+
+	g.BoolVar(&cfg.UseDefineForClassFields, "use-define-for-class-fields", false, "Emit ECMAScript-standard-compliant class fields.")
+	g.Lookup("use-define-for-class-fields").DefValue = "true for ES2022 and above, including ESNext"
 
 	return flagGroup{Name: "Language and Environment", Set: g}
 }

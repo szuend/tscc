@@ -196,6 +196,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-no-implicit-returns")
 			}
+		case "usedefineforclassfields":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--use-define-for-class-fields")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-use-define-for-class-fields")
+			}
 		case "allowsyntheticdefaultimports":
 			return nil, &IgnoreError{Directive: key, Reason: "allowSyntheticDefaultImports is unsupported by typescript-go and permanently ignored"}
 		case "lib":

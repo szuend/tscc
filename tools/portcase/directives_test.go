@@ -172,6 +172,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-no-implicit-returns", "--lib", "es2025,dom"},
 		},
 		{
+			name: "useDefineForClassFields true with injected lib",
+			directives: map[string]string{
+				"useDefineForClassFields": "true",
+			},
+			wantFlags: []string{"--use-define-for-class-fields", "--lib", "es2025,dom"},
+		},
+		{
+			name: "useDefineForClassFields false with injected lib",
+			directives: map[string]string{
+				"useDefineForClassFields": "false",
+			},
+			wantFlags: []string{"--no-use-define-for-class-fields", "--lib", "es2025,dom"},
+		},
+		{
 			name: "allowJs true with injected lib",
 			directives: map[string]string{
 				"allowJs": "true",
