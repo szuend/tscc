@@ -222,6 +222,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-allow-unreachable-code")
 			}
+		case "allowunusedlabels":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--allow-unused-labels")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-allow-unused-labels")
+			}
 		case "usedefineforclassfields":
 			if strings.ToLower(value) == "true" || value == "" {
 				flags = append(flags, "--use-define-for-class-fields")

@@ -344,6 +344,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-allow-unreachable-code", "--lib", "es2025,dom"},
 		},
 		{
+			name: "allowUnusedLabels true with injected lib",
+			directives: map[string]string{
+				"allowUnusedLabels": "true",
+			},
+			wantFlags: []string{"--allow-unused-labels", "--lib", "es2025,dom"},
+		},
+		{
+			name: "allowUnusedLabels false with injected lib",
+			directives: map[string]string{
+				"allowUnusedLabels": "false",
+			},
+			wantFlags: []string{"--no-allow-unused-labels", "--lib", "es2025,dom"},
+		},
+		{
 			name: "skip unrecognized directive",
 
 			directives: map[string]string{

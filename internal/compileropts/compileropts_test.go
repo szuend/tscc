@@ -145,6 +145,31 @@ func TestFromConfigPreserveConstEnums(t *testing.T) {
 	}
 }
 
+func TestFromConfigAllowUnusedLabels(t *testing.T) {
+	tests := []struct {
+		isSet bool
+		val   bool
+		want  tsccbridge.Tristate
+	}{
+		{false, false, tsccbridge.TSUnknown},
+		{true, true, tsccbridge.TSTrue},
+		{true, false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{
+			Target:               "es2022",
+			AllowUnusedLabelsSet: tc.isSet,
+			AllowUnusedLabels:    tc.val,
+		})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.AllowUnusedLabels != tc.want {
+			t.Errorf("AllowUnusedLabels(isSet=%v, val=%v) = %v, want %v", tc.isSet, tc.val, got.AllowUnusedLabels, tc.want)
+		}
+	}
+}
+
 func TestFromConfigSkipLibCheck(t *testing.T) {
 	tests := []struct {
 		in   bool

@@ -109,6 +109,10 @@ type Config struct {
 	AllowUnreachableCode    bool
 	AllowUnreachableCodeSet bool
 
+	// AllowUnusedLabels disables error reporting for unused labels.
+	AllowUnusedLabels    bool
+	AllowUnusedLabelsSet bool
+
 	// ReportAllDiagnostics disables short-circuiting of diagnostic collection, ensuring
 	// semantic errors are reported even if syntactic errors exist.
 	ReportAllDiagnostics bool
@@ -153,6 +157,7 @@ func Parse(args []string) (*Config, error) {
 	}
 
 	cfg.AllowUnreachableCodeSet = flags.Changed("allow-unreachable-code")
+	cfg.AllowUnusedLabelsSet = flags.Changed("allow-unused-labels")
 	cfg.PreserveConstEnumsSet = flags.Changed("preserve-const-enums")
 
 	// Apply dynamic defaults for strict-mode family flags
@@ -400,6 +405,8 @@ func typeCheckingGroup(cfg *Config) flagGroup {
 	g.BoolVar(&cfg.NoPropertyAccessFromIndexSignature, "no-property-access-from-index-signature", false, "Enforces using indexed accessors for keys declared using an indexed type.")
 	g.BoolVar(&cfg.AllowUnreachableCode, "allow-unreachable-code", false, "Disable error reporting for unreachable code.")
 	g.Lookup("allow-unreachable-code").DefValue = "undefined"
+	g.BoolVar(&cfg.AllowUnusedLabels, "allow-unused-labels", false, "Disable error reporting for unused labels.")
+	g.Lookup("allow-unused-labels").DefValue = "undefined"
 	g.BoolVar(&cfg.ReportAllDiagnostics, "report-all-diagnostics", false, "Disable short-circuiting of diagnostic collection; report semantic errors even when syntactic errors exist.")
 	return flagGroup{Name: "Type Checking", Set: g}
 }
