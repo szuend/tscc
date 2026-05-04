@@ -316,6 +316,20 @@ func TestTranslateDirectives(t *testing.T) {
 			wantFlags: []string{"--no-remove-comments", "--lib", "es2025,dom"},
 		},
 		{
+			name: "preserveConstEnums true with injected lib",
+			directives: map[string]string{
+				"preserveConstEnums": "true",
+			},
+			wantFlags: []string{"--preserve-const-enums", "--lib", "es2025,dom"},
+		},
+		{
+			name: "preserveConstEnums false with injected lib",
+			directives: map[string]string{
+				"preserveConstEnums": "false",
+			},
+			wantFlags: []string{"--no-preserve-const-enums", "--lib", "es2025,dom"},
+		},
+		{
 			name: "allowUnreachableCode true with injected lib",
 			directives: map[string]string{
 				"allowUnreachableCode": "true",

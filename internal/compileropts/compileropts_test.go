@@ -120,6 +120,31 @@ func TestFromConfigRemoveComments(t *testing.T) {
 	}
 }
 
+func TestFromConfigPreserveConstEnums(t *testing.T) {
+	tests := []struct {
+		isSet bool
+		val   bool
+		want  tsccbridge.Tristate
+	}{
+		{false, false, tsccbridge.TSUnknown},
+		{true, true, tsccbridge.TSTrue},
+		{true, false, tsccbridge.TSFalse},
+	}
+	for _, tc := range tests {
+		got, err := FromConfig(&config.Config{
+			Target:                "es2022",
+			PreserveConstEnumsSet: tc.isSet,
+			PreserveConstEnums:    tc.val,
+		})
+		if err != nil {
+			t.Fatalf("FromConfig returned error: %v", err)
+		}
+		if got.PreserveConstEnums != tc.want {
+			t.Errorf("PreserveConstEnums(isSet=%v, val=%v) = %v, want %v", tc.isSet, tc.val, got.PreserveConstEnums, tc.want)
+		}
+	}
+}
+
 func TestFromConfigSkipLibCheck(t *testing.T) {
 	tests := []struct {
 		in   bool

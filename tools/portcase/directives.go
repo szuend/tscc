@@ -198,6 +198,12 @@ func TranslateDirectives(directives map[string]string, outputBaseName string) ([
 			} else if strings.ToLower(value) == "false" {
 				flags = append(flags, "--no-remove-comments")
 			}
+		case "preserveconstenums":
+			if strings.ToLower(value) == "true" || value == "" {
+				flags = append(flags, "--preserve-const-enums")
+			} else if strings.ToLower(value) == "false" {
+				flags = append(flags, "--no-preserve-const-enums")
+			}
 		case "noimplicitreturns":
 			if strings.ToLower(value) == "true" || value == "" {
 				flags = append(flags, "--no-implicit-returns")

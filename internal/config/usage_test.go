@@ -88,6 +88,7 @@ func TestPrintUsage(t *testing.T) {
 				strings.Contains(line, "--no-emit-helpers") ||
 				strings.Contains(line, "--no-implicit-returns") ||
 				strings.Contains(line, "--no-property-access-from-index-signature") ||
+				strings.Contains(line, "--preserve-const-enums") ||
 				strings.Contains(line, "--allow-unreachable-code") {
 				continue
 			}

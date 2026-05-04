@@ -95,6 +95,10 @@ type Config struct {
 	// RemoveComments disables emitting comments.
 	RemoveComments bool
 
+	// PreserveConstEnums disables erasing 'const enum' declarations in generated code.
+	PreserveConstEnums    bool
+	PreserveConstEnumsSet bool
+
 	// UseDefineForClassFields emits ECMAScript-standard-compliant class fields.
 	UseDefineForClassFields bool
 
@@ -149,6 +153,7 @@ func Parse(args []string) (*Config, error) {
 	}
 
 	cfg.AllowUnreachableCodeSet = flags.Changed("allow-unreachable-code")
+	cfg.PreserveConstEnumsSet = flags.Changed("preserve-const-enums")
 
 	// Apply dynamic defaults for strict-mode family flags
 	if !flags.Changed("no-implicit-any") {
@@ -419,6 +424,7 @@ func outputGroup(cfg *Config) flagGroup {
 	g := pflag.NewFlagSet("output", pflag.ContinueOnError)
 	g.BoolVar(&cfg.NoEmitHelpers, "no-emit-helpers", false, "Disable generating custom helper functions like '__extends' in compiled output.")
 	g.BoolVar(&cfg.RemoveComments, "remove-comments", false, "Disable emitting comments.")
+	g.BoolVar(&cfg.PreserveConstEnums, "preserve-const-enums", false, "Disable erasing 'const enum' declarations in generated code.")
 	g.StringVarP(&cfg.OutJSPath, "out-js", "o", "", "Write JavaScript output to `FILE`")
 	g.StringVar(&cfg.OutDtsPath, "out-dts", "", "Write TypeScript declaration output to `FILE`.")
 	g.StringVar(&cfg.OutMapPath, "out-map", "", "Write source map output to `FILE`. URL comment in emitted JS uses basename(FILE); co-locate or rewrite downstream.")
